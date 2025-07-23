@@ -765,14 +765,14 @@ class HasLlamaCppProperties:
     # -------- MODEl PARAMETERS --------
     nThreads = Param(Params._dummy(), "nThreads", "Set the number of threads to use during generation",
                      typeConverter=TypeConverters.toInt)
-    nThreadsDraft = Param(Params._dummy(), "nThreadsDraft", "Set the number of threads to use during draft generation",
-                          typeConverter=TypeConverters.toInt)
+    # nThreadsDraft = Param(Params._dummy(), "nThreadsDraft", "Set the number of threads to use during draft generation",
+    #                       typeConverter=TypeConverters.toInt)
     nThreadsBatch = Param(Params._dummy(), "nThreadsBatch",
                           "Set the number of threads to use during batch and prompt processing",
                           typeConverter=TypeConverters.toInt)
-    nThreadsBatchDraft = Param(Params._dummy(), "nThreadsBatchDraft",
-                               "Set the number of threads to use during batch and prompt processing",
-                               typeConverter=TypeConverters.toInt)
+    # nThreadsBatchDraft = Param(Params._dummy(), "nThreadsBatchDraft",
+    #                            "Set the number of threads to use during batch and prompt processing",
+    #                            typeConverter=TypeConverters.toInt)
     nCtx = Param(Params._dummy(), "nCtx", "Set the size of the prompt context", typeConverter=TypeConverters.toInt)
     nBatch = Param(Params._dummy(), "nBatch",
                    "Set the logical batch size for prompt processing (must be >=32 to use BLAS)",
@@ -782,12 +782,12 @@ class HasLlamaCppProperties:
                     typeConverter=TypeConverters.toInt)
     nDraft = Param(Params._dummy(), "nDraft", "Set the number of tokens to draft for speculative decoding",
                    typeConverter=TypeConverters.toInt)
-    nChunks = Param(Params._dummy(), "nChunks", "Set the maximal number of chunks to process",
-                    typeConverter=TypeConverters.toInt)
-    nSequences = Param(Params._dummy(), "nSequences", "Set the number of sequences to decode",
-                       typeConverter=TypeConverters.toInt)
-    pSplit = Param(Params._dummy(), "pSplit", "Set the speculative decoding split probability",
-                   typeConverter=TypeConverters.toFloat)
+    # nChunks = Param(Params._dummy(), "nChunks", "Set the maximal number of chunks to process",
+    #                 typeConverter=TypeConverters.toInt)
+    # nSequences = Param(Params._dummy(), "nSequences", "Set the number of sequences to decode",
+    #                    typeConverter=TypeConverters.toInt)
+    # pSplit = Param(Params._dummy(), "pSplit", "Set the speculative decoding split probability",
+    #                typeConverter=TypeConverters.toFloat)
     nGpuLayers = Param(Params._dummy(), "nGpuLayers", "Set the number of layers to store in VRAM (-1 - use default)",
                        typeConverter=TypeConverters.toInt)
     nGpuLayersDraft = Param(Params._dummy(), "nGpuLayersDraft",
@@ -802,10 +802,10 @@ class HasLlamaCppProperties:
                          typeConverter=TypeConverters.toString)
     mainGpu = Param(Params._dummy(), "mainGpu", "Set the main GPU that is used for scratch and small tensors.",
                     typeConverter=TypeConverters.toInt)
-    tensorSplit = Param(Params._dummy(), "tensorSplit", "Set how split tensors should be distributed across GPUs",
-                        typeConverter=TypeConverters.toListFloat)
-    grpAttnN = Param(Params._dummy(), "grpAttnN", "Set the group-attention factor", typeConverter=TypeConverters.toInt)
-    grpAttnW = Param(Params._dummy(), "grpAttnW", "Set the group-attention width", typeConverter=TypeConverters.toInt)
+    # tensorSplit = Param(Params._dummy(), "tensorSplit", "Set how split tensors should be distributed across GPUs",
+    #                     typeConverter=TypeConverters.toListFloat)
+    # grpAttnN = Param(Params._dummy(), "grpAttnN", "Set the group-attention factor", typeConverter=TypeConverters.toInt)
+    # grpAttnW = Param(Params._dummy(), "grpAttnW", "Set the group-attention width", typeConverter=TypeConverters.toInt)
     ropeFreqBase = Param(Params._dummy(), "ropeFreqBase", "Set the RoPE base frequency, used by NTK-aware scaling",
                          typeConverter=TypeConverters.toFloat)
     ropeFreqScale = Param(Params._dummy(), "ropeFreqScale",
@@ -837,7 +837,7 @@ class HasLlamaCppProperties:
                          typeConverter=TypeConverters.toString)
     # Set the RoPE frequency scaling method, defaults to linear unless specified by the model.
     #
-    #   - UNSPECIFIED: Don't use any scaling
+    #   - NONE: Don't use any scaling
     #   - LINEAR: Linear scaling
     #   - YARN: YaRN RoPE scaling
     ropeScalingType = Param(Params._dummy(), "ropeScalingType",
@@ -848,26 +848,28 @@ class HasLlamaCppProperties:
     #   - 0 NONE: Don't use any pooling
     #   - 1 MEAN: Mean Pooling
     #   - 2 CLS: CLS Pooling
+    #   - 3 LAST: Last token pooling
+    #   - 4 RANK: For reranked models
     poolingType = Param(Params._dummy(), "poolingType",
                         "Set the pooling type for embeddings, use model default if unspecified",
                         typeConverter=TypeConverters.toString)
     modelDraft = Param(Params._dummy(), "modelDraft", "Set the draft model for speculative decoding",
                        typeConverter=TypeConverters.toString)
     modelAlias = Param(Params._dummy(), "modelAlias", "Set a model alias", typeConverter=TypeConverters.toString)
-    lookupCacheStaticFilePath = Param(Params._dummy(), "lookupCacheStaticFilePath",
-                                      "Set path to static lookup cache to use for lookup decoding (not updated by generation)",
-                                      typeConverter=TypeConverters.toString)
-    lookupCacheDynamicFilePath = Param(Params._dummy(), "lookupCacheDynamicFilePath",
-                                       "Set path to dynamic lookup cache to use for lookup decoding (updated by generation)",
-                                       typeConverter=TypeConverters.toString)
+    # lookupCacheStaticFilePath = Param(Params._dummy(), "lookupCacheStaticFilePath",
+    #                                   "Set path to static lookup cache to use for lookup decoding (not updated by generation)",
+    #                                   typeConverter=TypeConverters.toString)
+    # lookupCacheDynamicFilePath = Param(Params._dummy(), "lookupCacheDynamicFilePath",
+    #                                    "Set path to dynamic lookup cache to use for lookup decoding (updated by generation)",
+    #                                    typeConverter=TypeConverters.toString)
     # loraAdapters = new StructFeature[Map[String, Float]](this, "loraAdapters")
     embedding = Param(Params._dummy(), "embedding", "Whether to load model with embedding support",
                       typeConverter=TypeConverters.toBoolean)
     flashAttention = Param(Params._dummy(), "flashAttention", "Whether to enable Flash Attention",
                            typeConverter=TypeConverters.toBoolean)
-    inputPrefixBos = Param(Params._dummy(), "inputPrefixBos",
-                           "Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string",
-                           typeConverter=TypeConverters.toBoolean)
+    # inputPrefixBos = Param(Params._dummy(), "inputPrefixBos",
+    #                        "Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string",
+    #                        typeConverter=TypeConverters.toBoolean)
     useMmap = Param(Params._dummy(), "useMmap",
                     "Whether to use memory-map model (faster load but may increase pageouts if not using mlock)",
                     typeConverter=TypeConverters.toBoolean)
@@ -948,17 +950,17 @@ class HasLlamaCppProperties:
         """Set the number of threads to use during generation"""
         return self._set(nThreads=nThreads)
 
-    def setNThreadsDraft(self, nThreadsDraft: int):
-        """Set the number of threads to use during draft generation"""
-        return self._set(nThreadsDraft=nThreadsDraft)
+    # def setNThreadsDraft(self, nThreadsDraft: int):
+    #     """Set the number of threads to use during draft generation"""
+    #     return self._set(nThreadsDraft=nThreadsDraft)
 
     def setNThreadsBatch(self, nThreadsBatch: int):
         """Set the number of threads to use during batch and prompt processing"""
         return self._set(nThreadsBatch=nThreadsBatch)
 
-    def setNThreadsBatchDraft(self, nThreadsBatchDraft: int):
-        """Set the number of threads to use during batch and prompt processing"""
-        return self._set(nThreadsBatchDraft=nThreadsBatchDraft)
+    # def setNThreadsBatchDraft(self, nThreadsBatchDraft: int):
+    #     """Set the number of threads to use during batch and prompt processing"""
+    #     return self._set(nThreadsBatchDraft=nThreadsBatchDraft)
 
     def setNCtx(self, nCtx: int):
         """Set the size of the prompt context"""
@@ -976,17 +978,17 @@ class HasLlamaCppProperties:
         """Set the number of tokens to draft for speculative decoding"""
         return self._set(nDraft=nDraft)
 
-    def setNChunks(self, nChunks: int):
-        """Set the maximal number of chunks to process"""
-        return self._set(nChunks=nChunks)
+    # def setNChunks(self, nChunks: int):
+    #     """Set the maximal number of chunks to process"""
+    #     return self._set(nChunks=nChunks)
 
-    def setNSequences(self, nSequences: int):
-        """Set the number of sequences to decode"""
-        return self._set(nSequences=nSequences)
+    # def setNSequences(self, nSequences: int):
+    #     """Set the number of sequences to decode"""
+    #     return self._set(nSequences=nSequences)
 
-    def setPSplit(self, pSplit: float):
-        """Set the speculative decoding split probability"""
-        return self._set(pSplit=pSplit)
+    # def setPSplit(self, pSplit: float):
+    #     """Set the speculative decoding split probability"""
+    #     return self._set(pSplit=pSplit)
 
     def setNGpuLayers(self, nGpuLayers: int):
         """Set the number of layers to store in VRAM (-1 - use default)"""
@@ -1004,17 +1006,17 @@ class HasLlamaCppProperties:
         """Set the main GPU that is used for scratch and small tensors."""
         return self._set(mainGpu=mainGpu)
 
-    def setTensorSplit(self, tensorSplit: List[float]):
-        """Set how split tensors should be distributed across GPUs"""
-        return self._set(tensorSplit=tensorSplit)
+    # def setTensorSplit(self, tensorSplit: List[float]):
+    #     """Set how split tensors should be distributed across GPUs"""
+    #     return self._set(tensorSplit=tensorSplit)
 
-    def setGrpAttnN(self, grpAttnN: int):
-        """Set the group-attention factor"""
-        return self._set(grpAttnN=grpAttnN)
+    # def setGrpAttnN(self, grpAttnN: int):
+    #     """Set the group-attention factor"""
+    #     return self._set(grpAttnN=grpAttnN)
 
-    def setGrpAttnW(self, grpAttnW: int):
-        """Set the group-attention width"""
-        return self._set(grpAttnW=grpAttnW)
+    # def setGrpAttnW(self, grpAttnW: int):
+    #     """Set the group-attention width"""
+    #     return self._set(grpAttnW=grpAttnW)
 
     def setRopeFreqBase(self, ropeFreqBase: float):
         """Set the RoPE base frequency, used by NTK-aware scaling"""
@@ -1049,7 +1051,16 @@ class HasLlamaCppProperties:
         return self._set(defragmentationThreshold=defragmentationThreshold)
 
     def setNumaStrategy(self, numaStrategy: str):
-        """Set optimization strategies that help on some NUMA systems (if available)"""
+        """Set optimization strategies that help on some NUMA systems (if available)
+
+        Possible values:
+
+        - DISABLED: No NUMA optimizations
+        - DISTRIBUTE: spread execution evenly over all
+        - ISOLATE: only spawn threads on CPUs on the node that execution started on
+        - NUMA_CTL: use the CPU map provided by numactl
+        - MIRROR: Mirrors the model across NUMA nodes
+        """
         numaUpper = numaStrategy.upper()
         numaStrategies = ["DISABLED", "DISTRIBUTE", "ISOLATE", "NUMA_CTL", "MIRROR"]
         if numaUpper not in numaStrategies:
@@ -1060,13 +1071,36 @@ class HasLlamaCppProperties:
         return self._set(numaStrategy=numaStrategy)
 
     def setRopeScalingType(self, ropeScalingType: str):
-        """Set the RoPE frequency scaling method, defaults to linear unless specified by the model"""
-        return self._set(ropeScalingType=ropeScalingType)
+        """Set the RoPE frequency scaling method, defaults to linear unless specified by the model.
+
+        Possible values:
+
+        - NONE: Don't use any scaling
+        - LINEAR: Linear scaling
+        - YARN: YaRN RoPE scaling
+        """
+        ropeScalingTypeUpper = ropeScalingType.upper()
+        ropeScalingTypes = ["NONE", "LINEAR", "YARN"]
+        if ropeScalingTypeUpper not in ropeScalingTypes:
+           raise ValueError(
+               f"Invalid RoPE scaling type: {ropeScalingType}. "
+               + f"Valid values are: {ropeScalingTypes}"
+           )
+        return self._set(ropeScalingType=ropeScalingTypeUpper)
 
     def setPoolingType(self, poolingType: str):
-        """Set the pooling type for embeddings, use model default if unspecified"""
+        """Set the pooling type for embeddings, use model default if unspecified
+
+        Possible values:
+
+        - 0 NONE: Don't use any pooling
+        - 1 MEAN: Mean Pooling
+        - 2 CLS: CLS Pooling
+        - 3 LAST: Last token pooling
+        - 4 RANK: For reranked models
+        """
         poolingTypeUpper = poolingType.upper()
-        poolingTypes = ["NONE", "MEAN", "CLS", "LAST"]
+        poolingTypes = ["NONE", "MEAN", "CLS", "LAST", "RANK"]
         if poolingTypeUpper not in poolingTypes:
             raise ValueError(
                 f"Invalid pooling type: {poolingType}. "
@@ -1082,13 +1116,13 @@ class HasLlamaCppProperties:
         """Set a model alias"""
         return self._set(modelAlias=modelAlias)
 
-    def setLookupCacheStaticFilePath(self, lookupCacheStaticFilePath: str):
-        """Set path to static lookup cache to use for lookup decoding (not updated by generation)"""
-        return self._set(lookupCacheStaticFilePath=lookupCacheStaticFilePath)
+    # def setLookupCacheStaticFilePath(self, lookupCacheStaticFilePath: str):
+    #     """Set path to static lookup cache to use for lookup decoding (not updated by generation)"""
+    #     return self._set(lookupCacheStaticFilePath=lookupCacheStaticFilePath)
 
-    def setLookupCacheDynamicFilePath(self, lookupCacheDynamicFilePath: str):
-        """Set path to dynamic lookup cache to use for lookup decoding (updated by generation)"""
-        return self._set(lookupCacheDynamicFilePath=lookupCacheDynamicFilePath)
+    # def setLookupCacheDynamicFilePath(self, lookupCacheDynamicFilePath: str):
+    #     """Set path to dynamic lookup cache to use for lookup decoding (updated by generation)"""
+    #     return self._set(lookupCacheDynamicFilePath=lookupCacheDynamicFilePath)
 
     def setEmbedding(self, embedding: bool):
         """Whether to load model with embedding support"""
@@ -1098,9 +1132,9 @@ class HasLlamaCppProperties:
         """Whether to enable Flash Attention"""
         return self._set(flashAttention=flashAttention)
 
-    def setInputPrefixBos(self, inputPrefixBos: bool):
-        """Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string"""
-        return self._set(inputPrefixBos=inputPrefixBos)
+    # def setInputPrefixBos(self, inputPrefixBos: bool):
+    #     """Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string"""
+    #     return self._set(inputPrefixBos=inputPrefixBos)
 
     def setUseMmap(self, useMmap: bool):
         """Whether to use memory-map model (faster load but may increase pageouts if not using mlock)"""
@@ -1260,9 +1294,9 @@ class HasLlamaCppProperties:
         """Set token id bias"""
         return self._call_java("setTokenBias", tokenBias)
 
-    def setLoraAdapters(self, loraAdapters: Dict[str, float]):
-        """Set LoRA adapters with their scaling factors"""
-        return self._call_java("setLoraAdapters", loraAdapters)
+    # def setLoraAdapters(self, loraAdapters: Dict[str, float]):
+    #     """Set LoRA adapters with their scaling factors"""
+    #     return self._call_java("setLoraAdapters", loraAdapters)
 
     def getMetadata(self):
         """Gets the metadata of the model"""

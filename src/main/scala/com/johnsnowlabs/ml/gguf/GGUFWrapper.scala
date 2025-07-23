@@ -15,8 +15,8 @@
  */
 package com.johnsnowlabs.ml.gguf
 
-import com.johnsnowlabs.nlp.llama.{LlamaModel, ModelParameters}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import de.kherud.llama.{LlamaModel, ModelParameters}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
@@ -42,7 +42,7 @@ class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Se
         val modelFilePath = SparkFiles.get(modelFileName)
 
         if (Paths.get(modelFilePath).toFile.exists()) {
-          modelParameters.setModelFilePath(modelFilePath)
+          modelParameters.setModel(modelFilePath)
           llamaModel = GGUFWrapper.withSafeGGUFModelLoader(modelParameters)
         } else
           throw new IllegalStateException(

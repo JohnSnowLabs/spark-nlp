@@ -15,7 +15,7 @@
  */
 package com.johnsnowlabs.ml.gguf
 
-import com.johnsnowlabs.nlp.llama.{LlamaModel, ModelParameters}
+import de.kherud.llama.{LlamaModel, ModelParameters}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
@@ -44,8 +44,8 @@ class GGUFWrapperMultiModal(var modelFileName: String, var mmprojFileName: Strin
           Paths.get(modelFilePath).toFile.exists() && Paths.get(mmprojFilePath).toFile.exists()
 
         if (filesExist) {
-          modelParameters.setModelFilePath(modelFilePath)
-          modelParameters.setMMProj(mmprojFilePath)
+          modelParameters.setModel(modelFilePath)
+//          modelParameters.setMMProj(mmprojFilePath) // TODO: Vision models implementation
           llamaModel = GGUFWrapperMultiModal.withSafeGGUFModelLoader(modelParameters)
         } else
           throw new IllegalStateException(

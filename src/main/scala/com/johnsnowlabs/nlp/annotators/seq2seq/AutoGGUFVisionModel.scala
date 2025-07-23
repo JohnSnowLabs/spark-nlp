@@ -18,8 +18,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.ml.gguf.GGUFWrapperMultiModal
 import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
-import com.johnsnowlabs.nlp.llama.{LlamaException, LlamaModel}
+import com.johnsnowlabs.nlp.llama.LlamaExtensions
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.util.Identifiable
@@ -158,6 +157,9 @@ class AutoGGUFVisionModel(override val uid: String)
     with HasLlamaCppInferenceProperties
     with HasProtectedParams {
 
+  throw new NotImplementedError(
+    "AutoGGUFVisionModel is not implemented yet for this release. Please use the previous Spark NLP release or AutoGGUFModel for text-only tasks.")
+
   override val inputAnnotatorTypes: Array[AnnotatorType] =
     Array(AnnotatorType.IMAGE, AnnotatorType.DOCUMENT)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
@@ -178,8 +180,6 @@ class AutoGGUFVisionModel(override val uid: String)
       _model = Some(spark.sparkContext.broadcast(wrapper))
     }
 
-    // Entrypoint for models. Automatically set GPU support if detected.
-    setGpuSupportIfAvailable(spark)
     this
   }
 
@@ -235,46 +235,47 @@ class AutoGGUFVisionModel(override val uid: String)
     * sentences that belong to the same original row !! (challenging)
     */
   override def batchAnnotate(
-      batchedAnnotations: Seq[(Annotation, AnnotationImage)]): Seq[Seq[Annotation]] = {
-    if (batchedAnnotations.nonEmpty) {
-
-      // set parallel decoding to batch size
-      val modelParams = getModelParameters.setNParallel(getBatchSize)
-      val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
-
-      val (prompts, base64EncodedImages) = batchedAnnotations.unzip match {
-        case (promptAnnotations, imageAnnotations) =>
-          (
-            promptAnnotations.map(_.result).toArray,
-            imageAnnotations
-              .map(imgAnno => ImageIOUtils.encodeImageBase64(imgAnno.result))
-              .toArray)
-      }
-
-      val (completedTexts: Array[String], metadata: Map[String, String]) =
-        try {
-          (
-            model.requestBatchImageCompletion(
-              prompts,
-              base64EncodedImages,
-              getInferenceParameters),
-            Map.empty)
-        } catch {
-          case e: LlamaException =>
-            logger.error("Error in llama.cpp image batch completion", e)
-            (Array.fill(prompts.length)(""), Map("llamacpp_exception" -> e.getMessage))
-        }
-
-      val result: Seq[Seq[Annotation]] =
-        batchedAnnotations.zip(completedTexts).map {
-          case ((textAnnotation: Annotation, imageAnnotation: AnnotationImage), text) =>
-            val totalMetadata =
-              textAnnotation.metadata ++ imageAnnotation.metadata ++ metadata
-            Seq(new Annotation(outputAnnotatorType, 0, text.length - 1, text, totalMetadata))
-        }
-      result
-    } else Seq(Seq.empty[Annotation])
-  }
+      batchedAnnotations: Seq[(Annotation, AnnotationImage)]): Seq[Seq[Annotation]] = ???
+//  {
+//    if (batchedAnnotations.nonEmpty) {
+//
+//      // set parallel decoding to batch size
+//      val modelParams = getModelParameters.setParallel(getBatchSize)
+//      val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
+//
+//      val (prompts, base64EncodedImages) = batchedAnnotations.unzip match {
+//        case (promptAnnotations, imageAnnotations) =>
+//          (
+//            promptAnnotations.map(_.result).toArray,
+//            imageAnnotations
+//              .map(imgAnno => ImageIOUtils.encodeImageBase64(imgAnno.result))
+//              .toArray)
+//      }
+//
+//      val (completedTexts: Array[String], metadata: Map[String, String]) =
+//        try {
+//          (
+//            model.requestBatchImageCompletion(
+//              prompts,
+//              base64EncodedImages,
+//              getInferenceParameters),
+//            Map.empty)
+//        } catch {
+//          case e: LlamaException =>
+//            logger.error("Error in llama.cpp image batch completion", e)
+//            (Array.fill(prompts.length)(""), Map("llamacpp_exception" -> e.getMessage))
+//        }
+//
+//      val result: Seq[Seq[Annotation]] =
+//        batchedAnnotations.zip(completedTexts).map {
+//          case ((textAnnotation: Annotation, imageAnnotation: AnnotationImage), text) =>
+//            val totalMetadata =
+//              textAnnotation.metadata ++ imageAnnotation.metadata ++ metadata
+//            Seq(new Annotation(outputAnnotatorType, 0, text.length - 1, text, totalMetadata))
+//        }
+//      result
+//    } else Seq(Seq.empty[Annotation])
+//  }
 }
 
 trait ReadablePretrainedAutoGGUFVisionModel
@@ -322,7 +323,7 @@ trait ReadAutoGGUFVisionModel {
       .setEngine(LlamaCPP.name)
 
     // TODO mmproj metadata necessary?
-    val metadata = LlamaModel.getMetadataFromFile(localPathModel)
+    val metadata = LlamaExtensions.getMetadataFromFile(localPathModel)
     if (metadata.nonEmpty) annotatorModel.setMetadata(metadata)
     annotatorModel
   }
