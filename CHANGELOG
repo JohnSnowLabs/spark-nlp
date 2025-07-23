@@ -1,4 +1,20 @@
 =======
+6.1.0
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1189] Introducing Phi4
+* [SPARKNLP-1259] Introducing Reader2Doc Annotator
+* [SPARKNLP-1194] Upgrade jsl-llamacpp to newest version
+
+---------
+Bug Fixes
+---------
+* Fix HuggingFace_OpenVINO_in_Spark_NLP_Qwen2VL.ipynb
+
+=======
 6.0.5
 =======
 ---------------------------
