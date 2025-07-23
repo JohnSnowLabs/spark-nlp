@@ -118,9 +118,15 @@ class Reader2Doc(
     @keyword_only
     def __init__(self):
         super(Reader2Doc, self).__init__(classname="com.johnsnowlabs.reader.Reader2Doc")
-        self._setDefault(outputCol="document")
-
+        self._setDefault(
+            outputCol="document",
+            explodeDocs=False,
+            contentType="",
+            flattenOutput=False,
+            titleThreshold=18
+        )
     @keyword_only
+
     def setParams(self):
         kwargs = self._input_kwargs
         return self._set(**kwargs)

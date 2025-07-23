@@ -42,7 +42,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
 
-    assert(resultDf.count() > 1)
+    assert(resultDf.count() == 1)
   }
 
   it should "output clean flatten text without any structured metadata" taggedAs FastTest in {
@@ -52,7 +52,6 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
       .setContentPath(s"$htmlFilesDirectory/example-div.html")
       .setOutputCol("document")
       .setFlattenOutput(true)
-      .setExplodeDocs(false)
 
     val pipeline = new Pipeline().setStages(Array(reader2Doc))
 
@@ -91,20 +90,20 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     }
   }
 
-  it should "convert Reader output to Document format with one row per document" taggedAs FastTest in {
+  it should "convert Reader output to Document format with exploded documents" taggedAs FastTest in {
 
     val reader2Doc = new Reader2Doc()
       .setContentType("text/html")
       .setContentPath(s"$htmlFilesDirectory/example-div.html")
       .setOutputCol("document")
-      .setExplodeDocs(false)
+      .setExplodeDocs(true)
 
     val pipeline = new Pipeline().setStages(Array(reader2Doc))
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
 
-    assert(resultDf.count() == 1)
+    assert(resultDf.count() > 1)
   }
 
   it should "work with Tokenizer" taggedAs FastTest in {
@@ -116,9 +115,8 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
-    resultDf.select("document").show(truncate = false)
 
-    assert(resultDf.count() > 1)
+    assert(resultDf.count() == 1)
   }
 
   it should "work for Text documents" taggedAs FastTest in {
@@ -132,7 +130,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
 
-    assert(resultDf.count() > 1)
+    assert(resultDf.count() == 1)
   }
 
   it should "work for Word documents" taggedAs FastTest in {
@@ -146,7 +144,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
 
-    assert(resultDf.count() > 1)
+    assert(resultDf.count() == 1)
   }
 
   it should "work with PDF documents" taggedAs FastTest in {
@@ -160,7 +158,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
 
-    assert(resultDf.count() > 1)
+    assert(resultDf.count() == 1)
   }
 
   it should "work with Markdown" taggedAs FastTest in {
@@ -174,7 +172,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
 
-    assert(resultDf.count() > 1)
+    assert(resultDf.count() == 1)
   }
 
   it should "work with XML" taggedAs FastTest in {
@@ -188,7 +186,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
 
-    assert(resultDf.count() > 1)
+    assert(resultDf.count() == 1)
   }
 
   it should "throw if contentPath is not set" taggedAs FastTest in {

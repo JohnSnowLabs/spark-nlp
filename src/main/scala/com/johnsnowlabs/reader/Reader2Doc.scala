@@ -114,7 +114,7 @@ class Reader2Doc(override val uid: String)
   }
 
   setDefault(
-    this.explodeDocs -> true,
+    this.explodeDocs -> false,
     contentType -> "",
     flattenOutput -> false,
     titleThreshold -> 18)
