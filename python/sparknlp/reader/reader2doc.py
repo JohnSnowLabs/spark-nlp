@@ -18,6 +18,7 @@ from sparknlp.common import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
 from sparknlp.partition.partition_properties import *
 
+
 class Reader2Doc(
     AnnotatorTransformer,
     HasEmailReaderProperties,
@@ -26,16 +27,16 @@ class Reader2Doc(
     HasPowerPointProperties,
     HasTextReaderProperties,
 ):
-
     """
-The Reader2Doc annotator allows you to use reading files more smoothly within existing
-Spark NLP workflows, enabling seamless reuse of your pipelines.
+    The Reader2Doc annotator allows you to use reading files more smoothly within existing
+    Spark NLP workflows, enabling seamless reuse of your pipelines.
 
-Reader2Doc can be used for extracting structured content from various document types
-using Spark NLP readers. It supports reading from many file types and returns parsed
-output as a structured Spark DataFrame.
+    Reader2Doc can be used for extracting structured content from various document types
+    using Spark NLP readers. It supports reading from many file types and returns parsed
+    output as a structured Spark DataFrame.
 
-Supported formats include:
+    Supported formats include:
+    
     - Plain text
     - HTML
     - Word (.doc/.docx)
@@ -44,79 +45,74 @@ Supported formats include:
     - Email files (.eml, .msg)
     - PDFs
 
-Example:
-    from johnsnowlabs.reader import Reader2Doc
-    from johnsnowlabs.nlp.base import DocumentAssembler
-    from pyspark.ml import Pipeline
-
-    # Initialize Reader2Doc for PDF files
-    reader2doc = Reader2Doc() \
-        .setContentType("application/pdf") \
-        .setContentPath(f"{pdf_directory}/")
-
-    # Build the pipeline with the Reader2Doc stage
-    pipeline = Pipeline(stages=[reader2doc])
-
-    # Fit the pipeline to an empty DataFrame
-    pipeline_model = pipeline.fit(empty_data_set)
-    result_df = pipeline_model.transform(empty_data_set)
-
-    # Show the resulting DataFrame
-    result_df.show()
-
-    # Output Example:
-    # +------------------------------------------------------------------------------------------------------------------------------------+
-    # |document                                                                                                                            |
-    # +------------------------------------------------------------------------------------------------------------------------------------+
-    # |[{'document', 0, 14, 'This is a Title', {'pageNumber': 1, 'elementType': 'Title', 'fileName': 'pdf-title.pdf'}, []}]               |
-    # |[{'document', 15, 38, 'This is a narrative text', {'pageNumber': 1, 'elementType': 'NarrativeText', 'fileName': 'pdf-title.pdf'}, []}]|
-    # |[{'document', 39, 68, 'This is another narrative text', {'pageNumber': 1, 'elementType': 'NarrativeText', 'fileName': 'pdf-title.pdf'}, []}]|
-    # +------------------------------------------------------------------------------------------------------------------------------------+
+    Examples
+    --------
+    >>> from johnsnowlabs.reader import Reader2Doc
+    >>> from johnsnowlabs.nlp.base import DocumentAssembler
+    >>> from pyspark.ml import Pipeline
+    >>> # Initialize Reader2Doc for PDF files
+    >>> reader2doc = Reader2Doc() \\
+    ...     .setContentType("application/pdf") \\
+    ...     .setContentPath(f"{pdf_directory}/")
+    >>> # Build the pipeline with the Reader2Doc stage
+    >>> pipeline = Pipeline(stages=[reader2doc])
+    >>> # Fit the pipeline to an empty DataFrame
+    >>> pipeline_model = pipeline.fit(empty_data_set)
+    >>> result_df = pipeline_model.transform(empty_data_set)
+    >>> # Show the resulting DataFrame
+    >>> result_df.show()
+    +------------------------------------------------------------------------------------------------------------------------------------+
+    |document                                                                                                                            |
+    +------------------------------------------------------------------------------------------------------------------------------------+
+    |[{'document', 0, 14, 'This is a Title', {'pageNumber': 1, 'elementType': 'Title', 'fileName': 'pdf-title.pdf'}, []}]               |
+    |[{'document', 15, 38, 'This is a narrative text', {'pageNumber': 1, 'elementType': 'NarrativeText', 'fileName': 'pdf-title.pdf'}, []}]|
+    |[{'document', 39, 68, 'This is another narrative text', {'pageNumber': 1, 'elementType': 'NarrativeText', 'fileName': 'pdf-title.pdf'}, []}]|
+    +------------------------------------------------------------------------------------------------------------------------------------+
 """
 
-    name = 'Reader2Doc'
+    name = "Reader2Doc"
     outputAnnotatorType = AnnotatorType.DOCUMENT
 
     contentPath = Param(
         Params._dummy(),
         "contentPath",
         "contentPath path to files to read",
-        typeConverter=TypeConverters.toString
+        typeConverter=TypeConverters.toString,
     )
 
     outputCol = Param(
         Params._dummy(),
         "outputCol",
         "output column name",
-        typeConverter=TypeConverters.toString
+        typeConverter=TypeConverters.toString,
     )
 
     contentType = Param(
         Params._dummy(),
         "contentType",
         "Set the content type to load following MIME specification",
-        typeConverter=TypeConverters.toString
+        typeConverter=TypeConverters.toString,
     )
 
     explodeDocs = Param(
         Params._dummy(),
         "explodeDocs",
         "whether to explode the documents into separate rows",
-        typeConverter=TypeConverters.toBoolean
+        typeConverter=TypeConverters.toBoolean,
     )
 
     flattenOutput = Param(
         Params._dummy(),
         "flattenOutput",
         "If true, output is flattened to plain text with minimal metadata",
-        typeConverter=TypeConverters.toBoolean
+        typeConverter=TypeConverters.toBoolean,
     )
 
     titleThreshold = Param(
         Params._dummy(),
         "titleThreshold",
         "Minimum font size threshold for title detection in PDF docs",
-        typeConverter=TypeConverters.toFloat
+        typeConverter=TypeConverters.toFloat,
     )
 
     @keyword_only
