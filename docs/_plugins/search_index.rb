@@ -5,7 +5,9 @@ require 'json'
 require 'date'
 require 'elasticsearch'
 require 'nokogiri'
+require 'aws-sdk-s3'
 
+BUCKET_NAME="pypi.johnsnowlabs.com"
 SEARCH_URL = (ENV["SEARCH_ORIGIN"] || 'https://search.modelshub.johnsnowlabs.com') + '/'
 ELASTICSEARCH_INDEX_NAME = ENV["ELASTICSEARCH_INDEX_NAME"] || 'models'
 
@@ -16,6 +18,18 @@ SPARK_NLP_ORIGIN = "https://sparknlp.org"
 JOHNSNOWLABS_ORIGIN = "https://nlp.johnsnowlabs.com"
 
 $remote_editions = Set.new
+
+def upload_file_to_s3_bucket(file_path)
+  s3 = Aws::S3::Client.new(region: 'eu-west-1')
+  object_key = "public/models.json"
+  begin
+    s3.put_object(bucket: BUCKET_NAME, key: object_key, body: File.open(file_path, 'rb'), acl: 'public-read')
+    puts "File uploaded successfully to #{BUCKET_NAME}/#{object_key}"
+
+  rescue Aws::S3::Errors::ServiceError => e
+    puts "Failed to upload file: #{e.message}"
+  end
+end
 
 class Version < Array
   def initialize name
@@ -252,7 +266,7 @@ class BulkIndexer
 
   def index(id, data)
     @buffer << { update: { _id: id, data: {doc: data, doc_as_upsert: true}} }
-    self.execute if @buffer.length >= 100
+    self.execute if @buffer.length >= 500
   end
 
   def execute
@@ -578,9 +592,14 @@ Jekyll::Hooks.register :site, :post_write do |site|
     models_references_json = backup_references_data.merge(models_references_json)
   end
 
-  filename = File.join(site.config['destination'], 'models.json')
+  filename = File.join(site.config['destination'], 'backup-modelss3.json')
+
   File.write(filename, models_json.values.to_json)
   File.write(backup_filename, models_json.to_json)
+  # models.json moved to pypi s3 bucket
+  upload_file_to_s3_bucket(filename)
+
+  File.delete(filename)
 
   benchmarking_filename = File.join(site.config['destination'], 'benchmarking.json')
   File.write(benchmarking_filename, models_benchmarking_json.to_json)
