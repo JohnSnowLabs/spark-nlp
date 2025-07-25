@@ -59,7 +59,7 @@ document_assembler = DocumentAssembler() \
     .setOutputCol("documents")
 
 Phi4 = (
-    Phi4Transformer.load(sparknlp_int4_model_name)
+    Phi4Transformer.load(Phi_4_mini_instruct_int4_openvino)
     .setMaxOutputLength(120)
     .setInputCols(["documents"])
     .setOutputCol("generation")
@@ -98,7 +98,7 @@ val documentAssembler = new DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("documents")
 
-val phi4 = Phi4Transformer.load(sparknlpInt4ModelName)
+val phi4 = Phi4Transformer.load(Phi_4_mini_instruct_int4_openvino)
   .setMaxOutputLength(120)
   .setInputCols("documents")
   .setOutputCol("generation")
