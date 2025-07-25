@@ -179,7 +179,7 @@ class AutoGGUFModel(override val uid: String)
     val annotations: Seq[Annotation] = batchedAnnotations.flatten
     // TODO: group by doc and sentence
     if (annotations.nonEmpty) {
-      val annotationsText = annotations.map { anno => anno.result }
+      val annotationsText = annotations.map(_.result).toArray
 
       val modelParams =
         getModelParameters.setParallel(getBatchSize) // set parallel decoding to batch size
@@ -189,9 +189,11 @@ class AutoGGUFModel(override val uid: String)
 
       val (completedTexts: Array[String], metadata: Map[String, String]) =
         try {
-          val results: Array[String] = annotationsText.map { t =>
-            LlamaExtensions.complete(model, inferenceParams, getSystemPrompt, t)
-          }.toArray
+          val results: Array[String] = LlamaExtensions.multiComplete(
+            model,
+            inferenceParams,
+            getSystemPrompt,
+            annotationsText)
           (results, Map.empty)
         } catch {
           case e: LlamaException =>

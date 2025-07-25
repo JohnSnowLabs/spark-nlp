@@ -114,7 +114,6 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     model.setDefragmentationThreshold(-1.0f)
     model.setNumaStrategy("DISTRIBUTE")
     model.setRopeScalingType("NONE")
-    model.setPoolingType("NONE")
     model.setModelDraft("")
 //    model.setLookupCacheStaticFilePath("/tmp/sparknlp-llama-cpp-cache")
 //    model.setLookupCacheDynamicFilePath("/tmp/sparknlp-llama-cpp-cache")
