@@ -212,10 +212,6 @@ trait HasLlamaCppModelProperties {
 //  val loraAdapters = new StructFeature[Map[String, Float]](this, "loraAdapters")
 
   /** @group param */
-  val embedding =
-    new BooleanParam(this, "embedding", "Whether to load model with embedding support")
-
-  /** @group param */
   val flashAttention =
     new BooleanParam(this, "flashAttention", "Whether to enable Flash Attention")
 
@@ -247,14 +243,6 @@ trait HasLlamaCppModelProperties {
   val chatTemplate =
     new Param[String](this, "chatTemplate", "The chat template to use")
 
-  private def checkEmbeddingMode(setter: => this.type): this.type = {
-    if (getEmbedding) {
-      logger.warn("Embeddings enabled. This parameter has no effect.")
-      this
-    } else
-      setter
-  }
-
   /** Set the number of threads to use during generation
     *
     * @group setParam
@@ -268,7 +256,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
 //  def setNThreadsDraft(nThreadsDraft: Int): this.type = {
-//    checkEmbeddingMode { set(this.nThreadsDraft, nThreadsDraft) }
+//     set(this.nThreadsDraft, nThreadsDraft)
 //  }
 
   /** Set the number of threads to use during batch and prompt processing
@@ -276,7 +264,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setNThreadsBatch(nThreadsBatch: Int): this.type = {
-    checkEmbeddingMode { set(this.nThreadsBatch, nThreadsBatch) }
+     set(this.nThreadsBatch, nThreadsBatch)
   }
 
   /** Set the number of threads to use during batch and prompt processing
@@ -284,7 +272,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
 //  def setNThreadsBatchDraft(nThreadsBatchDraft: Int): this.type = {
-//    checkEmbeddingMode { set(this.nThreadsBatchDraft, nThreadsBatchDraft) }
+//     set(this.nThreadsBatchDraft, nThreadsBatchDraft)
 //  }
 
   /** Set the size of the prompt context
@@ -316,7 +304,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setNDraft(nDraft: Int): this.type = {
-    checkEmbeddingMode { set(this.nDraft, nDraft) }
+     set(this.nDraft, nDraft)
   }
 
   /** Set the maximal number of chunks to process
@@ -340,7 +328,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
 //  def setPSplit(pSplit: Float): this.type = {
-//    checkEmbeddingMode { set(this.pSplit, pSplit) }
+//     set(this.pSplit, pSplit)
 //  }
 
   /** Set the number of layers to store in VRAM (-1 - use default)
@@ -356,7 +344,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setNGpuLayersDraft(nGpuLayersDraft: Int): this.type = {
-    checkEmbeddingMode { set(this.nGpuLayersDraft, nGpuLayersDraft) }
+     set(this.nGpuLayersDraft, nGpuLayersDraft)
   }
 
   /** Set how to split the model across GPUs
@@ -533,7 +521,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setModelDraft(modelDraft: String): this.type = {
-    checkEmbeddingMode { set(this.modelDraft, modelDraft) }
+     set(this.modelDraft, modelDraft)
   }
 
   /** Set path to static lookup cache to use for lookup decoding (not updated by generation)
@@ -541,7 +529,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
 //  def setLookupCacheStaticFilePath(lookupCacheStaticFilePath: String): this.type = {
-//    checkEmbeddingMode { set(this.lookupCacheStaticFilePath, lookupCacheStaticFilePath) }
+//     set(this.lookupCacheStaticFilePath, lookupCacheStaticFilePath)
 //  }
 
 //  /** Set path to dynamic lookup cache to use for lookup decoding (updated by generation)
@@ -549,7 +537,7 @@ trait HasLlamaCppModelProperties {
 //    * @group setParam
 //    */
 //  def setLookupCacheDynamicFilePath(lookupCacheDynamicFilePath: String): this.type = {
-//    checkEmbeddingMode { set(this.lookupCacheDynamicFilePath, lookupCacheDynamicFilePath) }
+//     set(this.lookupCacheDynamicFilePath, lookupCacheDynamicFilePath)
 //  }
 //
   /** Sets paths to lora adapters with user defined scale.
@@ -568,14 +556,6 @@ trait HasLlamaCppModelProperties {
 //    val scalaLoraAdapters = loraAdapters.asScala.map { case (k, v) => k -> v.floatValue() }
 //    set(this.loraAdapters, scalaLoraAdapters.toMap)
 //  }
-
-  /** Whether to load model with embedding support
-    *
-    * @group setParam
-    */
-  def setEmbedding(embedding: Boolean): this.type = {
-    set(this.embedding, embedding)
-  }
 
   /** Whether to enable Flash Attention
     *
@@ -622,7 +602,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setSystemPrompt(systemPrompt: String): this.type = {
-    checkEmbeddingMode { set(this.systemPrompt, systemPrompt) }
+     set(this.systemPrompt, systemPrompt)
   }
 
   /** The chat template to use
@@ -630,7 +610,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setChatTemplate(chatTemplate: String): this.type = {
-    checkEmbeddingMode { set(this.chatTemplate, chatTemplate) }
+     set(this.chatTemplate, chatTemplate)
   }
 
   /** @group getParam */
@@ -732,9 +712,6 @@ trait HasLlamaCppModelProperties {
 //  def getLoraAdapters: Map[String, Float] = $$(loraAdapters)
 
   /** @group getParam */
-  def getEmbedding: Boolean = $(embedding)
-
-  /** @group getParam */
   def getFlashAttention: Boolean = $(flashAttention)
 
 //  /** @group getParam */
@@ -785,7 +762,6 @@ trait HasLlamaCppModelProperties {
     if (isDefined(chatTemplate)) modelParameters.setChatTemplate(getChatTemplate)
     if (isDefined(defragmentationThreshold))
       modelParameters.setDefragThold(getDefragmentationThreshold)
-    if (isDefined(embedding)) if (getEmbedding) modelParameters.enableEmbedding()
     if (isDefined(flashAttention)) if (getFlashAttention) modelParameters.enableFlashAttn()
     if (isDefined(gpuSplitMode))
       modelParameters.setSplitMode(GpuSplitMode.valueOf(getSplitMode))
@@ -839,20 +815,4 @@ trait HasLlamaCppModelProperties {
 
     modelParameters
   }
-
-  // ---------------- GPU SUPPORT ----------------
-  // Values for automatic GPU support
-//  protected val defaultGpuLayers = 1000
-//  protected val defaultMainGpu = 0
-//
-//  // Entrypoint for models. Automatically set GPU support if detected.
-//  protected def setGpuSupportIfAvailable(spark: SparkSession): this.type = {
-//    val usingGPUJar: Boolean = spark.sparkContext.listJars.exists(_.contains("spark-nlp-gpu"))
-//    if (usingGPUJar) {
-//      logger.info("Using GPU jar. Offloading all layers to GPU.")
-//      setMainGpu(defaultMainGpu)
-//      setNGpuLayers(defaultGpuLayers)
-//    }
-//    this
-//  }
 }

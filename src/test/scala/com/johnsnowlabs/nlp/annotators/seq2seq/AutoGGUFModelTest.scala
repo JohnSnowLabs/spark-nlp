@@ -118,7 +118,6 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     model.setModelDraft("")
 //    model.setLookupCacheStaticFilePath("/tmp/sparknlp-llama-cpp-cache")
 //    model.setLookupCacheDynamicFilePath("/tmp/sparknlp-llama-cpp-cache")
-    model.setEmbedding(false)
     model.setFlashAttention(false)
 //    model.setInputPrefixBos(false)
     model.setUseMmap(false)

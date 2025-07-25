@@ -149,7 +149,6 @@ class AutoGGUFModel(override val uid: String)
     useChatTemplate -> true,
     nCtx -> 4096,
     nBatch -> 512,
-    embedding -> false, // TODO: Disable this?
     nPredict -> 100,
     nGpuLayers -> 99,
     systemPrompt -> "You are a helpful assistant.")
@@ -188,50 +187,25 @@ class AutoGGUFModel(override val uid: String)
 
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
 
-      if (getEmbedding) {
-        // Return embeddings in annotation
-        val (embeddings: Array[Array[Float]], metadata: Map[String, String]) =
-          try {
-            (annotationsText.map(model.embed), Map.empty)
-          } catch {
-            case e: LlamaException =>
-              logger.error("Error in llama.cpp embeddings", e)
-              (
-                Array.fill[Array[Float]](annotationsText.length)(Array.empty),
-                Map("llamacpp_exception" -> e.getMessage))
-          }
-        // Choose empty text for result annotations
-        annotations.zip(embeddings).map { case (annotation, embedding) =>
-          Seq(
-            new Annotation(
-              annotatorType = annotation.annotatorType,
-              begin = annotation.begin,
-              end = annotation.end,
-              result = annotation.result,
-              metadata = annotation.metadata ++ metadata,
-              embeddings = embedding))
+      val (completedTexts: Array[String], metadata: Map[String, String]) =
+        try {
+          val results: Array[String] = annotationsText.map { t =>
+            LlamaExtensions.complete(model, inferenceParams, getSystemPrompt, t)
+          }.toArray
+          (results, Map.empty)
+        } catch {
+          case e: LlamaException =>
+            logger.error("Error in llama.cpp batch completion", e)
+            (Array.fill(annotationsText.length)(""), Map("llamacpp_exception" -> e.getMessage))
         }
-      } else {
-        val (completedTexts: Array[String], metadata: Map[String, String]) =
-          try {
-            val results: Array[String] = annotationsText.map { t =>
-              LlamaExtensions.complete(model, inferenceParams, getSystemPrompt, t)
-            }.toArray
-            (results, Map.empty)
-          } catch {
-            case e: LlamaException =>
-              logger.error("Error in llama.cpp batch completion", e)
-              (Array.fill(annotationsText.length)(""), Map("llamacpp_exception" -> e.getMessage))
-          }
-        annotations.zip(completedTexts).map { case (annotation, text) =>
-          Seq(
-            new Annotation(
-              outputAnnotatorType,
-              0,
-              text.length - 1,
-              text,
-              annotation.metadata ++ metadata))
-        }
+      annotations.zip(completedTexts).map { case (annotation, text) =>
+        Seq(
+          new Annotation(
+            outputAnnotatorType,
+            0,
+            text.length - 1,
+            text,
+            annotation.metadata ++ metadata))
       }
     } else Seq(Seq.empty[Annotation])
   }

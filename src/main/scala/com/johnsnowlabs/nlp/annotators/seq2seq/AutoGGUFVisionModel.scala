@@ -200,7 +200,6 @@ class AutoGGUFVisionModel(override val uid: String)
     useChatTemplate -> true,
     nCtx -> 4096,
     nBatch -> 512,
-    embedding -> false,
     nPredict -> 100)
 
 //  val mmproj = new Param[String](

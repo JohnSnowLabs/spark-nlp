@@ -19,8 +19,8 @@ import com.johnsnowlabs.ml.gguf.GGUFWrapper
 import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.llama.LlamaExtensions
-import de.kherud.llama.LlamaModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import de.kherud.llama.LlamaModel
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
@@ -132,14 +132,12 @@ class AutoGGUFEmbeddings(override val uid: String)
     }
 
     this
-//    setGpuSupportIfAvailable(spark)
   }
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
   setDefault(
     engine -> LlamaCPP.name,
-    embedding -> true,
     poolingType -> "MEAN",
     nCtx -> 4096,
     nBatch -> 512,
@@ -168,16 +166,14 @@ class AutoGGUFEmbeddings(override val uid: String)
     *   Completed text sequences
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    require(
-      getEmbedding,
-      "Embeddings have been manually disabled. Please enable them with setEmbedding(true).")
     val annotations: Seq[Annotation] = batchedAnnotations.flatten
     if (annotations.nonEmpty) {
 
       val modelParams =
         getModelParameters.setParallel(getBatchSize) // set parallel decoding to batch size
 
-      val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
+      // Always enable embeddings
+      val model: LlamaModel = getModelIfNotSet.getSession(modelParams.enableEmbedding())
 
       val annotationsText = annotations.map(_.result)
 
