@@ -20,16 +20,20 @@ import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.llama.LlamaExtensions
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import de.kherud.llama.LlamaModel
+import de.kherud.llama.args.PoolingType
+import de.kherud.llama.{InferenceParameters, LlamaException, LlamaModel}
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
 
 /** Annotator that uses the llama.cpp library to generate text embeddings with large language
   * models.
   *
   * The type of embedding pooling can be set with the `setPoolingType` method. The default is
-  * `"MEAN"`. The available options are `"NONE"`, `"MEAN"`, `"CLS"`, and `"LAST"`.
+  * `"MEAN"`. The available options are `"MEAN"`, `"CLS"`, and `"LAST"`.
   *
   * For all settable parameters, and their explanations, see [[HasLlamaCppModelProperties]].
   *
@@ -136,6 +140,48 @@ class AutoGGUFEmbeddings(override val uid: String)
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
+  val embedding = new BooleanParam(
+    this,
+    "embedding",
+    "Whether to enable embeddings. Not used, only for backwards compatibility.")
+
+  /** Set the pooling type for embeddings, use model default if unspecified
+    *
+    *   - MEAN: Mean Pooling
+    *   - CLS: Choose the CLS token
+    *   - LAST: Choose the last token
+    *
+    * @group param
+    */
+  val poolingType = new Param[String](
+    this,
+    "poolingType",
+    "Set the pooling type for embeddings, use model default if unspecified")
+
+  /** Set the pooling type for embeddings, use model default if unspecified.
+    *
+    * Possible values:
+    *
+    *   - MEAN: Mean pooling
+    *   - CLS: Choose the CLS token
+    *   - LAST: Choose the last token
+    *   - RANK: For reranking
+    *
+    * @group setParam
+    */
+  def setPoolingType(poolingType: String): this.type = {
+    val poolingTypeUpper = poolingType.toUpperCase
+    val poolingTypes = Array("MEAN", "CLS", "LAST", "RANK")
+    require(
+      poolingTypes.contains(poolingTypeUpper),
+      s"Invalid pooling type: $poolingTypeUpper. " +
+        s"Valid values are: ${poolingTypes.mkString(", ")}")
+    set(this.poolingType, poolingTypeUpper)
+  }
+
+  /** @group getParam */
+  def getPoolingType: String = $(poolingType)
+
   setDefault(
     engine -> LlamaCPP.name,
     poolingType -> "MEAN",
@@ -158,6 +204,15 @@ class AutoGGUFEmbeddings(override val uid: String)
     getModelIfNotSet.saveToFile(path)
   }
 
+  private def parseEmbeddingJson(json: String): Array[Float] = {
+    implicit val formats: Formats = org.json4s.DefaultFormats
+    val embedding = (parse(json) \ "embedding") .extract[Array[Array[Float]]]
+    require(
+      embedding.length == 1,
+      "Only a single embedding is expected (pooled).")
+    embedding.head // NOTE: This should be changed if we ever support no pooling (i.e. one embedding per token).
+  }
+
   /** Completes the batch of annotations.
     *
     * @param batchedAnnotations
@@ -172,18 +227,22 @@ class AutoGGUFEmbeddings(override val uid: String)
       val modelParams =
         getModelParameters.setParallel(getBatchSize) // set parallel decoding to batch size
 
-      // Always enable embeddings
-      val model: LlamaModel = getModelIfNotSet.getSession(modelParams.enableEmbedding())
-
-      val annotationsText = annotations.map(_.result)
+      val embeddingModelParameters =
+        modelParams.enableEmbedding().setPoolingType(PoolingType.valueOf(getPoolingType))
+      val model: LlamaModel = getModelIfNotSet.getSession(embeddingModelParameters)
+      val annotationsText = annotations.map(_.result).toArray
 
       // Return embeddings in annotation
       val (embeddings: Array[Array[Float]], metadata: Map[String, String]) =
         try {
-          val result: Array[Array[Float]] = annotationsText.map(model.embed).toArray
+          val result: Array[Array[Float]] =
+            // infparams (mostly) don't matter for embeddings
+            LlamaExtensions
+              .multiEmbed(model, new InferenceParameters(""), annotationsText)
+              .map(parseEmbeddingJson)
           (result, Map.empty)
         } catch {
-          case e: Exception =>
+          case e: LlamaException =>
             logger.error("Error in llama.cpp embeddings", e)
             (
               Array.fill[Array[Float]](annotationsText.length)(Array.empty),

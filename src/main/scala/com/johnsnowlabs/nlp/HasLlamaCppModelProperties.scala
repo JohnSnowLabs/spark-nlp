@@ -178,20 +178,6 @@ trait HasLlamaCppModelProperties {
     "ropeScalingType",
     "Set the RoPE frequency scaling method, defaults to linear unless specified by the model")
 
-  /** Set the pooling type for embeddings, use model default if unspecified
-    *
-    *   - 0 NONE: Don't use any pooling
-    *   - 1 MEAN: Mean Pooling
-    *   - 2 CLS: Choose the CLS token
-    *   - 3 LAST: Choose the last token
-    *
-    * @group param
-    */
-  val poolingType = new Param[String](
-    this,
-    "poolingType",
-    "Set the pooling type for embeddings, use model default if unspecified")
-
   /** @group param */
   val modelDraft =
     new Param[String](this, "modelDraft", "Set the draft model for speculative decoding")
@@ -494,28 +480,6 @@ trait HasLlamaCppModelProperties {
     set(this.ropeScalingType, ropeUpper)
   }
 
-  /** Set the pooling type for embeddings, use model default if unspecified.
-    *
-    * Possible values:
-    *
-    *   - NONE: No pooling
-    *   - MEAN: Mean pooling
-    *   - CLS: Choose the CLS token
-    *   - LAST: Choose the last token
-    *   - RANK: For reranking
-    *
-    * @group setParam
-    */
-  def setPoolingType(poolingType: String): this.type = {
-    val poolingTypeUpper = poolingType.toUpperCase
-    val poolingTypes = Array("NONE", "MEAN", "CLS", "LAST", "RANK")
-    require(
-      poolingTypes.contains(poolingTypeUpper),
-      s"Invalid pooling type: $poolingTypeUpper. " +
-        s"Valid values are: ${poolingTypes.mkString(", ")}")
-    set(this.poolingType, poolingTypeUpper)
-  }
-
   /** Set the draft model for speculative decoding
     *
     * @group setParam
@@ -697,9 +661,6 @@ trait HasLlamaCppModelProperties {
   def getRopeScalingType: String = $(ropeScalingType)
 
   /** @group getParam */
-  def getPoolingType: String = $(poolingType)
-
-  /** @group getParam */
   def getModelDraft: String = $(modelDraft)
 
   /** @group getParam */
@@ -791,8 +752,6 @@ trait HasLlamaCppModelProperties {
     if (isDefined(numaStrategy))
       modelParameters.setNuma(NumaStrategy.valueOf(getNuma))
 //    if (isDefined(pSplit)) modelParameters.setPSplit(getPSplit)
-    if (isDefined(poolingType))
-      modelParameters.setPoolingType(PoolingType.valueOf(getPoolingType))
     if (isDefined(ropeFreqBase)) modelParameters.setRopeFreqBase(getRopeFreqBase)
     if (isDefined(ropeFreqScale)) modelParameters.setRopeFreqScale(getRopeFreqScale)
     if (isDefined(ropeScalingType))
