@@ -6,7 +6,7 @@ import de.kherud.llama.args.{GpuSplitMode, NumaStrategy, PoolingType, RopeScalin
 import org.apache.spark.ml.param._
 import org.json4s.DefaultFormats
 import org.json4s.jackson.JsonMethods
-import org.slf4j.LoggerFactory
+import org.slf4j.{Logger, LoggerFactory}
 
 /** Contains settable model parameters for the [[AutoGGUFModel]].
   *
@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory
   */
 trait HasLlamaCppModelProperties {
   this: ParamsAndFeaturesWritable with HasProtectedParams =>
-  protected val logger = LoggerFactory.getLogger(this.getClass)
+  protected val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
   /** @group param */
   val nThreads =
@@ -229,6 +229,18 @@ trait HasLlamaCppModelProperties {
   val chatTemplate =
     new Param[String](this, "chatTemplate", "The chat template to use")
 
+  /** @group param */
+  val logVerbosity =
+    new IntParam(
+      this,
+      "logVerbosity",
+      "Set the verbosity threshold." +
+        " Messages with a higher verbosity will be ignored.")
+
+  /** @group param */
+  val disableLog =
+    new BooleanParam(this, "disableLog", "Whether to completely disable logging.")
+
   /** Set the number of threads to use during generation
     *
     * @group setParam
@@ -250,7 +262,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setNThreadsBatch(nThreadsBatch: Int): this.type = {
-     set(this.nThreadsBatch, nThreadsBatch)
+    set(this.nThreadsBatch, nThreadsBatch)
   }
 
   /** Set the number of threads to use during batch and prompt processing
@@ -290,7 +302,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setNDraft(nDraft: Int): this.type = {
-     set(this.nDraft, nDraft)
+    set(this.nDraft, nDraft)
   }
 
   /** Set the maximal number of chunks to process
@@ -330,7 +342,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setNGpuLayersDraft(nGpuLayersDraft: Int): this.type = {
-     set(this.nGpuLayersDraft, nGpuLayersDraft)
+    set(this.nGpuLayersDraft, nGpuLayersDraft)
   }
 
   /** Set how to split the model across GPUs
@@ -485,7 +497,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setModelDraft(modelDraft: String): this.type = {
-     set(this.modelDraft, modelDraft)
+    set(this.modelDraft, modelDraft)
   }
 
   /** Set path to static lookup cache to use for lookup decoding (not updated by generation)
@@ -566,7 +578,7 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setSystemPrompt(systemPrompt: String): this.type = {
-     set(this.systemPrompt, systemPrompt)
+    set(this.systemPrompt, systemPrompt)
   }
 
   /** The chat template to use
@@ -574,8 +586,34 @@ trait HasLlamaCppModelProperties {
     * @group setParam
     */
   def setChatTemplate(chatTemplate: String): this.type = {
-     set(this.chatTemplate, chatTemplate)
+    set(this.chatTemplate, chatTemplate)
   }
+
+  /** Set the verbosity threshold. Messages with a higher verbosity will be ignored.
+    *
+    * Values map to the following:
+    *   - GGML_LOG_LEVEL_NONE = 0
+    *   - GGML_LOG_LEVEL_DEBUG = 1
+    *   - GGML_LOG_LEVEL_INFO = 2
+    *   - GGML_LOG_LEVEL_WARN = 3
+    *   - GGML_LOG_LEVEL_ERROR = 4
+    *   - GGML_LOG_LEVEL_CONT = 5 (continue previous log)
+    *
+    * @group setParam
+    */
+  def setLogVerbosity(logVerbosity: Int): this.type = {
+    set(this.logVerbosity, logVerbosity)
+  }
+
+  /** @group setParam */
+  def setDisableLog(disableLog: Boolean): this.type = {
+    set(this.disableLog, disableLog)
+  }
+
+  /** @group getParam */
+  def getDisableLog: Boolean = $(disableLog)
+
+  def getLogVerbosity: Int = $(logVerbosity)
 
   /** @group getParam */
   def getNThreads: Int = $(nThreads)
@@ -694,7 +732,7 @@ trait HasLlamaCppModelProperties {
   def getChatTemplate: String = $(chatTemplate)
 
   // ---------------- METADATA ----------------
-  val metadata =
+  val metadata: ProtectedParam[String] =
     new Param[String](this, "metadata", "Set the metadata for the model").setProtected()
 
   /** Set the metadata for the model
@@ -726,6 +764,8 @@ trait HasLlamaCppModelProperties {
     if (isDefined(flashAttention)) if (getFlashAttention) modelParameters.enableFlashAttn()
     if (isDefined(gpuSplitMode))
       modelParameters.setSplitMode(GpuSplitMode.valueOf(getSplitMode))
+    if (isDefined(logVerbosity)) modelParameters.setLogVerbosity(getLogVerbosity)
+    if (isDefined(disableLog) && getDisableLog) modelParameters.disableLog()
 //    if (isDefined(grpAttnN)) modelParameters.setGrpAttnN(getGrpAttnN)
 //    if (isDefined(grpAttnW)) modelParameters.setGrpAttnN(getGrpAttnW)
 //    if (isDefined(inputPrefixBos)) modelParameters.setInputPrefixBos(getInputPrefixBos)

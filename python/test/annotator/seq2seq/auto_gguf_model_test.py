@@ -166,6 +166,9 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         model.setTokenBias({"!": 0.0, "?": 0.0})
         # model.setLoraAdapters({" ": 0.0})
 
+        model.setLogVerbosity(0)
+        model.setDisableLog(True)
+
         pipeline = Pipeline().setStages([document_assembler, model])
         results = pipeline.fit(data).transform(data)
 

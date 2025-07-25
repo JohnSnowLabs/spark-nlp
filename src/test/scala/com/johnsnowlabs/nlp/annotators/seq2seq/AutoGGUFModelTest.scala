@@ -5,7 +5,7 @@ import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class AutoGGUFModelTest extends AnyFlatSpec {
@@ -14,11 +14,11 @@ class AutoGGUFModelTest extends AnyFlatSpec {
 
   behavior of "AutoGGUFModelTest"
 
-  lazy val documentAssembler = new DocumentAssembler()
+  lazy val documentAssembler: DocumentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
-  lazy val model = AutoGGUFModel
+  lazy val model: AutoGGUFModel = AutoGGUFModel
     .pretrained()
     .setInputCols("document")
     .setOutputCol("completions")
@@ -31,14 +31,14 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     .setTopP(0.9f)
     .setPenalizeNl(true)
 
-  lazy val data = Seq(
+  lazy val data: Dataset[Row] = Seq(
     "The moons of Jupiter are ", // "The moons of Jupiter are 77 in total, with 79 confirmed natural satellites and 2 man-made ones. The four"
     "Earth is ", // "Earth is 4.5 billion years old. It has been home to countless species, some of which have gone extinct, while others have evolved into"
     "The moon is ", // "The moon is 1/400th the size of the sun. The sun is 1.39 million kilometers in diameter, while"
     "The sun is " //
   ).toDF("text").repartition(1)
 
-  lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+  lazy val pipeline: Pipeline = new Pipeline().setStages(Array(documentAssembler, model))
 
   def assertAnnotationsNonEmpty(resultDf: DataFrame): Unit = {
     Annotation
@@ -94,6 +94,8 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     model.setNBatch(32)
     model.setNUbatch(32)
     model.setNDraft(5)
+    model.setLogVerbosity(0)
+    model.setDisableLog(true)
 //    model.setNChunks(-1)
 //    model.setNSequences(1)
 //    model.setPSplit(0.1f)
