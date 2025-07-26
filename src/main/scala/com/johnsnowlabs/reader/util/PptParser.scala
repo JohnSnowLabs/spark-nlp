@@ -84,7 +84,8 @@ object PptParser {
 
     def extractXSLFSlideContent(
         inferTableStructure: Boolean,
-        includeSlideNotes: Boolean): Seq[HTMLElement] = {
+        includeSlideNotes: Boolean,
+        outputFormat: String): Seq[HTMLElement] = {
       val title = Option(slide.getTitle).getOrElse("")
       val titleElement = if (title.nonEmpty) {
         Seq(
@@ -124,7 +125,13 @@ object PptParser {
           }
           if (inferTableStructure) {
             val tableHtml = buildTableHtml(table)
-            val htmlElement = HTMLElement("HTML", tableHtml, mutable.Map("element" -> "table"))
+            val htmlElement = if (outputFormat == "html-table") {
+              HTMLElement("HTML", tableHtml, mutable.Map("element" -> "table"))
+            } else {
+              val tableElement = HTMLParser.parseFirstTableElement(tableHtml)
+              val jsonString = HTMLParser.tableElementToJson(tableElement)
+              HTMLElement("JSON", jsonString, mutable.Map("element" -> "table"))
+            }
             cellElements ++ Seq(htmlElement)
           } else {
             cellElements

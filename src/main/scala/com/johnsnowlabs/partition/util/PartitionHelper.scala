@@ -41,7 +41,9 @@ object PartitionHelper {
 
   def isStringContent(contentType: String): Boolean = {
     contentType match {
-      case "text/plain" | "text/html" | "text/markdown" | "application/xml" | "url" => true
+      case "text/plain" | "text/html" | "text/markdown" | "application/xml" | "text/csv" |
+          "url" =>
+        true
       case _ => false
     }
   }

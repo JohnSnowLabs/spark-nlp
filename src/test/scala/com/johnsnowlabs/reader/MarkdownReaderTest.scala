@@ -130,7 +130,6 @@ class MarkdownReaderTest extends AnyFlatSpec {
 
   it should "parse markdown table as TABLE element" taggedAs FastTest in {
     val df = mdReader.md(filePath = s"$mdDirectory/simple-table.md")
-
     val elements: Seq[HTMLElement] = df
       .select(mdReader.getOutputColumn)
       .as[Seq[HTMLElement]]
@@ -195,6 +194,34 @@ class MarkdownReaderTest extends AnyFlatSpec {
       .head
 
     assert(elements.length == 1, s"Expected 1 element, got ${elements.length}")
+  }
+
+  it should "parse markdown table as HTML element" taggedAs FastTest in {
+    val mdReader = new MarkdownReader(outputFormat = "html-table")
+    val mdDf = mdReader.md(filePath = s"$mdDirectory/simple-table.md")
+    val elements: Seq[HTMLElement] = mdDf
+      .select(mdReader.getOutputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    assert(elements.nonEmpty, "Parsed elements for table are empty")
+    assert(elements.head.elementType == ElementType.TABLE)
+    assert(elements.head.content.contains("<table>"), "Table HTML content is missing <table> tag")
+  }
+
+  it should "parse markdown table as JSON element" taggedAs FastTest in {
+    val mdReader = new MarkdownReader(outputFormat = "json-table")
+    val mdDf = mdReader.md(filePath = s"$mdDirectory/simple-table.md")
+    val elements: Seq[HTMLElement] = mdDf
+      .select(mdReader.getOutputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    assert(elements.nonEmpty, "Parsed elements for table are empty")
+    assert(elements.head.elementType == ElementType.TABLE)
+    assert(elements.head.content.contains("header"), "JSON content is missing 'header' key")
   }
 
 }

@@ -35,6 +35,7 @@ import com.johnsnowlabs.partition.{
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
+import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.{array, col, explode, udf}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Column, DataFrame, Dataset, Row}
@@ -55,9 +56,10 @@ import scala.jdk.CollectionConverters.mapAsJavaMapConverter
   * import com. johnsnowlabs.nlp.base.DocumentAssembler
   * import org.apache.spark.ml.Pipeline
   *
-  * val partition = new Reader2Doc()
+  * val reader2Doc = new Reader2Doc()
   *   .setContentType("application/pdf")
   *   .setContentPath(s"$pdfDirectory/")
+  *   .setExplodeDocs(true)
   *
   * val pipeline = new Pipeline()
   *   .setStages(Array(reader2Doc))
@@ -113,28 +115,39 @@ class Reader2Doc(override val uid: String)
     set(titleThreshold, value)
   }
 
+  /** Whether to return all sentences joined into a single document
+    *
+    * @group param
+    */
+  val outputAsDocument = new BooleanParam(
+    this,
+    "outputAsDocument",
+    "Whether to return all sentences joined into a single document")
+
+  /** Whether to return all sentences joined into a single document */
+  def setOutputAsDocument(value: Boolean): this.type = set(outputAsDocument, value)
+
   setDefault(
     this.explodeDocs -> false,
     contentType -> "",
     flattenOutput -> false,
-    titleThreshold -> 18)
+    titleThreshold -> 18,
+    outputAsDocument -> false,
+    outputFormat -> "plain-text")
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
-
     val partitionDf = partitionContent(partitionBuilder, dataset)
-
     val annotatedDf = partitionDf
       .withColumn(
         getOutputCol,
-        wrapColumnMetadata(
-          partitionToAnnotation($(flattenOutput))(col("partition"), col("fileName"))))
-      .select(getOutputCol)
+        wrapColumnMetadata(partitionToAnnotation($(flattenOutput))(col("partition"))))
+      .select("fileName", getOutputCol)
 
     afterAnnotate(annotatedDf)
   }
 
-  private def partitionBuilder: Partition = {
+  protected def partitionBuilder: Partition = {
     val params = Map(
       "contentType" -> $(contentType),
       "storeContent" -> $(storeContent).toString,
@@ -154,18 +167,26 @@ class Reader2Doc(override val uid: String)
       "threshold" -> $(threshold).toString,
       "xmlKeepTags" -> $(xmlKeepTags).toString,
       "onlyLeafNodes" -> $(onlyLeafNodes).toString,
-      "titleThreshold" -> $(titleThreshold).toString)
+      "titleThreshold" -> $(titleThreshold).toString,
+      "outputFormat" -> $(outputFormat))
     new Partition(params.asJava)
   }
 
   private def partitionContent(partition: Partition, dataset: Dataset[_]): DataFrame = {
 
     if (isStringContent($(contentType))) {
-      val partitionUDF =
-        udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
-      val stringContentDF = datasetWithTextFile(dataset.sparkSession, $(contentPath))
+      val stringContentDF = if ($(contentType) == "text/csv") {
+        partition.setOutputColumn("csv")
+        partition
+          .partition($(contentPath))
+          .withColumnRenamed(partition.getOutputColumn, "partition")
+      } else {
+        val partitionUDF =
+          udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
+        datasetWithTextFile(dataset.sparkSession, $(contentPath))
+          .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
+      }
       stringContentDF
-        .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
         .withColumn("fileName", getFileName(col("path")))
     } else {
       val binaryContentDF = datasetWithBinaryFile(dataset.sparkSession, $(contentPath))
@@ -190,23 +211,40 @@ class Reader2Doc(override val uid: String)
     } else dataset
   }
 
-  private def validateRequiredParameters(): Unit = {
+  protected def validateRequiredParameters(): Unit = {
     require(
       $(contentPath) != null && $(contentPath).trim.nonEmpty,
       "contentPath must be set and not empty")
     require(
       $(contentType) != null && $(contentType).trim.nonEmpty,
       "contentType must be set and not empty")
+    require(
+      $(outputFormat) == "plain-text",
+      "Only 'plain-text' outputFormat is supported for this operation.")
   }
 
   private val getFileName = udf { path: String =>
     if (path != null) path.split("/").last else ""
   }
 
-  private def partitionToAnnotation(flatten: Boolean) = udf {
-    (partitions: Seq[Row], fileName: String) =>
+  protected def partitionToAnnotation(flatten: Boolean): UserDefinedFunction = udf {
+    (partitions: Seq[Row]) =>
       if (partitions == null) Nil
-      else {
+      else if ($(outputAsDocument)) {
+        val allText =
+          partitions.flatMap(part => Option(part.getAs[String]("content"))).mkString(" ")
+        val begin = 0
+        val end = if (allText.isEmpty) 0 else allText.length - 1
+        val meta = Map("sentence" -> "0")
+        Seq(
+          Annotation(
+            annotatorType = outputAnnotatorType,
+            begin = begin,
+            end = end,
+            result = allText,
+            metadata = meta,
+            embeddings = Array.emptyFloatArray))
+      } else {
         var currentOffset = 0
         partitions.map { part =>
           val elementType = part.getAs[String]("elementType")
@@ -215,16 +253,9 @@ class Reader2Doc(override val uid: String)
           val begin = currentOffset
           val end = currentOffset + (if (content != null) content.length else 0) - 1
           currentOffset = end + 1
-
-          // Compute new metadata
           val baseMeta = if (metadata != null) metadata else Map.empty[String, String]
-          val withExtras = baseMeta +
-            ("elementType" -> elementType) +
-            ("fileName" -> fileName)
-          val finalMeta =
-            if (flatten) withExtras.filterKeys(_ == "sentence")
-            else withExtras
-
+          val withExtras = baseMeta + ("elementType" -> elementType)
+          val finalMeta = if (flatten) withExtras.filterKeys(_ == "sentence") else withExtras
           Annotation(
             annotatorType = outputAnnotatorType,
             begin = begin,

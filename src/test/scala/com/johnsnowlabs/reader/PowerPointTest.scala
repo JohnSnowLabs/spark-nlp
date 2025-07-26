@@ -30,7 +30,6 @@ class PowerPointTest extends AnyFlatSpec {
     val narrativeTextDf = pptDf
       .withColumn("ppt_exploded", explode(col("ppt")))
       .filter(col("ppt_exploded.elementType") === ElementType.NARRATIVE_TEXT)
-    pptDf.select("ppt").show(false)
 
     assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
     assert(!pptDf.columns.contains("content"))
@@ -40,7 +39,6 @@ class PowerPointTest extends AnyFlatSpec {
   "PowerPointReader" should "read a power point directory" taggedAs FastTest in {
     val powerPointReader = new PowerPointReader()
     val pptDf = powerPointReader.ppt(s"$docDirectory")
-    pptDf.select("ppt").show(false)
 
     assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
     assert(!pptDf.columns.contains("content"))
@@ -49,7 +47,6 @@ class PowerPointTest extends AnyFlatSpec {
   "PowerPointReader" should "read a power point file with table" taggedAs FastTest in {
     val powerPointReader = new PowerPointReader()
     val pptDf = powerPointReader.ppt(s"$docDirectory/fake-power-point-table.pptx")
-    pptDf.select("ppt").show(false)
 
     assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
     assert(!pptDf.columns.contains("content"))
@@ -64,23 +61,9 @@ class PowerPointTest extends AnyFlatSpec {
     assert(pptDf.columns.contains("content"))
   }
 
-  it should "reax pptx file with tables including HTML form" taggedAs FastTest in {
-    val powerPointReader = new PowerPointReader(inferTableStructure = true)
-    val pptDf = powerPointReader.ppt(s"$docDirectory/fake-power-point-table.pptx")
-    val htmlDf = pptDf
-      .withColumn("ppt_exploded", explode(col("ppt")))
-      .filter(col("ppt_exploded.elementType") === ElementType.HTML)
-    pptDf.select("ppt").show(false)
-
-    assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
-    assert(!pptDf.columns.contains("content"))
-    assert(htmlDf.count() > 0, "Expected at least one row with HTML element type")
-  }
-
   it should "read speaker notes in a power point file" taggedAs FastTest in {
     val powerPointReader = new PowerPointReader(includeSlideNotes = true)
     val pptDf = powerPointReader.ppt(s"$docDirectory/speaker-notes.pptx")
-    pptDf.select("ppt").show(false)
     val narrativeTextDf = pptDf
       .withColumn("ppt_exploded", explode(col("ppt")))
       .filter(col("ppt_exploded.elementType") === ElementType.NARRATIVE_TEXT)
@@ -88,6 +71,29 @@ class PowerPointTest extends AnyFlatSpec {
     assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
     assert(!pptDf.columns.contains("content"))
     assert(narrativeTextDf.count() == 3)
+  }
+
+  it should "read ppt file with tables as HTML form" taggedAs FastTest in {
+    val powerPointReader =
+      new PowerPointReader(inferTableStructure = true, outputFormat = "html-table")
+    val pptDf = powerPointReader.ppt(s"$docDirectory/fake-power-point-table.pptx")
+    val htmlDf = pptDf
+      .withColumn("ppt_exploded", explode(col("ppt")))
+      .filter(col("ppt_exploded.elementType") === ElementType.HTML)
+
+    assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
+    assert(htmlDf.count() > 0, "Expected at least one row with HTML element type")
+  }
+
+  it should "read ppt file with tables as JSON form" taggedAs FastTest in {
+    val powerPointReader = new PowerPointReader(inferTableStructure = true)
+    val pptDf = powerPointReader.ppt(s"$docDirectory/fake-power-point-table.pptx")
+    val jsonDf = pptDf
+      .withColumn("ppt_exploded", explode(col("ppt")))
+      .filter(col("ppt_exploded.elementType") === ElementType.JSON)
+
+    assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
+    assert(jsonDf.count() > 0, "Expected at least one row with JSON element type")
   }
 
 }
