@@ -1,5 +1,12 @@
 package com.johnsnowlabs.reader.util
 
+import org.json4s.NoTypeHints
+import org.json4s.jackson.Serialization
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
+
+import scala.jdk.CollectionConverters.asScalaBufferConverter
+
 object HTMLParser {
 
   private val PtToPx = 1.333 // 1pt ≈ 1.333px (CSS standard conversion)
@@ -61,5 +68,36 @@ object HTMLParser {
       case _ => role == "heading" // ARIA role="heading"
     }
   }
+
+  def tableElementToJson(tableElem: Element): String = {
+    implicit val formats = Serialization.formats(NoTypeHints)
+
+    val caption = Option(tableElem.selectFirst("caption")).map(_.text.trim).getOrElse("")
+
+    // Headers: first row with th or td as header
+    val headerRowOpt = tableElem
+      .select("tr")
+      .asScala
+      .find(tr => tr.select("th,td").asScala.nonEmpty && tr.select("th").asScala.nonEmpty)
+
+    val headers: List[String] = headerRowOpt
+      .map(_.select("th,td").asScala.map(_.text.trim).toList)
+      .getOrElse(List.empty)
+
+    val allRows = tableElem.select("tr").asScala.toList
+    val headerIndex = headerRowOpt.map(allRows.indexOf).getOrElse(0)
+    val dataRows =
+      allRows.zipWithIndex
+        .filter { case (_, idx) => idx != headerIndex } // skip header row
+        .map(_._1)
+        .map(row => row.select("td").asScala.map(_.text.trim).toList)
+        .filter(_.nonEmpty)
+
+    val jsonObj = Map("caption" -> caption, "header" -> headers, "rows" -> dataRows)
+
+    Serialization.write(jsonObj)
+  }
+
+  def parseFirstTableElement(html: String): Element = Jsoup.parse(html).select("table").first()
 
 }
