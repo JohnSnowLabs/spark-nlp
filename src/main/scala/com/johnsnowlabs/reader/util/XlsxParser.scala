@@ -1,6 +1,6 @@
 package com.johnsnowlabs.reader.util
 
-import com.johnsnowlabs.reader.HTMLElement
+import com.johnsnowlabs.reader.{ElementType, HTMLElement}
 import org.apache.poi.ss.usermodel.{Cell, CellType, DateUtil, HorizontalAlignment, Row, Sheet}
 
 import scala.collection.JavaConverters._
@@ -50,8 +50,9 @@ object XlsxParser {
 
   implicit class RichSheet(sheet: Sheet) {
 
-    def buildHtmlIfNeeded(elementsBuffer: mutable.ArrayBuffer[HTMLElement]): Unit = {
-
+    def buildHtmlIfNeeded(
+        elementsBuffer: mutable.ArrayBuffer[HTMLElement],
+        outputFormat: String): Unit = {
       val rowsHtml = sheet
         .iterator()
         .asScala
@@ -70,9 +71,23 @@ object XlsxParser {
 
       val sheetHtml = if (rowsHtml.nonEmpty) s"<table>$rowsHtml</table>" else ""
       if (sheetHtml.nonEmpty) {
-        val htmlElement =
-          HTMLElement("HTML", sheetHtml, mutable.Map("SheetName" -> sheet.getSheetName))
-        elementsBuffer += htmlElement
+        if (outputFormat == "html-table") {
+          val htmlElement =
+            HTMLElement(
+              ElementType.HTML,
+              sheetHtml,
+              mutable.Map("SheetName" -> sheet.getSheetName))
+          elementsBuffer += htmlElement
+        } else if (outputFormat == "json-table") {
+          val tableElement = HTMLParser.parseFirstTableElement(sheetHtml)
+          val jsonString = HTMLParser.tableElementToJson(tableElement)
+          val jsonElement =
+            HTMLElement(
+              ElementType.JSON,
+              jsonString,
+              mutable.Map("SheetName" -> sheet.getSheetName))
+          elementsBuffer += jsonElement
+        }
       }
     }
   }

@@ -76,7 +76,8 @@ import scala.collection.JavaConverters._
 class PowerPointReader(
     storeContent: Boolean = false,
     inferTableStructure: Boolean = false,
-    includeSlideNotes: Boolean = false)
+    includeSlideNotes: Boolean = false,
+    outputFormat: String = "json-table")
     extends Serializable {
 
   private lazy val spark = ResourceHelper.spark
@@ -162,7 +163,7 @@ class PowerPointReader(
     val slides = pptx.getSlides
 
     val elements = slides.asScala.flatMap { slide =>
-      slide.extractXSLFSlideContent(inferTableStructure, includeSlideNotes)
+      slide.extractXSLFSlideContent(inferTableStructure, includeSlideNotes, outputFormat)
     }
     pptx.close()
     elements

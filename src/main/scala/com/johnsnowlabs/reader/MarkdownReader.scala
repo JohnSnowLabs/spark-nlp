@@ -29,7 +29,8 @@ import java.net.{HttpURLConnection, URL}
 import java.util.Collections
 import scala.io.Source
 
-class MarkdownReader(fileEncoding: String = "UTF-8") extends Serializable {
+class MarkdownReader(fileEncoding: String = "UTF-8", outputFormat: String = "plain-text")
+    extends Serializable {
 
   private lazy val spark: SparkSession = ResourceHelper.spark
   private var outputColumn: String = "md"
@@ -139,6 +140,6 @@ class MarkdownReader(fileEncoding: String = "UTF-8") extends Serializable {
     val renderer = HtmlRenderer.builder(options).build()
     val document = parser.parse(markdown)
     val html = renderer.render(document)
-    new HTMLReader().htmlToHTMLElement(html).toSeq
+    new HTMLReader(outputFormat = outputFormat).htmlToHTMLElement(html).toSeq
   }
 }
