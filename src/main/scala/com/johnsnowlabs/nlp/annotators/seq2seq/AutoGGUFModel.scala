@@ -214,7 +214,7 @@ class AutoGGUFModel(override val uid: String)
 }
 
 trait ReadablePretrainedAutoGGUFModel
-    extends ParamsAndFeaturesReadable[AutoGGUFModel]
+    extends ParamsAndFeaturesFallbackReadable[AutoGGUFModel]
     with HasPretrained[AutoGGUFModel] {
   override val defaultModelName: Some[String] = Some("phi3.5_mini_4k_instruct_q4_gguf")
   override val defaultLang: String = "en"
@@ -232,7 +232,13 @@ trait ReadablePretrainedAutoGGUFModel
 }
 
 trait ReadAutoGGUFModel {
-  this: ParamsAndFeaturesReadable[AutoGGUFModel] =>
+  this: ParamsAndFeaturesFallbackReadable[AutoGGUFModel] =>
+
+  override def fallbackLoad(folder: String, spark: SparkSession): AutoGGUFModel = {
+    val localFolder: String = ResourceHelper.copyToLocal(folder)
+    val ggufFile = GGUFWrapper.findGGUFModelInFolder(localFolder)
+    loadSavedModel(ggufFile, spark)
+  }
 
   def readModel(instance: AutoGGUFModel, path: String, spark: SparkSession): Unit = {
     val model: GGUFWrapper = GGUFWrapper.readModel(path, spark)

@@ -12,8 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains classes for the AutoGGUFEmbeddings."""
-from typing import List
-
 from sparknlp.common import *
 
 
@@ -313,12 +311,6 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
         "Set the pooling type for embeddings, use model default if unspecified",
         typeConverter=TypeConverters.toString,
     )
-    embedding = Param(
-        Params._dummy(),
-        "embedding",
-        "Whether to load model with embedding support",
-        typeConverter=TypeConverters.toBoolean,
-    )
     flashAttention = Param(
         Params._dummy(),
         "flashAttention",
@@ -489,10 +481,10 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
             classname=classname, java_model=java_model
         )
         self._setDefault(
-            embedding=True,
             nCtx=4096,
             nBatch=512,
             poolingType="MEAN",
+            nGpuLayers=99,
         )
 
     @staticmethod

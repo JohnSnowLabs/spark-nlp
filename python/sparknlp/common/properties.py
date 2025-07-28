@@ -1115,10 +1115,6 @@ class HasLlamaCppProperties:
     #     """Set path to dynamic lookup cache to use for lookup decoding (updated by generation)"""
     #     return self._set(lookupCacheDynamicFilePath=lookupCacheDynamicFilePath)
 
-    def setEmbedding(self, embedding: bool):
-        """Whether to load model with embedding support"""
-        return self._set(embedding=embedding)
-
     def setFlashAttention(self, flashAttention: bool):
         """Whether to enable Flash Attention"""
         return self._set(flashAttention=flashAttention)

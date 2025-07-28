@@ -118,7 +118,7 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         model.setModelDraft("")
         # model.setLookupCacheStaticFilePath("/tmp/sparknlp-llama-cpp-cache")
         # model.setLookupCacheDynamicFilePath("/tmp/sparknlp-llama-cpp-cache")
-        model.setEmbedding(False)
+        # model.setEmbedding(False)
         model.setFlashAttention(False)
         # model.setInputPrefixBos(False)
         model.setUseMmap(False)

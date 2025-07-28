@@ -120,8 +120,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         Set path to static lookup cache to use for lookup decoding (not updated by generation)
     lookupCacheDynamicFilePath
         Set path to dynamic lookup cache to use for lookup decoding (updated by generation)
-    embedding
-        Whether to load model with embedding support
     flashAttention
         Whether to enable Flash Attention
     inputPrefixBos
@@ -252,7 +250,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
             useChatTemplate=True,
             nCtx=4096,
             nBatch=512,
-            embedding=False,
             nPredict=100,
             nGpuLayers=99,
             systemPrompt="You are a helpful assistant."

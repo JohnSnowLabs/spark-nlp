@@ -21,9 +21,9 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.llama.LlamaExtensions
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import de.kherud.llama.args.PoolingType
-import de.kherud.llama.{InferenceParameters, LlamaException, LlamaModel}
+import de.kherud.llama.{InferenceParameters, LlamaException, LlamaModel, ModelParameters}
 import org.apache.spark.broadcast.Broadcast
-import org.apache.spark.ml.param.{BooleanParam, Param}
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 import org.json4s._
@@ -140,11 +140,6 @@ class AutoGGUFEmbeddings(override val uid: String)
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
-  val embedding = new BooleanParam(
-    this,
-    "embedding",
-    "Whether to enable embeddings. Not used, only for backwards compatibility.")
-
   /** Set the pooling type for embeddings, use model default if unspecified
     *
     *   - MEAN: Mean Pooling
@@ -206,11 +201,17 @@ class AutoGGUFEmbeddings(override val uid: String)
 
   private def parseEmbeddingJson(json: String): Array[Float] = {
     implicit val formats: Formats = org.json4s.DefaultFormats
-    val embedding = (parse(json) \ "embedding") .extract[Array[Array[Float]]]
-    require(
-      embedding.length == 1,
-      "Only a single embedding is expected (pooled).")
+    val embedding = (parse(json) \ "embedding").extract[Array[Array[Float]]]
+    require(embedding.length == 1, "Only a single embedding is expected (pooled).")
     embedding.head // NOTE: This should be changed if we ever support no pooling (i.e. one embedding per token).
+  }
+
+  private def getEmbeddingModelParameters: ModelParameters = {
+    val modelParams = getModelParameters
+      .setParallel(getBatchSize) // set parallel decoding to batch size
+      .enableEmbedding() // always enable embedding
+      .setPoolingType(PoolingType.valueOf(getPoolingType))
+    modelParams
   }
 
   /** Completes the batch of annotations.
@@ -224,12 +225,8 @@ class AutoGGUFEmbeddings(override val uid: String)
     val annotations: Seq[Annotation] = batchedAnnotations.flatten
     if (annotations.nonEmpty) {
 
-      val modelParams =
-        getModelParameters.setParallel(getBatchSize) // set parallel decoding to batch size
-
-      val embeddingModelParameters =
-        modelParams.enableEmbedding().setPoolingType(PoolingType.valueOf(getPoolingType))
-      val model: LlamaModel = getModelIfNotSet.getSession(embeddingModelParameters)
+      val modelParams = getEmbeddingModelParameters
+      val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
       val annotationsText = annotations.map(_.result).toArray
 
       // Return embeddings in annotation
@@ -265,7 +262,7 @@ class AutoGGUFEmbeddings(override val uid: String)
 }
 
 trait ReadablePretrainedAutoGGUFEmbeddings
-    extends ParamsAndFeaturesReadable[AutoGGUFEmbeddings]
+    extends ParamsAndFeaturesFallbackReadable[AutoGGUFEmbeddings]
     with HasPretrained[AutoGGUFEmbeddings] {
   override val defaultModelName: Some[String] = Some("Nomic_Embed_Text_v1.5.Q8_0.gguf")
   override val defaultLang: String = "en"
@@ -283,7 +280,13 @@ trait ReadablePretrainedAutoGGUFEmbeddings
 }
 
 trait ReadAutoGGUFEmbeddings {
-  this: ParamsAndFeaturesReadable[AutoGGUFEmbeddings] =>
+  this: ParamsAndFeaturesFallbackReadable[AutoGGUFEmbeddings] =>
+
+  override def fallbackLoad(folder: String, spark: SparkSession): AutoGGUFEmbeddings = {
+    val localFolder: String = ResourceHelper.copyToLocal(folder)
+    val ggufFile = GGUFWrapper.findGGUFModelInFolder(localFolder)
+    loadSavedModel(ggufFile, spark)
+  }
 
   def readModel(instance: AutoGGUFEmbeddings, path: String, spark: SparkSession): Unit = {
     val model: GGUFWrapper = GGUFWrapper.readModel(path, spark)

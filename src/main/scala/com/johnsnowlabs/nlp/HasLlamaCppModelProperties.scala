@@ -2,7 +2,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
 import de.kherud.llama.ModelParameters
-import de.kherud.llama.args.{GpuSplitMode, NumaStrategy, PoolingType, RopeScalingType}
+import de.kherud.llama.args.{GpuSplitMode, NumaStrategy, RopeScalingType}
 import org.apache.spark.ml.param._
 import org.json4s.DefaultFormats
 import org.json4s.jackson.JsonMethods

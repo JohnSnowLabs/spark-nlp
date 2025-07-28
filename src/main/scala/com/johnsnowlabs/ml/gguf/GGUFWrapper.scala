@@ -93,27 +93,34 @@ object GGUFWrapper {
     new GGUFWrapper(modelFile.getName, modelFile.getParent)
   }
 
+  /** Finds the GGUF model file in the given folder, returning its absolute path.
+    *
+    * @param folderPath
+    *   Path to the folder containing the GGUF model file.
+    * @return
+    *   The absolute path to the GGUF model file.
+    */
+  def findGGUFModelInFolder(folderPath: String): String = {
+    val folder = new File(folderPath)
+    if (folder.exists && folder.isDirectory) {
+      val ggufFile: String = folder.listFiles
+        .filter(_.isFile)
+        .filter(_.getName.endsWith(".gguf"))
+        .map(_.getAbsolutePath)
+        .headOption // Should only be one file
+        .getOrElse(
+          throw new IllegalArgumentException(s"Could not find GGUF model in $folderPath"))
+
+      new File(ggufFile).getAbsolutePath
+    } else {
+      throw new IllegalArgumentException(s"Path $folderPath is not a directory")
+    }
+  }
+
   /** Reads the GGUF model from the folder passed by the Spark Reader during loading of a
     * serialized model.
     */
   def readModel(modelFolderPath: String, spark: SparkSession): GGUFWrapper = {
-    def findGGUFModelInFolder(folderPath: String): String = {
-      val folder = new File(folderPath)
-      if (folder.exists && folder.isDirectory) {
-        val ggufFile: String = folder.listFiles
-          .filter(_.isFile)
-          .filter(_.getName.endsWith(".gguf"))
-          .map(_.getAbsolutePath)
-          .headOption // Should only be one file
-          .getOrElse(
-            throw new IllegalArgumentException(s"Could not find GGUF model in $folderPath"))
-
-        new File(ggufFile).getAbsolutePath
-      } else {
-        throw new IllegalArgumentException(s"Path $folderPath is not a directory")
-      }
-    }
-
     val uri = new java.net.URI(modelFolderPath.replaceAllLiterally("\\", "/"))
     // In case the path belongs to a different file system but doesn't have the scheme prepended (e.g. dbfs)
     val fileSystem: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
