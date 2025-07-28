@@ -22,37 +22,37 @@ import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 /** The Reader2Table annotator allows you to use the reading files more smoothly within existing
- * Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Doc can be used for
- * extracting structured content from various document types using Spark NLP readers. It supports
- * reading from many files types and returns parsed output as a structured Spark DataFrame.
- *
- * Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
- * (.ppt/.pptx)
- *
- * ==Example==
- * {{{
- * import com.johnsnowlabs.reader.Reader2Table
- * import com. johnsnowlabs.nlp.base.DocumentAssembler
- * import org.apache.spark.ml.Pipeline
- *
- * val reader2Table = new Reader2Table()
- *   .setContentType("application/csv")
- *   .setContentPath(s"$pdfDirectory/")
- *
- * val pipeline = new Pipeline()
- *   .setStages(Array(reader2Table))
- *
- * val pipelineModel = pipeline.fit(emptyDataSet)
- * val resultDf = pipelineModel.transform(emptyDataSet)
- *
- * resultDf.show()
- * +----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
- * |fileName        |document                                                                                                                                                                                    |
- * +----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
- * |stanley-cups.csv|[{document, 0, 137, {"caption":"","header":[],"rows":[["Team","Location","Stanley Cups"],["Blues","STL","1"],["Flyers","PHI","2"],["Maple Leafs","TOR","13"]]}, {elementType -> Table}, []}]|
- * +----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
- * }}}
- */
+  * Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Doc can be used for
+  * extracting structured content from various document types using Spark NLP readers. It supports
+  * reading from many files types and returns parsed output as a structured Spark DataFrame.
+  *
+  * Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
+  * (.ppt/.pptx)
+  *
+  * ==Example==
+  * {{{
+  * import com.johnsnowlabs.reader.Reader2Table
+  * import com. johnsnowlabs.nlp.base.DocumentAssembler
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val reader2Table = new Reader2Table()
+  *   .setContentType("application/csv")
+  *   .setContentPath(s"$pdfDirectory/")
+  *
+  * val pipeline = new Pipeline()
+  *   .setStages(Array(reader2Table))
+  *
+  * val pipelineModel = pipeline.fit(emptyDataSet)
+  * val resultDf = pipelineModel.transform(emptyDataSet)
+  *
+  * resultDf.show()
+  * +----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * |fileName        |document                                                                                                                                                                                    |
+  * +----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * |stanley-cups.csv|[{document, 0, 137, {"caption":"","header":[],"rows":[["Team","Location","Stanley Cups"],["Blues","STL","1"],["Flyers","PHI","2"],["Maple Leafs","TOR","13"]]}, {elementType -> Table}, []}]|
+  * +----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+  * }}}
+  */
 class Reader2Table(override val uid: String) extends Reader2Doc {
 
   def this() = this(Identifiable.randomUID("Reader2Table"))

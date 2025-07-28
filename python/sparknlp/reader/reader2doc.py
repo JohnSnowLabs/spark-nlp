@@ -115,6 +115,13 @@ class Reader2Doc(
         typeConverter=TypeConverters.toFloat
     )
 
+    outputFormat = Param(
+        Params._dummy(),
+        "outputFormat",
+        "Output format for the table content. Options are 'plain-text' or 'html-table'. Default is 'json-table'.",
+        typeConverter=TypeConverters.toString
+    )
+
     @keyword_only
     def __init__(self):
         super(Reader2Doc, self).__init__(classname="com.johnsnowlabs.reader.Reader2Doc")
@@ -191,3 +198,13 @@ class Reader2Doc(
             Minimum font size threshold for title detection in PDF docs
         """
         return self._set(titleThreshold=value)
+
+    def setOutputFormat(self, value):
+        """Sets the output format for the table content.
+
+        Parameters
+        ----------
+        value : str
+            Output format for the table content. Options are 'plain-text' or 'html-table'. Default is 'json-table'.
+        """
+        return self._set(outputFormat=value)
