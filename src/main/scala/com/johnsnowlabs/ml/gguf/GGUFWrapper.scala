@@ -104,12 +104,14 @@ object GGUFWrapper {
     val folder = new File(folderPath)
     if (folder.exists && folder.isDirectory) {
       val ggufFile: String = folder.listFiles
-        .filter(_.isFile)
-        .filter(_.getName.endsWith(".gguf"))
-        .map(_.getAbsolutePath)
-        .headOption // Should only be one file
-        .getOrElse(
-          throw new IllegalArgumentException(s"Could not find GGUF model in $folderPath"))
+        .find(f =>
+          // We only find the first file, that is not mmproj (in case this was originally a multi-modal model)
+          f.isFile && f.getName
+            .endsWith(".gguf") && !f.getName.toLowerCase().contains("mmproj")) match {
+        case Some(ggufFile) => ggufFile.getAbsolutePath
+        case None =>
+          throw new IllegalArgumentException(s"Could not find GGUF model in $folderPath")
+      }
 
       new File(ggufFile).getAbsolutePath
     } else {

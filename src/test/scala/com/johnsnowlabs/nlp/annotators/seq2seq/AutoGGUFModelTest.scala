@@ -205,4 +205,65 @@ class AutoGGUFModelTest extends AnyFlatSpec {
           "llamacpp_exception should be present")
       })
   }
+
+  it should "be able to also load pretrained AutoGGUFVisionModels" taggedAs SlowTest in {
+    val model = AutoGGUFModel
+      .pretrained("llava_v1.5_7b_Q4_0_gguf")
+      .setInputCols("document")
+      .setOutputCol("completions")
+      .setBatchSize(2)
+
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, model))
+    val result = pipeline.fit(data).transform(data)
+
+    result.show()
+  }
+
+//  it should "benchmark" taggedAs SlowTest in {
+//    val model = AutoGGUFModel
+//      .loadSavedModel("models/gemma-3-4b-it-qat-Q4_K_M.gguf", ResourceHelper.spark)
+//      .setInputCols("document")
+//      .setOutputCol("completions")
+//      .setNPredict(100)
+//      .setBatchSize(8)
+//      .setNGpuLayers(99)
+//
+//    val benchmarkData =
+//      Seq.fill(200)("All work and no play makes Jack a dull boy.").toDF("text").repartition(4)
+//
+//    val pipeline =
+//      new Pipeline().setStages(Array(documentAssembler, model))
+//
+//    Benchmark.measure("Batch benchmark") {
+//      val result = pipeline.fit(benchmarkData).transform(benchmarkData)
+//      val collected = Annotation.collect(result, "completions")
+//      assert(collected.nonEmpty, "Completions should not be empty")
+//    }
+//  }
+//
+//
+//  it should "be compatible with sentencesplitter" taggedAs SlowTest in {
+//    // TODO
+//    val model = AutoGGUFModel
+//      .pretrained()
+//      .setInputCols("document")
+//      .setOutputCol("completions")
+//
+//    val pipeline =
+//      new Pipeline().setStages(Array(documentAssembler, model))
+//    val result = pipeline.fit(data).transform(data)
+//
+//    val collected = Annotation
+//      .collect(result, "completions")
+//
+//    assert(collected.length == data.count().toInt, "Should return the same number of rows")
+//    collected
+//      .foreach(annotations => {
+//        assert(annotations.head.result.isEmpty, "Completions should be empty")
+//        assert(
+//          annotations.head.metadata.contains("llamacpp_exception"),
+//          "llamacpp_exception should be present")
+//      })
+//  }
 }
