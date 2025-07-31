@@ -182,7 +182,8 @@ class AutoGGUFEmbeddings(override val uid: String)
     poolingType -> "MEAN",
     nCtx -> 4096,
     nBatch -> 512,
-    nGpuLayers -> 99)
+    nGpuLayers -> 99,
+    batchSize -> 2)
 
   /** Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.
     *

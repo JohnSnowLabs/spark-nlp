@@ -151,7 +151,8 @@ class AutoGGUFModel(override val uid: String)
     nBatch -> 512,
     nPredict -> 100,
     nGpuLayers -> 99,
-    systemPrompt -> "You are a helpful assistant.")
+    systemPrompt -> "You are a helpful assistant.",
+    batchSize -> 2)
 
   /** Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.
     *

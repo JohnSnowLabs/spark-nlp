@@ -200,7 +200,8 @@ class AutoGGUFVisionModel(override val uid: String)
     nBatch -> 512,
     nPredict -> 100,
     nGpuLayers -> 99,
-    systemPrompt -> "You are a helpful assistant.")
+    systemPrompt -> "You are a helpful assistant.",
+    batchSize -> 2)
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
@@ -254,7 +255,9 @@ class AutoGGUFVisionModel(override val uid: String)
 
       val result: Seq[Seq[Annotation]] =
         batchedAnnotations.zip(textAndMeta).map {
-          case ((textAnnotation: Annotation, imageAnnotation: AnnotationImage), (text: String, metadata: Map[String, String])) =>
+          case (
+                (textAnnotation: Annotation, imageAnnotation: AnnotationImage),
+                (text: String, metadata: Map[String, String])) =>
             val totalMetadata =
               textAnnotation.metadata ++ imageAnnotation.metadata ++ metadata
             Seq(new Annotation(outputAnnotatorType, 0, text.length - 1, text, totalMetadata))
