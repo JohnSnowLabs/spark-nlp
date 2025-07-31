@@ -43,3 +43,22 @@ class Reader2TableTest(unittest.TestCase):
         result_df.show(truncate=False)
 
         self.assertTrue(result_df.select("document").count() > 0)
+
+@pytest.mark.fast
+class Reader2TableMixedFilesTest(unittest.TestCase):
+    def setUp(self):
+        spark = SparkContextForTest.spark
+        self.empty_df = spark.createDataFrame([], "string").toDF("text")
+
+    def runTest(self):
+        reader2table = Reader2Table() \
+            .setContentPath("/home/danilo/tmp/mix-files") \
+            .setOutputCol("document")
+
+        pipeline = Pipeline(stages=[reader2table])
+        model = pipeline.fit(self.empty_df)
+
+        result_df = model.transform(self.empty_df)
+        result_df.show(truncate=False)
+
+        self.assertTrue(result_df.select("document").count() > 1)

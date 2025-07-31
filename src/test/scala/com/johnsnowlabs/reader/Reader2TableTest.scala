@@ -94,14 +94,13 @@ class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
 
-    resultDf.show(truncate = false)
     val emptyCount = resultDf.filter(size(col("document")) === 0).count()
     assert(
       emptyCount == 1,
       s"Expected empty 'document' arrays, but found $emptyCount non-empty rows")
   }
 
-  it should "work with tokenizer" in {
+  it should "work with tokenizer" taggedAs FastTest in {
     val reader2Table = new Reader2Table()
       .setContentType("text/html")
       .setContentPath(s"$htmlFilesDirectory/example-mix-tags.html")
@@ -364,6 +363,18 @@ class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
         tableRegex.findFirstIn(htmlStringOutput).isDefined,
         s"Table HTML content does not contain a valid <table> tag: $htmlStringOutput")
     }
+  }
+
+  it should "load all files from a directory" taggedAs FastTest in {
+    val reader2Table = new Reader2Table()
+      .setContentPath("src/test/resources/reader")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Table))
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    assert(resultDf.count() > 1)
   }
 
 }
