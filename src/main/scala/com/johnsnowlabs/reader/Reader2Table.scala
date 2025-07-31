@@ -64,16 +64,16 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
   }
 
   override def partitionToAnnotation(flatten: Boolean): UserDefinedFunction = udf {
-    (partitions: Seq[Row]) =>
+    (partitions: Seq[Row], fileName: String) =>
       if (partitions == null) Nil
       else {
         val outputFormatValue = $(outputFormat)
         val asDocument = $(outputAsDocument)
-        val acceptedTypes = getAcceptedTypes
-        val elements = partitions.flatMap { part =>
-          val elementType = part.getAs[String]("elementType")
+        val acceptedTypes = getAcceptedTypes(fileName)
+        val elements = partitions.flatMap { partition =>
+          val elementType = partition.getAs[String]("elementType")
           if (acceptedTypes.contains(elementType))
-            Some((elementType, part.getAs[String]("content")))
+            Some((elementType, partition.getAs[String]("content")))
           else None
         }
         if (asDocument)
@@ -83,20 +83,31 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
       }
   }
 
-  private def getAcceptedTypes: Set[String] = {
-    val officeDocTypes = Set(
-      "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      "application/vnd.ms-excel",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      "application/vnd.ms-powerpoint",
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation")
+  private def getAcceptedTypes(fileName: String): Set[String] = {
+    if (fileName.isEmpty) {
+      val officeDocTypes = Set(
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/vnd.ms-excel",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/vnd.ms-powerpoint",
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation")
 
-    if (officeDocTypes.contains($(contentType))) {
-      Set(ElementType.HTML, ElementType.JSON)
+      if (officeDocTypes.contains($(contentType))) {
+        Set(ElementType.HTML, ElementType.JSON)
+      } else {
+        Set(ElementType.TABLE)
+      }
     } else {
-      Set(ElementType.TABLE)
+      val officeFiles = Set("doc", "docx", "xls", "xlsx", "ppt", "pptx")
+      val extension = fileName.split("\\.").last.toLowerCase
+      if (officeFiles.contains(extension)) {
+        Set(ElementType.HTML, ElementType.JSON)
+      } else {
+        Set(ElementType.TABLE)
+      }
     }
+
   }
 
   private def mergeElementsAsDocument(
@@ -163,9 +174,6 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
     require(
       $(contentPath) != null && $(contentPath).trim.nonEmpty,
       "contentPath must be set and not empty")
-    require(
-      $(contentType) != null && $(contentType).trim.nonEmpty,
-      "contentType must be set and not empty")
     require(
       Set("html-table", "json-table").contains($(outputFormat)),
       "outputFormat must be either 'html-table' or 'json-table'.")
