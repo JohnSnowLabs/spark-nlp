@@ -22,24 +22,16 @@ import com.johnsnowlabs.partition.util.PartitionHelper.{
   datasetWithTextFile,
   isStringContent
 }
-import com.johnsnowlabs.partition.{
-  HasEmailReaderProperties,
-  HasExcelReaderProperties,
-  HasHTMLReaderProperties,
-  HasPowerPointProperties,
-  HasReaderProperties,
-  HasTextReaderProperties,
-  HasXmlReaderProperties,
-  Partition
-}
+import com.johnsnowlabs.partition._
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.{array, col, explode, udf}
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{Column, DataFrame, Dataset, Row}
+import org.apache.spark.sql._
 
+import java.io.File
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
 /** The Reader2Doc annotator allows you to use the reading files more smoothly within existing
@@ -137,15 +129,106 @@ class Reader2Doc(override val uid: String)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
-    val partitionDf = partitionContent(partitionBuilder, dataset)
-    val annotatedDf = partitionDf
+    val finalDf = if ($(contentType).trim.isEmpty) {
+      partitionMixedContent(dataset.sparkSession, $(contentPath))
+    } else {
+      partitionContent(partitionBuilder, dataset)
+    }
+    val annotatedDf = finalDf
       .withColumn(
         getOutputCol,
-        wrapColumnMetadata(partitionToAnnotation($(flattenOutput))(col("partition"))))
+        wrapColumnMetadata(
+          partitionToAnnotation($(flattenOutput))(col("partition"), col("fileName"))))
       .select("fileName", getOutputCol)
 
     afterAnnotate(annotatedDf)
   }
+
+  private def partitionMixedContent(spark: SparkSession, dirPath: String): DataFrame = {
+    val allFiles = listAllFilesRecursively(new File(dirPath))
+    val grouped = allFiles
+      .filter(_.isFile)
+      .groupBy { file =>
+        val ext = file.getName.split("\\.").lastOption.getOrElse("").toLowerCase
+        supportedTypes.get(ext).map(_ => ext)
+      }
+      .collect { case (Some(ext), files) => ext -> files }
+
+    val mixedDfs = grouped.flatMap { case (ext, files) =>
+      val (ctype, isText) = supportedTypes(ext)
+      val partitionParams = Map(
+        "contentType" -> ctype,
+        "inferTableStructure" -> $(inferTableStructure).toString,
+        "outputFormat" -> $(outputFormat))
+      val partition = new Partition(partitionParams.asJava)
+      val filePaths = files.map(_.getAbsolutePath)
+      if (filePaths.nonEmpty) {
+        if (isText) {
+          val textDfList = files.map { file =>
+            val resultDf = if (ext == "csv") {
+              partition.setOutputColumn("csv")
+              partition
+                .partition(file.getAbsolutePath)
+            } else {
+              val textDf = datasetWithTextFile(spark, file.getAbsolutePath)
+              val partitionUDF =
+                udf((text: String) =>
+                  partition.partitionStringContent(text, Map.empty[String, String].asJava))
+              textDf
+                .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
+            }
+            resultDf
+              .withColumnRenamed(partition.getOutputColumn, "partition")
+              .withColumn("fileName", lit(file.getName))
+              .drop("content")
+          }
+          Some(textDfList.reduce(_.unionByName(_)))
+        } else {
+          val binaryDfList = files.map { file =>
+            val binDf = datasetWithBinaryFile(spark, file.getAbsolutePath)
+            val partitionUDF =
+              udf((bytes: Array[Byte]) => partition.partitionBytesContent(bytes))
+
+            val outCol = partition.getOutputColumn
+            binDf
+              .withColumn(outCol, partitionUDF(col("content")))
+              .withColumnRenamed(outCol, "partition")
+              .withColumn("fileName", lit(file.getName))
+              .drop("content")
+          }
+          Some(binaryDfList.reduce(_.unionByName(_)))
+        }
+      } else None
+    }.toSeq
+
+    if (mixedDfs.isEmpty)
+      throw new IllegalArgumentException("No supported files found in directory (or subdirs)")
+    else {
+      mixedDfs.reduce(_.unionByName(_))
+    }
+  }
+
+  private def listAllFilesRecursively(dir: File): Seq[File] = {
+    val these = Option(dir.listFiles).getOrElse(Array.empty)
+    these.filter(_.isFile) ++ these.filter(_.isDirectory).flatMap(listAllFilesRecursively)
+  }
+
+  private val supportedTypes: Map[String, (String, Boolean)] = Map(
+    "txt" -> ("text/plain", true),
+    "html" -> ("text/html", true),
+    "htm" -> ("text/html", true),
+    "md" -> ("text/markdown", true),
+    "xml" -> ("application/xml", true),
+    "csv" -> ("text/csv", true),
+    "pdf" -> ("application/pdf", false),
+    "doc" -> ("application/msword", false),
+    "docx" -> ("application/vnd.openxmlformats-officedocument.wordprocessingml.document", false),
+    "xls" -> ("application/vnd.ms-excel", false),
+    "xlsx" -> ("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", false),
+    "ppt" -> ("application/vnd.ms-powerpoint", false),
+    "pptx" -> ("application/vnd.openxmlformats-officedocument.presentationml.presentation", false),
+    "eml" -> ("message/rfc822", false),
+    "msg" -> ("message/rfc822", false))
 
   protected def partitionBuilder: Partition = {
     val params = Map(
@@ -216,9 +299,6 @@ class Reader2Doc(override val uid: String)
       $(contentPath) != null && $(contentPath).trim.nonEmpty,
       "contentPath must be set and not empty")
     require(
-      $(contentType) != null && $(contentType).trim.nonEmpty,
-      "contentType must be set and not empty")
-    require(
       $(outputFormat) == "plain-text",
       "Only 'plain-text' outputFormat is supported for this operation.")
   }
@@ -228,43 +308,53 @@ class Reader2Doc(override val uid: String)
   }
 
   protected def partitionToAnnotation(flatten: Boolean): UserDefinedFunction = udf {
-    (partitions: Seq[Row]) =>
+    (partitions: Seq[Row], fileName: String) =>
       if (partitions == null) Nil
       else if ($(outputAsDocument)) {
-        val allText =
-          partitions.flatMap(part => Option(part.getAs[String]("content"))).mkString(" ")
-        val begin = 0
-        val end = if (allText.isEmpty) 0 else allText.length - 1
-        val meta = Map("sentence" -> "0")
-        Seq(
-          Annotation(
-            annotatorType = outputAnnotatorType,
-            begin = begin,
-            end = end,
-            result = allText,
-            metadata = meta,
-            embeddings = Array.emptyFloatArray))
+        mergeElementsAsDocument(partitions)
       } else {
-        var currentOffset = 0
-        partitions.map { part =>
-          val elementType = part.getAs[String]("elementType")
-          val content = part.getAs[String]("content")
-          val metadata = part.getAs[Map[String, String]]("metadata")
-          val begin = currentOffset
-          val end = currentOffset + (if (content != null) content.length else 0) - 1
-          currentOffset = end + 1
-          val baseMeta = if (metadata != null) metadata else Map.empty[String, String]
-          val withExtras = baseMeta + ("elementType" -> elementType)
-          val finalMeta = if (flatten) withExtras.filterKeys(_ == "sentence") else withExtras
-          Annotation(
-            annotatorType = outputAnnotatorType,
-            begin = begin,
-            end = end,
-            result = content,
-            metadata = finalMeta,
-            embeddings = Array.emptyFloatArray)
-        }
+        elementsAsIndividualAnnotations(partitions, flatten)
       }
+  }
+
+  private def mergeElementsAsDocument(partitions: Seq[Row]): Seq[Annotation] = {
+    val allText =
+      partitions.flatMap(part => Option(part.getAs[String]("content"))).mkString(" ")
+    val begin = 0
+    val end = if (allText.isEmpty) 0 else allText.length - 1
+    val meta = Map("sentence" -> "0")
+    Seq(
+      Annotation(
+        annotatorType = outputAnnotatorType,
+        begin = begin,
+        end = end,
+        result = allText,
+        metadata = meta,
+        embeddings = Array.emptyFloatArray))
+  }
+
+  private def elementsAsIndividualAnnotations(
+      partitions: Seq[Row],
+      flatten: Boolean): Seq[Annotation] = {
+    var currentOffset = 0
+    partitions.map { part =>
+      val elementType = part.getAs[String]("elementType")
+      val content = part.getAs[String]("content")
+      val metadata = part.getAs[Map[String, String]]("metadata")
+      val begin = currentOffset
+      val end = currentOffset + (if (content != null) content.length else 0) - 1
+      currentOffset = end + 1
+      val baseMeta = if (metadata != null) metadata else Map.empty[String, String]
+      val withExtras = baseMeta + ("elementType" -> elementType)
+      val finalMeta = if (flatten) withExtras.filterKeys(_ == "sentence") else withExtras
+      Annotation(
+        annotatorType = outputAnnotatorType,
+        begin = begin,
+        end = end,
+        result = content,
+        metadata = finalMeta,
+        embeddings = Array.emptyFloatArray)
+    }
   }
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
