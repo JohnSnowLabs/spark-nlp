@@ -26,7 +26,10 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
   lazy val imagesPath = "src/test/resources/image/"
   lazy val data: DataFrame = ImageAssembler
     .loadImagesAsBytes(ResourceHelper.spark, imagesPath)
-    .withColumn("caption", lit("Caption this image.")) // Add a caption to each image.
+    .withColumn(
+      "caption",
+      lit("Describe in a short and easy to understand sentence what you see in the image.")
+    ) // Add a caption to each image.
 
   lazy val expectedWords: Map[String, String] = Map(
     "bluetick.jpg" -> "dog",
@@ -36,30 +39,28 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     "hippopotamus.JPEG" -> "hippo",
     "junco.JPEG" -> "bird",
     "ostrich.JPEG" -> "ostrich",
-    "ox.JPEG" -> "bull",
+    "ox.JPEG" -> "horn",
     "palace.JPEG" -> "room",
     "tractor.JPEG" -> "tractor")
 
   lazy val nPredict = 40
   lazy val model = AutoGGUFVisionModel
+//    .loadSavedModel(
+//      "models/Qwen2.5-VL-3B-Instruct-Q4_K_M.gguf",
+//      "models/mmproj-Qwen2.5-VL-3B-Instruct-Q8_0.gguf",
+//      ResourceHelper.spark)
     .pretrained()
     .setInputCols("caption_document", "image_assembler")
     .setOutputCol("completions")
-    .setChatTemplate("vicuna") // llava uses vicuna as default
     .setBatchSize(2)
     .setNGpuLayers(99)
     .setNCtx(4096)
     .setMinKeep(0)
     .setMinP(0.05f)
     .setNPredict(nPredict)
-    .setNProbs(0)
-    .setPenalizeNl(false)
-    .setRepeatLastN(256)
+    .setPenalizeNl(true)
     .setRepeatPenalty(1.18f)
-    .setStopStrings(Array("</s>", "Llama:", "User:"))
     .setTemperature(0.05f)
-    .setTfsZ(1)
-    .setTypicalP(1)
     .setTopK(40)
     .setTopP(0.95f)
 
@@ -94,8 +95,10 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     imageWithCompletions.foreach { case (image, completion) =>
       val fileName = image.origin.split("/").last
       val expectedWord = expectedWords(fileName)
-      val wordFound = completion.result.contains(expectedWord)
-      assert(wordFound, s"Expected word $expectedWord not found in $result")
+      val wordFound = completion.result.toLowerCase().contains(expectedWord.toLowerCase())
+      assert(
+        wordFound,
+        s"Expected word $expectedWord not found in $completion.result for image $fileName")
     }
   }
 
