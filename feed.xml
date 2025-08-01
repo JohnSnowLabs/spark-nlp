@@ -1,550 +1,474 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-07-23T15:54:13+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">NuExtract 2.0 2B by NuMind</title><link href="/2025/07/18/nuextract_2.0_2B_en.html" rel="alternate" type="text/html" title="NuExtract 2.0 2B by NuMind" /><published>2025-07-18T00:00:00+00:00</published><updated>2025-07-18T00:00:00+00:00</updated><id>/2025/07/18/nuextract_2.0_2B_en</id><content type="html" xml:base="/2025/07/18/nuextract_2.0_2B_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-08-01T09:36:50+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">NuExtract 2.0 2B by NuMind</title><link href="/2025/07/18/nuextract_2.0_2B_en.html" rel="alternate" type="text/html" title="NuExtract 2.0 2B by NuMind" /><published>2025-07-18T00:00:00+00:00</published><updated>2025-07-18T00:00:00+00:00</updated><id>/2025/07/18/nuextract_2.0_2B_en</id><content type="html" xml:base="/2025/07/18/nuextract_2.0_2B_en.html">## Description
 
-&lt;p&gt;NuExtract 2.0 is a family of models trained specifically for structured information extraction tasks. It supports both multimodal inputs and is multilingual.&lt;/p&gt;
+NuExtract 2.0 is a family of models trained specifically for structured information extraction tasks. It supports both multimodal inputs and is multilingual.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/nuextract_2.0_2B_en_6.0.0_3.0_1752879851166.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/nuextract_2.0_2B_en_6.0.0_3.0_1752879851166.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/nuextract_2.0_2B_en_6.0.0_3.0_1752879851166.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/nuextract_2.0_2B_en_6.0.0_3.0_1752879851166.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;os&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pathlib&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Path&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.sql.functions&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lit&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LightPipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;url1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;https://github.com/openvinotoolkit/openvino_notebooks/assets/29454499/d5fbbd1a-d484-415c-88cb-9986625b7b11&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;url2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;http://images.cocodataset.org/val2017/000000039769.jpg&quot;&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;Path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;images&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mkdir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exist_ok&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+import os
+from pathlib import Path
+from pyspark.sql.functions import lit
+from sparknlp.annotator import *
+from sparknlp.base import *
+from pyspark.ml import Pipeline
+from sparknlp.base import LightPipeline
 
-&lt;span class=&quot;err&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;wget&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;q&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;O&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jpg&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;err&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;wget&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;q&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;O&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;images&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jpg&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+url1 = &quot;https://github.com/openvinotoolkit/openvino_notebooks/assets/29454499/d5fbbd1a-d484-415c-88cb-9986625b7b11&quot;
+url2 = &quot;http://images.cocodataset.org/val2017/000000039769.jpg&quot;
 
-&lt;span class=&quot;n&quot;&gt;images_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;file://&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getcwd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/images/&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;image_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;images_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+Path(&quot;images&quot;).mkdir(exist_ok=True)
 
-&lt;span class=&quot;n&quot;&gt;prompt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;|im_start|&amp;gt;system
-You are a helpful assistant.&amp;lt;|im_end|&amp;gt;
-&quot;&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;|im_start|&amp;gt;user
-&amp;lt;|vision_start|&amp;gt;&amp;lt;|image_pad|&amp;gt;&amp;lt;|vision_end|&amp;gt;&quot;&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;Describe this image.&amp;lt;|im_end|&amp;gt;
-&amp;lt;|im_start|&amp;gt;assistant
-&quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;test_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image_df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prompt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+!wget -q -O images/image1.jpg {url1}
+!wget -q -O images/image2.jpg {url2}
 
-&lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+images_path = &quot;file://&quot; + os.getcwd() + &quot;/images/&quot;
+image_df = spark.read.format(&quot;image&quot;).load(path=images_path)
 
-&lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Qwen2VLTransformer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;nuextract_2.0_2B&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;answer&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+prompt = (
+    &quot;&lt;|im_start|&gt;system
+You are a helpful assistant.&lt;|im_end|&gt;
+&quot;
+    &quot;&lt;|im_start|&gt;user
+&lt;|vision_start|&gt;&lt;|image_pad|&gt;&lt;|vision_end|&gt;&quot;
+    &quot;Describe this image.&lt;|im_end|&gt;
+&lt;|im_start|&gt;assistant
+&quot;
+)
+test_df = image_df.withColumn(&quot;text&quot;, lit(prompt))
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+image_assembler = ImageAssembler() \
+    .setInputCol(&quot;image&quot;) \
+    .setOutputCol(&quot;image_assembler&quot;)
 
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;test_df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+imageClassifier = Qwen2VLTransformer.pretrained(&quot;nuextract_2.0_2B&quot;, &quot;en&quot;) \
+    .setMaxOutputLength(50) \
+    .setInputCols(&quot;image_assembler&quot;) \
+    .setOutputCol(&quot;answer&quot;)
 
-&lt;span class=&quot;n&quot;&gt;image_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getcwd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;images&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;image1.jpg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline(stages=[
+    image_assembler, 
+    imageClassifier
+])
 
-&lt;span class=&quot;n&quot;&gt;prompt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;|im_start|&amp;gt;system
-You are a helpful assistant.&amp;lt;|im_end|&amp;gt;
-&quot;&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;|im_start|&amp;gt;user
-&amp;lt;|vision_start|&amp;gt;&amp;lt;|image_pad|&amp;gt;&amp;lt;|vision_end|&amp;gt;&quot;&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;Describe this image.&amp;lt;|im_end|&amp;gt;
-&amp;lt;|im_start|&amp;gt;assistant
-&quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+model = pipeline.fit(test_df)
 
-&lt;span class=&quot;n&quot;&gt;light_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;LightPipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;annotations_result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;light_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fullAnnotateImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;image_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prompt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+image_path = os.path.join(os.getcwd(), &quot;images&quot;, &quot;image1.jpg&quot;)
 
-&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;annotations_result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;answer&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+prompt = (
+    &quot;&lt;|im_start|&gt;system
+You are a helpful assistant.&lt;|im_end|&gt;
+&quot;
+    &quot;&lt;|im_start|&gt;user
+&lt;|vision_start|&gt;&lt;|image_pad|&gt;&lt;|vision_end|&gt;&quot;
+    &quot;Describe this image.&lt;|im_end|&gt;
+&lt;|im_start|&gt;assistant
+&quot;
+)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.nio.file.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Files&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Paths&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.ml.Pipeline&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.sql.functions.lit&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.base._&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.annotator._&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.annotators.vision._&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;scala.sys.process._&lt;/span&gt;
+light_pipeline = LightPipeline(model)
+annotations_result = light_pipeline.fullAnnotateImage(image_path, prompt)
 
-&lt;span class=&quot;nv&quot;&gt;Files&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;createDirectories&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;Paths&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;images&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+for result in annotations_result:
+    print(result[&quot;answer&quot;])
 
-&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;wget -q -O images/image1.jpg https://github.com/openvinotoolkit/openvino_notebooks/assets/29454499/d5fbbd1a-d484-415c-88cb-9986625b7b11&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.!&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;wget -q -O images/image2.jpg http://images.cocodataset.org/val2017/000000039769.jpg&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.!&lt;/span&gt;
+```
+```scala
+import java.nio.file.{Files, Paths}
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions.lit
+import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.annotator._
+import com.johnsnowlabs.nlp.annotators.vision._
+import scala.sys.process._
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imagesPath&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;file://&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;getProperty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;user.dir&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/images/&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageDf&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imagesPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+Files.createDirectories(Paths.get(&quot;images&quot;))
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;prompt&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt;
-  &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;|im_start|&amp;gt;system
-You are a helpful assistant.&amp;lt;|im_end|&amp;gt;
-&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
-  &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;|im_start|&amp;gt;user
-&amp;lt;|vision_start|&amp;gt;&amp;lt;|image_pad|&amp;gt;&amp;lt;|vision_end|&amp;gt;Describe this image.&amp;lt;|im_end|&amp;gt;
-&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;
-  &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;|im_start|&amp;gt;assistant
-&quot;&lt;/span&gt;
+s&quot;wget -q -O images/image1.jpg https://github.com/openvinotoolkit/openvino_notebooks/assets/29454499/d5fbbd1a-d484-415c-88cb-9986625b7b11&quot;.!
+s&quot;wget -q -O images/image2.jpg http://images.cocodataset.org/val2017/000000039769.jpg&quot;.!
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;testDf&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;lit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prompt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+val imagesPath = &quot;file://&quot; + System.getProperty(&quot;user.dir&quot;) + &quot;/images/&quot;
+val imageDf = spark.read.format(&quot;image&quot;).load(imagesPath)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val prompt =
+  &quot;&lt;|im_start|&gt;system
+You are a helpful assistant.&lt;|im_end|&gt;
+&quot; +
+  &quot;&lt;|im_start|&gt;user
+&lt;|vision_start|&gt;&lt;|image_pad|&gt;&lt;|vision_end|&gt;Describe this image.&lt;|im_end|&gt;
+&quot; +
+  &quot;&lt;|im_start|&gt;assistant
+&quot;
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imageClassifier&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;Qwen2VLTransformer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;nuextract_2.0_2B&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;answer&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setMaxOutputLength&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;50&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val testDf = imageDf.withColumn(&quot;text&quot;, lit(prompt))
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imageAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;imageClassifier&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;testDf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val imageAssembler = new ImageAssembler()
+  .setInputCol(&quot;image&quot;)
+  .setOutputCol(&quot;image_assembler&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;lightPipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LightPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;imagePath&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;Paths&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;images/image1.jpg&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toAbsolutePath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toString&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;lightPipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fullAnnotateImage&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;imagePath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;prompt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val imageClassifier = Qwen2VLTransformer.pretrained(&quot;nuextract_2.0_2B&quot;, &quot;en&quot;)
+  .setInputCols(&quot;image_assembler&quot;)
+  .setOutputCol(&quot;answer&quot;)
+  .setMaxOutputLength(50)
 
-&lt;span class=&quot;nv&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;foreach&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;answer&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)))&lt;/span&gt;
+val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+val model = pipeline.fit(testDf)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val lightPipeline = new LightPipeline(model)
+val imagePath = Paths.get(&quot;images/image1.jpg&quot;).toAbsolutePath.toString
+val results = lightPipeline.fullAnnotateImage(imagePath, prompt)
+
+results.foreach(r =&gt; println(r(&quot;answer&quot;)))
+
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;The image shows a &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;lying inside a cardboard box. The &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;has a relaxed posture, with its paws tucked under its body and its &lt;span class=&quot;nb&quot;&gt;head &lt;/span&gt;resting on its front paws. The box is positioned on a light-colored carpet, and the background includes...
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```bash
+The image shows a cat lying inside a cardboard box. The cat has a relaxed posture, with its paws tucked under its body and its head resting on its front paws. The box is positioned on a light-colored carpet, and the background includes...
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;nuextract_2.0_2B&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 6.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[image_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[answer]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.5 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="llm" /><category term="qwen2_vl" /><category term="image_to_text" /><category term="conversational" /><category term="openvino" /><summary type="html">Description NuExtract 2.0 is a family of models trained specifically for structured information extraction tasks. It supports both multimodal inputs and is multilingual. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU import os from pathlib import Path from pyspark.sql.functions import lit from sparknlp.annotator import * from sparknlp.base import * from pyspark.ml import Pipeline from sparknlp.base import LightPipeline url1 = &quot;https://github.com/openvinotoolkit/openvino_notebooks/assets/29454499/d5fbbd1a-d484-415c-88cb-9986625b7b11&quot; url2 = &quot;http://images.cocodataset.org/val2017/000000039769.jpg&quot; Path(&quot;images&quot;).mkdir(exist_ok=True) !wget -q -O images/image1.jpg {url1} !wget -q -O images/image2.jpg {url2} images_path = &quot;file://&quot; + os.getcwd() + &quot;/images/&quot; image_df = spark.read.format(&quot;image&quot;).load(path=images_path) prompt = ( &quot;&amp;lt;|im_start|&amp;gt;system You are a helpful assistant.&amp;lt;|im_end|&amp;gt; &quot; &quot;&amp;lt;|im_start|&amp;gt;user &amp;lt;|vision_start|&amp;gt;&amp;lt;|image_pad|&amp;gt;&amp;lt;|vision_end|&amp;gt;&quot; &quot;Describe this image.&amp;lt;|im_end|&amp;gt; &amp;lt;|im_start|&amp;gt;assistant &quot; ) test_df = image_df.withColumn(&quot;text&quot;, lit(prompt)) image_assembler = ImageAssembler() \ .setInputCol(&quot;image&quot;) \ .setOutputCol(&quot;image_assembler&quot;) imageClassifier = Qwen2VLTransformer.pretrained(&quot;nuextract_2.0_2B&quot;, &quot;en&quot;) \ .setMaxOutputLength(50) \ .setInputCols(&quot;image_assembler&quot;) \ .setOutputCol(&quot;answer&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier ]) model = pipeline.fit(test_df) image_path = os.path.join(os.getcwd(), &quot;images&quot;, &quot;image1.jpg&quot;) prompt = ( &quot;&amp;lt;|im_start|&amp;gt;system You are a helpful assistant.&amp;lt;|im_end|&amp;gt; &quot; &quot;&amp;lt;|im_start|&amp;gt;user &amp;lt;|vision_start|&amp;gt;&amp;lt;|image_pad|&amp;gt;&amp;lt;|vision_end|&amp;gt;&quot; &quot;Describe this image.&amp;lt;|im_end|&amp;gt; &amp;lt;|im_start|&amp;gt;assistant &quot; ) light_pipeline = LightPipeline(model) annotations_result = light_pipeline.fullAnnotateImage(image_path, prompt) for result in annotations_result: print(result[&quot;answer&quot;]) import java.nio.file.{Files, Paths} import org.apache.spark.ml.Pipeline import org.apache.spark.sql.functions.lit import com.johnsnowlabs.nlp.base._ import com.johnsnowlabs.nlp.annotator._ import com.johnsnowlabs.nlp.annotators.vision._ import scala.sys.process._ Files.createDirectories(Paths.get(&quot;images&quot;)) s&quot;wget -q -O images/image1.jpg https://github.com/openvinotoolkit/openvino_notebooks/assets/29454499/d5fbbd1a-d484-415c-88cb-9986625b7b11&quot;.! s&quot;wget -q -O images/image2.jpg http://images.cocodataset.org/val2017/000000039769.jpg&quot;.! val imagesPath = &quot;file://&quot; + System.getProperty(&quot;user.dir&quot;) + &quot;/images/&quot; val imageDf = spark.read.format(&quot;image&quot;).load(imagesPath) val prompt = &quot;&amp;lt;|im_start|&amp;gt;system You are a helpful assistant.&amp;lt;|im_end|&amp;gt; &quot; + &quot;&amp;lt;|im_start|&amp;gt;user &amp;lt;|vision_start|&amp;gt;&amp;lt;|image_pad|&amp;gt;&amp;lt;|vision_end|&amp;gt;Describe this image.&amp;lt;|im_end|&amp;gt; &quot; + &quot;&amp;lt;|im_start|&amp;gt;assistant &quot; val testDf = imageDf.withColumn(&quot;text&quot;, lit(prompt)) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = Qwen2VLTransformer.pretrained(&quot;nuextract_2.0_2B&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;answer&quot;) .setMaxOutputLength(50) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val model = pipeline.fit(testDf) val lightPipeline = new LightPipeline(model) val imagePath = Paths.get(&quot;images/image1.jpg&quot;).toAbsolutePath.toString val results = lightPipeline.fullAnnotateImage(imagePath, prompt) results.foreach(r =&amp;gt; println(r(&quot;answer&quot;))) Results The image shows a cat lying inside a cardboard box. The cat has a relaxed posture, with its paws tucked under its body and its head resting on its front paws. The box is positioned on a light-colored carpet, and the background includes... Model Information Model Name: nuextract_2.0_2B Compatibility: Spark NLP 6.0.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [answer] Language: en Size: 1.5 GB</summary></entry><entry><title type="html">all-mpnet-base-v2 from sentence-transformers OpenVINO</title><link href="/2025/07/15/all_mpnet_base_v2_openvino_en.html" rel="alternate" type="text/html" title="all-mpnet-base-v2 from sentence-transformers OpenVINO" /><published>2025-07-15T00:00:00+00:00</published><updated>2025-07-15T00:00:00+00:00</updated><id>/2025/07/15/all_mpnet_base_v2_openvino_en</id><content type="html" xml:base="/2025/07/15/all_mpnet_base_v2_openvino_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|nuextract_2.0_2B|
+|Compatibility:|Spark NLP 6.0.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[image_assembler]|
+|Output Labels:|[answer]|
+|Language:|en|
+|Size:|1.5 GB|</content><author><name>John Snow Labs</name></author><category term="en" /><category term="open_source" /><category term="llm" /><category term="qwen2_vl" /><category term="image_to_text" /><category term="conversational" /><category term="openvino" /><summary type="html">Description NuExtract 2.0 is a family of models trained specifically for structured information extraction tasks. It supports both multimodal inputs and is multilingual. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU import os from pathlib import Path from pyspark.sql.functions import lit from sparknlp.annotator import * from sparknlp.base import * from pyspark.ml import Pipeline from sparknlp.base import LightPipeline url1 = &quot;https://github.com/openvinotoolkit/openvino_notebooks/assets/29454499/d5fbbd1a-d484-415c-88cb-9986625b7b11&quot; url2 = &quot;http://images.cocodataset.org/val2017/000000039769.jpg&quot; Path(&quot;images&quot;).mkdir(exist_ok=True) !wget -q -O images/image1.jpg {url1} !wget -q -O images/image2.jpg {url2} images_path = &quot;file://&quot; + os.getcwd() + &quot;/images/&quot; image_df = spark.read.format(&quot;image&quot;).load(path=images_path) prompt = ( &quot;&amp;lt;|im_start|&amp;gt;system You are a helpful assistant.&amp;lt;|im_end|&amp;gt; &quot; &quot;&amp;lt;|im_start|&amp;gt;user &amp;lt;|vision_start|&amp;gt;&amp;lt;|image_pad|&amp;gt;&amp;lt;|vision_end|&amp;gt;&quot; &quot;Describe this image.&amp;lt;|im_end|&amp;gt; &amp;lt;|im_start|&amp;gt;assistant &quot; ) test_df = image_df.withColumn(&quot;text&quot;, lit(prompt)) image_assembler = ImageAssembler() \ .setInputCol(&quot;image&quot;) \ .setOutputCol(&quot;image_assembler&quot;) imageClassifier = Qwen2VLTransformer.pretrained(&quot;nuextract_2.0_2B&quot;, &quot;en&quot;) \ .setMaxOutputLength(50) \ .setInputCols(&quot;image_assembler&quot;) \ .setOutputCol(&quot;answer&quot;) pipeline = Pipeline(stages=[ image_assembler, imageClassifier ]) model = pipeline.fit(test_df) image_path = os.path.join(os.getcwd(), &quot;images&quot;, &quot;image1.jpg&quot;) prompt = ( &quot;&amp;lt;|im_start|&amp;gt;system You are a helpful assistant.&amp;lt;|im_end|&amp;gt; &quot; &quot;&amp;lt;|im_start|&amp;gt;user &amp;lt;|vision_start|&amp;gt;&amp;lt;|image_pad|&amp;gt;&amp;lt;|vision_end|&amp;gt;&quot; &quot;Describe this image.&amp;lt;|im_end|&amp;gt; &amp;lt;|im_start|&amp;gt;assistant &quot; ) light_pipeline = LightPipeline(model) annotations_result = light_pipeline.fullAnnotateImage(image_path, prompt) for result in annotations_result: print(result[&quot;answer&quot;]) import java.nio.file.{Files, Paths} import org.apache.spark.ml.Pipeline import org.apache.spark.sql.functions.lit import com.johnsnowlabs.nlp.base._ import com.johnsnowlabs.nlp.annotator._ import com.johnsnowlabs.nlp.annotators.vision._ import scala.sys.process._ Files.createDirectories(Paths.get(&quot;images&quot;)) s&quot;wget -q -O images/image1.jpg https://github.com/openvinotoolkit/openvino_notebooks/assets/29454499/d5fbbd1a-d484-415c-88cb-9986625b7b11&quot;.! s&quot;wget -q -O images/image2.jpg http://images.cocodataset.org/val2017/000000039769.jpg&quot;.! val imagesPath = &quot;file://&quot; + System.getProperty(&quot;user.dir&quot;) + &quot;/images/&quot; val imageDf = spark.read.format(&quot;image&quot;).load(imagesPath) val prompt = &quot;&amp;lt;|im_start|&amp;gt;system You are a helpful assistant.&amp;lt;|im_end|&amp;gt; &quot; + &quot;&amp;lt;|im_start|&amp;gt;user &amp;lt;|vision_start|&amp;gt;&amp;lt;|image_pad|&amp;gt;&amp;lt;|vision_end|&amp;gt;Describe this image.&amp;lt;|im_end|&amp;gt; &quot; + &quot;&amp;lt;|im_start|&amp;gt;assistant &quot; val testDf = imageDf.withColumn(&quot;text&quot;, lit(prompt)) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imageClassifier = Qwen2VLTransformer.pretrained(&quot;nuextract_2.0_2B&quot;, &quot;en&quot;) .setInputCols(&quot;image_assembler&quot;) .setOutputCol(&quot;answer&quot;) .setMaxOutputLength(50) val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier)) val model = pipeline.fit(testDf) val lightPipeline = new LightPipeline(model) val imagePath = Paths.get(&quot;images/image1.jpg&quot;).toAbsolutePath.toString val results = lightPipeline.fullAnnotateImage(imagePath, prompt) results.foreach(r =&amp;gt; println(r(&quot;answer&quot;))) Results The image shows a cat lying inside a cardboard box. The cat has a relaxed posture, with its paws tucked under its body and its head resting on its front paws. The box is positioned on a light-colored carpet, and the background includes... Model Information Model Name: nuextract_2.0_2B Compatibility: Spark NLP 6.0.0+ License: Open Source Edition: Official Input Labels: [image_assembler] Output Labels: [answer] Language: en Size: 1.5 GB</summary></entry><entry><title type="html">all-mpnet-base-v2 from sentence-transformers OpenVINO</title><link href="/2025/07/15/all_mpnet_base_v2_openvino_en.html" rel="alternate" type="text/html" title="all-mpnet-base-v2 from sentence-transformers OpenVINO" /><published>2025-07-15T00:00:00+00:00</published><updated>2025-07-15T00:00:00+00:00</updated><id>/2025/07/15/all_mpnet_base_v2_openvino_en</id><content type="html" xml:base="/2025/07/15/all_mpnet_base_v2_openvino_en.html">## Description
 
-&lt;p&gt;This is a sentence-transformers model: It maps sentences &amp;amp; paragraphs to a 768-dimensional dense vector space and can be used for tasks like clustering or semantic search.&lt;/p&gt;
+This is a sentence-transformers model: It maps sentences &amp; paragraphs to a 768-dimensional dense vector space and can be used for tasks like clustering or semantic search.
 
-&lt;p&gt;This model is intended to be used as a sentence and short paragraph encoder. Given an input text, it outputs a vector that captures the semantic information. The sentence vector may be used for information retrieval, clustering, or sentence similarity tasks.&lt;/p&gt;
+This model is intended to be used as a sentence and short paragraph encoder. Given an input text, it outputs a vector that captures the semantic information. The sentence vector may be used for information retrieval, clustering, or sentence similarity tasks.
 
-&lt;p&gt;By default, input text longer than 384 word pieces is truncated.&lt;/p&gt;
+By default, input text longer than 384 word pieces is truncated.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/all_mpnet_base_v2_openvino_en_6.0.0_3.0_1752610809513.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/all_mpnet_base_v2_openvino_en_6.0.0_3.0_1752610809513.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/all_mpnet_base_v2_openvino_en_6.0.0_3.0_1752610809513.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/all_mpnet_base_v2_openvino_en_6.0.0_3.0_1752610809513.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MPNetEmbeddings&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;mpnet_loaded&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MPNetEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;all_mpnet_base_v2_openvino&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mpnet_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.base import DocumentAssembler
+from sparknlp.annotator import MPNetEmbeddings
+from pyspark.ml import Pipeline
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;mpnet_loaded&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+document_assembler = DocumentAssembler()\
+    .setInputCol(&quot;text&quot;)\
+    .setOutputCol(&quot;document&quot;)
 
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+mpnet_loaded = MPNetEmbeddings.load(&quot;all_mpnet_base_v2_openvino&quot;)\
+    .setInputCols([&quot;document&quot;])\
+    .setOutputCol(&quot;mpnet_embeddings&quot;)\
 
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline(
+    stages = [
+        document_assembler,
+        mpnet_loaded
+  ])
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectExpr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;explode(mpnet_embeddings.embeddings) as embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+data = spark.createDataFrame([
+    ['William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.']
+]).toDF(&quot;text&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.base.DocumentAssembler&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.ml.Pipeline&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.sql.functions.explode&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;spark.implicits._&lt;/span&gt;
+model = pipeline.fit(data)
+result = model.transform(data)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+result.selectExpr(&quot;explode(mpnet_embeddings.embeddings) as embeddings&quot;).show()
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;mpnetEmbeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;MPNetEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;all_mpnet_base_v2_openvino&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mpnet_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+```
+```scala
+import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions.explode
+import spark.implicits._
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;mpnetEmbeddings&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+val documentAssembler = new DocumentAssembler()
+  .setInputCol(&quot;text&quot;)
+  .setOutputCol(&quot;document&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;s&quot;&gt;&quot;William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.&quot;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val mpnetEmbeddings = MPNetEmbeddings.load(&quot;all_mpnet_base_v2_openvino&quot;)
+  .setInputCols(&quot;document&quot;)
+  .setOutputCol(&quot;mpnet_embeddings&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  mpnetEmbeddings
+))
 
-&lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;explode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mpnet_embeddings.embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val data = Seq(
+  &quot;William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.&quot;
+).toDF(&quot;text&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val model = pipeline.fit(data)
+val result = model.transform(data)
+
+result.select(explode($&quot;mpnet_embeddings.embeddings&quot;).alias(&quot;embeddings&quot;)).show(false)
+
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+```bash
+
 +--------------------+
 |          embeddings|
 +--------------------+
 |[-0.020282388, 0....|
 +--------------------+
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;all_mpnet_base_v2_openvino&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 6.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[mpnet_embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;406.5 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="openvino" /><category term="english" /><category term="embedding" /><category term="open_source" /><category term="mpnet" /><category term="en" /><summary type="html">Description This is a sentence-transformers model: It maps sentences &amp;amp; paragraphs to a 768-dimensional dense vector space and can be used for tasks like clustering or semantic search. This model is intended to be used as a sentence and short paragraph encoder. Given an input text, it outputs a vector that captures the semantic information. The sentence vector may be used for information retrieval, clustering, or sentence similarity tasks. By default, input text longer than 384 word pieces is truncated. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import DocumentAssembler from sparknlp.annotator import MPNetEmbeddings from pyspark.ml import Pipeline document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) mpnet_loaded = MPNetEmbeddings.load(&quot;all_mpnet_base_v2_openvino&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;mpnet_embeddings&quot;)\ pipeline = Pipeline( stages = [ document_assembler, mpnet_loaded ]) data = spark.createDataFrame([ ['William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.'] ]).toDF(&quot;text&quot;) model = pipeline.fit(data) result = model.transform(data) result.selectExpr(&quot;explode(mpnet_embeddings.embeddings) as embeddings&quot;).show() import com.johnsnowlabs.nlp.base.DocumentAssembler import com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings import org.apache.spark.ml.Pipeline import org.apache.spark.sql.functions.explode import spark.implicits._ val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val mpnetEmbeddings = MPNetEmbeddings.load(&quot;all_mpnet_base_v2_openvino&quot;) .setInputCols(&quot;document&quot;) .setOutputCol(&quot;mpnet_embeddings&quot;) val pipeline = new Pipeline().setStages(Array( documentAssembler, mpnetEmbeddings )) val data = Seq( &quot;William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.&quot; ).toDF(&quot;text&quot;) val model = pipeline.fit(data) val result = model.transform(data) result.select(explode($&quot;mpnet_embeddings.embeddings&quot;).alias(&quot;embeddings&quot;)).show(false) Results +--------------------+ | embeddings| +--------------------+ |[-0.020282388, 0....| +--------------------+ Model Information Model Name: all_mpnet_base_v2_openvino Compatibility: Spark NLP 6.0.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [mpnet_embeddings] Language: en Size: 406.5 MB</summary></entry><entry><title type="html">MedEmbed base: Specialized Embedding Model for Medical and Clinical Information Retrieval (OpenVINO)</title><link href="/2025/07/15/bge_medembed_base_v0_1_openvino_en.html" rel="alternate" type="text/html" title="MedEmbed base: Specialized Embedding Model for Medical and Clinical Information Retrieval (OpenVINO)" /><published>2025-07-15T00:00:00+00:00</published><updated>2025-07-15T00:00:00+00:00</updated><id>/2025/07/15/bge_medembed_base_v0_1_openvino_en</id><content type="html" xml:base="/2025/07/15/bge_medembed_base_v0_1_openvino_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|all_mpnet_base_v2_openvino|
+|Compatibility:|Spark NLP 6.0.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[document]|
+|Output Labels:|[mpnet_embeddings]|
+|Language:|en|
+|Size:|406.5 MB|</content><author><name>John Snow Labs</name></author><category term="openvino" /><category term="english" /><category term="embedding" /><category term="open_source" /><category term="mpnet" /><category term="en" /><summary type="html">Description This is a sentence-transformers model: It maps sentences &amp;amp; paragraphs to a 768-dimensional dense vector space and can be used for tasks like clustering or semantic search. This model is intended to be used as a sentence and short paragraph encoder. Given an input text, it outputs a vector that captures the semantic information. The sentence vector may be used for information retrieval, clustering, or sentence similarity tasks. By default, input text longer than 384 word pieces is truncated. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import DocumentAssembler from sparknlp.annotator import MPNetEmbeddings from pyspark.ml import Pipeline document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) mpnet_loaded = MPNetEmbeddings.load(&quot;all_mpnet_base_v2_openvino&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;mpnet_embeddings&quot;)\ pipeline = Pipeline( stages = [ document_assembler, mpnet_loaded ]) data = spark.createDataFrame([ ['William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.'] ]).toDF(&quot;text&quot;) model = pipeline.fit(data) result = model.transform(data) result.selectExpr(&quot;explode(mpnet_embeddings.embeddings) as embeddings&quot;).show() import com.johnsnowlabs.nlp.base.DocumentAssembler import com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings import org.apache.spark.ml.Pipeline import org.apache.spark.sql.functions.explode import spark.implicits._ val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val mpnetEmbeddings = MPNetEmbeddings.load(&quot;all_mpnet_base_v2_openvino&quot;) .setInputCols(&quot;document&quot;) .setOutputCol(&quot;mpnet_embeddings&quot;) val pipeline = new Pipeline().setStages(Array( documentAssembler, mpnetEmbeddings )) val data = Seq( &quot;William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.&quot; ).toDF(&quot;text&quot;) val model = pipeline.fit(data) val result = model.transform(data) result.select(explode($&quot;mpnet_embeddings.embeddings&quot;).alias(&quot;embeddings&quot;)).show(false) Results +--------------------+ | embeddings| +--------------------+ |[-0.020282388, 0....| +--------------------+ Model Information Model Name: all_mpnet_base_v2_openvino Compatibility: Spark NLP 6.0.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [mpnet_embeddings] Language: en Size: 406.5 MB</summary></entry><entry><title type="html">MedEmbed base: Specialized Embedding Model for Medical and Clinical Information Retrieval (OpenVINO)</title><link href="/2025/07/15/bge_medembed_base_v0_1_openvino_en.html" rel="alternate" type="text/html" title="MedEmbed base: Specialized Embedding Model for Medical and Clinical Information Retrieval (OpenVINO)" /><published>2025-07-15T00:00:00+00:00</published><updated>2025-07-15T00:00:00+00:00</updated><id>/2025/07/15/bge_medembed_base_v0_1_openvino_en</id><content type="html" xml:base="/2025/07/15/bge_medembed_base_v0_1_openvino_en.html">## Description
 
-&lt;p&gt;MedEmbed is a family of embedding models fine-tuned specifically for medical and clinical data, designed to enhance performance in healthcare-related natural language processing (NLP) tasks, particularly information retrieval.&lt;/p&gt;
+MedEmbed is a family of embedding models fine-tuned specifically for medical and clinical data, designed to enhance performance in healthcare-related natural language processing (NLP) tasks, particularly information retrieval.
 
-&lt;p&gt;GitHub Repo: https://github.com/abhinand5/MedEmbed
-Technical Blog Post: https://huggingface.co/blog/abhinand/medembed-finetuned-embedding-models-for-medical-ir&lt;/p&gt;
+GitHub Repo: https://github.com/abhinand5/MedEmbed
+Technical Blog Post: https://huggingface.co/blog/abhinand/medembed-finetuned-embedding-models-for-medical-ir
 
-&lt;p&gt;This model is intended for use in medical and clinical contexts to improve information retrieval, question answering, and semantic search tasks. It can be integrated into healthcare systems, research tools, and medical literature databases to enhance search capabilities and information access.&lt;/p&gt;
+This model is intended for use in medical and clinical contexts to improve information retrieval, question answering, and semantic search tasks. It can be integrated into healthcare systems, research tools, and medical literature databases to enhance search capabilities and information access.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_medembed_base_v0_1_openvino_en_6.0.0_3.0_1752605366919.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_medembed_base_v0_1_openvino_en_6.0.0_3.0_1752605366919.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_medembed_base_v0_1_openvino_en_6.0.0_3.0_1752605366919.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_medembed_base_v0_1_openvino_en_6.0.0_3.0_1752605366919.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BGEEmbeddings&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;bge_loaded&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_medembed_base_v0_1_openvino&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.base import DocumentAssembler
+from sparknlp.annotator import BGEEmbeddings
+from pyspark.ml import Pipeline
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;bge_loaded&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+document_assembler = DocumentAssembler()\
+    .setInputCol(&quot;text&quot;)\
+    .setOutputCol(&quot;document&quot;)
 
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+bge_loaded = BGEEmbeddings.load(&quot;bge_medembed_base_v0_1_openvino&quot;)\
+    .setInputCols([&quot;document&quot;])\
+    .setOutputCol(&quot;embeddings&quot;)\
 
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline(
+    stages = [
+        document_assembler,
+        bge_loaded
+  ])
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectExpr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;explode(embeddings.embeddings) as embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+data = spark.createDataFrame([
+    ['William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.']
+]).toDF(&quot;text&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.base.DocumentAssembler&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.embeddings.BGEEmbeddings&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.ml.Pipeline&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.sql.functions.explode&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;spark.implicits._&lt;/span&gt;
+model = pipeline.fit(data)
+result = model.transform(data)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+result.selectExpr(&quot;explode(embeddings.embeddings) as embeddings&quot;).show()
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bgeEmbeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_medembed_base_v0_1_openvino&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+```
+```scala
+import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.embeddings.BGEEmbeddings
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions.explode
+import spark.implicits._
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;bgeEmbeddings&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+val documentAssembler = new DocumentAssembler()
+  .setInputCol(&quot;text&quot;)
+  .setOutputCol(&quot;document&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;s&quot;&gt;&quot;William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.&quot;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val bgeEmbeddings = BGEEmbeddings.load(&quot;bge_medembed_base_v0_1_openvino&quot;)
+  .setInputCols(&quot;document&quot;)
+  .setOutputCol(&quot;bge&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  bgeEmbeddings
+))
 
-&lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;explode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge.embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val data = Seq(
+  &quot;William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.&quot;
+).toDF(&quot;text&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val model = pipeline.fit(data)
+val result = model.transform(data)
+
+result.select(explode($&quot;bge.embeddings&quot;).alias(&quot;embeddings&quot;)).show(false)
+
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+```bash
+
 +--------------------+
 |          embeddings|
 +--------------------+
 |[-0.055220805, 0....|
 +--------------------+
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_medembed_base_v0_1_openvino&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 6.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;389.7 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="openvino" /><category term="english" /><category term="medical_embedding" /><category term="clinical_embedding" /><category term="information_retrieval" /><category term="open_source" /><category term="bge" /><category term="en" /><summary type="html">Description MedEmbed is a family of embedding models fine-tuned specifically for medical and clinical data, designed to enhance performance in healthcare-related natural language processing (NLP) tasks, particularly information retrieval. GitHub Repo: https://github.com/abhinand5/MedEmbed Technical Blog Post: https://huggingface.co/blog/abhinand/medembed-finetuned-embedding-models-for-medical-ir This model is intended for use in medical and clinical contexts to improve information retrieval, question answering, and semantic search tasks. It can be integrated into healthcare systems, research tools, and medical literature databases to enhance search capabilities and information access. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import DocumentAssembler from sparknlp.annotator import BGEEmbeddings from pyspark.ml import Pipeline document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) bge_loaded = BGEEmbeddings.load(&quot;bge_medembed_base_v0_1_openvino&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;embeddings&quot;)\ pipeline = Pipeline( stages = [ document_assembler, bge_loaded ]) data = spark.createDataFrame([ ['William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.'] ]).toDF(&quot;text&quot;) model = pipeline.fit(data) result = model.transform(data) result.selectExpr(&quot;explode(embeddings.embeddings) as embeddings&quot;).show() import com.johnsnowlabs.nlp.base.DocumentAssembler import com.johnsnowlabs.nlp.embeddings.BGEEmbeddings import org.apache.spark.ml.Pipeline import org.apache.spark.sql.functions.explode import spark.implicits._ val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val bgeEmbeddings = BGEEmbeddings.load(&quot;bge_medembed_base_v0_1_openvino&quot;) .setInputCols(&quot;document&quot;) .setOutputCol(&quot;bge&quot;) val pipeline = new Pipeline().setStages(Array( documentAssembler, bgeEmbeddings )) val data = Seq( &quot;William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.&quot; ).toDF(&quot;text&quot;) val model = pipeline.fit(data) val result = model.transform(data) result.select(explode($&quot;bge.embeddings&quot;).alias(&quot;embeddings&quot;)).show(false) Results +--------------------+ | embeddings| +--------------------+ |[-0.055220805, 0....| +--------------------+ Model Information Model Name: bge_medembed_base_v0_1_openvino Compatibility: Spark NLP 6.0.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [embeddings] Language: en Size: 389.7 MB</summary></entry><entry><title type="html">MedEmbed large: Specialized Embedding Model for Medical and Clinical Information Retrieval (OpenVINO)</title><link href="/2025/07/15/bge_medembed_large_v0_1_openvino_en.html" rel="alternate" type="text/html" title="MedEmbed large: Specialized Embedding Model for Medical and Clinical Information Retrieval (OpenVINO)" /><published>2025-07-15T00:00:00+00:00</published><updated>2025-07-15T00:00:00+00:00</updated><id>/2025/07/15/bge_medembed_large_v0_1_openvino_en</id><content type="html" xml:base="/2025/07/15/bge_medembed_large_v0_1_openvino_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|bge_medembed_base_v0_1_openvino|
+|Compatibility:|Spark NLP 6.0.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[document]|
+|Output Labels:|[embeddings]|
+|Language:|en|
+|Size:|389.7 MB|</content><author><name>John Snow Labs</name></author><category term="openvino" /><category term="english" /><category term="medical_embedding" /><category term="clinical_embedding" /><category term="information_retrieval" /><category term="open_source" /><category term="bge" /><category term="en" /><summary type="html">Description MedEmbed is a family of embedding models fine-tuned specifically for medical and clinical data, designed to enhance performance in healthcare-related natural language processing (NLP) tasks, particularly information retrieval. GitHub Repo: https://github.com/abhinand5/MedEmbed Technical Blog Post: https://huggingface.co/blog/abhinand/medembed-finetuned-embedding-models-for-medical-ir This model is intended for use in medical and clinical contexts to improve information retrieval, question answering, and semantic search tasks. It can be integrated into healthcare systems, research tools, and medical literature databases to enhance search capabilities and information access. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import DocumentAssembler from sparknlp.annotator import BGEEmbeddings from pyspark.ml import Pipeline document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) bge_loaded = BGEEmbeddings.load(&quot;bge_medembed_base_v0_1_openvino&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;embeddings&quot;)\ pipeline = Pipeline( stages = [ document_assembler, bge_loaded ]) data = spark.createDataFrame([ ['William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.'] ]).toDF(&quot;text&quot;) model = pipeline.fit(data) result = model.transform(data) result.selectExpr(&quot;explode(embeddings.embeddings) as embeddings&quot;).show() import com.johnsnowlabs.nlp.base.DocumentAssembler import com.johnsnowlabs.nlp.embeddings.BGEEmbeddings import org.apache.spark.ml.Pipeline import org.apache.spark.sql.functions.explode import spark.implicits._ val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val bgeEmbeddings = BGEEmbeddings.load(&quot;bge_medembed_base_v0_1_openvino&quot;) .setInputCols(&quot;document&quot;) .setOutputCol(&quot;bge&quot;) val pipeline = new Pipeline().setStages(Array( documentAssembler, bgeEmbeddings )) val data = Seq( &quot;William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.&quot; ).toDF(&quot;text&quot;) val model = pipeline.fit(data) val result = model.transform(data) result.select(explode($&quot;bge.embeddings&quot;).alias(&quot;embeddings&quot;)).show(false) Results +--------------------+ | embeddings| +--------------------+ |[-0.055220805, 0....| +--------------------+ Model Information Model Name: bge_medembed_base_v0_1_openvino Compatibility: Spark NLP 6.0.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [embeddings] Language: en Size: 389.7 MB</summary></entry><entry><title type="html">MedEmbed large: Specialized Embedding Model for Medical and Clinical Information Retrieval (OpenVINO)</title><link href="/2025/07/15/bge_medembed_large_v0_1_openvino_en.html" rel="alternate" type="text/html" title="MedEmbed large: Specialized Embedding Model for Medical and Clinical Information Retrieval (OpenVINO)" /><published>2025-07-15T00:00:00+00:00</published><updated>2025-07-15T00:00:00+00:00</updated><id>/2025/07/15/bge_medembed_large_v0_1_openvino_en</id><content type="html" xml:base="/2025/07/15/bge_medembed_large_v0_1_openvino_en.html">## Description
 
-&lt;p&gt;MedEmbed is a family of embedding models fine-tuned specifically for medical and clinical data, designed to enhance performance in healthcare-related natural language processing (NLP) tasks, particularly information retrieval.&lt;/p&gt;
+MedEmbed is a family of embedding models fine-tuned specifically for medical and clinical data, designed to enhance performance in healthcare-related natural language processing (NLP) tasks, particularly information retrieval.
 
-&lt;p&gt;GitHub Repo: https://github.com/abhinand5/MedEmbed
-Technical Blog Post: https://huggingface.co/blog/abhinand/medembed-finetuned-embedding-models-for-medical-ir&lt;/p&gt;
+GitHub Repo: https://github.com/abhinand5/MedEmbed
+Technical Blog Post: https://huggingface.co/blog/abhinand/medembed-finetuned-embedding-models-for-medical-ir
 
-&lt;p&gt;This model is intended for use in medical and clinical contexts to improve information retrieval, question answering, and semantic search tasks. It can be integrated into healthcare systems, research tools, and medical literature databases to enhance search capabilities and information access.&lt;/p&gt;
+This model is intended for use in medical and clinical contexts to improve information retrieval, question answering, and semantic search tasks. It can be integrated into healthcare systems, research tools, and medical literature databases to enhance search capabilities and information access.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_medembed_large_v0_1_openvino_en_6.0.0_3.0_1752608614322.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_medembed_large_v0_1_openvino_en_6.0.0_3.0_1752608614322.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_medembed_large_v0_1_openvino_en_6.0.0_3.0_1752608614322.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_medembed_large_v0_1_openvino_en_6.0.0_3.0_1752608614322.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BGEEmbeddings&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;bge_loaded&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_medembed_large_v0_1_openvino&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.base import DocumentAssembler
+from sparknlp.annotator import BGEEmbeddings
+from pyspark.ml import Pipeline
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;bge_loaded&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+document_assembler = DocumentAssembler()\
+    .setInputCol(&quot;text&quot;)\
+    .setOutputCol(&quot;document&quot;)
 
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+bge_loaded = BGEEmbeddings.load(&quot;bge_medembed_large_v0_1_openvino&quot;)\
+    .setInputCols([&quot;document&quot;])\
+    .setOutputCol(&quot;embeddings&quot;)\
 
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+pipeline = Pipeline(
+    stages = [
+        document_assembler,
+        bge_loaded
+  ])
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectExpr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;explode(embeddings.embeddings) as embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+data = spark.createDataFrame([
+    ['William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.']
+]).toDF(&quot;text&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.base.DocumentAssembler&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.embeddings.BGEEmbeddings&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.ml.Pipeline&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.sql.functions.explode&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;spark.implicits._&lt;/span&gt;
+model = pipeline.fit(data)
+result = model.transform(data)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+result.selectExpr(&quot;explode(embeddings.embeddings) as embeddings&quot;).show()
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bgeEmbeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_medembed_large_v0_1_openvino&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+```
+```scala
+import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.embeddings.BGEEmbeddings
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions.explode
+import spark.implicits._
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;bgeEmbeddings&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+val documentAssembler = new DocumentAssembler()
+  .setInputCol(&quot;text&quot;)
+  .setOutputCol(&quot;document&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;s&quot;&gt;&quot;William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.&quot;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val bgeEmbeddings = BGEEmbeddings.load(&quot;bge_medembed_large_v0_1_openvino&quot;)
+  .setInputCols(&quot;document&quot;)
+  .setOutputCol(&quot;bge&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  bgeEmbeddings
+))
 
-&lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;explode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge.embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;alias&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val data = Seq(
+  &quot;William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.&quot;
+).toDF(&quot;text&quot;)
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val model = pipeline.fit(data)
+val result = model.transform(data)
+
+result.select(explode($&quot;bge.embeddings&quot;).alias(&quot;embeddings&quot;)).show(false)
+
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+```bash
+
 +--------------------+
 |          embeddings|
 +--------------------+
 |[0.0026465012, 3....|
 +--------------------+
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_medembed_large_v0_1_openvino&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 6.0.0+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[embeddings]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;1.2 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="openvino" /><category term="english" /><category term="medical_embedding" /><category term="clinical_embedding" /><category term="information_retrieval" /><category term="open_source" /><category term="bge" /><category term="en" /><summary type="html">Description MedEmbed is a family of embedding models fine-tuned specifically for medical and clinical data, designed to enhance performance in healthcare-related natural language processing (NLP) tasks, particularly information retrieval. GitHub Repo: https://github.com/abhinand5/MedEmbed Technical Blog Post: https://huggingface.co/blog/abhinand/medembed-finetuned-embedding-models-for-medical-ir This model is intended for use in medical and clinical contexts to improve information retrieval, question answering, and semantic search tasks. It can be integrated into healthcare systems, research tools, and medical literature databases to enhance search capabilities and information access. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import DocumentAssembler from sparknlp.annotator import BGEEmbeddings from pyspark.ml import Pipeline document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) bge_loaded = BGEEmbeddings.load(&quot;bge_medembed_large_v0_1_openvino&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;embeddings&quot;)\ pipeline = Pipeline( stages = [ document_assembler, bge_loaded ]) data = spark.createDataFrame([ ['William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.'] ]).toDF(&quot;text&quot;) model = pipeline.fit(data) result = model.transform(data) result.selectExpr(&quot;explode(embeddings.embeddings) as embeddings&quot;).show() import com.johnsnowlabs.nlp.base.DocumentAssembler import com.johnsnowlabs.nlp.embeddings.BGEEmbeddings import org.apache.spark.ml.Pipeline import org.apache.spark.sql.functions.explode import spark.implicits._ val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val bgeEmbeddings = BGEEmbeddings.load(&quot;bge_medembed_large_v0_1_openvino&quot;) .setInputCols(&quot;document&quot;) .setOutputCol(&quot;bge&quot;) val pipeline = new Pipeline().setStages(Array( documentAssembler, bgeEmbeddings )) val data = Seq( &quot;William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.&quot; ).toDF(&quot;text&quot;) val model = pipeline.fit(data) val result = model.transform(data) result.select(explode($&quot;bge.embeddings&quot;).alias(&quot;embeddings&quot;)).show(false) Results +--------------------+ | embeddings| +--------------------+ |[0.0026465012, 3....| +--------------------+ Model Information Model Name: bge_medembed_large_v0_1_openvino Compatibility: Spark NLP 6.0.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [embeddings] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">Phi-3.5-mini int4</title><link href="/2025/07/03/phi_3.5_mini_instruct_int4_en.html" rel="alternate" type="text/html" title="Phi-3.5-mini int4" /><published>2025-07-03T00:00:00+00:00</published><updated>2025-07-03T00:00:00+00:00</updated><id>/2025/07/03/phi_3.5_mini_instruct_int4_en</id><content type="html" xml:base="/2025/07/03/phi_3.5_mini_instruct_int4_en.html">## Description
+{:.table-model}
+|---|---|
+|Model Name:|bge_medembed_large_v0_1_openvino|
+|Compatibility:|Spark NLP 6.0.0+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[document]|
+|Output Labels:|[embeddings]|
+|Language:|en|
+|Size:|1.2 GB|</content><author><name>John Snow Labs</name></author><category term="openvino" /><category term="english" /><category term="medical_embedding" /><category term="clinical_embedding" /><category term="information_retrieval" /><category term="open_source" /><category term="bge" /><category term="en" /><summary type="html">Description MedEmbed is a family of embedding models fine-tuned specifically for medical and clinical data, designed to enhance performance in healthcare-related natural language processing (NLP) tasks, particularly information retrieval. GitHub Repo: https://github.com/abhinand5/MedEmbed Technical Blog Post: https://huggingface.co/blog/abhinand/medembed-finetuned-embedding-models-for-medical-ir This model is intended for use in medical and clinical contexts to improve information retrieval, question answering, and semantic search tasks. It can be integrated into healthcare systems, research tools, and medical literature databases to enhance search capabilities and information access. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import DocumentAssembler from sparknlp.annotator import BGEEmbeddings from pyspark.ml import Pipeline document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) bge_loaded = BGEEmbeddings.load(&quot;bge_medembed_large_v0_1_openvino&quot;)\ .setInputCols([&quot;document&quot;])\ .setOutputCol(&quot;embeddings&quot;)\ pipeline = Pipeline( stages = [ document_assembler, bge_loaded ]) data = spark.createDataFrame([ ['William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.'] ]).toDF(&quot;text&quot;) model = pipeline.fit(data) result = model.transform(data) result.selectExpr(&quot;explode(embeddings.embeddings) as embeddings&quot;).show() import com.johnsnowlabs.nlp.base.DocumentAssembler import com.johnsnowlabs.nlp.embeddings.BGEEmbeddings import org.apache.spark.ml.Pipeline import org.apache.spark.sql.functions.explode import spark.implicits._ val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val bgeEmbeddings = BGEEmbeddings.load(&quot;bge_medembed_large_v0_1_openvino&quot;) .setInputCols(&quot;document&quot;) .setOutputCol(&quot;bge&quot;) val pipeline = new Pipeline().setStages(Array( documentAssembler, bgeEmbeddings )) val data = Seq( &quot;William Henry Gates III (born October 28, 1955) is an American business magnate, software developer, investor, and philanthropist.&quot; ).toDF(&quot;text&quot;) val model = pipeline.fit(data) val result = model.transform(data) result.select(explode($&quot;bge.embeddings&quot;).alias(&quot;embeddings&quot;)).show(false) Results +--------------------+ | embeddings| +--------------------+ |[0.0026465012, 3....| +--------------------+ Model Information Model Name: bge_medembed_large_v0_1_openvino Compatibility: Spark NLP 6.0.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [embeddings] Language: en Size: 1.2 GB</summary></entry><entry><title type="html">Phi-3.5-mini int4</title><link href="/2025/07/03/phi_3.5_mini_instruct_int4_en.html" rel="alternate" type="text/html" title="Phi-3.5-mini int4" /><published>2025-07-03T00:00:00+00:00</published><updated>2025-07-03T00:00:00+00:00</updated><id>/2025/07/03/phi_3.5_mini_instruct_int4_en</id><content type="html" xml:base="/2025/07/03/phi_3.5_mini_instruct_int4_en.html">## Description
 
 Phi-3.5-mini is a lightweight, state-of-the-art open model built upon datasets used for Phi-3 - synthetic data and filtered publicly available websites - with a focus on very high-quality, reasoning dense data. The model belongs to the Phi-3 model family and supports 128K token context length.
 
