@@ -52,13 +52,12 @@ class Reader2TableMixedFilesTest(unittest.TestCase):
 
     def runTest(self):
         reader2table = Reader2Table() \
-            .setContentPath("/home/danilo/tmp/mix-files") \
+            .setContentPath(f"{os.getcwd()}/../src/test/resources/reader") \
             .setOutputCol("document")
 
         pipeline = Pipeline(stages=[reader2table])
         model = pipeline.fit(self.empty_df)
 
         result_df = model.transform(self.empty_df)
-        result_df.show(truncate=False)
 
         self.assertTrue(result_df.select("document").count() > 1)
