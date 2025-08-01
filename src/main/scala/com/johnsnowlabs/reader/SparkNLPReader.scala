@@ -97,6 +97,7 @@ class SparkNLPReader(
         getStoreContent,
         getTimeout,
         getIncludeTitleTag,
+        getOutputFormat,
         headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(htmlPath)
@@ -109,6 +110,7 @@ class SparkNLPReader(
         getStoreContent,
         getTimeout,
         getIncludeTitleTag,
+        getOutputFormat,
         headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.htmlToHTMLElement(html)
@@ -121,6 +123,7 @@ class SparkNLPReader(
         getStoreContent,
         getTimeout,
         getIncludeTitleTag,
+        getOutputFormat,
         headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.urlToHTMLElement(url)
@@ -133,6 +136,7 @@ class SparkNLPReader(
         getStoreContent,
         getTimeout,
         getIncludeTitleTag,
+        getOutputFormat,
         headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(urls)
@@ -145,6 +149,7 @@ class SparkNLPReader(
         getStoreContent,
         getTimeout,
         getIncludeTitleTag,
+        getOutputFormat,
         headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(urls.asScala.toArray)
@@ -171,6 +176,13 @@ class SparkNLPReader(
       params.asScala.toMap,
       Seq("includeTitleTag", "include_title_tag"),
       default = false)
+  }
+
+  private def getOutputFormat: String = {
+    getDefaultString(
+      params.asScala.toMap,
+      Seq("outputFormat", "output_format"),
+      default = "plain-text")
   }
 
   /** Instantiates class to read email files.
@@ -279,13 +291,21 @@ class SparkNLPReader(
     */
 
   def doc(docPath: String): DataFrame = {
-    val wordReader = new WordReader(getStoreContent, getIncludePageBreaks)
+    val wordReader = new WordReader(
+      getStoreContent,
+      getIncludePageBreaks,
+      getInferTableStructure,
+      getOutputFormat)
     setOutputColumn(wordReader.getOutputColumn)
     wordReader.doc(docPath)
   }
 
   def doc(content: Array[Byte]): Seq[HTMLElement] = {
-    val wordReader = new WordReader(getAddAttachmentContent, getStoreContent)
+    val wordReader = new WordReader(
+      getAddAttachmentContent,
+      getStoreContent,
+      getInferTableStructure,
+      getOutputFormat)
     setOutputColumn(wordReader.getOutputColumn)
     wordReader.docToHTMLElement(content)
   }
@@ -440,7 +460,8 @@ class SparkNLPReader(
         storeContent = getStoreContent,
         includePageBreaks = getIncludePageBreaks,
         inferTableStructure = getInferTableStructure,
-        appendCells = getAppendCells)
+        appendCells = getAppendCells,
+        outputFormat = getOutputFormat)
     setOutputColumn(excelReader.getOutputColumn)
     excelReader.xls(docPath)
   }
@@ -453,7 +474,8 @@ class SparkNLPReader(
         storeContent = getStoreContent,
         includePageBreaks = getIncludePageBreaks,
         inferTableStructure = getInferTableStructure,
-        appendCells = getAppendCells)
+        appendCells = getAppendCells,
+        outputFormat = getOutputFormat)
     setOutputColumn(excelReader.getOutputColumn)
     excelReader.xlsToHTMLElement(content)
   }
@@ -517,15 +539,30 @@ class SparkNLPReader(
     */
 
   def ppt(docPath: String): DataFrame = {
-    val powerPointReader = new PowerPointReader(getStoreContent)
+    val powerPointReader = new PowerPointReader(
+      getStoreContent,
+      getInferTableStructure,
+      getIncludeSlideNotes,
+      getOutputFormat)
     setOutputColumn(powerPointReader.getOutputColumn)
     powerPointReader.ppt(docPath)
   }
 
   def ppt(content: Array[Byte]): Seq[HTMLElement] = {
-    val powerPointReader = new PowerPointReader(getStoreContent)
+    val powerPointReader = new PowerPointReader(
+      getStoreContent,
+      getInferTableStructure,
+      getIncludeSlideNotes,
+      getOutputFormat)
     setOutputColumn(powerPointReader.getOutputColumn)
     powerPointReader.pptToHTMLElement(content)
+  }
+
+  private def getIncludeSlideNotes: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("includeSlideNotes", "include_slide_notes"),
+      default = false)
   }
 
   /** Instantiates class to read txt files.
@@ -775,15 +812,22 @@ class SparkNLPReader(
     *   A DataFrame with parsed Markdown content as structured HTMLElements.
     */
   def md(mdPath: String): DataFrame = {
-    val markdownReader = new MarkdownReader()
+    val markdownReader = new MarkdownReader(getFileEncoding, getOutputFormat)
     setOutputColumn(markdownReader.getOutputColumn)
     markdownReader.md(mdPath)
   }
 
   def mdToHTMLElement(mdContent: String): Seq[HTMLElement] = {
-    val markdownReader = new MarkdownReader()
+    val markdownReader = new MarkdownReader(getFileEncoding, getOutputFormat)
     setOutputColumn(markdownReader.getOutputColumn)
     markdownReader.parseMarkdownWithTables(mdContent)
+  }
+
+  private def getFileEncoding: String = {
+    getDefaultString(
+      params.asScala.toMap,
+      Seq("fileEncoding", "file_encoding"),
+      default = "UTF-8")
   }
 
   /** Instantiates class to read XML files.
@@ -835,7 +879,8 @@ class SparkNLPReader(
       includeHeader = getIncludeHeader,
       inferTableStructure = getInferTableStructure,
       delimiter = getDelimiter,
-      storeContent = getStoreContent)
+      storeContent = getStoreContent,
+      outputFormat = getOutputFormat)
     setOutputColumn(csvReader.getOutputColumn)
     csvReader.csv(csvPath)
   }

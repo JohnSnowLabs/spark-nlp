@@ -20,9 +20,11 @@ import com.johnsnowlabs.partition.util.PartitionHelper.{
   datasetWithTextFile,
   datasetWithTextFileEncoding
 }
+import com.johnsnowlabs.reader.util.HTMLParser
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.functions.slice
+import org.jsoup.nodes.Element
 
 import java.util.regex.Pattern
 
@@ -40,7 +42,8 @@ class CSVReader(
     includeHeader: Boolean = false,
     inferTableStructure: Boolean = true,
     delimiter: String = ",",
-    storeContent: Boolean = false)
+    storeContent: Boolean = false,
+    outputFormat: String = "json-table")
     extends Serializable {
 
   private lazy val spark = ResourceHelper.spark
@@ -122,18 +125,39 @@ class CSVReader(
         "html_table",
         concat(lit("<table>"), concat_ws("", $"tr_rows"), lit("</table>")))
 
-      htmlTableDF.withColumn(
-        outputColumn,
-        array(
-          struct(
-            lit(ElementType.NARRATIVE_TEXT).as("elementType"),
-            $"normalized_content".as("content"),
-            map_from_arrays(array(), array()).as("metadata")),
-          struct(
-            lit(ElementType.TABLE).as("elementType"),
-            $"html_table".as("content"),
-            map_from_arrays(array(), array()).as("metadata"))))
-
+      outputFormat match {
+        case "html-table" =>
+          htmlTableDF.withColumn(
+            outputColumn,
+            array(
+              struct(
+                lit(ElementType.NARRATIVE_TEXT).as("elementType"),
+                $"normalized_content".as("content"),
+                map_from_arrays(array(), array()).as("metadata")),
+              struct(
+                lit(ElementType.TABLE).as("elementType"),
+                $"html_table".as("content"),
+                map_from_arrays(array(), array()).as("metadata"))))
+        case "json-table" =>
+          val htmlToJsonUDF = udf { (html: String) =>
+            val elem: Element = HTMLParser.parseFirstTableElement(html)
+            HTMLParser.tableElementToJson(elem)
+          }
+          val jsonTableDF = htmlTableDF.withColumn("json_table", htmlToJsonUDF(col("html_table")))
+          jsonTableDF.withColumn(
+            outputColumn,
+            array(
+              struct(
+                lit(ElementType.NARRATIVE_TEXT).as("elementType"),
+                $"normalized_content".as("content"),
+                map_from_arrays(array(), array()).as("metadata")),
+              struct(
+                lit(ElementType.TABLE).as("elementType"),
+                $"json_table".as("content"),
+                map_from_arrays(array(), array()).as("metadata"))))
+        case _ =>
+          throw new IllegalArgumentException("Unsupported outputFormat: " + outputFormat)
+      }
     } else {
       normalizedContentDF.withColumn(
         outputColumn,

@@ -44,6 +44,13 @@ trait HasHTMLReaderProperties extends ParamsAndFeaturesWritable {
 
   def setIncludeTitleTag(value: Boolean): this.type = set(includeTitleTag, value)
 
+  val outputFormat = new Param[String](
+    this,
+    "outputFormat",
+    "Output format for the table content. Options are 'plain-text' or 'html-table'. Default is 'json-table'.")
+
+  def setOutputFormat(value: String): this.type = set(outputFormat, value)
+
   setDefault(timeout -> 0, includeTitleTag -> false, headers -> Map.empty[String, String])
 
 }

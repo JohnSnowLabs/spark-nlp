@@ -81,17 +81,26 @@ class WordReaderTest extends AnyFlatSpec {
     assert(wordDf.columns.contains("content"))
   }
 
-  it should "read docx file with tables including HTML form" taggedAs FastTest in {
-    val wordReader = new WordReader(inferTableStructure = true)
+  it should "read docx file with tables as HTML form" taggedAs FastTest in {
+    val wordReader = new WordReader(inferTableStructure = true, outputFormat = "html-table")
     val wordDf = wordReader.doc(s"$docDirectory/fake_table.docx")
     val htmlDf = wordDf
       .withColumn("doc_exploded", explode(col("doc")))
-      .filter(col("doc_exploded.elementType") === "HTML")
-    wordDf.select("doc").show(false)
+      .filter(col("doc_exploded.elementType") === ElementType.HTML)
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
-    assert(!wordDf.columns.contains("content"))
     assert(htmlDf.count() > 0, "Expected at least one row with HTML element type")
+  }
+
+  it should "read docx file with tables as JSON form" taggedAs FastTest in {
+    val wordReader = new WordReader(inferTableStructure = true)
+    val wordDf = wordReader.doc(s"$docDirectory/fake_table.docx")
+    val jsonDf = wordDf
+      .withColumn("doc_exploded", explode(col("doc")))
+      .filter(col("doc_exploded.elementType") === ElementType.JSON)
+
+    assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
+    assert(jsonDf.count() > 0, "Expected at least one row with JSON element type")
   }
 
 }

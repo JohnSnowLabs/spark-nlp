@@ -1,5 +1,7 @@
 package com.johnsnowlabs.reader
 
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{DataFrame, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -7,7 +9,7 @@ class CSVReaderTest extends AnyFlatSpec {
 
   val cvsFilesDirectory = "src/test/resources/reader/csv"
 
-  "CSVReader.csv" should "include TABLE element in csv array only if inferTableStructure=true" in {
+  "CSVReader.csv" should "include TABLE element in csv array only if inferTableStructure=true" taggedAs FastTest in {
     val filePath = s"$cvsFilesDirectory/stanley-cups.csv"
 
     val csvReader = new CSVReader(inferTableStructure = true)
@@ -23,7 +25,7 @@ class CSVReaderTest extends AnyFlatSpec {
     assert(textElement.get.content.trim.nonEmpty)
   }
 
-  "CSVReader.csv" should "include only text element in csv array if inferTableStructure=false" in {
+  "CSVReader.csv" should "include only text element in csv array if inferTableStructure=false" taggedAs FastTest in {
     val filePath = s"$cvsFilesDirectory/stanley-cups.csv"
 
     val csvReader = new CSVReader(inferTableStructure = false)
@@ -44,7 +46,7 @@ class CSVReaderTest extends AnyFlatSpec {
     df.select(outputCol).as[Array[HTMLElement]].head()
   }
 
-  "CSVReader" should "produce normalized content including header when includeHeader = true" in {
+  "CSVReader" should "produce normalized content including header when includeHeader = true" taggedAs FastTest in {
     val filePath = s"$cvsFilesDirectory/stanley-cups-utf-16.csv"
 
     val reader = new CSVReader(encoding = "UTF-16", includeHeader = true)
@@ -60,7 +62,7 @@ class CSVReaderTest extends AnyFlatSpec {
     assert(result == expected)
   }
 
-  "CSVReader" should "produce normalized content without header when includeHeader = false" in {
+  "CSVReader" should "produce normalized content without header when includeHeader = false" taggedAs FastTest in {
     val filePath = s"$cvsFilesDirectory/stanley-cups-utf-16.csv"
 
     val reader = new CSVReader(encoding = "UTF-16", includeHeader = false)
@@ -75,7 +77,7 @@ class CSVReaderTest extends AnyFlatSpec {
     assert(result == expected)
   }
 
-  "CSVReader.csv" should "work for other delimiters" in {
+  "CSVReader.csv" should "work for other delimiters" taggedAs FastTest in {
     val filePath = s"$cvsFilesDirectory/semicolon-delimited.csv"
 
     val csvReader = new CSVReader(inferTableStructure = false, delimiter = ";")
@@ -88,6 +90,40 @@ class CSVReaderTest extends AnyFlatSpec {
     assert(tableElement.isEmpty)
     assert(textElement.isDefined)
     assert(textElement.get.content.trim.nonEmpty)
+  }
+
+  it should "parse CSV files as HTML" taggedAs FastTest in {
+    import ResourceHelper.spark.implicits._
+    val filePath = s"$cvsFilesDirectory/stanley-cups.csv"
+
+    val csvReader = new CSVReader(inferTableStructure = true, outputFormat = "html-table")
+    val csvDf = csvReader.csv(filePath)
+    val elements: Seq[HTMLElement] = csvDf
+      .select(csvReader.getOutputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    assert(elements.nonEmpty, "Parsed elements for table are empty")
+    assert(elements.exists(_.elementType == ElementType.TABLE))
+    assert(elements.exists(_.content.contains("<table>")))
+  }
+
+  it should "parse CSV files as JSON" taggedAs FastTest in {
+    import ResourceHelper.spark.implicits._
+    val filePath = s"$cvsFilesDirectory/stanley-cups.csv"
+
+    val csvReader = new CSVReader(inferTableStructure = true, outputFormat = "json-table")
+    val csvDf = csvReader.csv(filePath)
+    val elements: Seq[HTMLElement] = csvDf
+      .select(csvReader.getOutputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .head
+
+    assert(elements.nonEmpty, "Parsed elements for table are empty")
+    assert(elements.exists(_.elementType == ElementType.TABLE))
+    assert(elements.exists(_.content.contains("header")))
   }
 
   def getFirstElement(df: org.apache.spark.sql.DataFrame, outputCol: String): HTMLElement = {

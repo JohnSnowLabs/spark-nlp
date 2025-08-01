@@ -125,7 +125,6 @@ class HTMLReaderTest extends AnyFlatSpec {
   it should "correctly parse caption and th tags" taggedAs FastTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-caption-th.html")
-    htmlDF.show(truncate = false)
     val titleDF = htmlDF
       .select(explode(col("html")).as("exploded_html"))
       .filter(col("exploded_html.elementType") === ElementType.TABLE)
@@ -136,11 +135,30 @@ class HTMLReaderTest extends AnyFlatSpec {
   it should "include title tag value in metadata" taggedAs FastTest in {
     val HTMLReader = new HTMLReader(includeTitleTag = true)
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-caption-th.html")
-    htmlDF.show(truncate = false)
 
     val titleDF = htmlDF
       .select(explode(col("html")).as("exploded_html"))
       .filter(col("exploded_html.elementType") === ElementType.TITLE)
+
+    assert(titleDF.count() == 1)
+  }
+
+  it should "output table JSON" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader(outputFormat = "json-table")
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-caption-th.html")
+    val titleDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.TABLE)
+
+    assert(titleDF.count() == 1)
+  }
+
+  it should "output table as HTML" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader(outputFormat = "html-table")
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-caption-th.html")
+    val titleDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.TABLE)
 
     assert(titleDF.count() == 1)
   }

@@ -29,4 +29,5 @@ object ElementType {
   val HEADER = "Header"
   val FOOTER = "Footer"
   val HTML = "HTML"
+  val JSON = "JSON"
 }

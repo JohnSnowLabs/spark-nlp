@@ -27,7 +27,6 @@ class ExcelReaderTest extends AnyFlatSpec {
   "ExcelReader" should "read an excel file" taggedAs FastTest in {
     val excelReader = new ExcelReader()
     val excelDf = excelReader.xls(s"$docDirectory/2023-half-year-analyses-by-segment.xlsx")
-    excelDf.select("xls").show(false)
 
     assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
     assert(!excelDf.columns.contains("content"))
@@ -36,7 +35,6 @@ class ExcelReaderTest extends AnyFlatSpec {
   "ExcelReader" should "read a directory of excel files" taggedAs FastTest in {
     val excelReader = new ExcelReader()
     val excelDf = excelReader.xls(docDirectory)
-    excelDf.select("xls").show(false)
 
     assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
     assert(!excelDf.columns.contains("content"))
@@ -45,7 +43,6 @@ class ExcelReaderTest extends AnyFlatSpec {
   "ExcelReader" should "read a directory of excel files with custom cell separator" taggedAs FastTest in {
     val excelReader = new ExcelReader(cellSeparator = ";")
     val excelDf = excelReader.xls(s"$docDirectory/vodafone.xlsx")
-    excelDf.select("xls").show(false)
 
     assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
     assert(!excelDf.columns.contains("content"))
@@ -54,7 +51,6 @@ class ExcelReaderTest extends AnyFlatSpec {
   "ExcelReader" should "store content" taggedAs FastTest in {
     val excelReader = new ExcelReader(storeContent = true)
     val excelDf = excelReader.xls(docDirectory)
-    excelDf.select("xls").show(false)
 
     assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
     assert(excelDf.columns.contains("content"))
@@ -63,7 +59,6 @@ class ExcelReaderTest extends AnyFlatSpec {
   it should "work for break pages" taggedAs FastTest in {
     val excelReader = new ExcelReader(includePageBreaks = true)
     val excelDf = excelReader.xls(s"$docDirectory/page-break-example.xlsx")
-    excelDf.select("xls").show(false)
 
     val explodedDf = excelDf.withColumn("xls_exploded", explode(col("xls")))
     val page1Df = explodedDf.filter(
@@ -85,7 +80,6 @@ class ExcelReaderTest extends AnyFlatSpec {
     val htmlDf = excelDf
       .withColumn("xls_exploded", explode(col("xls")))
       .filter(col("xls_exploded.elementType") === "HTML")
-    excelDf.select("xls").show(false)
 
     assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
     assert(!excelDf.columns.contains("content"))
@@ -103,11 +97,31 @@ class ExcelReaderTest extends AnyFlatSpec {
     val explodedExcelDf =
       excelDf.withColumn("xls_exploded", explode(col("xls"))).select("xls_exploded")
 
-    explodedSubtableExcelDf.select("xls_exploded").show(false)
-    explodedExcelDf.select("xls_exploded").show(false)
-
     assert(explodedSubtableExcelDf.count() == 1, "Expected only one row with all info")
     assert(explodedExcelDf.count() > 1, "Expected more than one row with all info")
+  }
+
+  it should "output table as JSON" in {
+    val excelReader = new ExcelReader(inferTableStructure = true, outputFormat = "html-table")
+    val excelDf = excelReader.xls(s"$docDirectory/simple-example.xlsx")
+
+    val htmlDf = excelDf
+      .withColumn("doc_exploded", explode(col("xls")))
+      .filter(col("doc_exploded.elementType") === ElementType.HTML)
+
+    assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
+    assert(htmlDf.count() > 0, "Expected at least one row with HTML element type")
+  }
+
+  it should "output more tables as JSON" in {
+    val excelReader = new ExcelReader(inferTableStructure = true, outputFormat = "json-table")
+    val excelDf = excelReader.xls(s"$docDirectory/simple-example-2tables.xlsx")
+    val jsonDf = excelDf
+      .withColumn("doc_exploded", explode(col("xls")))
+      .filter(col("doc_exploded.elementType") === ElementType.JSON)
+
+    assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
+    assert(jsonDf.count() > 0, "Expected at least one row with JSON element type")
   }
 
 }

@@ -19,6 +19,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.{isValidURL, validFile}
 import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithTextFile
 import com.johnsnowlabs.reader.util.HTMLParser
+import com.johnsnowlabs.reader.util.HTMLParser.tableElementToJson
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
 import org.jsoup.Jsoup
@@ -85,6 +86,7 @@ class HTMLReader(
     storeContent: Boolean = false,
     timeout: Int = 0,
     includeTitleTag: Boolean = false,
+    outputFormat: String = "plain-text",
     headers: Map[String, String] = Map.empty)
     extends Serializable {
 
@@ -109,7 +111,6 @@ class HTMLReader(
     */
 
   def read(inputSource: String): DataFrame = {
-
     ResourceHelper match {
       case _ if validFile(inputSource) && !inputSource.startsWith("http") =>
         val htmlDf = datasetWithTextFile(spark, inputSource)
@@ -280,12 +281,25 @@ class HTMLReader(
             case "table" =>
               pageMetadata("sentence") = sentenceIndex.toString
               sentenceIndex += 1
-              val tableText = extractNestedTableContent(element).trim
-              if (tableText.nonEmpty && !visitedNode) {
+              val tableContent = outputFormat match {
+                case "plain-text" =>
+                  extractNestedTableContent(element).trim
+                case "html-table" =>
+                  element
+                    .outerHtml()
+                    .replaceAll("\\n", "")
+                    .replaceAll(">\\s+<", "><")
+                    .replaceAll("^\\s+|\\s+$", "")
+                case "json-table" =>
+                  tableElementToJson(element)
+                case _ =>
+                  extractNestedTableContent(element).trim
+              }
+              if (tableContent.nonEmpty && !visitedNode) {
                 trackingNodes(element).visited = true
                 elements += HTMLElement(
                   ElementType.TABLE,
-                  content = tableText,
+                  content = tableContent,
                   metadata = pageMetadata)
               }
             case "li" =>
@@ -310,7 +324,7 @@ class HTMLReader(
                 sentenceIndex += 1
                 trackingNodes(element).visited = true
                 elements += HTMLElement(
-                  ElementType.UNCATEGORIZED_TEXT, // or ElementType.CODE if you have it
+                  ElementType.UNCATEGORIZED_TEXT,
                   content = codeText,
                   metadata = pageMetadata)
               }

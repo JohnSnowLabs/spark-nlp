@@ -36,7 +36,7 @@ import scala.collection.mutable
   *   on formatting (e.g., bold, centered, capitalized). By default it is set to 9. By default, it
   *   is set to 9.
   * @param cellSeparator
-  *   String used to join cell values in a row when assembling textual output. By default, it is
+  *   * String used to join cell values in a row when assembling textual output. By default, it is
   *   set to tab seperator.
   * @param storeContent
   *   Whether to include the raw file content in the output DataFrame as a separate 'content'
@@ -88,7 +88,8 @@ class ExcelReader(
     storeContent: Boolean = false,
     includePageBreaks: Boolean = false,
     inferTableStructure: Boolean = false,
-    appendCells: Boolean = false)
+    appendCells: Boolean = false,
+    outputFormat: String = "html-table")
     extends Serializable {
 
   private lazy val spark = ResourceHelper.spark
@@ -226,7 +227,7 @@ class ExcelReader(
         metadata = allMetadata)
     }
 
-    if (inferTableStructure) sheet.buildHtmlIfNeeded(elementsBuffer)
+    if (inferTableStructure) sheet.buildHtmlIfNeeded(elementsBuffer, outputFormat)
   }
 
   private def buildSheetContentWithPageBreaks(
@@ -281,7 +282,7 @@ class ExcelReader(
         }
       }
     }
-    if (inferTableStructure) sheet.buildHtmlIfNeeded(elementsBuffer)
+    if (inferTableStructure) sheet.buildHtmlIfNeeded(elementsBuffer, outputFormat)
   }
 
   private def getPageNumberForCell(cellIndex: Int, breaks: Seq[Int]): Int = {

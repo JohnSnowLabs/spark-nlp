@@ -1,5 +1,7 @@
 package com.johnsnowlabs.reader.util
 
+import org.json4s.jackson.{JsonMethods, Serialization}
+import org.json4s.{JValue, NoTypeHints}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class HTMLParserTest extends AnyFlatSpec {
@@ -119,5 +121,159 @@ class HTMLParserTest extends AnyFlatSpec {
   it should "detect large and centered even if not bold" in {
     assert(HTMLParser.isFormattedAsTitle("font-size:22px; text-align:center;", 16))
   }
+
+  implicit val formats = Serialization.formats(NoTypeHints)
+
+  "tableElementToJson" should "handle a table with caption, header, and multiple rows" in {
+    val htmlTable =
+      """
+      <table border="1">
+        <caption>Student Grades</caption>
+        <tr>
+          <th>Name</th>
+          <th>Subject</th>
+          <th>Grade</th>
+        </tr>
+        <tr>
+          <td>Alice</td>
+          <td>Math</td>
+          <td>A</td>
+        </tr>
+        <tr>
+          <td>Bob</td>
+          <td>Science</td>
+          <td>B+</td>
+        </tr>
+      </table>
+      """
+    val tableElement = HTMLParser.parseFirstTableElement(htmlTable)
+    val jsonString = HTMLParser.tableElementToJson(tableElement)
+    val parsedJson: JValue = parseJsonToJValue(jsonString)
+
+    val caption: String = (parsedJson \ "caption").extract[String]
+    val header: List[String] = (parsedJson \ "header").extract[List[String]]
+    val rows: List[List[String]] = (parsedJson \ "rows").extract[List[List[String]]]
+
+    assert(caption == "Student Grades")
+    assert(header == List("Name", "Subject", "Grade"))
+    assert(rows == List(List("Alice", "Math", "A"), List("Bob", "Science", "B+")))
+  }
+
+  it should "handle a table without caption" in {
+    val htmlTable =
+      """
+      <table>
+        <tr><th>City</th><th>Population</th></tr>
+        <tr><td>NYC</td><td>8M</td></tr>
+      </table>
+      """
+    val tableElement = HTMLParser.parseFirstTableElement(htmlTable)
+    val jsonString = HTMLParser.tableElementToJson(tableElement)
+    val parsedJson: JValue = parseJsonToJValue(jsonString)
+
+    val caption: String = (parsedJson \ "caption").extract[String]
+    val header: List[String] = (parsedJson \ "header").extract[List[String]]
+    val rows: List[List[String]] = (parsedJson \ "rows").extract[List[List[String]]]
+
+    assert(caption == "")
+    assert(header == List("City", "Population"))
+    assert(rows == List(List("NYC", "8M")))
+  }
+
+  it should "handle a table with no header row" in {
+    val htmlTable =
+      """
+      <table>
+        <tr><td>1</td><td>2</td></tr>
+        <tr><td>3</td><td>4</td></tr>
+      </table>
+      """
+    val tableElement = HTMLParser.parseFirstTableElement(htmlTable)
+    val jsonString = HTMLParser.tableElementToJson(tableElement)
+    val parsedJson: JValue = parseJsonToJValue(jsonString)
+
+//    val header: List[String] = (parsedJson \ "header").extract[List[String]]
+    val rows: List[List[String]] = (parsedJson \ "rows").extract[List[List[String]]]
+
+    assert(rows.nonEmpty)
+  }
+
+  it should "handle a table with missing or empty cells" in {
+    val htmlTable =
+      """
+      <table>
+        <tr><th>A</th><th>B</th><th>C</th></tr>
+        <tr><td>1</td><td>2</td></tr>
+        <tr><td>3</td><td>4</td><td>5</td></tr>
+      </table>
+      """
+    val tableElement = HTMLParser.parseFirstTableElement(htmlTable)
+    val jsonString = HTMLParser.tableElementToJson(tableElement)
+    val parsedJson: JValue = parseJsonToJValue(jsonString)
+
+    val rows: List[List[String]] = (parsedJson \ "rows").extract[List[List[String]]]
+    assert(rows.head.length == 2 || rows.head.length == 3)
+    assert(rows(1).length == 3)
+  }
+
+  it should "handle an empty table" in {
+    val htmlTable = "<table></table>"
+    val tableElement = HTMLParser.parseFirstTableElement(htmlTable)
+    val jsonString = HTMLParser.tableElementToJson(tableElement)
+    val parsedJson: JValue = parseJsonToJValue(jsonString)
+
+    val header: List[String] = (parsedJson \ "header").extract[List[String]]
+    val rows: List[List[String]] = (parsedJson \ "rows").extract[List[List[String]]]
+
+    assert(header.isEmpty)
+    assert(rows.isEmpty)
+  }
+
+  it should "handle a table with nested tags in cells" in {
+    val htmlTable =
+      """
+      <table>
+        <tr><th>Name</th><th>Info</th></tr>
+        <tr><td><b>Alice</b></td><td><span>Student</span></td></tr>
+      </table>
+      """
+    val tableElement = HTMLParser.parseFirstTableElement(htmlTable)
+    val jsonString = HTMLParser.tableElementToJson(tableElement)
+    val parsedJson: JValue = parseJsonToJValue(jsonString)
+
+    val rows: List[List[String]] = (parsedJson \ "rows").extract[List[List[String]]]
+    assert(rows == List(List("Alice", "Student")))
+  }
+
+  it should "handle a table with excessive whitespace and newlines" in {
+    val htmlTable =
+      """
+      <table>
+        <tr>
+          <th> X </th>
+          <th> Y </th>
+        </tr>
+        <tr>
+          <td>
+            10
+          </td>
+          <td>
+            20
+          </td>
+        </tr>
+      </table>
+      """
+    val tableElement = HTMLParser.parseFirstTableElement(htmlTable)
+    val jsonString = HTMLParser.tableElementToJson(tableElement)
+    val parsedJson: JValue = parseJsonToJValue(jsonString)
+
+    val header: List[String] = (parsedJson \ "header").extract[List[String]]
+    val rows: List[List[String]] = (parsedJson \ "rows").extract[List[List[String]]]
+
+    assert(header == List("X", "Y"))
+    assert(rows == List(List("10", "20")))
+  }
+
+  def parseJsonToJValue(json: String): JValue = JsonMethods.parse(json)
 
 }
