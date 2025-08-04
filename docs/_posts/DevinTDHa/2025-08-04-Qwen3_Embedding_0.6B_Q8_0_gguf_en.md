@@ -48,7 +48,7 @@ from pyspark.ml import Pipeline
 document = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
-autoGGUFEmbeddings = AutoGGUFEmbeddings.pretrained() \
+autoGGUFEmbeddings = AutoGGUFEmbeddings.pretrained("Qwen3_Embedding_0.6B_Q8_0_gguf") \
     .setInputCols(["document"]) \
     .setOutputCol("embeddings") \
     .setBatchSize(4) \
@@ -70,7 +70,7 @@ import spark.implicits._
 val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
 
 val autoGGUFModel = AutoGGUFEmbeddings
-  .pretrained()
+  .pretrained("Qwen3_Embedding_0.6B_Q8_0_gguf")
   .setInputCols("document")
   .setOutputCol("embeddings")
   .setBatchSize(4)
