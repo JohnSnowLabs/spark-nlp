@@ -28,9 +28,10 @@ import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
 import java.nio.file.{Files, Path, Paths}
+import java.util
 import java.util.UUID
 import scala.collection.JavaConverters._
-
+import java.util.{HashMap => JHashMap}
 class OpenvinoWrapper(var modelName: Option[String] = None) extends Serializable {
 
   /** For Deserialization */
@@ -80,7 +81,22 @@ class OpenvinoWrapper(var modelName: Option[String] = None) extends Serializable
 
 /** Companion object */
 object OpenvinoWrapper {
+  val availableCores = Runtime.getRuntime.availableProcessors()
+  val properties: Map[String, Any] = Map(
+    "ENABLE_HYPER_THREADING" -> true,
+    "INFERENCE_NUM_THREADS" -> availableCores.toString * 2 // 2 threads per core
+  )
 
+  val javaProps = new JHashMap[String, Object]()
+  properties.foreach { case (key, value) =>
+    val boxedValue: Object = value match {
+      case i: Int => i.asInstanceOf[AnyRef]
+      case b: Boolean => b.asInstanceOf[AnyRef]
+      case s: String => s.asInstanceOf[AnyRef]
+      case other => other.asInstanceOf[AnyRef]
+    }
+    javaProps.put(key, boxedValue)
+  }
   private val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
   private[OpenvinoWrapper] val core: Core =
     try {
@@ -92,6 +108,18 @@ object OpenvinoWrapper {
             "(See https://www.intel.com/content/www/us/en/docs/onetbb/get-started-guide/2021-12/overview.html)")
         throw e
     }
+
+  try {
+    // Set the OpenVINO properties
+    core.set_property_typed("CPU", javaProps)
+  } catch {
+    case e: Exception =>
+      logger.warn("Failed to set CPU NUM_THREADS property, using default value.", e)
+  }
+
+  private val devices: util.List[String] = core.get_available_devices()
+  logger.info(s"Available cores: $availableCores")
+  logger.info(s"Available devices: ${devices.asScala.mkString(", ")}")
 
   private val ModelSuffix = "_ov_model"
 
