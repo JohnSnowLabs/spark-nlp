@@ -44,6 +44,10 @@ import org.apache.spark.sql.SparkSession
   * }}}
   * The default model is `"Phi_4_mini_instruct_Q4_K_M_gguf"`, if no name is provided.
   *
+  * AutoGGUFModel is also able to load pretrained models from [[AutoGGUFVisionModel]]. Just
+  * specify the same name for the `pretrained` method, and it will load the text-part of the
+  * multimodal model automatically.
+  *
   * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
   * For extended examples of usage, see the
