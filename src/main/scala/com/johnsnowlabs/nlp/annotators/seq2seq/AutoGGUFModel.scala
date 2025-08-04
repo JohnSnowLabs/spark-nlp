@@ -42,7 +42,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("document")
   *   .setOutputCol("completions")
   * }}}
-  * The default model is `"phi3.5_mini_4k_instruct_q4_gguf"`, if no name is provided.
+  * The default model is `"Phi_4_mini_instruct_Q4_K_M_gguf"`, if no name is provided.
   *
   * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
@@ -217,7 +217,7 @@ class AutoGGUFModel(override val uid: String)
 trait ReadablePretrainedAutoGGUFModel
     extends ParamsAndFeaturesFallbackReadable[AutoGGUFModel]
     with HasPretrained[AutoGGUFModel] {
-  override val defaultModelName: Some[String] = Some("phi3.5_mini_4k_instruct_q4_gguf")
+  override val defaultModelName: Some[String] = Some("Phi_4_mini_instruct_Q4_K_M_gguf")
   override val defaultLang: String = "en"
 
   /** Java compliant-overrides */

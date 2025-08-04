@@ -50,7 +50,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("image', "document")
   *   .setOutputCol("completions")
   * }}}
-  * The default model is `"llava_v1.5_7b_Q4_0_gguf"`, if no name is provided.
+  * The default model is `"Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf"`, if no name is provided.
   *
   * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *

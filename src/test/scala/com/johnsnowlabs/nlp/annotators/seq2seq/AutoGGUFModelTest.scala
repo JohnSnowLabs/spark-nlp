@@ -208,7 +208,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
 
   it should "be able to also load pretrained AutoGGUFVisionModels" taggedAs SlowTest in {
     val model = AutoGGUFModel
-      .pretrained("llava_v1.5_7b_Q4_0_gguf")
+      .pretrained("Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf")
       .setInputCols("document")
       .setOutputCol("completions")
       .setBatchSize(2)

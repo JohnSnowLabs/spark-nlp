@@ -43,7 +43,7 @@ import org.json4s.jackson.JsonMethods._
   *   .setInputCols("document")
   *   .setOutputCol("embeddings")
   * }}}
-  * The default model is `"nomic-embed-text-v1.5.Q8_0.gguf"`, if no name is provided.
+  * The default model is `"Qwen3_Embedding_0.6B_Q8_0_gguf"`, if no name is provided.
   *
   * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
@@ -265,7 +265,7 @@ class AutoGGUFEmbeddings(override val uid: String)
 trait ReadablePretrainedAutoGGUFEmbeddings
     extends ParamsAndFeaturesFallbackReadable[AutoGGUFEmbeddings]
     with HasPretrained[AutoGGUFEmbeddings] {
-  override val defaultModelName: Some[String] = Some("Nomic_Embed_Text_v1.5.Q8_0.gguf")
+  override val defaultModelName: Some[String] = Some("Qwen3_Embedding_0.6B_Q8_0_gguf")
   override val defaultLang: String = "en"
 
   /** Java compliant-overrides */

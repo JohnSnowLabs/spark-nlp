@@ -43,7 +43,7 @@ class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppPropert
             .setOutputCol("completions")
 
 
-    The default model is ``"llava_v1.5_7b_Q4_0_gguf"``, if no name is provided.
+    The default model is ``"Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf"``, if no name is provided.
 
     For available pretrained models please see the `Models Hub <https://sparknlp.org/models>`__.
 
@@ -311,13 +311,13 @@ class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppPropert
         return AutoGGUFVisionModel(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="llava_v1.5_7b_Q4_0_gguf", lang="en", remote_loc=None):
+    def pretrained(name="Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "llava_v1.5_7b_Q4_0_gguf"
+            Name of the pretrained model, by default "Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

@@ -7,9 +7,6 @@ import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
-import scala.io.Source
-import scala.util.Using
-
 class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
   import ResourceHelper.spark.implicits._
 
@@ -35,7 +32,7 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
   println(ResourceHelper.spark.version)
   // nomic-embed-text-v1.5.Q8_0.gguf
   def model(poolingType: String): AutoGGUFEmbeddings = AutoGGUFEmbeddings
-    .pretrained()
+    .loadSavedModel("models/Qwen3-Embedding-0.6B-Q8_0.gguf", ResourceHelper.spark)
     .setInputCols("document")
     .setOutputCol("embeddings")
     .setBatchSize(4)
@@ -78,7 +75,7 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
     lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model("MEAN")))
 
     val pipelineModel = pipeline.fit(data)
-    val savePath = "./tmp_autogguf_model"
+    val savePath = "./tmp_autogguf_embedding_model"
     pipelineModel.stages.last
       .asInstanceOf[AutoGGUFEmbeddings]
       .write
