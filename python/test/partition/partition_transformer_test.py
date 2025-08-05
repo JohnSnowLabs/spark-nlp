@@ -79,7 +79,6 @@ class PartitionTransformerURLsTesSpec(unittest.TestCase):
         pipelineModel = pipeline.fit(emptyDataSet)
 
         resultDf = pipelineModel.transform(self.testDataSet)
-        resultDf.show(truncate=False)
 
         self.assertTrue(resultDf.select("partition").count() > 0)
 
@@ -108,6 +107,5 @@ class PartitionTransformerChunkTestSpec(unittest.TestCase):
         pipelineModel = pipeline.fit(self.emptyDataSet)
 
         resultDf = pipelineModel.transform(self.emptyDataSet)
-        resultDf.show(truncate=False)
 
         self.assertTrue(resultDf.select("partition").count() >= 0)

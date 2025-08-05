@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import com.johnsnowlabs.nlp.llama.LlamaModel
+import com.johnsnowlabs.nlp.llama.LlamaExtensions
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
@@ -229,7 +229,7 @@ class PromptAssembler(override val uid: String)
         Array(role, text)
       }.toArray
 
-      val chatString = LlamaModel.applyChatTemplate(template, chatArray, $(addAssistant))
+      val chatString = LlamaExtensions.applyChatTemplate(template, chatArray, $(addAssistant))
       Seq(Annotation(chatString))
     } catch {
       case _: Exception =>

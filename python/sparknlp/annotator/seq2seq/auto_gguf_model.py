@@ -253,7 +253,9 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
             nCtx=4096,
             nBatch=512,
             embedding=False,
-            nPredict=100
+            nPredict=100,
+            nGpuLayers=99,
+            systemPrompt="You are a helpful assistant."
         )
 
     @staticmethod

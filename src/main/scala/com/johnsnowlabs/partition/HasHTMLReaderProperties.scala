@@ -37,6 +37,13 @@ trait HasHTMLReaderProperties extends ParamsAndFeaturesWritable {
     setHeaders(headers.asScala.toMap)
   }
 
-  setDefault(timeout -> 0, headers -> Map.empty[String, String])
+  val includeTitleTag = new Param[Boolean](
+    this,
+    "includeTitleTag",
+    "Whether to include the title tag in the HTML output. Default is false.")
+
+  def setIncludeTitleTag(value: Boolean): this.type = set(includeTitleTag, value)
+
+  setDefault(timeout -> 0, includeTitleTag -> false, headers -> Map.empty[String, String])
 
 }

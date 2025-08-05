@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.0.4 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq</title>
-          <meta name="description" content="Spark NLP 6.0.4 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq" />
-          <meta name="keywords" content="Spark NLP 6.0.4 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq" />
+          <title>Spark NLP 6.1.0-rc1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq</title>
+          <meta name="description" content="Spark NLP 6.1.0 - rc1 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq" />
+          <meta name="keywords" content="Spark NLP 6.1.0 rc1 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.0.4 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.1.0-rc1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -482,6 +482,10 @@
                         <a class="class" href="Phi3Transformer.html" title="Phi-3"></a>
                         <a href="Phi3Transformer.html" title="Phi-3">Phi3Transformer</a>
                       </li><li class="current-entities indented5">
+                        <a class="object" href="Phi4Transformer$.html" title=""></a>
+                        <a class="class" href="Phi4Transformer.html" title="Phi-4: State-of-the-art open model by Microsoft Research"></a>
+                        <a href="Phi4Transformer.html" title="Phi-4: State-of-the-art open model by Microsoft Research">Phi4Transformer</a>
+                      </li><li class="current-entities indented5">
                         <a class="object" href="QwenTransformer$.html" title=""></a>
                         <a class="class" href="QwenTransformer.html" title="Qwen: comprehensive language model series"></a>
                         <a href="QwenTransformer.html" title="Qwen: comprehensive language model series">QwenTransformer</a>
@@ -545,6 +549,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadPhi3TransformerDLModel.html" title=""></a>
                         <a href="ReadPhi3TransformerDLModel.html" title="">ReadPhi3TransformerDLModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadPhi4TransformerDLModel.html" title=""></a>
+                        <a href="ReadPhi4TransformerDLModel.html" title="">ReadPhi4TransformerDLModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadQwenTransformerDLModel.html" title=""></a>
@@ -617,6 +625,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedPhi3TransformerModel.html" title=""></a>
                         <a href="ReadablePretrainedPhi3TransformerModel.html" title="">ReadablePretrainedPhi3TransformerModel</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedPhi4TransformerModel.html" title=""></a>
+                        <a href="ReadablePretrainedPhi4TransformerModel.html" title="">ReadablePretrainedPhi4TransformerModel</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedQwenTransformerModel.html" title=""></a>
@@ -1893,6 +1905,49 @@ results.select(<span class="lit">"generation.result"</span>).show(truncate = <sp
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |[ My name is Leonardo. I am a man of letters. I have been a man <span class="kw">for</span> many years. I was born in the year <span class="num">1776.</span> I came to the United States in <span class="num">1776</span>, and I have lived in the United Kingdom since <span class="num">1776</span>]|
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.Phi4Transformer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Phi4TransformerextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.seq2seq.Phi4Transformer]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.seq2seq.Phi4Transformer]withParamsAndFeaturesWritablewithWriteOnnxModelwithWriteOpenvinoModelwithHasGeneratorPropertieswithHasEngine"></a><a id="Phi4Transformer:Phi4Transformer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/Phi4Transformer.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Phi-4: State-of-the-art open model by Microsoft Research" href="Phi4Transformer.html"><span class="name">Phi4Transformer</span></a><span class="result"> extends <a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="Phi4Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.Phi4Transformer">Phi4Transformer</a>] with <a href="../../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a>[<a href="Phi4Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.Phi4Transformer">Phi4Transformer</a>] with <a href="../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a> with <a href="../../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a> with <a href="../../../ml/openvino/WriteOpenvinoModel.html" class="extype" name="com.johnsnowlabs.ml.openvino.WriteOpenvinoModel">WriteOpenvinoModel</a> with <a href="../../HasGeneratorProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasGeneratorProperties">HasGeneratorProperties</a> with <a href="../../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Phi-4: State-of-the-art open model by Microsoft Research</p><div class="fullcomment"><div class="comment cmt"><p>Phi-4: State-of-the-art open model by Microsoft Research</p><p>phi-4 is a 14B parameter, dense decoder-only Transformer model trained on 9.8T tokens,
+designed for advanced reasoning, code, and general NLP tasks. For more details, see:
+https://huggingface.co/microsoft/phi-4</p><h4>Model Overview</h4><ul><li>14B parameters, dense decoder-only Transformer</li><li>16K context length</li><li>Trained on 9.8T tokens (synthetic, public domain, academic, Q&amp;A, code)</li><li>Focus on high-quality, advanced reasoning, math, code, and general NLP</li><li>Multilingual data: ~8% (primarily English)</li><li>Released under MIT License</li></ul><h4>Intended Use</h4><ul><li>General-purpose AI, research, and generative features</li><li>Memory/compute constrained and latency-bound environments</li><li>Reasoning, logic, and code generation</li></ul><h4>Benchmarks</h4><ul><li>MMLU: 84.8 | HumanEval: 82.6 | GPQA: 56.1 | DROP: 75.5 | MATH: 80.6</li><li>Outperforms or matches other 14B/70B models on many tasks</li></ul><h4>Safety &amp; Limitations</h4><ul><li>Safety alignment via SFT and DPO, red-teamed by Microsoft AIRT</li><li>Not intended for high-risk or consequential domains without further assessment</li><li>Primarily English; other languages may have reduced performance</li><li>May generate inaccurate, offensive, or biased content; use with care</li></ul><h4>Usage</h4><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object: {{ { val phi4 =
+Phi4Transformer.pretrained() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;generation&quot;) 
+}}}
+ The
+default model is <code>&quot;phi-4&quot;</code>, if no name is provided. For available pretrained models please see
+the <a href="https://huggingface.co/microsoft/phi-4" target="_blank">Models Hub</a>.</p><p><b>Note:</b> This is a resource-intensive module, especially with larger models and sequences.
+Use of accelerators such as GPUs is strongly recommended.</p><p><b>References:</b></p><ul><li>https://huggingface.co/microsoft/phi-4</li><li>arXiv:2412.08905</li></ul><h4>Example</h4><p>{{ { import spark.implicits._ import com.johnsnowlabs.nlp.base._ import
+com.johnsnowlabs.nlp.annotator._ import org.apache.spark.ml.Pipeline</p><p>val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;)
+.setOutputCol(&quot;documents&quot;)</p><p>val phi4 = Phi4Transformer.pretrained(&quot;phi-4&quot;) .setInputCols(Array(&quot;documents&quot;))
+.setMaxOutputLength(60) .setOutputCol(&quot;generation&quot;)</p><p>val pipeline = new Pipeline().setStages(Array(documentAssembler, phi4))</p><p>val data = Seq( (1, &quot;&lt;|im_start|&gt;system&lt;|im_sep|&gt;\nYou are a helpful
+assistant!\n&lt;|im_start|&gt;user&lt;|im_sep|&gt;\nWhat is Phi-4?\n&lt;|im_start|&gt;assistant&lt;|im_sep|&gt;\n&quot;)
+).toDF(&quot;id&quot;, &quot;text&quot;)</p><p>val result = pipeline.fit(data).transform(data)
+result.select(&quot;generation.result&quot;).show(truncate = false) 
+}}}</p><p>Phi4Transformer.pretrained() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;generation&quot;) 
+}}}
+default model is <code>&quot;phi-4&quot;</code>, if no name is provided. For available pretrained models please see
+the <a href="https://huggingface.co/microsoft/phi-4" target="_blank">Models Hub</a>.</p><p><b>Note:</b> This is a resource-intensive module, especially with larger models and sequences.
+Use of accelerators such as GPUs is strongly recommended.</p><p><b>References:</b></p><ul><li>https://huggingface.co/microsoft/phi-4</li><li>arXiv:2412.08905</li></ul><h4>Example</h4><p>{{ { import spark.implicits._ import com.johnsnowlabs.nlp.base._ import
+com.johnsnowlabs.nlp.annotator._ import org.apache.spark.ml.Pipeline</p><p>val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;)
+.setOutputCol(&quot;documents&quot;)</p><p>val phi4 = Phi4Transformer.pretrained(&quot;phi-4&quot;) .setInputCols(Array(&quot;documents&quot;))
+.setMaxOutputLength(60) .setOutputCol(&quot;generation&quot;)</p><p>val pipeline = new Pipeline().setStages(Array(documentAssembler, phi4))</p><p>val data = Seq( (1, &quot;&lt;|im_start|&gt;system&lt;|im_sep|&gt;\nYou are a helpful
+assistant!\n&lt;|im_start|&gt;user&lt;|im_sep|&gt;\nWhat is Phi-4?\n&lt;|im_start|&gt;assistant&lt;|im_sep|&gt;\n&quot;)
+).toDF(&quot;id&quot;, &quot;text&quot;)</p><p>val result = pipeline.fit(data).transform(data)
+result.select(&quot;generation.result&quot;).show(truncate = false) 
+}}}
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.QwenTransformer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="QwenTransformerextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.seq2seq.QwenTransformer]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.seq2seq.QwenTransformer]withParamsAndFeaturesWritablewithWriteOnnxModelwithWriteOpenvinoModelwithHasGeneratorPropertieswithHasEngine"></a><a id="QwenTransformer:QwenTransformer"></a>
       <span class="permalink">
@@ -2208,6 +2263,22 @@ results.select(<span class="lit">"generation.result"</span>).show(truncate = <sp
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadPhi4TransformerDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadPhi4TransformerDLModelextendsReadOnnxModelwithReadOpenvinoModel"></a><a id="ReadPhi4TransformerDLModel:ReadPhi4TransformerDLModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadPhi4TransformerDLModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadPhi4TransformerDLModel.html"><span class="name">ReadPhi4TransformerDLModel</span></a><span class="result"> extends <a href="../../../ml/onnx/ReadOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.ReadOnnxModel">ReadOnnxModel</a> with <a href="../../../ml/openvino/ReadOpenvinoModel.html" class="extype" name="com.johnsnowlabs.ml.openvino.ReadOpenvinoModel">ReadOpenvinoModel</a></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadQwenTransformerDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadQwenTransformerDLModelextendsReadOnnxModelwithReadOpenvinoModel"></a><a id="ReadQwenTransformerDLModel:ReadQwenTransformerDLModel"></a>
       <span class="permalink">
@@ -2493,6 +2564,22 @@ results.select(<span class="lit">"generation.result"</span>).show(truncate = <sp
       </span>
       <span class="symbol">
         <a title="" href="ReadablePretrainedPhi3TransformerModel.html"><span class="name">ReadablePretrainedPhi3TransformerModel</span></a><span class="result"> extends <a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="Phi3Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.Phi3Transformer">Phi3Transformer</a>] with <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="Phi3Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.Phi3Transformer">Phi3Transformer</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedPhi4TransformerModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedPhi4TransformerModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.seq2seq.Phi4Transformer]withHasPretrained[com.johnsnowlabs.nlp.annotators.seq2seq.Phi4Transformer]"></a><a id="ReadablePretrainedPhi4TransformerModel:ReadablePretrainedPhi4TransformerModel"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedPhi4TransformerModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedPhi4TransformerModel.html"><span class="name">ReadablePretrainedPhi4TransformerModel</span></a><span class="result"> extends <a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="Phi4Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.Phi4Transformer">Phi4Transformer</a>] with <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="Phi4Transformer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.Phi4Transformer">Phi4Transformer</a>]</span>
       </span>
       
       
@@ -2944,6 +3031,22 @@ documentation.
       </span>
       <span class="symbol">
         <a title="" href="Phi3Transformer$.html"><span class="name">Phi3Transformer</span></a><span class="result"> extends <a href="ReadablePretrainedPhi3TransformerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedPhi3TransformerModel">ReadablePretrainedPhi3TransformerModel</a> with <a href="ReadPhi3TransformerDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadPhi3TransformerDLModel">ReadPhi3TransformerDLModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.Phi4Transformer" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Phi4Transformer"></a><a id="Phi4Transformer:Phi4Transformer"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/Phi4Transformer$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="Phi4Transformer$.html"><span class="name">Phi4Transformer</span></a><span class="result"> extends <a href="ReadablePretrainedPhi4TransformerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedPhi4TransformerModel">ReadablePretrainedPhi4TransformerModel</a> with <a href="ReadPhi4TransformerDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadPhi4TransformerDLModel">ReadPhi4TransformerDLModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       

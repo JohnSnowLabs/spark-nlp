@@ -1,4 +1,34 @@
 =======
+6.1.0
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1189] Introducing Phi4
+* [SPARKNLP-1259] Introducing Reader2Doc Annotator
+* [SPARKNLP-1194] Upgrade jsl-llamacpp to newest version
+
+---------
+Bug Fixes
+---------
+* Fix HuggingFace_OpenVINO_in_Spark_NLP_Qwen2VL.ipynb
+
+=======
+6.0.5
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+* Updating support for Microsoft Fabric (SPARKNLP-1215)
+* Adding Markdown Reader (SPARKNLP-1213 )
+
+---------
+Bug Fixes
+---------
+* Fix long-standing issues across the Spark NLP example notebooks (SPARKNLP-1166)
+
+=======
 6.0.4
 =======
 ----------------
@@ -7,7 +37,6 @@ New Features & Enhancements
 * Introducing MiniLMEmbeddings (SPARKNLP-282)
 * Introducing DataFrameOptimizer (SPARKNLP-1086)
 * Added PDF Reader features (SPARKNLP-1161)
-
 
 =======
 6.0.3

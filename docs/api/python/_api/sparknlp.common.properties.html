@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.common.properties module &#8212; Spark NLP 6.0.4 documentation</title>
+    <title>sparknlp.common.properties module &#8212; Spark NLP 6.1.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=cc9e4dc6"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=413a1d38"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -505,6 +505,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.olmo_transformer.html">sparknlp.annotator.seq2seq.olmo_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.phi2_transformer.html">sparknlp.annotator.seq2seq.phi2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.phi3_transformer.html">sparknlp.annotator.seq2seq.phi3_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.phi4_transformer.html">sparknlp.annotator.seq2seq.phi4_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.qwen_transformer.html">sparknlp.annotator.seq2seq.qwen_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.starcoder_transformer.html">sparknlp.annotator.seq2seq.starcoder_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.t5_transformer.html">sparknlp.annotator.seq2seq.t5_transformer module</a></li>
@@ -608,6 +609,7 @@ document.write(`
 <li class="toctree-l1 has-children"><a class="reference internal" href="sparknlp.reader.html">sparknlp.reader package</a><input class="toctree-checkbox" id="toctree-checkbox-30" name="toctree-checkbox-30" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-30"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.reader2doc.html">sparknlp.reader.reader2doc module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
@@ -1678,16 +1680,6 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.grpAttnN">
-<span class="sig-name descname"><span class="pre">grpAttnN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='grpAttnN',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">group-attention</span> <span class="pre">factor')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.grpAttnN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.grpAttnN" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.grpAttnW">
-<span class="sig-name descname"><span class="pre">grpAttnW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='grpAttnW',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">group-attention</span> <span class="pre">width')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.grpAttnW"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.grpAttnW" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.ignoreEos">
 <span class="sig-name descname"><span class="pre">ignoreEos</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='ignoreEos',</span> <span class="pre">doc='Set</span> <span class="pre">whether</span> <span class="pre">to</span> <span class="pre">ignore</span> <span class="pre">end</span> <span class="pre">of</span> <span class="pre">stream</span> <span class="pre">token</span> <span class="pre">and</span> <span class="pre">continue</span> <span class="pre">generating</span> <span class="pre">(implies</span> <span class="pre">--logit-bias</span> <span class="pre">2-inf)')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.ignoreEos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.ignoreEos" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -1698,23 +1690,8 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.inputPrefixBos">
-<span class="sig-name descname"><span class="pre">inputPrefixBos</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inputPrefixBos',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">add</span> <span class="pre">prefix</span> <span class="pre">BOS</span> <span class="pre">to</span> <span class="pre">user</span> <span class="pre">inputs,</span> <span class="pre">preceding</span> <span class="pre">the</span> <span class="pre">`--in-prefix`</span> <span class="pre">string')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.inputPrefixBos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.inputPrefixBos" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.inputSuffix">
 <span class="sig-name descname"><span class="pre">inputSuffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inputSuffix',</span> <span class="pre">doc='Set</span> <span class="pre">a</span> <span class="pre">suffix</span> <span class="pre">for</span> <span class="pre">infilling')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.inputSuffix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.inputSuffix" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.lookupCacheDynamicFilePath">
-<span class="sig-name descname"><span class="pre">lookupCacheDynamicFilePath</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='lookupCacheDynamicFilePath',</span> <span class="pre">doc='Set</span> <span class="pre">path</span> <span class="pre">to</span> <span class="pre">dynamic</span> <span class="pre">lookup</span> <span class="pre">cache</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">for</span> <span class="pre">lookup</span> <span class="pre">decoding</span> <span class="pre">(updated</span> <span class="pre">by</span> <span class="pre">generation)')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.lookupCacheDynamicFilePath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.lookupCacheDynamicFilePath" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.lookupCacheStaticFilePath">
-<span class="sig-name descname"><span class="pre">lookupCacheStaticFilePath</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='lookupCacheStaticFilePath',</span> <span class="pre">doc='Set</span> <span class="pre">path</span> <span class="pre">to</span> <span class="pre">static</span> <span class="pre">lookup</span> <span class="pre">cache</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">for</span> <span class="pre">lookup</span> <span class="pre">decoding</span> <span class="pre">(not</span> <span class="pre">updated</span> <span class="pre">by</span> <span class="pre">generation)')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.lookupCacheStaticFilePath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.lookupCacheStaticFilePath" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1763,11 +1740,6 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.nChunks">
-<span class="sig-name descname"><span class="pre">nChunks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='nChunks',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">maximal</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">chunks</span> <span class="pre">to</span> <span class="pre">process')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.nChunks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.nChunks" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.nCtx">
 <span class="sig-name descname"><span class="pre">nCtx</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='nCtx',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">size</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">prompt</span> <span class="pre">context')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.nCtx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.nCtx" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -1803,11 +1775,6 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.nSequences">
-<span class="sig-name descname"><span class="pre">nSequences</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='nSequences',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">sequences</span> <span class="pre">to</span> <span class="pre">decode')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.nSequences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.nSequences" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.nThreads">
 <span class="sig-name descname"><span class="pre">nThreads</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='nThreads',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">threads</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">during</span> <span class="pre">generation')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.nThreads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.nThreads" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -1815,16 +1782,6 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.nThreadsBatch">
 <span class="sig-name descname"><span class="pre">nThreadsBatch</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='nThreadsBatch',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">threads</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">during</span> <span class="pre">batch</span> <span class="pre">and</span> <span class="pre">prompt</span> <span class="pre">processing')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.nThreadsBatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.nThreadsBatch" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.nThreadsBatchDraft">
-<span class="sig-name descname"><span class="pre">nThreadsBatchDraft</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='nThreadsBatchDraft',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">threads</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">during</span> <span class="pre">batch</span> <span class="pre">and</span> <span class="pre">prompt</span> <span class="pre">processing')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.nThreadsBatchDraft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.nThreadsBatchDraft" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.nThreadsDraft">
-<span class="sig-name descname"><span class="pre">nThreadsDraft</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='nThreadsDraft',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">threads</span> <span class="pre">to</span> <span class="pre">use</span> <span class="pre">during</span> <span class="pre">draft</span> <span class="pre">generation')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.nThreadsDraft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.nThreadsDraft" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1840,11 +1797,6 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.numaStrategy">
 <span class="sig-name descname"><span class="pre">numaStrategy</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='numaStrategy',</span> <span class="pre">doc='Set</span> <span class="pre">optimization</span> <span class="pre">strategies</span> <span class="pre">that</span> <span class="pre">help</span> <span class="pre">on</span> <span class="pre">some</span> <span class="pre">NUMA</span> <span class="pre">systems</span> <span class="pre">(if</span> <span class="pre">available)')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.numaStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.numaStrategy" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.pSplit">
-<span class="sig-name descname"><span class="pre">pSplit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='pSplit',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">speculative</span> <span class="pre">decoding</span> <span class="pre">split</span> <span class="pre">probability')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.pSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.pSplit" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1969,18 +1921,6 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setGrpAttnN">
-<span class="sig-name descname"><span class="pre">setGrpAttnN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grpAttnN</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setGrpAttnN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setGrpAttnN" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the group-attention factor</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setGrpAttnW">
-<span class="sig-name descname"><span class="pre">setGrpAttnW</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grpAttnW</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setGrpAttnW"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setGrpAttnW" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the group-attention width</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setIgnoreEos">
 <span class="sig-name descname"><span class="pre">setIgnoreEos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ignoreEos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setIgnoreEos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setIgnoreEos" title="Permalink to this definition">#</a></dt>
 <dd><p>Set whether to ignore end of stream token and continue generating (implies –logit-bias 2-inf)</p>
@@ -1993,33 +1933,9 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setInputPrefixBos">
-<span class="sig-name descname"><span class="pre">setInputPrefixBos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputPrefixBos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setInputPrefixBos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setInputPrefixBos" title="Permalink to this definition">#</a></dt>
-<dd><p>Whether to add prefix BOS to user inputs, preceding the <cite>–in-prefix</cite> string</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setInputSuffix">
 <span class="sig-name descname"><span class="pre">setInputSuffix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputSuffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setInputSuffix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setInputSuffix" title="Permalink to this definition">#</a></dt>
 <dd><p>Set a suffix for infilling</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setLookupCacheDynamicFilePath">
-<span class="sig-name descname"><span class="pre">setLookupCacheDynamicFilePath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lookupCacheDynamicFilePath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setLookupCacheDynamicFilePath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setLookupCacheDynamicFilePath" title="Permalink to this definition">#</a></dt>
-<dd><p>Set path to dynamic lookup cache to use for lookup decoding (updated by generation)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setLookupCacheStaticFilePath">
-<span class="sig-name descname"><span class="pre">setLookupCacheStaticFilePath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lookupCacheStaticFilePath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setLookupCacheStaticFilePath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setLookupCacheStaticFilePath" title="Permalink to this definition">#</a></dt>
-<dd><p>Set path to static lookup cache to use for lookup decoding (not updated by generation)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setLoraAdapters">
-<span class="sig-name descname"><span class="pre">setLoraAdapters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loraAdapters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setLoraAdapters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setLoraAdapters" title="Permalink to this definition">#</a></dt>
-<dd><p>Set LoRA adapters with their scaling factors</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2077,12 +1993,6 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setNChunks">
-<span class="sig-name descname"><span class="pre">setNChunks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nChunks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setNChunks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setNChunks" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the maximal number of chunks to process</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setNCtx">
 <span class="sig-name descname"><span class="pre">setNCtx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nCtx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setNCtx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setNCtx" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the size of the prompt context</p>
@@ -2131,12 +2041,6 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setNSequences">
-<span class="sig-name descname"><span class="pre">setNSequences</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nSequences</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setNSequences"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setNSequences" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the number of sequences to decode</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setNThreads">
 <span class="sig-name descname"><span class="pre">setNThreads</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nThreads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setNThreads"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setNThreads" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the number of threads to use during generation</p>
@@ -2146,18 +2050,6 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setNThreadsBatch">
 <span class="sig-name descname"><span class="pre">setNThreadsBatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nThreadsBatch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setNThreadsBatch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setNThreadsBatch" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the number of threads to use during batch and prompt processing</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setNThreadsBatchDraft">
-<span class="sig-name descname"><span class="pre">setNThreadsBatchDraft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nThreadsBatchDraft</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setNThreadsBatchDraft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setNThreadsBatchDraft" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the number of threads to use during batch and prompt processing</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setNThreadsDraft">
-<span class="sig-name descname"><span class="pre">setNThreadsDraft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nThreadsDraft</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setNThreadsDraft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setNThreadsDraft" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the number of threads to use during draft generation</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2176,12 +2068,14 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setNumaStrategy">
 <span class="sig-name descname"><span class="pre">setNumaStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numaStrategy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setNumaStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setNumaStrategy" title="Permalink to this definition">#</a></dt>
 <dd><p>Set optimization strategies that help on some NUMA systems (if available)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setPSplit">
-<span class="sig-name descname"><span class="pre">setPSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pSplit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setPSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setPSplit" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the speculative decoding split probability</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li><p>DISABLED: No NUMA optimizations</p></li>
+<li><p>DISTRIBUTE: spread execution evenly over all</p></li>
+<li><p>ISOLATE: only spawn threads on CPUs on the node that execution started on</p></li>
+<li><p>NUMA_CTL: use the CPU map provided by numactl</p></li>
+<li><p>MIRROR: Mirrors the model across NUMA nodes</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py method">
@@ -2200,6 +2094,14 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setPoolingType">
 <span class="sig-name descname"><span class="pre">setPoolingType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">poolingType</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setPoolingType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setPoolingType" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the pooling type for embeddings, use model default if unspecified</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li><p>0 NONE: Don’t use any pooling</p></li>
+<li><p>1 MEAN: Mean Pooling</p></li>
+<li><p>2 CLS: CLS Pooling</p></li>
+<li><p>3 LAST: Last token pooling</p></li>
+<li><p>4 RANK: For reranked models</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py method">
@@ -2235,7 +2137,13 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setRopeScalingType">
 <span class="sig-name descname"><span class="pre">setRopeScalingType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ropeScalingType</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setRopeScalingType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setRopeScalingType" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the RoPE frequency scaling method, defaults to linear unless specified by the model</p>
+<dd><p>Set the RoPE frequency scaling method, defaults to linear unless specified by the model.</p>
+<p>Possible values:</p>
+<ul class="simple">
+<li><p>NONE: Don’t use any scaling</p></li>
+<li><p>LINEAR: Linear scaling</p></li>
+<li><p>YARN: YaRN RoPE scaling</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py method">
@@ -2266,12 +2174,6 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setTemperature">
 <span class="sig-name descname"><span class="pre">setTemperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setTemperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setTemperature" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the temperature</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setTensorSplit">
-<span class="sig-name descname"><span class="pre">setTensorSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensorSplit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setTensorSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setTensorSplit" title="Permalink to this definition">#</a></dt>
-<dd><p>Set how split tensors should be distributed across GPUs</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2371,11 +2273,6 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.temperature">
 <span class="sig-name descname"><span class="pre">temperature</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='temperature',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">temperature')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.temperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.temperature" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.tensorSplit">
-<span class="sig-name descname"><span class="pre">tensorSplit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='tensorSplit',</span> <span class="pre">doc='Set</span> <span class="pre">how</span> <span class="pre">split</span> <span class="pre">tensors</span> <span class="pre">should</span> <span class="pre">be</span> <span class="pre">distributed</span> <span class="pre">across</span> <span class="pre">GPUs')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.tensorSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.tensorSplit" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2706,14 +2603,9 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.getMetadata"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.getMetadata()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.gpuSplitMode"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.gpuSplitMode</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.grammar"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.grammar</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.grpAttnN"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.grpAttnN</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.grpAttnW"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.grpAttnW</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.ignoreEos"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.ignoreEos</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.inputPrefix"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.inputPrefix</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.inputPrefixBos"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.inputPrefixBos</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.inputSuffix"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.inputSuffix</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.lookupCacheDynamicFilePath"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.lookupCacheDynamicFilePath</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.lookupCacheStaticFilePath"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.lookupCacheStaticFilePath</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.mainGpu"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.mainGpu</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.minKeep"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.minKeep</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.minP"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.minP</span></code></a></li>
@@ -2723,7 +2615,6 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.modelAlias"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.modelAlias</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.modelDraft"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.modelDraft</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nBatch"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nBatch</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nChunks"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nChunks</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nCtx"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nCtx</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nDraft"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nDraft</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nGpuLayers"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nGpuLayers</span></code></a></li>
@@ -2731,15 +2622,11 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nKeep"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nKeep</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nPredict"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nPredict</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nProbs"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nProbs</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nSequences"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nSequences</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nThreads"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nThreads</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nThreadsBatch"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nThreadsBatch</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nThreadsBatchDraft"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nThreadsBatchDraft</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nThreadsDraft"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nThreadsDraft</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.nUbatch"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.nUbatch</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.noKvOffload"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.noKvOffload</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.numaStrategy"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.numaStrategy</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.pSplit"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.pSplit</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.penalizeNl"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.penalizeNl</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.penaltyPrompt"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.penaltyPrompt</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.poolingType"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.poolingType</span></code></a></li>
@@ -2762,15 +2649,9 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setFrequencyPenalty"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setFrequencyPenalty()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setGpuSplitMode"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setGpuSplitMode()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setGrammar"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setGrammar()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setGrpAttnN"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setGrpAttnN()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setGrpAttnW"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setGrpAttnW()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setIgnoreEos"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setIgnoreEos()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setInputPrefix"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setInputPrefix()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setInputPrefixBos"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setInputPrefixBos()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setInputSuffix"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setInputSuffix()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setLookupCacheDynamicFilePath"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setLookupCacheDynamicFilePath()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setLookupCacheStaticFilePath"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setLookupCacheStaticFilePath()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setLoraAdapters"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setLoraAdapters()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setMainGpu"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setMainGpu()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setMinKeep"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setMinKeep()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setMinP"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setMinP()</span></code></a></li>
@@ -2780,7 +2661,6 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setModelAlias"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setModelAlias()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setModelDraft"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setModelDraft()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNBatch"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNBatch()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNChunks"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNChunks()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNCtx"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNCtx()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNDraft"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNDraft()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNGpuLayers"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNGpuLayers()</span></code></a></li>
@@ -2789,15 +2669,11 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNParallel"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNParallel()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNPredict"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNPredict()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNProbs"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNProbs()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNSequences"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNSequences()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNThreads"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNThreads()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNThreadsBatch"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNThreadsBatch()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNThreadsBatchDraft"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNThreadsBatchDraft()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNThreadsDraft"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNThreadsDraft()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNUbatch"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNUbatch()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNoKvOffload"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNoKvOffload()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNumaStrategy"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNumaStrategy()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setPSplit"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setPSplit()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setPenalizeNl"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setPenalizeNl()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setPenaltyPrompt"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setPenaltyPrompt()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setPoolingType"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setPoolingType()</span></code></a></li>
@@ -2812,7 +2688,6 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setStopStrings"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setStopStrings()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setSystemPrompt"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setSystemPrompt()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setTemperature"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setTemperature()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setTensorSplit"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setTensorSplit()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setTfsZ"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setTfsZ()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setTokenBias"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setTokenBias()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setTokenIdBias"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setTokenIdBias()</span></code></a></li>
@@ -2830,7 +2705,6 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.stopStrings"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.stopStrings</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.systemPrompt"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.systemPrompt</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.temperature"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.temperature</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.tensorSplit"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.tensorSplit</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.tfsZ"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.tfsZ</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.topK"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.topK</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.topP"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.topP</span></code></a></li>

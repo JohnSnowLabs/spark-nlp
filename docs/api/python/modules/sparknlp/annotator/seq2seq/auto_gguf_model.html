@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.auto_gguf_model &#8212; Spark NLP 6.0.4 documentation</title>
+    <title>sparknlp.annotator.seq2seq.auto_gguf_model &#8212; Spark NLP 6.1.0 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cc9e4dc6"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=413a1d38"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -619,7 +619,9 @@ document.write(`
             <span class="n">nCtx</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
             <span class="n">nBatch</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
             <span class="n">embedding</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">nPredict</span><span class="o">=</span><span class="mi">100</span>
+            <span class="n">nPredict</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+            <span class="n">nGpuLayers</span><span class="o">=</span><span class="mi">99</span><span class="p">,</span>
+            <span class="n">systemPrompt</span><span class="o">=</span><span class="s2">&quot;You are a helpful assistant.&quot;</span>
         <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>

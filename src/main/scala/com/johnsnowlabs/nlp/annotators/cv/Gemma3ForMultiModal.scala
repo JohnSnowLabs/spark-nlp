@@ -341,7 +341,7 @@ trait ReadablePretrainedGemma3ForMultiModal
     extends ParamsAndFeaturesReadable[Gemma3ForMultiModal]
     with HasPretrained[Gemma3ForMultiModal] {
 
-  override val defaultModelName: Some[String] = Some("gemma3_4b_it_int4")
+  override val defaultModelName: Some[String] = Some("gemma_3_4b_it_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): Gemma3ForMultiModal = super.pretrained()

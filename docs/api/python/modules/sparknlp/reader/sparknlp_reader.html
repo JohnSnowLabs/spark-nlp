@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.reader.sparknlp_reader &#8212; Spark NLP 6.0.4 documentation</title>
+    <title>sparknlp.reader.sparknlp_reader &#8212; Spark NLP 6.1.0 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=cc9e4dc6"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=413a1d38"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.0.4 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.0.4 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -728,6 +728,97 @@ document.write(`
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">docPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;docPath must be a string&quot;</span><span class="p">)</span>
         <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">xml</span><span class="p">(</span><span class="n">docPath</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SparkNLPReader.md"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.md">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">md</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filePath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads Markdown files and returns a Spark DataFrame.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filePath : str</span>
+<span class="sd">            Path to a Markdown file or a directory containing Markdown files.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyspark.sql.DataFrame</span>
+<span class="sd">            A DataFrame containing parsed Markdown content.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from sparknlp.reader import SparkNLPReader</span>
+<span class="sd">        &gt;&gt;&gt; md_df = SparkNLPReader(spark).md(&quot;home/user/markdown-directory&quot;)</span>
+
+<span class="sd">        You can use SparkNLP for one line of code</span>
+
+<span class="sd">        &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">        &gt;&gt;&gt; md_df = sparknlp.read().md(&quot;home/user/markdown-directory&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; md_df.show(truncate=False)</span>
+<span class="sd">        +-----------------------------------------------------------+</span>
+<span class="sd">        |md                                                         |</span>
+<span class="sd">        +-----------------------------------------------------------+</span>
+<span class="sd">        |[{Title, Sample Markdown Document, {elementId -&gt; ..., tag -&gt; title}}]|</span>
+<span class="sd">        +-----------------------------------------------------------+</span>
+
+<span class="sd">        &gt;&gt;&gt; md_df.printSchema()</span>
+<span class="sd">        root</span>
+<span class="sd">         |-- path: string (nullable = true)</span>
+<span class="sd">         |-- md: array (nullable = true)</span>
+<span class="sd">         |    |-- element: struct (containsNull = true)</span>
+<span class="sd">         |    |    |-- elementType: string (nullable = true)</span>
+<span class="sd">         |    |    |-- content: string (nullable = true)</span>
+<span class="sd">         |    |    |-- metadata: map (nullable = true)</span>
+<span class="sd">         |    |    |    |-- key: string</span>
+<span class="sd">         |    |    |    |-- value: string (valueContainsNull = true)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filePath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;filePath must be a string&quot;</span><span class="p">)</span>
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">md</span><span class="p">(</span><span class="n">filePath</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SparkNLPReader.csv"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/sparknlp_reader/index.html#sparknlp.reader.sparknlp_reader.SparkNLPReader.csv">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">csvPath</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads CSV files and returns a Spark DataFrame.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        docPath : str</span>
+<span class="sd">            Path to an CSV file or a directory containing CSV files.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pyspark.sql.DataFrame</span>
+<span class="sd">            A DataFrame containing parsed CSV content.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from sparknlp.reader import SparkNLPReader</span>
+<span class="sd">        &gt;&gt;&gt; csv_df = SparkNLPReader(spark).csv(&quot;home/user/csv-directory&quot;)</span>
+
+<span class="sd">        You can use SparkNLP for one line of code</span>
+
+<span class="sd">        &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">        &gt;&gt;&gt; csv_df = sparknlp.read().csv(&quot;home/user/csv-directory&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; csv_df.show(truncate=False)</span>
+<span class="sd">        +-----------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |csv                                                                                                                                      |</span>
+<span class="sd">        +-----------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="sd">        |[{NarrativeText, Alice 100 Bob 95, {}}, {Table, &lt;table&gt;&lt;tr&gt;&lt;td&gt;Alice&lt;/td&gt;&lt;td&gt;100&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Bob&lt;/td&gt;&lt;td&gt;95&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;, {}}] |</span>
+<span class="sd">        +-----------------------------------------------------------------------------------------------------------------------------------------+</span>
+
+<span class="sd">        &gt;&gt;&gt; csv_df.printSchema()</span>
+<span class="sd">        root</span>
+<span class="sd">         |-- path: string (nullable = true)</span>
+<span class="sd">         |-- csv: array (nullable = true)</span>
+<span class="sd">         |    |-- element: struct (containsNull = true)</span>
+<span class="sd">         |    |    |-- elementType: string (nullable = true)</span>
+<span class="sd">         |    |    |-- content: string (nullable = true)</span>
+<span class="sd">         |    |    |-- metadata: map (nullable = true)</span>
+<span class="sd">         |    |    |    |-- key: string</span>
+<span class="sd">         |    |    |    |-- value: string (valueContainsNull = true)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">csvPath</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;docPath must be a string&quot;</span><span class="p">)</span>
+        <span class="n">jdf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">csv</span><span class="p">(</span><span class="n">csvPath</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getDataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="p">,</span> <span class="n">jdf</span><span class="p">)</span></div></div>
 </pre></div>
 

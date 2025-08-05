@@ -71,8 +71,7 @@ object CloudHelper {
   }
 
   def isCloudPath(uri: String): Boolean = {
-    val intraCloudPath = isIntraCloudPath(uri)
-    (isS3Path(uri) || isGCPStoragePath(uri) || isAzureBlobPath(uri)) && !intraCloudPath
+    isS3Path(uri) || isGCPStoragePath(uri) || isAzureBlobPath(uri)
   }
 
   def isS3Path(uri: String): Boolean = {
@@ -86,13 +85,12 @@ object CloudHelper {
       "abfss://")
   }
 
-  private def isIntraCloudPath(uri: String): Boolean = {
-    uri.startsWith("abfss://") && isMicrosoftFabric
-  }
-
   def isMicrosoftFabric: Boolean = {
     ResourceHelper.spark.conf.getAll.keys.exists(_.startsWith("spark.fabric"))
   }
+
+  def isFabricAbfss(uri: String): Boolean =
+    uri.startsWith("abfss://") && uri.contains("onelake.dfs.fabric.microsoft.com")
 
   def cloudType(uri: String): CloudStorageType = {
     if (isS3Path(uri)) {

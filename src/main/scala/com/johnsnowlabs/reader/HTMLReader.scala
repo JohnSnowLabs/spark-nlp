@@ -18,6 +18,7 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.{isValidURL, validFile}
 import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithTextFile
+import com.johnsnowlabs.reader.util.HTMLParser
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
 import org.jsoup.Jsoup
@@ -30,8 +31,9 @@ import scala.collection.mutable.ArrayBuffer
 /** Class to parse and read HTML files.
   *
   * @param titleFontSize
-  *   Minimum font size threshold used as part of heuristic rules to detect title elements based
-  *   on formatting (e.g., bold, centered, capitalized). By default, it is set to 16.
+  *   Minimum font size threshold in pixels used as part of heuristic rules to detect title
+  *   elements based on formatting (e.g., bold, centered, capitalized). By default, it is set to
+  *   16.
   * @param storeContent
   *   Whether to include the raw file content in the output DataFrame as a separate 'content'
   *   column, alongside the structured output. By default, it is set to false.
@@ -65,7 +67,7 @@ import scala.collection.mutable.ArrayBuffer
   *
   * htmlDf.printSchema()
   * root
-  *  |-- url: string (nullable = true)
+  *  |-- path: string (nullable = true)
   *  |-- html: array (nullable = true)
   *  |    |-- element: struct (containsNull = true)
   *  |    |    |-- elementType: string (nullable = true)
@@ -82,6 +84,7 @@ class HTMLReader(
     titleFontSize: Int = 16,
     storeContent: Boolean = false,
     timeout: Int = 0,
+    includeTitleTag: Boolean = false,
     headers: Map[String, String] = Map.empty)
     extends Serializable {
 
@@ -159,7 +162,18 @@ class HTMLReader(
 
   private def startTraversalFromBody(document: Document): Array[HTMLElement] = {
     val body = document.body()
-    extractElements(body)
+    val elements = extractElements(body)
+    val docTitle = document.title().trim
+
+    if (docTitle.nonEmpty && includeTitleTag) {
+      val titleElem = HTMLElement(
+        ElementType.TITLE,
+        content = docTitle,
+        metadata = mutable.Map.empty[String, String])
+      Array(titleElem) ++ elements
+    } else {
+      elements
+    }
   }
 
   def htmlToHTMLElement(html: String): Array[HTMLElement] = {
@@ -179,6 +193,7 @@ class HTMLReader(
   private case class NodeMetadata(tagName: Option[String], hidden: Boolean, var visited: Boolean)
 
   private def extractElements(root: Node): Array[HTMLElement] = {
+    var sentenceIndex = 0
     val elements = ArrayBuffer[HTMLElement]()
     val trackingNodes = mutable.Map[Node, NodeMetadata]()
     var pageNumber = 1
@@ -248,8 +263,11 @@ class HTMLReader(
           val visitedNode = trackingNodes(element).visited
           val pageMetadata: mutable.Map[String, String] =
             mutable.Map("pageNumber" -> pageNumber.toString)
+
           element.tagName() match {
             case "a" =>
+              pageMetadata("sentence") = sentenceIndex.toString
+              sentenceIndex += 1
               val href = element.attr("href").trim
               val linkText = element.text().trim
               if (href.nonEmpty && linkText.nonEmpty && !visitedNode) {
@@ -260,6 +278,8 @@ class HTMLReader(
                   metadata = pageMetadata)
               }
             case "table" =>
+              pageMetadata("sentence") = sentenceIndex.toString
+              sentenceIndex += 1
               val tableText = extractNestedTableContent(element).trim
               if (tableText.nonEmpty && !visitedNode) {
                 trackingNodes(element).visited = true
@@ -268,14 +288,43 @@ class HTMLReader(
                   content = tableText,
                   metadata = pageMetadata)
               }
-            case "p" =>
+            case "li" =>
+              pageMetadata("sentence") = sentenceIndex.toString
+              sentenceIndex += 1
+              val itemText = element.text().trim
+              if (itemText.nonEmpty && !visitedNode) {
+                trackingNodes(element).visited = true
+                elements += HTMLElement(
+                  ElementType.LIST_ITEM,
+                  content = itemText,
+                  metadata = pageMetadata)
+              }
+            case "pre" =>
+              // A <pre> tag typically contains a <code> child
+              val codeElem = element.getElementsByTag("code").first()
+              val codeText =
+                if (codeElem != null) codeElem.text().trim
+                else element.text().trim
+              if (codeText.nonEmpty && !visitedNode) {
+                pageMetadata("sentence") = sentenceIndex.toString
+                sentenceIndex += 1
+                trackingNodes(element).visited = true
+                elements += HTMLElement(
+                  ElementType.UNCATEGORIZED_TEXT, // or ElementType.CODE if you have it
+                  content = codeText,
+                  metadata = pageMetadata)
+              }
+            case tag if isParagraphLikeElement(element) =>
               if (!visitedNode) {
-                classifyParagraphElement(element) match {
+                val classType = classifyParagraphElement(element)
+                classType match {
                   case ElementType.NARRATIVE_TEXT =>
                     trackingNodes(element).visited = true
                     val childNodes = element.childNodes().asScala.toList
                     val aggregatedText = collectTextFromNodes(childNodes)
                     if (aggregatedText.nonEmpty) {
+                      pageMetadata("sentence") = sentenceIndex.toString
+                      sentenceIndex += 1
                       elements += HTMLElement(
                         ElementType.NARRATIVE_TEXT,
                         content = aggregatedText,
@@ -285,6 +334,8 @@ class HTMLReader(
                     trackingNodes(element).visited = true
                     val titleText = element.text().trim
                     if (titleText.nonEmpty) {
+                      pageMetadata("sentence") = sentenceIndex.toString
+                      sentenceIndex += 1
                       elements += HTMLElement(
                         ElementType.TITLE,
                         content = titleText,
@@ -292,11 +343,13 @@ class HTMLReader(
                     }
                   case ElementType.UNCATEGORIZED_TEXT =>
                     trackingNodes(element).visited = true
-                    val titleText = element.text().trim
-                    if (titleText.nonEmpty) {
+                    val text = element.text().trim
+                    if (text.nonEmpty) {
+                      pageMetadata("sentence") = sentenceIndex.toString
+                      sentenceIndex += 1
                       elements += HTMLElement(
                         ElementType.UNCATEGORIZED_TEXT,
-                        content = titleText,
+                        content = text,
                         metadata = pageMetadata)
                     }
                 }
@@ -305,6 +358,8 @@ class HTMLReader(
               trackingNodes(element).visited = true
               val titleText = element.text().trim
               if (titleText.nonEmpty) {
+                pageMetadata("sentence") = sentenceIndex.toString
+                sentenceIndex += 1
                 elements += HTMLElement(
                   ElementType.TITLE,
                   content = titleText,
@@ -330,6 +385,19 @@ class HTMLReader(
     elements.toArray
   }
 
+  private def isParagraphLikeElement(elem: Element): Boolean = {
+    val tag = elem.tagName().toLowerCase
+    val style = elem.attr("style").toLowerCase
+    (tag == "p") ||
+    (tag == "div" && (
+      style.contains("font-size") ||
+        style.contains("line-height") ||
+        style.contains("margin") ||
+        elem.getElementsByTag("b").size() > 0 ||
+        elem.getElementsByTag("strong").size() > 0
+    ))
+  }
+
   private def getTagName(node: Node): Option[String] = {
     node match {
       case element: Element => Some(element.tagName())
@@ -338,7 +406,7 @@ class HTMLReader(
   }
 
   private def classifyParagraphElement(element: Element): String = {
-    if (isTitleElement(element)) {
+    if (isFormattedAsTitle(element)) {
       ElementType.TITLE
     } else if (isTextElement(element)) {
       ElementType.NARRATIVE_TEXT
@@ -347,38 +415,25 @@ class HTMLReader(
     }
   }
 
-  private def isTextElement(elem: Element): Boolean = {
-    !isFormattedAsTitle(elem) &&
-    (elem.attr("style").toLowerCase.contains("text") || elem.tagName().toLowerCase == "p")
+  private def isTitleElement(element: Element): Boolean = {
+    val tag = element.tagName().toLowerCase
+    val style = element.attr("style").toLowerCase
+    val role = element.attr("role").toLowerCase
+    HTMLParser.isTitleElement(tag, style, role, titleFontSize)
   }
 
-  private def isTitleElement(elem: Element): Boolean = {
-    val tag = elem.tagName().toLowerCase
-
-    // Recognize titles from common title-related tags or formatted <p> elements
-    tag match {
-      case "title" | "h1" | "h2" | "h3" | "header" => true
-      case "p" => isFormattedAsTitle(elem) // Check if <p> behaves like a title
-      case _ => elem.attr("role").toLowerCase == "heading" // ARIA role="heading"
-    }
+  private def isTextElement(elem: Element): Boolean = {
+    !isFormattedAsTitle(elem) &&
+    (elem.attr("style").toLowerCase.contains("text") ||
+      elem.tagName().toLowerCase == "p" ||
+      (elem.tagName().toLowerCase == "div" && isParagraphLikeElement(elem)))
   }
 
   private def isFormattedAsTitle(elem: Element): Boolean = {
-    // Check for bold text, large font size, or centered alignment
     val style = elem.attr("style").toLowerCase
-    val isBold = style.contains("font-weight:bold")
-    val isLargeFont = style.contains("font-size") && extractFontSize(style) >= titleFontSize
-    val isCentered = style.contains("text-align:center")
-
-    isBold || isLargeFont || (isCentered && isBold) || (isCentered && isLargeFont)
-  }
-
-  private def extractFontSize(style: String): Int = {
-    val sizePattern = """font-size:(\d+)pt""".r
-    sizePattern.findFirstMatchIn(style) match {
-      case Some(m) => m.group(1).toInt
-      case None => 0
-    }
+    val hasBoldTag =
+      elem.getElementsByTag("b").size() > 0 || elem.getElementsByTag("strong").size() > 0
+    hasBoldTag || HTMLParser.isFormattedAsTitle(style, titleFontSize)
   }
 
   private def extractNestedTableContent(elem: Element): String = {

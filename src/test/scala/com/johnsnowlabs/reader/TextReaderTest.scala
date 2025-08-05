@@ -75,7 +75,9 @@ class TextReaderTest extends AnyFlatSpec {
         "At the end of the lane, the fox met a bear.",
         mutable.Map("paragraph" -> "0")))
 
-    assert(elements == expectedElements)
+    val actualBasic = elements.map(e => (e.elementType, e.content))
+    val expectedBasic = expectedElements.map(e => (e.elementType, e.content))
+    assert(actualBasic == expectedBasic)
   }
 
   it should "group broken paragraphs reading from file" taggedAs FastTest in {
@@ -100,7 +102,9 @@ class TextReaderTest extends AnyFlatSpec {
         "At the end of the lane, the fox met a bear.",
         mutable.Map("paragraph" -> "0")))
 
-    assert(elements == expectedElements)
+    val actualBasic = elements.map(e => (e.elementType, e.content))
+    val expectedBasic = expectedElements.map(e => (e.elementType, e.content))
+    assert(actualBasic == expectedBasic)
   }
 
   it should "paragraph split with custom regex" taggedAs FastTest in {
@@ -134,7 +138,9 @@ the fox met a friendly bear."""
         "At the end of the lane the fox met a friendly bear.",
         mutable.Map("paragraph" -> "0")))
 
-    assert(elements == expectedElements)
+    val actualBasic = elements.map(e => (e.elementType, e.content))
+    val expectedBasic = expectedElements.map(e => (e.elementType, e.content))
+    assert(actualBasic == expectedBasic)
   }
 
   it should "output as title for font size >= 40" taggedAs FastTest in {

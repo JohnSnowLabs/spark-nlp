@@ -19,14 +19,13 @@ import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{
   BLOCK_SPLIT_PATTERN,
   DOUBLE_PARAGRAPH_PATTERN
 }
-import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.util.pdf.TextStripperType
 import com.johnsnowlabs.reader.util.PartitionOptions.{
   getDefaultBoolean,
   getDefaultInt,
-  getDefaultString
+  getDefaultString,
+  getDefaultDouble
 }
-import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 
 import scala.collection.JavaConverters._
@@ -93,35 +92,60 @@ class SparkNLPReader(
 
   def html(htmlPath: String): DataFrame = {
     val htmlReader =
-      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+      new HTMLReader(
+        getTitleFontSize,
+        getStoreContent,
+        getTimeout,
+        getIncludeTitleTag,
+        headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(htmlPath)
   }
 
   def htmlToHTMLElement(html: String): Seq[HTMLElement] = {
     val htmlReader =
-      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+      new HTMLReader(
+        getTitleFontSize,
+        getStoreContent,
+        getTimeout,
+        getIncludeTitleTag,
+        headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.htmlToHTMLElement(html)
   }
 
   def urlToHTMLElement(url: String): Seq[HTMLElement] = {
     val htmlReader =
-      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+      new HTMLReader(
+        getTitleFontSize,
+        getStoreContent,
+        getTimeout,
+        getIncludeTitleTag,
+        headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.urlToHTMLElement(url)
   }
 
   def html(urls: Array[String]): DataFrame = {
     val htmlReader =
-      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+      new HTMLReader(
+        getTitleFontSize,
+        getStoreContent,
+        getTimeout,
+        getIncludeTitleTag,
+        headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(urls)
   }
 
   def html(urls: java.util.List[String]): DataFrame = {
     val htmlReader =
-      new HTMLReader(getTitleFontSize, getStoreContent, getTimeout, headers = htmlHeaders)
+      new HTMLReader(
+        getTitleFontSize,
+        getStoreContent,
+        getTimeout,
+        getIncludeTitleTag,
+        headers = htmlHeaders)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(urls.asScala.toArray)
   }
@@ -140,6 +164,13 @@ class SparkNLPReader(
 
   private def getTimeout: Int = {
     getDefaultInt(params.asScala.toMap, Seq("timeout"), default = 30)
+  }
+
+  private def getIncludeTitleTag: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("includeTitleTag", "include_title_tag"),
+      default = false)
   }
 
   /** Instantiates class to read email files.
@@ -302,22 +333,20 @@ class SparkNLPReader(
     *   Parameter with custom configuration
     */
   def pdf(pdfPath: String): DataFrame = {
-    val spark = ResourceHelper.spark
-    spark.conf.set("spark.sql.legacy.allowUntypedScalaUDF", "true")
-    val pdfToText = new PdfToText()
-      .setStoreSplittedPdf(getStoreSplittedPdf)
-      .setSplitPage(getSplitPage)
-      .setOnlyPageNum(getOnlyPageNum)
-      .setTextStripper(getTextStripper)
-      .setSort(getSort)
-      .setExtractCoordinates(getExtractCoordinates)
-      .setNormalizeLigatures(getNormalizeLigatures)
-    val binaryPdfDF = spark.read.format("binaryFile").load(pdfPath)
-    val pipelineModel = new Pipeline()
-      .setStages(Array(pdfToText))
-      .fit(binaryPdfDF)
+    val pdfReader = new PdfReader(getStoreContent, getTitleThreshold)
+    pdfReader.pdf(pdfPath)
+  }
 
-    pipelineModel.transform(binaryPdfDF)
+  def pdf(content: Array[Byte]): Seq[HTMLElement] = {
+    val pdfReader = new PdfReader(getStoreContent, getTitleThreshold)
+    pdfReader.pdfToHTMLElement(content)
+  }
+
+  private def getTitleThreshold: Double = {
+    getDefaultDouble(
+      params.asScala.toMap,
+      Seq("titleThreshold", "title_threshold"),
+      default = 18.0)
   }
 
   private def getStoreSplittedPdf: Boolean = {
@@ -699,6 +728,131 @@ class SparkNLPReader(
       params.asScala.toMap,
       Seq("onlyLeafNodes", "only_leaf_nodes"),
       default = true)
+  }
+
+  /** Instantiates class to read Markdown (.md) files.
+    *
+    * This method loads a Markdown file or directory of `.md` files and parses the content into
+    * structured elements such as headers, narrative text, lists, and code blocks.
+    *
+    * ==Example==
+    * {{{
+    * val mdPath = "home/user/markdown-files"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val mdDf = sparkNLPReader.md(mdPath)
+    * }}}
+    *
+    * ==Example 2==
+    * Use SparkNLP in one line:
+    * {{{
+    * val mdDf = SparkNLP.read.md(mdPath)
+    * }}}
+    *
+    * {{{
+    * mdDf.select("md").show(false)
+    *
+    * +-----------------------------------------------------------------------------------------------------------------------------------+
+    * |md                                                                                                                                 |
+    * +-----------------------------------------------------------------------------------------------------------------------------------+
+    * |[{Title, Introduction, {level -> 1, paragraph -> 0}}, {NarrativeText, This is a Markdown paragraph., {paragraph -> 0}}, ...]        |
+    * +-----------------------------------------------------------------------------------------------------------------------------------+
+    *
+    * mdDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- md: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param mdPath
+    *   Path to a single .md file or a directory of Markdown files.
+    * @return
+    *   A DataFrame with parsed Markdown content as structured HTMLElements.
+    */
+  def md(mdPath: String): DataFrame = {
+    val markdownReader = new MarkdownReader()
+    setOutputColumn(markdownReader.getOutputColumn)
+    markdownReader.md(mdPath)
+  }
+
+  def mdToHTMLElement(mdContent: String): Seq[HTMLElement] = {
+    val markdownReader = new MarkdownReader()
+    setOutputColumn(markdownReader.getOutputColumn)
+    markdownReader.parseMarkdownWithTables(mdContent)
+  }
+
+  /** Instantiates class to read XML files.
+    *
+    * csvPath: this is a path to a directory of CSV files or a path to an CSV file. E.g.,
+    * "path/csv/files"
+    *
+    * ==Example==
+    * {{{
+    * val csvPath = "home/user/csv-directory"
+    * val sparkNLPReader = new SparkNLPReader()
+    * val csvDf = sparkNLPReader.csv(csvPath)
+    * }}}
+    *
+    * ==Example 2==
+    * You can use SparkNLP for one line of code
+    * {{{
+    * val csvDf = SparkNLP.read.csv(csvPath)
+    * }}}
+    *
+    * {{{
+    * csvDf.select("csv").show(false)
+    * +-----------------------------------------------------------------------------------------------------------------------------------------+
+    * |csv                                                                                                                                      |
+    * +-----------------------------------------------------------------------------------------------------------------------------------------+
+    * |[{NarrativeText, Alice 100 Bob 95, {}}, {Table, <table><tr><td>Alice</td><td>100</td></tr><tr><td>Bob</td><td>95</td></tr></table>, {}}] |
+    * +-----------------------------------------------------------------------------------------------------------------------------------------+
+    *
+    * csvDf.printSchema()
+    * root
+    *  |-- path: string (nullable = true)
+    *  |-- csv: array (nullable = true)
+    *  |    |-- element: struct (containsNull = true)
+    *  |    |    |-- elementType: string (nullable = true)
+    *  |    |    |-- content: string (nullable = true)
+    *  |    |    |-- metadata: map (nullable = true)
+    *  |    |    |    |-- key: string
+    *  |    |    |    |-- value: string (valueContainsNull = true)
+    * }}}
+    *
+    * @param csvPath
+    *   Path to the CSV file or directory
+    * @return
+    *   A DataFrame with parsed CSV as structured elements
+    */
+  def csv(csvPath: String): DataFrame = {
+    val csvReader = new CSVReader(
+      encoding = getEncoding,
+      includeHeader = getIncludeHeader,
+      inferTableStructure = getInferTableStructure,
+      delimiter = getDelimiter,
+      storeContent = getStoreContent)
+    setOutputColumn(csvReader.getOutputColumn)
+    csvReader.csv(csvPath)
+  }
+
+  private def getEncoding: String = {
+    getDefaultString(params.asScala.toMap, Seq("encoding"), default = "UTF-8")
+  }
+
+  private def getIncludeHeader: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("includeHeader", "include_header"),
+      default = true)
+  }
+
+  private def getDelimiter: String = {
+    getDefaultString(params.asScala.toMap, Seq("delimiter"), default = ",")
   }
 
 }

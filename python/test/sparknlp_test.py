@@ -29,7 +29,6 @@ class SparkNLPTestHTMLRealTimeSpec(unittest.TestCase):
         html_df = sparknlp.read().html("https://www.wikipedia.org")
         html_df.show()
         assert html_df.select("html").count() > 0
-
         params = {"titleFontSize": "12"}
         html_params_df = sparknlp.read(params).html("https://www.wikipedia.org")
         html_params_df.show()
@@ -140,3 +139,43 @@ class SparkNLPTestXMLFilesSpec(unittest.TestCase):
         xml_df.show()
 
         self.assertTrue(xml_df.select("xml").count() > 0)
+
+@pytest.mark.fast
+class SparkNLPTestMdFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.md_file = f"file:///{os.getcwd()}/../src/test/resources/reader/md/simple.md"
+
+    def runTest(self):
+        md_df = sparknlp.read().md(self.md_file)
+        md_df.show()
+
+        self.assertTrue(md_df.select("md").count() > 0)
+
+
+@pytest.mark.fast
+class SparkNLPTestCSVFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.csv_files = f"file:///{os.getcwd()}/../src/test/resources/reader/csv/stanley-cups.csv"
+
+    def runTest(self):
+        csv_df = sparknlp.read().csv(self.csv_files)
+        csv_df.show()
+
+        self.assertTrue(csv_df.select("csv").count() > 0)
+
+@pytest.mark.fast
+class SparkNLPTestPDFFilesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.data
+        self.pdf_file = f"file:///{os.getcwd()}/../src/test/resources/reader/pdf/pdf-title.pdf"
+
+    def runTest(self):
+        csv_df = sparknlp.read().pdf(self.pdf_file)
+        csv_df.show()
+
+        self.assertTrue(csv_df.select("pdf").count() > 0)

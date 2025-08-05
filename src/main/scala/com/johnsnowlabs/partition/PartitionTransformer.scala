@@ -246,19 +246,6 @@ class PartitionTransformer(override val uid: String)
     }
   }
 
-  private def findHTMLElementColumn(dataFrame: DataFrame): Option[String] = {
-    val htmlElementSchema = Encoders.product[HTMLElement].schema
-    dataFrame.schema.fields
-      .find { field =>
-        field.dataType match {
-          case ArrayType(structType: StructType, _) =>
-            structType == htmlElementSchema
-          case _ => false
-        }
-      }
-      .map(_.name)
-  }
-
   private def findHTMLElementColumns(dataFrame: DataFrame): Seq[String] = {
     val htmlElementSchema = Encoders.product[HTMLElement].schema
 

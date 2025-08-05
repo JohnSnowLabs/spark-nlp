@@ -19,7 +19,7 @@
 
 Spark NLP is a state-of-the-art Natural Language Processing library built on top of Apache Spark. It provides **simple**, **performant** & **accurate** NLP annotations for machine learning pipelines that **scale** easily in a distributed environment.
 
-Spark NLP comes with **83000+** pretrained **pipelines** and **models** in more than **200+** languages.
+Spark NLP comes with **100000+** pretrained **pipelines** and **models** in more than **200+** languages.
 It also offers tasks such as **Tokenization**, **Word Segmentation**, **Part-of-Speech Tagging**, Word and Sentence **Embeddings**, **Named Entity Recognition**, **Dependency Parsing**, **Spell Checking**, **Text Classification**, **Sentiment Analysis**, **Token Classification**, **Machine Translation** (+180 languages), **Summarization**, **Question Answering**, **Table Question Answering**, **Text Generation**, **Image Classification**, **Image to Text (captioning)**, **Automatic Speech Recognition**, **Zero-Shot Learning**, and many more [NLP tasks](#features).
 
 **Spark NLP** is the only open-source NLP library in **production** that offers state-of-the-art transformers such as **BERT**, **CamemBERT**, **ALBERT**, **ELECTRA**, **XLNet**, **DistilBERT**, **RoBERTa**, **DeBERTa**, **XLM-RoBERTa**, **Longformer**, **ELMO**, **Universal Sentence Encoder**, **Llama-2**, **M2M100**, **BART**, **Instructor**, **E5**, **Google T5**, **MarianMT**, **OpenAI GPT2**, **Vision Transformers (ViT)**, **OpenAI Whisper**, **Llama**, **Mistral**, **Phi**, **Qwen2**, and many more not only to **Python** and **R**, but also to **JVM** ecosystem (**Java**, **Scala**, and **Kotlin**) at **scale** by extending **Apache Spark** natively.
@@ -63,7 +63,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==6.0.4 pyspark==3.3.1
+$ pip install spark-nlp==6.1.0 pyspark==3.3.1
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -129,11 +129,11 @@ For a quick example of using pipelines and models take a look at our official [d
 
 ### Apache Spark Support
 
-Spark NLP *6.0.4* has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
+Spark NLP *6.1.0* has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
 
 | Spark NLP | Apache Spark 3.5.x | Apache Spark 3.4.x | Apache Spark 3.3.x | Apache Spark 3.2.x | Apache Spark 3.1.x | Apache Spark 3.0.x | Apache Spark 2.4.x | Apache Spark 2.3.x |
 |-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
-| 6.0.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 6.x.x and up     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 5.5.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 5.4.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 5.3.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
@@ -159,7 +159,7 @@ Find out more about 4.x `SparkNLP` versions in our official [documentation](http
 
 ### Databricks Support
 
-Spark NLP 6.0.4 has been tested and is compatible with the following runtimes:
+Spark NLP 6.1.0 has been tested and is compatible with the following runtimes:
 
 | **CPU**            | **GPU**            |
 |--------------------|--------------------|
@@ -167,16 +167,17 @@ Spark NLP 6.0.4 has been tested and is compatible with the following runtimes:
 | 14.2 / 14.2 ML     | 14.2 ML & GPU      |
 | 14.3 / 14.3 ML     | 14.3 ML & GPU      |
 | 15.0 / 15.0 ML     | 15.0 ML & GPU      |
-| 15.1 / 15.0 ML     | 15.1 ML & GPU      |
-| 15.2 / 15.0 ML     | 15.2 ML & GPU      |
-| 15.3 / 15.0 ML     | 15.3 ML & GPU      |
-| 15.4 / 15.0 ML     | 15.4 ML & GPU      |
+| 15.1 / 15.1 ML     | 15.1 ML & GPU      |
+| 15.2 / 15.2 ML     | 15.2 ML & GPU      |
+| 15.3 / 15.3 ML     | 15.3 ML & GPU      |
+| 15.4 / 15.4 ML     | 15.4 ML & GPU      |
+| 16.4 / 16.4 ML     | 16.4 ML & GPU      |
 
 We are compatible with older runtimes. For a full list check databricks support in our official [documentation](https://sparknlp.org/docs/en/install#databricks-support)
 
 ### EMR Support
 
-Spark NLP 6.0.4 has been tested and is compatible with the following EMR releases:
+Spark NLP 6.1.0 has been tested and is compatible with the following EMR releases:
 
 | **EMR Release**    |
 |--------------------|

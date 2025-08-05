@@ -1,4 +1,4 @@
-import xerial.sbt.Sonatype.sonatypeCentralHost
+import scala.concurrent.duration.DurationInt
 
 homepage := Some(url("https://sparknlp.org"))
 organizationName := "John Snow Labs"
@@ -13,7 +13,7 @@ scmInfo := Some(
 licenses += "Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")
 
 // Maven Central publishing settings
-credentials += Credentials(Path.userHome / ".sbt" / "sonatype_central_credentials")
+ThisBuild / credentials += Credentials(Path.userHome / ".sbt" / "sonatype_central_credentials")
 // Remove all additional repository other than Maven Central from POM
 ThisBuild / pomIncludeRepository := { _ => false }
 ThisBuild / publishMavenStyle := true
@@ -25,12 +25,7 @@ ThisBuild / publishTo := {
   else localStaging.value
 }
 
-// Use sonatype bundle instead
-//publishTo := sonatypePublishToBundle.value
-
-sonatypeProfileName := "com.johnsnowlabs.nlp"
-
-sonatypeCredentialHost := sonatypeCentralHost
+sonaUploadRequestTimeout := 60.minutes
 
 // Developers
 (ThisBuild / developers) := List(
