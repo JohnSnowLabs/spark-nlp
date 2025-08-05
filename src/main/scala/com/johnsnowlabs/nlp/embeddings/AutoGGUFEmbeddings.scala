@@ -19,17 +19,21 @@ import com.johnsnowlabs.ml.gguf.GGUFWrapper
 import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.llama.LlamaExtensions
-import de.kherud.llama.LlamaModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import de.kherud.llama.args.PoolingType
+import de.kherud.llama.{InferenceParameters, LlamaException, LlamaModel, ModelParameters}
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
 
 /** Annotator that uses the llama.cpp library to generate text embeddings with large language
   * models.
   *
   * The type of embedding pooling can be set with the `setPoolingType` method. The default is
-  * `"MEAN"`. The available options are `"NONE"`, `"MEAN"`, `"CLS"`, and `"LAST"`.
+  * `"MEAN"`. The available options are `"MEAN"`, `"CLS"`, and `"LAST"`.
   *
   * For all settable parameters, and their explanations, see [[HasLlamaCppModelProperties]].
   *
@@ -39,7 +43,7 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("document")
   *   .setOutputCol("embeddings")
   * }}}
-  * The default model is `"nomic-embed-text-v1.5.Q8_0.gguf"`, if no name is provided.
+  * The default model is `"Qwen3_Embedding_0.6B_Q8_0_gguf"`, if no name is provided.
   *
   * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
@@ -132,18 +136,54 @@ class AutoGGUFEmbeddings(override val uid: String)
     }
 
     this
-//    setGpuSupportIfAvailable(spark)
   }
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
+  /** Set the pooling type for embeddings, use model default if unspecified
+    *
+    *   - MEAN: Mean Pooling
+    *   - CLS: Choose the CLS token
+    *   - LAST: Choose the last token
+    *
+    * @group param
+    */
+  val poolingType = new Param[String](
+    this,
+    "poolingType",
+    "Set the pooling type for embeddings, use model default if unspecified")
+
+  /** Set the pooling type for embeddings, use model default if unspecified.
+    *
+    * Possible values:
+    *
+    *   - MEAN: Mean pooling
+    *   - CLS: Choose the CLS token
+    *   - LAST: Choose the last token
+    *   - RANK: For reranking
+    *
+    * @group setParam
+    */
+  def setPoolingType(poolingType: String): this.type = {
+    val poolingTypeUpper = poolingType.toUpperCase
+    val poolingTypes = Array("MEAN", "CLS", "LAST", "RANK")
+    require(
+      poolingTypes.contains(poolingTypeUpper),
+      s"Invalid pooling type: $poolingTypeUpper. " +
+        s"Valid values are: ${poolingTypes.mkString(", ")}")
+    set(this.poolingType, poolingTypeUpper)
+  }
+
+  /** @group getParam */
+  def getPoolingType: String = $(poolingType)
+
   setDefault(
     engine -> LlamaCPP.name,
-    embedding -> true,
     poolingType -> "MEAN",
     nCtx -> 4096,
     nBatch -> 512,
-    nGpuLayers -> 99)
+    nGpuLayers -> 99,
+    batchSize -> 2)
 
   /** Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.
     *
@@ -160,6 +200,21 @@ class AutoGGUFEmbeddings(override val uid: String)
     getModelIfNotSet.saveToFile(path)
   }
 
+  private def parseEmbeddingJson(json: String): Array[Float] = {
+    implicit val formats: Formats = org.json4s.DefaultFormats
+    val embedding = (parse(json) \ "embedding").extract[Array[Array[Float]]]
+    require(embedding.length == 1, "Only a single embedding is expected (pooled).")
+    embedding.head // NOTE: This should be changed if we ever support no pooling (i.e. one embedding per token).
+  }
+
+  private def getEmbeddingModelParameters: ModelParameters = {
+    val modelParams = getModelParameters
+      .setParallel(getBatchSize) // set parallel decoding to batch size
+      .enableEmbedding() // always enable embedding
+      .setPoolingType(PoolingType.valueOf(getPoolingType))
+    modelParams
+  }
+
   /** Completes the batch of annotations.
     *
     * @param batchedAnnotations
@@ -168,26 +223,24 @@ class AutoGGUFEmbeddings(override val uid: String)
     *   Completed text sequences
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    require(
-      getEmbedding,
-      "Embeddings have been manually disabled. Please enable them with setEmbedding(true).")
     val annotations: Seq[Annotation] = batchedAnnotations.flatten
     if (annotations.nonEmpty) {
 
-      val modelParams =
-        getModelParameters.setParallel(getBatchSize) // set parallel decoding to batch size
-
+      val modelParams = getEmbeddingModelParameters
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
-
-      val annotationsText = annotations.map(_.result)
+      val annotationsText = annotations.map(_.result).toArray
 
       // Return embeddings in annotation
       val (embeddings: Array[Array[Float]], metadata: Map[String, String]) =
         try {
-          val result: Array[Array[Float]] = annotationsText.map(model.embed).toArray
+          val result: Array[Array[Float]] =
+            // infparams (mostly) don't matter for embeddings
+            LlamaExtensions
+              .multiEmbed(model, new InferenceParameters(""), annotationsText)
+              .map(parseEmbeddingJson)
           (result, Map.empty)
         } catch {
-          case e: Exception =>
+          case e: LlamaException =>
             logger.error("Error in llama.cpp embeddings", e)
             (
               Array.fill[Array[Float]](annotationsText.length)(Array.empty),
@@ -210,9 +263,9 @@ class AutoGGUFEmbeddings(override val uid: String)
 }
 
 trait ReadablePretrainedAutoGGUFEmbeddings
-    extends ParamsAndFeaturesReadable[AutoGGUFEmbeddings]
+    extends ParamsAndFeaturesFallbackReadable[AutoGGUFEmbeddings]
     with HasPretrained[AutoGGUFEmbeddings] {
-  override val defaultModelName: Some[String] = Some("Nomic_Embed_Text_v1.5.Q8_0.gguf")
+  override val defaultModelName: Some[String] = Some("Qwen3_Embedding_0.6B_Q8_0_gguf")
   override val defaultLang: String = "en"
 
   /** Java compliant-overrides */
@@ -228,7 +281,13 @@ trait ReadablePretrainedAutoGGUFEmbeddings
 }
 
 trait ReadAutoGGUFEmbeddings {
-  this: ParamsAndFeaturesReadable[AutoGGUFEmbeddings] =>
+  this: ParamsAndFeaturesFallbackReadable[AutoGGUFEmbeddings] =>
+
+  override def fallbackLoad(folder: String, spark: SparkSession): AutoGGUFEmbeddings = {
+    val localFolder: String = ResourceHelper.copyToLocal(folder)
+    val ggufFile = GGUFWrapper.findGGUFModelInFolder(localFolder)
+    loadSavedModel(ggufFile, spark)
+  }
 
   def readModel(instance: AutoGGUFEmbeddings, path: String, spark: SparkSession): Unit = {
     val model: GGUFWrapper = GGUFWrapper.readModel(path, spark)

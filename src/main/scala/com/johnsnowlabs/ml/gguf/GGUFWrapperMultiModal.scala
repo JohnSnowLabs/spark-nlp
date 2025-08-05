@@ -15,8 +15,9 @@
  */
 package com.johnsnowlabs.ml.gguf
 
-import de.kherud.llama.{LlamaModel, ModelParameters}
+import com.johnsnowlabs.nlp.llama.ModelParametersMultiModal
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import de.kherud.llama.{LlamaModel, ModelParameters}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
@@ -45,8 +46,8 @@ class GGUFWrapperMultiModal(var modelFileName: String, var mmprojFileName: Strin
 
         if (filesExist) {
           modelParameters.setModel(modelFilePath)
-//          modelParameters.setMMProj(mmprojFilePath) // TODO: Vision models implementation
-          llamaModel = GGUFWrapperMultiModal.withSafeGGUFModelLoader(modelParameters)
+          val mparamsMultiModal = new ModelParametersMultiModal(modelParameters, mmprojFilePath)
+          llamaModel = GGUFWrapperMultiModal.withSafeGGUFModelLoader(mparamsMultiModal)
         } else
           throw new IllegalStateException(
             s"Model file $modelFileName does not exist in SparkFiles.")
@@ -75,7 +76,7 @@ class GGUFWrapperMultiModal(var modelFileName: String, var mmprojFileName: Strin
 
 /** Companion object */
 object GGUFWrapperMultiModal {
-  private def withSafeGGUFModelLoader(modelParameters: ModelParameters): LlamaModel =
+  private def withSafeGGUFModelLoader(modelParameters: ModelParametersMultiModal): LlamaModel =
     this.synchronized {
       new LlamaModel(modelParameters)
     }
@@ -108,36 +109,36 @@ object GGUFWrapperMultiModal {
     new GGUFWrapperMultiModal(modelFile.getName, mmprojFile.getName)
   }
 
+  def findGGUFModelsInFolder(folderPath: String): (String, String) = {
+    val folder = new File(folderPath)
+    if (folder.exists && folder.isDirectory) {
+      val ggufFiles: Array[String] = folder.listFiles
+        .filter(_.isFile)
+        .filter(_.getName.endsWith(".gguf"))
+        .map(_.getAbsolutePath)
+
+      val (ggufMainPath, ggufMmprojPath) =
+        if (ggufFiles.length == 2 && ggufFiles.exists(_.contains("mmproj"))) {
+          val Array(firstModel, secondModel) = ggufFiles
+          if (firstModel.contains("mmproj")) (secondModel, firstModel)
+          else (firstModel, secondModel)
+        } else
+          throw new IllegalArgumentException(
+            s"Could not determine main GGUF model or mmproj GGUF model in $folderPath." +
+              s" The folder should contain exactly two files:" +
+              s" One main GGUF model and one mmproj GGUF model." +
+              s" The mmproj model should have 'mmproj' in its name.")
+
+      (ggufMainPath, ggufMmprojPath)
+    } else {
+      throw new IllegalArgumentException(s"Path $folderPath is not a directory")
+    }
+  }
+
   /** Reads the GGUF model from the folder passed by the Spark Reader during loading of a
     * serialized model.
     */
   def readModel(modelFolderPath: String, spark: SparkSession): GGUFWrapperMultiModal = {
-    def findGGUFModelsInFolder(folderPath: String): (String, String) = {
-      val folder = new File(folderPath)
-      if (folder.exists && folder.isDirectory) {
-        val ggufFiles: Array[String] = folder.listFiles
-          .filter(_.isFile)
-          .filter(_.getName.endsWith(".gguf"))
-          .map(_.getAbsolutePath)
-
-        val (ggufMainPath, ggufMmprojPath) =
-          if (ggufFiles.length == 2 && ggufFiles.exists(_.contains("mmproj"))) {
-            val Array(firstModel, secondModel) = ggufFiles
-            if (firstModel.contains("mmproj")) (secondModel, firstModel)
-            else (firstModel, secondModel)
-          } else
-            throw new IllegalArgumentException(
-              s"Could not determine main GGUF model or mmproj GGUF model in $folderPath." +
-                s" The folder should contain exactly two files:" +
-                s" One main GGUF model and one mmproj GGUF model." +
-                s" The mmproj model should have 'mmproj' in its name.")
-
-        (ggufMainPath, ggufMmprojPath)
-      } else {
-        throw new IllegalArgumentException(s"Path $folderPath is not a directory")
-      }
-    }
-
     val uri = new java.net.URI(modelFolderPath.replaceAllLiterally("\\", "/"))
     // In case the path belongs to a different file system but doesn't have the scheme prepended (e.g. dbfs)
     val fileSystem: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
