@@ -1,4 +1,22 @@
 =======
+6.1.1
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1183] Upgrade openVINO
+* [SPARKNLP-1260] Implement Reader2Table Annotator
+* [SPARKNLP-1267] Batch Inference for new llama.cpp version
+* [SPARKNLP-1268] Multimodal implementation for new llama.cpp version
+* [SPARKNLP-1272] AutoGGUFModel can load AutoGGUFVision pretrained models
+
+---------
+Bug Fixes
+---------
+None
+
+=======
 6.1.0
 =======
 ---------------------------

@@ -27,7 +27,7 @@ baseurl : # does not include hostname
 title   : Spark NLP
 description: > # this means to ignore newlines until "Language & timezone"
   High Performance NLP with Apache Spark
-sparknlp_version: 6.1.0 # Version to be substituted in the documentation
+sparknlp_version: 6.1.1 # Version to be substituted in the documentation
 
 
 ## => Language and Timezone
@@ -207,7 +207,8 @@ exclude:
   - backup-*.json
   - /_frontend
   - /_scripts
-  - /_posts
+  - /_posts # Ignore all model cards locally (too many)
+
 
 defaults:
   ## docs
@@ -234,3 +235,7 @@ plugins:
   - jekyll-sitemap
   - jemoji
   - jekyll-incremental
+
+# Disable our custom plugins for local development
+plugins_dir: 
+  - _____none
