@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.common.properties module &#8212; Spark NLP 6.1.0 documentation</title>
+    <title>sparknlp.common.properties module &#8212; Spark NLP 6.1.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=413a1d38"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=e5429921"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.1 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -610,6 +610,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.reader2doc.html">sparknlp.reader.reader2doc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.reader2table.html">sparknlp.reader.reader2table module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
@@ -1634,6 +1635,11 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.disableLog">
+<span class="sig-name descname"><span class="pre">disableLog</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='disableLog',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">disable</span> <span class="pre">logging')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.disableLog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.disableLog" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.disableTokenIds">
 <span class="sig-name descname"><span class="pre">disableTokenIds</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='disableTokenIds',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">token</span> <span class="pre">ids</span> <span class="pre">to</span> <span class="pre">disable</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">completion')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.disableTokenIds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.disableTokenIds" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -1692,6 +1698,11 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.inputSuffix">
 <span class="sig-name descname"><span class="pre">inputSuffix</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inputSuffix',</span> <span class="pre">doc='Set</span> <span class="pre">a</span> <span class="pre">suffix</span> <span class="pre">for</span> <span class="pre">infilling')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.inputSuffix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.inputSuffix" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.logVerbosity">
+<span class="sig-name descname"><span class="pre">logVerbosity</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='logVerbosity',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">log</span> <span class="pre">verbosity</span> <span class="pre">level')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.logVerbosity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.logVerbosity" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1873,6 +1884,12 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setDisableLog">
+<span class="sig-name descname"><span class="pre">setDisableLog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">disableLog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setDisableLog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setDisableLog" title="Permalink to this definition">#</a></dt>
+<dd><p>Whether to disable logging</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setDisableTokenIds">
 <span class="sig-name descname"><span class="pre">setDisableTokenIds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">disableTokenIds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setDisableTokenIds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setDisableTokenIds" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the token ids to disable in the completion</p>
@@ -1888,12 +1905,6 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setDynamicTemperatureRange">
 <span class="sig-name descname"><span class="pre">setDynamicTemperatureRange</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dynamicTemperatureRange</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setDynamicTemperatureRange"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setDynamicTemperatureRange" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the dynamic temperature range</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setEmbedding">
-<span class="sig-name descname"><span class="pre">setEmbedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">embedding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setEmbedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setEmbedding" title="Permalink to this definition">#</a></dt>
-<dd><p>Whether to load model with embedding support</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1936,6 +1947,12 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setInputSuffix">
 <span class="sig-name descname"><span class="pre">setInputSuffix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputSuffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setInputSuffix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setInputSuffix" title="Permalink to this definition">#</a></dt>
 <dd><p>Set a suffix for infilling</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setLogVerbosity">
+<span class="sig-name descname"><span class="pre">setLogVerbosity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logVerbosity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setLogVerbosity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setLogVerbosity" title="Permalink to this definition">#</a></dt>
+<dd><p>Set the log verbosity level</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2096,11 +2113,10 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dd><p>Set the pooling type for embeddings, use model default if unspecified</p>
 <p>Possible values:</p>
 <ul class="simple">
-<li><p>0 NONE: Don’t use any pooling</p></li>
-<li><p>1 MEAN: Mean Pooling</p></li>
-<li><p>2 CLS: CLS Pooling</p></li>
-<li><p>3 LAST: Last token pooling</p></li>
-<li><p>4 RANK: For reranked models</p></li>
+<li><p>MEAN: Mean Pooling</p></li>
+<li><p>CLS: CLS Pooling</p></li>
+<li><p>LAST: Last token pooling</p></li>
+<li><p>RANK: For reranked models</p></li>
 </ul>
 </dd></dl>
 
@@ -2594,6 +2610,7 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.cachePrompt"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.cachePrompt</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.chatTemplate"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.chatTemplate</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.defragmentationThreshold"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.defragmentationThreshold</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.disableLog"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.disableLog</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.disableTokenIds"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.disableTokenIds</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.dynamicTemperatureExponent"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.dynamicTemperatureExponent</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.dynamicTemperatureRange"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.dynamicTemperatureRange</span></code></a></li>
@@ -2606,6 +2623,7 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.ignoreEos"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.ignoreEos</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.inputPrefix"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.inputPrefix</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.inputSuffix"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.inputSuffix</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.logVerbosity"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.logVerbosity</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.mainGpu"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.mainGpu</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.minKeep"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.minKeep</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.minP"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.minP</span></code></a></li>
@@ -2641,10 +2659,10 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setCachePrompt"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setCachePrompt()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setChatTemplate"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setChatTemplate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setDefragmentationThreshold"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setDefragmentationThreshold()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setDisableLog"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setDisableLog()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setDisableTokenIds"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setDisableTokenIds()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setDynamicTemperatureExponent"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setDynamicTemperatureExponent()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setDynamicTemperatureRange"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setDynamicTemperatureRange()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setEmbedding"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setEmbedding()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setFlashAttention"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setFlashAttention()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setFrequencyPenalty"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setFrequencyPenalty()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setGpuSplitMode"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setGpuSplitMode()</span></code></a></li>
@@ -2652,6 +2670,7 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setIgnoreEos"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setIgnoreEos()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setInputPrefix"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setInputPrefix()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setInputSuffix"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setInputSuffix()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setLogVerbosity"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setLogVerbosity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setMainGpu"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setMainGpu()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setMinKeep"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setMinKeep()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setMinP"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setMinP()</span></code></a></li>

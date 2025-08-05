@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.reader.reader2doc module &#8212; Spark NLP 6.1.0 documentation</title>
+    <title>sparknlp.reader.reader2doc module &#8212; Spark NLP 6.1.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=413a1d38"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=e5429921"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.1 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -610,6 +610,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">sparknlp.reader.reader2doc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.reader2table.html">sparknlp.reader.reader2table module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
@@ -764,6 +765,11 @@ output as a structured Spark DataFrame.</p>
 <span class="sig-name descname"><span class="pre">outputCol</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputCol',</span> <span class="pre">doc='output</span> <span class="pre">column</span> <span class="pre">name')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.outputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.outputCol" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.outputFormat">
+<span class="sig-name descname"><span class="pre">outputFormat</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputFormat',</span> <span class="pre">doc=&quot;Output</span> <span class="pre">format</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">table</span> <span class="pre">content.</span> <span class="pre">Options</span> <span class="pre">are</span> <span class="pre">'plain-text'</span> <span class="pre">or</span> <span class="pre">'html-table'.</span> <span class="pre">Default</span> <span class="pre">is</span> <span class="pre">'json-table'.&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.outputFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.outputFormat" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setContentPath">
 <span class="sig-name descname"><span class="pre">setContentPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setContentPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setContentPath" title="Permalink to this definition">#</a></dt>
@@ -835,6 +841,20 @@ output as a structured Spark DataFrame.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setOutputFormat">
+<span class="sig-name descname"><span class="pre">setOutputFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setOutputFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setOutputFormat" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the output format for the table content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Output format for the table content. Options are ‘plain-text’ or ‘html-table’. Default is ‘json-table’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setParams">
 <span class="sig-name descname"><span class="pre">setParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setParams" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -896,11 +916,13 @@ output as a structured Spark DataFrame.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.name"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.name</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.outputAnnotatorType</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.outputCol"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.outputCol</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.outputFormat"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.outputFormat</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setContentPath"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setContentPath()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setContentType"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setContentType()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setExplodeDocs"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setExplodeDocs()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setFlattenOutput"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setFlattenOutput()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setOutputCol"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setOutputCol()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setOutputFormat"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setOutputFormat()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setParams"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setParams()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setTitleThreshold"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setTitleThreshold()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.titleThreshold"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.titleThreshold</span></code></a></li>

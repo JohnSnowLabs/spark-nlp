@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.embeddings.auto_gguf_embeddings &#8212; Spark NLP 6.1.0 documentation</title>
+    <title>sparknlp.annotator.embeddings.auto_gguf_embeddings &#8212; Spark NLP 6.1.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js?v=413a1d38"></script>
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js?v=e5429921"></script>
     <script src="../../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.0 documentation - Home"/>`);</script>
+    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -631,7 +631,7 @@ object:</p>
 <span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;embeddings&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;Nomic_Embed_Text_v1.5.Q8_0.gguf&quot;</span></code>, if no name is provided.</p>
+<p>The default model is <code class="docutils literal notranslate"><span class="pre">&quot;Qwen3_Embedding_0.6B_Q8_0_gguf&quot;</span></code>, if no name is provided.</p>
 <p>For extended examples of usage, see the
 <a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/AutoGGUFEmbeddingsTest.scala">AutoGGUFEmbeddingsTest</a>
 and the
@@ -877,11 +877,6 @@ according to your hardware to avoid out-of-memory errors.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.embedding">
-<span class="sig-name descname"><span class="pre">embedding</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/embeddings/auto_gguf_embeddings.html#AutoGGUFEmbeddings.embedding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.embedding" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.flashAttention">
 <span class="sig-name descname"><span class="pre">flashAttention</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/embeddings/auto_gguf_embeddings.html#AutoGGUFEmbeddings.flashAttention"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.flashAttention" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -1105,12 +1100,12 @@ according to your hardware to avoid out-of-memory errors.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.pretrained">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Nomic_Embed_Text_v1.5.Q8_0.gguf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/embeddings/auto_gguf_embeddings.html#AutoGGUFEmbeddings.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.pretrained" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Qwen3_Embedding_0.6B_Q8_0_gguf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/embeddings/auto_gguf_embeddings.html#AutoGGUFEmbeddings.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.pretrained" title="Permalink to this definition">#</a></dt>
 <dd><p>Downloads and loads a pretrained model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “Nomic_Embed_Text_v1.5.Q8_0.gguf”</p>
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>Name of the pretrained model, by default “Qwen3_Embedding_0.6B_Q8_0_gguf”</p>
 </dd>
 <dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>Language of the pretrained model, by default “en”</p>
 </dd>
@@ -1190,7 +1185,6 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.numaStrategy"><code class="docutils literal notranslate"><span class="pre">AutoGGUFEmbeddings.numaStrategy</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.ropeScalingType"><code class="docutils literal notranslate"><span class="pre">AutoGGUFEmbeddings.ropeScalingType</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.poolingType"><code class="docutils literal notranslate"><span class="pre">AutoGGUFEmbeddings.poolingType</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.embedding"><code class="docutils literal notranslate"><span class="pre">AutoGGUFEmbeddings.embedding</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.flashAttention"><code class="docutils literal notranslate"><span class="pre">AutoGGUFEmbeddings.flashAttention</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.useMmap"><code class="docutils literal notranslate"><span class="pre">AutoGGUFEmbeddings.useMmap</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.useMlock"><code class="docutils literal notranslate"><span class="pre">AutoGGUFEmbeddings.useMlock</span></code></a></li>
