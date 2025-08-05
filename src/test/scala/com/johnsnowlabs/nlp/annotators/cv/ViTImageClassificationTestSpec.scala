@@ -232,7 +232,7 @@ class ViTImageClassificationTestSpec extends AnyFlatSpec with ViTForImageClassif
       "tractor.JPEG" -> "tractor",
       "ox.JPEG" -> "ox")
 
-  private val model: ViTForImageClassification = ViTForImageClassification.pretrained()
+  private lazy val model: ViTForImageClassification = ViTForImageClassification.pretrained()
 
   it should behave like
     behaviorsViTForImageClassification[ViTForImageClassification](

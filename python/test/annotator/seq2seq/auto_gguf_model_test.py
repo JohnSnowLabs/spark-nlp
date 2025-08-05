@@ -118,7 +118,7 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         model.setModelDraft("")
         # model.setLookupCacheStaticFilePath("/tmp/sparknlp-llama-cpp-cache")
         # model.setLookupCacheDynamicFilePath("/tmp/sparknlp-llama-cpp-cache")
-        model.setEmbedding(False)
+        # model.setEmbedding(False)
         model.setFlashAttention(False)
         # model.setInputPrefixBos(False)
         model.setUseMmap(False)
@@ -165,6 +165,9 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         model.setTokenIdBias({0: 0.0, 1: 0.0})
         model.setTokenBias({"!": 0.0, "?": 0.0})
         # model.setLoraAdapters({" ": 0.0})
+
+        model.setLogVerbosity(0)
+        model.setDisableLog(True)
 
         pipeline = Pipeline().setStages([document_assembler, model])
         results = pipeline.fit(data).transform(data)

@@ -140,7 +140,6 @@ object AnnotationImage {
     *   AnnotationImage
     */
   def apply(row: Row): AnnotationImage = {
-    println(s"row.getString(8): ${row.getString(8)}")
     AnnotationImage(
       row.getString(0),
       row.getString(1),

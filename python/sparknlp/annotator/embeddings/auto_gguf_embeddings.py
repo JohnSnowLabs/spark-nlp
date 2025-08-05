@@ -12,8 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains classes for the AutoGGUFEmbeddings."""
-from typing import List
-
 from sparknlp.common import *
 
 
@@ -32,7 +30,7 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("embeddings")
 
-    The default model is ``"Nomic_Embed_Text_v1.5.Q8_0.gguf"``, if no name is provided.
+    The default model is ``"Qwen3_Embedding_0.6B_Q8_0_gguf"``, if no name is provided.
 
     For extended examples of usage, see the
     `AutoGGUFEmbeddingsTest <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/AutoGGUFEmbeddingsTest.scala>`__
@@ -313,12 +311,6 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
         "Set the pooling type for embeddings, use model default if unspecified",
         typeConverter=TypeConverters.toString,
     )
-    embedding = Param(
-        Params._dummy(),
-        "embedding",
-        "Whether to load model with embedding support",
-        typeConverter=TypeConverters.toBoolean,
-    )
     flashAttention = Param(
         Params._dummy(),
         "flashAttention",
@@ -489,10 +481,10 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
             classname=classname, java_model=java_model
         )
         self._setDefault(
-            embedding=True,
             nCtx=4096,
             nBatch=512,
             poolingType="MEAN",
+            nGpuLayers=99,
         )
 
     @staticmethod
@@ -517,13 +509,13 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
         return AutoGGUFEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="Nomic_Embed_Text_v1.5.Q8_0.gguf", lang="en", remote_loc=None):
+    def pretrained(name="Qwen3_Embedding_0.6B_Q8_0_gguf", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "Nomic_Embed_Text_v1.5.Q8_0.gguf"
+            Name of the pretrained model, by default "Qwen3_Embedding_0.6B_Q8_0_gguf"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

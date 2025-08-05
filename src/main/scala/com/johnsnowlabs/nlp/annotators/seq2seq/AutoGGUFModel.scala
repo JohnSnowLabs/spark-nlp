@@ -42,7 +42,11 @@ import org.apache.spark.sql.SparkSession
   *   .setInputCols("document")
   *   .setOutputCol("completions")
   * }}}
-  * The default model is `"phi3.5_mini_4k_instruct_q4_gguf"`, if no name is provided.
+  * The default model is `"Phi_4_mini_instruct_Q4_K_M_gguf"`, if no name is provided.
+  *
+  * AutoGGUFModel is also able to load pretrained models from [[AutoGGUFVisionModel]]. Just
+  * specify the same name for the `pretrained` method, and it will load the text-part of the
+  * multimodal model automatically.
   *
   * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
@@ -149,10 +153,10 @@ class AutoGGUFModel(override val uid: String)
     useChatTemplate -> true,
     nCtx -> 4096,
     nBatch -> 512,
-    embedding -> false, // TODO: Disable this?
     nPredict -> 100,
     nGpuLayers -> 99,
-    systemPrompt -> "You are a helpful assistant.")
+    systemPrompt -> "You are a helpful assistant.",
+    batchSize -> 2)
 
   /** Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.
     *
@@ -180,7 +184,7 @@ class AutoGGUFModel(override val uid: String)
     val annotations: Seq[Annotation] = batchedAnnotations.flatten
     // TODO: group by doc and sentence
     if (annotations.nonEmpty) {
-      val annotationsText = annotations.map { anno => anno.result }
+      val annotationsText = annotations.map(_.result).toArray
 
       val modelParams =
         getModelParameters.setParallel(getBatchSize) // set parallel decoding to batch size
@@ -188,59 +192,36 @@ class AutoGGUFModel(override val uid: String)
 
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
 
-      if (getEmbedding) {
-        // Return embeddings in annotation
-        val (embeddings: Array[Array[Float]], metadata: Map[String, String]) =
-          try {
-            (annotationsText.map(model.embed), Map.empty)
-          } catch {
-            case e: LlamaException =>
-              logger.error("Error in llama.cpp embeddings", e)
-              (
-                Array.fill[Array[Float]](annotationsText.length)(Array.empty),
-                Map("llamacpp_exception" -> e.getMessage))
-          }
-        // Choose empty text for result annotations
-        annotations.zip(embeddings).map { case (annotation, embedding) =>
-          Seq(
-            new Annotation(
-              annotatorType = annotation.annotatorType,
-              begin = annotation.begin,
-              end = annotation.end,
-              result = annotation.result,
-              metadata = annotation.metadata ++ metadata,
-              embeddings = embedding))
+      val (completedTexts: Array[String], metadata: Map[String, String]) =
+        try {
+          val results: Array[String] = LlamaExtensions.multiComplete(
+            model,
+            inferenceParams,
+            getSystemPrompt,
+            annotationsText)
+          (results, Map.empty)
+        } catch {
+          case e: LlamaException =>
+            logger.error("Error in llama.cpp batch completion", e)
+            (Array.fill(annotationsText.length)(""), Map("llamacpp_exception" -> e.getMessage))
         }
-      } else {
-        val (completedTexts: Array[String], metadata: Map[String, String]) =
-          try {
-            val results: Array[String] = annotationsText.map { t =>
-              LlamaExtensions.complete(model, inferenceParams, getSystemPrompt, t)
-            }.toArray
-            (results, Map.empty)
-          } catch {
-            case e: LlamaException =>
-              logger.error("Error in llama.cpp batch completion", e)
-              (Array.fill(annotationsText.length)(""), Map("llamacpp_exception" -> e.getMessage))
-          }
-        annotations.zip(completedTexts).map { case (annotation, text) =>
-          Seq(
-            new Annotation(
-              outputAnnotatorType,
-              0,
-              text.length - 1,
-              text,
-              annotation.metadata ++ metadata))
-        }
+      annotations.zip(completedTexts).map { case (annotation, text) =>
+        Seq(
+          new Annotation(
+            outputAnnotatorType,
+            0,
+            text.length - 1,
+            text,
+            annotation.metadata ++ metadata))
       }
     } else Seq(Seq.empty[Annotation])
   }
 }
 
 trait ReadablePretrainedAutoGGUFModel
-    extends ParamsAndFeaturesReadable[AutoGGUFModel]
+    extends ParamsAndFeaturesFallbackReadable[AutoGGUFModel]
     with HasPretrained[AutoGGUFModel] {
-  override val defaultModelName: Some[String] = Some("phi3.5_mini_4k_instruct_q4_gguf")
+  override val defaultModelName: Some[String] = Some("Phi_4_mini_instruct_Q4_K_M_gguf")
   override val defaultLang: String = "en"
 
   /** Java compliant-overrides */
@@ -256,7 +237,13 @@ trait ReadablePretrainedAutoGGUFModel
 }
 
 trait ReadAutoGGUFModel {
-  this: ParamsAndFeaturesReadable[AutoGGUFModel] =>
+  this: ParamsAndFeaturesFallbackReadable[AutoGGUFModel] =>
+
+  override def fallbackLoad(folder: String, spark: SparkSession): AutoGGUFModel = {
+    val localFolder: String = ResourceHelper.copyToLocal(folder)
+    val ggufFile = GGUFWrapper.findGGUFModelInFolder(localFolder)
+    loadSavedModel(ggufFile, spark)
+  }
 
   def readModel(instance: AutoGGUFModel, path: String, spark: SparkSession): Unit = {
     val model: GGUFWrapper = GGUFWrapper.readModel(path, spark)
