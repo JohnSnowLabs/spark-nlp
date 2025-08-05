@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.auto_gguf_model &#8212; Spark NLP 6.1.0 documentation</title>
+    <title>sparknlp.annotator.seq2seq.auto_gguf_model &#8212; Spark NLP 6.1.1 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=413a1d38"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=e5429921"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -403,7 +403,11 @@ document.write(`
 <span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;completions&quot;)</span>
 
-<span class="sd">    The default model is ``&quot;phi3.5_mini_4k_instruct_q4_gguf&quot;``, if no name is provided.</span>
+<span class="sd">    The default model is ``&quot;Phi_4_mini_instruct_Q4_K_M_gguf&quot;``, if no name is provided.</span>
+
+<span class="sd">    AutoGGUFModel is also able to load pretrained models from AutoGGUFVisionModel. Just</span>
+<span class="sd">    specify the same name for the pretrained method, and it will load the text-part of the</span>
+<span class="sd">    multimodal model automatically.</span>
 
 <span class="sd">    For extended examples of usage, see the</span>
 <span class="sd">    `AutoGGUFModelTest &lt;https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFModelTest.scala&gt;`__</span>
@@ -486,8 +490,6 @@ document.write(`
 <span class="sd">        Set path to static lookup cache to use for lookup decoding (not updated by generation)</span>
 <span class="sd">    lookupCacheDynamicFilePath</span>
 <span class="sd">        Set path to dynamic lookup cache to use for lookup decoding (updated by generation)</span>
-<span class="sd">    embedding</span>
-<span class="sd">        Whether to load model with embedding support</span>
 <span class="sd">    flashAttention</span>
 <span class="sd">        Whether to enable Flash Attention</span>
 <span class="sd">    inputPrefixBos</span>
@@ -618,7 +620,6 @@ document.write(`
             <span class="n">useChatTemplate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">nCtx</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
             <span class="n">nBatch</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
-            <span class="n">embedding</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">nPredict</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
             <span class="n">nGpuLayers</span><span class="o">=</span><span class="mi">99</span><span class="p">,</span>
             <span class="n">systemPrompt</span><span class="o">=</span><span class="s2">&quot;You are a helpful assistant.&quot;</span>
@@ -645,13 +646,13 @@ document.write(`
         <span class="k">return</span> <span class="n">AutoGGUFModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="AutoGGUFModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;phi3.5_mini_4k_instruct_q4_gguf&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="AutoGGUFModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_model.AutoGGUFModel.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Phi_4_mini_instruct_Q4_K_M_gguf&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
-<span class="sd">            Name of the pretrained model, by default &quot;phi3.5_mini_4k_instruct_q4_gguf&quot;</span>
+<span class="sd">            Name of the pretrained model, by default &quot;Phi_4_mini_instruct_Q4_K_M_gguf&quot;</span>
 <span class="sd">        lang : str, optional</span>
 <span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
 <span class="sd">        remote_loc : str, optional</span>

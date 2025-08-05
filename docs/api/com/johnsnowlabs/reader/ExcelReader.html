@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.1.0-rc1 ScalaDoc  - com.johnsnowlabs.reader.ExcelReader</title>
-          <meta name="description" content="Spark NLP 6.1.0 - rc1 ScalaDoc - com.johnsnowlabs.reader.ExcelReader" />
-          <meta name="keywords" content="Spark NLP 6.1.0 rc1 ScalaDoc com.johnsnowlabs.reader.ExcelReader" />
+          <title>Spark NLP 6.1.1 ScalaDoc  - com.johnsnowlabs.reader.ExcelReader</title>
+          <meta name="description" content="Spark NLP 6.1.1 ScalaDoc - com.johnsnowlabs.reader.ExcelReader" />
+          <meta name="keywords" content="Spark NLP 6.1.1 ScalaDoc com.johnsnowlabs.reader.ExcelReader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.1.0-rc1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -186,6 +186,10 @@
                         <a class="class" href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
                         <a href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Doc</a>
                       </li><li class="current-entities indented3">
+                        <a class="object" href="Reader2Table$.html" title=""></a>
+                        <a class="class" href="Reader2Table.html" title="The Reader2Table annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
+                        <a href="Reader2Table.html" title="The Reader2Table annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Table</a>
+                      </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="SparkNLPReader.html" title=""></a>
                         <a href="SparkNLPReader.html" title="">SparkNLPReader</a>
@@ -281,9 +285,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.reader.ExcelReader#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="&lt;init&gt;(titleFontSize:Int,cellSeparator:String,storeContent:Boolean,includePageBreaks:Boolean,inferTableStructure:Boolean,appendCells:Boolean):com.johnsnowlabs.reader.ExcelReader"></a><a id="&lt;init&gt;:ExcelReader"></a>
+      <a id="&lt;init&gt;(titleFontSize:Int,cellSeparator:String,storeContent:Boolean,includePageBreaks:Boolean,inferTableStructure:Boolean,appendCells:Boolean,outputFormat:String):com.johnsnowlabs.reader.ExcelReader"></a><a id="&lt;init&gt;:ExcelReader"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/ExcelReader.html#&lt;init&gt;(titleFontSize:Int,cellSeparator:String,storeContent:Boolean,includePageBreaks:Boolean,inferTableStructure:Boolean,appendCells:Boolean):com.johnsnowlabs.reader.ExcelReader" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/ExcelReader.html#&lt;init&gt;(titleFontSize:Int,cellSeparator:String,storeContent:Boolean,includePageBreaks:Boolean,inferTableStructure:Boolean,appendCells:Boolean,outputFormat:String):com.johnsnowlabs.reader.ExcelReader" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -292,14 +296,14 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">ExcelReader</span><span class="params">(<span name="titleFontSize">titleFontSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">9</span></span>, <span name="cellSeparator">cellSeparator: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;\t&quot;</span></span>, <span name="storeContent">storeContent: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="includePageBreaks">includePageBreaks: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="inferTableStructure">inferTableStructure: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="appendCells">appendCells: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>)</span>
+        <span class="name">ExcelReader</span><span class="params">(<span name="titleFontSize">titleFontSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">9</span></span>, <span name="cellSeparator">cellSeparator: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;\t&quot;</span></span>, <span name="storeContent">storeContent: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="includePageBreaks">includePageBreaks: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="inferTableStructure">inferTableStructure: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="appendCells">appendCells: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">false</span></span>, <span name="outputFormat">outputFormat: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;html-table&quot;</span></span>)</span>
       </span>
       
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">titleFontSize</dt><dd class="cmt"><p>
   Minimum font size threshold used as part of heuristic rules to detect title elements based
   on formatting (e.g., bold, centered, capitalized). By default it is set to 9. By default, it
   is set to 9.</p></dd><dt class="param">cellSeparator</dt><dd class="cmt"><p>
-  String used to join cell values in a row when assembling textual output. By default, it is
+  * String used to join cell values in a row when assembling textual output. By default, it is
   set to tab seperator.</p></dd><dt class="param">storeContent</dt><dd class="cmt"><p>
   Whether to include the raw file content in the output DataFrame as a separate 'content'
   column, alongside the structured output. By default, it is set to false.</p></dd><dt class="param">includePageBreaks</dt><dd class="cmt"><p>
