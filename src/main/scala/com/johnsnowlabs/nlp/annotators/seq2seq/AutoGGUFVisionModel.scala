@@ -270,7 +270,7 @@ class AutoGGUFVisionModel(override val uid: String)
 trait ReadablePretrainedAutoGGUFVisionModel
     extends ParamsAndFeaturesFallbackReadable[AutoGGUFVisionModel]
     with HasPretrained[AutoGGUFVisionModel] {
-  override val defaultModelName: Some[String] = Some("")
+  override val defaultModelName: Some[String] = Some("Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf")
   override val defaultLang: String = "en"
 
   /** Java compliant-overrides */
