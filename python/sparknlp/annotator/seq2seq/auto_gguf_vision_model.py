@@ -116,8 +116,6 @@ class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppPropert
         Set optimization strategies that help on some NUMA systems (if available)
     ropeScalingType
         Set the RoPE frequency scaling method, defaults to linear unless specified by the model
-    poolingType
-        Set the pooling type for embeddings, use model default if unspecified
     modelDraft
         Set the draft model for speculative decoding
     modelAlias
@@ -126,8 +124,6 @@ class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppPropert
         Set path to static lookup cache to use for lookup decoding (not updated by generation)
     lookupCacheDynamicFilePath
         Set path to dynamic lookup cache to use for lookup decoding (updated by generation)
-    embedding
-        Whether to load model with embedding support
     flashAttention
         Whether to enable Flash Attention
     inputPrefixBos
@@ -284,8 +280,10 @@ class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppPropert
             useChatTemplate=True,
             nCtx=4096,
             nBatch=512,
-            embedding=False,
-            nPredict=100
+            nPredict=100,
+            nGpuLayers=99,
+            systemPrompt="You are a helpful assistant.",
+            batchSize=2,
         )
 
     @staticmethod

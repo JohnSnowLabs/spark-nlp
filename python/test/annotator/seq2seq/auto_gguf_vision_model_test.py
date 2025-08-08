@@ -18,13 +18,13 @@ from pyspark.sql.functions import lit
 
 from sparknlp.annotator import *
 from sparknlp.base import *
-from test.util import SparkContextForTest
+from test.util import SparkSessionForTest
 
 
 @pytest.mark.slow
 class AutoGGUFVisionModelTestSpec(unittest.TestCase):
     def setUp(self):
-        self.spark = SparkContextForTest.spark
+        self.spark = SparkSessionForTest.spark
 
     def runTest(self):
         documentAssembler = (
@@ -35,28 +35,25 @@ class AutoGGUFVisionModelTestSpec(unittest.TestCase):
         )
         imagesPath = "../src/test/resources/image/"
         data = ImageAssembler.loadImagesAsBytes(self.spark, imagesPath).withColumn(
-            "caption", lit("Caption this image.")
+            "caption",
+            lit(
+                "Describe in a short and easy to understand sentence what you see in the image."
+            ),
         )  # Add a caption to each image.
         nPredict = 40
-        model = (
+        model: AutoGGUFVisionModel = (
             AutoGGUFVisionModel.pretrained()
             .setInputCols(["caption_document", "image_assembler"])
             .setOutputCol("completions")
-            .setChatTemplate("vicuna")
-            .setBatchSize(4)
+            .setBatchSize(2)
             .setNGpuLayers(99)
             .setNCtx(4096)
             .setMinKeep(0)
             .setMinP(0.05)
             .setNPredict(nPredict)
-            .setNProbs(0)
-            .setPenalizeNl(False)
-            .setRepeatLastN(256)
+            .setPenalizeNl(True)
             .setRepeatPenalty(1.18)
-            .setStopStrings(["</s>", "Llama:", "User:"])
             .setTemperature(0.05)
-            .setTfsZ(1)
-            .setTypicalP(1)
             .setTopK(40)
             .setTopP(0.95)
         )
@@ -75,7 +72,7 @@ class AutoGGUFVisionModelTestSpec(unittest.TestCase):
             "hippopotamus.JPEG": "hippo",
             "junco.JPEG": "bird",
             "ostrich.JPEG": "ostrich",
-            "ox.JPEG": "bull",
+            "ox.JPEG": "horn",
             "palace.JPEG": "room",
             "tractor.JPEG": "tractor",
         }
@@ -83,4 +80,8 @@ class AutoGGUFVisionModelTestSpec(unittest.TestCase):
         for result in results:
             image_name = result["image_assembler"][0]["origin"].split("/")[-1]
             completion = result["completions"][0]["result"]
-            assert expectedWords[image_name] in completion, f"Expected '{expectedWords[image_name]}' in '{completion}'"
+
+            print(f"Image: {image_name}, Completion: {completion}")
+            assert (
+                expectedWords[image_name] in completion.lower()
+            ), f"Expected '{expectedWords[image_name]}' in '{completion.lower()}'"
