@@ -260,13 +260,13 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         )
 
     @staticmethod
-    def loadSavedModel(folder, spark_session):
+    def loadSavedModel(path, spark_session):
         """Loads a locally saved model.
 
         Parameters
         ----------
-        folder : str
-            Folder of the saved model
+        path : str
+            Path to the gguf model
         spark_session : pyspark.sql.SparkSession
             The current SparkSession
 
@@ -276,7 +276,7 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
             The restored model
         """
         from sparknlp.internal import _AutoGGUFLoader
-        jModel = _AutoGGUFLoader(folder, spark_session._jsparkSession)._java_obj
+        jModel = _AutoGGUFLoader(path, spark_session._jsparkSession)._java_obj
         return AutoGGUFModel(java_model=jModel)
 
     @staticmethod
