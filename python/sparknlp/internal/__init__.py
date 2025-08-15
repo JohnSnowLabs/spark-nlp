@@ -1192,3 +1192,8 @@ class _Phi4Loader(ExtendedJavaWrapper):
             jspark,
             use_openvino,
         )
+
+class _AutoGGUFRerankerLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_AutoGGUFRerankerLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFReranker.loadSavedModel", path, jspark)
