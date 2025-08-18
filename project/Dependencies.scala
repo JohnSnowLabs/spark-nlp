@@ -129,8 +129,9 @@ object Dependencies {
   val azureStorage = "com.azure" % "azure-storage-blob" % azureStorageVersion % Provided
 
   val llamaCppVersion = "1.0.2"
+  val llamaCppGPUVersion = "1.0.2-compat-rc1" // TODO: Consolidate when next version is released
   val llamaCppCPU = "com.johnsnowlabs.nlp" % "jsl-llamacpp-cpu" % llamaCppVersion
-  val llamaCppGPU = "com.johnsnowlabs.nlp" % "jsl-llamacpp-gpu" % llamaCppVersion
+  val llamaCppGPU = "com.johnsnowlabs.nlp" % "jsl-llamacpp-gpu" % llamaCppGPUVersion
   val llamaCppSilicon = "com.johnsnowlabs.nlp" % "jsl-llamacpp-silicon" % llamaCppVersion
   val llamaCppAarch64 = "com.johnsnowlabs.nlp" % "jsl-llamacpp-aarch64" % llamaCppVersion
 
