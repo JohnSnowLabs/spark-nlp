@@ -122,4 +122,19 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
     }
   }
 
+  it should "accept protocol prepended paths" taggedAs SlowTest in {
+    val data = Seq("Hello, I am a").toDF("text")
+    lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model("MEAN")))
+    val pipelineModel = pipeline.fit(data)
+
+    val savePath = "file:///tmp/tmp_autogguf_model"
+    pipelineModel.stages.last
+      .asInstanceOf[AutoGGUFEmbeddings]
+      .write
+      .overwrite()
+      .save(savePath)
+
+    AutoGGUFEmbeddings.load(savePath)
+  }
+
 }

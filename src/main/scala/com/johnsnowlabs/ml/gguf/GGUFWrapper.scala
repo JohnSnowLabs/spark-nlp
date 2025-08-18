@@ -17,13 +17,16 @@ package com.johnsnowlabs.ml.gguf
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import de.kherud.llama.{LlamaModel, ModelParameters}
+import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
+import java.net.URI
 import java.nio.file.{Files, Paths}
+import java.util.UUID
 
 class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Serializable {
 
@@ -52,10 +55,11 @@ class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Se
       llamaModel
     }
 
-  def saveToFile(file: String): Unit = {
-    val modelFilePath = SparkFiles.get(modelFileName)
-    val modelOutputPath = Paths.get(file, modelFileName)
-    Files.copy(Paths.get(modelFilePath), modelOutputPath)
+  def saveToFile(path: String): Unit = {
+    val fileSystem: FileSystem = ResourceHelper.fileSystemFromPath(path)
+
+    val modelFilePath = new Path(SparkFiles.get(modelFileName))
+    fileSystem.copyFromLocalFile(modelFilePath, new Path(path))
   }
 
   // Destructor to free the model when this object is garbage collected
@@ -123,9 +127,8 @@ object GGUFWrapper {
     * serialized model.
     */
   def readModel(modelFolderPath: String, spark: SparkSession): GGUFWrapper = {
-    val uri = new java.net.URI(modelFolderPath.replaceAllLiterally("\\", "/"))
     // In case the path belongs to a different file system but doesn't have the scheme prepended (e.g. dbfs)
-    val fileSystem: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val fileSystem: FileSystem = ResourceHelper.fileSystemFromPath(modelFolderPath)
     val actualFolderPath = fileSystem.resolvePath(new Path(modelFolderPath)).toString
     val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
     val modelFile = findGGUFModelInFolder(localFolder)
