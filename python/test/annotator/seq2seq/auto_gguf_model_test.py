@@ -240,3 +240,24 @@ class AutoGGUFModelErrorMessagesTestSpec(unittest.TestCase):
                 annotation["metadata"],
                 "llamacpp_exception should be present",
             )
+
+
+@pytest.mark.slow
+class AutoGGUFModelSerializationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        model_path = "/tmp/autogguf_spark_nlp"
+        model_writer = (
+            AutoGGUFModel.pretrained()
+            .setInputCols("document")
+            .setOutputCol("completions")
+            .write()
+            .overwrite()
+        )
+        model_writer.save(model_path)
+        AutoGGUFModel.load(model_path)
+        
+        model_path = "file:///tmp/autogguf_spark_nlp"
+        AutoGGUFModel.load(model_path)

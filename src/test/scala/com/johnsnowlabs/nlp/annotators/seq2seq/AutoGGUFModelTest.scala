@@ -220,6 +220,21 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     result.show()
   }
 
+  it should "accept protocol prepended paths" taggedAs SlowTest in {
+    val data = Seq("Hello, I am a").toDF("text")
+    lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+    val pipelineModel = pipeline.fit(data)
+
+    val savePath = "file:///tmp/tmp_autogguf_model"
+    pipelineModel.stages.last
+      .asInstanceOf[AutoGGUFModel]
+      .write
+      .overwrite()
+      .save(savePath)
+
+    AutoGGUFModel.load(savePath)
+  }
+
 //  it should "benchmark" taggedAs SlowTest in {
 //    val model = AutoGGUFModel
 //      .loadSavedModel("models/gemma-3-4b-it-qat-Q4_K_M.gguf", ResourceHelper.spark)

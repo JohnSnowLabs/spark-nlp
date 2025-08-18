@@ -167,3 +167,24 @@ class AutoGGUFEmbeddingsLongTextTestSpec(unittest.TestCase):
             assert (
                     sum(embds) > 0
             ), "Embeddings should not be zero. Was there an error on llama.cpp side?"
+
+
+@pytest.mark.slow
+class AutoGGUFEmbeddingsSerializationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        model_path = "/tmp/autoggufembeddings_spark_nlp"
+        model_writer = (
+            AutoGGUFEmbeddings.pretrained()
+            .setInputCols("document")
+            .setOutputCol("completions")
+            .write()
+            .overwrite()
+        )
+        model_writer.save(model_path)
+        AutoGGUFEmbeddings.load(model_path)
+        
+        model_path = "file:///tmp/autoggufembeddings_spark_nlp"
+        AutoGGUFEmbeddings.load(model_path)

@@ -56,13 +56,13 @@ class GGUFWrapperMultiModal(var modelFileName: String, var mmprojFileName: Strin
       llamaModel
     }
 
-  def saveToFile(folder: String): Unit = {
-    val modelFilePath = SparkFiles.get(modelFileName)
-    val mmprojFilePath = SparkFiles.get(mmprojFileName)
-    val modelOutputPath = Paths.get(folder, modelFileName)
-    val mmprojOutputPath = Paths.get(folder, mmprojFileName)
-    Files.copy(Paths.get(modelFilePath), modelOutputPath)
-    Files.copy(Paths.get(mmprojFilePath), mmprojOutputPath)
+  def saveToFile(path: String): Unit = {
+    val fileSystem = ResourceHelper.fileSystemFromPath(path)
+    val modelFilePath = new Path(SparkFiles.get(modelFileName))
+    val mmprojFilePath = new Path(SparkFiles.get(mmprojFileName))
+    val outPath = new Path(path)
+    fileSystem.copyFromLocalFile(modelFilePath, outPath)
+    fileSystem.copyFromLocalFile(mmprojFilePath, outPath)
   }
 
   // Destructor to free the model when this object is garbage collected
