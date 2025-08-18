@@ -744,4 +744,8 @@ object ResourceHelper {
     }
   }
 
+  def fileSystemFromPath(path: String): FileSystem = {
+    val uri = new URI(path.replaceAllLiterally("\\", "/"))
+    FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+  }
 }

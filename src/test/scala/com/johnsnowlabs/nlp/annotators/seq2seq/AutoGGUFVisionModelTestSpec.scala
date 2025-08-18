@@ -121,4 +121,19 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
       .select("completions")
       .show(truncate = false)
   }
+
+
+  it should "accept protocol prepended paths" taggedAs SlowTest in {
+    lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, imageAssembler, model))
+    val pipelineModel = pipeline.fit(data)
+
+    val savePath = "file:///tmp/tmp_autoggufvision_model"
+    pipelineModel.stages.last
+      .asInstanceOf[AutoGGUFVisionModel]
+      .write
+      .overwrite()
+      .save(savePath)
+
+    AutoGGUFVisionModel.load(savePath)
+  }
 }

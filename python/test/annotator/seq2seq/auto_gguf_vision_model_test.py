@@ -85,3 +85,24 @@ class AutoGGUFVisionModelTestSpec(unittest.TestCase):
             assert (
                 expectedWords[image_name] in completion.lower()
             ), f"Expected '{expectedWords[image_name]}' in '{completion.lower()}'"
+
+
+@pytest.mark.slow
+class AutoGGUFVisionModelSerializationTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkSessionForTest.spark
+
+    def runTest(self):
+        model_path = "/tmp/autoggufvisionmodel_spark_nlp"
+        model_writer = (
+            AutoGGUFVisionModel.pretrained()
+            .setInputCols(["caption_document", "image_assembler"])
+            .setOutputCol("completions")
+            .write()
+            .overwrite()
+        )
+        model_writer.save(model_path)
+        AutoGGUFVisionModel.load(model_path)
+        
+        model_path = "file:///tmp/autoggufvisionmodel_spark_nlp"
+        AutoGGUFVisionModel.load(model_path)
