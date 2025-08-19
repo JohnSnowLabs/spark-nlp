@@ -80,14 +80,6 @@ class AutoGGUFReranker(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties
         Set the logical batch size for prompt processing (must be >=32 to use BLAS)
     nUbatch
         Set the physical batch size for prompt processing (must be >=32 to use BLAS)
-    nDraft
-        Set the number of tokens to draft for speculative decoding
-    nChunks
-        Set the maximal number of chunks to process
-    nSequences
-        Set the number of sequences to decode
-    pSplit
-        Set the speculative decoding split probability
     nGpuLayers
         Set the number of layers to store in VRAM (-1 - use default)
     nGpuLayersDraft
@@ -264,7 +256,6 @@ class AutoGGUFReranker(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties
             useChatTemplate=True,
             nCtx=4096,
             nBatch=512,
-            nPredict=100,
             nGpuLayers=99,
             systemPrompt="You are a helpful assistant.",
             query=""

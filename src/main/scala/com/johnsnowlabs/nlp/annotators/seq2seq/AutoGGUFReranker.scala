@@ -175,7 +175,6 @@ class AutoGGUFReranker(override val uid: String)
     useChatTemplate -> true,
     nCtx -> 4096,
     nBatch -> 512,
-    nPredict -> 100,
     nGpuLayers -> 99,
     systemPrompt -> "You are a helpful assistant.",
     batchSize -> 2,
@@ -204,6 +203,10 @@ class AutoGGUFReranker(override val uid: String)
     *   Completed text sequences
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
+    if (getQuery.isEmpty) {
+      throw new IllegalArgumentException(
+        "Query must be set for AutoGGUFReranker. Use setQuery to provide a query string.")
+    }
     val annotations: Seq[Annotation] = batchedAnnotations.flatten
     // TODO: group by doc and sentence
     if (annotations.nonEmpty) {

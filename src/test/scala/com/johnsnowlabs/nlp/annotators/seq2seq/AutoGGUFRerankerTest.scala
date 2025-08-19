@@ -12,7 +12,7 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 
-  behavior of "AutoGGUFModelTest"
+  behavior of "AutoGGUFRerankerTest"
 
   lazy val documentAssembler: DocumentAssembler = new DocumentAssembler()
     .setInputCol("text")
@@ -94,7 +94,7 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
 
   it should "be able to also load pretrained AutoGGUFReranker" taggedAs SlowTest in {
     val model = AutoGGUFReranker
-      .pretrained("Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf")
+      .pretrained()
       .setInputCols("document")
       .setOutputCol("completions")
       .setBatchSize(2)
@@ -104,5 +104,17 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
     val result = pipeline.fit(data).transform(data)
 
     result.show()
+  }
+  it should "throw an error if the query is not set" taggedAs SlowTest in {
+    val model: AutoGGUFReranker = AutoGGUFReranker
+      .loadSavedModel(modelPath, ResourceHelper.spark)
+      .setInputCols("document")
+      .setOutputCol("completions")
+      .setBatchSize(4)
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+    assertThrows[org.apache.spark.SparkException] {
+      val result = pipeline.fit(data).transform(data)
+      result.show()
+    }
   }
 }
