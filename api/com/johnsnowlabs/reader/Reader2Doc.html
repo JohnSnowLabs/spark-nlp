@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.1.0-rc1 ScalaDoc  - com.johnsnowlabs.reader.Reader2Doc</title>
-          <meta name="description" content="Spark NLP 6.1.0 - rc1 ScalaDoc - com.johnsnowlabs.reader.Reader2Doc" />
-          <meta name="keywords" content="Spark NLP 6.1.0 rc1 ScalaDoc com.johnsnowlabs.reader.Reader2Doc" />
+          <title>Spark NLP 6.1.1 ScalaDoc  - com.johnsnowlabs.reader.Reader2Doc</title>
+          <meta name="description" content="Spark NLP 6.1.1 ScalaDoc - com.johnsnowlabs.reader.Reader2Doc" />
+          <meta name="keywords" content="Spark NLP 6.1.1 ScalaDoc com.johnsnowlabs.reader.Reader2Doc" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.1.0-rc1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -186,6 +186,10 @@
                         <a class="class" href="" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
                         <a href="" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Doc</a>
                       </li><li class="current-entities indented3">
+                        <a class="object" href="Reader2Table$.html" title=""></a>
+                        <a class="class" href="Reader2Table.html" title="The Reader2Table annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
+                        <a href="Reader2Table.html" title="The Reader2Table annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Table</a>
+                      </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="SparkNLPReader.html" title=""></a>
                         <a href="SparkNLPReader.html" title="">SparkNLPReader</a>
@@ -239,9 +243,10 @@ reading from many files types and returns parsed output as a structured Spark Da
 <span class="kw">import</span> com. johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 
-<span class="kw">val</span> partition = <span class="kw">new</span> Reader2Doc()
+<span class="kw">val</span> reader2Doc = <span class="kw">new</span> Reader2Doc()
   .setContentType(<span class="lit">"application/pdf"</span>)
   .setContentPath(s<span class="lit">"$pdfDirectory/"</span>)
+  .setExplodeDocs(<span class="kw">true</span>)
 
 <span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline()
   .setStages(<span class="std">Array</span>(reader2Doc))
@@ -261,7 +266,12 @@ resultDf.show()
             Linear Supertypes
           </span>
           <div class="superTypes hiddenContent"><a href="../partition/HasXmlReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasXmlReaderProperties">HasXmlReaderProperties</a>, <a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a>, <a href="../partition/HasPowerPointProperties.html" class="extype" name="com.johnsnowlabs.partition.HasPowerPointProperties">HasPowerPointProperties</a>, <a href="../partition/HasHTMLReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasHTMLReaderProperties">HasHTMLReaderProperties</a>, <a href="../partition/HasExcelReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasExcelReaderProperties">HasExcelReaderProperties</a>, <a href="../partition/HasEmailReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasEmailReaderProperties">HasEmailReaderProperties</a>, <a href="../partition/HasReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasReaderProperties">HasReaderProperties</a>, <a href="../nlp/ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../nlp/HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <a href="../nlp/HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../nlp/HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a>, <span class="extype" name="scala.Any">Any</span></div>
-        </div></div>
+        </div><div class="toggleContainer block">
+            <span class="toggle">
+              Known Subclasses
+            </span>
+            <div class="subClasses hiddenContent"><a href="Reader2Table.html" class="extype" name="com.johnsnowlabs.reader.Reader2Table">Reader2Table</a></div>
+          </div></div>
         
 
       <div id="mbrsel">
@@ -277,7 +287,7 @@ resultDf.show()
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -1561,6 +1571,23 @@ resultDf.show()
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.reader.Reader2Doc">Reader2Doc</a> → <a href="../nlp/HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.Reader2Doc#outputAsDocument" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="outputAsDocument:org.apache.spark.ml.param.BooleanParam"></a><a id="outputAsDocument:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/Reader2Doc.html#outputAsDocument:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">outputAsDocument</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to return all sentences joined into a single document
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -1577,6 +1604,22 @@ resultDf.show()
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../nlp/HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.partition.HasHTMLReaderProperties#outputFormat" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="outputFormat:org.apache.spark.ml.param.Param[String]"></a><a id="outputFormat:Param[String]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/Reader2Doc.html#outputFormat:org.apache.spark.ml.param.Param[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">outputFormat</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasHTMLReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasHTMLReaderProperties">HasHTMLReaderProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.partition.HasTextReaderProperties#paragraphSplit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="paragraphSplit:org.apache.spark.ml.param.Param[String]"></a><a id="paragraphSplit:Param[String]"></a>
       <span class="permalink">
@@ -1609,6 +1652,38 @@ resultDf.show()
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.Reader2Doc#partitionBuilder" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="partitionBuilder:com.johnsnowlabs.partition.Partition"></a><a id="partitionBuilder:Partition"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/Reader2Doc.html#partitionBuilder:com.johnsnowlabs.partition.Partition" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">partitionBuilder</span><span class="result">: <a href="../partition/Partition.html" class="extype" name="com.johnsnowlabs.partition.Partition">Partition</a></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.Reader2Doc#partitionToAnnotation" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="partitionToAnnotation(flatten:Boolean):org.apache.spark.sql.expressions.UserDefinedFunction"></a><a id="partitionToAnnotation(Boolean):UserDefinedFunction"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/Reader2Doc.html#partitionToAnnotation(flatten:Boolean):org.apache.spark.sql.expressions.UserDefinedFunction" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">partitionToAnnotation</span><span class="params">(<span name="flatten">flatten: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.expressions.UserDefinedFunction">UserDefinedFunction</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="org.apache.spark.ml.util.MLWritable#save" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="save(path:String):Unit"></a><a id="save(String):Unit"></a>
       <span class="permalink">
@@ -2100,6 +2175,22 @@ resultDf.show()
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasXmlReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasXmlReaderProperties">HasXmlReaderProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.Reader2Doc#setOutputAsDocument" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setOutputAsDocument(value:Boolean):Reader2Doc.this.type"></a><a id="setOutputAsDocument(Boolean):Reader2Doc.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/Reader2Doc.html#setOutputAsDocument(value:Boolean):Reader2Doc.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setOutputAsDocument</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.Reader2Doc">Reader2Doc</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to return all sentences joined into a single document</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):Reader2Doc.this.type"></a>
       <span class="permalink">
@@ -2116,6 +2207,22 @@ resultDf.show()
       </span>
       
       <p class="shortcomment cmt">Overrides annotation column name when transforming</p><div class="fullcomment"><div class="comment cmt"><p>Overrides annotation column name when transforming</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../nlp/HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.partition.HasHTMLReaderProperties#setOutputFormat" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setOutputFormat(value:String):HasHTMLReaderProperties.this.type"></a><a id="setOutputFormat(String):Reader2Doc.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/Reader2Doc.html#setOutputFormat(value:String):HasHTMLReaderProperties.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setOutputFormat</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.Reader2Doc">Reader2Doc</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasHTMLReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasHTMLReaderProperties">HasHTMLReaderProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.partition.HasTextReaderProperties#setParagraphSplit" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setParagraphSplit(value:String):HasTextReaderProperties.this.type"></a><a id="setParagraphSplit(String):Reader2Doc.this.type"></a>
       <span class="permalink">
@@ -2517,6 +2624,22 @@ resultDf.show()
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.reader.Reader2Doc">Reader2Doc</a> → Identifiable</dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.Reader2Doc#validateRequiredParameters" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="validateRequiredParameters():Unit"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/Reader2Doc.html#validateRequiredParameters():Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">validateRequiredParameters</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -2676,7 +2799,10 @@ resultDf.show()
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
+        <div class="group" name="param">
+              <h3>param</h3>
+              
+            </div><div class="group" name="Ungrouped">
               <h3>Ungrouped</h3>
               
             </div>

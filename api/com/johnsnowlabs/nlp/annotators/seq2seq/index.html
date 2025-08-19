@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.1.0-rc1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq</title>
-          <meta name="description" content="Spark NLP 6.1.0 - rc1 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq" />
-          <meta name="keywords" content="Spark NLP 6.1.0 rc1 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq" />
+          <title>Spark NLP 6.1.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq</title>
+          <meta name="description" content="Spark NLP 6.1.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq" />
+          <meta name="keywords" content="Spark NLP 6.1.1 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.1.0-rc1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -815,7 +815,9 @@ models.</p><p>For settable parameters, and their explanations, see <a href="../.
 for more information.</p><p>If the parameters are not set, the annotator will default to use the parameters provided by
 the model.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> autoGGUFModel = AutoGGUFModel.pretrained()
   .setInputCols(<span class="lit">"document"</span>)
-  .setOutputCol(<span class="lit">"completions"</span>)</pre><p>The default model is <code>&quot;phi3.5_mini_4k_instruct_q4_gguf&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://sparknlp.org/models" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+  .setOutputCol(<span class="lit">"completions"</span>)</pre><p>The default model is <code>&quot;Phi_4_mini_instruct_Q4_K_M_gguf&quot;</code>, if no name is provided.</p><p>AutoGGUFModel is also able to load pretrained models from <a href="AutoGGUFVisionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel">AutoGGUFVisionModel</a>. Just
+specify the same name for the <code>pretrained</code> method, and it will load the text-part of the
+multimodal model automatically.</p><p>For available pretrained models please see the <a href="https://sparknlp.org/models" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFModelTest.scala" target="_blank">AutoGGUFModelTest</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFModel.ipynb" target="_blank">example notebook</a>.</p><h4>Note</h4><p>To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
@@ -877,7 +879,7 @@ the model.</p><p>This annotator expects a column of annotator type <a href="../.
 raw image bytes without preprocessing. We provide the helper function
 <a href="../../ImageAssembler$.html#loadImagesAsBytes(spark:org.apache.spark.sql.SparkSession,path:String):org.apache.spark.sql.DataFrame" class="extmbr" name="com.johnsnowlabs.nlp.ImageAssembler#loadImagesAsBytes">ImageAssembler.loadImagesAsBytes</a> to load the image bytes from a directory.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> autoGGUFVisionModel = AutoGGUFVisionModel.pretrained()
   .setInputCols(<span class="lit">"image', "</span>document<span class="lit">")
-  .setOutputCol("</span>completions<span class="lit">")</span></pre><p>The default model is <code>&quot;llava_v1.5_7b_Q4_0_gguf&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://sparknlp.org/models" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+  .setOutputCol("</span>completions<span class="lit">")</span></pre><p>The default model is <code>&quot;Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://sparknlp.org/models" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFVisionModelTest.scala" target="_blank">AutoGGUFVisionModelTest</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFVisionModel.ipynb" target="_blank">example notebook</a>.</p><h4>Note</h4><p>To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
@@ -2328,7 +2330,7 @@ results.select(<span class="lit">"generation.result"</span>).show(truncate = <sp
       
       
     </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedAutoGGUFModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ReadablePretrainedAutoGGUFModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel]"></a><a id="ReadablePretrainedAutoGGUFModel:ReadablePretrainedAutoGGUFModel"></a>
+      <a id="ReadablePretrainedAutoGGUFModelextendsParamsAndFeaturesFallbackReadable[com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel]"></a><a id="ReadablePretrainedAutoGGUFModel:ReadablePretrainedAutoGGUFModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedAutoGGUFModel.html" title="Permalink">
         <i class="material-icons"></i>
@@ -2339,12 +2341,12 @@ results.select(<span class="lit">"generation.result"</span>).show(truncate = <sp
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="ReadablePretrainedAutoGGUFModel.html"><span class="name">ReadablePretrainedAutoGGUFModel</span></a><span class="result"> extends <a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="AutoGGUFModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel">AutoGGUFModel</a>] with <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="AutoGGUFModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel">AutoGGUFModel</a>]</span>
+        <a title="" href="ReadablePretrainedAutoGGUFModel.html"><span class="name">ReadablePretrainedAutoGGUFModel</span></a><span class="result"> extends <a href="../../ParamsAndFeaturesFallbackReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesFallbackReadable">ParamsAndFeaturesFallbackReadable</a>[<a href="AutoGGUFModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel">AutoGGUFModel</a>] with <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="AutoGGUFModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel">AutoGGUFModel</a>]</span>
       </span>
       
       
     </li><li name="com.johnsnowlabs.nlp.annotators.seq2seq.ReadablePretrainedAutoGGUFVisionModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ReadablePretrainedAutoGGUFVisionModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel]"></a><a id="ReadablePretrainedAutoGGUFVisionModel:ReadablePretrainedAutoGGUFVisionModel"></a>
+      <a id="ReadablePretrainedAutoGGUFVisionModelextendsParamsAndFeaturesFallbackReadable[com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel]withHasPretrained[com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel]"></a><a id="ReadablePretrainedAutoGGUFVisionModel:ReadablePretrainedAutoGGUFVisionModel"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/seq2seq/ReadablePretrainedAutoGGUFVisionModel.html" title="Permalink">
         <i class="material-icons"></i>
@@ -2355,7 +2357,7 @@ results.select(<span class="lit">"generation.result"</span>).show(truncate = <sp
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <a title="" href="ReadablePretrainedAutoGGUFVisionModel.html"><span class="name">ReadablePretrainedAutoGGUFVisionModel</span></a><span class="result"> extends <a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="AutoGGUFVisionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel">AutoGGUFVisionModel</a>] with <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="AutoGGUFVisionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel">AutoGGUFVisionModel</a>]</span>
+        <a title="" href="ReadablePretrainedAutoGGUFVisionModel.html"><span class="name">ReadablePretrainedAutoGGUFVisionModel</span></a><span class="result"> extends <a href="../../ParamsAndFeaturesFallbackReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesFallbackReadable">ParamsAndFeaturesFallbackReadable</a>[<a href="AutoGGUFVisionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel">AutoGGUFVisionModel</a>] with <a href="../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="AutoGGUFVisionModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel">AutoGGUFVisionModel</a>]</span>
       </span>
       
       

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.1.0-rc1 ScalaDoc  - com.johnsnowlabs.reader.MarkdownReader</title>
-          <meta name="description" content="Spark NLP 6.1.0 - rc1 ScalaDoc - com.johnsnowlabs.reader.MarkdownReader" />
-          <meta name="keywords" content="Spark NLP 6.1.0 rc1 ScalaDoc com.johnsnowlabs.reader.MarkdownReader" />
+          <title>Spark NLP 6.1.1 ScalaDoc  - com.johnsnowlabs.reader.MarkdownReader</title>
+          <meta name="description" content="Spark NLP 6.1.1 ScalaDoc - com.johnsnowlabs.reader.MarkdownReader" />
+          <meta name="keywords" content="Spark NLP 6.1.1 ScalaDoc com.johnsnowlabs.reader.MarkdownReader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.1.0-rc1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -186,6 +186,10 @@
                         <a class="class" href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
                         <a href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Doc</a>
                       </li><li class="current-entities indented3">
+                        <a class="object" href="Reader2Table$.html" title=""></a>
+                        <a class="class" href="Reader2Table.html" title="The Reader2Table annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
+                        <a href="Reader2Table.html" title="The Reader2Table annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Table</a>
+                      </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="SparkNLPReader.html" title=""></a>
                         <a href="SparkNLPReader.html" title="">SparkNLPReader</a>
@@ -280,9 +284,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.reader.MarkdownReader#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;():com.johnsnowlabs.reader.MarkdownReader"></a><a id="&lt;init&gt;:MarkdownReader"></a>
+      <a id="&lt;init&gt;(fileEncoding:String,outputFormat:String):com.johnsnowlabs.reader.MarkdownReader"></a><a id="&lt;init&gt;:MarkdownReader"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/MarkdownReader.html#&lt;init&gt;():com.johnsnowlabs.reader.MarkdownReader" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/MarkdownReader.html#&lt;init&gt;(fileEncoding:String,outputFormat:String):com.johnsnowlabs.reader.MarkdownReader" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -291,7 +295,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">MarkdownReader</span><span class="params">()</span>
+        <span class="name">MarkdownReader</span><span class="params">(<span name="fileEncoding">fileEncoding: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;UTF-8&quot;</span></span>, <span name="outputFormat">outputFormat: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;plain-text&quot;</span></span>)</span>
       </span>
       
       
@@ -518,9 +522,9 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="com.johnsnowlabs.reader.MarkdownReader#md" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="md(filePath:String,text:String):org.apache.spark.sql.DataFrame"></a><a id="md(String,String):DataFrame"></a>
+      <a id="md(filePath:String,url:String,text:String):org.apache.spark.sql.DataFrame"></a><a id="md(String,String,String):DataFrame"></a>
       <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/MarkdownReader.html#md(filePath:String,text:String):org.apache.spark.sql.DataFrame" title="Permalink">
+      <a href="../../../com/johnsnowlabs/reader/MarkdownReader.html#md(filePath:String,url:String,text:String):org.apache.spark.sql.DataFrame" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -529,44 +533,12 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">md</span><span class="params">(<span name="filePath">filePath: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">null</span></span>, <span name="text">text: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">null</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
+        <span class="name">md</span><span class="params">(<span name="filePath">filePath: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">null</span></span>, <span name="url">url: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>, <span name="text">text: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;&quot;</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
       </span>
       
       <p class="shortcomment cmt">Main entrypoint: supports either filePath or direct text input.</p><div class="fullcomment"><div class="comment cmt"><p>Main entrypoint: supports either filePath or direct text input. Output is always a DataFrame
 with source and parsed markdown column.
 </p></div></div>
-    </li><li name="com.johnsnowlabs.reader.MarkdownReader#mdFromText" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="mdFromText(text:String,source:String):org.apache.spark.sql.DataFrame"></a><a id="mdFromText(String,String):DataFrame"></a>
-      <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/MarkdownReader.html#mdFromText(text:String,source:String):org.apache.spark.sql.DataFrame" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">mdFromText</span><span class="params">(<span name="text">text: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="source">source: <span class="extype" name="scala.Predef.String">String</span> = <span class="symbol">&quot;in-memory&quot;</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
-      </span>
-      
-      <p class="shortcomment cmt">Parses markdown text directly from a string input.</p>
-    </li><li name="com.johnsnowlabs.reader.MarkdownReader#mdFromUrl" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="mdFromUrl(url:String):org.apache.spark.sql.DataFrame"></a><a id="mdFromUrl(String):DataFrame"></a>
-      <span class="permalink">
-      <a href="../../../com/johnsnowlabs/reader/MarkdownReader.html#mdFromUrl(url:String):org.apache.spark.sql.DataFrame" title="Permalink">
-        <i class="material-icons"></i>
-      </a>
-    </span>
-      <span class="modifier_kind">
-        <span class="modifier"></span>
-        <span class="kind">def</span>
-      </span>
-      <span class="symbol">
-        <span class="name">mdFromUrl</span><span class="params">(<span name="url">url: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.spark.sql.DataFrame">DataFrame</span></span>
-      </span>
-      
-      
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -634,6 +606,22 @@ with source and parsed markdown column.
       </span>
       <span class="symbol">
         <span class="name">parseMarkdownWithTables</span><span class="params">(<span name="markdown">markdown: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<a href="HTMLElement.html" class="extype" name="com.johnsnowlabs.reader.HTMLElement">HTMLElement</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.reader.MarkdownReader#parseUrl" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="parseUrl(url:String):String"></a><a id="parseUrl(String):String"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/MarkdownReader.html#parseUrl(url:String):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parseUrl</span><span class="params">(<span name="url">url: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
       </span>
       
       
