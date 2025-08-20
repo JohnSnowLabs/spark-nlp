@@ -271,4 +271,62 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     assert(resultDf.count() > 1)
   }
 
+  it should "output text from HTML files without table data" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("text/html")
+      .setContentPath(s"$htmlFilesDirectory/fake-html.html")
+      .setOutputCol("document")
+      .setExcludeNonText(true)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
+    annotationsResult.foreach { annotations =>
+      val tableData =
+        annotations.filter(annotation => annotation.metadata("elementType") == "TABLE")
+      assert(tableData.isEmpty)
+    }
+  }
+
+  it should "output text in one row document from HTML files without table data" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("text/html")
+      .setContentPath(s"$htmlFilesDirectory/fake-html.html")
+      .setOutputCol("document")
+      .setExcludeNonText(true)
+      .setOutputAsDocument(true)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
+    annotationsResult.foreach { annotations =>
+      val tableData = annotations.filter(annotation => annotation.result.contains("Column"))
+      assert(tableData.isEmpty)
+    }
+  }
+
+  it should "output data as a single document" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("text/html")
+      .setContentPath(s"$htmlFilesDirectory/fake-html.html")
+      .setOutputCol("document")
+      .setOutputAsDocument(true)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
+    annotationsResult.foreach { annotations =>
+      assert(annotations.length == 1)
+    }
+  }
+
 }

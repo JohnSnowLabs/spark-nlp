@@ -63,7 +63,7 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
     super.transform(dataset)
   }
 
-  override def partitionToAnnotation(flatten: Boolean): UserDefinedFunction = udf {
+  override def partitionToAnnotation: UserDefinedFunction = udf {
     (partitions: Seq[Row], fileName: String) =>
       if (partitions == null) Nil
       else {
@@ -79,7 +79,7 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
         if (asDocument)
           mergeElementsAsDocument(elements, outputFormatValue)
         else
-          elementsAsIndividualAnnotations(partitions, flatten, acceptedTypes)
+          elementsAsIndividualAnnotations(partitions, acceptedTypes)
       }
   }
 
@@ -142,7 +142,6 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
 
   private def elementsAsIndividualAnnotations(
       partitions: Seq[Row],
-      flatten: Boolean,
       acceptedTypes: Set[String]): Seq[Annotation] = {
     var currentOffset = 0
     partitions.flatMap { part =>
@@ -156,7 +155,8 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
 
         val baseMeta = if (metadata != null) metadata else Map.empty[String, String]
         val withExtras = baseMeta + ("elementType" -> elementType)
-        val finalMeta = if (flatten) withExtras.filterKeys(_ == "sentence") else withExtras
+        val finalMeta =
+          if ($(flattenOutput)) withExtras.filterKeys(_ == "sentence") else withExtras
 
         Some(
           Annotation(
