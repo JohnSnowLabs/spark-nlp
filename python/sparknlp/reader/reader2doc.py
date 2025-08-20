@@ -122,6 +122,20 @@ class Reader2Doc(
         typeConverter=TypeConverters.toString
     )
 
+    outputAsDocument = Param(
+        Params._dummy(),
+        "outputAsDocument",
+        "Whether to return all sentences joined into a single document",
+        typeConverter=TypeConverters.toBoolean
+    )
+
+    excludeNonText = Param(
+        Params._dummy(),
+        "excludeNonText",
+        "Whether to exclude non-text content from the output. Default is False.",
+        typeConverter=TypeConverters.toBoolean
+    )
+
     @keyword_only
     def __init__(self):
         super(Reader2Doc, self).__init__(classname="com.johnsnowlabs.reader.Reader2Doc")
@@ -182,7 +196,7 @@ class Reader2Doc(
     def setFlattenOutput(self, value):
         """Sets whether to flatten the output to plain text with minimal metadata.
 
-        Parameters
+        ParametersF
         ----------
         value : bool
             If true, output is flattened to plain text with minimal metadata
@@ -208,3 +222,23 @@ class Reader2Doc(
             Output format for the table content. Options are 'plain-text' or 'html-table'. Default is 'json-table'.
         """
         return self._set(outputFormat=value)
+
+    def setOutputAsDocument(self, value):
+        """Sets whether to return all sentences joined into a single document.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to return all sentences joined into a single document
+        """
+        return self._set(outputAsDocument=value)
+
+    def setExcludeNonText(self, value):
+        """Sets whether to exclude non-text content from the output.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to exclude non-text content from the output. Default is False.
+        """
+        return self._set(excludeNonText=value)
