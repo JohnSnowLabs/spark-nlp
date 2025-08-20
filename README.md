@@ -63,7 +63,7 @@ $ java -version
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
-$ pip install spark-nlp==6.1.1 pyspark==3.3.1
+$ pip install spark-nlp==6.1.2 pyspark==3.3.1
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -129,7 +129,7 @@ For a quick example of using pipelines and models take a look at our official [d
 
 ### Apache Spark Support
 
-Spark NLP *6.1.1* has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
+Spark NLP *6.1.2* has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
 
 | Spark NLP | Apache Spark 3.5.x | Apache Spark 3.4.x | Apache Spark 3.3.x | Apache Spark 3.2.x | Apache Spark 3.1.x | Apache Spark 3.0.x | Apache Spark 2.4.x | Apache Spark 2.3.x |
 |-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
@@ -159,7 +159,7 @@ Find out more about 4.x `SparkNLP` versions in our official [documentation](http
 
 ### Databricks Support
 
-Spark NLP 6.1.1 has been tested and is compatible with the following runtimes:
+Spark NLP 6.1.2 has been tested and is compatible with the following runtimes:
 
 | **CPU**            | **GPU**            |
 |--------------------|--------------------|
@@ -177,7 +177,7 @@ We are compatible with older runtimes. For a full list check databricks support 
 
 ### EMR Support
 
-Spark NLP 6.1.1 has been tested and is compatible with the following EMR releases:
+Spark NLP 6.1.2 has been tested and is compatible with the following EMR releases:
 
 | **EMR Release**    |
 |--------------------|
