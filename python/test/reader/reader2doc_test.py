@@ -91,3 +91,24 @@ class Reader2DocPdfTest(unittest.TestCase):
         result_df = model.transform(self.empty_df)
 
         self.assertTrue(result_df.select("document").count() > 0)
+
+@pytest.mark.fast
+class Reader2DocTestOutputAsDoc(unittest.TestCase):
+
+    def setUp(self):
+        spark = SparkContextForTest.spark
+        self.empty_df = spark.createDataFrame([], "string").toDF("text")
+
+    def runTest(self):
+        reader2doc = Reader2Doc() \
+            .setContentType("text/html") \
+            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/html/title-test.html") \
+            .setOutputCol("document") \
+            .setOutputAsDocument(True)
+
+        pipeline = Pipeline(stages=[reader2doc])
+        model = pipeline.fit(self.empty_df)
+
+        result_df = model.transform(self.empty_df)
+
+        self.assertTrue(result_df.select("document").count() > 0)

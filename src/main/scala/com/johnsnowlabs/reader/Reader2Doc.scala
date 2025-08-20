@@ -119,26 +119,31 @@ class Reader2Doc(override val uid: String)
   /** Whether to return all sentences joined into a single document */
   def setOutputAsDocument(value: Boolean): this.type = set(outputAsDocument, value)
 
+  val excludeNonText: BooleanParam =
+    new BooleanParam(this, "excludeNonText", "Excludes rows that are not text data e.g. tables")
+
+  def setExcludeNonText(value: Boolean): this.type = set(excludeNonText, value)
+
   setDefault(
     this.explodeDocs -> false,
     contentType -> "",
     flattenOutput -> false,
     titleThreshold -> 18,
     outputAsDocument -> false,
-    outputFormat -> "plain-text")
+    outputFormat -> "plain-text",
+    excludeNonText -> false)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
-    val finalDf = if ($(contentType).trim.isEmpty) {
+    val structuredDf = if ($(contentType).trim.isEmpty) {
       partitionMixedContent(dataset.sparkSession, $(contentPath))
     } else {
       partitionContent(partitionBuilder, dataset)
     }
-    val annotatedDf = finalDf
+    val annotatedDf = structuredDf
       .withColumn(
         getOutputCol,
-        wrapColumnMetadata(
-          partitionToAnnotation($(flattenOutput))(col("partition"), col("fileName"))))
+        wrapColumnMetadata(partitionToAnnotation(col("partition"), col("fileName"))))
       .select("fileName", getOutputCol)
 
     afterAnnotate(annotatedDf)
@@ -307,19 +312,28 @@ class Reader2Doc(override val uid: String)
     if (path != null) path.split("/").last else ""
   }
 
-  protected def partitionToAnnotation(flatten: Boolean): UserDefinedFunction = udf {
+  protected def partitionToAnnotation: UserDefinedFunction = udf {
     (partitions: Seq[Row], fileName: String) =>
       if (partitions == null) Nil
       else if ($(outputAsDocument)) {
         mergeElementsAsDocument(partitions)
       } else {
-        elementsAsIndividualAnnotations(partitions, flatten)
+        elementsAsIndividualAnnotations(partitions)
       }
   }
 
+  private def isTableElement(row: Row): Boolean = {
+    val elementType = row.getAs[String]("elementType")
+    elementType != null && elementType.equalsIgnoreCase(ElementType.TABLE)
+  }
+
   private def mergeElementsAsDocument(partitions: Seq[Row]): Seq[Annotation] = {
+    val partitionsToKept =
+      if ($(excludeNonText)) partitions.filterNot(isTableElement) else partitions
+
     val allText =
-      partitions.flatMap(part => Option(part.getAs[String]("content"))).mkString(" ")
+      partitionsToKept.flatMap(part => Option(part.getAs[String]("content"))).mkString(" ")
+
     val begin = 0
     val end = if (allText.isEmpty) 0 else allText.length - 1
     val meta = Map("sentence" -> "0")
@@ -333,27 +347,31 @@ class Reader2Doc(override val uid: String)
         embeddings = Array.emptyFloatArray))
   }
 
-  private def elementsAsIndividualAnnotations(
-      partitions: Seq[Row],
-      flatten: Boolean): Seq[Annotation] = {
+  private def elementsAsIndividualAnnotations(partitions: Seq[Row]): Seq[Annotation] = {
     var currentOffset = 0
-    partitions.map { part =>
+    partitions.flatMap { part =>
       val elementType = part.getAs[String]("elementType")
-      val content = part.getAs[String]("content")
-      val metadata = part.getAs[Map[String, String]]("metadata")
-      val begin = currentOffset
-      val end = currentOffset + (if (content != null) content.length else 0) - 1
-      currentOffset = end + 1
-      val baseMeta = if (metadata != null) metadata else Map.empty[String, String]
-      val withExtras = baseMeta + ("elementType" -> elementType)
-      val finalMeta = if (flatten) withExtras.filterKeys(_ == "sentence") else withExtras
-      Annotation(
-        annotatorType = outputAnnotatorType,
-        begin = begin,
-        end = end,
-        result = content,
-        metadata = finalMeta,
-        embeddings = Array.emptyFloatArray)
+      if ($(excludeNonText) && isTableElement(part)) {
+        None
+      } else {
+        val content = part.getAs[String]("content")
+        val metadata = part.getAs[Map[String, String]]("metadata")
+        val begin = currentOffset
+        val end = currentOffset + (if (content != null) content.length else 0) - 1
+        currentOffset = end + 1
+        val baseMeta = if (metadata != null) metadata else Map.empty[String, String]
+        val withExtras = baseMeta + ("elementType" -> elementType)
+        val finalMeta =
+          if ($(flattenOutput)) withExtras.filterKeys(_ == "sentence") else withExtras
+        Some(
+          Annotation(
+            annotatorType = outputAnnotatorType,
+            begin = begin,
+            end = end,
+            result = content,
+            metadata = finalMeta,
+            embeddings = Array.emptyFloatArray))
+      }
     }
   }
 
