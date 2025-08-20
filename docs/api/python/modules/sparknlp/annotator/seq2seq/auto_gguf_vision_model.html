@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.auto_gguf_vision_model &#8212; Spark NLP 6.1.0 documentation</title>
+    <title>sparknlp.annotator.seq2seq.auto_gguf_vision_model &#8212; Spark NLP 6.1.1 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=413a1d38"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=e5429921"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -409,7 +409,7 @@ document.write(`
 <span class="sd">            .setOutputCol(&quot;completions&quot;)</span>
 
 
-<span class="sd">    The default model is ``&quot;llava_v1.5_7b_Q4_0_gguf&quot;``, if no name is provided.</span>
+<span class="sd">    The default model is ``&quot;Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf&quot;``, if no name is provided.</span>
 
 <span class="sd">    For available pretrained models please see the `Models Hub &lt;https://sparknlp.org/models&gt;`__.</span>
 
@@ -677,13 +677,13 @@ document.write(`
         <span class="k">return</span> <span class="n">AutoGGUFVisionModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="AutoGGUFVisionModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_vision_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_vision_model.AutoGGUFVisionModel.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;llava_v1.5_7b_Q4_0_gguf&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="AutoGGUFVisionModel.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_vision_model/index.html#sparknlp.annotator.seq2seq.auto_gguf_vision_model.AutoGGUFVisionModel.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
-<span class="sd">            Name of the pretrained model, by default &quot;llava_v1.5_7b_Q4_0_gguf&quot;</span>
+<span class="sd">            Name of the pretrained model, by default &quot;Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf&quot;</span>
 <span class="sd">        lang : str, optional</span>
 <span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
 <span class="sd">        remote_loc : str, optional</span>

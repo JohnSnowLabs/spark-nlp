@@ -37,7 +37,11 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("completions")
 
-    The default model is ``"phi3.5_mini_4k_instruct_q4_gguf"``, if no name is provided.
+    The default model is ``"Phi_4_mini_instruct_Q4_K_M_gguf"``, if no name is provided.
+
+    AutoGGUFModel is also able to load pretrained models from AutoGGUFVisionModel. Just
+    specify the same name for the pretrained method, and it will load the text-part of the
+    multimodal model automatically.
 
     For extended examples of usage, see the
     `AutoGGUFModelTest <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFModelTest.scala>`__
@@ -120,8 +124,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         Set path to static lookup cache to use for lookup decoding (not updated by generation)
     lookupCacheDynamicFilePath
         Set path to dynamic lookup cache to use for lookup decoding (updated by generation)
-    embedding
-        Whether to load model with embedding support
     flashAttention
         Whether to enable Flash Attention
     inputPrefixBos
@@ -252,7 +254,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
             useChatTemplate=True,
             nCtx=4096,
             nBatch=512,
-            embedding=False,
             nPredict=100,
             nGpuLayers=99,
             systemPrompt="You are a helpful assistant."
@@ -279,13 +280,13 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         return AutoGGUFModel(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="phi3.5_mini_4k_instruct_q4_gguf", lang="en", remote_loc=None):
+    def pretrained(name="Phi_4_mini_instruct_Q4_K_M_gguf", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "phi3.5_mini_4k_instruct_q4_gguf"
+            Name of the pretrained model, by default "Phi_4_mini_instruct_Q4_K_M_gguf"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

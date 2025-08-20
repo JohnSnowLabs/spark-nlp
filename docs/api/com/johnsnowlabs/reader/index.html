@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.1.0-rc1 ScalaDoc  - com.johnsnowlabs.reader</title>
-          <meta name="description" content="Spark NLP 6.1.0 - rc1 ScalaDoc - com.johnsnowlabs.reader" />
-          <meta name="keywords" content="Spark NLP 6.1.0 rc1 ScalaDoc com.johnsnowlabs.reader" />
+          <title>Spark NLP 6.1.1 ScalaDoc  - com.johnsnowlabs.reader</title>
+          <meta name="description" content="Spark NLP 6.1.1 ScalaDoc - com.johnsnowlabs.reader" />
+          <meta name="keywords" content="Spark NLP 6.1.1 ScalaDoc com.johnsnowlabs.reader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.1.0-rc1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.1.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -265,6 +265,10 @@
                         <a class="object" href="Reader2Doc$.html" title=""></a>
                         <a class="class" href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
                         <a href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Doc</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="Reader2Table$.html" title=""></a>
+                        <a class="class" href="Reader2Table.html" title="The Reader2Table annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
+                        <a href="Reader2Table.html" title="The Reader2Table annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Table</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="SparkNLPReader.html" title=""></a>
@@ -598,9 +602,10 @@ reading from many files types and returns parsed output as a structured Spark Da
 <span class="kw">import</span> com. johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 
-<span class="kw">val</span> partition = <span class="kw">new</span> Reader2Doc()
+<span class="kw">val</span> reader2Doc = <span class="kw">new</span> Reader2Doc()
   .setContentType(<span class="lit">"application/pdf"</span>)
   .setContentPath(s<span class="lit">"$pdfDirectory/"</span>)
+  .setExplodeDocs(<span class="kw">true</span>)
 
 <span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline()
   .setStages(<span class="std">Array</span>(reader2Doc))
@@ -616,6 +621,46 @@ resultDf.show()
 |[{document, <span class="num">15</span>, <span class="num">38</span>, This is a narrative text, {pageNumber -&gt; <span class="num">1</span>, elementType -&gt; NarrativeText, fileName -&gt; pdf-title.pdf}, []}]      |
 |[{document, <span class="num">39</span>, <span class="num">68</span>, This is another narrative text, {pageNumber -&gt; <span class="num">1</span>, elementType -&gt; NarrativeText, fileName -&gt; pdf-title.pdf}, []}]|
 +------------------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.reader.Reader2Table" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Reader2TableextendsReader2Doc"></a><a id="Reader2Table:Reader2Table"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/Reader2Table.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="The Reader2Table annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines." href="Reader2Table.html"><span class="name">Reader2Table</span></a><span class="result"> extends <a href="Reader2Doc.html" class="extype" name="com.johnsnowlabs.reader.Reader2Doc">Reader2Doc</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">The Reader2Table annotator allows you to use the reading files more smoothly within existing
+Spark NLP workflows, enabling seamless reuse of your pipelines.</p><div class="fullcomment"><div class="comment cmt"><p>The Reader2Table annotator allows you to use the reading files more smoothly within existing
+Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Doc can be used for
+extracting structured content from various document types using Spark NLP readers. It supports
+reading from many files types and returns parsed output as a structured Spark DataFrame.</p><p>Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
+(.ppt/.pptx)</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.reader.Reader2Table
+<span class="kw">import</span> com. johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> reader2Table = <span class="kw">new</span> Reader2Table()
+  .setContentType(<span class="lit">"application/csv"</span>)
+  .setContentPath(s<span class="lit">"$pdfDirectory/"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline()
+  .setStages(<span class="std">Array</span>(reader2Table))
+
+<span class="kw">val</span> pipelineModel = pipeline.fit(emptyDataSet)
+<span class="kw">val</span> resultDf = pipelineModel.transform(emptyDataSet)
+
+resultDf.show()
++----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|fileName        |document                                                                                                                                                                                    |
++----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|stanley-cups.csv|[{document, <span class="num">0</span>, <span class="num">137</span>, {<span class="lit">"caption"</span>:<span class="lit">""</span>,<span class="lit">"header"</span>:[],<span class="lit">"rows"</span>:[[<span class="lit">"Team"</span>,<span class="lit">"Location"</span>,<span class="lit">"Stanley Cups"</span>],[<span class="lit">"Blues"</span>,<span class="lit">"STL"</span>,<span class="lit">"1"</span>],[<span class="lit">"Flyers"</span>,<span class="lit">"PHI"</span>,<span class="lit">"2"</span>],[<span class="lit">"Maple Leafs"</span>,<span class="lit">"TOR"</span>,<span class="lit">"13"</span>]]}, {elementType -&gt; Table}, []}]|
++----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
     </li><li name="com.johnsnowlabs.reader.SparkNLPReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="SparkNLPReaderextendsSerializable"></a><a id="SparkNLPReader:SparkNLPReader"></a>
       <span class="permalink">
@@ -749,6 +794,22 @@ resultDf.show()
       </span>
       <span class="symbol">
         <a title="" href="Reader2Doc$.html"><span class="name">Reader2Doc</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="Reader2Doc.html" class="extype" name="com.johnsnowlabs.reader.Reader2Doc">Reader2Doc</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.reader.Reader2Table" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Reader2Table"></a><a id="Reader2Table:Reader2Table"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/Reader2Table$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="Reader2Table$.html"><span class="name">Reader2Table</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="Reader2Table.html" class="extype" name="com.johnsnowlabs.reader.Reader2Table">Reader2Table</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       

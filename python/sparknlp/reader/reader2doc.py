@@ -25,7 +25,7 @@ class Reader2Doc(
     HasExcelReaderProperties,
     HasHTMLReaderProperties,
     HasPowerPointProperties,
-    HasTextReaderProperties,
+    HasTextReaderProperties
 ):
     """
     The Reader2Doc annotator allows you to use reading files more smoothly within existing
@@ -36,7 +36,7 @@ class Reader2Doc(
     output as a structured Spark DataFrame.
 
     Supported formats include:
-    
+
     - Plain text
     - HTML
     - Word (.doc/.docx)
@@ -77,42 +77,49 @@ class Reader2Doc(
         Params._dummy(),
         "contentPath",
         "contentPath path to files to read",
-        typeConverter=TypeConverters.toString,
+        typeConverter=TypeConverters.toString
     )
 
     outputCol = Param(
         Params._dummy(),
         "outputCol",
         "output column name",
-        typeConverter=TypeConverters.toString,
+        typeConverter=TypeConverters.toString
     )
 
     contentType = Param(
         Params._dummy(),
         "contentType",
         "Set the content type to load following MIME specification",
-        typeConverter=TypeConverters.toString,
+        typeConverter=TypeConverters.toString
     )
 
     explodeDocs = Param(
         Params._dummy(),
         "explodeDocs",
         "whether to explode the documents into separate rows",
-        typeConverter=TypeConverters.toBoolean,
+        typeConverter=TypeConverters.toBoolean
     )
 
     flattenOutput = Param(
         Params._dummy(),
         "flattenOutput",
         "If true, output is flattened to plain text with minimal metadata",
-        typeConverter=TypeConverters.toBoolean,
+        typeConverter=TypeConverters.toBoolean
     )
 
     titleThreshold = Param(
         Params._dummy(),
         "titleThreshold",
         "Minimum font size threshold for title detection in PDF docs",
-        typeConverter=TypeConverters.toFloat,
+        typeConverter=TypeConverters.toFloat
+    )
+
+    outputFormat = Param(
+        Params._dummy(),
+        "outputFormat",
+        "Output format for the table content. Options are 'plain-text' or 'html-table'. Default is 'json-table'.",
+        typeConverter=TypeConverters.toString
     )
 
     @keyword_only
@@ -126,7 +133,6 @@ class Reader2Doc(
             titleThreshold=18
         )
     @keyword_only
-
     def setParams(self):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
@@ -192,3 +198,13 @@ class Reader2Doc(
             Minimum font size threshold for title detection in PDF docs
         """
         return self._set(titleThreshold=value)
+
+    def setOutputFormat(self, value):
+        """Sets the output format for the table content.
+
+        Parameters
+        ----------
+        value : str
+            Output format for the table content. Options are 'plain-text' or 'html-table'. Default is 'json-table'.
+        """
+        return self._set(outputFormat=value)

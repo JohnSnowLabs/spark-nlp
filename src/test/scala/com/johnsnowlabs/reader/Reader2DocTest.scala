@@ -57,7 +57,6 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
-    resultDf.show(truncate = false)
 
     val expected: Array[Seq[Annotation]] = Array(
       Seq(
@@ -90,7 +89,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     }
   }
 
-  it should "convert Reader output to Document format with exploded documents" taggedAs FastTest in {
+  it should "convert Reader output to Document and explode documents" taggedAs FastTest in {
 
     val reader2Doc = new Reader2Doc()
       .setContentType("text/html")
@@ -243,6 +242,33 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
       piplineModel.transform(emptyDataSet)
     }
     ex.getMessage.contains("contentType must be set")
+  }
+
+  it should "return all sentences joined into a single document" in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("text/html")
+      .setOutputCol("document")
+      .setContentPath(s"$htmlFilesDirectory/example-mix-tags.html")
+      .setOutputAsDocument(true)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
+    assert(annotationsResult.head.size == 1, "Expected one document annotation")
+  }
+
+  it should "load all files from a directory" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentPath("src/test/resources/reader")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    assert(resultDf.count() > 1)
   }
 
 }

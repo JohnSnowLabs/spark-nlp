@@ -23,6 +23,7 @@ import com.johnsnowlabs.reader.util.DocxParser.{
   RichXWPFParagraph,
   RichXWPFTable
 }
+import com.johnsnowlabs.reader.util.HTMLParser
 import org.apache.poi.hwpf.HWPFDocument
 import org.apache.poi.xwpf.usermodel.{XWPFDocument, XWPFParagraph, XWPFTable}
 import org.apache.spark.sql.DataFrame
@@ -76,7 +77,8 @@ import scala.collection.mutable
 class WordReader(
     storeContent: Boolean = false,
     includePageBreaks: Boolean = false,
-    inferTableStructure: Boolean = false)
+    inferTableStructure: Boolean = false,
+    outputFormat: String = "json-table")
     extends Serializable {
 
   private lazy val spark = ResourceHelper.spark
@@ -223,9 +225,17 @@ class WordReader(
     }
 
     if (tableHtml.isDefined) {
-      val htmlElement =
-        HTMLElement(ElementType.HTML, tableHtml.get, mutable.Map.empty[String, String])
-      tableElements :+ htmlElement
+      if (outputFormat == "html-table") {
+        val htmlElement =
+          HTMLElement(ElementType.HTML, tableHtml.get, mutable.Map.empty[String, String])
+        tableElements :+ htmlElement
+      } else if (outputFormat == "json-table") {
+        val tableElement = HTMLParser.parseFirstTableElement(tableHtml.get)
+        val jsonString = HTMLParser.tableElementToJson(tableElement)
+        val jsonElement =
+          HTMLElement(ElementType.JSON, jsonString, mutable.Map.empty[String, String])
+        tableElements :+ jsonElement
+      } else tableElements
     } else tableElements
 
   }

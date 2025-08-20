@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.common.properties &#8212; Spark NLP 6.1.0 documentation</title>
+    <title>sparknlp.common.properties &#8212; Spark NLP 6.1.1 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=413a1d38"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=e5429921"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.0 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -989,7 +989,6 @@ document.write(`
                              <span class="s2">&quot;The number of sequences to return from the beam search.&quot;</span><span class="p">,</span>
                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
-
 <div class="viewcode-block" id="HasGeneratorProperties.setTask"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasGeneratorProperties.setTask">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the transformer&#39;s task, e.g. ``summarize:``.</span>
 
@@ -999,7 +998,6 @@ document.write(`
 <span class="sd">            The transformer&#39;s task</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="HasGeneratorProperties.setMinOutputLength"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasGeneratorProperties.setMinOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum length of the sequence to be generated.</span>
@@ -1011,7 +1009,6 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-
 <div class="viewcode-block" id="HasGeneratorProperties.setMaxOutputLength"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasGeneratorProperties.setMaxOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets maximum length of output text.</span>
 
@@ -1021,7 +1018,6 @@ document.write(`
 <span class="sd">            Maximum length of output text</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="HasGeneratorProperties.setDoSample"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasGeneratorProperties.setDoSample">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDoSample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether or not to use sampling, use greedy decoding otherwise.</span>
@@ -1033,7 +1029,6 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">doSample</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-
 <div class="viewcode-block" id="HasGeneratorProperties.setTemperature"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasGeneratorProperties.setTemperature">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTemperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the value used to module the next token probabilities.</span>
 
@@ -1043,7 +1038,6 @@ document.write(`
 <span class="sd">            The value used to module the next token probabilities</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">temperature</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="HasGeneratorProperties.setTopK"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasGeneratorProperties.setTopK">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of highest probability vocabulary tokens to keep for</span>
@@ -1055,7 +1049,6 @@ document.write(`
 <span class="sd">            Number of highest probability vocabulary tokens to keep</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topK</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="HasGeneratorProperties.setTopP"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasGeneratorProperties.setTopP">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopP</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the top cumulative probability for vocabulary tokens.</span>
@@ -1069,7 +1062,6 @@ document.write(`
 <span class="sd">            Cumulative probability for vocabulary tokens</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topP</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="HasGeneratorProperties.setRepetitionPenalty"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasGeneratorProperties.setRepetitionPenalty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the parameter for repetition penalty. 1.0 means no penalty.</span>
@@ -1086,7 +1078,6 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">repetitionPenalty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-
 <div class="viewcode-block" id="HasGeneratorProperties.setNoRepeatNgramSize"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasGeneratorProperties.setNoRepeatNgramSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNoRepeatNgramSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets size of n-grams that can only occur once.</span>
 
@@ -1099,7 +1090,6 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">noRepeatNgramSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
-
 <div class="viewcode-block" id="HasGeneratorProperties.setBeamSize"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasGeneratorProperties.setBeamSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setBeamSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of beam size for beam search.</span>
 
@@ -1109,7 +1099,6 @@ document.write(`
 <span class="sd">            Number of beam size for beam search</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">beamSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
 
 <div class="viewcode-block" id="HasGeneratorProperties.setNReturnSequences"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasGeneratorProperties.setNReturnSequences">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNReturnSequences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of sequences to return from the beam search.</span>
@@ -1206,11 +1195,10 @@ document.write(`
                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
     <span class="c1"># Set the pooling type for embeddings, use model default if unspecified</span>
     <span class="c1">#</span>
-    <span class="c1">#   - 0 NONE: Don&#39;t use any pooling</span>
-    <span class="c1">#   - 1 MEAN: Mean Pooling</span>
-    <span class="c1">#   - 2 CLS: CLS Pooling</span>
-    <span class="c1">#   - 3 LAST: Last token pooling</span>
-    <span class="c1">#   - 4 RANK: For reranked models</span>
+    <span class="c1">#   - MEAN: Mean Pooling</span>
+    <span class="c1">#   - CLS: CLS Pooling</span>
+    <span class="c1">#   - LAST: Last token pooling</span>
+    <span class="c1">#   - RANK: For reranked models</span>
 <div class="viewcode-block" id="HasLlamaCppProperties.poolingType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.poolingType">[docs]</a>    <span class="n">poolingType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;poolingType&quot;</span><span class="p">,</span>
                         <span class="s2">&quot;Set the pooling type for embeddings, use model default if unspecified&quot;</span><span class="p">,</span>
                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
@@ -1243,6 +1231,10 @@ document.write(`
                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 <div class="viewcode-block" id="HasLlamaCppProperties.chatTemplate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.chatTemplate">[docs]</a>    <span class="n">chatTemplate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;chatTemplate&quot;</span><span class="p">,</span> <span class="s2">&quot;The chat template to use&quot;</span><span class="p">,</span>
                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+<div class="viewcode-block" id="HasLlamaCppProperties.logVerbosity"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.logVerbosity">[docs]</a>    <span class="n">logVerbosity</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;logVerbosity&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the log verbosity level&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+<div class="viewcode-block" id="HasLlamaCppProperties.disableLog"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.disableLog">[docs]</a>    <span class="n">disableLog</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;disableLog&quot;</span><span class="p">,</span> <span class="s2">&quot;Whether to disable logging&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
 
     <span class="c1"># -------- INFERENCE PARAMETERS --------</span>
 <div class="viewcode-block" id="HasLlamaCppProperties.inputPrefix"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.inputPrefix">[docs]</a>    <span class="n">inputPrefix</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;inputPrefix&quot;</span><span class="p">,</span> <span class="s2">&quot;Set the prompt to start generation with&quot;</span><span class="p">,</span>
@@ -1443,10 +1435,10 @@ document.write(`
         <span class="n">ropeScalingTypeUpper</span> <span class="o">=</span> <span class="n">ropeScalingType</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="n">ropeScalingTypes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NONE&quot;</span><span class="p">,</span> <span class="s2">&quot;LINEAR&quot;</span><span class="p">,</span> <span class="s2">&quot;YARN&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">ropeScalingTypeUpper</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ropeScalingTypes</span><span class="p">:</span>
-           <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-               <span class="sa">f</span><span class="s2">&quot;Invalid RoPE scaling type: </span><span class="si">{</span><span class="n">ropeScalingType</span><span class="si">}</span><span class="s2">. &quot;</span>
-               <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Valid values are: </span><span class="si">{</span><span class="n">ropeScalingTypes</span><span class="si">}</span><span class="s2">&quot;</span>
-           <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid RoPE scaling type: </span><span class="si">{</span><span class="n">ropeScalingType</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;Valid values are: </span><span class="si">{</span><span class="n">ropeScalingTypes</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ropeScalingType</span><span class="o">=</span><span class="n">ropeScalingTypeUpper</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasLlamaCppProperties.setPoolingType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setPoolingType">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPoolingType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">poolingType</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -1454,11 +1446,10 @@ document.write(`
 
 <span class="sd">        Possible values:</span>
 
-<span class="sd">        - 0 NONE: Don&#39;t use any pooling</span>
-<span class="sd">        - 1 MEAN: Mean Pooling</span>
-<span class="sd">        - 2 CLS: CLS Pooling</span>
-<span class="sd">        - 3 LAST: Last token pooling</span>
-<span class="sd">        - 4 RANK: For reranked models</span>
+<span class="sd">        - MEAN: Mean Pooling</span>
+<span class="sd">        - CLS: CLS Pooling</span>
+<span class="sd">        - LAST: Last token pooling</span>
+<span class="sd">        - RANK: For reranked models</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">poolingTypeUpper</span> <span class="o">=</span> <span class="n">poolingType</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
         <span class="n">poolingTypes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;NONE&quot;</span><span class="p">,</span> <span class="s2">&quot;MEAN&quot;</span><span class="p">,</span> <span class="s2">&quot;CLS&quot;</span><span class="p">,</span> <span class="s2">&quot;LAST&quot;</span><span class="p">,</span> <span class="s2">&quot;RANK&quot;</span><span class="p">]</span>
@@ -1484,10 +1475,6 @@ document.write(`
     <span class="c1"># def setLookupCacheDynamicFilePath(self, lookupCacheDynamicFilePath: str):</span>
     <span class="c1">#     &quot;&quot;&quot;Set path to dynamic lookup cache to use for lookup decoding (updated by generation)&quot;&quot;&quot;</span>
     <span class="c1">#     return self._set(lookupCacheDynamicFilePath=lookupCacheDynamicFilePath)</span>
-
-<div class="viewcode-block" id="HasLlamaCppProperties.setEmbedding"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setEmbedding">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setEmbedding</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embedding</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to load model with embedding support&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">embedding</span><span class="o">=</span><span class="n">embedding</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasLlamaCppProperties.setFlashAttention"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setFlashAttention">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setFlashAttention</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flashAttention</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to enable Flash Attention&quot;&quot;&quot;</span>
@@ -1641,10 +1628,18 @@ document.write(`
 <div class="viewcode-block" id="HasLlamaCppProperties.setUseChatTemplate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setUseChatTemplate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setUseChatTemplate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">useChatTemplate</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set whether generate should apply a chat template&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useChatTemplate</span><span class="o">=</span><span class="n">useChatTemplate</span><span class="p">)</span></div>
-    
+
 <div class="viewcode-block" id="HasLlamaCppProperties.setNParallel"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setNParallel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNParallel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nParallel</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="n">nParallel</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasLlamaCppProperties.setLogVerbosity"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setLogVerbosity">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLogVerbosity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logVerbosity</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the log verbosity level&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">logVerbosity</span><span class="o">=</span><span class="n">logVerbosity</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasLlamaCppProperties.setDisableLog"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setDisableLog">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setDisableLog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">disableLog</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether to disable logging&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">disableLog</span><span class="o">=</span><span class="n">disableLog</span><span class="p">)</span></div>
 
     <span class="c1"># -------- JAVA SETTERS --------</span>
 <div class="viewcode-block" id="HasLlamaCppProperties.setTokenIdBias"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/common/properties/index.html#sparknlp.common.properties.HasLlamaCppProperties.setTokenIdBias">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTokenIdBias</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokenIdBias</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]):</span>

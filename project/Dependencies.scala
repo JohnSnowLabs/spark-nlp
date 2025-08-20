@@ -117,7 +117,7 @@ object Dependencies {
   val onnxCPU = "com.microsoft.onnxruntime" % "onnxruntime" % onnxRuntimeVersion
   val onnxGPU = "com.microsoft.onnxruntime" % "onnxruntime_gpu" % onnxRuntimeVersion
 
-  val openVinoRuntimeVersion = "0.1.0"
+  val openVinoRuntimeVersion = "0.2.0"
   val openVinoCPU = "com.johnsnowlabs.nlp" %% "jsl-openvino-cpu" % openVinoRuntimeVersion
   val openVinoGPU = "com.johnsnowlabs.nlp" %% "jsl-openvino-gpu" % openVinoRuntimeVersion
 
@@ -128,7 +128,7 @@ object Dependencies {
   val azureIdentity = "com.azure" % "azure-identity" % azureIdentityVersion % Provided
   val azureStorage = "com.azure" % "azure-storage-blob" % azureStorageVersion % Provided
 
-  val llamaCppVersion = "1.0.1"
+  val llamaCppVersion = "1.0.2"
   val llamaCppCPU = "com.johnsnowlabs.nlp" % "jsl-llamacpp-cpu" % llamaCppVersion
   val llamaCppGPU = "com.johnsnowlabs.nlp" % "jsl-llamacpp-gpu" % llamaCppVersion
   val llamaCppSilicon = "com.johnsnowlabs.nlp" % "jsl-llamacpp-silicon" % llamaCppVersion

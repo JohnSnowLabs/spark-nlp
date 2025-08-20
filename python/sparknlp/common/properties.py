@@ -628,7 +628,6 @@ class HasGeneratorProperties:
                              "The number of sequences to return from the beam search.",
                              typeConverter=TypeConverters.toInt)
 
-
     def setTask(self, value):
         """Sets the transformer's task, e.g. ``summarize:``.
 
@@ -638,7 +637,6 @@ class HasGeneratorProperties:
             The transformer's task
         """
         return self._set(task=value)
-
 
     def setMinOutputLength(self, value):
         """Sets minimum length of the sequence to be generated.
@@ -650,7 +648,6 @@ class HasGeneratorProperties:
         """
         return self._set(minOutputLength=value)
 
-
     def setMaxOutputLength(self, value):
         """Sets maximum length of output text.
 
@@ -660,7 +657,6 @@ class HasGeneratorProperties:
             Maximum length of output text
         """
         return self._set(maxOutputLength=value)
-
 
     def setDoSample(self, value):
         """Sets whether or not to use sampling, use greedy decoding otherwise.
@@ -672,7 +668,6 @@ class HasGeneratorProperties:
         """
         return self._set(doSample=value)
 
-
     def setTemperature(self, value):
         """Sets the value used to module the next token probabilities.
 
@@ -682,7 +677,6 @@ class HasGeneratorProperties:
             The value used to module the next token probabilities
         """
         return self._set(temperature=value)
-
 
     def setTopK(self, value):
         """Sets the number of highest probability vocabulary tokens to keep for
@@ -694,7 +688,6 @@ class HasGeneratorProperties:
             Number of highest probability vocabulary tokens to keep
         """
         return self._set(topK=value)
-
 
     def setTopP(self, value):
         """Sets the top cumulative probability for vocabulary tokens.
@@ -708,7 +701,6 @@ class HasGeneratorProperties:
             Cumulative probability for vocabulary tokens
         """
         return self._set(topP=value)
-
 
     def setRepetitionPenalty(self, value):
         """Sets the parameter for repetition penalty. 1.0 means no penalty.
@@ -725,7 +717,6 @@ class HasGeneratorProperties:
         """
         return self._set(repetitionPenalty=value)
 
-
     def setNoRepeatNgramSize(self, value):
         """Sets size of n-grams that can only occur once.
 
@@ -738,7 +729,6 @@ class HasGeneratorProperties:
         """
         return self._set(noRepeatNgramSize=value)
 
-
     def setBeamSize(self, value):
         """Sets the number of beam size for beam search.
 
@@ -748,7 +738,6 @@ class HasGeneratorProperties:
             Number of beam size for beam search
         """
         return self._set(beamSize=value)
-
 
     def setNReturnSequences(self, value):
         """Sets the number of sequences to return from the beam search.
@@ -845,11 +834,10 @@ class HasLlamaCppProperties:
                             typeConverter=TypeConverters.toString)
     # Set the pooling type for embeddings, use model default if unspecified
     #
-    #   - 0 NONE: Don't use any pooling
-    #   - 1 MEAN: Mean Pooling
-    #   - 2 CLS: CLS Pooling
-    #   - 3 LAST: Last token pooling
-    #   - 4 RANK: For reranked models
+    #   - MEAN: Mean Pooling
+    #   - CLS: CLS Pooling
+    #   - LAST: Last token pooling
+    #   - RANK: For reranked models
     poolingType = Param(Params._dummy(), "poolingType",
                         "Set the pooling type for embeddings, use model default if unspecified",
                         typeConverter=TypeConverters.toString)
@@ -882,6 +870,10 @@ class HasLlamaCppProperties:
                          typeConverter=TypeConverters.toString)
     chatTemplate = Param(Params._dummy(), "chatTemplate", "The chat template to use",
                          typeConverter=TypeConverters.toString)
+    logVerbosity = Param(Params._dummy(), "logVerbosity", "Set the log verbosity level",
+                         typeConverter=TypeConverters.toInt)
+    disableLog = Param(Params._dummy(), "disableLog", "Whether to disable logging",
+                       typeConverter=TypeConverters.toBoolean)
 
     # -------- INFERENCE PARAMETERS --------
     inputPrefix = Param(Params._dummy(), "inputPrefix", "Set the prompt to start generation with",
@@ -1082,10 +1074,10 @@ class HasLlamaCppProperties:
         ropeScalingTypeUpper = ropeScalingType.upper()
         ropeScalingTypes = ["NONE", "LINEAR", "YARN"]
         if ropeScalingTypeUpper not in ropeScalingTypes:
-           raise ValueError(
-               f"Invalid RoPE scaling type: {ropeScalingType}. "
-               + f"Valid values are: {ropeScalingTypes}"
-           )
+            raise ValueError(
+                f"Invalid RoPE scaling type: {ropeScalingType}. "
+                + f"Valid values are: {ropeScalingTypes}"
+            )
         return self._set(ropeScalingType=ropeScalingTypeUpper)
 
     def setPoolingType(self, poolingType: str):
@@ -1093,11 +1085,10 @@ class HasLlamaCppProperties:
 
         Possible values:
 
-        - 0 NONE: Don't use any pooling
-        - 1 MEAN: Mean Pooling
-        - 2 CLS: CLS Pooling
-        - 3 LAST: Last token pooling
-        - 4 RANK: For reranked models
+        - MEAN: Mean Pooling
+        - CLS: CLS Pooling
+        - LAST: Last token pooling
+        - RANK: For reranked models
         """
         poolingTypeUpper = poolingType.upper()
         poolingTypes = ["NONE", "MEAN", "CLS", "LAST", "RANK"]
@@ -1123,10 +1114,6 @@ class HasLlamaCppProperties:
     # def setLookupCacheDynamicFilePath(self, lookupCacheDynamicFilePath: str):
     #     """Set path to dynamic lookup cache to use for lookup decoding (updated by generation)"""
     #     return self._set(lookupCacheDynamicFilePath=lookupCacheDynamicFilePath)
-
-    def setEmbedding(self, embedding: bool):
-        """Whether to load model with embedding support"""
-        return self._set(embedding=embedding)
 
     def setFlashAttention(self, flashAttention: bool):
         """Whether to enable Flash Attention"""
@@ -1280,10 +1267,18 @@ class HasLlamaCppProperties:
     def setUseChatTemplate(self, useChatTemplate: bool):
         """Set whether generate should apply a chat template"""
         return self._set(useChatTemplate=useChatTemplate)
-    
+
     def setNParallel(self, nParallel: int):
         """Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`."""
         return self.setBatchSize(nParallel)
+
+    def setLogVerbosity(self, logVerbosity: int):
+        """Set the log verbosity level"""
+        return self._set(logVerbosity=logVerbosity)
+
+    def setDisableLog(self, disableLog: bool):
+        """Whether to disable logging"""
+        return self._set(disableLog=disableLog)
 
     # -------- JAVA SETTERS --------
     def setTokenIdBias(self, tokenIdBias: Dict[int, float]):
