@@ -120,8 +120,9 @@ class Reader2Doc(override val uid: String)
   def setOutputAsDocument(value: Boolean): this.type = set(outputAsDocument, value)
 
   val excludeNonText: BooleanParam =
-    new BooleanParam(this, "excludeNonText", "Excludes rows that are not text data e.g. tables")
+    new BooleanParam(this, "excludeNonText", "Excludes rows that are not text data. e.g. tables")
 
+  /** Excludes rows that are not text data. e.g. tables */
   def setExcludeNonText(value: Boolean): this.type = set(excludeNonText, value)
 
   setDefault(
