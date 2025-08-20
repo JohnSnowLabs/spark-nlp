@@ -8,6 +8,7 @@ Submodules
    :maxdepth: 4
 
    sparknlp.annotator.seq2seq.auto_gguf_model
+   sparknlp.annotator.seq2seq.auto_gguf_reranker
    sparknlp.annotator.seq2seq.auto_gguf_vision_model
    sparknlp.annotator.seq2seq.bart_transformer
    sparknlp.annotator.seq2seq.cohere_transformer

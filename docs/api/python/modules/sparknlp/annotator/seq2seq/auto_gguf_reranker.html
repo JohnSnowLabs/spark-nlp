@@ -1,0 +1,768 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.annotator.seq2seq.auto_gguf_reranker &#8212; Spark NLP 6.1.2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=d2ba134b"></script>
+    <script src="../../../../static/doctools.js?v=888ff710"></script>
+    <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/seq2seq/auto_gguf_reranker';</script>
+    <link rel="icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.2 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for sparknlp.annotator.seq2seq.auto_gguf_reranker</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2023 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Contains classes for the AutoGGUFReranker.&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="AutoGGUFReranker"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_reranker/index.html#sparknlp.annotator.seq2seq.auto_gguf_reranker.AutoGGUFReranker">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AutoGGUFReranker</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">,</span> <span class="n">HasLlamaCppProperties</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Annotator that uses the llama.cpp library to rerank text documents based on their relevance</span>
+<span class="sd">    to a given query using GGUF-format reranking models.</span>
+
+<span class="sd">    This annotator is specifically designed for text reranking tasks, where multiple documents</span>
+<span class="sd">    or text passages are ranked according to their relevance to a query. It uses specialized</span>
+<span class="sd">    reranking models in GGUF format that output relevance scores for each input document.</span>
+
+<span class="sd">    The reranker takes a query (set via :meth:`.setQuery`) and a list of documents, then returns the</span>
+<span class="sd">    same documents with added metadata containing relevance scores. The documents are processed</span>
+<span class="sd">    in batches and each receives a ``relevance_score`` in its metadata indicating how relevant</span>
+<span class="sd">    it is to the provided query.</span>
+
+<span class="sd">    For settable parameters, and their explanations, see the parameters of this class and refer to</span>
+<span class="sd">    the llama.cpp documentation of</span>
+<span class="sd">    `server.cpp &lt;https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server&gt;`__</span>
+<span class="sd">    for more information.</span>
+
+<span class="sd">    If the parameters are not set, the annotator will default to use the parameters provided by</span>
+<span class="sd">    the model.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
+<span class="sd">    object:</span>
+
+<span class="sd">    &gt;&gt;&gt; reranker = AutoGGUFReranker.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;reranked_documents&quot;) \\</span>
+<span class="sd">    ...     .setQuery(&quot;A man is eating pasta.&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;bge-reranker-v2-m3-Q4_K_M&quot;``, if no name is provided.</span>
+
+<span class="sd">    For extended examples of usage, see the</span>
+<span class="sd">    `AutoGGUFRerankerTest &lt;https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFRerankerTest.scala&gt;`__</span>
+<span class="sd">    and the</span>
+<span class="sd">    `example notebook &lt;https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFReranker.ipynb&gt;`__.</span>
+
+<span class="sd">    For available pretrained models please see the `Models Hub &lt;https://sparknlp.org/models&gt;`__.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT``           ``DOCUMENT``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    query</span>
+<span class="sd">        The query to be used for reranking. If not set, the input text will be used as the query.</span>
+<span class="sd">    nThreads</span>
+<span class="sd">        Set the number of threads to use during generation</span>
+<span class="sd">    nThreadsDraft</span>
+<span class="sd">        Set the number of threads to use during draft generation</span>
+<span class="sd">    nThreadsBatch</span>
+<span class="sd">        Set the number of threads to use during batch and prompt processing</span>
+<span class="sd">    nThreadsBatchDraft</span>
+<span class="sd">        Set the number of threads to use during batch and prompt processing</span>
+<span class="sd">    nCtx</span>
+<span class="sd">        Set the size of the prompt context</span>
+<span class="sd">    nBatch</span>
+<span class="sd">        Set the logical batch size for prompt processing (must be &gt;=32 to use BLAS)</span>
+<span class="sd">    nUbatch</span>
+<span class="sd">        Set the physical batch size for prompt processing (must be &gt;=32 to use BLAS)</span>
+<span class="sd">    nGpuLayers</span>
+<span class="sd">        Set the number of layers to store in VRAM (-1 - use default)</span>
+<span class="sd">    nGpuLayersDraft</span>
+<span class="sd">        Set the number of layers to store in VRAM for the draft model (-1 - use default)</span>
+<span class="sd">    gpuSplitMode</span>
+<span class="sd">        Set how to split the model across GPUs</span>
+<span class="sd">    mainGpu</span>
+<span class="sd">        Set the main GPU that is used for scratch and small tensors.</span>
+<span class="sd">    tensorSplit</span>
+<span class="sd">        Set how split tensors should be distributed across GPUs</span>
+<span class="sd">    grpAttnN</span>
+<span class="sd">        Set the group-attention factor</span>
+<span class="sd">    grpAttnW</span>
+<span class="sd">        Set the group-attention width</span>
+<span class="sd">    ropeFreqBase</span>
+<span class="sd">        Set the RoPE base frequency, used by NTK-aware scaling</span>
+<span class="sd">    ropeFreqScale</span>
+<span class="sd">        Set the RoPE frequency scaling factor, expands context by a factor of 1/N</span>
+<span class="sd">    yarnExtFactor</span>
+<span class="sd">        Set the YaRN extrapolation mix factor</span>
+<span class="sd">    yarnAttnFactor</span>
+<span class="sd">        Set the YaRN scale sqrt(t) or attention magnitude</span>
+<span class="sd">    yarnBetaFast</span>
+<span class="sd">        Set the YaRN low correction dim or beta</span>
+<span class="sd">    yarnBetaSlow</span>
+<span class="sd">        Set the YaRN high correction dim or alpha</span>
+<span class="sd">    yarnOrigCtx</span>
+<span class="sd">        Set the YaRN original context size of model</span>
+<span class="sd">    defragmentationThreshold</span>
+<span class="sd">        Set the KV cache defragmentation threshold</span>
+<span class="sd">    numaStrategy</span>
+<span class="sd">        Set optimization strategies that help on some NUMA systems (if available)</span>
+<span class="sd">    ropeScalingType</span>
+<span class="sd">        Set the RoPE frequency scaling method, defaults to linear unless specified by the model</span>
+<span class="sd">    poolingType</span>
+<span class="sd">        Set the pooling type for embeddings, use model default if unspecified</span>
+<span class="sd">    modelDraft</span>
+<span class="sd">        Set the draft model for speculative decoding</span>
+<span class="sd">    modelAlias</span>
+<span class="sd">        Set a model alias</span>
+<span class="sd">    lookupCacheStaticFilePath</span>
+<span class="sd">        Set path to static lookup cache to use for lookup decoding (not updated by generation)</span>
+<span class="sd">    lookupCacheDynamicFilePath</span>
+<span class="sd">        Set path to dynamic lookup cache to use for lookup decoding (updated by generation)</span>
+<span class="sd">    flashAttention</span>
+<span class="sd">        Whether to enable Flash Attention</span>
+<span class="sd">    inputPrefixBos</span>
+<span class="sd">        Whether to add prefix BOS to user inputs, preceding the `--in-prefix` string</span>
+<span class="sd">    useMmap</span>
+<span class="sd">        Whether to use memory-map model (faster load but may increase pageouts if not using mlock)</span>
+<span class="sd">    useMlock</span>
+<span class="sd">        Whether to force the system to keep model in RAM rather than swapping or compressing</span>
+<span class="sd">    noKvOffload</span>
+<span class="sd">        Whether to disable KV offload</span>
+<span class="sd">    systemPrompt</span>
+<span class="sd">        Set a system prompt to use</span>
+<span class="sd">    chatTemplate</span>
+<span class="sd">        The chat template to use</span>
+<span class="sd">    inputPrefix</span>
+<span class="sd">        Set the prompt to start generation with</span>
+<span class="sd">    inputSuffix</span>
+<span class="sd">        Set a suffix for infilling</span>
+<span class="sd">    cachePrompt</span>
+<span class="sd">        Whether to remember the prompt to avoid reprocessing it</span>
+<span class="sd">    nPredict</span>
+<span class="sd">        Set the number of tokens to predict</span>
+<span class="sd">    topK</span>
+<span class="sd">        Set top-k sampling</span>
+<span class="sd">    topP</span>
+<span class="sd">        Set top-p sampling</span>
+<span class="sd">    minP</span>
+<span class="sd">        Set min-p sampling</span>
+<span class="sd">    tfsZ</span>
+<span class="sd">        Set tail free sampling, parameter z</span>
+<span class="sd">    typicalP</span>
+<span class="sd">        Set locally typical sampling, parameter p</span>
+<span class="sd">    temperature</span>
+<span class="sd">        Set the temperature</span>
+<span class="sd">    dynatempRange</span>
+<span class="sd">        Set the dynamic temperature range</span>
+<span class="sd">    dynatempExponent</span>
+<span class="sd">        Set the dynamic temperature exponent</span>
+<span class="sd">    repeatLastN</span>
+<span class="sd">        Set the last n tokens to consider for penalties</span>
+<span class="sd">    repeatPenalty</span>
+<span class="sd">        Set the penalty of repeated sequences of tokens</span>
+<span class="sd">    frequencyPenalty</span>
+<span class="sd">        Set the repetition alpha frequency penalty</span>
+<span class="sd">    presencePenalty</span>
+<span class="sd">        Set the repetition alpha presence penalty</span>
+<span class="sd">    miroStat</span>
+<span class="sd">        Set MiroStat sampling strategies.</span>
+<span class="sd">    mirostatTau</span>
+<span class="sd">        Set the MiroStat target entropy, parameter tau</span>
+<span class="sd">    mirostatEta</span>
+<span class="sd">        Set the MiroStat learning rate, parameter eta</span>
+<span class="sd">    penalizeNl</span>
+<span class="sd">        Whether to penalize newline tokens</span>
+<span class="sd">    nKeep</span>
+<span class="sd">        Set the number of tokens to keep from the initial prompt</span>
+<span class="sd">    seed</span>
+<span class="sd">        Set the RNG seed</span>
+<span class="sd">    nProbs</span>
+<span class="sd">        Set the amount top tokens probabilities to output if greater than 0.</span>
+<span class="sd">    minKeep</span>
+<span class="sd">        Set the amount of tokens the samplers should return at least (0 = disabled)</span>
+<span class="sd">    grammar</span>
+<span class="sd">        Set BNF-like grammar to constrain generations</span>
+<span class="sd">    penaltyPrompt</span>
+<span class="sd">        Override which part of the prompt is penalized for repetition.</span>
+<span class="sd">    ignoreEos</span>
+<span class="sd">        Set whether to ignore end of stream token and continue generating (implies --logit-bias 2-inf)</span>
+<span class="sd">    disableTokenIds</span>
+<span class="sd">        Set the token ids to disable in the completion</span>
+<span class="sd">    stopStrings</span>
+<span class="sd">        Set strings upon seeing which token generation is stopped</span>
+<span class="sd">    samplers</span>
+<span class="sd">        Set which samplers to use for token generation in the given order</span>
+<span class="sd">    useChatTemplate</span>
+<span class="sd">        Set whether or not generate should apply a chat template</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This annotator is designed for reranking tasks and requires setting a query using ``setQuery``.</span>
+<span class="sd">    The query represents the search intent against which documents will be ranked. Each input</span>
+<span class="sd">    document receives a relevance score in the output metadata.</span>
+
+<span class="sd">    To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set</span>
+<span class="sd">    the number of GPU layers with the `setNGpuLayers` method.</span>
+
+<span class="sd">    When using larger models, we recommend adjusting GPU usage with `setNCtx` and `setNGpuLayers`</span>
+<span class="sd">    according to your hardware to avoid out-of-memory errors.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; document = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; reranker = AutoGGUFReranker.pretrained(&quot;bge-reranker-v2-m3-Q4_K_M&quot;) \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;reranked_documents&quot;) \\</span>
+<span class="sd">    ...     .setBatchSize(4) \\</span>
+<span class="sd">    ...     .setQuery(&quot;A man is eating pasta.&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([document, reranker])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([</span>
+<span class="sd">    ...     [&quot;A man is eating food.&quot;],</span>
+<span class="sd">    ...     [&quot;A man is eating a piece of bread.&quot;],</span>
+<span class="sd">    ...     [&quot;The girl is carrying a baby.&quot;],</span>
+<span class="sd">    ...     [&quot;A man is riding a horse.&quot;]</span>
+<span class="sd">    ... ]).toDF(&quot;text&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select(&quot;reranked_documents&quot;).show(truncate = False)</span>
+<span class="sd">    # Each document will have a relevance_score in metadata showing how relevant it is to the query</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AutoGGUFReranker.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_reranker/index.html#sparknlp.annotator.seq2seq.auto_gguf_reranker.AutoGGUFReranker.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;AutoGGUFReranker&quot;</span></div>
+<div class="viewcode-block" id="AutoGGUFReranker.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_reranker/index.html#sparknlp.annotator.seq2seq.auto_gguf_reranker.AutoGGUFReranker.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
+<div class="viewcode-block" id="AutoGGUFReranker.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_reranker/index.html#sparknlp.annotator.seq2seq.auto_gguf_reranker.AutoGGUFReranker.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
+
+<div class="viewcode-block" id="AutoGGUFReranker.query"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_reranker/index.html#sparknlp.annotator.seq2seq.auto_gguf_reranker.AutoGGUFReranker.query">[docs]</a>    <span class="n">query</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;query&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;The query to be used for reranking. If not set, the input text will be used as the query.&quot;</span><span class="p">,</span>
+                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFReranker&quot;</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AutoGGUFReranker</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">useChatTemplate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">nCtx</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
+            <span class="n">nBatch</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+            <span class="n">nGpuLayers</span><span class="o">=</span><span class="mi">99</span><span class="p">,</span>
+            <span class="n">systemPrompt</span><span class="o">=</span><span class="s2">&quot;You are a helpful assistant.&quot;</span><span class="p">,</span>
+            <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="AutoGGUFReranker.setQuery"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_reranker/index.html#sparknlp.annotator.seq2seq.auto_gguf_reranker.AutoGGUFReranker.setQuery">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setQuery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the query to be used for reranking.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            The query text that documents will be ranked against.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AutoGGUFReranker</span>
+<span class="sd">            This instance for method chaining.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AutoGGUFReranker.getQuery"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_reranker/index.html#sparknlp.annotator.seq2seq.auto_gguf_reranker.AutoGGUFReranker.getQuery">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getQuery</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current query used for reranking.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The current query string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;getQuery&quot;</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="AutoGGUFReranker.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_reranker/index.html#sparknlp.annotator.seq2seq.auto_gguf_reranker.AutoGGUFReranker.loadSavedModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AutoGGUFReranker</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">_AutoGGUFRerankerLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_AutoGGUFRerankerLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">AutoGGUFReranker</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="AutoGGUFReranker.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_reranker/index.html#sparknlp.annotator.seq2seq.auto_gguf_reranker.AutoGGUFReranker.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bge-reranker-v2-m3-Q4_K_M&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;bge-reranker-v2-m3-Q4_K_M&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AutoGGUFReranker</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.pretrained</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">AutoGGUFReranker</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025 John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
