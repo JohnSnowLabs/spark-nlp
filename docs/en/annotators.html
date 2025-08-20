@@ -590,6 +590,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="#autoggufreranker">AutoGGUFReranker</a></td>
+        <td>Annotator that uses the llama.cpp library to rerank text documents based on their relevance to a given query using GGUF-format reranking models.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#autoggufvisionmodel">AutoGGUFVisionModel</a></td>
         <td>Multimodal annotator that uses the llama.cpp library to generate text completions with large language models.</td>
         <td>Opensource</td>
@@ -1512,60 +1517,69 @@ according to your hardware to avoid out-of-memory errors.</p>
 
 </div>
 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ````markdown
+</code></pre></div></div>
 <div class="h3-box tabs-python-scala-box">
 
-  <h2 id="autoggufvisionmodel">AutoGGUFVisionModel</h2>
+  <h2 id="autoggufreranker">AutoGGUFReranker</h2>
 
-  <p>Multimodal annotator that uses the llama.cpp library to generate text completions with large
-language models. It supports ingesting images for captioning.</p>
+  <p>Annotator that uses the llama.cpp library to rerank text documents based on their relevance to
+a given query using GGUF-format reranking models.</p>
 
-  <p>At the moment only CLIP based models are supported.</p>
+  <p>This annotator is specifically designed for text reranking tasks, where multiple documents or
+text passages are ranked according to their relevance to a query. It uses specialized
+reranking models in GGUF format that output relevance scores for each input document.</p>
 
-  <p>For settable parameters, and their explanations, see HasLlamaCppInferenceProperties,
-HasLlamaCppModelProperties and refer to the llama.cpp documentation of
+  <p>The reranker takes a query (set via <code class="language-plaintext highlighter-rouge">setQuery</code>) and a list of documents, then returns the same
+documents with added metadata containing relevance scores. The documents are processed in
+batches and each receives a <code class="language-plaintext highlighter-rouge">relevance_score</code> in its metadata indicating how relevant it is to
+the provided query.</p>
+
+  <p>For settable parameters, and their explanations, see <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/HasLlamaCppInferenceProperties.scala">HasLlamaCppInferenceProperties</a>, <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/HasLlamaCppModelProperties.scala">HasLlamaCppModelProperties</a> and refer to
+the llama.cpp documentation of
 <a href="https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server">server.cpp</a>
 for more information.</p>
 
   <p>If the parameters are not set, the annotator will default to use the parameters provided by
 the model.</p>
 
-  <p>This annotator expects a column of annotator type AnnotationImage for the image and
-Annotation for the caption. Note that the image bytes in the image annotation need to be
-raw image bytes without preprocessing. We provide the helper function
-ImageAssembler.loadImagesAsBytes to load the image bytes from a directory.</p>
-
   <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">autoGGUFVisionModel</span> <span class="k">=</span> <span class="nv">AutoGGUFVisionModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"completions"</span><span class="o">)</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">reranker</span> <span class="k">=</span> <span class="nv">AutoGGUFReranker</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"reranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setQuery</span><span class="o">(</span><span class="s">"A man is eating pasta."</span><span class="o">)</span>
 </code></pre></div>  </div>
 
-  <p>The default model is <code class="language-plaintext highlighter-rouge">"llava_v1.5_7b_Q4_0_gguf"</code>, if no name is provided.</p>
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"bge-reranker-v2-m3-Q4_K_M"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the <a href="https://sparknlp.org/models">Models Hub</a>.</p>
 
   <p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFVisionModelTest.scala">AutoGGUFVisionModelTest</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFRerankerTest.scala">AutoGGUFRerankerTest</a>
 and the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFVisionModel.ipynb">example notebook</a>.</p>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFReranker.ipynb">example notebook</a>.</p>
 
-  <p><strong>Note</strong>: To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
+  <p><strong>Note</strong>: This annotator is designed for reranking tasks and requires setting a query using <code class="language-plaintext highlighter-rouge">setQuery</code>.
+The query represents the search intent against which documents will be ranked. Each input
+document receives a relevance score in the output metadata.</p>
+
+  <p>To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
 the number of GPU layers with the <code class="language-plaintext highlighter-rouge">setNGpuLayers</code> method.</p>
 
   <p>When using larger models, we recommend adjusting GPU usage with <code class="language-plaintext highlighter-rouge">setNCtx</code> and <code class="language-plaintext highlighter-rouge">setNGpuLayers</code>
 according to your hardware to avoid out-of-memory errors.</p>
 
-  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE, DOCUMENT</code></p>
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
 
   <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
 
   <table>
     <tbody>
       <tr>
-        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_vision_model/index.html">AutoGGUFVisionModel</a></td>
-        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFVisionModel">AutoGGUFVisionModel</a></td>
-        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFVisionModel.scala">AutoGGUFVisionModel</a></td>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_reranker/index.html">AutoGGUFReranker</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFReranker">AutoGGUFReranker</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFReranker.scala">AutoGGUFReranker</a></td>
       </tr>
     </tbody>
   </table>
@@ -1578,7 +1592,155 @@ according to your hardware to avoid out-of-memory errors.</p>
 
       <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">reranker</span> <span class="o">=</span> <span class="n">AutoGGUFReranker</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"reranked_documents"</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setQuery</span><span class="p">(</span><span class="s">"A man is eating pasta."</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setNGpuLayers</span><span class="p">(</span><span class="mi">99</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">document</span><span class="p">,</span> <span class="n">reranker</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+<span class="p">...</span>     <span class="p">[</span><span class="s">"A man is eating food."</span><span class="p">],</span>
+<span class="p">...</span>     <span class="p">[</span><span class="s">"A man is eating a piece of bread."</span><span class="p">],</span>
+<span class="p">...</span>     <span class="p">[</span><span class="s">"The girl is carrying a baby."</span><span class="p">],</span>
+<span class="p">...</span>     <span class="p">[</span><span class="s">"A man is riding a horse."</span><span class="p">]</span>
+<span class="p">...</span> <span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"reranked_documents"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="o">+-------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">reranked_documents</span>                                                                         <span class="o">|</span>
+<span class="o">+-------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[{</span><span class="n">document</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">A</span> <span class="n">man</span> <span class="ow">is</span> <span class="n">eating</span> <span class="n">food</span><span class="p">.,</span> <span class="p">{</span><span class="n">query</span> <span class="o">-&gt;</span> <span class="n">A</span> <span class="n">man</span> <span class="ow">is</span> <span class="n">eating</span> <span class="n">pasta</span><span class="p">.,</span> <span class="n">relevance_</span><span class="p">...}]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[{</span><span class="n">document</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="n">A</span> <span class="n">man</span> <span class="ow">is</span> <span class="n">eating</span> <span class="n">a</span> <span class="n">piece</span> <span class="n">of</span> <span class="n">bread</span><span class="p">.,</span> <span class="p">{</span><span class="n">query</span> <span class="o">-&gt;</span> <span class="n">A</span> <span class="n">man</span> <span class="ow">is</span> <span class="n">eating</span> <span class="n">pasta</span><span class="p">.,...}]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[{</span><span class="n">document</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="n">The</span> <span class="n">girl</span> <span class="ow">is</span> <span class="n">carrying</span> <span class="n">a</span> <span class="n">baby</span><span class="p">.,</span> <span class="p">{</span><span class="n">query</span> <span class="o">-&gt;</span> <span class="n">A</span> <span class="n">man</span> <span class="ow">is</span> <span class="n">eating</span> <span class="n">pasta</span><span class="p">.,</span> <span class="n">rel</span><span class="p">...}]</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[{</span><span class="n">document</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="n">A</span> <span class="n">man</span> <span class="ow">is</span> <span class="n">riding</span> <span class="n">a</span> <span class="n">horse</span><span class="p">.,</span> <span class="p">{</span><span class="n">query</span> <span class="o">-&gt;</span> <span class="n">A</span> <span class="n">man</span> <span class="ow">is</span> <span class="n">eating</span> <span class="n">pasta</span><span class="p">.,</span> <span class="n">relevan</span><span class="p">...}]</span><span class="o">|</span>
+<span class="o">+-------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+
+<span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">reranker</span> <span class="k">=</span> <span class="nc">AutoGGUFReranker</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bge-reranker-v2-m3-Q4_K_M"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"reranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setBatchSize</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setQuery</span><span class="o">(</span><span class="s">"A man is eating pasta."</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setNGpuLayers</span><span class="o">(</span><span class="mi">99</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">reranker</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">"A man is eating food."</span><span class="o">,</span>
+  <span class="s">"A man is eating a piece of bread."</span><span class="o">,</span>
+  <span class="s">"The girl is carrying a baby."</span><span class="o">,</span>
+  <span class="s">"A man is riding a horse."</span>
+<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"reranked_documents"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">+-------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">reranked_documents</span>                                                                         <span class="o">|</span>
+<span class="o">+-------------------------------------------------------------------------------------------+</span>
+<span class="o">|[{</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">20</span>, <span class="kt">A</span> <span class="kt">man</span> <span class="kt">is</span> <span class="kt">eating</span> <span class="kt">food.</span>, <span class="o">{</span><span class="kt">query</span> <span class="kt">-&gt;</span> <span class="kt">A</span> <span class="kt">man</span> <span class="kt">is</span> <span class="kt">eating</span> <span class="kt">pasta.</span>, <span class="kt">relevance_...</span><span class="o">}]</span><span class="kt">|</span>
+<span class="kt">|</span><span class="o">[{</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">31</span>, <span class="kt">A</span> <span class="kt">man</span> <span class="kt">is</span> <span class="kt">eating</span> <span class="kt">a</span> <span class="kt">piece</span> <span class="kt">of</span> <span class="kt">bread.</span>, <span class="o">{</span><span class="kt">query</span> <span class="kt">-&gt;</span> <span class="kt">A</span> <span class="kt">man</span> <span class="kt">is</span> <span class="kt">eating</span> <span class="kt">pasta.</span>,<span class="kt">...</span><span class="o">}]</span><span class="kt">|</span>
+<span class="kt">|</span><span class="o">[{</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">27</span>, <span class="kt">The</span> <span class="kt">girl</span> <span class="kt">is</span> <span class="kt">carrying</span> <span class="kt">a</span> <span class="kt">baby.</span>, <span class="o">{</span><span class="kt">query</span> <span class="kt">-&gt;</span> <span class="kt">A</span> <span class="kt">man</span> <span class="kt">is</span> <span class="kt">eating</span> <span class="kt">pasta.</span>, <span class="kt">rel...</span><span class="o">}]</span><span class="kt">|</span>
+<span class="kt">|</span><span class="o">[{</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">22</span>, <span class="kt">A</span> <span class="kt">man</span> <span class="kt">is</span> <span class="kt">riding</span> <span class="kt">a</span> <span class="kt">horse.</span>, <span class="o">{</span><span class="kt">query</span> <span class="kt">-&gt;</span> <span class="kt">A</span> <span class="kt">man</span> <span class="kt">is</span> <span class="kt">eating</span> <span class="kt">pasta.</span>, <span class="kt">relevan...</span><span class="o">}]</span><span class="kt">|</span>
+<span class="kt">+-------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<pre><code class="language-`">
+    
+
+    
+        
+        
+&lt;div class="h3-box tabs-python-scala-box" markdown="1"&gt;
+
+## AutoGGUFVisionModel
+
+Multimodal annotator that uses the llama.cpp library to generate text completions with large
+language models. It supports ingesting images for captioning.
+
+At the moment only CLIP based models are supported.
+
+For settable parameters, and their explanations, see HasLlamaCppInferenceProperties,
+HasLlamaCppModelProperties and refer to the llama.cpp documentation of
+[server.cpp](https://github.com/ggerganov/llama.cpp/tree/7d5e8777ae1d21af99d4f95be10db4870720da91/examples/server)
+for more information.
+
+If the parameters are not set, the annotator will default to use the parameters provided by
+the model.
+
+This annotator expects a column of annotator type AnnotationImage for the image and
+Annotation for the caption. Note that the image bytes in the image annotation need to be
+raw image bytes without preprocessing. We provide the helper function
+ImageAssembler.loadImagesAsBytes to load the image bytes from a directory.
+
+Pretrained models can be loaded with `pretrained` of the companion object:
+
+```scala
+val autoGGUFVisionModel = AutoGGUFVisionModel.pretrained()
+  .setInputCols("image", "document")
+  .setOutputCol("completions")
+</code></pre>
+
+<p>The default model is <code class="language-plaintext highlighter-rouge">"llava_v1.5_7b_Q4_0_gguf"</code>, if no name is provided.</p>
+
+<p>For available pretrained models please see the <a href="https://sparknlp.org/models">Models Hub</a>.</p>
+
+<p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFVisionModelTest.scala">AutoGGUFVisionModelTest</a>
+and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFVisionModel.ipynb">example notebook</a>.</p>
+
+<p><strong>Note</strong>: To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
+the number of GPU layers with the <code class="language-plaintext highlighter-rouge">setNGpuLayers</code> method.</p>
+
+<p>When using larger models, we recommend adjusting GPU usage with <code class="language-plaintext highlighter-rouge">setNCtx</code> and <code class="language-plaintext highlighter-rouge">setNGpuLayers</code>
+according to your hardware to avoid out-of-memory errors.</p>
+
+<p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">IMAGE, DOCUMENT</code></p>
+
+<p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_vision_model/index.html">AutoGGUFVisionModel</a></td>
+      <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFVisionModel">AutoGGUFVisionModel</a></td>
+      <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFVisionModel.scala">AutoGGUFVisionModel</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+    <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
 <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
@@ -1635,9 +1797,9 @@ according to your hardware to avoid out-of-memory errors.</p>
 <span class="o">|</span><span class="n">tractor</span><span class="p">.</span><span class="n">JPEG</span>     <span class="o">|</span><span class="p">[</span> <span class="n">A</span> <span class="n">man</span> <span class="ow">is</span> <span class="n">sitting</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">driver</span><span class="s">'s seat of a green tractor, which has yellow wheels and tires. The tractor appears to be parked on top of an empty field with]                                |
 |ox.JPEG          |[ A large bull with horns is standing in a grassy field.]                                                                                                                                     |
 +-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-</span></code></pre></div>      </div>
+</span></code></pre></div>    </div>
 
-      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.ImageAssembler</span>
+    <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.ImageAssembler</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
@@ -1698,13 +1860,13 @@ according to your hardware to avoid out-of-memory errors.</p>
 <span class="o">|</span><span class="nv">tractor</span><span class="o">.</span><span class="py">JPEG</span>     <span class="o">|[</span> <span class="kt">A</span> <span class="kt">man</span> <span class="kt">is</span> <span class="kt">sitting</span> <span class="kt">in</span> <span class="kt">the</span> <span class="kt">driver's</span> <span class="kt">seat</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">green</span> <span class="kt">tractor</span>, <span class="kt">which</span> <span class="kt">has</span> <span class="kt">yellow</span> <span class="kt">wheels</span> <span class="kt">and</span> <span class="kt">tires.</span> <span class="kt">The</span> <span class="kt">tractor</span> <span class="kt">appears</span> <span class="kt">to</span> <span class="kt">be</span> <span class="kt">parked</span> <span class="kt">on</span> <span class="kt">top</span> <span class="kt">of</span> <span class="kt">an</span> <span class="kt">empty</span> <span class="kt">field</span> <span class="kt">with</span><span class="o">]</span>                                <span class="o">|</span>
 <span class="o">|</span><span class="nv">ox</span><span class="o">.</span><span class="py">JPEG</span>          <span class="o">|[</span> <span class="kt">A</span> <span class="kt">large</span> <span class="kt">bull</span> <span class="kt">with</span> <span class="kt">horns</span> <span class="kt">is</span> <span class="kt">standing</span> <span class="kt">in</span> <span class="kt">a</span> <span class="kt">grassy</span> <span class="kt">field.</span><span class="o">]</span>                                                                                                                                     <span class="o">|</span>
 <span class="o">+-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-</code></pre></div>      </div>
+</code></pre></div>    </div>
 
-    </div>
+  </div>
 
 </details>
 
-</div>
+<p>&lt;/div&gt;</p>
 
 <div class="h3-box tabs-python-scala-box">
 
