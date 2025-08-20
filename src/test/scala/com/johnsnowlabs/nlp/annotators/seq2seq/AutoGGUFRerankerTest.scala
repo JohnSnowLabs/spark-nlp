@@ -127,7 +127,7 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
     }
   }
 
-  it should "be able to finisher the reranked documents" taggedAs FastTest in {
+  it should "be able to finisher the reranked documents" taggedAs SlowTest in {
     model.setQuery(query)
     val pipeline = new Pipeline().setStages(Array(documentAssembler, model, finisher))
     val result = pipeline.fit(data).transform(data)
