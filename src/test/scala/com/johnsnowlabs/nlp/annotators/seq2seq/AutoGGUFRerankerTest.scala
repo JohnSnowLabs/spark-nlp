@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.finisher.GGUFRankingFinisher
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{SlowTest, FastTest}
@@ -23,7 +24,7 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
   lazy val model: AutoGGUFReranker = AutoGGUFReranker
     .loadSavedModel(modelPath, ResourceHelper.spark)
     .setInputCols("document")
-    .setOutputCol("completions")
+    .setOutputCol("reranked_documents")
     .setBatchSize(4)
     .setQuery(query)
 
@@ -34,11 +35,19 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
     "The girl is carrying a baby.",
     "A man is riding a horse.",
     "A young girl is playing violin.").toDF("text").repartition(1)
-  lazy val pipeline: Pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+
+  lazy val finisher: GGUFRankingFinisher = new GGUFRankingFinisher()
+    .setInputCols("reranked_documents")
+    .setOutputCol("ranked_documents")
+    .setTopK(-1)
+    .setMinRelevanceScore(0.1)
+    .setMinMaxScaling(true)
+  lazy val pipeline: Pipeline =
+    new Pipeline().setStages(Array(documentAssembler, model))
 
   def assertAnnotationsNonEmpty(resultDf: DataFrame): Unit = {
     Annotation
-      .collect(resultDf, "completions")
+      .collect(resultDf, "reranked_documents")
       .foreach(annotations => {
         println(annotations.head)
         println(annotations.head.metadata)
@@ -77,7 +86,7 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
     newPipeline
       .fit(data)
       .transform(data)
-      .select("completions")
+      .select("reranked_documents")
       .show(truncate = false)
   }
 
@@ -96,7 +105,7 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
     val model = AutoGGUFReranker
       .pretrained()
       .setInputCols("document")
-      .setOutputCol("completions")
+      .setOutputCol("reranked_documents")
       .setBatchSize(2)
 
     val pipeline =
@@ -109,12 +118,21 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
     val model: AutoGGUFReranker = AutoGGUFReranker
       .loadSavedModel(modelPath, ResourceHelper.spark)
       .setInputCols("document")
-      .setOutputCol("completions")
+      .setOutputCol("reranked_documents")
       .setBatchSize(4)
     val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
     assertThrows[org.apache.spark.SparkException] {
       val result = pipeline.fit(data).transform(data)
       result.show()
     }
+  }
+
+  it should "be able to finisher the reranked documents" taggedAs FastTest in {
+    model.setQuery(query)
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, model, finisher))
+    val result = pipeline.fit(data).transform(data)
+
+//    assertAnnotationsNonEmpty(result)
+    result.select("ranked_documents").show(truncate = false)
   }
 }
