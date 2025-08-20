@@ -254,5 +254,164 @@ class AutoGGUFRerankerErrorHandlingTestSpec(unittest.TestCase):
             print(f"Expected behavior when query not set: {str(e)}")
 
 
-if __name__ == "__main__":
-    unittest.main()
+@pytest.mark.slow
+class AutoGGUFRerankerWithFinisherTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        self.query = "A man is eating pasta."
+        self.data = (
+            self.spark.createDataFrame(
+                [
+                    ["A man is eating food."],
+                    ["A man is eating a piece of bread."],
+                    ["The girl is carrying a baby."],
+                    ["A man is riding a horse."],
+                    ["A young girl is playing violin."],
+                ]
+            )
+            .toDF("text")
+            .repartition(1)
+        )
+
+    def runTest(self):
+        document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+        model_path = "/tmp/bge-reranker-v2-m3-Q4_K_M.gguf"
+        
+        # Skip test if model file doesn't exist
+        import os
+        if not os.path.exists(model_path):
+            self.skipTest(f"Model file not found: {model_path}")
+
+        reranker = (
+            AutoGGUFReranker.loadSavedModel(model_path, self.spark)
+            .setInputCols("document")
+            .setOutputCol("reranked_documents")
+            .setBatchSize(4)
+            .setQuery(self.query)
+        )
+
+        # Add the GGUFRankingFinisher to test the full pipeline
+        finisher = (
+            GGUFRankingFinisher()
+            .setInputCols("reranked_documents")
+            .setOutputCol("ranked_documents")
+            .setTopK(3)
+            .setMinMaxScaling(True)
+        )
+
+        pipeline = Pipeline().setStages([document_assembler, reranker, finisher])
+        results = pipeline.fit(self.data).transform(self.data)
+
+        # Check that results are returned
+        collected_results = results.collect()
+        self.assertGreater(len(collected_results), 0)
+
+        # Should have at most 3 results due to topK
+        self.assertLessEqual(len(collected_results), 3)
+
+        # Check that each result has ranked_documents column
+        for row in collected_results:
+            self.assertIsNotNone(row["ranked_documents"])
+            # Check that annotations have metadata with relevance_score and rank
+            annotations = row["ranked_documents"]
+            for annotation in annotations:
+                self.assertIn("relevance_score", annotation.metadata)
+                self.assertIn("rank", annotation.metadata)
+                self.assertIn("query", annotation.metadata)
+                self.assertEqual(annotation.metadata["query"], self.query)
+                
+                # Check that relevance score is normalized (due to minMaxScaling)
+                score = float(annotation.metadata["relevance_score"])
+                self.assertTrue(0.0 <= score <= 1.0)
+                
+                # Check that rank is a valid integer
+                rank = int(annotation.metadata["rank"])
+                self.assertIsInstance(rank, int)
+                self.assertGreaterEqual(rank, 1)
+
+        # Verify that results are sorted by rank
+        for row in collected_results:
+            annotations = row["ranked_documents"]
+            ranks = [int(annotation.metadata["rank"]) for annotation in annotations]
+            self.assertEqual(ranks, sorted(ranks))
+
+        print("Pipeline with AutoGGUFReranker and GGUFRankingFinisher completed successfully")
+        results.select("ranked_documents").show(truncate=False)
+
+
+@pytest.mark.slow
+class AutoGGUFRerankerFinisherCombinedFiltersTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        self.query = "A man is eating pasta."
+        self.data = (
+            self.spark.createDataFrame(
+                [
+                    ["A man is eating food."],
+                    ["A man is eating a piece of bread."],
+                    ["The girl is carrying a baby."],
+                    ["A man is riding a horse."],
+                    ["A young girl is playing violin."],
+                    ["A woman is cooking dinner."],
+                ]
+            )
+            .toDF("text")
+            .repartition(1)
+        )
+
+    def runTest(self):
+        document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+        model_path = "/tmp/bge-reranker-v2-m3-Q4_K_M.gguf"
+        
+        # Skip test if model file doesn't exist
+        import os
+        if not os.path.exists(model_path):
+            self.skipTest(f"Model file not found: {model_path}")
+
+        reranker = (
+            AutoGGUFReranker.loadSavedModel(model_path, self.spark)
+            .setInputCols("document")
+            .setOutputCol("reranked_documents")
+            .setBatchSize(4)
+            .setQuery(self.query)
+        )
+
+        # Test with combined filters: topK, threshold, and scaling
+        finisher = (
+            GGUFRankingFinisher()
+            .setInputCols("reranked_documents")
+            .setOutputCol("ranked_documents")
+            .setTopK(2)
+            .setMinRelevanceScore(0.1)
+            .setMinMaxScaling(True)
+        )
+
+        pipeline = Pipeline().setStages([document_assembler, reranker, finisher])
+        results = pipeline.fit(self.data).transform(self.data)
+
+        collected_results = results.collect()
+        
+        # Should have at most 2 results due to topK
+        self.assertLessEqual(len(collected_results), 2)
+
+        # Check that all results meet the criteria
+        for row in collected_results:
+            annotations = row["ranked_documents"]
+            for annotation in annotations:
+                # Check normalized scores are >= 0.1 threshold
+                score = float(annotation.metadata["relevance_score"])
+                self.assertTrue(0.1 <= score <= 1.0)
+                
+                # Check rank metadata exists
+                self.assertIn("rank", annotation.metadata)
+                rank = int(annotation.metadata["rank"])
+                self.assertGreaterEqual(rank, 1)
+
+        print("Combined filters test completed successfully")
+        results.select("ranked_documents").show(truncate=False)
