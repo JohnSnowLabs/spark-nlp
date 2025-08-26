@@ -82,6 +82,8 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="NerConverter" summary="Converts a IOB or IOB2 representation of NER to a user-friendly one, by associating the tokens of recognized entities and their label."%}
 {% include templates/anno_table_entry.md path="" name="NerCrf" summary="Extracts Named Entities based on a CRF Model."%}
 {% include templates/anno_table_entry.md path="" name="NerDL" summary="This Named Entity recognition annotator is a generic NER model based on Neural Networks."%}
+{% include templates/anno_table_entry.md path="" name="NerDLGraphChecker" summary="Checks whether a suitable NerDL graph is available for the given training dataset, before any
+computations/training is done."%}
 {% include templates/anno_table_entry.md path="" name="NerOverwriter" summary="Overwrites entities of specified strings."%}
 {% include templates/anno_table_entry.md path="" name="Normalizer" summary="Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary."%}
 {% include templates/anno_table_entry.md path="" name="NorvigSweeting Spellchecker" summary="Retrieves tokens and makes corrections automatically if not found in an English dictionary."%}
