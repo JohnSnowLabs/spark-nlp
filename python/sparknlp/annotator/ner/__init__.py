@@ -16,5 +16,6 @@ from sparknlp.annotator.ner.ner_approach import *
 from sparknlp.annotator.ner.ner_converter import *
 from sparknlp.annotator.ner.ner_crf import *
 from sparknlp.annotator.ner.ner_dl import *
+from sparknlp.annotator.ner.ner_dl_graph_checker import *
 from sparknlp.annotator.ner.ner_overwriter import *
 from sparknlp.annotator.ner.zero_shot_ner_model import *
