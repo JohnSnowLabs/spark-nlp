@@ -748,4 +748,13 @@ object ResourceHelper {
     val uri = new URI(path.replaceAllLiterally("\\", "/"))
     FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
   }
+  def isHTTPProtocol(urlStr: String): Boolean = {
+    try {
+      val url = new URL(urlStr)
+      url.getProtocol == "http" || url.getProtocol == "https"
+    } catch {
+      case _: Exception => false
+    }
+  }
+
 }
