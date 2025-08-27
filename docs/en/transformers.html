@@ -9387,6 +9387,112 @@ see which models are compatible and how to import them see
 
 <div class="h3-box tabs-python-scala-box">
 
+  <h2 id="phi4transformer">Phi4Transformer</h2>
+
+  <p>Text Generation using Microsoft Phi-4.</p>
+
+  <p>Phi4Transformer loads the state-of-the-art Phi-4 model for advanced reasoning, code generation, and general NLP tasks. Phi-4 is a 14B parameter, dense decoder-only Transformer model trained on 9.8T tokens, with a 16K context length, and is best suited for prompts in chat format. The model is designed for high-quality, advanced reasoning, math, code, and general NLP, with a focus on English (multilingual data ~8%).</p>
+
+  <p><strong>Key Features:</strong></p>
+  <ul>
+    <li>14B parameters, dense decoder-only Transformer</li>
+    <li>16K context length</li>
+    <li>Trained on 9.8T tokens (synthetic, public domain, academic, Q&amp;A, code)</li>
+    <li>Benchmarks: MMLU 84.8, HumanEval 82.6, GPQA 56.1, DROP 75.5, MATH 80.6</li>
+    <li>Safety alignment via SFT and DPO, red-teamed by Microsoft AIRT</li>
+    <li>Released under MIT License</li>
+  </ul>
+
+  <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
+
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">phi4</span> <span class="k">=</span> <span class="nv">Phi4Transformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+     <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+     <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"generation"</span><span class="o">)</span>
+</code></pre></div>  </div>
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"phi-4"</code>, if no name is provided.</p>
+
+  <p>For available pretrained models please see the <a href="https://huggingface.co/microsoft/phi-4">Models Hub</a>.</p>
+
+  <p>To see which models are compatible and how to import them see <a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669">Import Transformers into Spark NLP 🚀</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/seq2seq/phi4_transformer/index.html">Phi4Transformer</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/seq2seq/Phi4Transformer.html">Phi4Transformer</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/Phi4Transformer.scala">Phi4Transformer</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"documents"</span><span class="p">)</span>
+
+<span class="n">phi4</span> <span class="o">=</span> <span class="n">Phi4Transformer</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"phi-4"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"documents"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setMaxOutputLength</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"generation"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">phi4</span><span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">"&lt;|im_start|&gt;system&lt;|im_sep|&gt;</span><span class="se">\n</span><span class="s">You are a helpful assistant!</span><span class="se">\n</span><span class="s">&lt;|im_start|&gt;user&lt;|im_sep|&gt;</span><span class="se">\n</span><span class="s">What is Phi-4?</span><span class="se">\n</span><span class="s">&lt;|im_start|&gt;assistant&lt;|im_sep|&gt;</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+<span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"id"</span><span class="p">,</span> <span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"generation.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">phi4</span> <span class="k">=</span> <span class="nv">Phi4Transformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"phi-4"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"documents"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setMaxOutputLength</span><span class="o">(</span><span class="mi">60</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"generation"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">phi4</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"&lt;|im_start|&gt;system&lt;|im_sep|&gt;\nYou are a helpful assistant!\n&lt;|im_start|&gt;user&lt;|im_sep|&gt;\nWhat is Phi-4?\n&lt;|im_start|&gt;assistant&lt;|im_sep|&gt;\n"</span><span class="o">)</span>
+<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"generation.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
   <h2 id="qwen2vltransformer">Qwen2VLTransformer</h2>
 
   <p>Visual Question Answering and Multimodal Instruction Following using Qwen2-VL.</p>
