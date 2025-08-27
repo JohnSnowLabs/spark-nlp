@@ -383,6 +383,37 @@ class HTMLReader(
               if (element.attr("style").toLowerCase.contains("page-break")) {
                 pageNumber = pageNumber + 1
               }
+            case "img" =>
+              pageMetadata("sentence") = sentenceIndex.toString
+              sentenceIndex += 1
+              val src = element.attr("src").trim
+              val alt = element.attr("alt").trim
+              if (src.nonEmpty && !visitedNode) {
+                trackingNodes(element).visited = true
+                val isBase64 = src.toLowerCase.contains("base64")
+                val width = element.attr("width").trim
+                val height = element.attr("height").trim
+
+                val imgMetadata = mutable.Map[String, String]("alt" -> alt) ++ pageMetadata
+
+                var contentValue = src
+                if (isBase64) {
+                  val commaIndex = src.indexOf(',')
+                  if (commaIndex > 0) {
+                    val header = src.substring(0, commaIndex)
+                    val base64Payload = src.substring(commaIndex + 1)
+                    imgMetadata("encoding") = header
+                    contentValue = base64Payload
+                  }
+                }
+
+                if (width.nonEmpty) imgMetadata("width") = width
+                if (height.nonEmpty) imgMetadata("height") = height
+                elements += HTMLElement(
+                  ElementType.IMAGE,
+                  content = contentValue,
+                  metadata = imgMetadata)
+              }
             case _ =>
               element.childNodes().asScala.foreach { childNode =>
                 val tagName = getTagName(childNode)

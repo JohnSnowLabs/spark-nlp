@@ -142,9 +142,7 @@ class Reader2Doc(override val uid: String)
       partitionContent(partitionBuilder, dataset)
     }
     val annotatedDf = structuredDf
-      .withColumn(
-        getOutputCol,
-        wrapColumnMetadata(partitionToAnnotation(col("partition"), col("fileName"))))
+      .withColumn(getOutputCol, wrapColumnMetadata(partitionToAnnotation(col("partition"))))
       .select("fileName", getOutputCol)
 
     afterAnnotate(annotatedDf)
@@ -313,14 +311,13 @@ class Reader2Doc(override val uid: String)
     if (path != null) path.split("/").last else ""
   }
 
-  protected def partitionToAnnotation: UserDefinedFunction = udf {
-    (partitions: Seq[Row], fileName: String) =>
-      if (partitions == null) Nil
-      else if ($(outputAsDocument)) {
-        mergeElementsAsDocument(partitions)
-      } else {
-        elementsAsIndividualAnnotations(partitions)
-      }
+  protected def partitionToAnnotation: UserDefinedFunction = udf { (partitions: Seq[Row]) =>
+    if (partitions == null) Nil
+    else if ($(outputAsDocument)) {
+      mergeElementsAsDocument(partitions)
+    } else {
+      elementsAsIndividualAnnotations(partitions)
+    }
   }
 
   private def isTableElement(row: Row): Boolean = {

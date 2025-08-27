@@ -1,5 +1,5 @@
 /*
- *   Copyright 2017-2024 John Snow Labs
+ *   Copyright 2017-2025 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -161,6 +161,17 @@ class HTMLReaderTest extends AnyFlatSpec {
       .filter(col("exploded_html.elementType") === ElementType.TABLE)
 
     assert(titleDF.count() == 1)
+  }
+
+  it should "read HTML files with images" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-images.html")
+
+    val imagesDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.IMAGE)
+
+    assert(imagesDF.count() == 3)
   }
 
 }
