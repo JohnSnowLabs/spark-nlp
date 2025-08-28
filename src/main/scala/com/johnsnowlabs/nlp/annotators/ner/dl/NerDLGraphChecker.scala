@@ -162,7 +162,7 @@ class NerDLGraphChecker(override val uid: String)
     new Param[String](this, "graphFolder", "Folder path that contain external graph files")
 
   /** @group getParam */
-  private def getGraphFolder: Option[String] = get(graphFolder)
+  protected def getGraphFolder: Option[String] = get(graphFolder)
 
   /** Extracts the graph hyperparameters from the training data (dataset).
     *
@@ -177,7 +177,7 @@ class NerDLGraphChecker(override val uid: String)
     *   a tuple containing the number of labels, number of unique characters, and the embedding
     *   dim
     */
-  private def getGraphParamsDs(
+  protected def getGraphParamsDs(
       dataset: Dataset[_],
       inputCols: Array[String],
       labelsCol: String): (Int, Int, Int) = {
@@ -219,14 +219,16 @@ class NerDLGraphChecker(override val uid: String)
     (nLabels, nChars, embeddingsDim)
   }
 
+  protected def searchForSuitableGraph(nLabels: Int, nChars: Int, embeddingsDim: Int): String =
+    NerDLApproach.searchForSuitableGraph(nLabels, embeddingsDim, nChars + 1, getGraphFolder)
+
   override def fit(dataset: Dataset[_]): NerDLGraphCheckerModel = {
     val (nLabels, nChars, embeddingsDim) =
       getGraphParamsDs(dataset, $(inputCols), $(labelColumn))
 
     // Throws exception if no suitable graph found
     Try {
-      NerDLApproach
-        .searchForSuitableGraph(nLabels, embeddingsDim, nChars + 1, getGraphFolder)
+      searchForSuitableGraph(nLabels, nChars, embeddingsDim)
     } match {
       case Failure(exception: IllegalArgumentException) =>
         throw new IllegalArgumentException("NerDLGraphChecker: " + exception.getMessage)
