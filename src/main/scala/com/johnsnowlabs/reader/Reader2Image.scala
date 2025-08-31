@@ -18,17 +18,25 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.AnnotatorType.IMAGE
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.{AnnotationImage, HasOutputAnnotationCol, HasOutputAnnotatorType}
-import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithTextFile
+import com.johnsnowlabs.partition.util.PartitionHelper.{datasetWithTextFile, isStringContent}
 import com.johnsnowlabs.partition.{HasHTMLReaderProperties, HasReaderProperties, Partition}
 import com.johnsnowlabs.reader.util.ImageHelper
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.{array, col, explode, udf}
-import org.apache.spark.sql.{Column, DataFrame, Dataset, Row}
-import org.apache.spark.sql.types.{ArrayType, Metadata, MetadataBuilder, StructField, StructType}
+import org.apache.spark.sql.functions.{array, col, explode, lit, udf}
+import org.apache.spark.sql.{Column, DataFrame, Dataset, Row, SparkSession}
+import org.apache.spark.sql.types.{
+  ArrayType,
+  Metadata,
+  MetadataBuilder,
+  StringType,
+  StructField,
+  StructType
+}
 
+import java.io.File
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
 class Reader2Image(override val uid: String)
@@ -49,20 +57,98 @@ class Reader2Image(override val uid: String)
   setDefault(contentType -> "", outputFormat -> "image", explodeDocs -> true)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
+    validateRequiredParameters()
     val partition = partitionBuilder
-    val partitionUDF =
-      udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
+    val structuredDf = if ($(contentType).trim.isEmpty) {
+      partitionMixedContent(dataset, $(contentPath))
+    } else {
+      partitionContent(partition, dataset)
+    }
 
-    val structuredDf = datasetWithTextFile(dataset.sparkSession, $(contentPath))
-      .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
-      .withColumn("fileName", getFileName(col("path")))
+    if (!structuredDf.isEmpty) {
+      val annotatedDf = structuredDf.withColumn(
+        getOutputCol,
+        wrapColumnMetadata(partitionAnnotation(col(partition.getOutputColumn), col("path"))))
 
-    val annotatedDf = structuredDf.withColumn(
-      getOutputCol,
-      wrapColumnMetadata(partitionAnnotation(col(partition.getOutputColumn), col("path"))))
-
-    afterAnnotate(annotatedDf)
+      afterAnnotate(annotatedDf)
+    } else {
+      structuredDf
+    }
   }
+
+  private def partitionContent(partition: Partition, dataset: Dataset[_]): DataFrame = {
+    if (isStringContent($(contentType))) {
+      val partitionUDF =
+        udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
+
+      datasetWithTextFile(dataset.sparkSession, $(contentPath))
+        .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
+        .withColumn("fileName", getFileName(col("path")))
+    } else {
+      dataset.toDF()
+    }
+  }
+
+  private def partitionMixedContent(dataset: Dataset[_], dirPath: String): DataFrame = {
+    val allFiles = listAllFilesRecursively(new File(dirPath))
+    val grouped = allFiles
+      .filter(_.isFile)
+      .groupBy { file =>
+        val ext = file.getName.split("\\.").lastOption.getOrElse("").toLowerCase
+        supportedTypes.get(ext).map(_ => ext)
+      }
+      .collect { case (Some(ext), files) => ext -> files }
+
+    val mixedDfs = grouped.flatMap { case (ext, files) =>
+      val (contentType, _) = supportedTypes(ext)
+      val partitionParams = Map(
+        "contentType" -> contentType,
+        "inferTableStructure" -> $(inferTableStructure).toString,
+        "outputFormat" -> $(outputFormat))
+      val partition = new Partition(partitionParams.asJava)
+      val filePaths = files.map(_.getAbsolutePath)
+
+      if (filePaths.nonEmpty) {
+        val textDfList = files.map { file =>
+          val partitionUDF =
+            udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
+
+          val textDf = datasetWithTextFile(dataset.sparkSession, file.getAbsolutePath)
+            .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
+            .withColumn("fileName", getFileName(col("path")))
+
+          textDf
+            .withColumnRenamed(partition.getOutputColumn, "partition")
+            .withColumn("fileName", lit(file.getName))
+            .drop("content")
+        }
+        Some(textDfList.reduce(_.unionByName(_)))
+      } else None
+
+    }.toSeq
+
+    if (mixedDfs.isEmpty) {
+      val schema = StructType(
+        Seq(
+          StructField("partition", StringType, nullable = true),
+          StructField("fileName", StringType, nullable = true)))
+      val emptyRDD = dataset.sparkSession.sparkContext.emptyRDD[Row]
+      val emptyDF = dataset.sparkSession.createDataFrame(emptyRDD, schema)
+      emptyDF
+    } else {
+      mixedDfs.reduce(_.unionByName(_))
+    }
+  }
+
+  private def listAllFilesRecursively(dir: File): Seq[File] = {
+    val these = Option(dir.listFiles).getOrElse(Array.empty)
+    these.filter(_.isFile) ++ these.filter(_.isDirectory).flatMap(listAllFilesRecursively)
+  }
+
+  private val supportedTypes: Map[String, (String, Boolean)] = Map(
+    "html" -> ("text/html", true),
+    "htm" -> ("text/html", true),
+    "md" -> ("text/markdown", true))
 
   def partitionAnnotation: UserDefinedFunction = {
     udf((partitions: Seq[Row], path: String) =>
@@ -164,5 +250,11 @@ class Reader2Image(override val uid: String)
 
   private def wrapColumnMetadata(col: Column): Column = {
     col.as(getOutputCol, columnMetadata)
+  }
+
+  protected def validateRequiredParameters(): Unit = {
+    require(
+      $(contentPath) != null && $(contentPath).trim.nonEmpty,
+      "contentPath must be set and not empty")
   }
 }

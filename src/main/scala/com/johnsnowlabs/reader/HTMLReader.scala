@@ -331,36 +331,46 @@ class HTMLReader(
             case tag if isParagraphLikeElement(element) =>
               if (!visitedNode) {
                 val classType = classifyParagraphElement(element)
+
+                // Traverse children first so that <img>, <a>, etc. inside the paragraph are processed
+                element.childNodes().asScala.foreach { childNode =>
+                  val tagName = getTagName(childNode)
+                  traverse(childNode, tagName)
+                }
+
+                // Now handle the paragraph itself
                 classType match {
                   case ElementType.NARRATIVE_TEXT =>
-                    trackingNodes(element).visited = true
                     val childNodes = element.childNodes().asScala.toList
                     val aggregatedText = collectTextFromNodes(childNodes)
                     if (aggregatedText.nonEmpty) {
                       pageMetadata("sentence") = sentenceIndex.toString
                       sentenceIndex += 1
+                      trackingNodes(element).visited = true
                       elements += HTMLElement(
                         ElementType.NARRATIVE_TEXT,
                         content = aggregatedText,
                         metadata = pageMetadata)
                     }
+
                   case ElementType.TITLE =>
-                    trackingNodes(element).visited = true
                     val titleText = element.text().trim
                     if (titleText.nonEmpty) {
                       pageMetadata("sentence") = sentenceIndex.toString
                       sentenceIndex += 1
+                      trackingNodes(element).visited = true
                       elements += HTMLElement(
                         ElementType.TITLE,
                         content = titleText,
                         metadata = pageMetadata)
                     }
+
                   case ElementType.UNCATEGORIZED_TEXT =>
-                    trackingNodes(element).visited = true
                     val text = element.text().trim
                     if (text.nonEmpty) {
                       pageMetadata("sentence") = sentenceIndex.toString
                       sentenceIndex += 1
+                      trackingNodes(element).visited = true
                       elements += HTMLElement(
                         ElementType.UNCATEGORIZED_TEXT,
                         content = text,

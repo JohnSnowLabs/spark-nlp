@@ -159,9 +159,9 @@ class Reader2Doc(override val uid: String)
       .collect { case (Some(ext), files) => ext -> files }
 
     val mixedDfs = grouped.flatMap { case (ext, files) =>
-      val (ctype, isText) = supportedTypes(ext)
+      val (contentType, isText) = supportedTypes(ext)
       val partitionParams = Map(
-        "contentType" -> ctype,
+        "contentType" -> contentType,
         "inferTableStructure" -> $(inferTableStructure).toString,
         "outputFormat" -> $(outputFormat))
       val partition = new Partition(partitionParams.asJava)
@@ -177,7 +177,7 @@ class Reader2Doc(override val uid: String)
               val textDf = datasetWithTextFile(spark, file.getAbsolutePath)
               val partitionUDF =
                 udf((text: String) =>
-                  partition.partitionStringContent(text, Map.empty[String, String].asJava))
+                  partition.partitionStringContent(text, $(this.headers).asJava))
               textDf
                 .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
             }
