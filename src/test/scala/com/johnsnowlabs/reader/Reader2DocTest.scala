@@ -322,7 +322,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
-
+    resultDf.show(truncate = false)
     val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
     annotationsResult.foreach { annotations =>
       assert(annotations.length == 1)
