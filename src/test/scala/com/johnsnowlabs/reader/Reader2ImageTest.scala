@@ -16,9 +16,11 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
+import com.johnsnowlabs.nlp.annotators.cv.Qwen2VLTransformer
 import com.johnsnowlabs.nlp.{AnnotatorType, AssertAnnotations}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions.lit
 import org.scalatest.flatspec.AnyFlatSpec
 
 class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
@@ -39,7 +41,8 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
-
+    resultDf.show()
+    resultDf.printSchema()
     val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
 
     assert(annotationsResult.length == 2)
@@ -137,6 +140,42 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     val resultDf = pipelineModel.transform(emptyDataSet)
 
     assert(resultDf.isEmpty)
+  }
+
+  it should "integrate with VLM models" taggedAs SlowTest in {
+    val reader2Doc = new Reader2Image()
+      .setContentType("text/html")
+      .setContentPath(s"$htmlFilesDirectory/example-images.html")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val imagesDf = pipelineModel.transform(emptyDataSet)
+
+    val promptDf = imagesDf.withColumn(
+      "text",
+      lit(
+        """<|im_start|>system
+          |You are a helpful assistant.<|im_end|>
+          |<|im_start|>user
+          |<|vision_start|><|image_pad|><|vision_end|>Describe this image.<|im_end|>
+          |<|im_start|>assistant
+          |""".stripMargin
+      )
+    )
+
+    val visualQAClassifier = Qwen2VLTransformer
+      .pretrained()
+      .setInputCols("image")
+      .setOutputCol("answer")
+
+    val vlmPipeline = new Pipeline().setStages(Array(visualQAClassifier))
+    val resultDf = vlmPipeline.fit(promptDf).transform(promptDf)
+
+    resultDf.select("image.origin", "answer.result").show(truncate = false)
+
+    assert(!resultDf.isEmpty)
   }
 
 }
