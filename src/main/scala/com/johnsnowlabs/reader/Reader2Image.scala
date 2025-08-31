@@ -39,6 +39,59 @@ import org.apache.spark.sql.types.{
 import java.io.File
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
+
+/** The Reader2Image annotator allows you to use the reading files with images more smoothly within existing
+ * Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Image can be used for
+ * extracting structured image content from various document types using Spark NLP readers. It supports
+ * reading from many files types and returns parsed output as a structured Spark DataFrame.
+ *
+ * Supported formats include HTML and Markdown
+ *
+ * ==Example==
+ * {{{
+ * import com.johnsnowlabs.reader.Reader2Image
+ * import com. johnsnowlabs.nlp.base.DocumentAssembler
+ * import org.apache.spark.ml.Pipeline
+ *
+ * val reader2Image = new Reader2Image()
+ *   .setContentType("text/html")
+ *   .setContentPath("./example-images.html")
+ *   .setOutputCol("image")
+ *
+ * val pipeline = new Pipeline()
+ *   .setStages(Array(reader2Image))
+ *
+ * val pipelineModel = pipeline.fit(emptyDataSet)
+ * val resultDf = pipelineModel.transform(emptyDataSet)
+ *
+ * resultDf.show()
+ * +-------------------+--------------------+
+ * |           fileName|               image|
+ * +-------------------+--------------------+
+ * |example-images.html|[{image, example-...|
+ * |example-images.html|[{image, example-...|
+ * +-------------------+--------------------+
+ *
+ * resultDf.printSchema()
+ *
+ * root
+ *  |-- fileName: string (nullable = true)
+ *  |-- image: array (nullable = false)
+ *  |    |-- element: struct (containsNull = true)
+ *  |    |    |-- annotatorType: string (nullable = true)
+ *  |    |    |-- origin: string (nullable = true)
+ *  |    |    |-- height: integer (nullable = false)
+ *  |    |    |-- width: integer (nullable = false)
+ *  |    |    |-- nChannels: integer (nullable = false)
+ *  |    |    |-- mode: integer (nullable = false)
+ *  |    |    |-- result: binary (nullable = true)
+ *  |    |    |-- metadata: map (nullable = true)
+ *  |    |    |    |-- key: string
+ *  |    |    |    |-- value: string (valueContainsNull = true)
+ *  |    |    |-- text: string (nullable = true)
+ *
+ * }}}
+ */
 class Reader2Image(override val uid: String)
     extends Transformer
     with DefaultParamsWritable
@@ -69,6 +122,7 @@ class Reader2Image(override val uid: String)
       val annotatedDf = structuredDf.withColumn(
         getOutputCol,
         wrapColumnMetadata(partitionAnnotation(col(partition.getOutputColumn), col("path"))))
+        .select("fileName", getOutputCol)
 
       afterAnnotate(annotatedDf)
     } else {

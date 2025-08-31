@@ -12,16 +12,15 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+import os
 import unittest
 
 import pytest
-import os
+from pyspark.ml import Pipeline
 
-from sparknlp.annotator import *
-from sparknlp.base import *
 from sparknlp.reader.reader2image import Reader2Image
 from test.util import SparkContextForTest
-from pyspark.ml import Pipeline
+
 
 @pytest.mark.fast
 class Reader2ImageTest(unittest.TestCase):

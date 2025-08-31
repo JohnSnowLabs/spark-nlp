@@ -22,6 +22,44 @@ class Reader2Image(
     AnnotatorTransformer,
     HasHTMLReaderProperties
 ):
+    """
+    The Reader2Image annotator allows you to use the reading files with images more smoothly within existing
+    Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Image can be used for
+    extracting structured image content from various document types using Spark NLP readers. It supports
+    reading from many file types and returns parsed output as a structured Spark DataFrame.
+
+    Supported formats include HTML and Markdown.
+
+    == Example ==
+    This example demonstrates how to load HTML files with images and process them into a structured
+    Spark DataFrame using Reader2Image.
+
+    Expected output:
+    +-------------------+--------------------+
+    |           fileName|               image|
+    +-------------------+--------------------+
+    |example-images.html|[{image, example-...|
+    |example-images.html|[{image, example-...|
+    +-------------------+--------------------+
+
+    Schema:
+    root
+     |-- fileName: string (nullable = true)
+     |-- image: array (nullable = false)
+     |    |-- element: struct (containsNull = true)
+     |    |    |-- annotatorType: string (nullable = true)
+     |    |    |-- origin: string (nullable = true)
+     |    |    |-- height: integer (nullable = false)
+     |    |    |-- width: integer (nullable = false)
+     |    |    |-- nChannels: integer (nullable = false)
+     |    |    |-- mode: integer (nullable = false)
+     |    |    |-- result: binary (nullable = true)
+     |    |    |-- metadata: map (nullable = true)
+     |    |    |    |-- key: string
+     |    |    |    |-- value: string (valueContainsNull = true)
+     |    |    |-- text: string (nullable = true)
+    """
+
     name = "Reader2Image"
     outputAnnotatorType = AnnotatorType.IMAGE
 
