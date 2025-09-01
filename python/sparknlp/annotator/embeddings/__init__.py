@@ -26,6 +26,7 @@ from sparknlp.annotator.embeddings.e5_embeddings import *
 from sparknlp.annotator.embeddings.instructor_embeddings import *
 from sparknlp.annotator.embeddings.longformer_embeddings import *
 from sparknlp.annotator.embeddings.minilm_embeddings import *
+from sparknlp.annotator.embeddings.modernbert_embeddings import *
 from sparknlp.annotator.embeddings.mpnet_embeddings import *
 from sparknlp.annotator.embeddings.roberta_embeddings import *
 from sparknlp.annotator.embeddings.roberta_sentence_embeddings import *
