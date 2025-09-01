@@ -33,7 +33,7 @@ val reranker = AutoGGUFReranker.pretrained()
   .setQuery("A man is eating pasta.")
 ```
 
-The default model is `"bge-reranker-v2-m3-Q4_K_M"`, if no name is provided.
+The default model is `"bge_reranker_v2_m3_Q4_K_M"`, if no name is provided.
 
 For available pretrained models please see the [Models Hub](https://sparknlp.org/models).
 
@@ -105,7 +105,7 @@ val document = new DocumentAssembler()
   .setOutputCol("document")
 
 val reranker = AutoGGUFReranker
-  .pretrained("bge-reranker-v2-m3-Q4_K_M")
+  .pretrained()
   .setInputCols("document")
   .setOutputCol("reranked_documents")
   .setBatchSize(4)

@@ -57,7 +57,7 @@ import java.util.{ArrayList, List}
   *   .setOutputCol("reranked_documents")
   *   .setQuery("A man is eating pasta.")
   * }}}
-  * The default model is `"bge-reranker-v2-m3-Q4_K_M"`, if no name is provided.
+  * The default model is `"bge_reranker_v2_m3_Q4_K_M"`, if no name is provided.
   *
   * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
@@ -90,7 +90,7 @@ import java.util.{ArrayList, List}
   *   .setOutputCol("document")
   *
   * val reranker = AutoGGUFReranker
-  *   .pretrained("bge-reranker-v2-m3-Q4_K_M")
+  *   .pretrained()
   *   .setInputCols("document")
   *   .setOutputCol("reranked_documents")
   *   .setBatchSize(4)
@@ -252,7 +252,7 @@ class AutoGGUFReranker(override val uid: String)
 trait ReadablePretrainedAutoGGUFReranker
     extends ParamsAndFeaturesFallbackReadable[AutoGGUFReranker]
     with HasPretrained[AutoGGUFReranker] {
-  override val defaultModelName: Some[String] = Some("bge-reranker-v2-m3-Q4_K_M")
+  override val defaultModelName: Some[String] = Some("bge_reranker_v2_m3_Q4_K_M")
   override val defaultLang: String = "en"
 
   /** Java compliant-overrides */
