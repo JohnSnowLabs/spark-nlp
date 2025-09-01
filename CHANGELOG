@@ -1,4 +1,20 @@
 =======
+6.1.3
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1286] GGUFRankingFinisher (#14653)
+* [SPARKNLP-1282] Adding improvements to Reader2Doc #14656
+* [SPARKNLP-1244] NerDLGraphChecker #14657
+
+---------
+Bug Fixes
+---------
+None
+
+=======
 6.1.2
 =======
 ---------------------------
@@ -10,7 +26,7 @@ New Features & Enhancements
 ---------
 Bug Fixes
 ---------
-* Fixed
+* Fixed Issues with loading AutoGGUFVision models
 
 =======
 6.1.1
