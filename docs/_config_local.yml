@@ -27,7 +27,7 @@ baseurl : # does not include hostname
 title   : Spark NLP
 description: > # this means to ignore newlines until "Language & timezone"
   High Performance NLP with Apache Spark
-sparknlp_version: 6.1.2 # Version to be substituted in the documentation
+sparknlp_version: 6.1.3 # Version to be substituted in the documentation
 
 
 ## => Language and Timezone
