@@ -17,6 +17,7 @@ from sparknlp.base.document_assembler import *
 from sparknlp.base.multi_document_assembler import *
 from sparknlp.base.embeddings_finisher import *
 from sparknlp.base.finisher import *
+from sparknlp.base.gguf_ranking_finisher import *
 from sparknlp.base.graph_finisher import *
 from sparknlp.base.has_recursive_fit import *
 from sparknlp.base.has_recursive_transform import *

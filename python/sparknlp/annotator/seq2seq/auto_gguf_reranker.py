@@ -47,7 +47,7 @@ class AutoGGUFReranker(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties
     ...     .setOutputCol("reranked_documents") \\
     ...     .setQuery("A man is eating pasta.")
 
-    The default model is ``"bge-reranker-v2-m3-Q4_K_M"``, if no name is provided.
+    The default model is ``"bge_reranker_v2_m3_Q4_K_M"``, if no name is provided.
 
     For extended examples of usage, see the
     `AutoGGUFRerankerTest <https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFRerankerTest.scala>`__
@@ -222,7 +222,7 @@ class AutoGGUFReranker(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties
     >>> document = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("document")
-    >>> reranker = AutoGGUFReranker.pretrained("bge-reranker-v2-m3-Q4_K_M") \\
+    >>> reranker = AutoGGUFReranker.pretrained() \\
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("reranked_documents") \\
     ...     .setBatchSize(4) \\
@@ -307,13 +307,13 @@ class AutoGGUFReranker(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties
         return AutoGGUFReranker(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bge-reranker-v2-m3-Q4_K_M", lang="en", remote_loc=None):
+    def pretrained(name="bge_reranker_v2_m3_Q4_K_M", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "bge-reranker-v2-m3-Q4_K_M"
+            Name of the pretrained model, by default "bge_reranker_v2_m3_Q4_K_M"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
