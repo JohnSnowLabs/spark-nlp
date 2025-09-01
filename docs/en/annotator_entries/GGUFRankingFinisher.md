@@ -85,7 +85,7 @@ val documentAssembler = new DocumentAssembler()
 
 // Reranker
 val reranker = AutoGGUFReranker
-  .pretrained("bge-reranker-v2-m3-Q4_K_M")
+  .pretrained()
   .setInputCols("document")
   .setOutputCol("reranked_documents")
   .setQuery("A man is eating pasta.")

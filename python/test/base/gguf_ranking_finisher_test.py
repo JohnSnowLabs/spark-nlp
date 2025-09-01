@@ -37,7 +37,7 @@ class GGUFRankingFinisherTestSpec(unittest.TestCase):
             ("A man is eating a piece of bread.", 0.72, "A man is eating pasta."),
             ("The girl is carrying a baby.", 0.15, "A man is eating pasta."),
             ("A man is riding a horse.", 0.28, "A man is eating pasta."),
-            ("A young girl is playing violin.", 0.05, "A man is eating pasta.")
+            ("A young girl is playing violin.", 0.05, "A man is eating pasta."),
         ]
 
         annotations = []
@@ -48,15 +48,15 @@ class GGUFRankingFinisherTestSpec(unittest.TestCase):
                 end=len(text) - 1,
                 result=text,
                 metadata={"relevance_score": str(score), "query": query},
-                embeddings=[]
+                embeddings=[],
             )
             annotations.append(annotation)
 
         # Create DataFrame with annotation array
         rows = [Row(reranked_documents=annotations)]
-        schema = StructType([
-            StructField("reranked_documents", Annotation.arrayType(), nullable=False)
-        ])
+        schema = StructType(
+            [StructField("reranked_documents", Annotation.arrayType(), nullable=False)]
+        )
 
         return self.spark.createDataFrame(rows, schema)
 
@@ -64,17 +64,19 @@ class GGUFRankingFinisherTestSpec(unittest.TestCase):
         """Test GGUFRankingFinisher with default settings."""
         mock_data = self.create_mock_reranker_output()
 
-        finisher = GGUFRankingFinisher() \
-            .setInputCols("reranked_documents") \
+        finisher = (
+            GGUFRankingFinisher()
+            .setInputCols("reranked_documents")
             .setOutputCol("ranked_documents")
+        )
 
         result = finisher.transform(mock_data)
 
         self.assertIn("ranked_documents", result.columns)
-        
+
         # Get the ranked documents
         ranked_docs = result.collect()[0]["ranked_documents"]
-        
+
         self.assertEqual(len(ranked_docs), 5)
 
         # Check that results are sorted by relevance score in descending order
@@ -89,10 +91,12 @@ class GGUFRankingFinisherTestSpec(unittest.TestCase):
         """Test GGUFRankingFinisher with topK setting."""
         mock_data = self.create_mock_reranker_output()
 
-        finisher = GGUFRankingFinisher() \
-            .setInputCols("reranked_documents") \
-            .setOutputCol("ranked_documents") \
+        finisher = (
+            GGUFRankingFinisher()
+            .setInputCols("reranked_documents")
+            .setOutputCol("ranked_documents")
             .setTopK(3)
+        )
 
         result = finisher.transform(mock_data)
 
@@ -114,10 +118,12 @@ class GGUFRankingFinisherTestSpec(unittest.TestCase):
         """Test GGUFRankingFinisher with minimum relevance score threshold."""
         mock_data = self.create_mock_reranker_output()
 
-        finisher = GGUFRankingFinisher() \
-            .setInputCols("reranked_documents") \
-            .setOutputCol("ranked_documents") \
+        finisher = (
+            GGUFRankingFinisher()
+            .setInputCols("reranked_documents")
+            .setOutputCol("ranked_documents")
             .setMinRelevanceScore(0.3)
+        )
 
         result = finisher.transform(mock_data)
 
@@ -131,10 +137,12 @@ class GGUFRankingFinisherTestSpec(unittest.TestCase):
         """Test GGUFRankingFinisher with min-max scaling."""
         mock_data = self.create_mock_reranker_output()
 
-        finisher = GGUFRankingFinisher() \
-            .setInputCols("reranked_documents") \
-            .setOutputCol("ranked_documents") \
+        finisher = (
+            GGUFRankingFinisher()
+            .setInputCols("reranked_documents")
+            .setOutputCol("ranked_documents")
             .setMinMaxScaling(True)
+        )
 
         result = finisher.transform(mock_data)
 
@@ -152,17 +160,19 @@ class GGUFRankingFinisherTestSpec(unittest.TestCase):
         """Test GGUFRankingFinisher with combined topK, threshold, and scaling."""
         mock_data = self.create_mock_reranker_output()
 
-        finisher = GGUFRankingFinisher() \
-            .setInputCols("reranked_documents") \
-            .setOutputCol("ranked_documents") \
-            .setTopK(2) \
-            .setMinRelevanceScore(0.1) \
+        finisher = (
+            GGUFRankingFinisher()
+            .setInputCols("reranked_documents")
+            .setOutputCol("ranked_documents")
+            .setTopK(2)
+            .setMinRelevanceScore(0.1)
             .setMinMaxScaling(True)
+        )
 
         result = finisher.transform(mock_data)
 
         ranked_docs = result.collect()[0]["ranked_documents"]
-        
+
         # Should have at most 2 results due to topK
         self.assertLessEqual(len(ranked_docs), 2)
 
@@ -183,15 +193,17 @@ class GGUFRankingFinisherTestSpec(unittest.TestCase):
 
         # Create empty annotations
         rows = [Row(reranked_documents=[])]
-        schema = StructType([
-            StructField("reranked_documents", Annotation.arrayType(), nullable=False)
-        ])
+        schema = StructType(
+            [StructField("reranked_documents", Annotation.arrayType(), nullable=False)]
+        )
 
         empty_data = self.spark.createDataFrame(rows, schema)
 
-        finisher = GGUFRankingFinisher() \
-            .setInputCols("reranked_documents") \
+        finisher = (
+            GGUFRankingFinisher()
+            .setInputCols("reranked_documents")
             .setOutputCol("ranked_documents")
+        )
 
         result = finisher.transform(empty_data)
 
@@ -203,14 +215,16 @@ class GGUFRankingFinisherTestSpec(unittest.TestCase):
         """Test that query information is preserved in metadata."""
         mock_data = self.create_mock_reranker_output()
 
-        finisher = GGUFRankingFinisher() \
-            .setInputCols("reranked_documents") \
+        finisher = (
+            GGUFRankingFinisher()
+            .setInputCols("reranked_documents")
             .setOutputCol("ranked_documents")
+        )
 
         result = finisher.transform(mock_data)
 
         ranked_docs = result.collect()[0]["ranked_documents"]
-        
+
         # Check that query information is preserved in metadata
         for doc in ranked_docs:
             self.assertIn("query", doc.metadata)
@@ -220,9 +234,18 @@ class GGUFRankingFinisherTestSpec(unittest.TestCase):
         """Test handling of documents with missing relevance scores."""
 
         documents = [
-            ("A man is eating food.", {"relevance_score": "0.85", "query": "A man is eating pasta."}),
-            ("A man is eating a piece of bread.", {"query": "A man is eating pasta."}),  # Missing score
-            ("The girl is carrying a baby.", {"relevance_score": "0.15", "query": "A man is eating pasta."})
+            (
+                "A man is eating food.",
+                {"relevance_score": "0.85", "query": "A man is eating pasta."},
+            ),
+            (
+                "A man is eating a piece of bread.",
+                {"query": "A man is eating pasta."},
+            ),  # Missing score
+            (
+                "The girl is carrying a baby.",
+                {"relevance_score": "0.15", "query": "A man is eating pasta."},
+            ),
         ]
 
         annotations = []
@@ -233,20 +256,22 @@ class GGUFRankingFinisherTestSpec(unittest.TestCase):
                 end=len(text) - 1,
                 result=text,
                 metadata=metadata,
-                embeddings=[]
+                embeddings=[],
             )
             annotations.append(annotation)
 
         rows = [Row(reranked_documents=annotations)]
-        schema = StructType([
-            StructField("reranked_documents", Annotation.arrayType(), nullable=False)
-        ])
+        schema = StructType(
+            [StructField("reranked_documents", Annotation.arrayType(), nullable=False)]
+        )
 
         test_data = self.spark.createDataFrame(rows, schema)
 
-        finisher = GGUFRankingFinisher() \
-            .setInputCols("reranked_documents") \
+        finisher = (
+            GGUFRankingFinisher()
+            .setInputCols("reranked_documents")
             .setOutputCol("ranked_documents")
+        )
 
         result = finisher.transform(test_data)
 
@@ -278,5 +303,5 @@ class GGUFRankingFinisherTestSpec(unittest.TestCase):
         self.assertEqual(finisher.getOutputCol(), "custom_output")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

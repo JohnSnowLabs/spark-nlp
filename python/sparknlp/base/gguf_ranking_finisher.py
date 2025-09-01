@@ -65,7 +65,7 @@ class GGUFRankingFinisher(AnnotatorTransformer):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("document")
-    >>> reranker = AutoGGUFReranker.pretrained("bge-reranker-v2-m3-Q4_K_M") \\
+    >>> reranker = AutoGGUFReranker.pretrained() \\
     ...     .setInputCols("document") \\
     ...     .setOutputCol("reranked_documents") \\
     ...     .setQuery("A man is eating pasta.")

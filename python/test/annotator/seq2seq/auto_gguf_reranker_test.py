@@ -47,9 +47,10 @@ class AutoGGUFRerankerTestSpec(unittest.TestCase):
 
         # Use a local model path for testing - in real scenarios, use pretrained()
         model_path = "/tmp/bge-reranker-v2-m3-Q4_K_M.gguf"
-        
+
         # Skip test if model file doesn't exist
         import os
+
         if not os.path.exists(model_path):
             self.skipTest(f"Model file not found: {model_path}")
 
@@ -104,33 +105,29 @@ class AutoGGUFRerankerPretrainedTestSpec(unittest.TestCase):
             DocumentAssembler().setInputCol("text").setOutputCol("document")
         )
 
-        # Test with pretrained model (may not be available in test environment)
-        try:
-            reranker = (
-                AutoGGUFReranker.pretrained("bge-reranker-v2-m3-Q4_K_M")
-                .setInputCols("document")
-                .setOutputCol("reranked_documents")
-                .setBatchSize(2)
-                .setQuery(self.query)
-            )
+        reranker = (
+            AutoGGUFReranker.pretrained()
+            .setInputCols("document")
+            .setOutputCol("reranked_documents")
+            .setBatchSize(2)
+            .setQuery(self.query)
+        )
 
-            pipeline = Pipeline().setStages([document_assembler, reranker])
-            results = pipeline.fit(self.data).transform(self.data)
+        pipeline = Pipeline().setStages([document_assembler, reranker])
+        results = pipeline.fit(self.data).transform(self.data)
 
-            # Verify results contain relevance scores
-            collected_results = results.collect()
-            for row in collected_results:
-                annotations = row["reranked_documents"]
-                for annotation in annotations:
-                    self.assertIn("relevance_score", annotation.metadata)
-                    # Relevance score should be a valid number
-                    score = float(annotation.metadata["relevance_score"])
-                    self.assertIsInstance(score, float)
+        # Verify results contain relevance scores
+        collected_results = results.collect()
+        for row in collected_results:
+            annotations = row["reranked_documents"]
+            for annotation in annotations:
+                self.assertIn("relevance_score", annotation.metadata)
+                # Relevance score should be a valid number
+                score = float(annotation.metadata["relevance_score"])
+                self.assertIsInstance(score, float)
 
-            results.show()
-        except Exception as e:
-            # Skip if pretrained model is not available
-            self.skipTest(f"Pretrained model not available: {str(e)}")
+        results.show()
+
 
 @pytest.mark.slow
 class AutoGGUFRerankerMetadataTestSpec(unittest.TestCase):
@@ -139,9 +136,10 @@ class AutoGGUFRerankerMetadataTestSpec(unittest.TestCase):
 
     def runTest(self):
         model_path = "/tmp/bge-reranker-v2-m3-Q4_K_M.gguf"
-        
+
         # Skip test if model file doesn't exist
         import os
+
         if not os.path.exists(model_path):
             self.skipTest(f"Model file not found: {model_path}")
 
@@ -150,9 +148,10 @@ class AutoGGUFRerankerMetadataTestSpec(unittest.TestCase):
         metadata = reranker.getMetadata()
         self.assertIsNotNone(metadata)
         self.assertGreater(len(metadata), 0)
-        
+
         print("Model metadata:")
         print(eval(metadata))
+
 
 #
 # @pytest.mark.slow
@@ -215,7 +214,7 @@ class AutoGGUFRerankerMetadataTestSpec(unittest.TestCase):
 #         results.select("reranked_documents").show(truncate=False)
 
 
-@pytest.mark.slow 
+@pytest.mark.slow
 class AutoGGUFRerankerErrorHandlingTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -229,9 +228,10 @@ class AutoGGUFRerankerErrorHandlingTestSpec(unittest.TestCase):
         data = self.spark.createDataFrame([["Test document"]]).toDF("text")
 
         model_path = "/tmp/bge-reranker-v2-m3-Q4_K_M.gguf"
-        
+
         # Skip test if model file doesn't exist
         import os
+
         if not os.path.exists(model_path):
             self.skipTest(f"Model file not found: {model_path}")
 
@@ -244,7 +244,7 @@ class AutoGGUFRerankerErrorHandlingTestSpec(unittest.TestCase):
         )
 
         pipeline = Pipeline().setStages([document_assembler, reranker])
-        
+
         # This should still work with empty query (based on implementation)
         try:
             results = pipeline.fit(data).transform(data)
@@ -279,9 +279,10 @@ class AutoGGUFRerankerWithFinisherTestSpec(unittest.TestCase):
         )
 
         model_path = "/tmp/bge-reranker-v2-m3-Q4_K_M.gguf"
-        
+
         # Skip test if model file doesn't exist
         import os
+
         if not os.path.exists(model_path):
             self.skipTest(f"Model file not found: {model_path}")
 
@@ -322,11 +323,11 @@ class AutoGGUFRerankerWithFinisherTestSpec(unittest.TestCase):
                 self.assertIn("rank", annotation.metadata)
                 self.assertIn("query", annotation.metadata)
                 self.assertEqual(annotation.metadata["query"], self.query)
-                
+
                 # Check that relevance score is normalized (due to minMaxScaling)
                 score = float(annotation.metadata["relevance_score"])
                 self.assertTrue(0.0 <= score <= 1.0)
-                
+
                 # Check that rank is a valid integer
                 rank = int(annotation.metadata["rank"])
                 self.assertIsInstance(rank, int)
@@ -338,7 +339,9 @@ class AutoGGUFRerankerWithFinisherTestSpec(unittest.TestCase):
             ranks = [int(annotation.metadata["rank"]) for annotation in annotations]
             self.assertEqual(ranks, sorted(ranks))
 
-        print("Pipeline with AutoGGUFReranker and GGUFRankingFinisher completed successfully")
+        print(
+            "Pipeline with AutoGGUFReranker and GGUFRankingFinisher completed successfully"
+        )
         results.select("ranked_documents").show(truncate=False)
 
 
@@ -368,9 +371,10 @@ class AutoGGUFRerankerFinisherCombinedFiltersTestSpec(unittest.TestCase):
         )
 
         model_path = "/tmp/bge-reranker-v2-m3-Q4_K_M.gguf"
-        
+
         # Skip test if model file doesn't exist
         import os
+
         if not os.path.exists(model_path):
             self.skipTest(f"Model file not found: {model_path}")
 
@@ -396,7 +400,7 @@ class AutoGGUFRerankerFinisherCombinedFiltersTestSpec(unittest.TestCase):
         results = pipeline.fit(self.data).transform(self.data)
 
         collected_results = results.collect()
-        
+
         # Should have at most 2 results due to topK
         self.assertLessEqual(len(collected_results), 2)
 
@@ -407,7 +411,7 @@ class AutoGGUFRerankerFinisherCombinedFiltersTestSpec(unittest.TestCase):
                 # Check normalized scores are >= 0.1 threshold
                 score = float(annotation.metadata["relevance_score"])
                 self.assertTrue(0.1 <= score <= 1.0)
-                
+
                 # Check rank metadata exists
                 self.assertIn("rank", annotation.metadata)
                 rank = int(annotation.metadata["rank"])
