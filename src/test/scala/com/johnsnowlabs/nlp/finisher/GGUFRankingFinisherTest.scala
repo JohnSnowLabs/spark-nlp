@@ -16,30 +16,24 @@
 
 package com.johnsnowlabs.nlp.finisher
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, ContentProvider}
-import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.AnnotatorType
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
-import com.johnsnowlabs.util.Benchmark
-import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import org.apache.spark.sql.{DataFrame, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class GGUFRankingFinisherTest extends AnyFlatSpec {
-
-  import ResourceHelper.spark.implicits._
   // Mock data to simulate AutoGGUFReranker output
   def createMockRerankerOutput(): DataFrame = {
     val spark = ResourceHelper.spark
 
     val documents = Seq(
-      ("A man is eating food.", 0.85, "A man is eating pasta."),
-      ("A man is eating a piece of bread.", 0.72, "A man is eating pasta."),
-      ("The girl is carrying a baby.", 0.15, "A man is eating pasta."),
-      ("A man is riding a horse.", 0.28, "A man is eating pasta."),
-      ("A young girl is playing violin.", 0.05, "A man is eating pasta."))
+      ("A man is eating food.", 7.02, "A man is eating pasta."),
+      ("A man is eating a piece of bread.", 2.1, "A man is eating pasta."),
+      ("The girl is carrying a baby.", -10.78, "A man is eating pasta."),
+      ("A man is riding a horse.", -8.43, "A man is eating pasta."),
+      ("A young girl is playing violin.", -10.77, "A man is eating pasta."))
 
     val mockAnnotations = documents.map { case (text, score, query) =>
       Row(
@@ -114,9 +108,9 @@ class GGUFRankingFinisherTest extends AnyFlatSpec {
     val scores =
       rankedDocs.map(_.getAs[Map[String, String]]("metadata")("relevance_score").toDouble)
     assert(scores.length == 3)
-    assert(scores.contains(0.85))
-    assert(scores.contains(0.72))
-    assert(scores.contains(0.28))
+    assert(scores.contains(7.02))
+    assert(scores.contains(2.1))
+    assert(scores.contains(-8.43))
 
     // Check ranks are correct
     val ranks = rankedDocs.map(_.getAs[Map[String, String]]("metadata")("rank").toInt)
@@ -194,7 +188,7 @@ class GGUFRankingFinisherTest extends AnyFlatSpec {
 
     // Check that ranks are correct
     val ranks = rankedDocs.map(_.getAs[Map[String, String]]("metadata")("rank").toInt)
-    assert(ranks == (1 to rankedDocs.length).toSeq)
+    assert(ranks == (1 to rankedDocs.length))
   }
 
   "GGUFRankingFinisher" should "handle empty input" taggedAs FastTest in {

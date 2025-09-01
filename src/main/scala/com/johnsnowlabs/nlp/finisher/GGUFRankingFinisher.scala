@@ -15,18 +15,15 @@
  */
 package com.johnsnowlabs.nlp.finisher
 
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.nlp.util.FinisherUtil
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import org.apache.spark.ml.Transformer
-import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam, ParamMap, StringArrayParam}
+import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
-import org.apache.spark.sql.functions._
 import org.apache.spark.sql.expressions.{UserDefinedFunction, Window}
-import org.apache.spark.sql.types.{DoubleType, StringType, StructField, StructType}
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
-
-import scala.collection.mutable
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 /** Finisher for AutoGGUFReranker outputs that provides ranking capabilities including top-k
   * selection, sorting by relevance score, and score normalization.
@@ -57,7 +54,7 @@ import scala.collection.mutable
   *   .setOutputCol("document")
   *
   * val reranker = AutoGGUFReranker
-  *   .pretrained("bge-reranker-v2-m3-Q4_K_M")
+  *   .pretrained("bge_reranker_v2_m3-Q4_K_M")
   *   .setInputCols("document")
   *   .setOutputCol("reranked_documents")
   *   .setQuery("A man is eating pasta.")
@@ -273,9 +270,18 @@ case class GGUFRankingFinisher(override val uid: String)
     }
 
     // Filter by threshold and assign global ranks
-    val rankedDF = scaledDF
-      .filter($"scaled_score" >= getMinRelevanceScore)
-      .withColumn("global_rank", row_number().over(Window.orderBy($"scaled_score".desc)))
+    val filteredDF = scaledDF.filter($"scaled_score" >= getMinRelevanceScore)
+
+    // Order by score and add row numbers using zipWithIndex to avoid Window partitioning
+    val orderedDF = filteredDF.orderBy($"scaled_score".desc)
+    val rankedRDD = orderedDF.rdd.zipWithIndex().map { case (row, index) =>
+      Row.fromSeq(row.toSeq :+ (index + 1L))
+    }
+
+    // Create new schema with rank column
+    val schemaWithRank =
+      orderedDF.schema.add(StructField("global_rank", LongType, nullable = false))
+    val rankedDF = orderedDF.sparkSession.createDataFrame(rankedRDD, schemaWithRank)
 
     // Apply top-k limit if specified
     val limitedDF = if (getTopK > 0) {
