@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.1.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFReranker</title>
-          <meta name="description" content="Spark NLP 6.1.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFReranker" />
-          <meta name="keywords" content="Spark NLP 6.1.2 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFReranker" />
+          <title>Spark NLP 6.1.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFReranker</title>
+          <meta name="description" content="Spark NLP 6.1.3 ScalaDoc - com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFReranker" />
+          <meta name="keywords" content="Spark NLP 6.1.3 ScalaDoc com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFReranker" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.1.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.1.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -432,7 +432,7 @@ for more information.</p><p>If the parameters are not set, the annotator will de
 the model.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> reranker = AutoGGUFReranker.pretrained()
   .setInputCols(<span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"reranked_documents"</span>)
-  .setQuery(<span class="lit">"A man is eating pasta."</span>)</pre><p>The default model is <code>&quot;bge-reranker-v2-m3-Q4_K_M&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://sparknlp.org/models" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
+  .setQuery(<span class="lit">"A man is eating pasta."</span>)</pre><p>The default model is <code>&quot;bge_reranker_v2_m3_Q4_K_M&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the <a href="https://sparknlp.org/models" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFRerankerTest.scala" target="_blank">AutoGGUFRerankerTest</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama.cpp_in_Spark_NLP_AutoGGUFReranker.ipynb" target="_blank">example notebook</a>.</p><h4>Note</h4><p>This annotator is designed for reranking tasks and requires setting a query using <code>setQuery</code>.
@@ -449,7 +449,7 @@ according to your hardware to avoid out-of-memory errors.</p><h4>Example</h4><pr
   .setOutputCol(<span class="lit">"document"</span>)
 
 <span class="kw">val</span> reranker = AutoGGUFReranker
-  .pretrained(<span class="lit">"bge-reranker-v2-m3-Q4_K_M"</span>)
+  .pretrained()
   .setInputCols(<span class="lit">"document"</span>)
   .setOutputCol(<span class="lit">"reranked_documents"</span>)
   .setBatchSize(<span class="num">4</span>)
