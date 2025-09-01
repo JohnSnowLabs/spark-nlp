@@ -765,6 +765,16 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="#nerdlgraphchecker">NerDLGraphChecker</a></td>
+        <td>Checks whether a suitable NerDL graph is available for the given training dataset, before any</td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td>computations/training is done.</td>
+        <td>Opensource</td>
+        <td> </td>
+      </tr>
+      <tr>
         <td><a href="#neroverwriter">NerOverwriter</a></td>
         <td>Overwrites entities of specified strings.</td>
         <td>Opensource</td>
@@ -1551,7 +1561,7 @@ the model.</p>
   <span class="o">.</span><span class="py">setQuery</span><span class="o">(</span><span class="s">"A man is eating pasta."</span><span class="o">)</span>
 </code></pre></div>  </div>
 
-  <p>The default model is <code class="language-plaintext highlighter-rouge">"bge-reranker-v2-m3-Q4_K_M"</code>, if no name is provided.</p>
+  <p>The default model is <code class="language-plaintext highlighter-rouge">"bge_reranker_v2_m3_Q4_K_M"</code>, if no name is provided.</p>
 
   <p>For available pretrained models please see the <a href="https://sparknlp.org/models">Models Hub</a>.</p>
 
@@ -1634,7 +1644,7 @@ according to your hardware to avoid out-of-memory errors.</p>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">reranker</span> <span class="k">=</span> <span class="nc">AutoGGUFReranker</span>
-  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bge-reranker-v2-m3-Q4_K_M"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"reranked_documents"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setBatchSize</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
@@ -5164,6 +5174,196 @@ Pipelines. The Finisher outputs annotation(s) values into <code class="language-
 
 </div>
 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    # GGUFRankingFinisher
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">GGUFRankingFinisher</code> is a Spark NLP finisher designed to post-process the output of <code class="language-plaintext highlighter-rouge">AutoGGUFReranker</code>. It provides advanced ranking capabilities including top-k selection, score-based filtering, and normalization.</p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li><strong>Top-K Selection</strong>: Select only the top k documents by relevance score</li>
+  <li><strong>Score Thresholding</strong>: Filter documents by minimum relevance score</li>
+  <li><strong>Min-Max Scaling</strong>: Normalize relevance scores to 0-1 range</li>
+  <li><strong>Sorting</strong>: Automatically sorts documents by relevance score in descending order</li>
+  <li><strong>Ranking</strong>: Adds rank metadata to each document</li>
+</ul>
+
+<h2 id="parameters">Parameters</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">inputCols</code></td>
+      <td><code class="language-plaintext highlighter-rouge">Array[String]</code></td>
+      <td>Name of input annotation columns containing reranked documents</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">outputCol</code></td>
+      <td><code class="language-plaintext highlighter-rouge">String</code></td>
+      <td>Name of output annotation column containing ranked documents</td>
+      <td><code class="language-plaintext highlighter-rouge">"ranked_documents"</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">topK</code></td>
+      <td><code class="language-plaintext highlighter-rouge">Int</code></td>
+      <td>Maximum number of top documents to return (-1 for no limit)</td>
+      <td><code class="language-plaintext highlighter-rouge">-1</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">minRelevanceScore</code></td>
+      <td><code class="language-plaintext highlighter-rouge">Double</code></td>
+      <td>Minimum relevance score threshold</td>
+      <td><code class="language-plaintext highlighter-rouge">Double.MinValue</code></td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">minMaxScaling</code></td>
+      <td><code class="language-plaintext highlighter-rouge">Boolean</code></td>
+      <td>Whether to apply min-max scaling to normalize scores</td>
+      <td><code class="language-plaintext highlighter-rouge">false</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="usage">Usage</h2>
+
+<h3 id="basic-usage">Basic Usage</h3>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.finisher.GGUFRankingFinisher</span>
+
+<span class="k">val</span> <span class="nv">finisher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">GGUFRankingFinisher</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"reranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ranked_documents"</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h3 id="top-k-selection">Top-K Selection</h3>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">finisher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">GGUFRankingFinisher</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"reranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTopK</span><span class="o">(</span><span class="mi">5</span><span class="o">)</span> <span class="c1">// Get top 5 most relevant documents</span>
+</code></pre></div></div>
+
+<h3 id="score-thresholding">Score Thresholding</h3>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">finisher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">GGUFRankingFinisher</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"reranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMinRelevanceScore</span><span class="o">(</span><span class="mf">0.3</span><span class="o">)</span> <span class="c1">// Only documents with score &gt;= 0.3</span>
+</code></pre></div></div>
+
+<h3 id="min-max-scaling">Min-Max Scaling</h3>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">finisher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">GGUFRankingFinisher</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"reranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMinMaxScaling</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="c1">// Normalize scores to 0-1 range</span>
+</code></pre></div></div>
+
+<h3 id="combined-usage">Combined Usage</h3>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="nv">finisher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">GGUFRankingFinisher</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"reranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTopK</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMinRelevanceScore</span><span class="o">(</span><span class="mf">0.2</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMinMaxScaling</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+</code></pre></div></div>
+
+<h2 id="complete-pipeline-example">Complete Pipeline Example</h2>
+
+<div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFReranker</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.finisher.GGUFRankingFinisher</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="c1">// Document assembler</span>
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="c1">// Reranker</span>
+<span class="k">val</span> <span class="nv">reranker</span> <span class="k">=</span> <span class="nc">AutoGGUFReranker</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"reranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setQuery</span><span class="o">(</span><span class="s">"A man is eating pasta."</span><span class="o">)</span>
+
+<span class="c1">// Finisher</span>
+<span class="k">val</span> <span class="nv">finisher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">GGUFRankingFinisher</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"reranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ranked_documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTopK</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMinMaxScaling</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="c1">// Pipeline</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">reranker</span><span class="o">,</span> <span class="n">finisher</span><span class="o">))</span>
+</code></pre></div></div>
+
+<h2 id="python-usage">Python Usage</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.finisher</span> <span class="kn">import</span> <span class="n">GGUFRankingFinisher</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">AutoGGUFReranker</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">DocumentAssembler</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="c1"># Create finisher
+</span><span class="n">finisher</span> <span class="o">=</span> <span class="n">GGUFRankingFinisher</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"reranked_documents"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ranked_documents"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setTopK</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMinMaxScaling</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Create pipeline
+</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">reranker</span><span class="p">,</span> <span class="n">finisher</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h2 id="output-schema">Output Schema</h2>
+
+<p>The finisher produces a DataFrame with the output annotation column containing ranked documents. Each document annotation contains:</p>
+
+<ul>
+  <li><strong>result</strong>: The document text</li>
+  <li><strong>metadata</strong>: Including <code class="language-plaintext highlighter-rouge">relevance_score</code>, <code class="language-plaintext highlighter-rouge">rank</code>, and original <code class="language-plaintext highlighter-rouge">query</code> information</li>
+  <li><strong>begin/end</strong>: Character positions in the original text</li>
+  <li><strong>annotatorType</strong>: Set to <code class="language-plaintext highlighter-rouge">DOCUMENT</code></li>
+</ul>
+
+<h2 id="processing-order">Processing Order</h2>
+
+<p>The finisher applies operations in the following order:</p>
+
+<ol>
+  <li><strong>Extract</strong> documents and metadata from annotations across all rows</li>
+  <li><strong>Scale</strong> relevance scores (if min-max scaling is enabled)</li>
+  <li><strong>Filter</strong> by minimum relevance score threshold</li>
+  <li><strong>Sort</strong> by relevance score (descending)</li>
+  <li><strong>Limit</strong> to top-k results globally (if specified)</li>
+  <li><strong>Add rank</strong> metadata to each document</li>
+  <li><strong>Return</strong> filtered rows with ranked annotations</li>
+</ol>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+  <li>The finisher expects input from <code class="language-plaintext highlighter-rouge">AutoGGUFReranker</code> or compatible annotators that produce documents with <code class="language-plaintext highlighter-rouge">relevance_score</code> metadata</li>
+  <li>Min-max scaling is applied before threshold filtering, so thresholds should be set according to the scaled range (0.0-1.0)</li>
+  <li>Results are always sorted by relevance score in descending order</li>
+  <li>Top-k filtering is applied globally across all input rows, not per row</li>
+  <li>The finisher adds <code class="language-plaintext highlighter-rouge">rank</code> metadata to each document indicating its position in the ranking</li>
+  <li>Rows with empty annotation arrays are filtered out from the result</li>
+</ul>
+
 <div class="h3-box tabs-python-scala-box">
 
   <h2 id="graphextraction">GraphExtraction</h2>
@@ -7069,6 +7269,116 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
     </table>
 
   </div>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="nerdlgraphchecker">NerDLGraphChecker</h2>
+
+  <p>Checks whether a suitable NerDL graph is available for the given training dataset, before any
+computations/training is done. This annotator is useful for custom training cases, where
+specialized graphs might not be available and we want to check before embeddings are evaluated.</p>
+
+  <p>Important: This annotator should be used or positioned before any embedding or NerDLApproach
+annotators in the pipeline and will process the whole dataset to extract the required graph parameters.</p>
+
+  <p>This annotator requires a dataset with at least two columns: one with tokens and one with the
+labels. In addition, it requires the used embedding annotator in the pipeline to extract the
+suitable embedding dimension.</p>
+
+  <p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master//home/ducha/Workspace/scala/spark-nlp-feature/examples/python/training/english/dl-ner/ner_dl_graph_checker.ipynb">example notebook</a>
+and the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLGraphCheckerTestSpec.scala">NerDLGraphCheckerTestSpec</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">NONE</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphChecker">NerDLGraphChecker</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLGraphChecker">NerDLGraphChecker</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLGraphChecker.scala">NerDLGraphChecker</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span><span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="n">conll</span> <span class="o">=</span> <span class="n">CoNLL</span><span class="p">()</span>
+<span class="n">trainingData</span> <span class="o">=</span> <span class="n">conll</span><span class="p">.</span><span class="n">readDataset</span><span class="p">(</span><span class="n">spark</span><span class="p">,</span> <span class="s">"src/test/resources/conll2003/eng.train"</span><span class="p">)</span>
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertEmbeddings</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+<span class="n">nerDLGraphChecker</span> <span class="o">=</span> <span class="n">NerDLGraphChecker</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setEmbeddingsModel</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+<span class="n">nerTagger</span> <span class="o">=</span> <span class="n">NerDLApproach</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setLabelColumn</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMaxEpochs</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setRandomSeed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setVerbose</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">nerDLGraphChecker</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">nerTagger</span><span class="p">])</span>
+<span class="c1"># will throw an exception if no suitable graph found
+</span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trainingData</span><span class="p">)</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.training.CoNLL</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="c1">// This CoNLL dataset already includes a sentence, token and label</span>
+<span class="c1">// column with their respective annotator types. If a custom dataset is used,</span>
+<span class="c1">// these need to be defined with for example:</span>
+<span class="k">val</span> <span class="nv">conll</span> <span class="k">=</span> <span class="nc">CoNLL</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">trainingData</span> <span class="k">=</span> <span class="nv">conll</span><span class="o">.</span><span class="py">readDataset</span><span class="o">(</span><span class="n">spark</span><span class="o">,</span> <span class="s">"src/test/resources/conll2003/eng.train"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nc">BertEmbeddings</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="c1">// Requires the data for NerDLApproach graphs: text, tokens, labels and the embedding model</span>
+<span class="k">val</span> <span class="nv">nerDLGraphChecker</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerDLGraphChecker</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setLabelColumn</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setEmbeddingsModel</span><span class="o">(</span><span class="n">embeddings</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">nerTagger</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">NerDLApproach</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setLabelColumn</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMaxEpochs</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setRandomSeed</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setVerbose</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span>
+  <span class="nc">Array</span><span class="o">(</span><span class="n">nerDLGraphChecker</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">nerTagger</span><span class="o">))</span>
+
+<span class="c1">// Will throw an exception if no suitable graph is found</span>
+<span class="k">val</span> <span class="nv">pipelineModel</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">trainingData</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
 
 </div>
 
