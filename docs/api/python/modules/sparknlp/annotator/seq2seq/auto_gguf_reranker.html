@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.seq2seq.auto_gguf_reranker &#8212; Spark NLP 6.1.2 documentation</title>
+    <title>sparknlp.annotator.seq2seq.auto_gguf_reranker &#8212; Spark NLP 6.1.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=d2ba134b"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=76c29752"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.2 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.2 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -413,7 +413,7 @@ document.write(`
 <span class="sd">    ...     .setOutputCol(&quot;reranked_documents&quot;) \\</span>
 <span class="sd">    ...     .setQuery(&quot;A man is eating pasta.&quot;)</span>
 
-<span class="sd">    The default model is ``&quot;bge-reranker-v2-m3-Q4_K_M&quot;``, if no name is provided.</span>
+<span class="sd">    The default model is ``&quot;bge_reranker_v2_m3_Q4_K_M&quot;``, if no name is provided.</span>
 
 <span class="sd">    For extended examples of usage, see the</span>
 <span class="sd">    `AutoGGUFRerankerTest &lt;https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/seq2seq/AutoGGUFRerankerTest.scala&gt;`__</span>
@@ -588,7 +588,7 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; document = DocumentAssembler() \\</span>
 <span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
-<span class="sd">    &gt;&gt;&gt; reranker = AutoGGUFReranker.pretrained(&quot;bge-reranker-v2-m3-Q4_K_M&quot;) \\</span>
+<span class="sd">    &gt;&gt;&gt; reranker = AutoGGUFReranker.pretrained() \\</span>
 <span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
 <span class="sd">    ...     .setOutputCol(&quot;reranked_documents&quot;) \\</span>
 <span class="sd">    ...     .setBatchSize(4) \\</span>
@@ -673,13 +673,13 @@ document.write(`
         <span class="k">return</span> <span class="n">AutoGGUFReranker</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="AutoGGUFReranker.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_reranker/index.html#sparknlp.annotator.seq2seq.auto_gguf_reranker.AutoGGUFReranker.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bge-reranker-v2-m3-Q4_K_M&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="AutoGGUFReranker.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/auto_gguf_reranker/index.html#sparknlp.annotator.seq2seq.auto_gguf_reranker.AutoGGUFReranker.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;bge_reranker_v2_m3_Q4_K_M&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str, optional</span>
-<span class="sd">            Name of the pretrained model, by default &quot;bge-reranker-v2-m3-Q4_K_M&quot;</span>
+<span class="sd">            Name of the pretrained model, by default &quot;bge_reranker_v2_m3_Q4_K_M&quot;</span>
 <span class="sd">        lang : str, optional</span>
 <span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
 <span class="sd">        remote_loc : str, optional</span>
