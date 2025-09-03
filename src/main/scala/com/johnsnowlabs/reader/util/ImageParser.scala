@@ -24,9 +24,9 @@ import java.net.{HttpURLConnection, URL}
 import java.util.Base64
 import javax.imageio.ImageIO
 import scala.annotation.tailrec
-import scala.util.Using
+import scala.util.{Try, Using}
 
-object ImageHelper {
+object ImageParser {
 
   /** Decodes a base64-encoded string into a BufferedImage.
     *
@@ -36,12 +36,11 @@ object ImageHelper {
     *   Option[BufferedImage] if the bytes can be decoded by ImageIO.
     */
   def decodeBase64(base64Str: String): Option[BufferedImage] = {
-    val cleaned = base64Str.replaceAll("\\s", "") // remove whitespace/newlines
+    val cleaned = base64Str.replaceAll("\\s", "")
     val bytes = Base64.getDecoder.decode(cleaned)
     if (bytes == null || bytes.isEmpty) return None
     Using.resource(new ByteArrayInputStream(bytes)) { in =>
-      // ImageIO.read returns null when format is unsupported
-      Option(ImageIO.read(in))
+      Try(ImageIO.read(in)).toOption // catch exception → None
     }
   }
 

@@ -18,9 +18,13 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.AnnotatorType.IMAGE
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.{AnnotationImage, HasOutputAnnotationCol, HasOutputAnnotatorType}
-import com.johnsnowlabs.partition.util.PartitionHelper.{datasetWithTextFile, isStringContent}
+import com.johnsnowlabs.partition.util.PartitionHelper.{
+  datasetWithBinaryFile,
+  datasetWithTextFile,
+  isStringContent
+}
 import com.johnsnowlabs.partition.{HasHTMLReaderProperties, HasReaderProperties, Partition}
-import com.johnsnowlabs.reader.util.ImageHelper
+import com.johnsnowlabs.reader.util.ImageParser
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
@@ -39,59 +43,59 @@ import org.apache.spark.sql.types.{
 import java.io.File
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
-
-/** The Reader2Image annotator allows you to use the reading files with images more smoothly within existing
- * Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Image can be used for
- * extracting structured image content from various document types using Spark NLP readers. It supports
- * reading from many files types and returns parsed output as a structured Spark DataFrame.
- *
- * Supported formats include HTML and Markdown
- *
- * ==Example==
- * {{{
- * import com.johnsnowlabs.reader.Reader2Image
- * import com. johnsnowlabs.nlp.base.DocumentAssembler
- * import org.apache.spark.ml.Pipeline
- *
- * val reader2Image = new Reader2Image()
- *   .setContentType("text/html")
- *   .setContentPath("./example-images.html")
- *   .setOutputCol("image")
- *
- * val pipeline = new Pipeline()
- *   .setStages(Array(reader2Image))
- *
- * val pipelineModel = pipeline.fit(emptyDataSet)
- * val resultDf = pipelineModel.transform(emptyDataSet)
- *
- * resultDf.show()
- * +-------------------+--------------------+
- * |           fileName|               image|
- * +-------------------+--------------------+
- * |example-images.html|[{image, example-...|
- * |example-images.html|[{image, example-...|
- * +-------------------+--------------------+
- *
- * resultDf.printSchema()
- *
- * root
- *  |-- fileName: string (nullable = true)
- *  |-- image: array (nullable = false)
- *  |    |-- element: struct (containsNull = true)
- *  |    |    |-- annotatorType: string (nullable = true)
- *  |    |    |-- origin: string (nullable = true)
- *  |    |    |-- height: integer (nullable = false)
- *  |    |    |-- width: integer (nullable = false)
- *  |    |    |-- nChannels: integer (nullable = false)
- *  |    |    |-- mode: integer (nullable = false)
- *  |    |    |-- result: binary (nullable = true)
- *  |    |    |-- metadata: map (nullable = true)
- *  |    |    |    |-- key: string
- *  |    |    |    |-- value: string (valueContainsNull = true)
- *  |    |    |-- text: string (nullable = true)
- *
- * }}}
- */
+/** The Reader2Image annotator allows you to use the reading files with images more smoothly
+  * within existing Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Image
+  * can be used for extracting structured image content from various document types using Spark
+  * NLP readers. It supports reading from many files types and returns parsed output as a
+  * structured Spark DataFrame.
+  *
+  * Supported formats include HTML and Markdown
+  *
+  * ==Example==
+  * {{{
+  * import com.johnsnowlabs.reader.Reader2Image
+  * import com. johnsnowlabs.nlp.base.DocumentAssembler
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val reader2Image = new Reader2Image()
+  *   .setContentType("text/html")
+  *   .setContentPath("./example-images.html")
+  *   .setOutputCol("image")
+  *
+  * val pipeline = new Pipeline()
+  *   .setStages(Array(reader2Image))
+  *
+  * val pipelineModel = pipeline.fit(emptyDataSet)
+  * val resultDf = pipelineModel.transform(emptyDataSet)
+  *
+  * resultDf.show()
+  * +-------------------+--------------------+
+  * |           fileName|               image|
+  * +-------------------+--------------------+
+  * |example-images.html|[{image, example-...|
+  * |example-images.html|[{image, example-...|
+  * +-------------------+--------------------+
+  *
+  * resultDf.printSchema()
+  *
+  * root
+  *  |-- fileName: string (nullable = true)
+  *  |-- image: array (nullable = false)
+  *  |    |-- element: struct (containsNull = true)
+  *  |    |    |-- annotatorType: string (nullable = true)
+  *  |    |    |-- origin: string (nullable = true)
+  *  |    |    |-- height: integer (nullable = false)
+  *  |    |    |-- width: integer (nullable = false)
+  *  |    |    |-- nChannels: integer (nullable = false)
+  *  |    |    |-- mode: integer (nullable = false)
+  *  |    |    |-- result: binary (nullable = true)
+  *  |    |    |-- metadata: map (nullable = true)
+  *  |    |    |    |-- key: string
+  *  |    |    |    |-- value: string (valueContainsNull = true)
+  *  |    |    |-- text: string (nullable = true)
+  *
+  * }}}
+  */
 class Reader2Image(override val uid: String)
     extends Transformer
     with DefaultParamsWritable
@@ -115,13 +119,13 @@ class Reader2Image(override val uid: String)
     val structuredDf = if ($(contentType).trim.isEmpty) {
       partitionMixedContent(dataset, $(contentPath))
     } else {
-      partitionContent(partition, dataset)
+      partitionContent(partition, $(contentPath), isStringContent($(contentType)), dataset)
     }
-
     if (!structuredDf.isEmpty) {
-      val annotatedDf = structuredDf.withColumn(
-        getOutputCol,
-        wrapColumnMetadata(partitionAnnotation(col(partition.getOutputColumn), col("path"))))
+      val annotatedDf = structuredDf
+        .withColumn(
+          getOutputCol,
+          wrapColumnMetadata(partitionAnnotation(col(partition.getOutputColumn), col("path"))))
         .select("fileName", getOutputCol)
 
       afterAnnotate(annotatedDf)
@@ -130,16 +134,25 @@ class Reader2Image(override val uid: String)
     }
   }
 
-  private def partitionContent(partition: Partition, dataset: Dataset[_]): DataFrame = {
-    if (isStringContent($(contentType))) {
+  private def partitionContent(
+      partition: Partition,
+      contentPath: String,
+      isText: Boolean,
+      dataset: Dataset[_]): DataFrame = {
+    if (isText) {
       val partitionUDF =
         udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
 
-      datasetWithTextFile(dataset.sparkSession, $(contentPath))
+      datasetWithTextFile(dataset.sparkSession, contentPath)
         .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
         .withColumn("fileName", getFileName(col("path")))
     } else {
-      dataset.toDF()
+      val binaryContentDF = datasetWithBinaryFile(dataset.sparkSession, contentPath)
+      val partitionUDF =
+        udf((input: Array[Byte]) => partition.partitionBytesContent(input))
+      binaryContentDF
+        .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
+        .withColumn("fileName", getFileName(col("path")))
     }
   }
 
@@ -154,7 +167,7 @@ class Reader2Image(override val uid: String)
       .collect { case (Some(ext), files) => ext -> files }
 
     val mixedDfs = grouped.flatMap { case (ext, files) =>
-      val (contentType, _) = supportedTypes(ext)
+      val (contentType, isText) = supportedTypes(ext)
       val partitionParams = Map(
         "contentType" -> contentType,
         "inferTableStructure" -> $(inferTableStructure).toString,
@@ -163,32 +176,16 @@ class Reader2Image(override val uid: String)
       val filePaths = files.map(_.getAbsolutePath)
 
       if (filePaths.nonEmpty) {
-        val textDfList = files.map { file =>
-          val partitionUDF =
-            udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
-
-          val textDf = datasetWithTextFile(dataset.sparkSession, file.getAbsolutePath)
-            .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
-            .withColumn("fileName", getFileName(col("path")))
-
-          textDf
-            .withColumnRenamed(partition.getOutputColumn, "partition")
-            .withColumn("fileName", lit(file.getName))
-            .drop("content")
+        val dfList = files.map { file =>
+          partitionContent(partition, file.getAbsolutePath, isText, dataset)
         }
-        Some(textDfList.reduce(_.unionByName(_)))
+        Some(dfList.reduce(_.unionByName(_)))
       } else None
 
     }.toSeq
 
     if (mixedDfs.isEmpty) {
-      val schema = StructType(
-        Seq(
-          StructField("partition", StringType, nullable = true),
-          StructField("fileName", StringType, nullable = true)))
-      val emptyRDD = dataset.sparkSession.sparkContext.emptyRDD[Row]
-      val emptyDF = dataset.sparkSession.createDataFrame(emptyRDD, schema)
-      emptyDF
+      buildEmptyDataFrame(dataset)
     } else {
       mixedDfs.reduce(_.unionByName(_))
     }
@@ -202,9 +199,20 @@ class Reader2Image(override val uid: String)
   private val supportedTypes: Map[String, (String, Boolean)] = Map(
     "html" -> ("text/html", true),
     "htm" -> ("text/html", true),
-    "md" -> ("text/markdown", true))
+    "md" -> ("text/markdown", true),
+    "eml" -> ("message/rfc822", false),
+    "msg" -> ("message/rfc822", false))
 
-  def partitionAnnotation: UserDefinedFunction = {
+  private def buildEmptyDataFrame(dataset: Dataset[_]): DataFrame = {
+    val schema = StructType(
+      Seq(
+        StructField("partition", StringType, nullable = true),
+        StructField("fileName", StringType, nullable = true)))
+    val emptyRDD = dataset.sparkSession.sparkContext.emptyRDD[Row]
+    dataset.sparkSession.createDataFrame(emptyRDD, schema)
+  }
+
+  private def partitionAnnotation: UserDefinedFunction = {
     udf((partitions: Seq[Row], path: String) =>
       elementsAsIndividualAnnotations(partitions, path: String))
   }
@@ -219,7 +227,6 @@ class Reader2Image(override val uid: String)
       } else {
         None
       }
-
     }
   }
 
@@ -228,9 +235,9 @@ class Reader2Image(override val uid: String)
     val metadata = partition.getAs[Map[String, String]]("metadata")
     val encoding = metadata.getOrElse("encoding", "unknown")
     val decodedContent = if (encoding.contains("base64")) {
-      ImageHelper.decodeBase64(content)
+      ImageParser.decodeBase64(content)
     } else {
-      ImageHelper.fetchFromUrl(content)
+      ImageParser.fetchFromUrl(content)
     }
     val imageFields = ImageIOUtils.bufferedImageToImageFields(decodedContent, "test")
     if (imageFields.isDefined) {

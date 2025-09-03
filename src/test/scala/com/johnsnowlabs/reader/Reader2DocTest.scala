@@ -17,7 +17,7 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -322,10 +322,26 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
-    resultDf.show(truncate = false)
+
     val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
     annotationsResult.foreach { annotations =>
       assert(annotations.length == 1)
+    }
+  }
+
+  it should "ignore non-text data with images" taggedAs SlowTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("text/html")
+      .setContentPath(s"$htmlFilesDirectory/example-images.html")
+      .setOutputCol("document")
+      .setExcludeNonText(true)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
+
+    val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
+    annotationsResult.foreach { annotations =>
+      assert(annotations.head.metadata("elementType") != ElementType.IMAGE)
     }
   }
 

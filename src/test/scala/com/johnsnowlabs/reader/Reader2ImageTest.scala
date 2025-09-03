@@ -23,12 +23,15 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.lit
 import org.scalatest.flatspec.AnyFlatSpec
 
+import java.io.File
+
 class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
 
   val htmlFilesDirectory = "./src/test/resources/reader/html/"
   val mdDirectory = "src/test/resources/reader/md"
   val mixDirectory = "src/test/resources/reader/mix-files"
   val unsupportedFiles = "src/test/resources/reader/unsupported-files"
+  val emailDirectory = "src/test/resources/reader/email/"
 
   "Reader2Image" should "read different image source content from an HTML file" taggedAs SlowTest in {
     val sourceFile = "example-images.html"
@@ -41,8 +44,6 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
-    resultDf.show()
-    resultDf.printSchema()
     val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
 
     assert(annotationsResult.length == 2)
@@ -88,6 +89,7 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   it should "ignore files that are not supported inside a directory" taggedAs SlowTest in {
+    val supportedFiles = getSupportedFiles(mixDirectory)
     val reader2Image = new Reader2Image()
       .setContentPath(s"$mixDirectory")
       .setOutputCol("image")
@@ -98,7 +100,20 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
 
-    assert(resultDf.count() == 2)
+    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
+
+    assert(annotationsResult.length == supportedFiles.length)
+    annotationsResult.foreach { annotations =>
+      assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
+      assert(supportedFiles.contains(annotations.head.origin))
+      assert(annotations.head.result.nonEmpty)
+      assert(annotations.head.height > 0)
+      assert(annotations.head.width > 0)
+      assert(annotations.head.nChannels > 0)
+      assert(annotations.head.mode > 0)
+      assert(annotations.head.metadata.nonEmpty)
+    }
+
   }
 
   it should "output empty dataframe when all files in a directory are not unsupported" taggedAs FastTest in {
@@ -142,10 +157,63 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     assert(resultDf.isEmpty)
   }
 
-  it should "integrate with VLM models" taggedAs SlowTest in {
+  it should "work for email files with eml extension" taggedAs FastTest in {
+    val emailFile = "email-test-image.eml"
+    val emailPath = s"$emailDirectory/$emailFile"
+    val reader2Image = new Reader2Image()
+      .setContentPath(emailPath)
+      .setContentType("message/rfc822")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
+    assert(annotationsResult.length == 1)
+    annotationsResult.foreach { annotations =>
+      assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
+      assert(annotations.head.origin == emailFile)
+      assert(annotations.head.result.nonEmpty)
+      assert(annotations.head.height > 0)
+      assert(annotations.head.width > 0)
+      assert(annotations.head.nChannels > 0)
+      assert(annotations.head.mode > 0)
+      assert(annotations.head.metadata.nonEmpty)
+    }
+  }
+
+  it should "work for email files with msg extension" taggedAs FastTest in {
+    val emailFile = "email-test-image.msg"
+    val emailPath = s"$emailDirectory/$emailFile"
+    val reader2Image = new Reader2Image()
+      .setContentPath(emailPath)
+      .setContentType("message/rfc822")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
+
+    assert(annotationsResult.length == 1)
+    annotationsResult.foreach { annotations =>
+      assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
+      assert(annotations.head.origin == emailFile)
+      assert(annotations.head.result.nonEmpty)
+      assert(annotations.head.height > 0)
+      assert(annotations.head.width > 0)
+      assert(annotations.head.nChannels > 0)
+      assert(annotations.head.mode > 0)
+      assert(annotations.head.metadata.nonEmpty)
+    }
+  }
+
+  it should "integrate Email files with VLM models" taggedAs SlowTest in {
     val reader2Doc = new Reader2Image()
-      .setContentType("text/html")
-      .setContentPath(s"$htmlFilesDirectory/example-images.html")
+      .setContentPath(emailDirectory)
       .setOutputCol("image")
 
     val pipeline = new Pipeline().setStages(Array(reader2Doc))
@@ -155,15 +223,12 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
 
     val promptDf = imagesDf.withColumn(
       "text",
-      lit(
-        """<|im_start|>system
+      lit("""<|im_start|>system
           |You are a helpful assistant.<|im_end|>
           |<|im_start|>user
           |<|vision_start|><|image_pad|><|vision_end|>Describe this image.<|im_end|>
           |<|im_start|>assistant
-          |""".stripMargin
-      )
-    )
+          |""".stripMargin))
 
     val visualQAClassifier = Qwen2VLTransformer
       .pretrained()
@@ -176,6 +241,18 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     resultDf.select("image.origin", "answer.result").show(truncate = false)
 
     assert(!resultDf.isEmpty)
+  }
+
+  def getSupportedFiles(dirPath: String): Seq[String] = {
+    val dir = new File(dirPath)
+    if (dir.exists && dir.isDirectory) {
+      dir.listFiles
+        .filter(f =>
+          f.isFile && (f.getName.toLowerCase.endsWith(".html") || f.getName.toLowerCase.endsWith(
+            ".md")))
+        .toSeq
+        .map(_.getName)
+    } else Seq.empty
   }
 
 }

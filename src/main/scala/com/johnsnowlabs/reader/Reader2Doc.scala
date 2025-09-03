@@ -137,18 +137,20 @@ class Reader2Doc(override val uid: String)
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
     val structuredDf = if ($(contentType).trim.isEmpty) {
-      partitionMixedContent(dataset.sparkSession, $(contentPath))
+      partitionMixedContent(dataset, $(contentPath))
     } else {
-      partitionContent(partitionBuilder, dataset)
+      partitionContent(partitionBuilder, $(contentPath), isStringContent($(contentType)), dataset)
     }
     val annotatedDf = structuredDf
-      .withColumn(getOutputCol, wrapColumnMetadata(partitionToAnnotation(col("partition"))))
+      .withColumn(
+        getOutputCol,
+        wrapColumnMetadata(partitionToAnnotation(col("partition"), col("fileName"))))
       .select("fileName", getOutputCol)
 
     afterAnnotate(annotatedDf)
   }
 
-  private def partitionMixedContent(spark: SparkSession, dirPath: String): DataFrame = {
+  private def partitionMixedContent(dataset: Dataset[_], dirPath: String): DataFrame = {
     val allFiles = listAllFilesRecursively(new File(dirPath))
     val grouped = allFiles
       .filter(_.isFile)
@@ -167,41 +169,10 @@ class Reader2Doc(override val uid: String)
       val partition = new Partition(partitionParams.asJava)
       val filePaths = files.map(_.getAbsolutePath)
       if (filePaths.nonEmpty) {
-        if (isText) {
-          val textDfList = files.map { file =>
-            val resultDf = if (ext == "csv") {
-              partition.setOutputColumn("csv")
-              partition
-                .partition(file.getAbsolutePath)
-            } else {
-              val textDf = datasetWithTextFile(spark, file.getAbsolutePath)
-              val partitionUDF =
-                udf((text: String) =>
-                  partition.partitionStringContent(text, $(this.headers).asJava))
-              textDf
-                .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
-            }
-            resultDf
-              .withColumnRenamed(partition.getOutputColumn, "partition")
-              .withColumn("fileName", lit(file.getName))
-              .drop("content")
-          }
-          Some(textDfList.reduce(_.unionByName(_)))
-        } else {
-          val binaryDfList = files.map { file =>
-            val binDf = datasetWithBinaryFile(spark, file.getAbsolutePath)
-            val partitionUDF =
-              udf((bytes: Array[Byte]) => partition.partitionBytesContent(bytes))
-
-            val outCol = partition.getOutputColumn
-            binDf
-              .withColumn(outCol, partitionUDF(col("content")))
-              .withColumnRenamed(outCol, "partition")
-              .withColumn("fileName", lit(file.getName))
-              .drop("content")
-          }
-          Some(binaryDfList.reduce(_.unionByName(_)))
+        val dfList = files.map { file =>
+          partitionContent(partition, file.getAbsolutePath, isText, dataset)
         }
+        Some(dfList.reduce(_.unionByName(_)))
       } else None
     }.toSeq
 
@@ -259,29 +230,34 @@ class Reader2Doc(override val uid: String)
     new Partition(params.asJava)
   }
 
-  private def partitionContent(partition: Partition, dataset: Dataset[_]): DataFrame = {
-
-    if (isStringContent($(contentType))) {
+  private def partitionContent(
+      partition: Partition,
+      contentPath: String,
+      isText: Boolean,
+      dataset: Dataset[_]): DataFrame = {
+    if (isText) {
       val stringContentDF = if ($(contentType) == "text/csv") {
         partition.setOutputColumn("csv")
         partition
-          .partition($(contentPath))
+          .partition(contentPath)
           .withColumnRenamed(partition.getOutputColumn, "partition")
       } else {
         val partitionUDF =
           udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
-        datasetWithTextFile(dataset.sparkSession, $(contentPath))
+        datasetWithTextFile(dataset.sparkSession, contentPath)
           .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
       }
       stringContentDF
         .withColumn("fileName", getFileName(col("path")))
+        .drop("content")
     } else {
-      val binaryContentDF = datasetWithBinaryFile(dataset.sparkSession, $(contentPath))
+      val binaryContentDF = datasetWithBinaryFile(dataset.sparkSession, contentPath)
       val partitionUDF =
         udf((input: Array[Byte]) => partition.partitionBytesContent(input))
       binaryContentDF
         .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
         .withColumn("fileName", getFileName(col("path")))
+        .drop("content")
     }
   }
 
@@ -311,18 +287,20 @@ class Reader2Doc(override val uid: String)
     if (path != null) path.split("/").last else ""
   }
 
-  protected def partitionToAnnotation: UserDefinedFunction = udf { (partitions: Seq[Row]) =>
-    if (partitions == null) Nil
-    else if ($(outputAsDocument)) {
-      mergeElementsAsDocument(partitions)
-    } else {
-      elementsAsIndividualAnnotations(partitions)
-    }
+  protected def partitionToAnnotation: UserDefinedFunction = udf {
+    (partitions: Seq[Row], fileName: String) =>
+      if (partitions == null) Nil
+      else if ($(outputAsDocument)) {
+        mergeElementsAsDocument(partitions)
+      } else {
+        elementsAsIndividualAnnotations(partitions)
+      }
   }
 
   private def isTableElement(row: Row): Boolean = {
     val elementType = row.getAs[String]("elementType")
-    elementType != null && elementType.equalsIgnoreCase(ElementType.TABLE)
+    elementType != null && (elementType.equalsIgnoreCase(ElementType.TABLE) || elementType
+      .equalsIgnoreCase(ElementType.IMAGE))
   }
 
   private def mergeElementsAsDocument(partitions: Seq[Row]): Seq[Annotation] = {
