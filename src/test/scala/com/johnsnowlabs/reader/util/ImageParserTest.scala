@@ -17,13 +17,13 @@ package com.johnsnowlabs.reader.util
 
 import org.scalatest.flatspec.AnyFlatSpec
 
-class ImageHelperTest extends AnyFlatSpec {
+class ImageParserTest extends AnyFlatSpec {
 
   "ImageHelper" should "convert image to base64" in {
     val base64 =
       "iVBORw0KGgoAAAANSUhEUgAAAAUA\n  AAAFCAYAAACNbyblAAAAHElEQVQI12P4\n  //8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
 
-    val decodedImage = ImageHelper.decodeBase64(base64)
+    val decodedImage = ImageParser.decodeBase64(base64)
 
     assert(decodedImage.isDefined)
     assert(decodedImage.get.getHeight > 0)
@@ -35,7 +35,7 @@ class ImageHelperTest extends AnyFlatSpec {
     val url =
       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1024px-React-icon.svg.png"
 
-    val resultImage = ImageHelper.fetchFromUrl(url)
+    val resultImage = ImageParser.fetchFromUrl(url)
 
     assert(resultImage.isDefined)
     assert(resultImage.get.getHeight > 0)
