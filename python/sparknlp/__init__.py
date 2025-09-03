@@ -66,7 +66,7 @@ sys.modules['com.johnsnowlabs.ml.ai'] = annotator
 annotators = annotator
 embeddings = annotator
 
-__version__ = "6.1.3"
+__version__ = "6.1.2"
 
 
 def start(gpu=False,

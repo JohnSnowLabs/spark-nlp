@@ -17,8 +17,11 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithBinaryFile
+import com.johnsnowlabs.reader.util.EmailParser
 import jakarta.mail._
 import jakarta.mail.internet.MimeMessage
+import org.apache.poi.hsmf.MAPIMessage
+import org.apache.poi.hsmf.datatypes.AttachmentChunks
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
 
@@ -87,11 +90,22 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
     */
   def email(filePath: String): DataFrame = {
     if (ResourceHelper.validFile(filePath)) {
-      val emailDf = datasetWithBinaryFile(spark, filePath)
-        .withColumn(outputColumn, parseEmailUDF(col("content")))
+      val lower = filePath.toLowerCase
+      val baseDf = datasetWithBinaryFile(spark, filePath)
+
+      val emailDf =
+        if (lower.endsWith(".msg")) {
+          baseDf.withColumn(outputColumn, parseOutlookEmailUDF(col("content")))
+        } else {
+          baseDf.withColumn(outputColumn, parseEmailUDF(col("content")))
+        }
+
       if (storeContent) emailDf.select("path", outputColumn, "content")
       else emailDf.select("path", outputColumn)
-    } else throw new IllegalArgumentException(s"Invalid filePath: $filePath")
+
+    } else {
+      throw new IllegalArgumentException(s"Invalid filePath: $filePath")
+    }
   }
 
   private val parseEmailUDF = udf((data: Array[Byte]) => {
@@ -99,9 +113,18 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
     parseEmailFile(inputStream)
   })
 
+  private val parseOutlookEmailUDF = udf((data: Array[Byte]) => {
+    val inputStream = new ByteArrayInputStream(data)
+    parseMsgFile(inputStream)
+  })
+
   def emailToHTMLElement(content: Array[Byte]): Seq[HTMLElement] = {
     val inputStream = new ByteArrayInputStream(content)
-    parseEmailFile(inputStream)
+    if (EmailParser.isOutlookEmailFileType(content)) {
+      parseMsgFile(inputStream)
+    } else {
+      parseEmailFile(inputStream)
+    }
   }
 
   private def parseEmailFile(inputStream: InputStream): Array[HTMLElement] = {
@@ -110,12 +133,12 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
     val mimeMessage = new MimeMessage(session, inputStream)
 
     val subject = mimeMessage.getSubject
-    val recipientsMetadata = retrieveRecipients(mimeMessage)
+    val recipientsMetadata = EmailParser.retrieveRecipients(mimeMessage)
     elements += HTMLElement(ElementType.TITLE, content = subject, metadata = recipientsMetadata)
 
     // Recursive function to process each part based on its type
     def extractContentFromPart(part: Part): Unit = {
-      val partType = classifyMimeType(part)
+      val partType = EmailParser.classifyMimeType(part)
       partType match {
         case MimeType.TEXT_PLAIN =>
           if (part.getFileName != null && part.getFileName.nonEmpty) {
@@ -148,11 +171,30 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
           for (i <- 0 until nestedMultipart.getCount) {
             extractContentFromPart(nestedMultipart.getBodyPart(i))
           }
-        case MimeType.IMAGE | MimeType.APPLICATION =>
+        case MimeType.IMAGE =>
+          val inputStream = part.getInputStream
+          val bytes =
+            Stream.continually(inputStream.read).takeWhile(_ != -1).map(_.toByte).toArray
+          val base64Content = java.util.Base64.getEncoder.encodeToString(bytes)
+
+          // Build metadata similar to HTMLReader <img> parsing
+          val imgMetadata = mutable.Map[String, String]() ++ recipientsMetadata
+          imgMetadata("encoding") = "base64"
+          imgMetadata("fileName") = Option(part.getFileName).getOrElse("")
+          imgMetadata("contentType") = part.getContentType
+
+          // width/height usually not available in email headers, but we leave keys open
+          elements += HTMLElement(
+            ElementType.IMAGE,
+            content = base64Content,
+            metadata = imgMetadata)
+
+        case MimeType.APPLICATION =>
           elements += HTMLElement(
             ElementType.ATTACHMENT,
             content = part.getFileName,
             metadata = recipientsMetadata ++ Map("contentType" -> part.getContentType))
+
         case MimeType.UNKNOWN =>
           // Handle any other unknown part types as uncategorized
           elements += HTMLElement(
@@ -182,23 +224,6 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
     elements.toArray
   }
 
-  private def classifyMimeType(part: Part): String = {
-    if (part.isMimeType("text/plain")) {
-      MimeType.TEXT_PLAIN
-    } else if (part.isMimeType("text/html")) {
-      MimeType.TEXT_HTML
-    } else if (part.isMimeType("multipart/*")) {
-      MimeType.MULTIPART
-    } else if (part.isMimeType("image/*")) {
-      MimeType.IMAGE
-    } else if (part.isMimeType("application/*")) {
-      MimeType.APPLICATION
-    } else {
-      println(s"Unknown content type: ${part.getContentType}")
-      MimeType.UNKNOWN
-    }
-  }
-
   private def getJavaMailSession = {
     val props = new Properties()
     props.put("mail.store.protocol", "smtp")
@@ -206,14 +231,64 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
     session
   }
 
-  private def retrieveRecipients(mimeMessage: MimeMessage): mutable.Map[String, String] = {
-    val from = mimeMessage.getFrom.mkString(", ")
-    val to = mimeMessage.getRecipients(Message.RecipientType.TO).mkString(", ")
-    val ccRecipients = mimeMessage.getRecipients(Message.RecipientType.CC)
+  private def parseMsgFile(inputStream: InputStream): Array[HTMLElement] = {
+    val msg = new MAPIMessage(inputStream)
+    val elements = ArrayBuffer[HTMLElement]()
 
-    if (ccRecipients != null) {
-      mutable.Map("sent_from" -> from, "sent_to" -> to, "cc_to" -> ccRecipients.mkString(", "))
-    } else mutable.Map("sent_from" -> from, "sent_to" -> to)
+    val recipientsMetadata = mutable.Map[String, String](
+      "sent_from" -> Option(msg.getDisplayFrom).getOrElse(""),
+      "sent_to" -> Option(msg.getDisplayTo).getOrElse(""))
+
+    Option(msg.getSubject).foreach { subject =>
+      elements += HTMLElement(ElementType.TITLE, content = subject, metadata = recipientsMetadata)
+    }
+
+    val body = Option(msg.getHtmlBody).orElse(Option(msg.getTextBody))
+    body.foreach { b =>
+      val mimeType = if (msg.getHtmlBody != null) "text/html" else "text/plain"
+      elements += HTMLElement(
+        ElementType.NARRATIVE_TEXT,
+        content = b,
+        metadata = recipientsMetadata ++ Map("mimeType" -> mimeType))
+    }
+
+    val attachments = msg.getAttachmentFiles
+    if (attachments != null) {
+      attachments.foreach { att: AttachmentChunks =>
+        val name =
+          Option(att.getAttachFileName)
+            .map(_.toString)
+            .orElse(Option(att.getAttachLongFileName).map(_.toString))
+            .getOrElse("unnamed")
+
+        val data = att.getAttachData
+        if (data != null && data.getValue != null) {
+          val bytes = data.getValue
+          val base64Content = java.util.Base64.getEncoder.encodeToString(bytes)
+
+          val contentType =
+            Option(att.getAttachMimeTag).map(_.toString).getOrElse("application/octet-stream")
+
+          if (contentType.toLowerCase.startsWith("image/")) {
+            val imgMetadata = recipientsMetadata ++ Map(
+              "encoding" -> "base64",
+              "fileName" -> name,
+              "contentType" -> contentType)
+            elements += HTMLElement(
+              ElementType.IMAGE,
+              content = base64Content,
+              metadata = imgMetadata)
+          } else {
+            elements += HTMLElement(
+              ElementType.ATTACHMENT,
+              content = name,
+              metadata = recipientsMetadata ++ Map("contentType" -> contentType))
+          }
+        }
+      }
+    }
+
+    elements.toArray
   }
 
 }

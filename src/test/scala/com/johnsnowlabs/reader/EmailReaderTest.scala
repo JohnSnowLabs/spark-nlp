@@ -30,8 +30,6 @@ class EmailReaderTest extends AnyFlatSpec {
   "EmailReader" should "read a directory of eml files" taggedAs FastTest in {
     val emailReader = new EmailReader()
     val emailDf = emailReader.email(emailDirectory)
-    emailDf.select("email").show(truncate = false)
-    emailDf.printSchema()
 
     assert(!emailDf.select(col("email").getItem(0)).isEmpty)
     assert(!emailDf.columns.contains("content"))
@@ -41,7 +39,6 @@ class EmailReaderTest extends AnyFlatSpec {
     val emailFile = s"$emailDirectory/test-several-attachments.eml"
     val emailReader = new EmailReader()
     val emailDf = emailReader.email(emailFile)
-    emailDf.select("email").show()
 
     val attachmentCount = emailDf
       .select(explode($"email.elementType").as("elementType"))
@@ -51,16 +48,20 @@ class EmailReaderTest extends AnyFlatSpec {
       .select(explode($"email.elementType").as("elementType"))
       .filter($"elementType" === ElementType.TITLE)
       .count()
-
     val textCount = emailDf
       .select(explode($"email.elementType").as("elementType"))
       .filter($"elementType" === ElementType.NARRATIVE_TEXT)
       .count()
+    val imageCount = emailDf
+      .select(explode($"email.elementType").as("elementType"))
+      .filter($"elementType" === ElementType.IMAGE)
+      .count()
 
     assert(!emailDf.select(col("email").getItem(0)).isEmpty)
-    assert(attachmentCount == 3)
+    assert(attachmentCount == 2)
     assert(titleCount == 1)
     assert(textCount == 2)
+    assert(imageCount == 1)
     assert(!emailDf.columns.contains("content"))
   }
 
@@ -68,8 +69,6 @@ class EmailReaderTest extends AnyFlatSpec {
     val emailFile = s"$emailDirectory/email-text-attachments.eml"
     val emailReader = new EmailReader()
     val emailDf = emailReader.email(emailFile)
-    emailDf.select("email").show(false)
-    emailDf.printSchema()
 
     val attachmentCount = emailDf
       .select(explode($"email.elementType").as("elementType"))
@@ -96,8 +95,6 @@ class EmailReaderTest extends AnyFlatSpec {
     val emailFile = s"$emailDirectory/email-text-attachments.eml"
     val emailReader = new EmailReader(addAttachmentContent = true)
     val emailDf = emailReader.email(emailFile)
-    emailDf.select("email").show(false)
-    emailDf.printSchema()
 
     val attachmentCount = emailDf
       .select(explode($"email.elementType").as("elementType"))
@@ -123,10 +120,17 @@ class EmailReaderTest extends AnyFlatSpec {
   it should "store content" taggedAs FastTest in {
     val emailReader = new EmailReader(storeContent = true)
     val emailDf = emailReader.email(emailDirectory)
-    emailDf.show()
 
     assert(!emailDf.select(col("email").getItem(0)).isEmpty)
     assert(emailDf.columns.contains("content"))
+  }
+
+  it should "read a directory of msg files" taggedAs FastTest in {
+    val emailReader = new EmailReader()
+    val emailDf = emailReader.email(s"$emailDirectory/email-test-image.msg")
+
+    assert(!emailDf.select(col("email").getItem(0)).isEmpty)
+    assert(!emailDf.columns.contains("content"))
   }
 
 }

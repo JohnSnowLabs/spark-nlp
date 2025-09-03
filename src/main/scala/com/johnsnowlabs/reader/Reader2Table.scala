@@ -22,7 +22,7 @@ import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 /** The Reader2Table annotator allows you to use the reading files more smoothly within existing
-  * Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Doc can be used for
+  * Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Table can be used for
   * extracting structured content from various document types using Spark NLP readers. It supports
   * reading from many files types and returns parsed output as a structured Spark DataFrame.
   *

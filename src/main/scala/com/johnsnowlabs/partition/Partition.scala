@@ -15,10 +15,10 @@
  */
 package com.johnsnowlabs.partition
 
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.{HTMLElement, SparkNLPReader}
 import org.apache.spark.sql.DataFrame
 
-import java.net.URL
 import scala.collection.JavaConverters._
 import scala.util.Try
 
@@ -135,7 +135,8 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       headers: java.util.Map[String, String] = new java.util.HashMap()): DataFrame = {
     val sparkNLPReader = new SparkNLPReader(params, headers)
     sparkNLPReader.setOutputColumn(outputColumn)
-    if (isUrl(path) && (getContentType.isEmpty || getContentType.getOrElse("") == "text/html")) {
+    if (ResourceHelper.isHTTPProtocol(path) && (getContentType.isEmpty || getContentType
+        .getOrElse("") == "text/html")) {
       return sparkNLPReader.html(path)
     }
 
@@ -339,15 +340,6 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
 
   private def getFileExtension(path: String): String = {
     path.split("\\.").lastOption.map(_.toLowerCase).getOrElse("")
-  }
-
-  private def isUrl(path: String): Boolean = {
-    try {
-      val url = new URL(path)
-      url.getProtocol == "http" || url.getProtocol == "https"
-    } catch {
-      case _: Exception => false
-    }
   }
 
   private def getContentType: Option[String] = {
