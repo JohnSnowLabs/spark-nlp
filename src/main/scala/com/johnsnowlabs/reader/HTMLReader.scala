@@ -162,18 +162,24 @@ class HTMLReader(
   })
 
   private def startTraversalFromBody(document: Document): Array[HTMLElement] = {
-    val body = document.body()
-    val elements = extractElements(body)
-    val docTitle = document.title().trim
+    try {
+      val body = document.body()
+      val elements = extractElements(body)
+      val docTitle = document.title().trim
 
-    if (docTitle.nonEmpty && includeTitleTag) {
-      val titleElem = HTMLElement(
-        ElementType.TITLE,
-        content = docTitle,
-        metadata = mutable.Map.empty[String, String])
-      Array(titleElem) ++ elements
-    } else {
-      elements
+      if (docTitle.nonEmpty && includeTitleTag) {
+        val titleElem = HTMLElement(
+          ElementType.TITLE,
+          content = docTitle,
+          metadata = mutable.Map.empty[String, String])
+        Array(titleElem) ++ elements
+      } else {
+        elements
+      }
+    } catch {
+      case e: Exception =>
+        Array(
+          HTMLElement(ElementType.ERROR, s"Could not parse HTML: ${e.getMessage}", mutable.Map()))
     }
   }
 

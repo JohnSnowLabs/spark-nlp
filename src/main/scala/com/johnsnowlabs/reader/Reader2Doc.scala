@@ -16,12 +16,9 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, HasOutputAnnotationCol, HasOutputAnnotatorType}
-import com.johnsnowlabs.partition.util.PartitionHelper.{
-  datasetWithBinaryFile,
-  datasetWithTextFile,
-  isStringContent
-}
+import com.johnsnowlabs.partition.util.PartitionHelper.{datasetWithBinaryFile, datasetWithTextFile, isStringContent}
 import com.johnsnowlabs.partition._
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
@@ -74,13 +71,13 @@ class Reader2Doc(override val uid: String)
     with DefaultParamsWritable
     with HasOutputAnnotatorType
     with HasOutputAnnotationCol
-    with HasReaderProperties
     with HasEmailReaderProperties
     with HasExcelReaderProperties
     with HasHTMLReaderProperties
     with HasPowerPointProperties
     with HasTextReaderProperties
-    with HasXmlReaderProperties {
+    with HasXmlReaderProperties
+    with HasReaderContent {
 
   def this() = this(Identifiable.randomUID("Reader2Doc"))
 
@@ -137,7 +134,10 @@ class Reader2Doc(override val uid: String)
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
     val structuredDf = if ($(contentType).trim.isEmpty) {
-      partitionMixedContent(dataset, $(contentPath))
+      val partitionParams = Map(
+        "inferTableStructure" -> $(inferTableStructure).toString,
+        "outputFormat" -> $(outputFormat))
+      partitionMixedContent(dataset, $(contentPath), partitionParams)
     } else {
       partitionContent(partitionBuilder, $(contentPath), isStringContent($(contentType)), dataset)
     }
@@ -145,65 +145,9 @@ class Reader2Doc(override val uid: String)
       .withColumn(
         getOutputCol,
         wrapColumnMetadata(partitionToAnnotation(col("partition"), col("fileName"))))
-      .select("fileName", getOutputCol)
 
-    afterAnnotate(annotatedDf)
+    afterAnnotate(annotatedDf).select("fileName", getOutputCol, "exception")
   }
-
-  private def partitionMixedContent(dataset: Dataset[_], dirPath: String): DataFrame = {
-    val allFiles = listAllFilesRecursively(new File(dirPath))
-    val grouped = allFiles
-      .filter(_.isFile)
-      .groupBy { file =>
-        val ext = file.getName.split("\\.").lastOption.getOrElse("").toLowerCase
-        supportedTypes.get(ext).map(_ => ext)
-      }
-      .collect { case (Some(ext), files) => ext -> files }
-
-    val mixedDfs = grouped.flatMap { case (ext, files) =>
-      val (contentType, isText) = supportedTypes(ext)
-      val partitionParams = Map(
-        "contentType" -> contentType,
-        "inferTableStructure" -> $(inferTableStructure).toString,
-        "outputFormat" -> $(outputFormat))
-      val partition = new Partition(partitionParams.asJava)
-      val filePaths = files.map(_.getAbsolutePath)
-      if (filePaths.nonEmpty) {
-        val dfList = files.map { file =>
-          partitionContent(partition, file.getAbsolutePath, isText, dataset)
-        }
-        Some(dfList.reduce(_.unionByName(_)))
-      } else None
-    }.toSeq
-
-    if (mixedDfs.isEmpty)
-      throw new IllegalArgumentException("No supported files found in directory (or subdirs)")
-    else {
-      mixedDfs.reduce(_.unionByName(_))
-    }
-  }
-
-  private def listAllFilesRecursively(dir: File): Seq[File] = {
-    val these = Option(dir.listFiles).getOrElse(Array.empty)
-    these.filter(_.isFile) ++ these.filter(_.isDirectory).flatMap(listAllFilesRecursively)
-  }
-
-  private val supportedTypes: Map[String, (String, Boolean)] = Map(
-    "txt" -> ("text/plain", true),
-    "html" -> ("text/html", true),
-    "htm" -> ("text/html", true),
-    "md" -> ("text/markdown", true),
-    "xml" -> ("application/xml", true),
-    "csv" -> ("text/csv", true),
-    "pdf" -> ("application/pdf", false),
-    "doc" -> ("application/msword", false),
-    "docx" -> ("application/vnd.openxmlformats-officedocument.wordprocessingml.document", false),
-    "xls" -> ("application/vnd.ms-excel", false),
-    "xlsx" -> ("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", false),
-    "ppt" -> ("application/vnd.ms-powerpoint", false),
-    "pptx" -> ("application/vnd.openxmlformats-officedocument.presentationml.presentation", false),
-    "eml" -> ("message/rfc822", false),
-    "msg" -> ("message/rfc822", false))
 
   protected def partitionBuilder: Partition = {
     val params = Map(
@@ -230,37 +174,6 @@ class Reader2Doc(override val uid: String)
     new Partition(params.asJava)
   }
 
-  private def partitionContent(
-      partition: Partition,
-      contentPath: String,
-      isText: Boolean,
-      dataset: Dataset[_]): DataFrame = {
-    if (isText) {
-      val stringContentDF = if ($(contentType) == "text/csv") {
-        partition.setOutputColumn("csv")
-        partition
-          .partition(contentPath)
-          .withColumnRenamed(partition.getOutputColumn, "partition")
-      } else {
-        val partitionUDF =
-          udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
-        datasetWithTextFile(dataset.sparkSession, contentPath)
-          .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
-      }
-      stringContentDF
-        .withColumn("fileName", getFileName(col("path")))
-        .drop("content")
-    } else {
-      val binaryContentDF = datasetWithBinaryFile(dataset.sparkSession, contentPath)
-      val partitionUDF =
-        udf((input: Array[Byte]) => partition.partitionBytesContent(input))
-      binaryContentDF
-        .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
-        .withColumn("fileName", getFileName(col("path")))
-        .drop("content")
-    }
-  }
-
   private def afterAnnotate(dataset: DataFrame): DataFrame = {
     if ($(explodeDocs)) {
       dataset
@@ -281,10 +194,8 @@ class Reader2Doc(override val uid: String)
     require(
       $(outputFormat) == "plain-text",
       "Only 'plain-text' outputFormat is supported for this operation.")
-  }
-
-  private val getFileName = udf { path: String =>
-    if (path != null) path.split("/").last else ""
+    require(ResourceHelper.validFile($(contentPath)),
+    "contentPath must point to a valid file or directory")
   }
 
   protected def partitionToAnnotation: UserDefinedFunction = udf {

@@ -17,30 +17,19 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.AnnotatorType.IMAGE
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{AnnotationImage, HasOutputAnnotationCol, HasOutputAnnotatorType}
-import com.johnsnowlabs.partition.util.PartitionHelper.{
-  datasetWithBinaryFile,
-  datasetWithTextFile,
-  isStringContent
-}
+import com.johnsnowlabs.partition.util.PartitionHelper.{datasetWithBinaryFile, datasetWithTextFile, isStringContent}
 import com.johnsnowlabs.partition.{HasHTMLReaderProperties, HasReaderProperties, Partition}
-import com.johnsnowlabs.reader.util.ImageParser
+import com.johnsnowlabs.reader.util.{HasPdfProperties, ImageParser, ImagePromptTemplate}
 import org.apache.spark.ml.Transformer
-import org.apache.spark.ml.param.{BooleanParam, ParamMap}
+import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.{array, col, explode, lit, udf}
-import org.apache.spark.sql.{Column, DataFrame, Dataset, Row, SparkSession}
-import org.apache.spark.sql.types.{
-  ArrayType,
-  Metadata,
-  MetadataBuilder,
-  StringType,
-  StructField,
-  StructType
-}
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types._
+import org.apache.spark.sql.{Column, DataFrame, Dataset, Row}
 
-import java.io.File
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
 /** The Reader2Image annotator allows you to use the reading files with images more smoothly
@@ -102,7 +91,9 @@ class Reader2Image(override val uid: String)
     with HasOutputAnnotatorType
     with HasOutputAnnotationCol
     with HasReaderProperties
-    with HasHTMLReaderProperties {
+    with HasHTMLReaderProperties
+    with HasPdfProperties
+    with HasReaderContent {
 
   def this() = this(Identifiable.randomUID("Reader2Image"))
 
@@ -111,106 +102,136 @@ class Reader2Image(override val uid: String)
 
   def setExplodeDocs(value: Boolean): this.type = set(explodeDocs, value)
 
-  setDefault(contentType -> "", outputFormat -> "image", explodeDocs -> true)
+  val userMessage: Param[String] = new Param[String](this, "userMessage", "custom user message")
+
+  def setUserMessage(value: String): this.type = set(userMessage, value)
+
+  val promptTemplate: Param[String] =
+    new Param[String](this, "promptTemplate", "format of the output prompt")
+
+  def setPromptTemplate(value: String): this.type = set(promptTemplate, value)
+
+  val customPromptTemplate: Param[String] =
+    new Param[String](this, "customPromptTemplate", "custom prompt template for image models")
+
+  def setCustomPromptTemplate(value: String): this.type = set(promptTemplate, value)
+
+  setDefault(
+    contentType -> "",
+    outputFormat -> "image",
+    explodeDocs -> true,
+    userMessage -> "Describe this image",
+    promptTemplate -> "qwen2vl-chat",
+    readAsImage -> true,
+    customPromptTemplate -> "",
+    ignoreExceptions -> true)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
     val partition = partitionBuilder
     val structuredDf = if ($(contentType).trim.isEmpty) {
-      partitionMixedContent(dataset, $(contentPath))
+      val partitionParams =
+        Map("outputFormat" -> $(outputFormat), "readAsImage" -> $(readAsImage).toString)
+      partitionMixedContent(dataset, $(contentPath), partitionParams)
     } else {
       partitionContent(partition, $(contentPath), isStringContent($(contentType)), dataset)
     }
-    if (!structuredDf.isEmpty) {
+    val annotatedDf = if (!structuredDf.isEmpty) {
       val annotatedDf = structuredDf
         .withColumn(
           getOutputCol,
           wrapColumnMetadata(partitionAnnotation(col(partition.getOutputColumn), col("path"))))
-        .select("fileName", getOutputCol)
 
       afterAnnotate(annotatedDf)
     } else {
       structuredDf
     }
+    annotatedDf.select("fileName", getOutputCol, "exception")
   }
 
-  private def partitionContent(
+  override def partitionContent(
       partition: Partition,
       contentPath: String,
       isText: Boolean,
       dataset: Dataset[_]): DataFrame = {
-    if (isText) {
+
+    val ext = contentPath.split("\\.").lastOption.getOrElse("").toLowerCase
+    if (! $(ignoreExceptions) && !supportedTypes.contains(ext)) {
+      return buildErrorDataFrame(dataset, contentPath, ext)
+    }
+
+    if (Seq("png", "jpg", "jpeg", "bmp", "gif").contains(ext)) {
+      // Direct image files: bypass Partition, wrap as IMAGE
+      val binaryDf = datasetWithBinaryFile(dataset.sparkSession, contentPath)
+      val imageUDF = udf((bytes: Array[Byte]) => {
+        val metadata = Map("format" -> ext)
+        Seq(
+          HTMLElement(
+            elementType = ElementType.IMAGE,
+            content = "",
+            metadata = scala.collection.mutable.Map(metadata.toSeq: _*),
+            binaryContent = Some(bytes)))
+      })
+      binaryDf
+        .withColumn(partition.getOutputColumn, imageUDF(col("content")))
+        .withColumn("fileName", getFileName(col("path")))
+        .withColumn("exception", lit(null: String))
+        .drop("content")
+
+    } else if (isText) {
       val partitionUDF =
         udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
 
       datasetWithTextFile(dataset.sparkSession, contentPath)
         .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
         .withColumn("fileName", getFileName(col("path")))
+        .withColumn("exception", lit(null: String))
+        .drop("content")
+
     } else {
-      val binaryContentDF = datasetWithBinaryFile(dataset.sparkSession, contentPath)
       val partitionUDF =
         udf((input: Array[Byte]) => partition.partitionBytesContent(input))
-      binaryContentDF
+
+      import org.apache.spark.sql.functions._
+
+      val dfWithException = datasetWithBinaryFile(dataset.sparkSession, contentPath)
         .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
         .withColumn("fileName", getFileName(col("path")))
+        .withColumn(
+          "exception",
+          element_at(
+            org.apache.spark.sql.functions.transform(
+              filter(
+                col(partition.getOutputColumn),
+                x => x.getField("elementType") === lit("Error")),
+              x => x.getField("content")),
+            1 // Spark arrays are 1-based
+          ))
+        .drop("content")
+
+      dfWithException
     }
+
   }
 
-  private def partitionMixedContent(dataset: Dataset[_], dirPath: String): DataFrame = {
-    val allFiles = listAllFilesRecursively(new File(dirPath))
-    val grouped = allFiles
-      .filter(_.isFile)
-      .groupBy { file =>
-        val ext = file.getName.split("\\.").lastOption.getOrElse("").toLowerCase
-        supportedTypes.get(ext).map(_ => ext)
-      }
-      .collect { case (Some(ext), files) => ext -> files }
-
-    val mixedDfs = grouped.flatMap { case (ext, files) =>
-      val (contentType, isText) = supportedTypes(ext)
-      val partitionParams = Map(
-        "contentType" -> contentType,
-        "inferTableStructure" -> $(inferTableStructure).toString,
-        "outputFormat" -> $(outputFormat))
-      val partition = new Partition(partitionParams.asJava)
-      val filePaths = files.map(_.getAbsolutePath)
-
-      if (filePaths.nonEmpty) {
-        val dfList = files.map { file =>
-          partitionContent(partition, file.getAbsolutePath, isText, dataset)
-        }
-        Some(dfList.reduce(_.unionByName(_)))
-      } else None
-
-    }.toSeq
-
-    if (mixedDfs.isEmpty) {
-      buildEmptyDataFrame(dataset)
-    } else {
-      mixedDfs.reduce(_.unionByName(_))
-    }
-  }
-
-  private def listAllFilesRecursively(dir: File): Seq[File] = {
-    val these = Option(dir.listFiles).getOrElse(Array.empty)
-    these.filter(_.isFile) ++ these.filter(_.isDirectory).flatMap(listAllFilesRecursively)
-  }
-
-  private val supportedTypes: Map[String, (String, Boolean)] = Map(
+  override val supportedTypes: Map[String, (String, Boolean)] = Map(
     "html" -> ("text/html", true),
     "htm" -> ("text/html", true),
     "md" -> ("text/markdown", true),
     "eml" -> ("message/rfc822", false),
-    "msg" -> ("message/rfc822", false))
-
-  private def buildEmptyDataFrame(dataset: Dataset[_]): DataFrame = {
-    val schema = StructType(
-      Seq(
-        StructField("partition", StringType, nullable = true),
-        StructField("fileName", StringType, nullable = true)))
-    val emptyRDD = dataset.sparkSession.sparkContext.emptyRDD[Row]
-    dataset.sparkSession.createDataFrame(emptyRDD, schema)
-  }
+    "msg" -> ("message/rfc822", false),
+    "docx" -> ("application/msword", false),
+    "doc" -> ("application/msword", false),
+    "ppt" -> ("application/vnd.ms-powerpoint", false),
+    "pptx" -> ("application/vnd.ms-powerpoint", false),
+    "xlsx" -> ("application/vnd.ms-excel", false),
+    "xls" -> ("application/vnd.ms-excel", false),
+    "png" -> ("image/raw", false),
+    "jpg" -> ("image/raw", false),
+    "jpeg" -> ("image/raw", false),
+    "bmp" -> ("image/raw", false),
+    "gif" -> ("image/raw", false),
+    "pdf" -> ("application/pdf", false))
 
   private def partitionAnnotation: UserDefinedFunction = {
     udf((partitions: Seq[Row], path: String) =>
@@ -222,26 +243,60 @@ class Reader2Image(override val uid: String)
       path: String): Seq[AnnotationImage] = {
     partitions.flatMap { partition =>
       val elementType = partition.getAs[String]("elementType").toLowerCase
-      if (elementType == ElementType.IMAGE.toLowerCase) {
-        buildAnnotationImage(partition, path)
-      } else {
-        None
+
+      elementType match {
+        case t if t == ElementType.IMAGE.toLowerCase =>
+          buildAnnotationImage(partition, path)
+
+        case t if t == ElementType.ERROR.toLowerCase =>
+          // Build error annotation from the "content" field
+          val errorMessage = partition.getAs[String]("content")
+          val origin = retrieveFileName(path)
+
+          Some(
+            AnnotationImage(
+              annotatorType = IMAGE,
+              origin = origin,
+              height = 0,
+              width = 0,
+              nChannels = 0,
+              mode = 0,
+              result = Array.emptyByteArray,
+              metadata = Map(),
+              text = errorMessage))
+
+        case _ =>
+          None
       }
     }
   }
 
   private def buildAnnotationImage(partition: Row, path: String): Option[AnnotationImage] = {
-    val content = partition.getAs[String]("content")
     val metadata = partition.getAs[Map[String, String]]("metadata")
-    val encoding = metadata.getOrElse("encoding", "unknown")
-    val decodedContent = if (encoding.contains("base64")) {
-      ImageParser.decodeBase64(content)
-    } else {
-      ImageParser.fetchFromUrl(content)
+
+    val binaryContentOpt =
+      if (partition.schema.fieldNames.contains("binaryContent") && !partition.isNullAt(
+          partition.fieldIndex("binaryContent")))
+        Some(partition.getAs[Array[Byte]]("binaryContent"))
+      else None
+
+    val decodedContent = binaryContentOpt match {
+      case Some(bytes) =>
+        ImageParser.bytesToBufferedImage(bytes)
+      case None =>
+        val content = partition.getAs[String]("content")
+        val encoding = metadata.getOrElse("encoding", "unknown")
+        if (encoding.contains("base64")) {
+          ImageParser.decodeBase64(content)
+        } else {
+          ImageParser.fetchFromUrl(content)
+        }
     }
-    val imageFields = ImageIOUtils.bufferedImageToImageFields(decodedContent, "test")
+
+    val origin = retrieveFileName(path)
+    val imageFields = ImageIOUtils.bufferedImageToImageFields(decodedContent, origin)
+
     if (imageFields.isDefined) {
-      val origin = retrieveFileName(path)
       Some(
         AnnotationImage(
           IMAGE,
@@ -251,17 +306,12 @@ class Reader2Image(override val uid: String)
           imageFields.get.nChannels,
           imageFields.get.mode,
           imageFields.get.data,
-          metadata))
+          metadata,
+          buildPrompt))
     } else {
       None
     }
   }
-
-  private val getFileName = udf { path: String =>
-    retrieveFileName(path)
-  }
-
-  private def retrieveFileName(path: String) = if (path != null) path.split("/").last else ""
 
   protected def partitionBuilder: Partition = {
     val params = Map(
@@ -270,8 +320,20 @@ class Reader2Image(override val uid: String)
       "titleFontSize" -> $(titleFontSize).toString,
       "inferTableStructure" -> $(inferTableStructure).toString,
       "includePageBreaks" -> $(includePageBreaks).toString,
-      "outputFormat" -> $(outputFormat))
+      "outputFormat" -> $(outputFormat),
+      "readAsImage" -> $(readAsImage).toString)
     new Partition(params.asJava)
+  }
+
+  private def buildPrompt: String = {
+    $(promptTemplate).toLowerCase() match {
+      case "qwen2vl-chat" => ImagePromptTemplate.getQwen2VLChatTemplate($(userMessage))
+      case "smolvl-chat" => ImagePromptTemplate.getSmolVLMChatTemplate($(userMessage))
+      case "internvl-chat" => ImagePromptTemplate.getInternVLChatTemplate($(userMessage))
+      case "custom" => ImagePromptTemplate.customTemplate($(customPromptTemplate), $(userMessage))
+      case "none" => $(userMessage)
+      case _ => $(userMessage)
+    }
   }
 
   private def afterAnnotate(dataset: DataFrame): DataFrame = {
@@ -317,5 +379,8 @@ class Reader2Image(override val uid: String)
     require(
       $(contentPath) != null && $(contentPath).trim.nonEmpty,
       "contentPath must be set and not empty")
+    require(ResourceHelper.validFile($(contentPath)),
+      "contentPath must point to a valid file or directory")
   }
+
 }

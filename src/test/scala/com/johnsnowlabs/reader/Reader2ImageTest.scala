@@ -16,11 +16,11 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
-import com.johnsnowlabs.nlp.annotators.cv.Qwen2VLTransformer
+import com.johnsnowlabs.nlp.annotators.cv.{Qwen2VLTransformer, SmolVLMTransformer}
 import com.johnsnowlabs.nlp.{AnnotatorType, AssertAnnotations}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.functions.lit
+import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io.File
@@ -32,6 +32,10 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
   val mixDirectory = "src/test/resources/reader/mix-files"
   val unsupportedFiles = "src/test/resources/reader/unsupported-files"
   val emailDirectory = "src/test/resources/reader/email/"
+  val wordDirectory = "src/test/resources/reader/doc/"
+  val imageDirectory = "src/test/resources/reader/img/"
+  val pdfDirectory = "src/test/resources/reader/pdf/"
+  val filesDirectory = "src/test/resources/reader/"
 
   "Reader2Image" should "read different image source content from an HTML file" taggedAs SlowTest in {
     val sourceFile = "example-images.html"
@@ -44,6 +48,7 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
+    resultDf.show()
     val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
 
     assert(annotationsResult.length == 2)
@@ -116,31 +121,32 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
 
   }
 
-  it should "output empty dataframe when all files in a directory are not unsupported" taggedAs FastTest in {
+  it should "ignore unsupported files" taggedAs FastTest in {
     val reader2Image = new Reader2Image()
       .setContentPath(s"$unsupportedFiles")
       .setOutputCol("image")
+      .setExplodeDocs(false)
 
     val pipeline = new Pipeline().setStages(Array(reader2Image))
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
 
-    assert(resultDf.isEmpty)
+    assert(resultDf.count() == 3)
+    assert(resultDf.filter(col("exception").isNotNull).count() == 0)
   }
 
-  it should "output empty dataframe when unsupported file is used" taggedAs FastTest in {
+  it should "display error on exception column" taggedAs FastTest in {
     val reader2Image = new Reader2Image()
-      .setContentPath(s"$unsupportedFiles/simple-example.xlsx")
-      .setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+      .setContentPath(unsupportedFiles)
       .setOutputCol("image")
+      .setIgnoreExceptions(false)
 
     val pipeline = new Pipeline().setStages(Array(reader2Image))
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
-
-    assert(resultDf.isEmpty)
+    assert(resultDf.filter(col("exception").isNotNull).count() > 1)
   }
 
   it should "output empty values when there is no image data" taggedAs FastTest in {
@@ -174,6 +180,7 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     assert(annotationsResult.length == 1)
     annotationsResult.foreach { annotations =>
       assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
+      assert(annotations.head.origin == emailFile)
       assert(annotations.head.origin == emailFile)
       assert(annotations.head.result.nonEmpty)
       assert(annotations.head.height > 0)
@@ -211,24 +218,71 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     }
   }
 
-  it should "integrate Email files with VLM models" taggedAs SlowTest in {
-    val reader2Doc = new Reader2Image()
-      .setContentPath(emailDirectory)
+  it should "read images from MSWord files" taggedAs FastTest in {
+    val wordFile = "contains-pictures.docx"
+    val wordPath = s"$wordDirectory/$wordFile"
+    val reader2Image = new Reader2Image()
+      .setContentPath(wordPath)
+      .setContentType("application/msword")
       .setOutputCol("image")
 
-    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
 
     val pipelineModel = pipeline.fit(emptyDataSet)
-    val imagesDf = pipelineModel.transform(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
 
-    val promptDf = imagesDf.withColumn(
-      "text",
-      lit("""<|im_start|>system
-          |You are a helpful assistant.<|im_end|>
-          |<|im_start|>user
-          |<|vision_start|><|image_pad|><|vision_end|>Describe this image.<|im_end|>
-          |<|im_start|>assistant
-          |""".stripMargin))
+    annotationsResult.foreach { annotations =>
+      assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
+      assert(annotations.head.origin == wordFile)
+      assert(annotations.head.result.nonEmpty)
+      assert(annotations.head.height > 0)
+      assert(annotations.head.width > 0)
+      assert(annotations.head.nChannels > 0)
+      assert(annotations.head.mode > 0)
+      assert(annotations.head.metadata.nonEmpty)
+    }
+  }
+
+  it should "read images from raw images files" taggedAs FastTest in {
+    val imageFile = "SwitzerlandAlps.jpg"
+    val imagePath = s"$imageDirectory/$imageFile"
+    val reader2Image = new Reader2Image()
+      .setContentPath(imagePath)
+      .setContentType("image/raw")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    resultDf.show()
+    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
+
+    assert(annotationsResult.length == 1)
+    annotationsResult.foreach { annotations =>
+      assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
+      assert(annotations.head.origin == imageFile)
+      assert(annotations.head.result.nonEmpty)
+      assert(annotations.head.height > 0)
+      assert(annotations.head.width > 0)
+      assert(annotations.head.nChannels > 0)
+      assert(annotations.head.mode > 0)
+      assert(annotations.head.metadata.nonEmpty)
+    }
+  }
+
+  it should "read a directory of mixed files and integrate with VLM models" taggedAs SlowTest in {
+    //This pipeline requires 29GB of RAM to run
+    val reader2Image = new Reader2Image()
+      .setContentPath(filesDirectory)
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val imagesDf = pipelineModel.transform(emptyDataSet)
+    imagesDf.show()
 
     val visualQAClassifier = Qwen2VLTransformer
       .pretrained()
@@ -236,23 +290,211 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
       .setOutputCol("answer")
 
     val vlmPipeline = new Pipeline().setStages(Array(visualQAClassifier))
-    val resultDf = vlmPipeline.fit(promptDf).transform(promptDf)
+    val resultDf = vlmPipeline.fit(imagesDf).transform(imagesDf)
 
     resultDf.select("image.origin", "answer.result").show(truncate = false)
 
     assert(!resultDf.isEmpty)
   }
 
+  it should "add different user instructions to the prompt" taggedAs SlowTest in {
+    val reader2Doc = new Reader2Image()
+      .setContentPath(emailDirectory)
+      .setOutputCol("image")
+      .setUserMessage("Describe the image with 3 to 4 words.")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val imagesDf = pipelineModel.transform(emptyDataSet)
+    imagesDf.show()
+    imagesDf.select("image.text").show(truncate = false)
+    imagesDf.printSchema()
+
+    val visualQAClassifier = Qwen2VLTransformer
+      .pretrained()
+      .setInputCols("image")
+      .setOutputCol("answer")
+
+    val vlmPipeline = new Pipeline().setStages(Array(visualQAClassifier))
+    val resultDf = vlmPipeline.fit(imagesDf).transform(imagesDf)
+
+    resultDf.select("image.origin", "answer.result").show(truncate = false)
+
+    assert(!resultDf.isEmpty)
+  }
+
+  it should "work with SmolVLMTransformer" taggedAs SlowTest in {
+    val reader2Doc = new Reader2Image()
+      .setContentPath(emailDirectory)
+      .setOutputCol("image")
+      .setPromptTemplate("smolvl-chat")
+      .setUserMessage("Are there cats in the image?")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val imagesDf = pipelineModel.transform(emptyDataSet)
+    imagesDf.show()
+    imagesDf.select("image.text").show(truncate = false)
+    imagesDf.printSchema()
+
+    val visualQAClassifier = SmolVLMTransformer
+      .pretrained()
+      .setInputCols("image")
+      .setOutputCol("answer")
+
+    val vlmPipeline = new Pipeline().setStages(Array(visualQAClassifier))
+    val resultDf = vlmPipeline.fit(imagesDf).transform(imagesDf)
+
+    resultDf.select("image.origin", "answer.result").show(truncate = false)
+
+    assert(!resultDf.isEmpty)
+  }
+
+  it should "infer for word files" taggedAs SlowTest in {
+    val reader2Doc = new Reader2Image()
+      .setContentPath(s"$wordDirectory/contains-pictures.docx")
+      .setOutputCol("image")
+      .setContentType("application/msword")
+      .setUserMessage("Describe the image with 3 to 4 words.")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val imagesDf = pipelineModel.transform(emptyDataSet)
+    imagesDf.show()
+    imagesDf.select("image.text").show(truncate = false)
+    imagesDf.printSchema()
+
+    val visualQAClassifier = Qwen2VLTransformer
+      .pretrained()
+      .setInputCols("image")
+      .setOutputCol("answer")
+
+    val vlmPipeline = new Pipeline().setStages(Array(visualQAClassifier))
+    val resultDf = vlmPipeline.fit(imagesDf).transform(imagesDf)
+
+    resultDf.select("image.origin", "answer.result").show(truncate = false)
+
+    assert(!resultDf.isEmpty)
+  }
+
+  it should "infer for raw image files" taggedAs SlowTest in {
+    val reader2Image = new Reader2Image()
+      .setContentPath(s"$imageDirectory/SwitzerlandAlps.jpg")
+      .setOutputCol("image")
+      .setContentType("image/raw")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val imagesDf = pipelineModel.transform(emptyDataSet)
+    imagesDf.show()
+    imagesDf.select("image.text").show(truncate = false)
+    imagesDf.printSchema()
+
+    val visualQAClassifier = Qwen2VLTransformer
+      .pretrained()
+      .setInputCols("image")
+      .setOutputCol("answer")
+
+    val vlmPipeline = new Pipeline().setStages(Array(visualQAClassifier))
+    val resultDf = vlmPipeline.fit(imagesDf).transform(imagesDf)
+
+    resultDf.select("image.origin", "answer.result").show(truncate = false)
+
+    assert(!resultDf.isEmpty)
+  }
+
+  it should "set custom prompt" taggedAs SlowTest in {
+    val customPrompt = "<|im_start|><image>{prompt}<|im_end|><|im_start|>assistant"
+
+    val reader2Doc = new Reader2Image()
+      .setContentPath(emailDirectory)
+      .setOutputCol("image")
+      .setUserMessage("Describe the image with 3 to 4 words.")
+      .setPromptTemplate("custom")
+      .setCustomPromptTemplate(customPrompt)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val imagesDf = pipelineModel.transform(emptyDataSet)
+    imagesDf.show()
+    imagesDf.select("image.text").show(truncate = false)
+    imagesDf.printSchema()
+
+    val visualQAClassifier = Qwen2VLTransformer
+      .pretrained()
+      .setInputCols("image")
+      .setOutputCol("answer")
+
+    val vlmPipeline = new Pipeline().setStages(Array(visualQAClassifier))
+    val resultDf = vlmPipeline.fit(imagesDf).transform(imagesDf)
+
+    resultDf.select("image.origin", "answer.result").show(truncate = false)
+
+    assert(!resultDf.isEmpty)
+  }
+
+  it should "work with exception column" taggedAs SlowTest in {
+    val reader2Doc = new Reader2Image()
+      .setContentPath(unsupportedFiles)
+      .setOutputCol("image")
+      .setUserMessage("Describe the image with 3 to 4 words.")
+      .setIgnoreExceptions(false)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val imagesDf = pipelineModel.transform(emptyDataSet)
+
+    imagesDf.show()
+    imagesDf.select("image.text").show(truncate = false)
+    imagesDf.printSchema()
+
+    val visualQAClassifier = Qwen2VLTransformer
+      .pretrained()
+      .setInputCols("image")
+      .setOutputCol("answer")
+
+    val promptDf = imagesDf.filter(col("exception").isNull)
+    val vlmPipeline = new Pipeline().setStages(Array(visualQAClassifier))
+    val resultDf = vlmPipeline.fit(promptDf).transform(promptDf)
+
+    resultDf.select("image.origin", "answer.result").show(truncate = false)
+  }
+
+  it should "add exception message to exception column" taggedAs FastTest in {
+    val reader2Img = new Reader2Image()
+      .setContentPath("src/test/resources/reader/pdf-corrupted/corrupted.pdf")
+      .setContentType("application/pdf")
+      .setOutputCol("image")
+      .setIgnoreExceptions(false)
+      .setUserMessage("Describe the image with 3 to 4 words.")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Img))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    assert(resultDf.filter(col("exception").isNotNull).count() == 1)
+  }
+
   def getSupportedFiles(dirPath: String): Seq[String] = {
+    val supportedExtensions = Seq(".html", ".htm", ".md", "doc", "docx")
+
     val dir = new File(dirPath)
     if (dir.exists && dir.isDirectory) {
       dir.listFiles
         .filter(f =>
-          f.isFile && (f.getName.toLowerCase.endsWith(".html") || f.getName.toLowerCase.endsWith(
-            ".md")))
+          f.isFile && supportedExtensions.exists(ext => f.getName.toLowerCase.endsWith(ext)))
         .toSeq
         .map(_.getName)
-    } else Seq.empty
+    } else {
+      Seq.empty
+    }
   }
 
 }

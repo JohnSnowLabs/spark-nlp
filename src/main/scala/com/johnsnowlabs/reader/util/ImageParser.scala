@@ -17,6 +17,8 @@ package com.johnsnowlabs.reader.util
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.Build
+import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.rendering.{ImageType, PDFRenderer}
 
 import java.awt.image.BufferedImage
 import java.io._
@@ -145,6 +147,44 @@ object ImageParser {
       new String(out.toByteArray, java.nio.charset.StandardCharsets.UTF_8).linesIterator
         .take(3)
         .mkString(" ") // keep message short
+    }
+  }
+
+  /** Decodes raw image bytes into a BufferedImage.
+    *
+    * @param bytes
+    *   Raw image data (e.g. extracted from Word DOC/DOCX via Apache POI).
+    * @return
+    *   Option[BufferedImage] if the bytes can be decoded by ImageIO.
+    */
+  def bytesToBufferedImage(bytes: Array[Byte]): Option[BufferedImage] = {
+    if (bytes == null || bytes.isEmpty) return None
+    Using.resource(new ByteArrayInputStream(bytes)) { in =>
+      Try(ImageIO.read(in)).toOption // returns None if format unsupported
+    }
+  }
+
+  /** Renders each page of a PDF document into a BufferedImage.
+    *
+    * @param pdfContent
+    *   Raw PDF bytes.
+    * @return
+    *   Map of page index (0-based) to Option[BufferedImage] for each page that could be rendered.
+    *   If a page cannot be rendered, its value will be None.
+    */
+  def renderPdfFile(pdfContent: Array[Byte]): Map[Int, Option[BufferedImage]] = {
+    val document = PDDocument.load(pdfContent)
+
+    try {
+      val renderer = new PDFRenderer(document)
+      val ocrDpiQuality = 150
+
+      (0 until document.getNumberOfPages).map { pageIndex =>
+        val imageBuffer = renderer.renderImageWithDPI(pageIndex, ocrDpiQuality, ImageType.RGB)
+        pageIndex -> Some(imageBuffer)
+      }.toMap
+    } finally {
+      document.close()
     }
   }
 

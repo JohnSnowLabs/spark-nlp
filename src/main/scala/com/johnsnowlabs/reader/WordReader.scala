@@ -150,17 +150,20 @@ class WordReader(
           HTMLElement(ElementType.FOOTER, footer, mutable.Map())
         }
         val docElements = parseDocxToElements(document)
-        headers ++ docElements ++ footers
+        val images = extractImages(document)
+        headers ++ docElements ++ footers ++ images
       } else if (isDocFile(content)) {
         val document = new HWPFDocument(docInputStream)
         val docElements = parseDocToElements(document)
-        docElements
+        val images = extractImages(document)
+        docElements ++ images
       } else {
         Seq(HTMLElement(ElementType.UNCATEGORIZED_TEXT, "Unknown file format", mutable.Map()))
       }
     } catch {
-      case e: IOException =>
-        throw new IOException(s"Error e: ${e.getMessage}")
+      case e: Exception =>
+        Seq(
+          HTMLElement(ElementType.ERROR, s"Could not parse Word: ${e.getMessage}", mutable.Map()))
     } finally {
       docInputStream.close()
     }
@@ -262,6 +265,30 @@ class WordReader(
     }
 
     elements
+  }
+
+  private def extractImages(document: XWPFDocument): Seq[HTMLElement] = {
+    document.getAllPictures.asScala.map { pic =>
+      val metadata = mutable.Map(
+        "format" -> pic.suggestFileExtension,
+        "imageType" -> pic.getPictureType.toString)
+      HTMLElement(
+        elementType = ElementType.IMAGE,
+        content = "", // leave textual content empty
+        metadata = metadata,
+        binaryContent = Some(pic.getData))
+    }
+  }
+
+  private def extractImages(document: HWPFDocument): Seq[HTMLElement] = {
+    document.getPicturesTable.getAllPictures.asScala.map { pic =>
+      val metadata = mutable.Map("format" -> pic.suggestFileExtension)
+      HTMLElement(
+        elementType = ElementType.IMAGE,
+        content = "",
+        metadata = metadata,
+        binaryContent = Some(pic.getContent))
+    }
   }
 
 }

@@ -30,8 +30,7 @@ class WordReaderTest extends AnyFlatSpec {
   "WordReader" should "read a directory of word files" taggedAs FastTest in {
     val wordReader = new WordReader()
     val wordDf = wordReader.doc(docDirectory)
-    wordDf.select("doc").show(false)
-    wordDf.printSchema()
+
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(!wordDf.columns.contains("content"))
   }
@@ -39,7 +38,6 @@ class WordReaderTest extends AnyFlatSpec {
   "WordReader" should "read a docx file with page breaks" taggedAs FastTest in {
     val wordReader = new WordReader(includePageBreaks = true)
     val wordDf = wordReader.doc(s"$docDirectory/page-breaks.docx")
-    wordDf.select("doc").show(false)
 
     val pageBreakCount = wordDf
       .select(explode($"doc.metadata").as("metadata"))
@@ -56,7 +54,6 @@ class WordReaderTest extends AnyFlatSpec {
     val htmlDf = wordDf
       .withColumn("doc_exploded", explode(col("doc")))
       .filter(col("doc_exploded.elementType") === "HTML")
-    wordDf.select("doc").show(false)
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(!wordDf.columns.contains("content"))
@@ -66,7 +63,6 @@ class WordReaderTest extends AnyFlatSpec {
   "WordReader" should "read a docx file with images on it" taggedAs FastTest in {
     val wordReader = new WordReader()
     val wordDf = wordReader.doc(s"$docDirectory/contains-pictures.docx")
-    wordDf.select("doc").show(false)
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(!wordDf.columns.contains("content"))
@@ -75,7 +71,6 @@ class WordReaderTest extends AnyFlatSpec {
   "WordReader" should "store content" taggedAs FastTest in {
     val wordReader = new WordReader(storeContent = true)
     val wordDf = wordReader.doc(s"$docDirectory")
-    wordDf.select("doc").show(false)
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(wordDf.columns.contains("content"))
@@ -101,6 +96,16 @@ class WordReaderTest extends AnyFlatSpec {
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(jsonDf.count() > 0, "Expected at least one row with JSON element type")
+  }
+
+  it should "read doc file with images on it" taggedAs FastTest in {
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/contains-pictures.docx")
+    val htmlDf = wordDf
+      .withColumn("doc_exploded", explode(col("doc")))
+      .filter(col("doc_exploded.elementType") === ElementType.IMAGE)
+
+    assert(htmlDf.count() > 1)
   }
 
 }

@@ -23,7 +23,7 @@ import com.johnsnowlabs.partition.util.PartitionHelper.{
 import com.johnsnowlabs.reader.util.HTMLParser
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.functions.slice
+import org.apache.spark.sql.types.BinaryType
 import org.jsoup.nodes.Element
 
 import java.util.regex.Pattern
@@ -77,7 +77,7 @@ class CSVReader(
     }
   }
 
-  def buildStructuredCSV(textDF: DataFrame): DataFrame = {
+  private def buildStructuredCSV(textDF: DataFrame): DataFrame = {
     import spark.implicits._
     val delimiterPattern = Pattern.quote(delimiter)
 
@@ -133,11 +133,15 @@ class CSVReader(
               struct(
                 lit(ElementType.NARRATIVE_TEXT).as("elementType"),
                 $"normalized_content".as("content"),
-                map_from_arrays(array(), array()).as("metadata")),
+                map_from_arrays(typedLit(Seq.empty[String]), typedLit(Seq.empty[String]))
+                  .as("metadata"),
+                lit(null).cast(BinaryType).as("binaryContent")),
               struct(
                 lit(ElementType.TABLE).as("elementType"),
                 $"html_table".as("content"),
-                map_from_arrays(array(), array()).as("metadata"))))
+                map_from_arrays(typedLit(Seq.empty[String]), typedLit(Seq.empty[String]))
+                  .as("metadata"),
+                lit(null).cast(BinaryType).as("binaryContent"))))
         case "json-table" =>
           val htmlToJsonUDF = udf { (html: String) =>
             val elem: Element = HTMLParser.parseFirstTableElement(html)
@@ -150,11 +154,15 @@ class CSVReader(
               struct(
                 lit(ElementType.NARRATIVE_TEXT).as("elementType"),
                 $"normalized_content".as("content"),
-                map_from_arrays(array(), array()).as("metadata")),
+                map_from_arrays(typedLit(Seq.empty[String]), typedLit(Seq.empty[String]))
+                  .as("metadata"),
+                lit(null).cast(BinaryType).as("binaryContent")),
               struct(
                 lit(ElementType.TABLE).as("elementType"),
                 $"json_table".as("content"),
-                map_from_arrays(array(), array()).as("metadata"))))
+                map_from_arrays(typedLit(Seq.empty[String]), typedLit(Seq.empty[String]))
+                  .as("metadata"),
+                lit(null).cast(BinaryType).as("binaryContent"))))
         case _ =>
           throw new IllegalArgumentException("Unsupported outputFormat: " + outputFormat)
       }
@@ -165,9 +173,28 @@ class CSVReader(
           struct(
             lit(ElementType.NARRATIVE_TEXT).as("elementType"),
             $"normalized_content".as("content"),
-            map_from_arrays(array(), array()).as("metadata"))))
-
+            map_from_arrays(typedLit(Seq.empty[String]), typedLit(Seq.empty[String]))
+              .as("metadata"),
+            lit(null).cast(BinaryType).as("binaryContent"))))
     }
   }
+
+//  def buildErrorDataFrame(dataset: Dataset[_], contentPath: String, ext: String): DataFrame = {
+//    val fileName = if (contentPath != null) contentPath.split("/").last else ""
+//    val errorMessage = s"File type .$ext not supported"
+//
+//    val errorPartition = HTMLElement(
+//      elementType = ElementType.UNCATEGORIZED_TEXT,
+//      content = errorMessage,
+//      metadata = scala.collection.mutable.Map[String, String](),
+//      binaryContent = None)
+//
+//    val spark = dataset.sparkSession
+//    import spark.implicits._
+//
+//    val errorArray = Seq((contentPath, Seq(errorPartition), fileName, errorMessage))
+//    errorArray
+//      .toDF("path", "partition", "fileName", "exception")
+//  }
 
 }

@@ -103,7 +103,7 @@ class ExcelReaderTest extends AnyFlatSpec {
 
   it should "output table as JSON" in {
     val excelReader = new ExcelReader(inferTableStructure = true, outputFormat = "html-table")
-    val excelDf = excelReader.xls(s"$docDirectory/simple-example.xlsx")
+    val excelDf = excelReader.xls(s"$docDirectory/simple-example-2tables.xlsx")
 
     val htmlDf = excelDf
       .withColumn("doc_exploded", explode(col("xls")))
@@ -124,4 +124,13 @@ class ExcelReaderTest extends AnyFlatSpec {
     assert(jsonDf.count() > 0, "Expected at least one row with JSON element type")
   }
 
+  it should "read images from excel file" taggedAs FastTest in {
+    val excelReader = new ExcelReader()
+    val excelDf = excelReader.xls(s"$docDirectory/excel-images.xlsx")
+    val imageDf = excelDf
+      .withColumn("xls_exploded", explode(col("xls")))
+      .filter(col("xls_exploded.elementType") === ElementType.IMAGE)
+
+    assert(imageDf.count() > 0, "Expected at least one row with IMAGE element type")
+  }
 }

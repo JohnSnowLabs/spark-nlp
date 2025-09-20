@@ -353,12 +353,12 @@ class SparkNLPReader(
     *   Parameter with custom configuration
     */
   def pdf(pdfPath: String): DataFrame = {
-    val pdfReader = new PdfReader(getStoreContent, getTitleThreshold)
+    val pdfReader = new PdfReader(getStoreContent, getTitleThreshold, getReadAsImage)
     pdfReader.pdf(pdfPath)
   }
 
   def pdf(content: Array[Byte]): Seq[HTMLElement] = {
-    val pdfReader = new PdfReader(getStoreContent, getTitleThreshold)
+    val pdfReader = new PdfReader(getStoreContent, getTitleThreshold, getReadAsImage)
     pdfReader.pdfToHTMLElement(content)
   }
 
@@ -407,6 +407,10 @@ class SparkNLPReader(
       params.asScala.toMap,
       Seq("normalizeLigatures", "normalize_ligatures"),
       default = true)
+  }
+
+  private def getReadAsImage: Boolean = {
+    getDefaultBoolean(params.asScala.toMap, Seq("readAsImage", "read_as_image"), default = false)
   }
 
   /** Instantiates class to read Excel files.

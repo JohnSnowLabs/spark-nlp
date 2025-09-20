@@ -26,7 +26,6 @@ class PdfReaderTest extends AnyFlatSpec {
   "PdfReader" should "read a PDF file as dataframe" taggedAs FastTest in {
     val pdfReader = new PdfReader()
     val pdfDf = pdfReader.pdf(s"$pdfDirectory/text_3_pages.pdf")
-    pdfDf.show()
 
     assert(!pdfDf.select(col("pdf").getItem(0)).isEmpty)
     assert(!pdfDf.columns.contains("content"))
@@ -35,7 +34,6 @@ class PdfReaderTest extends AnyFlatSpec {
   it should "store content" taggedAs FastTest in {
     val pdfReader = new PdfReader(storeContent = true)
     val pdfDf = pdfReader.pdf(s"$pdfDirectory/text_3_pages.pdf")
-    pdfDf.show()
 
     assert(!pdfDf.select(col("pdf").getItem(0)).isEmpty)
     assert(pdfDf.columns.contains("content"))
@@ -44,7 +42,6 @@ class PdfReaderTest extends AnyFlatSpec {
   it should "identify text as titles based on threshold value" taggedAs FastTest in {
     val pdfReader = new PdfReader(titleThreshold = 10)
     val pdfDf = pdfReader.pdf(s"$pdfDirectory/pdf-title.pdf")
-    pdfDf.show(false)
 
     val titleDF = pdfDf
       .select(explode(col("pdf")).as("exploded_pdf"))
@@ -60,7 +57,7 @@ class PdfReaderTest extends AnyFlatSpec {
 
     val resultDF = pdfDf
       .select(explode(col("pdf")).as("exploded_pdf"))
-      .filter(col("exploded_pdf.elementType") === ElementType.UNCATEGORIZED_TEXT)
+      .filter(col("exploded_pdf.elementType") === ElementType.ERROR)
 
     assert(resultDF.count() == 1)
   }
