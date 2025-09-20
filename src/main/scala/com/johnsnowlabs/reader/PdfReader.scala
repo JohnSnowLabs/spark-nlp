@@ -17,11 +17,14 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithBinaryFile
+import com.johnsnowlabs.reader.util.ImageParser
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.{PDFTextStripper, TextPosition}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
-import java.io.ByteArrayInputStream
+
+import java.io.ByteArrayOutputStream
+import javax.imageio.ImageIO
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
@@ -65,7 +68,10 @@ import scala.collection.mutable
   * For more examples please refer to this
   * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_PDF_Reader_Demo.ipynb notebook]].
   */
-class PdfReader(storeContent: Boolean = false, titleThreshold: Double = 18.0)
+class PdfReader(
+    storeContent: Boolean = false,
+    titleThreshold: Double = 18.0,
+    readAsImage: Boolean = false)
     extends Serializable {
 
   private lazy val spark = ResourceHelper.spark
@@ -91,21 +97,21 @@ class PdfReader(storeContent: Boolean = false, titleThreshold: Double = 18.0)
   private val parsePdfUDF = udf((data: Array[Byte]) => pdfToHTMLElement(data))
 
   def pdfToHTMLElement(content: Array[Byte]): Seq[HTMLElement] = {
-    val docInputStream = new ByteArrayInputStream(content)
     try {
-      val pdfDoc = PDDocument.load(docInputStream)
-      val elements = extractElementsFromPdf(pdfDoc)
-      pdfDoc.close()
-      elements
+      if (readAsImage) {
+        transformPdfToImages(content)
+      } else {
+        val pdfDoc = PDDocument.load(content)
+        try {
+          extractElementsFromPdf(pdfDoc)
+        } finally {
+          pdfDoc.close()
+        }
+      }
     } catch {
       case e: Exception =>
         Seq(
-          HTMLElement(
-            ElementType.UNCATEGORIZED_TEXT,
-            s"Could not parse PDF: ${e.getMessage}",
-            mutable.Map()))
-    } finally {
-      docInputStream.close()
+          HTMLElement(ElementType.ERROR, s"Could not parse PDF: ${e.getMessage}", mutable.Map()))
     }
   }
 
@@ -154,6 +160,32 @@ class PdfReader(storeContent: Boolean = false, titleThreshold: Double = 18.0)
 
   private def isTitle(fontSize: Double, fontName: String): Boolean = {
     fontSize >= titleThreshold || fontName.toLowerCase.contains("bold")
+  }
+
+  private def transformPdfToImages(content: Array[Byte]): Seq[HTMLElement] = {
+    val pageImages = ImageParser.renderPdfFile(content) // Map[Int, Option[BufferedImage]]
+
+    pageImages.flatMap {
+      case (pageIndex, Some(bufferedImage)) =>
+        val baos = new ByteArrayOutputStream()
+        ImageIO.write(bufferedImage, "jpg", baos)
+        val bytes = baos.toByteArray
+        baos.close()
+
+        val metadata = mutable.Map(
+          "pageNumber" -> pageIndex.toString,
+          "format" -> "jpg",
+          "width" -> bufferedImage.getWidth.toString,
+          "height" -> bufferedImage.getHeight.toString)
+
+        Some(
+          HTMLElement(
+            elementType = ElementType.IMAGE,
+            content = "",
+            metadata = metadata,
+            binaryContent = Some(bytes)))
+      case _ => None
+    }.toSeq
   }
 
 }

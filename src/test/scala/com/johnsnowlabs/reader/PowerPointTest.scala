@@ -96,4 +96,15 @@ class PowerPointTest extends AnyFlatSpec {
     assert(jsonDf.count() > 0, "Expected at least one row with JSON element type")
   }
 
+  it should "read images from ppt file" taggedAs FastTest in {
+    val powerPointReader = new PowerPointReader()
+    val pptDf = powerPointReader.ppt(s"$docDirectory/power-point-images.pptx")
+    val imageDf = pptDf
+      .withColumn("ppt_exploded", explode(col("ppt")))
+      .filter(col("ppt_exploded.elementType") === ElementType.IMAGE)
+
+    assert(!pptDf.select(col("ppt").getItem(0)).isEmpty)
+    assert(imageDf.count() > 0, "Expected at least one row with IMAGE element type")
+  }
+
 }

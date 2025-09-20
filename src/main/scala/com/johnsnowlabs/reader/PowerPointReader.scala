@@ -26,6 +26,7 @@ import org.apache.spark.sql.functions.{col, udf}
 
 import java.io.ByteArrayInputStream
 import scala.collection.JavaConverters._
+import scala.collection.mutable
 
 /** Class to read and parse PowerPoint files.
   *
@@ -138,12 +139,23 @@ class PowerPointReader(
 
   private def parsePowerPoint(content: Array[Byte]): Seq[HTMLElement] = {
     val slideInputStream = new ByteArrayInputStream(content)
-    if (isPptxFile(content)) {
-      parsePptx(slideInputStream)
-    } else if (isPptFile(content)) {
-      parsePpt(slideInputStream)
-    } else {
-      throw new IllegalArgumentException("Unsupported PowerPoint file format")
+    try {
+      if (isPptxFile(content)) {
+        parsePptx(slideInputStream)
+      } else if (isPptFile(content)) {
+        parsePpt(slideInputStream)
+      } else {
+        Seq(HTMLElement(ElementType.ERROR, "Unsupported PowerPoint file format", mutable.Map()))
+      }
+    } catch {
+      case ex: Exception =>
+        Seq(
+          HTMLElement(
+            ElementType.ERROR,
+            s"Could not parse PowerPoint file: ${ex.getMessage}",
+            mutable.Map()))
+    } finally {
+      slideInputStream.close()
     }
   }
 
@@ -154,8 +166,10 @@ class PowerPointReader(
     val elements = slides.asScala.flatMap { slide =>
       slide.extractHSLFSlideContent
     }
+    val images = extractImages(ppt)
+
     ppt.close()
-    elements
+    elements ++ images
   }
 
   private def parsePptx(slideInputStream: ByteArrayInputStream): Seq[HTMLElement] = {
@@ -165,8 +179,33 @@ class PowerPointReader(
     val elements = slides.asScala.flatMap { slide =>
       slide.extractXSLFSlideContent(inferTableStructure, includeSlideNotes, outputFormat)
     }
+    val images = extractImages(pptx)
+
     pptx.close()
-    elements
+    elements ++ images
+  }
+
+  private def extractImages(pptx: XMLSlideShow): Seq[HTMLElement] = {
+    pptx.getPictureData.asScala.map { pic =>
+      val metadata =
+        mutable.Map("format" -> pic.suggestFileExtension, "imageType" -> pic.getType.toString)
+      HTMLElement(
+        elementType = ElementType.IMAGE,
+        content = "",
+        metadata = metadata,
+        binaryContent = Some(pic.getData))
+    }
+  }
+
+  private def extractImages(ppt: HSLFSlideShow): Seq[HTMLElement] = {
+    ppt.getPictureData.asScala.map { pic =>
+      val metadata = mutable.Map("format" -> pic.getType.toString)
+      HTMLElement(
+        elementType = ElementType.IMAGE,
+        content = "",
+        metadata = metadata,
+        binaryContent = Some(pic.getData))
+    }
   }
 
 }

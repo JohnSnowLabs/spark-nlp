@@ -696,8 +696,11 @@ object ResourceHelper {
   }
 
   def validFile(path: String): Boolean = {
-
     if (path.isEmpty) return false
+
+    if (path.contains(",")) {
+      return path.split(",").map(_.trim).forall(p => validFile(p))
+    }
 
     var isValid = validLocalFile(path) match {
       case Success(value) => value

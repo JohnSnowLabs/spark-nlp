@@ -3,12 +3,12 @@ package com.johnsnowlabs.reader
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.johnsnowlabs.nlp.AssertAnnotations
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.util.matching.Regex
-import org.apache.spark.sql.functions.{size, col}
+import org.apache.spark.sql.functions.{col, size}
 
 class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
 
@@ -18,6 +18,7 @@ class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
   val pptDirectory = "src/test/resources/reader/ppt"
   val mdDirectory = "src/test/resources/reader/md"
   val csvDirectory = "src/test/resources/reader/csv"
+  val unsupportedFiles = "src/test/resources/reader/unsupported-files"
 
   "Reader2Table" should "convert unstructured input to structured output as JSON" taggedAs FastTest in {
 
@@ -377,4 +378,15 @@ class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
     assert(resultDf.count() > 1)
   }
 
+  it should "process unsupported files and display an error in a row without stopping the whole batch" taggedAs SlowTest in {
+        val reader2Table = new Reader2Table()
+      .setContentPath(unsupportedFiles)
+      .setOutputCol("table")
+      .setIgnoreExceptions(false)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Table))
+    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
+
+    assert(resultDf.filter(col("exception").isNotNull).count() >= 1)
+  }
 }

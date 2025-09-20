@@ -147,22 +147,43 @@ class ExcelReader(
 
   private def parseExcel(content: Array[Byte]): Seq[HTMLElement] = {
     val workbookInputStream = new ByteArrayInputStream(content)
-    val workbook: Workbook =
-      if (isXlsxFile(content)) new XSSFWorkbook(workbookInputStream)
-      else if (isXlsFile(content)) new HSSFWorkbook(workbookInputStream)
-      else throw new IllegalArgumentException("Unsupported file format: must be .xls or .xlsx")
+    try {
+      val workbook: Workbook =
+        if (isXlsxFile(content)) new XSSFWorkbook(workbookInputStream)
+        else if (isXlsFile(content)) new HSSFWorkbook(workbookInputStream)
+        else {
+          return Seq(
+            HTMLElement(
+              ElementType.ERROR,
+              "Unsupported file format: must be .xls or .xlsx",
+              mutable.Map()))
+        }
 
-    val elementsBuffer = mutable.ArrayBuffer[HTMLElement]()
+      val elementsBuffer = mutable.ArrayBuffer[HTMLElement]()
 
-    for (sheetIndex <- 0 until workbook.getNumberOfSheets) {
-      if (includePageBreaks)
-        buildSheetContentWithPageBreaks(workbook, sheetIndex, elementsBuffer)
-      else
-        buildSheetContent(workbook, sheetIndex, elementsBuffer)
+      for (sheetIndex <- 0 until workbook.getNumberOfSheets) {
+        if (includePageBreaks)
+          buildSheetContentWithPageBreaks(workbook, sheetIndex, elementsBuffer)
+        else
+          buildSheetContent(workbook, sheetIndex, elementsBuffer)
+      }
+
+      val images = extractImages(workbook)
+      elementsBuffer ++= images
+
+      workbook.close()
+      elementsBuffer
+    } catch {
+      case e: Exception =>
+        Seq(
+          HTMLElement(
+            ElementType.ERROR,
+            s"Could not parse Excel: ${e.getMessage}",
+            mutable.Map()))
+    } finally {
+      workbookInputStream.close()
     }
 
-    workbook.close()
-    elementsBuffer
   }
 
   private def buildSheetContent(
@@ -287,6 +308,36 @@ class ExcelReader(
 
   private def getPageNumberForCell(cellIndex: Int, breaks: Seq[Int]): Int = {
     breaks.count(break => cellIndex > break) + 1
+  }
+
+  private def extractImages(workbook: Workbook): Seq[HTMLElement] = {
+    workbook match {
+      case xssf: XSSFWorkbook =>
+        xssf.getAllPictures.asScala.map { pic =>
+          val metadata = mutable.Map(
+            "format" -> pic.suggestFileExtension(),
+            "imageType" -> pic.getPictureType.toString)
+          HTMLElement(
+            elementType = ElementType.IMAGE,
+            content = "",
+            metadata = metadata,
+            binaryContent = Some(pic.getData))
+        }
+
+      case hssf: HSSFWorkbook =>
+        hssf.getAllPictures.asScala.map { pic =>
+          val metadata = mutable.Map(
+            "format" -> pic.suggestFileExtension(),
+            "imageType" -> pic.getFormat.toString)
+          HTMLElement(
+            elementType = ElementType.IMAGE,
+            content = "",
+            metadata = metadata,
+            binaryContent = Some(pic.getData))
+        }
+
+      case _ => Seq.empty
+    }
   }
 
 }

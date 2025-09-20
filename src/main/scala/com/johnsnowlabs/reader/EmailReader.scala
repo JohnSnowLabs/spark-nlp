@@ -120,10 +120,21 @@ class EmailReader(addAttachmentContent: Boolean = false, storeContent: Boolean =
 
   def emailToHTMLElement(content: Array[Byte]): Seq[HTMLElement] = {
     val inputStream = new ByteArrayInputStream(content)
-    if (EmailParser.isOutlookEmailFileType(content)) {
-      parseMsgFile(inputStream)
-    } else {
-      parseEmailFile(inputStream)
+    try {
+      if (EmailParser.isOutlookEmailFileType(content)) {
+        parseMsgFile(inputStream)
+      } else {
+        parseEmailFile(inputStream)
+      }
+    } catch {
+      case e: Exception =>
+        Seq(
+          HTMLElement(
+            ElementType.ERROR,
+            s"Could not parse email: ${e.getMessage}",
+            mutable.Map()))
+    } finally {
+      inputStream.close()
     }
   }
 

@@ -74,6 +74,8 @@ trait HasPdfProperties extends ParamsAndFeaturesWritable {
   /** @group setParam */
   def setNormalizeLigatures(value: Boolean): this.type = set(normalizeLigatures, value)
 
+  final val readAsImage = new BooleanParam(this, "readAsImage", "Read PDF pages as images.")
+
   setDefault(
     pageNumCol -> "pagenum",
     originCol -> "path",
@@ -84,6 +86,7 @@ trait HasPdfProperties extends ParamsAndFeaturesWritable {
     sort -> false,
     textStripper -> TextStripperType.PDF_TEXT_STRIPPER,
     extractCoordinates -> false,
-    normalizeLigatures -> true)
+    normalizeLigatures -> true,
+    readAsImage -> false)
 
 }

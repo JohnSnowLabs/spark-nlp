@@ -15,10 +15,18 @@
  */
 package com.johnsnowlabs.partition
 
-import com.johnsnowlabs.nlp.ParamsAndFeaturesWritable
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{BooleanParam, Param}
 
-trait HasReaderProperties extends ParamsAndFeaturesWritable {
+trait HasReaderProperties extends HasHTMLReaderProperties {
+
+  protected final val inputCol: Param[String] =
+    new Param(this, "inputCol", "the output annotation column")
+
+  /** Overrides annotation column name when transforming */
+  final def setInputCol(value: String): this.type = set(inputCol, value)
+
+  /** Gets annotation column name going to generate */
+  final def getInputCol: String = $(inputCol)
 
   val contentPath = new Param[String](this, "contentPath", "Path to the content source")
 
@@ -59,12 +67,19 @@ trait HasReaderProperties extends ParamsAndFeaturesWritable {
 
   def setIncludePageBreaks(value: Boolean): this.type = set(includePageBreaks, value)
 
+  val ignoreExceptions: BooleanParam =
+    new BooleanParam(this, "ignoreExceptions", "whether to ignore exceptions during processing")
+
+  def setIgnoreExceptions(value: Boolean): this.type = set(ignoreExceptions, value)
+
   setDefault(
     contentPath -> "",
     contentType -> "text/plain",
     storeContent -> false,
     titleFontSize -> 9,
     inferTableStructure -> false,
-    includePageBreaks -> false)
+    includePageBreaks -> false,
+    ignoreExceptions -> true,
+    inputCol -> "")
 
 }

@@ -18,6 +18,7 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import org.apache.spark.sql.functions.col
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -29,6 +30,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
   val pdfDirectory = "src/test/resources/reader/pdf/"
   val mdDirectory = "src/test/resources/reader/md"
   val xmlDirectory = "src/test/resources/reader/xml"
+  val unsupportedFiles = "src/test/resources/reader/unsupported-files"
 
   "Reader2Doc" should "convert unstructured input to structured output for HTML" taggedAs FastTest in {
 
@@ -142,7 +144,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
-
+    resultDf.show()
     assert(resultDf.count() == 1)
   }
 
@@ -214,34 +216,6 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
       pipelineModel.transform(emptyDataSet)
     }
     ex.getMessage.contains("contentPath must be set")
-  }
-
-  it should "throw if contentType is not set" taggedAs FastTest in {
-    val reader2Doc = new Reader2Doc()
-      .setContentPath("/some/path/file.txt")
-      .setOutputCol("document")
-    val pipeline = new Pipeline().setStages(Array(reader2Doc))
-    val pipelineModel = pipeline.fit(emptyDataSet)
-
-    val ex = intercept[IllegalArgumentException] {
-      pipelineModel.transform(emptyDataSet)
-    }
-    ex.getMessage.contains("contentType must be set")
-  }
-
-  it should "throw if contentType is empty string" taggedAs FastTest in {
-    val reader2Doc = new Reader2Doc()
-      .setContentPath("/some/path/file.txt")
-      .setContentType("")
-      .setOutputCol("document")
-
-    val pipeline = new Pipeline().setStages(Array(reader2Doc))
-    val piplineModel = pipeline.fit(emptyDataSet)
-
-    val ex = intercept[IllegalArgumentException] {
-      piplineModel.transform(emptyDataSet)
-    }
-    ex.getMessage.contains("contentType must be set")
   }
 
   it should "return all sentences joined into a single document" in {
@@ -343,6 +317,36 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     annotationsResult.foreach { annotations =>
       assert(annotations.head.metadata("elementType") != ElementType.IMAGE)
     }
+  }
+
+  it should "validate invalid paths" taggedAs SlowTest in {
+
+    val reader2Doc = new Reader2Doc()
+      .setContentPath("src/test/resources/reader/uf2")
+      .setOutputCol("document")
+      .setIgnoreExceptions(false)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val errorMessage = intercept[IllegalArgumentException] {
+      pipeline.fit(emptyDataSet).transform(emptyDataSet)
+    }
+
+
+    assert(errorMessage.getMessage.contains("contentPath must point to a valid file or directory"))
+  }
+
+  it should "process unsupported files and display an error in a row without stopping the whole batch" taggedAs SlowTest in {
+
+    val reader2Doc = new Reader2Doc()
+      .setContentPath(unsupportedFiles)
+      .setOutputCol("document")
+      .setIgnoreExceptions(false)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
+
+    assert(resultDf.filter(col("exception").isNotNull).count() >= 1)
   }
 
 }
