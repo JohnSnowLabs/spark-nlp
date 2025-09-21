@@ -274,7 +274,7 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   it should "read a directory of mixed files and integrate with VLM models" taggedAs SlowTest in {
-    //This pipeline requires 29GB of RAM to run
+    // This pipeline requires 29GB of RAM to run
     val reader2Image = new Reader2Image()
       .setContentPath(filesDirectory)
       .setOutputCol("image")
@@ -480,6 +480,18 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     val resultDf = pipelineModel.transform(emptyDataSet)
 
     assert(resultDf.filter(col("exception").isNotNull).count() == 1)
+  }
+
+  it should "output empty dataframe for unsupported files" taggedAs SlowTest in {
+    val reader2Image = new Reader2Image()
+      .setContentPath("src/test/resources/reader/csv")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val imagesDf = pipelineModel.transform(emptyDataSet)
+
+    assert(imagesDf.isEmpty)
   }
 
   def getSupportedFiles(dirPath: String): Seq[String] = {

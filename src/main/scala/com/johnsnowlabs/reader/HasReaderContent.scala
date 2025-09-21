@@ -52,59 +52,6 @@ trait HasReaderContent extends HasReaderProperties {
 
   def retrieveFileName(path: String): String = if (path != null) path.split("/").last else ""
 
-  def partitionMixedContentOld(
-      dataset: Dataset[_],
-      dirPath: String,
-      partitionParams: Map[String, String]): DataFrame = {
-    val allFiles = listAllFilesRecursively(new File(dirPath))
-
-    val grouped = allFiles
-      .filter(_.isFile)
-      .groupBy { file =>
-        val ext = file.getName.split("\\.").lastOption.getOrElse("").toLowerCase
-        if (supportedTypes.contains(ext)) {
-          Some(ext)
-        } else if (! $(ignoreExceptions)) {
-          // Treat unsupported as their own "error group"
-          Some(s"__unsupported__$ext")
-        } else {
-          None
-        }
-      }
-      .collect { case (Some(ext), files) => ext -> files }
-
-    val mixedDfs = grouped.flatMap { case (ext, files) =>
-      if (ext.startsWith("__unsupported__")) {
-        val badExt = ext.stripPrefix("__unsupported__")
-        val filesDf = files.map { file =>
-          buildErrorDataFrame(dataset, file.getAbsolutePath, badExt)
-        }
-        Some(filesDf.reduce(_.unionByName(_)))
-      } else {
-        val (contentType, isText) = supportedTypes(ext)
-        val filePartitionParam = Map("contentType" -> contentType) ++ partitionParams
-        val partition = new Partition(filePartitionParam.asJava)
-
-        val filePaths = files.map(_.getAbsolutePath)
-        if (filePaths.nonEmpty) {
-          val dfList = files.map { file =>
-            val partitionDf = partitionContent(partition, file.getAbsolutePath, isText, dataset)
-            if ($(ignoreExceptions)) {
-              partitionDf.filter(col("exception").isNull)
-            } else partitionDf
-          }
-          Some(dfList.reduce(_.unionByName(_)))
-        } else None
-      }
-    }.toSeq
-
-    if (mixedDfs.isEmpty) {
-      buildEmptyDataFrame(dataset)
-    } else {
-      mixedDfs.reduce(_.unionByName(_))
-    }
-  }
-
   def partitionMixedContent(
       dataset: Dataset[_],
       dirPath: String,
@@ -125,6 +72,10 @@ trait HasReaderContent extends HasReaderProperties {
         }
       }
       .collect { case (Some(ext), files) => ext -> files }
+
+    if (grouped.isEmpty) {
+      return buildEmptyDataFrame(dataset)
+    }
 
     val mixedDfs = grouped.flatMap { case (ext, files) =>
       if (ext.startsWith("__unsupported__")) {

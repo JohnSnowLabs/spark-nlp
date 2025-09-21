@@ -19,7 +19,11 @@ import com.johnsnowlabs.nlp.AnnotatorType.IMAGE
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{AnnotationImage, HasOutputAnnotationCol, HasOutputAnnotatorType}
-import com.johnsnowlabs.partition.util.PartitionHelper.{datasetWithBinaryFile, datasetWithTextFile, isStringContent}
+import com.johnsnowlabs.partition.util.PartitionHelper.{
+  datasetWithBinaryFile,
+  datasetWithTextFile,
+  isStringContent
+}
 import com.johnsnowlabs.partition.{HasHTMLReaderProperties, HasReaderProperties, Partition}
 import com.johnsnowlabs.reader.util.{HasPdfProperties, ImageParser, ImagePromptTemplate}
 import org.apache.spark.ml.Transformer
@@ -97,11 +101,6 @@ class Reader2Image(override val uid: String)
 
   def this() = this(Identifiable.randomUID("Reader2Image"))
 
-  val explodeDocs: BooleanParam =
-    new BooleanParam(this, "explodeDocs", "whether to explode the documents into separate rows")
-
-  def setExplodeDocs(value: Boolean): this.type = set(explodeDocs, value)
-
   val userMessage: Param[String] = new Param[String](this, "userMessage", "custom user message")
 
   def setUserMessage(value: String): this.type = set(userMessage, value)
@@ -136,17 +135,16 @@ class Reader2Image(override val uid: String)
     } else {
       partitionContent(partition, $(contentPath), isStringContent($(contentType)), dataset)
     }
-    val annotatedDf = if (!structuredDf.isEmpty) {
+    if (!structuredDf.isEmpty) {
       val annotatedDf = structuredDf
         .withColumn(
           getOutputCol,
           wrapColumnMetadata(partitionAnnotation(col(partition.getOutputColumn), col("path"))))
 
-      afterAnnotate(annotatedDf)
+      afterAnnotate(annotatedDf).select("fileName", getOutputCol, "exception")
     } else {
       structuredDf
     }
-    annotatedDf.select("fileName", getOutputCol, "exception")
   }
 
   override def partitionContent(
@@ -379,7 +377,8 @@ class Reader2Image(override val uid: String)
     require(
       $(contentPath) != null && $(contentPath).trim.nonEmpty,
       "contentPath must be set and not empty")
-    require(ResourceHelper.validFile($(contentPath)),
+    require(
+      ResourceHelper.validFile($(contentPath)),
       "contentPath must point to a valid file or directory")
   }
 

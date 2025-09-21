@@ -154,7 +154,7 @@ import scala.io.Source
 class EntityRulerApproach(override val uid: String)
     extends AnnotatorApproach[EntityRulerModel]
     with HasStorage {
-  // TODO: add predefined rules for entities like email, phone, etc
+
   def this() = this(Identifiable.randomUID("ENTITY_RULER"))
 
   override val description: String = "Entity Ruler matches entities based on text patterns"

@@ -20,7 +20,9 @@ from sparknlp.partition.partition_properties import *
 
 class Reader2Image(
     AnnotatorTransformer,
-    HasHTMLReaderProperties
+    HasReaderProperties,
+    HasHTMLReaderProperties,
+    HasPdfProperties
 ):
     """
     The Reader2Image annotator allows you to use the reading files with images more smoothly within existing
@@ -63,41 +65,39 @@ class Reader2Image(
     name = "Reader2Image"
     outputAnnotatorType = AnnotatorType.IMAGE
 
-    contentPath = Param(
+    userMessage = Param(
         Params._dummy(),
-        "contentPath",
-        "contentPath path to files to read",
+        "userMessage",
+        "Custom user message.",
         typeConverter=TypeConverters.toString
     )
 
-    outputCol = Param(
+    promptTemplate = Param(
         Params._dummy(),
-        "outputCol",
-        "output column name",
+        "promptTemplate",
+        "Format of the output prompt.",
         typeConverter=TypeConverters.toString
     )
 
-    contentType = Param(
+    customPromptTemplate = Param(
         Params._dummy(),
-        "contentType",
-        "Set the content type to load following MIME specification",
+        "customPromptTemplate",
+        "Custom prompt template for image models.",
         typeConverter=TypeConverters.toString
-    )
-
-    explodeDocs = Param(
-        Params._dummy(),
-        "explodeDocs",
-        "whether to explode the documents into separate rows",
-        typeConverter=TypeConverters.toBoolean
     )
 
     @keyword_only
     def __init__(self):
         super(Reader2Image, self).__init__(classname="com.johnsnowlabs.reader.Reader2Image")
         self._setDefault(
-            outputCol="document",
+            contentType="",
+            outputFormat="image",
             explodeDocs=True,
-            contentType=""
+            userMessage="Describe this image",
+            promptTemplate="qwen2vl-chat",
+            readAsImage=True,
+            customPromptTemplate="",
+            ignoreExceptions=True
         )
 
     @keyword_only
@@ -105,44 +105,32 @@ class Reader2Image(
         kwargs = self._input_kwargs
         return self._set(**kwargs)
 
-    def setContentPath(self, value):
-        """Sets content path.
+    def setUserMessage(self, value: str):
+        """Sets custom user message.
 
         Parameters
         ----------
         value : str
-            contentPath path to files to read
+            Custom user message to include.
         """
-        return self._set(contentPath=value)
+        return self._set(userMessage=value)
 
-    def setContentType(self, value):
-        """
-        Set the content type to load following MIME specification
+    def setPromptTemplate(self, value: str):
+        """Sets format of the output prompt.
 
         Parameters
         ----------
         value : str
-            content type to load following MIME specification
+            Prompt template format.
         """
-        return self._set(contentType=value)
+        return self._set(promptTemplate=value)
 
-    def setExplodeDocs(self, value):
-        """Sets whether to explode the documents into separate rows.
-
-
-        Parameters
-        ----------
-        value : boolean
-        Whether to explode the documents into separate rows
-        """
-        return self._set(explodeDocs=value)
-
-    def setOutputCol(self, value):
-        """Sets output column name.
+    def setCustomPromptTemplate(self, value: str):
+        """Sets custom prompt template for image models.
 
         Parameters
         ----------
         value : str
-            Name of the Output Column
+            Custom prompt template string.
         """
-        return self._set(outputCol=value)
+        return self._set(customPromptTemplate=value)
