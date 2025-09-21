@@ -19,15 +19,6 @@ import org.apache.spark.ml.param.{BooleanParam, Param}
 
 trait HasReaderProperties extends HasHTMLReaderProperties {
 
-  protected final val inputCol: Param[String] =
-    new Param(this, "inputCol", "the output annotation column")
-
-  /** Overrides annotation column name when transforming */
-  final def setInputCol(value: String): this.type = set(inputCol, value)
-
-  /** Gets annotation column name going to generate */
-  final def getInputCol: String = $(inputCol)
-
   val contentPath = new Param[String](this, "contentPath", "Path to the content source")
 
   def setContentPath(value: String): this.type = set(contentPath, value)
@@ -72,6 +63,11 @@ trait HasReaderProperties extends HasHTMLReaderProperties {
 
   def setIgnoreExceptions(value: Boolean): this.type = set(ignoreExceptions, value)
 
+  val explodeDocs: BooleanParam =
+    new BooleanParam(this, "explodeDocs", "whether to explode the documents into separate rows")
+
+  def setExplodeDocs(value: Boolean): this.type = set(explodeDocs, value)
+
   setDefault(
     contentPath -> "",
     contentType -> "text/plain",
@@ -79,7 +75,6 @@ trait HasReaderProperties extends HasHTMLReaderProperties {
     titleFontSize -> 9,
     inferTableStructure -> false,
     includePageBreaks -> false,
-    ignoreExceptions -> true,
-    inputCol -> "")
+    ignoreExceptions -> true)
 
 }

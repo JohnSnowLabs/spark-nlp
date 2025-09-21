@@ -18,17 +18,16 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, HasOutputAnnotationCol, HasOutputAnnotatorType}
-import com.johnsnowlabs.partition.util.PartitionHelper.{datasetWithBinaryFile, datasetWithTextFile, isStringContent}
 import com.johnsnowlabs.partition._
+import com.johnsnowlabs.partition.util.PartitionHelper.isStringContent
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
+import org.apache.spark.sql._
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
-import org.apache.spark.sql._
 
-import java.io.File
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
 /** The Reader2Doc annotator allows you to use the reading files more smoothly within existing
@@ -80,11 +79,6 @@ class Reader2Doc(override val uid: String)
     with HasReaderContent {
 
   def this() = this(Identifiable.randomUID("Reader2Doc"))
-
-  val explodeDocs: BooleanParam =
-    new BooleanParam(this, "explodeDocs", "whether to explode the documents into separate rows")
-
-  def setExplodeDocs(value: Boolean): this.type = set(explodeDocs, value)
 
   val flattenOutput: BooleanParam =
     new BooleanParam(
@@ -141,12 +135,16 @@ class Reader2Doc(override val uid: String)
     } else {
       partitionContent(partitionBuilder, $(contentPath), isStringContent($(contentType)), dataset)
     }
-    val annotatedDf = structuredDf
-      .withColumn(
-        getOutputCol,
-        wrapColumnMetadata(partitionToAnnotation(col("partition"), col("fileName"))))
+    if (!structuredDf.isEmpty) {
+      val annotatedDf = structuredDf
+        .withColumn(
+          getOutputCol,
+          wrapColumnMetadata(partitionToAnnotation(col("partition"), col("fileName"))))
 
-    afterAnnotate(annotatedDf).select("fileName", getOutputCol, "exception")
+      afterAnnotate(annotatedDf).select("fileName", getOutputCol, "exception")
+    } else {
+      structuredDf
+    }
   }
 
   protected def partitionBuilder: Partition = {
@@ -194,8 +192,9 @@ class Reader2Doc(override val uid: String)
     require(
       $(outputFormat) == "plain-text",
       "Only 'plain-text' outputFormat is supported for this operation.")
-    require(ResourceHelper.validFile($(contentPath)),
-    "contentPath must point to a valid file or directory")
+    require(
+      ResourceHelper.validFile($(contentPath)),
+      "contentPath must point to a valid file or directory")
   }
 
   protected def partitionToAnnotation: UserDefinedFunction = udf {

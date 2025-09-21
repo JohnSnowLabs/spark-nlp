@@ -18,6 +18,7 @@ import unittest
 import pytest
 from pyspark.ml import Pipeline
 
+from sparknlp.annotator import Qwen2VLTransformer
 from sparknlp.reader.reader2image import Reader2Image
 from test.util import SparkContextForTest
 
@@ -41,3 +42,35 @@ class Reader2ImageTest(unittest.TestCase):
         result_df = model.transform(self.empty_df)
 
         self.assertTrue(result_df.select("image").count() > 0)
+
+
+@pytest.mark.slow
+class Reader2ImageIntegrationVLMTest(unittest.TestCase):
+
+    def setUp(self):
+        spark = SparkContextForTest.spark
+        self.empty_df = spark.createDataFrame([], "string").toDF("text")
+        self.files_dir = f"{os.getcwd()}/../src/test/resources/reader/email"
+
+    def runTest(self):
+        reader2image = Reader2Image() \
+            .setContentPath(self.files_dir) \
+            .setOutputCol("image")
+
+        pipeline = Pipeline(stages=[reader2image])
+        model = pipeline.fit(self.empty_df)
+        images_df = model.transform(self.empty_df)
+
+        images_df.show()
+
+        visual_qa = Qwen2VLTransformer.pretrained() \
+            .setInputCols(["image"]) \
+            .setOutputCol("answer")
+
+        vlm_pipeline = Pipeline(stages=[visual_qa])
+        result_df = vlm_pipeline.fit(images_df).transform(images_df)
+
+        result_df.select("image.origin", "answer.result").show(truncate=False)
+
+        # Assertion
+        self.assertTrue(result_df.count() > 0)

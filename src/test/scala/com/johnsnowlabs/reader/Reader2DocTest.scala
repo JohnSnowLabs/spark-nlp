@@ -332,8 +332,8 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
       pipeline.fit(emptyDataSet).transform(emptyDataSet)
     }
 
-
-    assert(errorMessage.getMessage.contains("contentPath must point to a valid file or directory"))
+    assert(
+      errorMessage.getMessage.contains("contentPath must point to a valid file or directory"))
   }
 
   it should "process unsupported files and display an error in a row without stopping the whole batch" taggedAs SlowTest in {

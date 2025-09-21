@@ -379,7 +379,7 @@ class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   it should "process unsupported files and display an error in a row without stopping the whole batch" taggedAs SlowTest in {
-        val reader2Table = new Reader2Table()
+    val reader2Table = new Reader2Table()
       .setContentPath(unsupportedFiles)
       .setOutputCol("table")
       .setIgnoreExceptions(false)
