@@ -23,7 +23,7 @@ from sparknlp.reader.reader2image import Reader2Image
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class Reader2ImageTest(unittest.TestCase):
 
     def setUp(self):
