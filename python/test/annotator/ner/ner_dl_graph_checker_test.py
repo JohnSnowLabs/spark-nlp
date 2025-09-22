@@ -22,7 +22,13 @@ from pyspark.ml import Pipeline
 from sparknlp.training import CoNLL
 from test.util import SparkSessionForTest
 
-from pyspark.errors.exceptions.captured import IllegalArgumentException
+try:
+    # PySpark >= 3.4
+    from pyspark.errors.exceptions.captured import IllegalArgumentException
+except ImportError:
+    # PySpark < 3.4
+    from py4j.protocol import Py4JJavaError
+    IllegalArgumentException = Py4JJavaError
 
 def setup_annotators(dataset, embeddingDim: int = 100):
     # Get GloVe embeddings
