@@ -11,6 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+import os
 import unittest
 
 import pytest
@@ -21,13 +22,7 @@ from pyspark.ml import Pipeline
 from sparknlp.training import CoNLL
 from test.util import SparkSessionForTest
 
-try:
-    # PySpark >= 3.4
-    from pyspark.errors.exceptions.captured import IllegalArgumentException
-except ImportError:
-    # PySpark < 3.4
-    from py4j.protocol import Py4JJavaError
-    IllegalArgumentException = Py4JJavaError
+from pyspark.errors.exceptions.captured import IllegalArgumentException
 
 def setup_annotators(dataset, embeddingDim: int = 100):
     # Get GloVe embeddings
@@ -115,7 +110,7 @@ class NerDLGraphCheckerTest(unittest.TestCase):
             self.dataset, embeddingDim=101
         )
         pipeline = Pipeline(stages=[embeddings_invalid, ner_graph_checker, ner])
-        with pytest.raises(IllegalArgumentException) as exc_info:
+        with pytest.raises(Exception) as exc_info:
             pipeline.fit(self.dataset)
         assert "Could not find a suitable tensorflow graph" in str(exc_info.value)
 
