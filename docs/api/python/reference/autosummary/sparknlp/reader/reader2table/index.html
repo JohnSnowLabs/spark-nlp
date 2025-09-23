@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.reader.reader2table &#8212; Spark NLP 6.1.3 documentation</title>
+    <title>sparknlp.reader.reader2table &#8212; Spark NLP 6.1.4 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=76c29752"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=bd4b079f"></script>
     <script src="../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.3 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.3 documentation - Home"/>`);</script>
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -317,6 +317,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../enums/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.reader.enums</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pdf_to_text/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.reader.pdf_to_text</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reader2doc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.reader.reader2doc</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reader2image/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.reader.reader2image</span></code></a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.reader.reader2table</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sparknlp_reader/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.reader.sparknlp_reader</span></code></a></li>
 </ul>
@@ -403,26 +404,6 @@ available as _java_obj.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.contentPath">
-<span class="sig-name descname"><span class="pre">contentPath</span></span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.contentPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.contentPath" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.outputCol">
-<span class="sig-name descname"><span class="pre">outputCol</span></span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.outputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.outputCol" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.contentType">
-<span class="sig-name descname"><span class="pre">contentType</span></span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.contentType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.contentType" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.explodeDocs">
-<span class="sig-name descname"><span class="pre">explodeDocs</span></span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.explodeDocs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.explodeDocs" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.flattenOutput">
 <span class="sig-name descname"><span class="pre">flattenOutput</span></span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.flattenOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.flattenOutput" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -432,71 +413,10 @@ available as _java_obj.</p>
 <span class="sig-name descname"><span class="pre">titleThreshold</span></span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.titleThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.titleThreshold" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.outputFormat">
-<span class="sig-name descname"><span class="pre">outputFormat</span></span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.outputFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.outputFormat" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.setParams">
 <span class="sig-name descname"><span class="pre">setParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.setParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.setParams" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.setContentPath">
-<span class="sig-name descname"><span class="pre">setContentPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.setContentPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.setContentPath" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets content path.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>contentPath path to files to read</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.setContentType">
-<span class="sig-name descname"><span class="pre">setContentType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.setContentType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.setContentType" title="Permalink to this definition">#</a></dt>
-<dd><p>Set the content type to load following MIME specification</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>content type to load following MIME specification</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.setExplodeDocs">
-<span class="sig-name descname"><span class="pre">setExplodeDocs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.setExplodeDocs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.setExplodeDocs" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets whether to explode the documents into separate rows.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">boolean</span></dt><dd></dd>
-<dt><strong>Whether to explode the documents into separate rows</strong></dt><dd></dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.setOutputCol">
-<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.setOutputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.setOutputCol" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets output column name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of the Output Column</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.setFlattenOutput">
@@ -520,20 +440,6 @@ available as _java_obj.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>Minimum font size threshold for title detection in PDF docs</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.reader2table.Reader2Table.setOutputFormat">
-<span class="sig-name descname"><span class="pre">setOutputFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2table.html#Reader2Table.setOutputFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2table.Reader2Table.setOutputFormat" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets the output format for the table content.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Output format for the table content. Options are ‘plain-text’ or ‘html-table’. Default is ‘json-table’.</p>
 </dd>
 </dl>
 </dd>
@@ -577,21 +483,11 @@ available as _java_obj.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table"><code class="docutils literal notranslate"><span class="pre">Reader2Table</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.name"><code class="docutils literal notranslate"><span class="pre">Reader2Table.name</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">Reader2Table.outputAnnotatorType</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.contentPath"><code class="docutils literal notranslate"><span class="pre">Reader2Table.contentPath</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.outputCol"><code class="docutils literal notranslate"><span class="pre">Reader2Table.outputCol</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.contentType"><code class="docutils literal notranslate"><span class="pre">Reader2Table.contentType</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.explodeDocs"><code class="docutils literal notranslate"><span class="pre">Reader2Table.explodeDocs</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.flattenOutput"><code class="docutils literal notranslate"><span class="pre">Reader2Table.flattenOutput</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.titleThreshold"><code class="docutils literal notranslate"><span class="pre">Reader2Table.titleThreshold</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.outputFormat"><code class="docutils literal notranslate"><span class="pre">Reader2Table.outputFormat</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.setParams"><code class="docutils literal notranslate"><span class="pre">Reader2Table.setParams()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.setContentPath"><code class="docutils literal notranslate"><span class="pre">Reader2Table.setContentPath()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.setContentType"><code class="docutils literal notranslate"><span class="pre">Reader2Table.setContentType()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.setExplodeDocs"><code class="docutils literal notranslate"><span class="pre">Reader2Table.setExplodeDocs()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.setOutputCol"><code class="docutils literal notranslate"><span class="pre">Reader2Table.setOutputCol()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.setFlattenOutput"><code class="docutils literal notranslate"><span class="pre">Reader2Table.setFlattenOutput()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.setTitleThreshold"><code class="docutils literal notranslate"><span class="pre">Reader2Table.setTitleThreshold()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2table.Reader2Table.setOutputFormat"><code class="docutils literal notranslate"><span class="pre">Reader2Table.setOutputFormat()</span></code></a></li>
 </ul>
 </li>
 </ul>

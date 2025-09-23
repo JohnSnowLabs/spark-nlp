@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.reader.reader2doc &#8212; Spark NLP 6.1.3 documentation</title>
+    <title>sparknlp.reader.reader2doc &#8212; Spark NLP 6.1.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=76c29752"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=bd4b079f"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.3 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.3 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -382,9 +382,10 @@ document.write(`
 
 <div class="viewcode-block" id="Reader2Doc"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Reader2Doc</span><span class="p">(</span>
     <span class="n">AnnotatorTransformer</span><span class="p">,</span>
+    <span class="n">HasReaderProperties</span><span class="p">,</span>
+    <span class="n">HasHTMLReaderProperties</span><span class="p">,</span>
     <span class="n">HasEmailReaderProperties</span><span class="p">,</span>
     <span class="n">HasExcelReaderProperties</span><span class="p">,</span>
-    <span class="n">HasHTMLReaderProperties</span><span class="p">,</span>
     <span class="n">HasPowerPointProperties</span><span class="p">,</span>
     <span class="n">HasTextReaderProperties</span>
 <span class="p">):</span>
@@ -434,33 +435,6 @@ document.write(`
 <div class="viewcode-block" id="Reader2Doc.name"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Reader2Doc&quot;</span></div>
 <div class="viewcode-block" id="Reader2Doc.outputAnnotatorType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
-<div class="viewcode-block" id="Reader2Doc.contentPath"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.contentPath">[docs]</a>    <span class="n">contentPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;contentPath&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;contentPath path to files to read&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Doc.outputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.outputCol">[docs]</a>    <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;output column name&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Doc.contentType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.contentType">[docs]</a>    <span class="n">contentType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;contentType&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Set the content type to load following MIME specification&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Doc.explodeDocs"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.explodeDocs">[docs]</a>    <span class="n">explodeDocs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;explodeDocs&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;whether to explode the documents into separate rows&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
-    <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Reader2Doc.flattenOutput"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.flattenOutput">[docs]</a>    <span class="n">flattenOutput</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
@@ -474,13 +448,6 @@ document.write(`
         <span class="s2">&quot;titleThreshold&quot;</span><span class="p">,</span>
         <span class="s2">&quot;Minimum font size threshold for title detection in PDF docs&quot;</span><span class="p">,</span>
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span>
-    <span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Doc.outputFormat"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.outputFormat">[docs]</a>    <span class="n">outputFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;outputFormat&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Output format for the table content. Options are &#39;plain-text&#39; or &#39;html-table&#39;. Default is &#39;json-table&#39;.&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Reader2Doc.outputAsDocument"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.outputAsDocument">[docs]</a>    <span class="n">outputAsDocument</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
@@ -512,47 +479,6 @@ document.write(`
         <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Reader2Doc.setContentPath"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.setContentPath">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setContentPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets content path.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : str</span>
-<span class="sd">            contentPath path to files to read</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">contentPath</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Doc.setContentType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.setContentType">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setContentType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the content type to load following MIME specification</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : str</span>
-<span class="sd">            content type to load following MIME specification</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">contentType</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Doc.setExplodeDocs"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.setExplodeDocs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExplodeDocs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to explode the documents into separate rows.</span>
-
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : boolean</span>
-<span class="sd">        Whether to explode the documents into separate rows</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">explodeDocs</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Doc.setOutputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.setOutputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets output column name.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : str</span>
-<span class="sd">            Name of the Output Column</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Reader2Doc.setFlattenOutput"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.setFlattenOutput">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setFlattenOutput</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to flatten the output to plain text with minimal metadata.</span>
@@ -573,16 +499,6 @@ document.write(`
 <span class="sd">            Minimum font size threshold for title detection in PDF docs</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">titleThreshold</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Doc.setOutputFormat"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.setOutputFormat">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the output format for the table content.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : str</span>
-<span class="sd">            Output format for the table content. Options are &#39;plain-text&#39; or &#39;html-table&#39;. Default is &#39;json-table&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputFormat</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Reader2Doc.setOutputAsDocument"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.setOutputAsDocument">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputAsDocument</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to return all sentences joined into a single document.</span>

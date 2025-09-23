@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.1.3 documentation</title>
+    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.1.4 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=76c29752"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=bd4b079f"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.3 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.3 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.4 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.4 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -374,8 +374,159 @@ document.write(`
 <span class="c1">#  limitations under the License.</span>
 <span class="sd">&quot;&quot;&quot;Contains classes for partition properties used in reading various document types.&quot;&quot;&quot;</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.param</span><span class="w"> </span><span class="kn">import</span> <span class="n">Param</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">TypeConverters</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.param</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeConverters</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span>
+
+<div class="viewcode-block" id="HasReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+
+<div class="viewcode-block" id="HasReaderProperties.outputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.outputCol">[docs]</a>    <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;output column name&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.contentPath"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.contentPath">[docs]</a>    <span class="n">contentPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;contentPath&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Path to the content source.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.setContentPath"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.setContentPath">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setContentPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets content path.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Path to the content source.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">contentPath</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.contentType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.contentType">[docs]</a>    <span class="n">contentType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;contentType&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set the content type to load following MIME specification.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.setContentType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.setContentType">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setContentType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets content type following MIME specification.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Content type string (MIME format).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">contentType</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.storeContent"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.storeContent">[docs]</a>    <span class="n">storeContent</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;storeContent&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to include the raw file content in the output DataFrame &quot;</span>
+        <span class="s2">&quot;as a separate &#39;content&#39; column, alongside the structured output.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.setStoreContent"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.setStoreContent">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStoreContent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to store raw file content.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to include raw file content, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">storeContent</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.titleFontSize"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.titleFontSize">[docs]</a>    <span class="n">titleFontSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;titleFontSize&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Minimum font size threshold used as part of heuristic rules to detect &quot;</span>
+        <span class="s2">&quot;title elements based on formatting (e.g., bold, centered, capitalized).&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.setTitleFontSize"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.setTitleFontSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTitleFontSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets minimum font size for detecting titles.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Minimum font size threshold for title detection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">titleFontSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.inferTableStructure"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.inferTableStructure">[docs]</a>    <span class="n">inferTableStructure</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;inferTableStructure&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to generate an HTML table representation from structured table content. &quot;</span>
+        <span class="s2">&quot;When enabled, a full &lt;table&gt; element is added alongside cell-level elements, &quot;</span>
+        <span class="s2">&quot;based on row and column layout.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.setInferTableStructure"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.setInferTableStructure">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setInferTableStructure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to infer table structure.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to generate HTML table representation, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inferTableStructure</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.includePageBreaks"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.includePageBreaks">[docs]</a>    <span class="n">includePageBreaks</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;includePageBreaks&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to detect and tag content with page break metadata. &quot;</span>
+        <span class="s2">&quot;In Word documents, this includes manual and section breaks. &quot;</span>
+        <span class="s2">&quot;In Excel files, this includes page breaks based on column boundaries.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.setIncludePageBreaks"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.setIncludePageBreaks">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIncludePageBreaks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to include page break metadata.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to detect and tag page breaks, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">includePageBreaks</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.ignoreExceptions"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.ignoreExceptions">[docs]</a>    <span class="n">ignoreExceptions</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;ignoreExceptions&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to ignore exceptions during processing.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.setIgnoreExceptions"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.setIgnoreExceptions">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIgnoreExceptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to ignore exceptions during processing.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to ignore exceptions, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">ignoreExceptions</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.explodeDocs"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.explodeDocs">[docs]</a>    <span class="n">explodeDocs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;explodeDocs&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to explode the documents into separate rows.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasReaderProperties.setExplodeDocs"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.setExplodeDocs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExplodeDocs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to explode the documents into separate rows.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to split documents into multiple rows, False to keep them in one row.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">explodeDocs</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="HasEmailReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasEmailReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasEmailReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
@@ -503,8 +654,30 @@ document.write(`
 
 <div class="viewcode-block" id="HasHTMLReaderProperties.setHeaders"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setHeaders">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setHeadersPython&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span></div>
 
+<div class="viewcode-block" id="HasHTMLReaderProperties.outputFormat"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.outputFormat">[docs]</a>    <span class="n">outputFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;outputFormat&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Output format for the table content. Options are &#39;plain-text&#39; or &#39;html-table&#39;. Default is &#39;json-table&#39;.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasHTMLReaderProperties.setOutputFormat"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setOutputFormat">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets output format for the table content.</span>
+
+<span class="sd">        Options</span>
+<span class="sd">        -------</span>
+<span class="sd">        - &#39;plain-text&#39;</span>
+<span class="sd">        - &#39;html-table&#39;</span>
+<span class="sd">        - &#39;json-table&#39; (default)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Output format for the table content.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputFormat</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="HasPowerPointProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPowerPointProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasPowerPointProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
 
@@ -678,6 +851,209 @@ document.write(`
 
 <div class="viewcode-block" id="HasChunkerProperties.setOverlapAll"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties.setOverlapAll">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOverlapAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">overlapAll</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.param</span><span class="w"> </span><span class="kn">import</span> <span class="n">Param</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">TypeConverters</span>
+
+
+<div class="viewcode-block" id="HasPdfProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasPdfProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+
+<div class="viewcode-block" id="HasPdfProperties.pageNumCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.pageNumCol">[docs]</a>    <span class="n">pageNumCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;pageNumCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Page number output column name.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.setPageNumCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.setPageNumCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPageNumCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets page number output column name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Name of the column for page numbers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">pageNumCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.originCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.originCol">[docs]</a>    <span class="n">originCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;originCol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Input column name with original path of file.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.setOriginCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.setOriginCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOriginCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets input column with original file path.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Column name that stores the file path.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">originCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.partitionNum"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.partitionNum">[docs]</a>    <span class="n">partitionNum</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;partitionNum&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Number of partitions.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.setPartitionNum"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.setPartitionNum">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPartitionNum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets number of partitions.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Number of partitions to use.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">partitionNum</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.storeSplittedPdf"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.storeSplittedPdf">[docs]</a>    <span class="n">storeSplittedPdf</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;storeSplittedPdf&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Force to store bytes content of splitted pdf.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.setStoreSplittedPdf"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.setStoreSplittedPdf">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setStoreSplittedPdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to store byte content of split PDF pages.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to store PDF page bytes, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">storeSplittedPdf</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.splitPage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.splitPage">[docs]</a>    <span class="n">splitPage</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;splitPage&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Enable/disable splitting per page to identify page numbers and improve performance.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.setSplitPage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.setSplitPage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSplitPage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to split PDF into pages.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to split per page, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">splitPage</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.onlyPageNum"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.onlyPageNum">[docs]</a>    <span class="n">onlyPageNum</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;onlyPageNum&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Extract only page numbers.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.setOnlyPageNum"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.setOnlyPageNum">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOnlyPageNum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to extract only page numbers.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to extract only page numbers, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">onlyPageNum</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.textStripper"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.textStripper">[docs]</a>    <span class="n">textStripper</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;textStripper&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Text stripper type used for output layout and formatting.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.setTextStripper"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.setTextStripper">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTextStripper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets text stripper type.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Text stripper type for layout and formatting.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">textStripper</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.sort"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.sort">[docs]</a>    <span class="n">sort</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;sort&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Enable/disable sorting content on the page.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.setSort"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.setSort">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setSort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to sort content on the page.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to sort content, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.extractCoordinates"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.extractCoordinates">[docs]</a>    <span class="n">extractCoordinates</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;extractCoordinates&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Force extract coordinates of text.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.setExtractCoordinates"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.setExtractCoordinates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExtractCoordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to extract coordinates of text.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to extract coordinates, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">extractCoordinates</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.normalizeLigatures"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.normalizeLigatures">[docs]</a>    <span class="n">normalizeLigatures</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;normalizeLigatures&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to convert ligature chars such as &#39;ﬂ&#39; into its corresponding chars (e.g., {&#39;f&#39;, &#39;l&#39;}).&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.setNormalizeLigatures"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.setNormalizeLigatures">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setNormalizeLigatures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to normalize ligatures (e.g., ﬂ → f + l).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to normalize ligatures, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">normalizeLigatures</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.readAsImage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.readAsImage">[docs]</a>    <span class="n">readAsImage</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;readAsImage&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Read PDF pages as images.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.setReadAsImage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.setReadAsImage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setReadAsImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to read PDF pages as images.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to read as images, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">readAsImage</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasPdfProperties.setOutputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties.setOutputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets output column name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Name of the Output Column</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>
