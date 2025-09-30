@@ -18,12 +18,39 @@ from pyspark.ml.param import Param, Params, TypeConverters
 
 class HasReaderProperties(Params):
 
+    inputCol = Param(
+        Params._dummy(),
+        "inputCol",
+        "input column name",
+        typeConverter=TypeConverters.toString
+    )
+
+    def setInputCol(self, value):
+        """Sets input column name.
+
+        Parameters
+        ----------
+        value : str
+            Name of the Input Column
+        """
+        return self._set(inputCol=value)
+
     outputCol = Param(
         Params._dummy(),
         "outputCol",
         "output column name",
         typeConverter=TypeConverters.toString
     )
+
+    def setOutputCol(self, value):
+        """Sets output column name.
+
+        Parameters
+        ----------
+        value : str
+            Name of the Output Column
+        """
+        return self._set(outputCol=value)
 
     contentPath = Param(
         Params._dummy(),
@@ -683,13 +710,3 @@ class HasPdfProperties(Params):
             True to read as images, False otherwise.
         """
         return self._set(readAsImage=value)
-
-    def setOutputCol(self, value):
-        """Sets output column name.
-
-        Parameters
-        ----------
-        value : str
-            Name of the Output Column
-        """
-        return self._set(outputCol=value)

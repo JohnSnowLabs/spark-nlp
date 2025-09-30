@@ -112,3 +112,23 @@ class Reader2DocTestOutputAsDoc(unittest.TestCase):
         result_df = model.transform(self.empty_df)
 
         self.assertTrue(result_df.select("document").count() > 0)
+
+@pytest.mark.fast
+class Reader2DocTestInputColumn(unittest.TestCase):
+
+    def setUp(self):
+        spark = SparkContextForTest.spark
+        content = "<html><head><title>Test<title><body><p>Unclosed tag"
+        self.html_df = spark.createDataFrame([(1, content)], ["id", "html"])
+
+    def runTest(self):
+        reader2doc = Reader2Doc() \
+            .setInputCol("html") \
+            .setOutputCol("document")
+
+        pipeline = Pipeline(stages=[reader2doc])
+        model = pipeline.fit(self.html_df)
+
+        result_df = model.transform(self.html_df)
+
+        self.assertTrue(result_df.select("document").count() > 0)

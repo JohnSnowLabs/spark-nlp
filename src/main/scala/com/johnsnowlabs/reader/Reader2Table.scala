@@ -16,6 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
@@ -84,7 +85,7 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
   }
 
   private def getAcceptedTypes(fileName: String): Set[String] = {
-    if (fileName.isEmpty) {
+    if (fileName == null || fileName.isEmpty) {
       val officeDocTypes = Set(
         "application/msword",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -171,9 +172,12 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
   }
 
   override def validateRequiredParameters(): Unit = {
-    require(
-      $(contentPath) != null && $(contentPath).trim.nonEmpty,
-      "contentPath must be set and not empty")
+    val hasContentPath = $(contentPath) != null && $(contentPath).trim.nonEmpty
+    if (hasContentPath) {
+      require(
+        ResourceHelper.validFile($(contentPath)),
+        "contentPath must point to a valid file or directory")
+    }
     require(
       Set("html-table", "json-table").contains($(outputFormat)),
       "outputFormat must be either 'html-table' or 'json-table'.")
