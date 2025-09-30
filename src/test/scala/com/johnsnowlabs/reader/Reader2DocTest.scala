@@ -349,4 +349,112 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     assert(resultDf.filter(col("exception").isNotNull).count() >= 1)
   }
 
+  it should "proces from a spark dataframe" taggedAs FastTest in {
+
+    val content =
+      """
+        |The big brown fox
+        |was walking down the lane.
+        |
+        |At the end of the lane,
+        |the fox met a bear.
+        |""".stripMargin
+
+    val txtDf = spark.createDataFrame(Seq((1, content))).toDF("id", "txt")
+
+    txtDf.show(truncate = false)
+
+    val reader2Doc = new Reader2Doc()
+      .setInputCol("txt")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+    val resultDf = pipeline.fit(txtDf).transform(txtDf)
+
+    resultDf.show(truncate = false)
+  }
+
+  it should "proces HTML style from a spark dataframe" taggedAs FastTest in {
+
+    val content =
+      """
+        |<!DOCTYPE html>
+        |<html lang="en">
+        |<head>
+        |    <meta charset="UTF-8">
+        |    <title>Title Font Size Demo</title>
+        |</head>
+        |<body>
+        |<p style="font-size:18pt; font-weight:bold;">This SHOULD be a title</p>
+        |<p style="font-size:12pt;">This is a normal paragraph.</p>
+        |<p style="font-size:14pt;">This MIGHT be a title</p>
+        |<p style="font-size:10pt;">Another regular paragraph.</p>
+        |</body>
+        |</html>
+        |""".stripMargin
+
+    val txtDf = spark.createDataFrame(Seq((1, content))).toDF("id", "html")
+
+    txtDf.show(truncate = false)
+
+    val reader2Doc = new Reader2Doc()
+      .setInputCol("html")
+      .setOutputCol("raw-html")
+      .setContentType("text/plain")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+    val resultDf = pipeline.fit(txtDf).transform(txtDf)
+
+    resultDf.show(truncate = false)
+  }
+
+  it should "be fault-tolerant for HTML content" taggedAs FastTest in {
+
+    val content =
+      "<html><head><title>Test<title><body><p>Unclosed tag"
+
+    val htmlDf = spark.createDataFrame(Seq((1, content))).toDF("id", "html")
+
+    htmlDf.show(truncate = false)
+
+    val reader2Doc = new Reader2Doc()
+      .setInputCol("html")
+      .setOutputCol("document")
+      .setContentType("text/html")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+    val resultDf = pipeline.fit(htmlDf).transform(htmlDf)
+
+    resultDf.show(truncate = false)
+  }
+
+  it should "read XML as HTML" taggedAs FastTest in {
+
+    val reader2Doc = new Reader2Doc()
+      .setContentType("text/html")
+      .setContentPath(s"$xmlDirectory/malformed.xml")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    resultDf.show(truncate = false)
+  }
+
+  it should "read malformed XML as HTML" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("application/xml")
+      .setContentPath(s"$xmlDirectory/malformed.xml")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    resultDf.show(truncate = false)
+  }
+
 }

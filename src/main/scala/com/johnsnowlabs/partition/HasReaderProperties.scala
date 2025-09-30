@@ -19,6 +19,13 @@ import org.apache.spark.ml.param.{BooleanParam, Param}
 
 trait HasReaderProperties extends HasHTMLReaderProperties {
 
+  protected final val inputCol: Param[String] =
+    new Param(this, "inputCol", "input column to process")
+
+  final def setInputCol(value: String): this.type = set(inputCol, value)
+
+  final def getInputCol: String = $(inputCol)
+
   val contentPath = new Param[String](this, "contentPath", "Path to the content source")
 
   def setContentPath(value: String): this.type = set(contentPath, value)
@@ -75,6 +82,7 @@ trait HasReaderProperties extends HasHTMLReaderProperties {
     titleFontSize -> 9,
     inferTableStructure -> false,
     includePageBreaks -> false,
-    ignoreExceptions -> true)
+    ignoreExceptions -> true,
+    inputCol -> "")
 
 }

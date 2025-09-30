@@ -104,12 +104,11 @@ trait HasReaderContent extends HasReaderProperties {
     }
   }
 
-  def partitionContent(
+  private def partitionContentFromPath(
       partition: Partition,
       contentPath: String,
       isText: Boolean,
       dataset: Dataset[_]): DataFrame = {
-
     val ext = contentPath.split("\\.").lastOption.getOrElse("").toLowerCase
     if (! $(ignoreExceptions) && !supportedTypes.contains(ext)) {
       return buildErrorDataFrame(dataset, contentPath, ext)
@@ -148,6 +147,38 @@ trait HasReaderContent extends HasReaderProperties {
     } else partitionDf
   }
 
+  def partitionContent(
+      partition: Partition,
+      contentPath: String,
+      isText: Boolean,
+      dataset: Dataset[_]): DataFrame = {
+
+    val partitionDf =
+      if (getInputCol != null && getInputCol.nonEmpty) {
+        partitionContentFromDataFrame(partition, dataset, getInputCol)
+      } else {
+        partitionContentFromPath(partition, contentPath, isText, dataset)
+      }
+
+    if ($(ignoreExceptions)) {
+      partitionDf.filter(col("exception").isNull)
+    } else partitionDf
+  }
+
+  /** Partition content when it is already present in a dataset column. */
+  private def partitionContentFromDataFrame(
+      partition: Partition,
+      dataset: Dataset[_],
+      inputCol: String): DataFrame = {
+    val partitionUDF =
+      udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
+
+    dataset
+      .withColumn(partition.getOutputColumn, partitionUDF(col(inputCol)))
+      .withColumn("fileName", lit(null: String))
+      .withColumn("exception", lit(null: String))
+  }
+
   val getFileName: UserDefinedFunction = udf { path: String =>
     if (path != null) path.split("/").last else ""
   }
@@ -164,6 +195,10 @@ trait HasReaderContent extends HasReaderProperties {
         StructField("fileName", StringType, nullable = true)))
     val emptyRDD = dataset.sparkSession.sparkContext.emptyRDD[Row]
     dataset.sparkSession.createDataFrame(emptyRDD, schema)
+  }
+
+  def getContentType: String = {
+    if ($(contentType).trim.isEmpty && getInputCol.nonEmpty) "text/plain" else $(contentType)
   }
 
 }
