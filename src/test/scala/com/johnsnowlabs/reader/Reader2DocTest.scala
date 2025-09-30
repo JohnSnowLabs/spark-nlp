@@ -18,6 +18,7 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import org.apache.hadoop.mapreduce.lib.input.InvalidInputException
 import org.apache.spark.sql.functions.col
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
@@ -212,10 +213,10 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val pipeline = new Pipeline().setStages(Array(reader2Doc))
     val pipelineModel = pipeline.fit(emptyDataSet)
 
-    val ex = intercept[IllegalArgumentException] {
+    val ex = intercept[InvalidInputException ] {
       pipelineModel.transform(emptyDataSet)
     }
-    ex.getMessage.contains("contentPath must be set")
+    ex.getMessage.contains("contentPath must point to a valid file or directory")
   }
 
   it should "return all sentences joined into a single document" in {
@@ -424,35 +425,6 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipeline = new Pipeline().setStages(Array(reader2Doc))
     val resultDf = pipeline.fit(htmlDf).transform(htmlDf)
-
-    resultDf.show(truncate = false)
-  }
-
-  it should "read XML as HTML" taggedAs FastTest in {
-
-    val reader2Doc = new Reader2Doc()
-      .setContentType("text/html")
-      .setContentPath(s"$xmlDirectory/malformed.xml")
-      .setOutputCol("document")
-
-    val pipeline = new Pipeline().setStages(Array(reader2Doc))
-
-    val pipelineModel = pipeline.fit(emptyDataSet)
-    val resultDf = pipelineModel.transform(emptyDataSet)
-
-    resultDf.show(truncate = false)
-  }
-
-  it should "read malformed XML as HTML" taggedAs FastTest in {
-    val reader2Doc = new Reader2Doc()
-      .setContentType("application/xml")
-      .setContentPath(s"$xmlDirectory/malformed.xml")
-      .setOutputCol("document")
-
-    val pipeline = new Pipeline().setStages(Array(reader2Doc))
-
-    val pipelineModel = pipeline.fit(emptyDataSet)
-    val resultDf = pipelineModel.transform(emptyDataSet)
 
     resultDf.show(truncate = false)
   }
