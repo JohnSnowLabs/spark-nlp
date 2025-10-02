@@ -88,12 +88,8 @@ class FeaturesFallbackReader[T <: HasFeatures](
 
   override def load(path: String): T = {
     Try {
-      // Read params, features and model
-      val instance = baseReader.load(path)
-      loadFeatures(path, instance)
-      onRead(instance, path, sparkSession)
-
-      instance
+      // Read params, features and model via FeaturesReader.load
+      baseReader.load(path)
     } match {
       case Failure(_) =>
         // TODO: Logger warn instead?
@@ -105,12 +101,6 @@ class FeaturesFallbackReader[T <: HasFeatures](
     }
   }
 
-  private def loadFeatures(path: String, instance: T): Unit = {
-    for (feature <- instance.features) {
-      val value = feature.deserialize(sparkSession, path, feature.name)
-      feature.setValue(value)
-    }
-  }
 }
 
 /** Enables loading models with params and features with a fallback mechanism. The `fallbackLoad`
