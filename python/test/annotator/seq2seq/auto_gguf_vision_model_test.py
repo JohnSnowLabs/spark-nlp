@@ -18,7 +18,43 @@ from pyspark.sql.functions import lit
 
 from sparknlp.annotator import *
 from sparknlp.base import *
-from test.util import SparkSessionForTest
+from test.util import SparkSessionForTest, measureRAMChange
+
+
+def setup_context(spark):
+    documentAssembler = (
+        DocumentAssembler().setInputCol("caption").setOutputCol("caption_document")
+    )
+    imageAssembler = (
+        ImageAssembler().setInputCol("image").setOutputCol("image_assembler")
+    )
+    imagesPath = "../src/test/resources/image/"
+    data = ImageAssembler.loadImagesAsBytes(spark, imagesPath).withColumn(
+        "caption",
+        lit(
+            "Describe in a short and easy to understand sentence what you see in the image."
+        ),
+    )  # Add a caption to each image.
+    nPredict = 40
+    model: AutoGGUFVisionModel = (
+        AutoGGUFVisionModel.pretrained()
+        .setInputCols(["caption_document", "image_assembler"])
+        .setOutputCol("completions")
+        .setBatchSize(2)
+        .setNGpuLayers(99)
+        .setNCtx(4096)
+        .setMinKeep(0)
+        .setMinP(0.05)
+        .setNPredict(nPredict)
+        .setPenalizeNl(True)
+        .setRepeatPenalty(1.18)
+        .setTemperature(0.05)
+        .setTopK(40)
+        .setTopP(0.95)
+    )
+    pipeline = Pipeline().setStages([documentAssembler, imageAssembler, model])
+
+    return pipeline, data, model
 
 
 @pytest.mark.slow
@@ -27,40 +63,7 @@ class AutoGGUFVisionModelTestSpec(unittest.TestCase):
         self.spark = SparkSessionForTest.spark
 
     def runTest(self):
-        documentAssembler = (
-            DocumentAssembler().setInputCol("caption").setOutputCol("caption_document")
-        )
-        imageAssembler = (
-            ImageAssembler().setInputCol("image").setOutputCol("image_assembler")
-        )
-        imagesPath = "../src/test/resources/image/"
-        data = ImageAssembler.loadImagesAsBytes(self.spark, imagesPath).withColumn(
-            "caption",
-            lit(
-                "Describe in a short and easy to understand sentence what you see in the image."
-            ),
-        )  # Add a caption to each image.
-        nPredict = 40
-        model: AutoGGUFVisionModel = (
-            AutoGGUFVisionModel.pretrained()
-            .setInputCols(["caption_document", "image_assembler"])
-            .setOutputCol("completions")
-            .setBatchSize(2)
-            .setNGpuLayers(99)
-            .setNCtx(4096)
-            .setMinKeep(0)
-            .setMinP(0.05)
-            .setNPredict(nPredict)
-            .setPenalizeNl(True)
-            .setRepeatPenalty(1.18)
-            .setTemperature(0.05)
-            .setTopK(40)
-            .setTopP(0.95)
-        )
-        pipeline = Pipeline().setStages([documentAssembler, imageAssembler, model])
-        # pipeline.fit(data).transform(data).selectExpr(
-        #     "reverse(split(image.origin, '/'))[0] as image_name", "completions.result"
-        # ).show(truncate=False)
+        pipeline, data, _ = setup_context(self.spark)
 
         results = pipeline.fit(data).transform(data).collect()
 
@@ -83,7 +86,7 @@ class AutoGGUFVisionModelTestSpec(unittest.TestCase):
 
             print(f"Image: {image_name}, Completion: {completion}")
             assert (
-                expectedWords[image_name] in completion.lower()
+                    expectedWords[image_name] in completion.lower()
             ), f"Expected '{expectedWords[image_name]}' in '{completion.lower()}'"
 
 
@@ -103,6 +106,27 @@ class AutoGGUFVisionModelSerializationTestSpec(unittest.TestCase):
         )
         model_writer.save(model_path)
         AutoGGUFVisionModel.load(model_path)
-        
+
         model_path = "file:///tmp/autoggufvisionmodel_spark_nlp"
         AutoGGUFVisionModel.load(model_path)
+
+
+@pytest.mark.slow
+class AutoGGUFVisionModelCloseTest(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkSessionForTest.spark
+
+    def runTest(self):
+        pipeline, data, model = setup_context(self.spark)
+
+        (
+            pipeline.fit(data)
+            .transform(data.limit(1))
+            .select("completions.result")
+            .show(truncate=False)
+        )
+
+        ramChange = measureRAMChange(lambda: model.close())
+
+        print(f"Freed RAM after closing the model: {ramChange} MB")
+        assert (ramChange < -100, "Freed RAM should be greater than 100 MB")

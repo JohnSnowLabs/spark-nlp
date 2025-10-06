@@ -327,3 +327,8 @@ class AutoGGUFReranker(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(AutoGGUFReranker, name, lang, remote_loc)
+
+    def close(self):
+        """Closes the llama.cpp model backend freeing resources. The model is reloaded when used again.
+        """
+        self._java_obj.close()

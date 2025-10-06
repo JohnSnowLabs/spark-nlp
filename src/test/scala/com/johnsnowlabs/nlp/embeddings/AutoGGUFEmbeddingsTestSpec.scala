@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.util.TestUtils.measureRAMChange
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -140,5 +141,20 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
 
   it should "load models with deprecated parameters" taggedAs SlowTest in {
     AutoGGUFEmbeddings.pretrained("Nomic_Embed_Text_v1.5.Q8_0.gguf")
+  }
+
+  // This test requires cpu
+  it should "be closeable" taggedAs SlowTest in {
+    val model = AutoGGUFEmbeddings
+      .pretrained()
+      .setInputCols("document")
+      .setOutputCol("embeddings")
+
+    val data = Seq("Hello, I am a").toDF("text")
+    pipeline(model).fit(data).transform(data).show()
+
+    val ramChange = measureRAMChange { model.close() }
+    println("Freed RAM after closing the model: " + ramChange + " MB")
+    assert(ramChange < -100, "Freed RAM should be greater than 100 MB")
   }
 }
