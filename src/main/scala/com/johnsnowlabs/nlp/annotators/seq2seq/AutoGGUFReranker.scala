@@ -155,6 +155,10 @@ class AutoGGUFReranker(override val uid: String)
     this
   }
 
+  /** Closes the llama.cpp model backend freeing resources. The model is reloaded when used again.
+   */
+  def close(): Unit = GGUFWrapper.closeBroadcastModel(_model)
+
   val query = new Param[String](
     this,
     "query",

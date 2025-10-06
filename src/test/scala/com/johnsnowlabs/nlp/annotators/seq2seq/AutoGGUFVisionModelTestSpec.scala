@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, ImageAssembler}
 import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.util.TestUtils.measureRAMChange
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.lit
 import org.apache.spark.sql.{DataFrame, Row}
@@ -139,5 +140,20 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
 
   it should "load models with deprecated parameters" taggedAs SlowTest in {
     AutoGGUFVisionModel.pretrained("llava_v1.5_7b_Q4_0_gguf")
+  }
+
+  // This test requires cpu
+  it should "be closeable" taggedAs SlowTest in {
+    lazy val model: AutoGGUFVisionModel = AutoGGUFVisionModel
+      .pretrained()
+      .setInputCols("caption_document", "image_assembler")
+      .setOutputCol("completions")
+      .setNPredict(5)
+
+    pipeline.fit(data).transform(data.limit(1)).show()
+
+    val ramChange = measureRAMChange { model.close() }
+    println("Freed RAM after closing the model: " + ramChange + " MB")
+    assert(ramChange < -100, "Freed RAM should be greater than 100 MB")
   }
 }

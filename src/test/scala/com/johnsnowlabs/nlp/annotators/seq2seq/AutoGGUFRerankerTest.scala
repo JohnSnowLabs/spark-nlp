@@ -5,6 +5,7 @@ import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.finisher.GGUFRankingFinisher
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.util.TestUtils.measureRAMChange
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -22,7 +23,7 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
   lazy val query: String = "A man is eating pasta."
   lazy val modelPath = "/tmp/bge_reranker_v2_m3_Q4_K_M.gguf"
   lazy val model: AutoGGUFReranker = AutoGGUFReranker
-    .loadSavedModel(modelPath, ResourceHelper.spark)
+    .pretrained()
     .setInputCols("document")
     .setOutputCol("reranked_documents")
     .setBatchSize(4)
@@ -139,5 +140,22 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
   it should "load models with deprecated parameters" taggedAs SlowTest in {
     // testing only, should be able to load
     AutoGGUFReranker.pretrained("Nomic_Embed_Text_v1.5.Q8_0.gguf")
+  }
+
+  // This test requires cpu
+  it should "be closeable" taggedAs SlowTest ignore {
+    // TODO: This needs investigation on llama.cpp side
+    val model: AutoGGUFReranker = AutoGGUFReranker
+      .pretrained()
+      .setInputCols("document")
+      .setOutputCol("reranked_documents")
+      .setBatchSize(4)
+      .setQuery(query)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+    pipeline.fit(data).transform(data).show()
+
+    val ramChange = measureRAMChange { model.close() }
+    assert(ramChange < -50, "Freed RAM should be greater than 100 MB")
   }
 }

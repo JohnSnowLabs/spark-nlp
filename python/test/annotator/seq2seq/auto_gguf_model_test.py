@@ -17,7 +17,7 @@ import pytest
 
 from sparknlp.annotator import *
 from sparknlp.base import *
-from test.util import SparkContextForTest
+from test.util import *
 
 
 @pytest.mark.slow
@@ -232,9 +232,7 @@ class AutoGGUFModelErrorMessagesTestSpec(unittest.TestCase):
         )
         for row in collected:
             annotation = row[0][0]
-            self.assertEqual(
-                annotation["result"], "", "Completions should be empty"
-            )
+            self.assertEqual(annotation["result"], "", "Completions should be empty")
             self.assertIn(
                 "llamacpp_exception",
                 annotation["metadata"],
@@ -258,6 +256,40 @@ class AutoGGUFModelSerializationTestSpec(unittest.TestCase):
         )
         model_writer.save(model_path)
         AutoGGUFModel.load(model_path)
-        
+
         model_path = "file:///tmp/autogguf_spark_nlp"
         AutoGGUFModel.load(model_path)
+
+
+@pytest.mark.slow
+class AutoGGUFModelCloseTest(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkSessionForTest.spark
+
+        self.data = self.spark.createDataFrame(
+            [
+                ["The moons of Jupiter are "],
+                ["Earth is "],
+                ["The moon is "],
+                ["The sun is "],
+            ]
+        ).toDF("text")
+
+        self.document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+    def runTest(self):
+        model = (
+            AutoGGUFModel.pretrained()
+            .setInputCols("document")
+            .setOutputCol("completions")
+        )
+
+        pipeline = Pipeline().setStages([self.document_assembler, model])
+        pipeline.fit(self.data).transform(self.data).show()
+
+        ramChange = measureRAMChange(lambda: model.close())
+
+        print(f"Freed RAM after closing the model: {ramChange} MB")
+        assert (ramChange < -100, "Freed RAM should be greater than 100 MB")

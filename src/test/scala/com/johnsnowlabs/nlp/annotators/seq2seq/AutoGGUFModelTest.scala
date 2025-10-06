@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.util.TestUtils.measureRAMChange
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -233,6 +234,22 @@ class AutoGGUFModelTest extends AnyFlatSpec {
       .save(savePath)
 
     AutoGGUFModel.load(savePath)
+  }
+
+  // This test requires cpu
+  it should "be closeable" taggedAs SlowTest in {
+    val model = AutoGGUFModel
+      .pretrained()
+      .setInputCols("document")
+      .setOutputCol("completions")
+
+    val data = Seq("Hello, I am a").toDF("text")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+    pipeline.fit(data).transform(data).show()
+
+    val ramChange = measureRAMChange { model.close() }
+    println("Freed RAM after closing the model: " + ramChange + " MB")
+    assert(ramChange < -100, "Freed RAM should be greater than 100 MB")
   }
 
 //  it should "benchmark" taggedAs SlowTest in {
