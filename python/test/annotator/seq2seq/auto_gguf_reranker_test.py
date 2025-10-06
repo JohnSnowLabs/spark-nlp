@@ -17,7 +17,7 @@ import pytest
 
 from sparknlp.annotator import *
 from sparknlp.base import *
-from test.util import SparkContextForTest
+from test.util import *
 
 
 @pytest.mark.slow
@@ -419,3 +419,38 @@ class AutoGGUFRerankerFinisherCombinedFiltersTestSpec(unittest.TestCase):
 
         print("Combined filters test completed successfully")
         results.select("ranked_documents").show(truncate=False)
+
+
+@pytest.mark.slow
+class AutoGGUFRerankerCloseTest(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkSessionForTest.spark
+
+        self.data = (
+            self.spark.createDataFrame(
+                [
+                    ["The moons of Jupiter are "],
+                ]
+            )
+            .toDF("text")
+        )
+
+        self.document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+    def runTest(self):
+        model = (
+            AutoGGUFReranker.pretrained()
+            .setInputCols("document")
+            .setOutputCol("reranked_documents")
+            .setBatchSize(4)
+            .setQuery("A query.")
+        )
+        pipeline = Pipeline().setStages([self.document_assembler, model])
+        pipeline.fit(self.data).transform(self.data).show()
+
+        ramChange = measureRAMChange(lambda: model.close())
+
+        print(f"Freed RAM after closing the model: {ramChange} MB")
+        assert (ramChange < -100, "Freed RAM should be greater than 100 MB")

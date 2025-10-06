@@ -12,8 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-from pyspark.sql import SparkSession
 import os
+
+from pyspark.sql import SparkSession
+import time
 
 
 class SparkSessionForTest:
@@ -38,4 +40,17 @@ class SparkContextForTest:
         .limit(100)
     data.cache()
     data.count()
-    
+
+
+def getFreeRAM():
+    """Returns the amount of free system RAM in Megabytes (MB)."""
+    import psutil # Not available no github runners
+    return psutil.virtual_memory().free / (1024 * 1024)
+
+
+def measureRAMChange(func, *args, **kwargs):
+    ramBefore = getFreeRAM()
+    func(*args, **kwargs)
+    time.sleep(0.5)
+    ramAfter = getFreeRAM()
+    return ramAfter - ramBefore

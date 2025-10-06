@@ -181,6 +181,10 @@ class AutoGGUFVisionModel(override val uid: String)
     this
   }
 
+  /** Closes the llama.cpp model backend freeing resources. The model is reloaded when used again.
+   */
+  def close(): Unit = GGUFWrapperMultiModal.closeBroadcastModel(_model)
+
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
   /** Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.
