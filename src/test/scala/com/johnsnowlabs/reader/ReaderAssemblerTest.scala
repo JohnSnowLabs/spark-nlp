@@ -229,6 +229,8 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     val pipeline = new Pipeline().setStages(Array(reader))
     val resultDf = pipeline.fit(htmlDf).transform(htmlDf)
 
+    resultDf.show()
+
     val textResult = AssertAnnotations.getActualResult(resultDf, "document_text")
     val tableResult = AssertAnnotations.getActualResult(resultDf, "document_table")
     val imageResult = AssertAnnotations.getActualImageResult(resultDf, "document_image")

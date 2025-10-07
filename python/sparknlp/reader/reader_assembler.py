@@ -28,6 +28,45 @@ class ReaderAssembler(
     HasTextReaderProperties,
     HasPdfProperties
 ):
+    """
+    The ReaderAssembler annotator provides a unified interface for combining multiple Spark NLP
+    readers (such as Reader2Doc, Reader2Table, and Reader2Image) into a single, configurable
+    component. It automatically orchestrates the execution of different readers based on input type,
+    configured priorities, and fallback strategies allowing you to handle diverse content formats
+    without manually chaining multiple readers in your pipeline.
+
+    ReaderAssembler simplifies the process of building flexible pipelines capable of ingesting and
+    processing documents, tables, and images in a consistent way. It handles reader selection,
+    ordering, and fault-tolerance internally, ensuring that pipelines remain concise, robust, and
+    easy to maintain.
+
+    Examples
+    --------
+    >>> from johnsnowlabs.reader import ReaderAssembler
+    >>> from pyspark.ml import Pipeline
+    >>>
+    >>> reader_assembler = ReaderAssembler() \\
+    ...     .setContentType("text/html") \\
+    ...     .setContentPath("/table-image.html") \\
+    ...     .setOutputCol("document")
+    >>>
+    >>> pipeline = Pipeline(stages=[reader_assembler])
+    >>> pipeline_model = pipeline.fit(empty_data_set)
+    >>> result_df = pipeline_model.transform(empty_data_set)
+    >>>
+    >>> result_df.show()
+    +--------+--------------------+--------------------+--------------------+---------+
+    |fileName|       document_text|      document_table|      document_image|exception|
+    +--------+--------------------+--------------------+--------------------+---------+
+    |    null|[{'document', 0, 26...|[{'document', 0, 50...|[{'image', , 5, 5, ...|     null|
+    +--------+--------------------+--------------------+--------------------+---------+
+
+    This annotator is especially useful when working with heterogeneous input data — for example,
+    when a dataset includes PDFs, spreadsheets, and images — allowing Spark NLP to automatically
+    invoke the appropriate reader for each file type while preserving a unified schema in the output.
+"""
+
+
     name = 'ReaderAssembler'
 
     outputAnnotatorType = AnnotatorType.DOCUMENT

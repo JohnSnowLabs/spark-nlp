@@ -39,6 +39,5 @@ class ReaderAssemblerTest(unittest.TestCase):
         model = pipeline.fit(self.empty_df)
 
         result_df = model.transform(self.empty_df)
-        result_df.show()
 
         self.assertTrue(result_df.count() > 0)

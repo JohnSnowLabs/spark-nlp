@@ -48,7 +48,7 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
-    resultDf.show()
+
     val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
 
     assert(annotationsResult.length == 2)

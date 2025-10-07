@@ -68,7 +68,7 @@ class Reader2Doc(
     |[{'document', 15, 38, 'This is a narrative text', {'pageNumber': 1, 'elementType': 'NarrativeText', 'fileName': 'pdf-title.pdf'}, []}]|
     |[{'document', 39, 68, 'This is another narrative text', {'pageNumber': 1, 'elementType': 'NarrativeText', 'fileName': 'pdf-title.pdf'}, []}]|
     +------------------------------------------------------------------------------------------------------------------------------------+
-"""
+    """
 
     name = "Reader2Doc"
 
