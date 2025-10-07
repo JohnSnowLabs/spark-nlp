@@ -20,15 +20,13 @@ import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.llama.LlamaExtensions
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import de.kherud.llama.{InferenceParameters, LlamaException, LlamaModel, Pair}
+import de.kherud.llama.{LlamaException, LlamaModel, Pair}
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.ml.param.Param
-import scala.jdk.CollectionConverters._
 
-import java.util
-import java.util.{ArrayList, List}
+import scala.jdk.CollectionConverters._
 
 /** Annotator that uses the llama.cpp library to rerank text documents based on their relevance to
   * a given query using GGUF-format reranking models.
@@ -271,7 +269,8 @@ trait ReadAutoGGUFReranker {
   this: ParamsAndFeaturesFallbackReadable[AutoGGUFReranker] =>
 
   override def fallbackLoad(folder: String, spark: SparkSession): AutoGGUFReranker = {
-    val localFolder: String = ResourceHelper.copyToLocal(folder)
+    val actualFolderPath: String = ResourceHelper.resolvePath(folder)
+    val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
     val ggufFile = GGUFWrapper.findGGUFModelInFolder(localFolder)
     loadSavedModel(ggufFile, spark)
   }

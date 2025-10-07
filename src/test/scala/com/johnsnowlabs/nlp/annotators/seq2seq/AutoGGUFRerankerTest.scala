@@ -1,10 +1,10 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.Annotation
-import com.johnsnowlabs.nlp.finisher.GGUFRankingFinisher
 import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.finisher.GGUFRankingFinisher
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{SlowTest, FastTest}
+import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -134,5 +134,10 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
 
 //    assertAnnotationsNonEmpty(result)
     result.select("ranked_documents").show(truncate = false)
+  }
+
+  it should "load models with deprecated parameters" taggedAs SlowTest in {
+    // testing only, should be able to load
+    AutoGGUFReranker.pretrained("Nomic_Embed_Text_v1.5.Q8_0.gguf")
   }
 }

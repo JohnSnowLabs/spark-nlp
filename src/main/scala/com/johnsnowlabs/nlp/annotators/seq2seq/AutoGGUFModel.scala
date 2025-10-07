@@ -16,6 +16,7 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.gguf.GGUFWrapper
+import com.johnsnowlabs.ml.gguf.GGUFWrapper.findGGUFModelInFolder
 import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.llama.LlamaExtensions
@@ -240,9 +241,10 @@ trait ReadAutoGGUFModel {
   this: ParamsAndFeaturesFallbackReadable[AutoGGUFModel] =>
 
   override def fallbackLoad(folder: String, spark: SparkSession): AutoGGUFModel = {
-    val localFolder: String = ResourceHelper.copyToLocal(folder)
-    val ggufFile = GGUFWrapper.findGGUFModelInFolder(localFolder)
-    loadSavedModel(ggufFile, spark)
+    val actualFolderPath: String = ResourceHelper.resolvePath(folder)
+    val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
+    val modelFile = findGGUFModelInFolder(localFolder)
+    loadSavedModel(modelFile, spark)
   }
 
   def readModel(instance: AutoGGUFModel, path: String, spark: SparkSession): Unit = {

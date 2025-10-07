@@ -15,11 +15,11 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
 
   behavior of "AutoGGUFVisionModel"
 
-  lazy val documentAssembler = new DocumentAssembler()
+  lazy val documentAssembler: DocumentAssembler = new DocumentAssembler()
     .setInputCol("caption")
     .setOutputCol("caption_document")
 
-  lazy val imageAssembler = new ImageAssembler()
+  lazy val imageAssembler: ImageAssembler = new ImageAssembler()
     .setInputCol("image")
     .setOutputCol("image_assembler")
 
@@ -44,7 +44,7 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     "tractor.JPEG" -> "tractor")
 
   lazy val nPredict = 40
-  lazy val model = AutoGGUFVisionModel
+  lazy val model: AutoGGUFVisionModel = AutoGGUFVisionModel
 //    .loadSavedModel(
 //      "models/Qwen2.5-VL-3B-Instruct-Q4_K_M.gguf",
 //      "models/mmproj-Qwen2.5-VL-3B-Instruct-Q8_0.gguf",
@@ -64,7 +64,8 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     .setTopK(40)
     .setTopP(0.95f)
 
-  lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, imageAssembler, model))
+  lazy val pipeline: Pipeline =
+    new Pipeline().setStages(Array(documentAssembler, imageAssembler, model))
 
   def checkBinaryContents(): Unit = {
     val imageData = data.select("image.data").limit(1).collect()(0).getAs[Array[Byte]](0)
@@ -134,5 +135,9 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
       .save(savePath)
 
     AutoGGUFVisionModel.load(savePath)
+  }
+
+  it should "load models with deprecated parameters" taggedAs SlowTest in {
+    AutoGGUFVisionModel.pretrained("llava_v1.5_7b_Q4_0_gguf")
   }
 }
