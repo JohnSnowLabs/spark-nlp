@@ -464,4 +464,20 @@ class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
     }
   }
 
+  it should "work for csv files" taggedAs FastTest in {
+    val csvDirectory = "src/test/resources/reader/csv"
+    val reader2Table = new Reader2Table()
+      .setContentType("text/csv")
+      .setContentPath(s"$csvDirectory/stanley-cups.csv")
+      .setOutputCol("document")
+      .setExplodeDocs(true)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Table))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+    resultDf.show(truncate = false)
+    //    assert(resultDf.count() == 1)
+  }
+
 }

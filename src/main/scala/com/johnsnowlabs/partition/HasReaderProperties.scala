@@ -15,9 +15,10 @@
  */
 package com.johnsnowlabs.partition
 
+import com.johnsnowlabs.nlp.ParamsAndFeaturesWritable
 import org.apache.spark.ml.param.{BooleanParam, Param}
 
-trait HasReaderProperties extends HasHTMLReaderProperties {
+trait HasReaderProperties extends ParamsAndFeaturesWritable {
 
   protected final val inputCol: Param[String] =
     new Param(this, "inputCol", "input column to process")

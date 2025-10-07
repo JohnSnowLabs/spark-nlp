@@ -16,7 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.IAnnotation
-import com.johnsnowlabs.reader.util.HasPdfProperties
+import com.johnsnowlabs.reader.util.HasPdfToTextProperties
 import com.johnsnowlabs.reader.util.pdf._
 import com.johnsnowlabs.reader.util.pdf.schema.{MappingMatrix, PageMatrix}
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -97,7 +97,7 @@ class PdfToText(override val uid: String)
     with HasOutputCol
     with HasLocalProcess
     with PdfToTextTrait
-    with HasPdfProperties {
+    with HasPdfToTextProperties {
 
   def this() = this(Identifiable.randomUID("PDF_TO_TEXT_TRANSFORMER"))
 

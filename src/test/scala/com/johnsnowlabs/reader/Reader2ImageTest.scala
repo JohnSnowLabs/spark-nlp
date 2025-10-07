@@ -494,6 +494,58 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     assert(imagesDf.isEmpty)
   }
 
+  it should "extract images from PDF" taggedAs FastTest in {
+    val sourceFile = "pdf-with-2images.pdf"
+    val reader2Image = new Reader2Image()
+      .setContentPath(s"$pdfDirectory/$sourceFile")
+      .setContentType("application/pdf")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+    resultDf.show()
+    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
+
+    assert(annotationsResult.length == 2)
+    annotationsResult.foreach { annotations =>
+      assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
+      assert(annotations.head.origin == sourceFile)
+      assert(annotations.head.result.nonEmpty)
+      assert(annotations.head.height > 0)
+      assert(annotations.head.width > 0)
+      assert(annotations.head.nChannels > 0)
+      assert(annotations.head.mode > 0)
+      assert(annotations.head.metadata.nonEmpty)
+    }
+  }
+
+  it should "integrate PDF images output with VLM models" taggedAs SlowTest in {
+    val sourceFile = "pdf-with-2images.pdf"
+    val reader2Image = new Reader2Image()
+      .setContentPath(s"$pdfDirectory/$sourceFile")
+      .setContentType("application/pdf")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val imagesDf = pipelineModel.transform(emptyDataSet)
+    imagesDf.show()
+
+    val visualQAClassifier = Qwen2VLTransformer
+      .pretrained()
+      .setInputCols("image")
+      .setOutputCol("answer")
+
+    val vlmPipeline = new Pipeline().setStages(Array(visualQAClassifier))
+    val resultDf = vlmPipeline.fit(imagesDf).transform(imagesDf)
+
+    resultDf.select("image.origin", "answer.result").show(truncate = false)
+
+    assert(!resultDf.isEmpty)
+  }
+
   def getSupportedFiles(dirPath: String): Seq[String] = {
     val supportedExtensions = Seq(".html", ".htm", ".md", "doc", "docx")
 

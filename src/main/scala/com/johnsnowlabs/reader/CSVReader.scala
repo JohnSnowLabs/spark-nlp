@@ -179,22 +179,4 @@ class CSVReader(
     }
   }
 
-//  def buildErrorDataFrame(dataset: Dataset[_], contentPath: String, ext: String): DataFrame = {
-//    val fileName = if (contentPath != null) contentPath.split("/").last else ""
-//    val errorMessage = s"File type .$ext not supported"
-//
-//    val errorPartition = HTMLElement(
-//      elementType = ElementType.UNCATEGORIZED_TEXT,
-//      content = errorMessage,
-//      metadata = scala.collection.mutable.Map[String, String](),
-//      binaryContent = None)
-//
-//    val spark = dataset.sparkSession
-//    import spark.implicits._
-//
-//    val errorArray = Seq((contentPath, Seq(errorPartition), fileName, errorMessage))
-//    errorArray
-//      .toDF("path", "partition", "fileName", "exception")
-//  }
-
 }
