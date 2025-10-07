@@ -194,6 +194,56 @@ class HasReaderProperties(Params):
         """
         return self._set(explodeDocs=value)
 
+    flattenOutput = Param(
+        Params._dummy(),
+        "flattenOutput",
+        "If true, output is flattened to plain text with minimal metadata",
+        typeConverter=TypeConverters.toBoolean
+    )
+
+    def setFlattenOutput(self, value):
+        """Sets whether to flatten the output to plain text with minimal metadata.
+
+        ParametersF
+        ----------
+        value : bool
+            If true, output is flattened to plain text with minimal metadata
+        """
+        return self._set(flattenOutput=value)
+
+    titleThreshold = Param(
+        Params._dummy(),
+        "titleThreshold",
+        "Minimum font size threshold for title detection in PDF docs",
+        typeConverter=TypeConverters.toFloat
+    )
+
+    def setTitleThreshold(self, value):
+        """Sets the minimum font size threshold for title detection in PDF documents.
+
+        Parameters
+        ----------
+        value : float
+            Minimum font size threshold for title detection in PDF docs
+        """
+        return self._set(titleThreshold=value)
+
+    outputAsDocument = Param(
+        Params._dummy(),
+        "outputAsDocument",
+        "Whether to return all sentences joined into a single document",
+        typeConverter=TypeConverters.toBoolean
+    )
+
+    def setOutputAsDocument(self, value):
+        """Sets whether to return all sentences joined into a single document.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to return all sentences joined into a single document
+        """
+        return self._set(outputAsDocument=value)
 
 class HasEmailReaderProperties(Params):
 

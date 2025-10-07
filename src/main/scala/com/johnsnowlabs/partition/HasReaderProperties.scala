@@ -76,6 +76,14 @@ trait HasReaderProperties extends ParamsAndFeaturesWritable {
 
   def setExplodeDocs(value: Boolean): this.type = set(explodeDocs, value)
 
+  val flattenOutput: BooleanParam =
+    new BooleanParam(
+      this,
+      "flattenOutput",
+      "If true, output is flattened to plain text with minimal metadata")
+
+  def setFlattenOutput(value: Boolean): this.type = set(flattenOutput, value)
+
   setDefault(
     contentPath -> "",
     contentType -> "text/plain",

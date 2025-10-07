@@ -198,13 +198,11 @@ trait HasReaderContent extends HasReaderProperties with HasTagsReaderProperties 
     if ($(contentType).trim.isEmpty && getInputCol.nonEmpty) "text/plain" else $(contentType)
   }
 
-  private def partitionCSVContent(partition: Partition,
-                          contentPath: String
-  ): DataFrame = {
-      partition.setOutputColumn("csv")
-      partition
-        .partition(contentPath)
-        .withColumnRenamed(partition.getOutputColumn, "partition")
+  private def partitionCSVContent(partition: Partition, contentPath: String): DataFrame = {
+    partition.setOutputColumn("csv")
+    partition
+      .partition(contentPath)
+      .withColumnRenamed(partition.getOutputColumn, "partition")
   }
 
 }

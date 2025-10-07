@@ -76,14 +76,6 @@ class Reader2Doc(override val uid: String)
 
   def this() = this(Identifiable.randomUID("Reader2Doc"))
 
-  val flattenOutput: BooleanParam =
-    new BooleanParam(
-      this,
-      "flattenOutput",
-      "If true, output is flattened to plain text with minimal metadata")
-
-  def setFlattenOutput(value: Boolean): this.type = set(flattenOutput, value)
-
   /** Whether to return all sentences joined into a single document
     *
     * @group param

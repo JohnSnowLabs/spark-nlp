@@ -32,20 +32,6 @@ class Reader2Table(
 
     outputAnnotatorType = AnnotatorType.DOCUMENT
 
-    flattenOutput = Param(
-        Params._dummy(),
-        "flattenOutput",
-        "If true, output is flattened to plain text with minimal metadata",
-        typeConverter=TypeConverters.toBoolean
-    )
-
-    titleThreshold = Param(
-        Params._dummy(),
-        "titleThreshold",
-        "Minimum font size threshold for title detection in PDF docs",
-        typeConverter=TypeConverters.toFloat
-    )
-
     @keyword_only
     def __init__(self):
         super(Reader2Table, self).__init__(classname="com.johnsnowlabs.reader.Reader2Table")
@@ -55,23 +41,3 @@ class Reader2Table(
     def setParams(self):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
-
-    def setFlattenOutput(self, value):
-        """Sets whether to flatten the output to plain text with minimal metadata.
-
-        Parameters
-        ----------
-        value : bool
-            If true, output is flattened to plain text with minimal metadata
-        """
-        return self._set(flattenOutput=value)
-
-    def setTitleThreshold(self, value):
-        """Sets the minimum font size threshold for title detection in PDF documents.
-
-        Parameters
-        ----------
-        value : float
-            Minimum font size threshold for title detection in PDF docs
-        """
-        return self._set(titleThreshold=value)

@@ -5,13 +5,13 @@ import org.apache.spark.ml.param.{BooleanParam, Param}
 
 trait HasPdfReaderProperties extends ParamsAndFeaturesWritable {
 
-  val titleThreshold: Param[Float] =
-    new Param[Float](
+  val titleThreshold: Param[Double] =
+    new Param[Double](
       this,
       "titleThreshold",
       "Minimum font size threshold for title detection in PDF docs")
 
-  def setTitleThreshold(value: Float): this.type = {
+  def setTitleThreshold(value: Double): this.type = {
     set(titleThreshold, value)
   }
 
