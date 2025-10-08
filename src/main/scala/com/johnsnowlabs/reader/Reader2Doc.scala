@@ -127,13 +127,13 @@ class Reader2Doc(override val uid: String)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
-    val structuredDf = if ($(contentType).trim.isEmpty) {
+    val structuredDf = if ($(contentType).trim.isEmpty && getInputCol.trim.isEmpty) {
       val partitionParams = Map(
         "inferTableStructure" -> $(inferTableStructure).toString,
         "outputFormat" -> $(outputFormat))
       partitionMixedContent(dataset, $(contentPath), partitionParams)
     } else {
-      partitionContent(partitionBuilder, $(contentPath), isStringContent($(contentType)), dataset)
+      partitionContent(partitionBuilder, $(contentPath), isStringContent(getContentType), dataset)
     }
     if (!structuredDf.isEmpty) {
       val annotatedDf = structuredDf
@@ -149,7 +149,7 @@ class Reader2Doc(override val uid: String)
 
   protected def partitionBuilder: Partition = {
     val params = Map(
-      "contentType" -> $(contentType),
+      "contentType" -> getContentType,
       "storeContent" -> $(storeContent).toString,
       "titleFontSize" -> $(titleFontSize).toString,
       "inferTableStructure" -> $(inferTableStructure).toString,
@@ -186,15 +186,16 @@ class Reader2Doc(override val uid: String)
   }
 
   protected def validateRequiredParameters(): Unit = {
-    require(
-      $(contentPath) != null && $(contentPath).trim.nonEmpty,
-      "contentPath must be set and not empty")
+    val hasContentPath = $(contentPath) != null && $(contentPath).trim.nonEmpty
+    if (hasContentPath) {
+      require(
+        ResourceHelper.validFile($(contentPath)),
+        "contentPath must point to a valid file or directory")
+    }
+
     require(
       $(outputFormat) == "plain-text",
       "Only 'plain-text' outputFormat is supported for this operation.")
-    require(
-      ResourceHelper.validFile($(contentPath)),
-      "contentPath must point to a valid file or directory")
   }
 
   protected def partitionToAnnotation: UserDefinedFunction = udf {

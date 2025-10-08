@@ -87,23 +87,23 @@ object HTMLParser {
   def tableElementToJson(tableElem: Element): String = {
     implicit val formats = Serialization.formats(NoTypeHints)
 
-    val caption = Option(tableElem.selectFirst("caption")).map(_.text.trim).getOrElse("")
+    val caption = Option(tableElem.selectFirst("caption"))
+      .map(_.text.trim)
+      .getOrElse("")
 
-    // Headers: first row with th or td as header
-    val headerRowOpt = tableElem
-      .select("tr")
-      .asScala
-      .find(tr => tr.select("th,td").asScala.nonEmpty && tr.select("th").asScala.nonEmpty)
+    val allRows = tableElem.select("tr").asScala.toList
+
+    val headerRowOpt = allRows.find(tr => tr.select("th").asScala.nonEmpty)
 
     val headers: List[String] = headerRowOpt
       .map(_.select("th,td").asScala.map(_.text.trim).toList)
       .getOrElse(List.empty)
 
-    val allRows = tableElem.select("tr").asScala.toList
-    val headerIndex = headerRowOpt.map(allRows.indexOf).getOrElse(0)
+    val headerIndexOpt = headerRowOpt.map(allRows.indexOf)
+
     val dataRows =
       allRows.zipWithIndex
-        .filter { case (_, idx) => idx != headerIndex } // skip header row
+        .filter { case (_, idx) => !headerIndexOpt.contains(idx) }
         .map(_._1)
         .map(row => row.select("td").asScala.map(_.text.trim).toList)
         .filter(_.nonEmpty)

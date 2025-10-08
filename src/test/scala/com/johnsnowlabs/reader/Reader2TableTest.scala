@@ -40,6 +40,25 @@ class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
       assert(resultJson.has("caption"), "JSON missing 'caption'")
       assert(resultJson.has("header"), "JSON missing 'header'")
       assert(resultJson.has("rows"), "JSON missing 'rows'")
+
+      val caption = resultJson.get("caption").asText()
+      assert(caption.nonEmpty, "Caption should not be empty")
+
+      val header = resultJson.get("header")
+      assert(header.isArray, "Header should be an array")
+      assert(header.size() > 0, "Header array should not be empty")
+
+      val rows = resultJson.get("rows")
+      assert(rows.isArray, "Rows should be an array")
+      assert(rows.size() > 0, "Rows array should not be empty")
+
+      rows.forEach { row =>
+        assert(row.isArray, "Each row should be an array")
+        assert(row.size() > 0, "Row should contain values")
+        row.forEach { cell =>
+          assert(cell.asText().nonEmpty, "Table cell should not be empty")
+        }
+      }
     }
   }
 
@@ -389,4 +408,60 @@ class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
 
     assert(resultDf.filter(col("exception").isNotNull).count() >= 1)
   }
+
+  it should "read from spark dataframe" taggedAs FastTest in {
+    val content: String =
+      """<html>
+        |  <body>
+        |    <table>
+        |      <tr>
+        |        <td>Hello World</td>
+        |      </tr>
+        |    </table>
+        |  </body>
+        |</html>""".stripMargin
+
+    val htmlDf = spark.createDataFrame(Seq((1, content))).toDF("id", "html")
+
+    htmlDf.show(truncate = false)
+
+    val reader2Table = new Reader2Table()
+      .setInputCol("html")
+      .setContentType("text/html")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Table))
+    val resultDf = pipeline.fit(htmlDf).transform(htmlDf)
+
+    val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
+    val objectMapper = new ObjectMapper()
+    annotationsResult.foreach { annotation =>
+      val jsonStringOutput = annotation.head.result
+      val resultJson = objectMapper.readTree(jsonStringOutput)
+
+      assert(resultJson.has("caption"), "JSON missing 'caption'")
+      assert(resultJson.has("header"), "JSON missing 'header'")
+      assert(resultJson.has("rows"), "JSON missing 'rows'")
+
+      val caption = resultJson.get("caption").asText()
+      assert(caption.isEmpty, "Caption should be empty")
+
+      val header = resultJson.get("header")
+      assert(header.isArray, "Header should be an array")
+      assert(header.size() == 0, "Header array should be empty")
+
+      val rows = resultJson.get("rows")
+      assert(rows.isArray, "Rows should be an array")
+      assert(rows.size() > 0, "Rows array should not be empty")
+
+      rows.forEach { row =>
+        assert(row.isArray, "Each row should be an array")
+        assert(row.size() > 0, "Row should contain values")
+        row.forEach { cell =>
+          assert(cell.asText().nonEmpty, "Table cell should not be empty")
+        }
+      }
+    }
+  }
+
 }
