@@ -47,4 +47,4 @@ class MultiDateMatcherTestSpec(unittest.TestCase):
         result = model.transform(self.data)
 
         actual_dates = result.select(size("date.result")).collect()[0][0]
-        self.assertEquals(actual_dates, 4)
+        self.assertEqual(actual_dates, 4)

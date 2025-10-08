@@ -15,10 +15,10 @@
  */
 package com.johnsnowlabs.partition
 
+import com.johnsnowlabs.nlp.ParamsAndFeaturesWritable
 import org.apache.spark.ml.param.{BooleanParam, Param}
 
-trait HasReaderProperties extends HasHTMLReaderProperties {
-
+trait HasReaderProperties extends ParamsAndFeaturesWritable {
   protected final val inputCol: Param[String] =
     new Param(this, "inputCol", "input column to process")
 
@@ -74,6 +74,14 @@ trait HasReaderProperties extends HasHTMLReaderProperties {
     new BooleanParam(this, "explodeDocs", "whether to explode the documents into separate rows")
 
   def setExplodeDocs(value: Boolean): this.type = set(explodeDocs, value)
+
+  val flattenOutput: BooleanParam =
+    new BooleanParam(
+      this,
+      "flattenOutput",
+      "If true, output is flattened to plain text with minimal metadata")
+
+  def setFlattenOutput(value: Boolean): this.type = set(flattenOutput, value)
 
   setDefault(
     contentPath -> "",

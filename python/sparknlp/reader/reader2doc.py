@@ -12,7 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 from pyspark import keyword_only
-from pyspark.ml.param import TypeConverters, Params, Param
 
 from sparknlp.common import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
@@ -69,32 +68,11 @@ class Reader2Doc(
     |[{'document', 15, 38, 'This is a narrative text', {'pageNumber': 1, 'elementType': 'NarrativeText', 'fileName': 'pdf-title.pdf'}, []}]|
     |[{'document', 39, 68, 'This is another narrative text', {'pageNumber': 1, 'elementType': 'NarrativeText', 'fileName': 'pdf-title.pdf'}, []}]|
     +------------------------------------------------------------------------------------------------------------------------------------+
-"""
+    """
 
     name = "Reader2Doc"
+
     outputAnnotatorType = AnnotatorType.DOCUMENT
-
-
-    flattenOutput = Param(
-        Params._dummy(),
-        "flattenOutput",
-        "If true, output is flattened to plain text with minimal metadata",
-        typeConverter=TypeConverters.toBoolean
-    )
-
-    titleThreshold = Param(
-        Params._dummy(),
-        "titleThreshold",
-        "Minimum font size threshold for title detection in PDF docs",
-        typeConverter=TypeConverters.toFloat
-    )
-
-    outputAsDocument = Param(
-        Params._dummy(),
-        "outputAsDocument",
-        "Whether to return all sentences joined into a single document",
-        typeConverter=TypeConverters.toBoolean
-    )
 
     excludeNonText = Param(
         Params._dummy(),
@@ -102,6 +80,16 @@ class Reader2Doc(
         "Whether to exclude non-text content from the output. Default is False.",
         typeConverter=TypeConverters.toBoolean
     )
+
+    def setExcludeNonText(self, value):
+        """Sets whether to exclude non-text content from the output.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to exclude non-text content from the output. Default is False.
+        """
+        return self._set(excludeNonText=value)
 
     @keyword_only
     def __init__(self):
@@ -117,44 +105,3 @@ class Reader2Doc(
     def setParams(self):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
-
-
-    def setFlattenOutput(self, value):
-        """Sets whether to flatten the output to plain text with minimal metadata.
-
-        ParametersF
-        ----------
-        value : bool
-            If true, output is flattened to plain text with minimal metadata
-        """
-        return self._set(flattenOutput=value)
-
-    def setTitleThreshold(self, value):
-        """Sets the minimum font size threshold for title detection in PDF documents.
-
-        Parameters
-        ----------
-        value : float
-            Minimum font size threshold for title detection in PDF docs
-        """
-        return self._set(titleThreshold=value)
-
-    def setOutputAsDocument(self, value):
-        """Sets whether to return all sentences joined into a single document.
-
-        Parameters
-        ----------
-        value : bool
-            Whether to return all sentences joined into a single document
-        """
-        return self._set(outputAsDocument=value)
-
-    def setExcludeNonText(self, value):
-        """Sets whether to exclude non-text content from the output.
-
-        Parameters
-        ----------
-        value : bool
-            Whether to exclude non-text content from the output. Default is False.
-        """
-        return self._set(excludeNonText=value)

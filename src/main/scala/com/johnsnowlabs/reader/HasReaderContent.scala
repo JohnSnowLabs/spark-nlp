@@ -4,7 +4,7 @@ import com.johnsnowlabs.partition.util.PartitionHelper.{
   datasetWithBinaryFile,
   datasetWithTextFile
 }
-import com.johnsnowlabs.partition.{HasReaderProperties, Partition}
+import com.johnsnowlabs.partition.{HasReaderProperties, HasTagsReaderProperties, Partition}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.{col, lit, udf}
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
@@ -13,7 +13,7 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import java.io.File
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
-trait HasReaderContent extends HasReaderProperties {
+trait HasReaderContent extends HasReaderProperties with HasTagsReaderProperties {
 
   val supportedTypes: Map[String, (String, Boolean)] = Map(
     "txt" -> ("text/plain", true),
@@ -104,7 +104,7 @@ trait HasReaderContent extends HasReaderProperties {
     }
   }
 
-  private def partitionContentFromPath(
+  def partitionContentFromPath(
       partition: Partition,
       contentPath: String,
       isText: Boolean,
@@ -116,10 +116,7 @@ trait HasReaderContent extends HasReaderProperties {
 
     val partitionDf = if (isText) {
       val stringContentDF = if ($(contentType) == "text/csv" || ext == "csv") {
-        partition.setOutputColumn("csv")
-        partition
-          .partition(contentPath)
-          .withColumnRenamed(partition.getOutputColumn, "partition")
+        partitionCSVContent(partition, contentPath)
       } else {
         val partitionUDF =
           udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
@@ -183,12 +180,12 @@ trait HasReaderContent extends HasReaderProperties {
     if (path != null) path.split("/").last else ""
   }
 
-  private def listAllFilesRecursively(dir: File): Seq[File] = {
+  def listAllFilesRecursively(dir: File): Seq[File] = {
     val these = Option(dir.listFiles).getOrElse(Array.empty)
     these.filter(_.isFile) ++ these.filter(_.isDirectory).flatMap(listAllFilesRecursively)
   }
 
-  private def buildEmptyDataFrame(dataset: Dataset[_]): DataFrame = {
+  def buildEmptyDataFrame(dataset: Dataset[_]): DataFrame = {
     val schema = StructType(
       Seq(
         StructField("partition", StringType, nullable = true),
@@ -199,6 +196,13 @@ trait HasReaderContent extends HasReaderProperties {
 
   def getContentType: String = {
     if ($(contentType).trim.isEmpty && getInputCol.nonEmpty) "text/plain" else $(contentType)
+  }
+
+  private def partitionCSVContent(partition: Partition, contentPath: String): DataFrame = {
+    partition.setOutputColumn("csv")
+    partition
+      .partition(contentPath)
+      .withColumnRenamed(partition.getOutputColumn, "partition")
   }
 
 }

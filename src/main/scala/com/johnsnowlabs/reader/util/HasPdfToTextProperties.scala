@@ -19,7 +19,7 @@ import com.johnsnowlabs.nlp.ParamsAndFeaturesWritable
 import com.johnsnowlabs.reader.util.pdf.TextStripperType
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param}
 
-trait HasPdfProperties extends ParamsAndFeaturesWritable {
+trait HasPdfToTextProperties extends ParamsAndFeaturesWritable {
 
   final val pageNumCol = new Param[String](this, "pageNumCol", "Page number output column name.")
   final val originCol =
@@ -74,8 +74,6 @@ trait HasPdfProperties extends ParamsAndFeaturesWritable {
   /** @group setParam */
   def setNormalizeLigatures(value: Boolean): this.type = set(normalizeLigatures, value)
 
-  final val readAsImage = new BooleanParam(this, "readAsImage", "Read PDF pages as images.")
-
   setDefault(
     pageNumCol -> "pagenum",
     originCol -> "path",
@@ -86,7 +84,6 @@ trait HasPdfProperties extends ParamsAndFeaturesWritable {
     sort -> false,
     textStripper -> TextStripperType.PDF_TEXT_STRIPPER,
     extractCoordinates -> false,
-    normalizeLigatures -> true,
-    readAsImage -> false)
+    normalizeLigatures -> true)
 
 }
