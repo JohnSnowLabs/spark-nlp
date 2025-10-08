@@ -284,7 +284,8 @@ trait ReadAutoGGUFEmbeddings {
   this: ParamsAndFeaturesFallbackReadable[AutoGGUFEmbeddings] =>
 
   override def fallbackLoad(folder: String, spark: SparkSession): AutoGGUFEmbeddings = {
-    val localFolder: String = ResourceHelper.copyToLocal(folder)
+    val actualFolderPath: String = ResourceHelper.resolvePath(folder)
+    val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
     val ggufFile = GGUFWrapper.findGGUFModelInFolder(localFolder)
     loadSavedModel(ggufFile, spark)
   }

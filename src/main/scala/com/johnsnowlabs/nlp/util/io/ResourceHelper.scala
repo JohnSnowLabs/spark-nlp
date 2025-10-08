@@ -747,10 +747,30 @@ object ResourceHelper {
     }
   }
 
+  /** Get the Hadoop FileSystem from a given path
+    *
+    * @param path
+    *   Path to the resource
+    * @return
+    *   Hadoop FileSystem
+    */
   def fileSystemFromPath(path: String): FileSystem = {
     val uri = new URI(path.replaceAllLiterally("\\", "/"))
     FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
   }
+
+  /** Resolves the given path to its absolute form, handling different file systems.
+    *
+    * @param folder
+    *   The input path to resolve.
+    * @return
+    *   The resolved absolute path as a string.
+    */
+  def resolvePath(folder: String): String = {
+    val fileSystem: FileSystem = ResourceHelper.fileSystemFromPath(folder)
+    fileSystem.resolvePath(new Path(folder)).toString
+  }
+
   def isHTTPProtocol(urlStr: String): Boolean = {
     try {
       val url = new URL(urlStr)

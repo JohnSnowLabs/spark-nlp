@@ -289,7 +289,9 @@ trait ReadAutoGGUFVisionModel {
   this: ParamsAndFeaturesFallbackReadable[AutoGGUFVisionModel] =>
 
   override def fallbackLoad(folder: String, spark: SparkSession): AutoGGUFVisionModel = {
-    val localFolder: String = ResourceHelper.copyToLocal(folder)
+    val actualFolderPath: String = ResourceHelper.resolvePath(folder)
+
+    val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
     val (ggufFile, mmprojFile) = GGUFWrapperMultiModal.findGGUFModelsInFolder(localFolder)
     loadSavedModel(ggufFile, mmprojFile, spark)
   }
