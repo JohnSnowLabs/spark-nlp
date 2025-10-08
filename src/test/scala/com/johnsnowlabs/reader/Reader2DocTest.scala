@@ -145,7 +145,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
-    resultDf.show()
+
     assert(resultDf.count() == 1)
   }
 
@@ -213,7 +213,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val pipeline = new Pipeline().setStages(Array(reader2Doc))
     val pipelineModel = pipeline.fit(emptyDataSet)
 
-    val ex = intercept[InvalidInputException ] {
+    val ex = intercept[InvalidInputException] {
       pipelineModel.transform(emptyDataSet)
     }
     ex.getMessage.contains("contentPath must point to a valid file or directory")
@@ -319,6 +319,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
       assert(annotations.head.metadata("elementType") != ElementType.IMAGE)
     }
   }
+
   it should "validate invalid paths" taggedAs SlowTest in {
 
     val reader2Doc = new Reader2Doc()
@@ -362,8 +363,6 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
     val txtDf = spark.createDataFrame(Seq((1, content))).toDF("id", "txt")
 
-    txtDf.show(truncate = false)
-
     val reader2Doc = new Reader2Doc()
       .setInputCol("txt")
       .setOutputCol("document")
@@ -371,7 +370,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val pipeline = new Pipeline().setStages(Array(reader2Doc))
     val resultDf = pipeline.fit(txtDf).transform(txtDf)
 
-    resultDf.show(truncate = false)
+    assert(resultDf.count() > 0)
   }
 
   it should "proces HTML style from a spark dataframe" taggedAs FastTest in {
@@ -395,8 +394,6 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
     val txtDf = spark.createDataFrame(Seq((1, content))).toDF("id", "html")
 
-    txtDf.show(truncate = false)
-
     val reader2Doc = new Reader2Doc()
       .setInputCol("html")
       .setOutputCol("raw-html")
@@ -405,7 +402,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val pipeline = new Pipeline().setStages(Array(reader2Doc))
     val resultDf = pipeline.fit(txtDf).transform(txtDf)
 
-    resultDf.show(truncate = false)
+    assert(resultDf.count() > 0)
   }
 
   it should "be fault-tolerant for HTML content" taggedAs FastTest in {
@@ -415,8 +412,6 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
     val htmlDf = spark.createDataFrame(Seq((1, content))).toDF("id", "html")
 
-    htmlDf.show(truncate = false)
-
     val reader2Doc = new Reader2Doc()
       .setInputCol("html")
       .setOutputCol("document")
@@ -425,7 +420,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val pipeline = new Pipeline().setStages(Array(reader2Doc))
     val resultDf = pipeline.fit(htmlDf).transform(htmlDf)
 
-    resultDf.show(truncate = false)
+    assert(resultDf.count() > 0)
   }
 
   it should "parse attributes inside XML files" taggedAs FastTest in {
@@ -446,5 +441,4 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
     assert(attributeElements.length > 0, "Expected to find attribute elements in the XML content")
   }
-
 }

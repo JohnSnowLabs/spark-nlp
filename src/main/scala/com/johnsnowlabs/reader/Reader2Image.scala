@@ -24,10 +24,10 @@ import com.johnsnowlabs.partition.util.PartitionHelper.{
   datasetWithTextFile,
   isStringContent
 }
-import com.johnsnowlabs.partition.{HasHTMLReaderProperties, HasReaderProperties, Partition}
-import com.johnsnowlabs.reader.util.{HasPdfProperties, ImageParser, ImagePromptTemplate}
+import com.johnsnowlabs.partition.{HasBinaryReaderProperties, Partition}
+import com.johnsnowlabs.reader.util.{ImageParser, ImagePromptTemplate}
 import org.apache.spark.ml.Transformer
-import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
+import org.apache.spark.ml.param.{Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
@@ -94,9 +94,7 @@ class Reader2Image(override val uid: String)
     with DefaultParamsWritable
     with HasOutputAnnotatorType
     with HasOutputAnnotationCol
-    with HasReaderProperties
-    with HasHTMLReaderProperties
-    with HasPdfProperties
+    with HasBinaryReaderProperties
     with HasReaderContent {
 
   def this() = this(Identifiable.randomUID("Reader2Image"))
@@ -139,7 +137,7 @@ class Reader2Image(override val uid: String)
       val annotatedDf = structuredDf
         .withColumn(
           getOutputCol,
-          wrapColumnMetadata(partitionAnnotation(col(partition.getOutputColumn), col("path"))))
+          wrapColumnMetadata(partitionToAnnotation(col(partition.getOutputColumn), col("path"))))
 
       afterAnnotate(annotatedDf).select("fileName", getOutputCol, "exception")
     } else {
@@ -231,7 +229,7 @@ class Reader2Image(override val uid: String)
     "gif" -> ("image/raw", false),
     "pdf" -> ("application/pdf", false))
 
-  private def partitionAnnotation: UserDefinedFunction = {
+  def partitionToAnnotation: UserDefinedFunction = {
     udf((partitions: Seq[Row], path: String) =>
       elementsAsIndividualAnnotations(partitions, path: String))
   }
@@ -334,7 +332,7 @@ class Reader2Image(override val uid: String)
     }
   }
 
-  private def afterAnnotate(dataset: DataFrame): DataFrame = {
+  def afterAnnotate(dataset: DataFrame): DataFrame = {
     if ($(explodeDocs)) {
       dataset
         .select(dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(

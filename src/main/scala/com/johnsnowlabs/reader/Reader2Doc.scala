@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.{Annotation, HasOutputAnnotationCol, HasOutputAnnota
 import com.johnsnowlabs.partition._
 import com.johnsnowlabs.partition.util.PartitionHelper.isStringContent
 import org.apache.spark.ml.Transformer
-import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
+import org.apache.spark.ml.param.{BooleanParam, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql._
 import org.apache.spark.sql.expressions.UserDefinedFunction
@@ -70,33 +70,11 @@ class Reader2Doc(override val uid: String)
     with DefaultParamsWritable
     with HasOutputAnnotatorType
     with HasOutputAnnotationCol
-    with HasEmailReaderProperties
-    with HasExcelReaderProperties
-    with HasHTMLReaderProperties
-    with HasPowerPointProperties
+    with HasBinaryReaderProperties
     with HasTextReaderProperties
-    with HasXmlReaderProperties
     with HasReaderContent {
 
   def this() = this(Identifiable.randomUID("Reader2Doc"))
-
-  val flattenOutput: BooleanParam =
-    new BooleanParam(
-      this,
-      "flattenOutput",
-      "If true, output is flattened to plain text with minimal metadata")
-
-  def setFlattenOutput(value: Boolean): this.type = set(flattenOutput, value)
-
-  val titleThreshold: Param[Float] =
-    new Param[Float](
-      this,
-      "titleThreshold",
-      "Minimum font size threshold for title detection in PDF docs")
-
-  def setTitleThreshold(value: Float): this.type = {
-    set(titleThreshold, value)
-  }
 
   /** Whether to return all sentences joined into a single document
     *
@@ -120,7 +98,6 @@ class Reader2Doc(override val uid: String)
     this.explodeDocs -> false,
     contentType -> "",
     flattenOutput -> false,
-    titleThreshold -> 18,
     outputAsDocument -> false,
     outputFormat -> "plain-text",
     excludeNonText -> false)
@@ -172,7 +149,7 @@ class Reader2Doc(override val uid: String)
     new Partition(params.asJava)
   }
 
-  private def afterAnnotate(dataset: DataFrame): DataFrame = {
+  def afterAnnotate(dataset: DataFrame): DataFrame = {
     if ($(explodeDocs)) {
       dataset
         .select(dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(
@@ -198,7 +175,7 @@ class Reader2Doc(override val uid: String)
       "Only 'plain-text' outputFormat is supported for this operation.")
   }
 
-  protected def partitionToAnnotation: UserDefinedFunction = udf {
+  def partitionToAnnotation: UserDefinedFunction = udf {
     (partitions: Seq[Row], fileName: String) =>
       if (partitions == null) Nil
       else if ($(outputAsDocument)) {
