@@ -153,5 +153,8 @@ object Dependencies {
 
   val flexmarkVersion = "0.61.34"
   val flexmark = "com.vladsch.flexmark" % "flexmark-all" % flexmarkVersion
+
+  val tagSoupVersion = "1.2.1"
+  val tagSoup = "org.ccil.cowan.tagsoup" % "tagsoup" % tagSoupVersion
   /** ------- Dependencies end  ------- */
 }

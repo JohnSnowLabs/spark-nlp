@@ -41,46 +41,46 @@ import scala.collection.mutable
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
 /** The ReaderAssembler annotator provides a unified interface for combining multiple Spark NLP
- * readers (such as Reader2Doc, Reader2Table, and Reader2Image) into a single, configurable
- * component. It automatically orchestrates the execution of different readers based on input type,
- * configured priorities, and fallback strategies allowing you to handle diverse content formats
- * without manually chaining multiple readers in your pipeline.
- *
- * ReaderAssembler simplifies the process of building flexible pipelines capable of ingesting and
- * processing documents, tables, and images in a consistent way. It handles reader selection,
- * ordering, and fault-tolerance internally, ensuring that pipelines remain concise, robust, and
- * easy to maintain.
- *
- * ==Example==
- * {{{
- * import com.johnsnowlabs.reader.ReaderAssembler
- * import com.johnsnowlabs.nlp.base.DocumentAssembler
- * import org.apache.spark.ml.Pipeline
- *
- * val readerAssembler = new ReaderAssembler()
- *   .setContentType("text/html")
- *   .setContentPath(s"$htmlFilesDirectory/table-image.html")
- *   .setOutputCol("document")
- *
- * val pipeline = new Pipeline()
- *   .setStages(Array(readerAssembler))
- *
- * val pipelineModel = pipeline.fit(emptyDataSet)
- * val resultDf = pipelineModel.transform(emptyDataSet)
- *
- * resultDf.show()
- * +--------+--------------------+--------------------+--------------------+---------+
- * |fileName|       document_text|      document_table|      document_image|exception|
- * +--------+--------------------+--------------------+--------------------+---------+
- * |    null|[{document, 0, 26...|[{document, 0, 50...|[{image, , 5, 5, ...|     null|
- * +--------+--------------------+--------------------+--------------------+---------+
- * }}}
- *
- * This annotator is especially useful when working with heterogeneous input data — for example,
- * when a dataset includes PDFs, spreadsheets, and images — allowing Spark NLP to automatically
- * invoke the appropriate reader for each file type while preserving a unified schema in the output.
- */
-
+  * readers (such as Reader2Doc, Reader2Table, and Reader2Image) into a single, configurable
+  * component. It automatically orchestrates the execution of different readers based on input
+  * type, configured priorities, and fallback strategies allowing you to handle diverse content
+  * formats without manually chaining multiple readers in your pipeline.
+  *
+  * ReaderAssembler simplifies the process of building flexible pipelines capable of ingesting and
+  * processing documents, tables, and images in a consistent way. It handles reader selection,
+  * ordering, and fault-tolerance internally, ensuring that pipelines remain concise, robust, and
+  * easy to maintain.
+  *
+  * ==Example==
+  * {{{
+  * import com.johnsnowlabs.reader.ReaderAssembler
+  * import com.johnsnowlabs.nlp.base.DocumentAssembler
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val readerAssembler = new ReaderAssembler()
+  *   .setContentType("text/html")
+  *   .setContentPath(s"$htmlFilesDirectory/table-image.html")
+  *   .setOutputCol("document")
+  *
+  * val pipeline = new Pipeline()
+  *   .setStages(Array(readerAssembler))
+  *
+  * val pipelineModel = pipeline.fit(emptyDataSet)
+  * val resultDf = pipelineModel.transform(emptyDataSet)
+  *
+  * resultDf.show()
+  * +--------+--------------------+--------------------+--------------------+---------+
+  * |fileName|       document_text|      document_table|      document_image|exception|
+  * +--------+--------------------+--------------------+--------------------+---------+
+  * |    null|[{document, 0, 26...|[{document, 0, 50...|[{image, , 5, 5, ...|     null|
+  * +--------+--------------------+--------------------+--------------------+---------+
+  * }}}
+  *
+  * This annotator is especially useful when working with heterogeneous input data — for example,
+  * when a dataset includes PDFs, spreadsheets, and images — allowing Spark NLP to automatically
+  * invoke the appropriate reader for each file type while preserving a unified schema in the
+  * output.
+  */
 
 class ReaderAssembler(override val uid: String)
     extends Transformer
