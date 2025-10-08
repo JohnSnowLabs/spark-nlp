@@ -319,7 +319,6 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
       assert(annotations.head.metadata("elementType") != ElementType.IMAGE)
     }
   }
-
   it should "validate invalid paths" taggedAs SlowTest in {
 
     val reader2Doc = new Reader2Doc()
@@ -427,6 +426,25 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val resultDf = pipeline.fit(htmlDf).transform(htmlDf)
 
     resultDf.show(truncate = false)
+  }
+
+  it should "parse attributes inside XML files" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("application/xml")
+      .setContentPath(s"$xmlDirectory/test.xml")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
+    val attributeElements = annotationsResult.flatMap { annotations =>
+      annotations.filter(ann => ann.metadata.contains("attribute"))
+    }
+
+    assert(attributeElements.length > 0, "Expected to find attribute elements in the XML content")
   }
 
 }

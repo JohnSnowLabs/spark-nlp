@@ -20,9 +20,13 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper.validFile
 import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithTextFile
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
+import org.ccil.cowan.tagsoup.jaxp.SAXFactoryImpl
+import org.xml.sax.InputSource
 
+import java.io.StringReader
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
+import scala.xml.parsing.NoBindingFactoryAdapter
 import scala.xml.{Elem, Node, XML}
 
 /** Class to parse and read XML files.
@@ -102,7 +106,9 @@ class XMLReader(
   })
 
   def parseXml(xmlString: String): List[HTMLElement] = {
-    val xml = XML.loadString(xmlString)
+    val parser = new SAXFactoryImpl().newSAXParser()
+    val adapter = new NoBindingFactoryAdapter
+    val xml = adapter.loadXML(new InputSource(new StringReader(xmlString)), parser)
     val elements = ListBuffer[HTMLElement]()
 
     def traverse(node: Node, parentId: Option[String]): Unit = {
@@ -128,10 +134,19 @@ class XMLReader(
             elements += HTMLElement(elementType, content, metadata)
           }
 
+          elem.attributes.asAttrMap.foreach { case (attrName, attrValue) =>
+            val attrId = hash(tagName + attrName + attrValue)
+            val metadata =
+              mutable.Map("elementId" -> attrId, "parentId" -> elementId, "attribute" -> attrName)
+            if (xmlKeepTags) metadata += ("tag" -> tagName)
+
+            elements += HTMLElement(ElementType.NARRATIVE_TEXT, attrValue, metadata)
+          }
+
           // Traverse children
           elem.child.foreach(traverse(_, Some(elementId)))
 
-        case _ => // Ignore other types
+        case _ => // ignore
       }
     }
 
