@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.1.3 ScalaDoc  - com.johnsnowlabs.nlp.util.io.ResourceHelper</title>
-          <meta name="description" content="Spark NLP 6.1.3 ScalaDoc - com.johnsnowlabs.nlp.util.io.ResourceHelper" />
-          <meta name="keywords" content="Spark NLP 6.1.3 ScalaDoc com.johnsnowlabs.nlp.util.io.ResourceHelper" />
+          <title>Spark NLP 6.1.5 ScalaDoc  - com.johnsnowlabs.nlp.util.io.ResourceHelper</title>
+          <meta name="description" content="Spark NLP 6.1.5 ScalaDoc - com.johnsnowlabs.nlp.util.io.ResourceHelper" />
+          <meta name="keywords" content="Spark NLP 6.1.5 ScalaDoc com.johnsnowlabs.nlp.util.io.ResourceHelper" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.1.5 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -418,7 +418,7 @@ instead.</p></div><dl class="paramcmts block"><dt class="param">path</dt><dd cla
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.util.io.ResourceHelper#fileSystemFromPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.nlp.util.io.ResourceHelper#fileSystemFromPath" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="fileSystemFromPath(path:String):org.apache.hadoop.fs.FileSystem"></a><a id="fileSystemFromPath(String):FileSystem"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/util/io/ResourceHelper$.html#fileSystemFromPath(path:String):org.apache.hadoop.fs.FileSystem" title="Permalink">
@@ -433,7 +433,11 @@ instead.</p></div><dl class="paramcmts block"><dt class="param">path</dt><dd cla
         <span class="name">fileSystemFromPath</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="org.apache.hadoop.fs.FileSystem">FileSystem</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Get the Hadoop FileSystem from a given path
+</p><div class="fullcomment"><div class="comment cmt"><p>Get the Hadoop FileSystem from a given path
+</p></div><dl class="paramcmts block"><dt class="param">path</dt><dd class="cmt"><p>
+  Path to the resource</p></dd><dt>returns</dt><dd class="cmt"><p>
+  Hadoop FileSystem</p></dd></dl></div>
     </li><li name="scala.AnyRef#finalize" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="finalize():Unit"></a>
       <span class="permalink">
@@ -624,6 +628,22 @@ access
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.util.io.ResourceHelper#isHTTPProtocol" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="isHTTPProtocol(urlStr:String):Boolean"></a><a id="isHTTPProtocol(String):Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/util/io/ResourceHelper$.html#isHTTPProtocol(urlStr:String):Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isHTTPProtocol</span><span class="params">(<span name="urlStr">urlStr: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      
     </li><li name="scala.Any#isInstanceOf" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <span class="permalink">
@@ -892,6 +912,25 @@ access
       
       <p class="shortcomment cmt">General purpose read saved Parquet Currently read only Parquet format
 </p>
+    </li><li name="com.johnsnowlabs.nlp.util.io.ResourceHelper#resolvePath" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="resolvePath(folder:String):String"></a><a id="resolvePath(String):String"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/util/io/ResourceHelper$.html#resolvePath(folder:String):String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resolvePath</span><span class="params">(<span name="folder">folder: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Resolves the given path to its absolute form, handling different file systems.</p><div class="fullcomment"><div class="comment cmt"><p>Resolves the given path to its absolute form, handling different file systems.
+</p></div><dl class="paramcmts block"><dt class="param">folder</dt><dd class="cmt"><p>
+  The input path to resolve.</p></dd><dt>returns</dt><dd class="cmt"><p>
+  The resolved absolute path as a string.</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.util.io.ResourceHelper#spark" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="spark:org.apache.spark.sql.SparkSession"></a><a id="spark:SparkSession"></a>
       <span class="permalink">
