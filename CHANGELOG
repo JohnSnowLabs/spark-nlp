@@ -1,4 +1,20 @@
 =======
+6.1.5
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1291] Adding support fort input string column on readers #14665
+* [SPARKNLP-1292] Adding fault-tolerance support for malformed XML #14666
+* [SPARKNLP-1290] Introducing ReaderAssembler Annotator #14668
+
+---------
+Bug Fixes
+---------
+* fix duplicate loading in FeaturesFallbackReader #14667
+
+=======
 6.1.4
 =======
 ---------------------------
