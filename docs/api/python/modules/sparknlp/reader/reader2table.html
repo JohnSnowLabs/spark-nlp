@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.reader.reader2table &#8212; Spark NLP 6.1.3 documentation</title>
+    <title>sparknlp.reader.reader2table &#8212; Spark NLP 6.1.5 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=76c29752"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=19338386"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.3 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.3 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.5 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.5 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -374,14 +374,15 @@ document.write(`
 <span class="c1">#  limitations under the License.</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark</span><span class="w"> </span><span class="kn">import</span> <span class="n">keyword_only</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.param</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeConverters</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatorType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatorTransformer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.partition.partition_properties</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
+
 <div class="viewcode-block" id="Reader2Table"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Reader2Table</span><span class="p">(</span>
     <span class="n">AnnotatorTransformer</span><span class="p">,</span>
+    <span class="n">HasReaderProperties</span><span class="p">,</span>
     <span class="n">HasEmailReaderProperties</span><span class="p">,</span>
     <span class="n">HasExcelReaderProperties</span><span class="p">,</span>
     <span class="n">HasHTMLReaderProperties</span><span class="p">,</span>
@@ -392,55 +393,6 @@ document.write(`
 
 <div class="viewcode-block" id="Reader2Table.outputAnnotatorType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
 
-<div class="viewcode-block" id="Reader2Table.contentPath"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.contentPath">[docs]</a>    <span class="n">contentPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;contentPath&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;contentPath path to files to read&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.outputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.outputCol">[docs]</a>    <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;output column name&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.contentType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.contentType">[docs]</a>    <span class="n">contentType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;contentType&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Set the content type to load following MIME specification&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.explodeDocs"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.explodeDocs">[docs]</a>    <span class="n">explodeDocs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;explodeDocs&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;whether to explode the documents into separate rows&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
-    <span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.flattenOutput"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.flattenOutput">[docs]</a>    <span class="n">flattenOutput</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;flattenOutput&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;If true, output is flattened to plain text with minimal metadata&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
-    <span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.titleThreshold"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.titleThreshold">[docs]</a>    <span class="n">titleThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;titleThreshold&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Minimum font size threshold for title detection in PDF docs&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span>
-    <span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.outputFormat"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.outputFormat">[docs]</a>    <span class="n">outputFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;outputFormat&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Output format for the table content. Options are &#39;plain-text&#39; or &#39;html-table&#39;. Default is &#39;json-table&#39;.&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span></div>
-
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Reader2Table</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.reader.Reader2Table&quot;</span><span class="p">)</span>
@@ -449,79 +401,7 @@ document.write(`
     <span class="nd">@keyword_only</span>
 <div class="viewcode-block" id="Reader2Table.setParams"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.setParams">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.setContentPath"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.setContentPath">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setContentPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets content path.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : str</span>
-<span class="sd">            contentPath path to files to read</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">contentPath</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.setContentType"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.setContentType">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setContentType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the content type to load following MIME specification</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : str</span>
-<span class="sd">            content type to load following MIME specification</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">contentType</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.setExplodeDocs"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.setExplodeDocs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExplodeDocs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to explode the documents into separate rows.</span>
-
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : boolean</span>
-<span class="sd">        Whether to explode the documents into separate rows</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">explodeDocs</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.setOutputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.setOutputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets output column name.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : str</span>
-<span class="sd">            Name of the Output Column</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.setFlattenOutput"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.setFlattenOutput">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setFlattenOutput</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to flatten the output to plain text with minimal metadata.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : bool</span>
-<span class="sd">            If true, output is flattened to plain text with minimal metadata</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">flattenOutput</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.setTitleThreshold"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.setTitleThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTitleThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the minimum font size threshold for title detection in PDF documents.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : float</span>
-<span class="sd">            Minimum font size threshold for title detection in PDF docs</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">titleThreshold</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Reader2Table.setOutputFormat"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2table/index.html#sparknlp.reader.reader2table.Reader2Table.setOutputFormat">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the output format for the table content.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : str</span>
-<span class="sd">            Output format for the table content. Options are &#39;plain-text&#39; or &#39;html-table&#39;. Default is &#39;json-table&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputFormat</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

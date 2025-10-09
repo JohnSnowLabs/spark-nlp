@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.1.3 documentation</title>
+    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.1.5 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=76c29752"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=19338386"></script>
     <script src="../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.3 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.3 documentation - Home"/>`);</script>
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.5 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.5 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -380,26 +380,288 @@ document.write(`
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasEmailReaderProperties" title="sparknlp.partition.partition_properties.HasEmailReaderProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasEmailReaderProperties</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasReaderProperties" title="sparknlp.partition.partition_properties.HasReaderProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasReaderProperties</span></code></a></p></td>
 <td><p>Components that take parameters. This also provides an internal</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasExcelReaderProperties" title="sparknlp.partition.partition_properties.HasExcelReaderProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasExcelReaderProperties</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasEmailReaderProperties" title="sparknlp.partition.partition_properties.HasEmailReaderProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasEmailReaderProperties</span></code></a></p></td>
 <td><p>Components that take parameters. This also provides an internal</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties" title="sparknlp.partition.partition_properties.HasHTMLReaderProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasHTMLReaderProperties</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasExcelReaderProperties" title="sparknlp.partition.partition_properties.HasExcelReaderProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasExcelReaderProperties</span></code></a></p></td>
 <td><p>Components that take parameters. This also provides an internal</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasPowerPointProperties" title="sparknlp.partition.partition_properties.HasPowerPointProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasPowerPointProperties</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties" title="sparknlp.partition.partition_properties.HasHTMLReaderProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasHTMLReaderProperties</span></code></a></p></td>
 <td><p>Components that take parameters. This also provides an internal</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasTextReaderProperties" title="sparknlp.partition.partition_properties.HasTextReaderProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasTextReaderProperties</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasPowerPointProperties" title="sparknlp.partition.partition_properties.HasPowerPointProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasPowerPointProperties</span></code></a></p></td>
 <td><p>Components that take parameters. This also provides an internal</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasChunkerProperties" title="sparknlp.partition.partition_properties.HasChunkerProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasChunkerProperties</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasTextReaderProperties" title="sparknlp.partition.partition_properties.HasTextReaderProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasTextReaderProperties</span></code></a></p></td>
+<td><p>Components that take parameters. This also provides an internal</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasChunkerProperties" title="sparknlp.partition.partition_properties.HasChunkerProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasChunkerProperties</span></code></a></p></td>
+<td><p>Components that take parameters. This also provides an internal</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.partition.partition_properties.HasPdfProperties" title="sparknlp.partition.partition_properties.HasPdfProperties"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HasPdfProperties</span></code></a></p></td>
 <td><p>Components that take parameters. This also provides an internal</p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HasReaderProperties</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties" title="Permalink to this definition">#</a></dt>
+<dd><p>Components that take parameters. This also provides an internal
+param map to store parameter values attached to the instance.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.inputCol">
+<span class="sig-name descname"><span class="pre">inputCol</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.inputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.inputCol" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.outputCol">
+<span class="sig-name descname"><span class="pre">outputCol</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.outputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.outputCol" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.contentPath">
+<span class="sig-name descname"><span class="pre">contentPath</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.contentPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.contentPath" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.contentType">
+<span class="sig-name descname"><span class="pre">contentType</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.contentType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.contentType" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.storeContent">
+<span class="sig-name descname"><span class="pre">storeContent</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.storeContent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.storeContent" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.titleFontSize">
+<span class="sig-name descname"><span class="pre">titleFontSize</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.titleFontSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.titleFontSize" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.inferTableStructure">
+<span class="sig-name descname"><span class="pre">inferTableStructure</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.inferTableStructure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.inferTableStructure" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.includePageBreaks">
+<span class="sig-name descname"><span class="pre">includePageBreaks</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.includePageBreaks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.includePageBreaks" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.ignoreExceptions">
+<span class="sig-name descname"><span class="pre">ignoreExceptions</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.ignoreExceptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.ignoreExceptions" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.explodeDocs">
+<span class="sig-name descname"><span class="pre">explodeDocs</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.explodeDocs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.explodeDocs" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.flattenOutput">
+<span class="sig-name descname"><span class="pre">flattenOutput</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.flattenOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.flattenOutput" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.titleThreshold">
+<span class="sig-name descname"><span class="pre">titleThreshold</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.titleThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.titleThreshold" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.outputAsDocument">
+<span class="sig-name descname"><span class="pre">outputAsDocument</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.outputAsDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.outputAsDocument" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setInputCol">
+<span class="sig-name descname"><span class="pre">setInputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setInputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setInputCol" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets input column name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of the Input Column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setOutputCol">
+<span class="sig-name descname"><span class="pre">setOutputCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setOutputCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setOutputCol" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets output column name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of the Output Column</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setContentPath">
+<span class="sig-name descname"><span class="pre">setContentPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setContentPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setContentPath" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets content path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Path to the content source.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setContentType">
+<span class="sig-name descname"><span class="pre">setContentType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setContentType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setContentType" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets content type following MIME specification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Content type string (MIME format).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setStoreContent">
+<span class="sig-name descname"><span class="pre">setStoreContent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setStoreContent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setStoreContent" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to store raw file content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to include raw file content, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setTitleFontSize">
+<span class="sig-name descname"><span class="pre">setTitleFontSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setTitleFontSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setTitleFontSize" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets minimum font size for detecting titles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Minimum font size threshold for title detection.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setInferTableStructure">
+<span class="sig-name descname"><span class="pre">setInferTableStructure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setInferTableStructure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setInferTableStructure" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to infer table structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to generate HTML table representation, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setIncludePageBreaks">
+<span class="sig-name descname"><span class="pre">setIncludePageBreaks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setIncludePageBreaks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setIncludePageBreaks" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to include page break metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to detect and tag page breaks, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setIgnoreExceptions">
+<span class="sig-name descname"><span class="pre">setIgnoreExceptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setIgnoreExceptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setIgnoreExceptions" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to ignore exceptions during processing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to ignore exceptions, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setExplodeDocs">
+<span class="sig-name descname"><span class="pre">setExplodeDocs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setExplodeDocs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setExplodeDocs" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to explode the documents into separate rows.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to split documents into multiple rows, False to keep them in one row.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setFlattenOutput">
+<span class="sig-name descname"><span class="pre">setFlattenOutput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setFlattenOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setFlattenOutput" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to flatten the output to plain text with minimal metadata.</p>
+<section id="parametersf">
+<h4>ParametersF<a class="headerlink" href="#parametersf" title="Permalink to this heading">#</a></h4>
+<dl class="simple">
+<dt>value<span class="classifier">bool</span></dt><dd><p>If true, output is flattened to plain text with minimal metadata</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setTitleThreshold">
+<span class="sig-name descname"><span class="pre">setTitleThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setTitleThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setTitleThreshold" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the minimum font size threshold for title detection in PDF documents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>Minimum font size threshold for title detection in PDF docs</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasReaderProperties.setOutputAsDocument">
+<span class="sig-name descname"><span class="pre">setOutputAsDocument</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasReaderProperties.setOutputAsDocument"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasReaderProperties.setOutputAsDocument" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to return all sentences joined into a single document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to return all sentences joined into a single document</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasEmailReaderProperties">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HasEmailReaderProperties</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasEmailReaderProperties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasEmailReaderProperties" title="Permalink to this definition">#</a></dt>
@@ -532,6 +794,11 @@ param map to store parameter values attached to the instance.</p>
 <span class="sig-name descname"><span class="pre">timeout</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasHTMLReaderProperties.timeout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties.timeout" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasHTMLReaderProperties.outputFormat">
+<span class="sig-name descname"><span class="pre">outputFormat</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasHTMLReaderProperties.outputFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties.outputFormat" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasHTMLReaderProperties.setTimeout">
 <span class="sig-name descname"><span class="pre">setTimeout</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasHTMLReaderProperties.setTimeout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setTimeout" title="Permalink to this definition">#</a></dt>
@@ -564,6 +831,20 @@ param map to store parameter values attached to the instance.</p>
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasHTMLReaderProperties.setHeaders">
 <span class="sig-name descname"><span class="pre">setHeaders</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasHTMLReaderProperties.setHeaders"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setHeaders" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasHTMLReaderProperties.setOutputFormat">
+<span class="sig-name descname"><span class="pre">setOutputFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasHTMLReaderProperties.setOutputFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setOutputFormat" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets output format for the table content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Output format for the table content.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -780,6 +1061,225 @@ param map to store parameter values attached to the instance.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HasPdfProperties</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties" title="Permalink to this definition">#</a></dt>
+<dd><p>Components that take parameters. This also provides an internal
+param map to store parameter values attached to the instance.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 1.3.0.</span></p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.pageNumCol">
+<span class="sig-name descname"><span class="pre">pageNumCol</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.pageNumCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.pageNumCol" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.originCol">
+<span class="sig-name descname"><span class="pre">originCol</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.originCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.originCol" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.partitionNum">
+<span class="sig-name descname"><span class="pre">partitionNum</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.partitionNum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.partitionNum" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.storeSplittedPdf">
+<span class="sig-name descname"><span class="pre">storeSplittedPdf</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.storeSplittedPdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.storeSplittedPdf" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.splitPage">
+<span class="sig-name descname"><span class="pre">splitPage</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.splitPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.splitPage" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.onlyPageNum">
+<span class="sig-name descname"><span class="pre">onlyPageNum</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.onlyPageNum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.onlyPageNum" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.textStripper">
+<span class="sig-name descname"><span class="pre">textStripper</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.textStripper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.textStripper" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.sort">
+<span class="sig-name descname"><span class="pre">sort</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.sort" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.extractCoordinates">
+<span class="sig-name descname"><span class="pre">extractCoordinates</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.extractCoordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.extractCoordinates" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.normalizeLigatures">
+<span class="sig-name descname"><span class="pre">normalizeLigatures</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.normalizeLigatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.normalizeLigatures" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.readAsImage">
+<span class="sig-name descname"><span class="pre">readAsImage</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.readAsImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.readAsImage" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.setPageNumCol">
+<span class="sig-name descname"><span class="pre">setPageNumCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.setPageNumCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.setPageNumCol" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets page number output column name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of the column for page numbers.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.setOriginCol">
+<span class="sig-name descname"><span class="pre">setOriginCol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.setOriginCol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.setOriginCol" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets input column with original file path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Column name that stores the file path.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.setPartitionNum">
+<span class="sig-name descname"><span class="pre">setPartitionNum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.setPartitionNum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.setPartitionNum" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets number of partitions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of partitions to use.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.setStoreSplittedPdf">
+<span class="sig-name descname"><span class="pre">setStoreSplittedPdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.setStoreSplittedPdf"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.setStoreSplittedPdf" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to store byte content of split PDF pages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to store PDF page bytes, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.setSplitPage">
+<span class="sig-name descname"><span class="pre">setSplitPage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.setSplitPage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.setSplitPage" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to split PDF into pages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to split per page, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.setOnlyPageNum">
+<span class="sig-name descname"><span class="pre">setOnlyPageNum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.setOnlyPageNum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.setOnlyPageNum" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to extract only page numbers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to extract only page numbers, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.setTextStripper">
+<span class="sig-name descname"><span class="pre">setTextStripper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.setTextStripper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.setTextStripper" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets text stripper type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Text stripper type for layout and formatting.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.setSort">
+<span class="sig-name descname"><span class="pre">setSort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.setSort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.setSort" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to sort content on the page.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to sort content, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.setExtractCoordinates">
+<span class="sig-name descname"><span class="pre">setExtractCoordinates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.setExtractCoordinates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.setExtractCoordinates" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to extract coordinates of text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to extract coordinates, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.setNormalizeLigatures">
+<span class="sig-name descname"><span class="pre">setNormalizeLigatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.setNormalizeLigatures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.setNormalizeLigatures" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to normalize ligatures (e.g., ﬂ → f + l).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to normalize ligatures, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasPdfProperties.setReadAsImage">
+<span class="sig-name descname"><span class="pre">setReadAsImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasPdfProperties.setReadAsImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasPdfProperties.setReadAsImage" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to read PDF pages as images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to read as images, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 </section>
@@ -812,6 +1312,35 @@ param map to store parameter values attached to the instance.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.inputCol"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.inputCol</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.outputCol"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.outputCol</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.contentPath"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.contentPath</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.contentType"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.contentType</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.storeContent"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.storeContent</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.titleFontSize"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.titleFontSize</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.inferTableStructure"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.inferTableStructure</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.includePageBreaks"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.includePageBreaks</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.ignoreExceptions"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.ignoreExceptions</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.explodeDocs"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.explodeDocs</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.flattenOutput"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.flattenOutput</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.titleThreshold"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.titleThreshold</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.outputAsDocument"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.outputAsDocument</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setInputCol"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setInputCol()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setOutputCol"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setOutputCol()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setContentPath"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setContentPath()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setContentType"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setContentType()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setStoreContent"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setStoreContent()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setTitleFontSize"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setTitleFontSize()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setInferTableStructure"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setInferTableStructure()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setIncludePageBreaks"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setIncludePageBreaks()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setIgnoreExceptions"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setIgnoreExceptions()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setExplodeDocs"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setExplodeDocs()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setFlattenOutput"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setFlattenOutput()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setTitleThreshold"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setTitleThreshold()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasReaderProperties.setOutputAsDocument"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setOutputAsDocument()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasEmailReaderProperties"><code class="docutils literal notranslate"><span class="pre">HasEmailReaderProperties</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasEmailReaderProperties.addAttachmentContent"><code class="docutils literal notranslate"><span class="pre">HasEmailReaderProperties.addAttachmentContent</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasEmailReaderProperties.setAddAttachmentContent"><code class="docutils literal notranslate"><span class="pre">HasEmailReaderProperties.setAddAttachmentContent()</span></code></a></li>
@@ -829,9 +1358,11 @@ param map to store parameter values attached to the instance.</p>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties.timeout"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties.timeout</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties.outputFormat"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties.outputFormat</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setTimeout"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties.setTimeout()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties.getTimeout"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties.getTimeout()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setHeaders"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties.setHeaders()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setOutputFormat"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties.setOutputFormat()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPowerPointProperties"><code class="docutils literal notranslate"><span class="pre">HasPowerPointProperties</span></code></a><ul class="nav section-nav flex-column">
@@ -874,6 +1405,31 @@ param map to store parameter values attached to the instance.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setOverlap"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.setOverlap()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setCombineTextUnderNChars"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.setCombineTextUnderNChars()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties.setOverlapAll"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties.setOverlapAll()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.pageNumCol"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.pageNumCol</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.originCol"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.originCol</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.partitionNum"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.partitionNum</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.storeSplittedPdf"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.storeSplittedPdf</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.splitPage"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.splitPage</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.onlyPageNum"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.onlyPageNum</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.textStripper"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.textStripper</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.sort"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.sort</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.extractCoordinates"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.extractCoordinates</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.normalizeLigatures"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.normalizeLigatures</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.readAsImage"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.readAsImage</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.setPageNumCol"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setPageNumCol()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.setOriginCol"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setOriginCol()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.setPartitionNum"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setPartitionNum()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.setStoreSplittedPdf"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setStoreSplittedPdf()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.setSplitPage"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setSplitPage()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.setOnlyPageNum"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setOnlyPageNum()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.setTextStripper"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setTextStripper()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.setSort"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setSort()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.setExtractCoordinates"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setExtractCoordinates()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.setNormalizeLigatures"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setNormalizeLigatures()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasPdfProperties.setReadAsImage"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setReadAsImage()</span></code></a></li>
 </ul>
 </li>
 </ul>

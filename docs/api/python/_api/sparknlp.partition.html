@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.partition package &#8212; Spark NLP 6.1.3 documentation</title>
+    <title>sparknlp.partition package &#8212; Spark NLP 6.1.5 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=76c29752"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=19338386"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.3 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.3 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.5 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.5 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -613,7 +613,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.reader2doc.html">sparknlp.reader.reader2doc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.reader2image.html">sparknlp.reader.reader2image module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.reader2table.html">sparknlp.reader.reader2table module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.reader_assembler.html">sparknlp.reader.reader_assembler module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
@@ -736,15 +738,71 @@ document.write(`
 </li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.getTimeout"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties.getTimeout()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.outputFormat"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties.outputFormat</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setHeaders"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties.setHeaders()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setOutputFormat"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties.setOutputFormat()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setTimeout"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties.setTimeout()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.timeout"><code class="docutils literal notranslate"><span class="pre">HasHTMLReaderProperties.timeout</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.extractCoordinates"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.extractCoordinates</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.normalizeLigatures"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.normalizeLigatures</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.onlyPageNum"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.onlyPageNum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.originCol"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.originCol</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.pageNumCol"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.pageNumCol</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.partitionNum"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.partitionNum</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.readAsImage"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.readAsImage</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.setExtractCoordinates"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setExtractCoordinates()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.setNormalizeLigatures"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setNormalizeLigatures()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.setOnlyPageNum"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setOnlyPageNum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.setOriginCol"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setOriginCol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.setPageNumCol"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setPageNumCol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.setPartitionNum"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setPartitionNum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.setReadAsImage"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setReadAsImage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.setSort"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setSort()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.setSplitPage"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setSplitPage()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.setStoreSplittedPdf"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setStoreSplittedPdf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.setTextStripper"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.setTextStripper()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.sort"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.sort</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.splitPage"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.splitPage</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.storeSplittedPdf"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.storeSplittedPdf</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPdfProperties.textStripper"><code class="docutils literal notranslate"><span class="pre">HasPdfProperties.textStripper</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPowerPointProperties"><code class="docutils literal notranslate"><span class="pre">HasPowerPointProperties</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPowerPointProperties.getIncludeSlideNotes"><code class="docutils literal notranslate"><span class="pre">HasPowerPointProperties.getIncludeSlideNotes()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPowerPointProperties.includeSlideNotes"><code class="docutils literal notranslate"><span class="pre">HasPowerPointProperties.includeSlideNotes</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasPowerPointProperties.setIncludeSlideNotes"><code class="docutils literal notranslate"><span class="pre">HasPowerPointProperties.setIncludeSlideNotes()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.contentPath"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.contentPath</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.contentType"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.contentType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.explodeDocs"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.explodeDocs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.flattenOutput"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.flattenOutput</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.ignoreExceptions"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.ignoreExceptions</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.includePageBreaks"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.includePageBreaks</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.inferTableStructure"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.inferTableStructure</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.inputCol"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.inputCol</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.outputAsDocument"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.outputAsDocument</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.outputCol"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.outputCol</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setContentPath"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setContentPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setContentType"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setContentType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setExplodeDocs"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setExplodeDocs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setFlattenOutput"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setFlattenOutput()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setIgnoreExceptions"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setIgnoreExceptions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setIncludePageBreaks"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setIncludePageBreaks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setInferTableStructure"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setInferTableStructure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setInputCol"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setInputCol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setOutputAsDocument"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setOutputAsDocument()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setOutputCol"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setOutputCol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setStoreContent"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setStoreContent()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setTitleFontSize"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setTitleFontSize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.setTitleThreshold"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.setTitleThreshold()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.storeContent"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.storeContent</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.titleFontSize"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.titleFontSize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasReaderProperties.titleThreshold"><code class="docutils literal notranslate"><span class="pre">HasReaderProperties.titleThreshold</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.partition.partition_properties.html#sparknlp.partition.partition_properties.HasTextReaderProperties"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties</span></code></a><ul>

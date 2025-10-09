@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.1.3 ScalaDoc  - com.johnsnowlabs.reader</title>
-          <meta name="description" content="Spark NLP 6.1.3 ScalaDoc - com.johnsnowlabs.reader" />
-          <meta name="keywords" content="Spark NLP 6.1.3 ScalaDoc com.johnsnowlabs.reader" />
+          <title>Spark NLP 6.1.5 ScalaDoc  - com.johnsnowlabs.reader</title>
+          <meta name="description" content="Spark NLP 6.1.5 ScalaDoc - com.johnsnowlabs.reader" />
+          <meta name="keywords" content="Spark NLP 6.1.5 ScalaDoc com.johnsnowlabs.reader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.1.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.1.5 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -239,6 +239,10 @@
                         <a href="HTMLReader.html" title="Class to parse and read HTML files.">HTMLReader</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasReaderContent.html" title=""></a>
+                        <a href="HasReaderContent.html" title="">HasReaderContent</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="class" href="MarkdownReader.html" title=""></a>
                         <a href="MarkdownReader.html" title="">MarkdownReader</a>
                       </li><li class="current-entities indented3">
@@ -266,9 +270,17 @@
                         <a class="class" href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
                         <a href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Doc</a>
                       </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="Reader2Image.html" title="The Reader2Image annotator allows you to use the reading files with images more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
+                        <a href="Reader2Image.html" title="The Reader2Image annotator allows you to use the reading files with images more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Image</a>
+                      </li><li class="current-entities indented3">
                         <a class="object" href="Reader2Table$.html" title=""></a>
                         <a class="class" href="Reader2Table.html" title="The Reader2Table annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
                         <a href="Reader2Table.html" title="The Reader2Table annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines.">Reader2Table</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="ReaderAssembler.html" title="The ReaderAssembler annotator provides a unified interface for combining multiple Spark NLP readers (such as Reader2Doc, Reader2Table, and Reader2Image) into a single, configurable component."></a>
+                        <a href="ReaderAssembler.html" title="The ReaderAssembler annotator provides a unified interface for combining multiple Spark NLP readers (such as Reader2Doc, Reader2Table, and Reader2Image) into a single, configurable component.">ReaderAssembler</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="SparkNLPReader.html" title=""></a>
@@ -440,7 +452,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <a title="" href="HTMLElement.html"><span class="name">HTMLElement</span></a><span class="params">(<span name="elementType">elementType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="content">content: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="metadata">metadata: <span class="extype" name="scala.collection.mutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <a title="" href="HTMLElement.html"><span class="name">HTMLElement</span></a><span class="params">(<span name="elementType">elementType: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="content">content: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="metadata">metadata: <span class="extype" name="scala.collection.mutable.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Predef.String">String</span>]</span>, <span name="binaryContent">binaryContent: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Byte">Byte</span>]] = <span class="symbol"><span class="name"><a href="../../../scala/index.html">None</a></span></span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       
@@ -460,6 +472,22 @@
       </span>
       
       <p class="shortcomment cmt">Class to parse and read HTML files.</p>
+    </li><li name="com.johnsnowlabs.reader.HasReaderContent" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="HasReaderContentextendsHasReaderPropertieswithHasTagsReaderProperties"></a><a id="HasReaderContent:HasReaderContent"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/HasReaderContent.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="HasReaderContent.html"><span class="name">HasReaderContent</span></a><span class="result"> extends <a href="../partition/HasReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasReaderProperties">HasReaderProperties</a> with <a href="../partition/HasTagsReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTagsReaderProperties">HasTagsReaderProperties</a></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.reader.MarkdownReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="MarkdownReaderextendsSerializable"></a><a id="MarkdownReader:MarkdownReader"></a>
       <span class="permalink">
@@ -493,7 +521,7 @@
       
       <p class="shortcomment cmt">Class to parse and read PDF files.</p>
     </li><li name="com.johnsnowlabs.reader.PdfToText" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="PdfToTextextendsTransformerwithDefaultParamsWritablewithHasInputValidatorwithHasInputColwithHasOutputColwithHasLocalProcesswithPdfToTextTraitwithHasPdfProperties"></a><a id="PdfToText:PdfToText"></a>
+      <a id="PdfToTextextendsTransformerwithDefaultParamsWritablewithHasInputValidatorwithHasInputColwithHasOutputColwithHasLocalProcesswithPdfToTextTraitwithHasPdfToTextProperties"></a><a id="PdfToText:PdfToText"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/PdfToText.html" title="Permalink">
         <i class="material-icons"></i>
@@ -504,7 +532,7 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Extract text from PDF document to a single string or to several strings per each page." href="PdfToText.html"><span class="name">PdfToText</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="util/pdf/HasInputValidator.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.HasInputValidator">HasInputValidator</a> with <span class="extype" name="org.apache.spark.ml.param.shared.HasInputCol">HasInputCol</span> with <span class="extype" name="org.apache.spark.ml.param.shared.HasOutputCol">HasOutputCol</span> with <a href="util/pdf/HasLocalProcess.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.HasLocalProcess">HasLocalProcess</a> with <a href="PdfToTextTrait.html" class="extype" name="com.johnsnowlabs.reader.PdfToTextTrait">PdfToTextTrait</a> with <a href="util/HasPdfProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfProperties">HasPdfProperties</a></span>
+        <a title="Extract text from PDF document to a single string or to several strings per each page." href="PdfToText.html"><span class="name">PdfToText</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="util/pdf/HasInputValidator.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.HasInputValidator">HasInputValidator</a> with <span class="extype" name="org.apache.spark.ml.param.shared.HasInputCol">HasInputCol</span> with <span class="extype" name="org.apache.spark.ml.param.shared.HasOutputCol">HasOutputCol</span> with <a href="util/pdf/HasLocalProcess.html" class="extype" name="com.johnsnowlabs.reader.util.pdf.HasLocalProcess">HasLocalProcess</a> with <a href="PdfToTextTrait.html" class="extype" name="com.johnsnowlabs.reader.PdfToTextTrait">PdfToTextTrait</a> with <a href="util/HasPdfToTextProperties.html" class="extype" name="com.johnsnowlabs.reader.util.HasPdfToTextProperties">HasPdfToTextProperties</a></span>
       </span>
       
       <p class="shortcomment cmt">Extract text from PDF document to a single string or to several strings per each page.</p><div class="fullcomment"><div class="comment cmt"><p>Extract text from PDF document to a single string or to several strings per each page. Input
@@ -579,7 +607,7 @@ root
       
       <p class="shortcomment cmt">Class to read and parse PowerPoint files.</p>
     </li><li name="com.johnsnowlabs.reader.Reader2Doc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="Reader2DocextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationColwithHasReaderPropertieswithHasEmailReaderPropertieswithHasExcelReaderPropertieswithHasHTMLReaderPropertieswithHasPowerPointPropertieswithHasTextReaderPropertieswithHasXmlReaderProperties"></a><a id="Reader2Doc:Reader2Doc"></a>
+      <a id="Reader2DocextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationColwithHasBinaryReaderPropertieswithHasTextReaderPropertieswithHasReaderContent"></a><a id="Reader2Doc:Reader2Doc"></a>
       <span class="permalink">
       <a href="../../../com/johnsnowlabs/reader/Reader2Doc.html" title="Permalink">
         <i class="material-icons"></i>
@@ -590,7 +618,7 @@ root
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines." href="Reader2Doc.html"><span class="name">Reader2Doc</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="../nlp/HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a> with <a href="../nlp/HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a> with <a href="../partition/HasReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasReaderProperties">HasReaderProperties</a> with <a href="../partition/HasEmailReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasEmailReaderProperties">HasEmailReaderProperties</a> with <a href="../partition/HasExcelReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasExcelReaderProperties">HasExcelReaderProperties</a> with <a href="../partition/HasHTMLReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasHTMLReaderProperties">HasHTMLReaderProperties</a> with <a href="../partition/HasPowerPointProperties.html" class="extype" name="com.johnsnowlabs.partition.HasPowerPointProperties">HasPowerPointProperties</a> with <a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a> with <a href="../partition/HasXmlReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasXmlReaderProperties">HasXmlReaderProperties</a></span>
+        <a title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines." href="Reader2Doc.html"><span class="name">Reader2Doc</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="../nlp/HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a> with <a href="../nlp/HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a> with <a href="../partition/HasBinaryReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasBinaryReaderProperties">HasBinaryReaderProperties</a> with <a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a> with <a href="HasReaderContent.html" class="extype" name="com.johnsnowlabs.reader.HasReaderContent">HasReaderContent</a></span>
       </span>
       
       <p class="shortcomment cmt">The Reader2Doc annotator allows you to use the reading files more smoothly within existing
@@ -621,6 +649,66 @@ resultDf.show()
 |[{document, <span class="num">15</span>, <span class="num">38</span>, This is a narrative text, {pageNumber -&gt; <span class="num">1</span>, elementType -&gt; NarrativeText, fileName -&gt; pdf-title.pdf}, []}]      |
 |[{document, <span class="num">39</span>, <span class="num">68</span>, This is another narrative text, {pageNumber -&gt; <span class="num">1</span>, elementType -&gt; NarrativeText, fileName -&gt; pdf-title.pdf}, []}]|
 +------------------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.reader.Reader2Image" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="Reader2ImageextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationColwithHasBinaryReaderPropertieswithHasReaderContent"></a><a id="Reader2Image:Reader2Image"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/Reader2Image.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="The Reader2Image annotator allows you to use the reading files with images more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines." href="Reader2Image.html"><span class="name">Reader2Image</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="../nlp/HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a> with <a href="../nlp/HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a> with <a href="../partition/HasBinaryReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasBinaryReaderProperties">HasBinaryReaderProperties</a> with <a href="HasReaderContent.html" class="extype" name="com.johnsnowlabs.reader.HasReaderContent">HasReaderContent</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">The Reader2Image annotator allows you to use the reading files with images more smoothly
+within existing Spark NLP workflows, enabling seamless reuse of your pipelines.</p><div class="fullcomment"><div class="comment cmt"><p>The Reader2Image annotator allows you to use the reading files with images more smoothly
+within existing Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Image
+can be used for extracting structured image content from various document types using Spark
+NLP readers. It supports reading from many files types and returns parsed output as a
+structured Spark DataFrame.</p><p>Supported formats include HTML and Markdown</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.reader.Reader2Image
+<span class="kw">import</span> com. johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> reader2Image = <span class="kw">new</span> Reader2Image()
+  .setContentType(<span class="lit">"text/html"</span>)
+  .setContentPath(<span class="lit">"./example-images.html"</span>)
+  .setOutputCol(<span class="lit">"image"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline()
+  .setStages(<span class="std">Array</span>(reader2Image))
+
+<span class="kw">val</span> pipelineModel = pipeline.fit(emptyDataSet)
+<span class="kw">val</span> resultDf = pipelineModel.transform(emptyDataSet)
+
+resultDf.show()
++-------------------+--------------------+
+|           fileName|               image|
++-------------------+--------------------+
+|example-images.html|[{image, example-...|
+|example-images.html|[{image, example-...|
++-------------------+--------------------+
+
+resultDf.printSchema()
+
+root
+ |-- fileName: string (nullable = <span class="kw">true</span>)
+ |-- image: array (nullable = <span class="kw">false</span>)
+ |    |-- element: struct (containsNull = <span class="kw">true</span>)
+ |    |    |-- annotatorType: string (nullable = <span class="kw">true</span>)
+ |    |    |-- origin: string (nullable = <span class="kw">true</span>)
+ |    |    |-- height: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- width: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- nChannels: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- mode: integer (nullable = <span class="kw">false</span>)
+ |    |    |-- result: binary (nullable = <span class="kw">true</span>)
+ |    |    |-- metadata: map (nullable = <span class="kw">true</span>)
+ |    |    |    |-- key: string
+ |    |    |    |-- value: string (valueContainsNull = <span class="kw">true</span>)
+ |    |    |-- text: string (nullable = <span class="kw">true</span>)</pre></div></div>
     </li><li name="com.johnsnowlabs.reader.Reader2Table" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Reader2TableextendsReader2Doc"></a><a id="Reader2Table:Reader2Table"></a>
       <span class="permalink">
@@ -638,7 +726,7 @@ resultDf.show()
       
       <p class="shortcomment cmt">The Reader2Table annotator allows you to use the reading files more smoothly within existing
 Spark NLP workflows, enabling seamless reuse of your pipelines.</p><div class="fullcomment"><div class="comment cmt"><p>The Reader2Table annotator allows you to use the reading files more smoothly within existing
-Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Doc can be used for
+Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Table can be used for
 extracting structured content from various document types using Spark NLP readers. It supports
 reading from many files types and returns parsed output as a structured Spark DataFrame.</p><p>Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
 (.ppt/.pptx)</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.reader.Reader2Table
@@ -661,6 +749,55 @@ resultDf.show()
 +----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |stanley-cups.csv|[{document, <span class="num">0</span>, <span class="num">137</span>, {<span class="lit">"caption"</span>:<span class="lit">""</span>,<span class="lit">"header"</span>:[],<span class="lit">"rows"</span>:[[<span class="lit">"Team"</span>,<span class="lit">"Location"</span>,<span class="lit">"Stanley Cups"</span>],[<span class="lit">"Blues"</span>,<span class="lit">"STL"</span>,<span class="lit">"1"</span>],[<span class="lit">"Flyers"</span>,<span class="lit">"PHI"</span>,<span class="lit">"2"</span>],[<span class="lit">"Maple Leafs"</span>,<span class="lit">"TOR"</span>,<span class="lit">"13"</span>]]}, {elementType -&gt; Table}, []}]|
 +----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.reader.ReaderAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ReaderAssemblerextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationColwithHasBinaryReaderPropertieswithHasTextReaderPropertieswithHasReaderContent"></a><a id="ReaderAssembler:ReaderAssembler"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/ReaderAssembler.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="The ReaderAssembler annotator provides a unified interface for combining multiple Spark NLP readers (such as Reader2Doc, Reader2Table, and Reader2Image) into a single, configurable component." href="ReaderAssembler.html"><span class="name">ReaderAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span> with <a href="../nlp/HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a> with <a href="../nlp/HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a> with <a href="../partition/HasBinaryReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasBinaryReaderProperties">HasBinaryReaderProperties</a> with <a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a> with <a href="HasReaderContent.html" class="extype" name="com.johnsnowlabs.reader.HasReaderContent">HasReaderContent</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">The ReaderAssembler annotator provides a unified interface for combining multiple Spark NLP
+readers (such as Reader2Doc, Reader2Table, and Reader2Image) into a single, configurable
+component.</p><div class="fullcomment"><div class="comment cmt"><p>The ReaderAssembler annotator provides a unified interface for combining multiple Spark NLP
+readers (such as Reader2Doc, Reader2Table, and Reader2Image) into a single, configurable
+component. It automatically orchestrates the execution of different readers based on input
+type, configured priorities, and fallback strategies allowing you to handle diverse content
+formats without manually chaining multiple readers in your pipeline.</p><p>ReaderAssembler simplifies the process of building flexible pipelines capable of ingesting and
+processing documents, tables, and images in a consistent way. It handles reader selection,
+ordering, and fault-tolerance internally, ensuring that pipelines remain concise, robust, and
+easy to maintain.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.reader.ReaderAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> readerAssembler = <span class="kw">new</span> ReaderAssembler()
+  .setContentType(<span class="lit">"text/html"</span>)
+  .setContentPath(s<span class="lit">"$htmlFilesDirectory/table-image.html"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline()
+  .setStages(<span class="std">Array</span>(readerAssembler))
+
+<span class="kw">val</span> pipelineModel = pipeline.fit(emptyDataSet)
+<span class="kw">val</span> resultDf = pipelineModel.transform(emptyDataSet)
+
+resultDf.show()
++--------+--------------------+--------------------+--------------------+---------+
+|fileName|       document_text|      document_table|      document_image|exception|
++--------+--------------------+--------------------+--------------------+---------+
+|    <span class="kw">null</span>|[{document, <span class="num">0</span>, <span class="num">26.</span>..|[{document, <span class="num">0</span>, <span class="num">50.</span>..|[{image, , <span class="num">5</span>, <span class="num">5</span>, ...|     <span class="kw">null</span>|
++--------+--------------------+--------------------+--------------------+---------+</pre><p>This annotator is especially useful when working with heterogeneous input data — for example,
+when a dataset includes PDFs, spreadsheets, and images — allowing Spark NLP to automatically
+invoke the appropriate reader for each file type while preserving a unified schema in the
+output.
+</p></div></div>
     </li><li name="com.johnsnowlabs.reader.SparkNLPReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="SparkNLPReaderextendsSerializable"></a><a id="SparkNLPReader:SparkNLPReader"></a>
       <span class="permalink">
