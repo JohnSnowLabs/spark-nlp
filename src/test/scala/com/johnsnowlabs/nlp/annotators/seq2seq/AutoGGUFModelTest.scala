@@ -252,6 +252,27 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     assert(ramChange < -100, "Freed RAM should be greater than 100 MB")
   }
 
+  it should "be able to remove thinking tags" taggedAs SlowTest in {
+    val thinkTag = "think"
+    val model = AutoGGUFModel
+      .loadSavedModel("models/Qwen3-8B-Q4_K_M.gguf", ResourceHelper.spark)
+      .setInputCols("document")
+      .setOutputCol("completions")
+      .setRemoveThinkingTag(thinkTag)
+      .setNPredict(500)
+      .setTemperature(0.1f)
+
+    val data = Seq("What is the meaning of life? Think shortly step by step.").toDF("text")
+
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, model))
+    val result = pipeline.fit(data).transform(data)
+
+    val completion = Annotation.collect(result, "completions").flatten.head.result
+    println(completion)
+    assert(!completion.contains(s"<$thinkTag>") && !completion.contains(s"</$thinkTag>"))
+  }
+
 //  it should "benchmark" taggedAs SlowTest in {
 //    val model = AutoGGUFModel
 //      .loadSavedModel("models/gemma-3-4b-it-qat-Q4_K_M.gguf", ResourceHelper.spark)
