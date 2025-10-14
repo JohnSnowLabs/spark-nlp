@@ -11,7 +11,7 @@ sidebar:
   nav: sparknlp  
 ---
 
-**Text Preprocessing** is the foundational task of cleaning and transforming raw text data into a structured format that can be used in NLP tasks. It involves a series of steps to normalize text, remove noise, and prepare it for deeper analysis. Spark NLP provides a range of tools for efficient and scalable text preprocessing.
+**Text preprocessing** is a critical step in **Natural Language Processing (NLP)** that converts raw, unstructured text into a clean and analyzable form. It typically includes operations such as **tokenization**, **lowercasing**, **stopword removal**, **lemmatization or stemming**, and **handling of punctuation or special characters**. These steps reduce noise, ensure uniformity, and improve the performance of downstream NLP models.
 
 ## Key Preprocessing Steps
 
@@ -23,123 +23,117 @@ When preprocessing text, consider the following key steps along with the recomme
 4. [`Stopword Removal:`](https://sparknlp.org/docs/en/annotators#stopwordscleaner){:target="_blank"} Remove common, non-informative words (e.g., "the," "is," "and").
 5. [`Lemmatization:`](https://sparknlp.org/docs/en/annotators#lemmatizer){:target="_blank"} Reduce words to their base form (e.g., "running" → "run").
 
-These steps and annotators will help ensure your text data is clean, consistent, and ready for analysis.
-
 ## How to use
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
-# Document Assembler: Converts input text into a suitable format for NLP processing
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
 
-# Tokenizer: Splits text into individual tokens (words)
 tokenizer = Tokenizer() \
     .setInputCols(["document"]) \
     .setOutputCol("tokens")
 
-# SpellChecker: Corrects misspelled words
 spellChecker = NorvigSweetingModel.pretrained() \
     .setInputCols(["tokens"]) \
     .setOutputCol("corrected")
 
-# Normalizer: Cleans and standardizes text data
 normalizer = Normalizer() \
     .setInputCols(["corrected"]) \
     .setOutputCol("normalized")
 
-# StopWordsCleaner: Removes stopwords
 stopwordsCleaner = StopWordsCleaner() \
     .setInputCols(["normalized"]) \
     .setOutputCol("cleanTokens")
 
-# Lemmatizer: Reduces words to their base form
 lemmatizer = LemmatizerModel.pretrained() \
     .setInputCols(["cleanTokens"]) \
     .setOutputCol("lemmas")
 
-# Pipeline: Assembles the document assembler and preprocessing stages
 pipeline = Pipeline().setStages([
     documentAssembler, tokenizer, spellChecker, normalizer, stopwordsCleaner, lemmatizer
 ])
 
-# Input Data: A small example dataset is created and converted to a DataFrame
-data = spark.createDataFrame([["Text preprocessing is essential in NLP!"]]).toDF("text")
+data = spark.createDataFrame([["Dr. Emily Johnson visited New York's Mount Sinai Hospital on September 21, 2023, to evaluate patients suffering from chronic migraines."]]).toDF("text")
 
-# Running the Pipeline: Fits the pipeline to the data and preprocesses the text
-result = pipeline.fit(data).transform(data)
+model = pipeline.fit(data)
+result = model.transform(data)
 
-# Output: Displays the processed tokens and lemmas
-result.select("lemmas.result").show(truncate=False)
-
-+----------------------------------------------------+
-|lemmas.result                                       |
-+----------------------------------------------------+
-|[text, preprocess, essential, in, NLP]              |
-+----------------------------------------------------+
 ```
 ```scala
-import com.johnsnowlabs.nlp.DocumentAssembler
+import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
 import org.apache.spark.ml.Pipeline
-import spark.implicits._
 
-// Document Assembler: Converts input text into a suitable format for NLP processing
 val documentAssembler = new DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
-// Tokenizer: Splits text into individual tokens (words)
 val tokenizer = new Tokenizer()
-  .setInputCols(Array("document"))
+  .setInputCols("document")
   .setOutputCol("tokens")
 
-// SpellChecker: Corrects misspelled words
 val spellChecker = NorvigSweetingModel.pretrained()
-  .setInputCols(Array("tokens"))
+  .setInputCols("tokens")
   .setOutputCol("corrected")
 
-// Normalizer: Cleans and standardizes text data
 val normalizer = new Normalizer()
-  .setInputCols(Array("corrected"))
+  .setInputCols("corrected")
   .setOutputCol("normalized")
 
-// StopWordsCleaner: Removes stopwords
 val stopwordsCleaner = new StopWordsCleaner()
-  .setInputCols(Array("normalized"))
+  .setInputCols("normalized")
   .setOutputCol("cleanTokens")
 
-// Lemmatizer: Reduces words to their base form
 val lemmatizer = LemmatizerModel.pretrained()
-  .setInputCols(Array("cleanTokens"))
+  .setInputCols("cleanTokens")
   .setOutputCol("lemmas")
 
-// Pipeline: Assembles the document assembler and preprocessing stages
 val pipeline = new Pipeline().setStages(Array(
   documentAssembler, tokenizer, spellChecker, normalizer, stopwordsCleaner, lemmatizer
 ))
 
-// Input Data: A small example dataset is created and converted to a DataFrame
-val data = Seq("Text preprocessing is essential in NLP!").toDF("text")
+val data = Seq("Dr. Emily Johnson visited New York's Mount Sinai Hospital on September 21, 2023, to evaluate patients suffering from chronic migraines.")
+  .toDF("text")
 
-// Running the Pipeline: Fits the pipeline to the data and preprocesses the text
-val result = pipeline.fit(data).transform(data)
+val model = pipeline.fit(data)
+val result = model.transform(data)
 
-// Display the results
-result.select("lemmas.result").show(false)
+```
+</div>
 
-+----------------------------------------------------+
-|result                                              |
-+----------------------------------------------------+
-|[text, preprocess, essential, in, NLP]              |
-+----------------------------------------------------+
+<div class="tabs-box" markdown="1">
+```
++---------+---------+----------+----------+---------+
+|Token    |Corrected|Normalized|CleanToken|Lemma    |
++---------+---------+----------+----------+---------+
+|Dr       |Dr       |Dr        |Dr        |Dr       |
+|.        |.        |Emily     |Emily     |Emily    |
+|Emily    |Emily    |Johnson   |Johnson   |Johnson  |
+|Johnson  |Johnson  |visited   |visited   |visit    |
+|visited  |visited  |New       |New       |New      |
+|New      |New      |Yorks     |Yorks     |Yorks    |
+|York's   |Yorks    |Mount     |Mount     |Mount    |
+|Mount    |Mount    |Sinai     |Sinai     |Sinai    |
+|Sinai    |Sinai    |Hospital  |Hospital  |Hospital |
+|Hospital |Hospital |on        |September |September|
+|on       |on       |September |evaluate  |evaluate |
+|September|September|to        |patients  |patient  |
+|21       |21       |evaluate  |suffering |suffer   |
+|,        |,        |patients  |chronic   |chronic  |
+|2023     |2023     |suffering |migraines |migraine |
+|,        |,        |from      |NULL      |NULL     |
+|to       |to       |chronic   |NULL      |NULL     |
+|evaluate |evaluate |migraines |NULL      |NULL     |
+|patients |patients |NULL      |NULL      |NULL     |
+|suffering|suffering|NULL      |NULL      |NULL     |
++---------+---------+----------+----------+---------+
 ```
 </div>
 
@@ -147,8 +141,8 @@ result.select("lemmas.result").show(false)
 
 If you want to see text preprocessing in real-time, check out our interactive demos:
 
-- **[Text Preprocessing with Spark NLP](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-text-preprocessing){:target="_blank"}** – Explore how Spark NLP preprocesses raw text data.
-- **[Stopwords Removing with Spark NLP](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-stop-words-removal){:target="_blank"}** – Explore how Spark NLP removes stop words from text.
+- **[Text Preprocessing with Spark NLP](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-text-preprocessing){:target="_blank"}**
+- **[Stopwords Removing with Spark NLP](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-stop-words-removal){:target="_blank"}**
 
 ## Useful Resources
 

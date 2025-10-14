@@ -11,43 +11,39 @@ sidebar:
   nav: sparknlp  
 ---
 
-**Translation** is the task of converting text from one language into another. This is essential for multilingual applications such as content localization, cross-language communication, and more. Spark NLP offers advanced translation models that provide high-quality translations between multiple languages.
+**Translation** is a natural language processing task where models convert text from one language into another while preserving its meaning, grammar, and context. For example, given the input *“My name is Omar and I live in Zürich”*, a translation model might output *“Mein Name ist Omar und ich wohne in Zürich”*. Modern translation models, especially **multilingual neural models** like **mBART**, can handle a wide variety of language pairs and can also be fine-tuned on custom data to improve accuracy for specific domains or dialects.
 
-Translation models process input text in the source language and generate a corresponding translation in the target language. Common use cases include:
+Translation models are widely used to build **multilingual conversational agents** and cross-lingual applications. They can either translate datasets of user intents and responses to train a new model in the target language or translate live user inputs and chatbot outputs for real-time interaction. These capabilities make translation essential for **global communication, content localization, cross-border business, and international customer support**, enabling systems to operate seamlessly across multiple languages.
 
-- **Cross-Language Communication:** Enabling communication across different languages for global teams.
-- **Document Translation:** Translating long-form content such as reports, articles, or manuals.
+## Picking a Model  
 
-By using Spark NLP translation models, you can build scalable translation systems to meet your multilingual needs efficiently and accurately.
-
-## Picking a Model
-
-When choosing a translation model, consider factors such as the **source and target languages** and the **size of the input text**. Some models may specialize in specific language pairs or offer better performance for certain types of text (e.g., formal versus informal content). Evaluate whether you need **document-level translation** or **sentence-level translation** based on the use case.
-
-Explore the available translation models at [Spark NLP Models](https://sparknlp.org/models) to find the one that best suits your translation tasks.
+The choice of model for translation depends on the languages, domain, and whether real-time or batch translation is required. For **general-purpose multilingual translation**, encoder–decoder architectures like **mBART**, **M2M100**, and **MarianMT** perform well across a wide range of language pairs. For **high-quality domain-specific translation**, fine-tuned versions of these models can be used, such as models trained on legal, medical, or technical corpora. **Lightweight or faster models** like **DistilMarianMT** or distilled versions of **mBART** are suitable for real-time applications or deployment in resource-constrained environments. Finally, when **rare or low-resource languages** are involved, models like **NLLB-200** or language-adapted versions of **M2M100** provide improved coverage and accuracy.
 
 #### Recommended Models for Translation Tasks
 
-- **General Translation:** Consider models such as [`t5_base`](https://sparknlp.org/2021/01/08/t5_base_en.html){:target="_blank"} and [`m2m100_418M`](https://sparknlp.org/2024/05/19/m2m100_418M_xx.html){:target="_blank"} you can also consider searching models with the [`Marian Transformer`](https://sparknlp.org/models?annotator=MarianTransformer){:target="_blank"} Annotator class for translating between non-english languages.
+- **General-Purpose Multilingual Translation:** Models such as [`mbart-large-50-many-to-many-mmt`](https://huggingface.co/facebook/mbart-large-50-many-to-many-mmt){:target="_blank"}, [`m2m100_418M`](https://sparknlp.org/2024/05/19/m2m100_418M_xx.html){:target="_blank"}, and [`Helsinki-NLP/opus-mt`](https://sparknlp.org/models?q=Helsinki-NLP%2Fopus-mt&type=model&sort=downloads&annotator=MarianTransformer){:target="_blank"} handle a wide variety of language pairs effectively.  
 
-Selecting the appropriate model will ensure you produce accurate and fluent translations, tailored to your specific language pair and domain.
+- **Domain-Specific Translation:** For legal, medical, technical, or other specialized texts, fine-tuned variants of **mBART**, **M2M100**, or **MarianMT** trained on domain-specific corpora provide higher accuracy.  
+
+- **Lightweight or Real-Time Translation:** Distilled or smaller models like [`Helsinki-NLP/opus-mt`](https://sparknlp.org/models?q=Helsinki-NLP%2Fopus-mt&type=model&sort=downloads&annotator=MarianTransformer){:target="_blank"} and distilled **mBART** versions are optimized for low-latency, resource-constrained deployment.  
+
+- **Low-Resource Languages:** Models such as [`NLLB-200`](https://sparknlp.org/2024/11/27/nllb_distilled_600M_8int_xx.html){:target="_blank"} or language-adapted versions of **M2M100** are recommended for improved performance on rare or low-resource language pairs.  
+
+Explore the available translation models at [Spark NLP Models](https://sparknlp.org/models) to find the one that best suits your translation tasks.
 
 ## How to use
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
-# Document Assembler: Converts input text into a suitable format for NLP processing
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("documents")
 
-# M2M100 Transformer: Loads the pretrained translation model for English to French
 m2m100 = M2M100Transformer.pretrained("m2m100_418M") \
     .setInputCols(["documents"]) \
     .setMaxOutputLength(50) \
@@ -55,37 +51,30 @@ m2m100 = M2M100Transformer.pretrained("m2m100_418M") \
     .setSrcLang("zh") \   # Source language: Chinese
     .setTgtLang("en")     # Target language: English
 
-# Pipeline: Assembles the document assembler and the M2M100 translation model
-pipeline = Pipeline().setStages([documentAssembler, m2m100])
+pipeline = Pipeline().setStages([
+  documentAssembler, 
+  m2m100
+])
 
-# Input Data: A small example dataset is created and converted to a DataFrame
 data = spark.createDataFrame([["生活就像一盒巧克力。"]]).toDF("text")
 
-# Running the Pipeline: Fits the pipeline to the data and generates translations
-result = pipeline.fit(data).transform(data)
+model = pipeline.fit(data)
+result = model.transform(data)
 
-# Output: Displays the translated result
 result.select("summaries.generation").show(truncate=False)
 
-+-------------------------------------------------------------------------------------------+
-|result                                                                                     |
-+-------------------------------------------------------------------------------------------+
-|[ Life is like a box of chocolate.]                                                        |
-+-------------------------------------------------------------------------------------------+
 ```
 
 ```scala
 import spark.implicits._
-import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer
+import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.annotators._
 import org.apache.spark.ml.Pipeline
 
-// Document Assembler: Converts input text into a suitable format for NLP processing
 val documentAssembler = new DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("documents")
 
-// M2M100 Transformer: Loads the pretrained translation model for Chinese to English
 val m2m100 = M2M100Transformer.pretrained("m2m100_418M")
   .setInputCols(Array("documents"))
   .setSrcLang("zh")          // Source language: Chinese
@@ -94,18 +83,23 @@ val m2m100 = M2M100Transformer.pretrained("m2m100_418M")
   .setDoSample(false)        
   .setOutputCol("generation")
 
-// Pipeline: Assembles the document assembler and the M2M100 translation model
-val pipeline = new Pipeline().setStages(Array(documentAssembler, m2m100))
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler, 
+  m2m100
+))
 
-// Input Data: A small example dataset is created and converted to a DataFrame
 val data = Seq("生活就像一盒巧克力。").toDF("text")
 
-// Running the Pipeline: Fits the pipeline to the data and generates translations
-val result = pipeline.fit(data).transform(data)
+val model = pipeline.fit(data)
+val result = model.transform(data)
 
-// Output: Displays the translated result
 result.select("generation.result").show(truncate = false)
 
+```
+</div>
+
+<div class="tabs-box" markdown="1">
+```
 +-------------------------------------------------------------------------------------------+
 |result                                                                                     |
 +-------------------------------------------------------------------------------------------+
@@ -118,9 +112,9 @@ result.select("generation.result").show(truncate = false)
 
 If you want to see the outputs of text generation models in real time, visit our interactive demos:
 
-- **[Text-To-Text Transfer Transformer (Google T5)](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-t5){:target="_blank"}** – T5 performs text tasks like summarization and translation.
-- **[Multilingual Text Translation with MarianMT](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-MarianMT){:target="_blank"}** – Translates text between multiple languages.
-- **[M2M100 Multilingual Translation Model](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-M2M100){:target="_blank"}** – Translates text between multiple languages.
+- **[Text-To-Text Transfer Transformer (Google T5)](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-t5){:target="_blank"}**
+- **[Multilingual Text Translation with MarianMT](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-MarianMT){:target="_blank"}**
+- **[M2M100 Multilingual Translation Model](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-M2M100){:target="_blank"}**
 
 ## Useful Resources
 
