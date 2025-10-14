@@ -124,7 +124,8 @@ class AutoGGUFModel(override val uid: String)
     with HasEngine
     with HasLlamaCppModelProperties
     with HasLlamaCppInferenceProperties
-    with HasProtectedParams {
+    with HasProtectedParams
+    with CompletionPostProcessing {
 
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(AnnotatorType.DOCUMENT)
@@ -204,7 +205,8 @@ class AutoGGUFModel(override val uid: String)
             inferenceParams,
             getSystemPrompt,
             annotationsText)
-          (results, Map.empty)
+          val resultsCleaned = processCompletions(results)
+          (resultsCleaned, Map.empty)
         } catch {
           case e: LlamaException =>
             logger.error("Error in llama.cpp batch completion", e)

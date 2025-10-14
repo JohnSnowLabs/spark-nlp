@@ -157,7 +157,8 @@ class AutoGGUFVisionModel(override val uid: String)
     with HasEngine
     with HasLlamaCppModelProperties
     with HasLlamaCppInferenceProperties
-    with HasProtectedParams {
+    with HasProtectedParams
+    with CompletionPostProcessing {
   override val inputAnnotatorTypes: Array[AnnotatorType] =
     Array(AnnotatorType.IMAGE, AnnotatorType.DOCUMENT)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
@@ -242,14 +243,14 @@ class AutoGGUFVisionModel(override val uid: String)
         .zip(base64EncodedImages)
         .map { case (prompt, base64Image) =>
           try {
-            (
-              LlamaExtensions.completeImage(
-                model,
-                getInferenceParameters,
-                getSystemPrompt,
-                prompt,
-                base64Image),
-              Map.empty[String, String])
+            val results = LlamaExtensions.completeImage(
+              model,
+              getInferenceParameters,
+              getSystemPrompt,
+              prompt,
+              base64Image)
+            val resultsCleaned = processCompletions(Array(results)).head
+            (resultsCleaned, Map.empty[String, String])
           } catch {
             case e: LlamaException =>
               logger.error("Error in llama.cpp image batch completion", e)

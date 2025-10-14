@@ -15,7 +15,7 @@
 from sparknlp.common import *
 
 
-class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
+class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties, CompletionPostProcessing):
     """Multimodal annotator that uses the llama.cpp library to generate text completions with large
     language models. It supports ingesting images for captioning.
 
