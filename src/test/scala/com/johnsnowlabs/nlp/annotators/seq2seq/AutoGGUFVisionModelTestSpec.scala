@@ -156,4 +156,34 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     println("Freed RAM after closing the model: " + ramChange + " MB")
     assert(ramChange < -100, "Freed RAM should be greater than 100 MB")
   }
+
+  it should "be able to remove thinking tags" taggedAs SlowTest in {
+    val thinkTag = "think"
+    val model = AutoGGUFVisionModel
+      .loadSavedModel(
+        "models/SmolVLM-256M-Instruct-Q8_0.gguf",
+        "models/mmproj-SmolVLM-256M-Instruct-Q8_0.gguf",
+        ResourceHelper.spark)
+      .setInputCols("caption_document", "image_assembler")
+      .setOutputCol("completions")
+      .setRemoveThinkingTag(thinkTag)
+      .setNPredict(500)
+      .setTemperature(0.1f)
+
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, imageAssembler, model))
+    val dataThinking = data
+      .limit(1)
+      .withColumn(
+        "caption",
+        lit("What is the meaning of life? Think real hard and relate it to the image."))
+
+    dataThinking.select("caption").show(false)
+
+    val result = pipeline.fit(dataThinking).transform(dataThinking)
+
+    val completion = Annotation.collect(result, "completions").flatten.head.result
+    println(completion)
+    assert(!completion.contains(s"<$thinkTag>") && !completion.contains(s"</$thinkTag>"))
+  }
 }

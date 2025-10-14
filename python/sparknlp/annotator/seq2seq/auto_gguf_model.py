@@ -12,12 +12,10 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 """Contains classes for the AutoGGUFModel."""
-from typing import List, Dict
-
 from sparknlp.common import *
 
 
-class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
+class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties, CompletionPostProcessing):
     """
     Annotator that uses the llama.cpp library to generate text completions with large language
     models.
@@ -242,7 +240,6 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
     name = "AutoGGUFModel"
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
     outputAnnotatorType = AnnotatorType.DOCUMENT
-
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel", java_model=None):

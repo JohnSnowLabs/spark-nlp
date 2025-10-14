@@ -257,6 +257,7 @@ class AutoGGUFModelSerializationTestSpec(unittest.TestCase):
         model_writer.save(model_path)
         AutoGGUFModel.load(model_path)
 
+
         model_path = "file:///tmp/autogguf_spark_nlp"
         AutoGGUFModel.load(model_path)
 
@@ -293,3 +294,40 @@ class AutoGGUFModelCloseTest(unittest.TestCase):
 
         print(f"Freed RAM after closing the model: {ramChange} MB")
         assert (ramChange < -100, "Freed RAM should be greater than 100 MB")
+
+
+@pytest.mark.slow
+class AutoGGUFModelThinkingTagTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+        think_tag = "think"
+
+        model = (
+            AutoGGUFModel.loadSavedModel("models/Qwen3-8B-Q4_K_M.gguf", self.spark)
+            .setInputCols(["document"])
+            .setOutputCol("completions")
+            .setRemoveThinkingTag(think_tag)
+            .setNPredict(500)
+            .setTemperature(0.1)
+        )
+
+        data = self.spark.createDataFrame(
+            [("What is the meaning of life? Think shortly step by step.",)],
+            ["text"]
+        )
+
+        pipeline = Pipeline(stages=[document_assembler, model])
+        result = pipeline.fit(data).transform(data)
+
+        completions = result.select("completions").collect()
+        completion = completions[0][0][0].result
+
+        print(completion)
+        assert f"<{think_tag}>" not in completion
+        assert f"</{think_tag}>" not in completion
