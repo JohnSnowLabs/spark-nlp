@@ -5,6 +5,10 @@ import com.johnsnowlabs.nlp.AnnotatorType.CHUNK
 
 object EntityRulerFixture {
 
+  val email1 = "admin@company.org"
+  val email2 = "john.smith@mailserver.net"
+  val ip1 = "192.168.1.10"
+  val ip2 = "10.0.0.1"
   val text1: String = "John Snow lives in Winterfell"
   val expectedEntitiesFromText1: Array[Seq[Annotation]] = Array(
     Seq(
