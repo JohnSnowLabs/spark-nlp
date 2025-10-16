@@ -71,6 +71,7 @@ GEM
     faraday-net_http (3.4.1)
       net-http (>= 0.5.0)
     ffi (1.17.2)
+    ffi (1.17.2-arm64-darwin)
     forwardable-extended (2.6.0)
     gemoji (3.0.1)
     github-pages (227)
@@ -320,9 +321,9 @@ DEPENDENCIES
   github-pages (= 227)
   jekyll (~> 3.9)
   jekyll-incremental (= 0.1.0)!
-  nokogiri (>= 1.13.9)
+  nokogiri (>= 1.18.9)
   wdm (~> 0.1.0)
-  webrick
+  webrick (>= 1.8.2)
 
 BUNDLED WITH
    2.3.26
