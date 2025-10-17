@@ -80,3 +80,28 @@ class DocumentNormalizerSpec(unittest.TestCase):
 
         ds.select("normalizedDocument").show()
 
+
+@pytest.mark.fast
+class DocumentNormalizerAutoModeTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkSessionForTest.spark.createDataFrame(
+            [["<html>• Buy milk &amp; bread!!! 😄 <a href='link'>Click</a> - Thanks!</html>"]]
+        ).toDF("text")
+
+    def runTest(self):
+       df = self.data
+
+       document_assembler = DocumentAssembler().setInputCol('text').setOutputCol('document')
+
+       document_normalizer = DocumentNormalizer() \
+            .setInputCols("document") \
+            .setOutputCol("normalizedDocument") \
+            .setAutoMode("FULL_AUTO")
+
+       doc_normalizer_pipeline = \
+            Pipeline().setStages([document_assembler, document_normalizer])
+
+       result = doc_normalizer_pipeline.fit(df).transform(df)
+
+       self.assertTrue(result.select("normalizedDocument").count() > 0)
