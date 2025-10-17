@@ -24,6 +24,7 @@ import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.nio.charset.{Charset, StandardCharsets}
+import java.util.Locale
 import scala.collection.mutable.ListBuffer
 import scala.util.matching.Regex
 import scala.util.{Failure, Success, Try}
@@ -105,7 +106,7 @@ import scala.xml.XML
   */
 class DocumentNormalizer(override val uid: String)
     extends AnnotatorModel[DocumentNormalizer]
-    with HasSimpleAnnotate[DocumentNormalizer]{
+    with HasSimpleAnnotate[DocumentNormalizer] {
 
   private val logger: Logger = LoggerFactory.getLogger(this.getClass)
 
@@ -180,10 +181,11 @@ class DocumentNormalizer(override val uid: String)
   val presetPattern = new Param[String](
     this,
     "presetPattern",
-    "Single functional cleaner preset (CLEAN_BULLETS, CLEAN_DASHES, etc.)"
-  )
+    "Single functional cleaner preset (CLEAN_BULLETS, CLEAN_DASHES, etc.)")
 
-  val autoMode = new Param[String](this, "autoMode",
+  val autoMode = new Param[String](
+    this,
+    "autoMode",
     "Automatic cleaning mode grouping multiple cleaners: light_clean, document_clean, social_clean, html_clean, full_auto")
 
   //  Assuming non-html does not contain any < or > and that input string is correctly structured
@@ -194,7 +196,8 @@ class DocumentNormalizer(override val uid: String)
     replacement -> SPACE_STR,
     lowercase -> false,
     policy -> "pretty_all",
-    encoding -> "disable")
+    encoding -> "disable",
+    autoMode -> "")
 
   /** Action to perform on text. (Default `"clean"`).
     *
@@ -271,6 +274,8 @@ class DocumentNormalizer(override val uid: String)
   def setEncoding(value: String): this.type = set(encoding, value)
 
   def setPresetPattern(value: String): this.type = set(presetPattern, value)
+
+  def setAutoMode(value: String): this.type = set(autoMode, value)
 
   /** Applying document normalization without pretty formatting (removing multiple spaces) */
   private def withAllFormatter(
@@ -368,130 +373,64 @@ class DocumentNormalizer(override val uid: String)
     new String(text.getBytes(defaultCharset), encoding)
   }
 
-  /** Apply document normalization on text using action, patterns, policy, lowercase and encoding
-    * parameters.
+  /** Applies document normalization:
+    *   1. User-defined regex patterns (if any) 2. Either functional preset (CleanerHelper) OR
+    *      autoMode (CleanerHelper bundles) 3. Lowercasing and encoding policy
     */
-//  private def applyDocumentNormalization(
-//      text: String,
-//      action: String,
-//      patterns: Array[String],
-//      replacement: String,
-//      policy: String,
-//      lowercase: Boolean,
-//      encoding: String): String = {
-//
-//    val builtinPatterns: Array[String] = {
-//      if (isDefined(presetPattern)) {
-//        val presetName = $(presetPattern)
-//        BUILTIN_PATTERNS.getOrElse(
-//          presetName,
-//          throw new IllegalArgumentException(
-//            s"Unknown preset pattern '$presetName'. Valid presets: ${BUILTIN_PATTERNS.keys.mkString(", ")}"
-//          )
-//        )
-//      } else {
-//        Array.empty[String]
-//      }
-//    }
-//
-//    val combinedPatterns: Array[String] = {
-//      val userPatterns = Option(patterns).getOrElse(Array.empty[String])
-//      (builtinPatterns ++ userPatterns).distinct
-//    }
-//
-//    val processedWithActionPatterns: String = policy match {
-//      case "all" => withAllFormatter(text, action, combinedPatterns, replacement)
-//      case "pretty_all" => withPrettyAllFormatter(text, action, combinedPatterns, replacement)
-//      case "first" => withFirstFormatter(text, action, combinedPatterns, replacement)
-//      case "pretty_first" => withPrettyFirstFormatter(text, action, combinedPatterns, replacement)
-//      case _ =>
-//        throw new Exception(
-//          "Unknown policy parameter in DocumentNormalizer annotation." +
-//            "Please select either: all, pretty_all, first, or pretty_first")
-//    }
-//
-//    val cased =
-//      if (lowercase)
-//        processedWithActionPatterns.toLowerCase
-//      else
-//        processedWithActionPatterns
-//
-//    encoding match {
-//      case "disable" => cased
-//      case "UTF-8" => withEncoding(cased, StandardCharsets.UTF_8)
-//      case "UTF-16" => withEncoding(cased, StandardCharsets.UTF_16)
-//      case "US-ASCII" => withEncoding(cased, StandardCharsets.US_ASCII)
-//      case "ISO-8859-1" => withEncoding(cased, StandardCharsets.ISO_8859_1)
-//      case "UTF-16BE" => withEncoding(cased, StandardCharsets.UTF_16BE)
-//      case "UTF-16LE" => withEncoding(cased, StandardCharsets.UTF_16LE)
-//      case _ =>
-//        throw new Exception("Unknown encoding parameter in DocumentNormalizer annotation." +
-//          "Please select either: disable, UTF_8, UTF_16, US_ASCII, ISO-8859-1, UTF-16BE, UTF-16LE")
-//    }
-//  }
-
-  /**
-   * Applies document normalization:
-   *   1. User-defined regex patterns (if any)
-   *   2. Either functional preset (CleanerHelper) OR autoMode (CleanerHelper bundles)
-   *   3. Lowercasing and encoding policy
-   */
   private def applyDocumentNormalization(
-                                          text: String,
-                                          action: String,
-                                          patterns: Array[String],
-                                          replacement: String,
-                                          policy: String,
-                                          lowercase: Boolean,
-                                          encoding: String
-                                        ): String = {
+      text: String,
+      action: String,
+      patterns: Array[String],
+      replacement: String,
+      policy: String,
+      lowercase: Boolean,
+      encoding: String): String = {
 
+    val normAutoMode = $(autoMode).toLowerCase(Locale.ROOT)
     val hasPreset = isDefined(presetPattern) && FUNCTIONAL_PRESETS.contains($(presetPattern))
-    val hasAutoMode = isDefined(autoMode) && AUTO_MODE_FUNCTIONS.contains($(autoMode))
+    val hasAutoMode = isDefined(autoMode) && AUTO_MODE_FUNCTIONS.contains(normAutoMode)
 
-    val selectedCleaner: Either[String => String, Seq[String => String]] = (hasPreset, hasAutoMode) match {
-      case (true, true) =>
-        logger.warn(
-          s"[DocumentNormalizer] Both presetPattern (${ $(presetPattern) }) and autoMode (${ $(autoMode) }) are set. " +
-            s"autoMode will take precedence."
-        )
-        Right(AUTO_MODE_FUNCTIONS($(autoMode)))
-      case (true, false) =>
-        Left(FUNCTIONAL_PRESETS($(presetPattern)))
-      case (false, true) =>
-        Right(AUTO_MODE_FUNCTIONS($(autoMode)))
-      case _ =>
-        Right(Seq.empty)
-    }
+    val selectedCleaner: Either[String => String, Seq[String => String]] =
+      (hasPreset, hasAutoMode) match {
+        case (true, true) =>
+          logger.warn(
+            s"[DocumentNormalizer] Both presetPattern (${$(presetPattern)}) and autoMode (${normAutoMode}) are set. " +
+              s"autoMode will take precedence.")
+          Right(AUTO_MODE_FUNCTIONS(normAutoMode))
+        case (true, false) =>
+          Left(FUNCTIONAL_PRESETS($(presetPattern)))
+        case (false, true) =>
+          Right(AUTO_MODE_FUNCTIONS(normAutoMode))
+        case _ =>
+          Right(Seq.empty)
+      }
 
     val userPatterns = Option(patterns).getOrElse(Array.empty[String])
 
     val regexCleanedText: String = if (userPatterns.nonEmpty) {
       policy match {
-        case "all"          => withAllFormatter(text, action, userPatterns, replacement)
-        case "pretty_all"   => withPrettyAllFormatter(text, action, userPatterns, replacement)
-        case "first"        => withFirstFormatter(text, action, userPatterns, replacement)
+        case "all" => withAllFormatter(text, action, userPatterns, replacement)
+        case "pretty_all" => withPrettyAllFormatter(text, action, userPatterns, replacement)
+        case "first" => withFirstFormatter(text, action, userPatterns, replacement)
         case "pretty_first" => withPrettyFirstFormatter(text, action, userPatterns, replacement)
         case _ =>
           throw new Exception(
             "Unknown policy parameter in DocumentNormalizer. " +
-              "Valid options: all, pretty_all, first, pretty_first."
-          )
+              "Valid options: all, pretty_all, first, pretty_first.")
       }
     } else text
 
     val cleanedText: String = selectedCleaner match {
       case Left(fn) =>
-        logger.info(s"[DocumentNormalizer] Applying preset cleaner: ${ $(presetPattern) }")
+        logger.info(s"[DocumentNormalizer] Applying preset cleaner: ${$(presetPattern)}")
         fn(regexCleanedText)
 
       case Right(funcs) if funcs.nonEmpty =>
-        val modeName = $(autoMode)
+        val modeName = normAutoMode
         val functionNames = funcs.flatMap(FUNCTION_NAME_LOOKUP.get)
         logger.info(
           s"[DocumentNormalizer] AutoMode '$modeName' active. Applying cleaners in order: " +
-            functionNames.mkString(", ")
-        )
+            functionNames.mkString(", "))
         funcs.foldLeft(regexCleanedText) { (acc, cleanerFn) => cleanerFn(acc) }
 
       case _ =>
@@ -501,18 +440,16 @@ class DocumentNormalizer(override val uid: String)
     val casedText = if (lowercase) cleanedText.toLowerCase else cleanedText
 
     encoding match {
-      case "disable"    => casedText
-      case "UTF-8"      => withEncoding(casedText, StandardCharsets.UTF_8)
-      case "UTF-16"     => withEncoding(casedText, StandardCharsets.UTF_16)
-      case "US-ASCII"   => withEncoding(casedText, StandardCharsets.US_ASCII)
+      case "disable" => casedText
+      case "UTF-8" => withEncoding(casedText, StandardCharsets.UTF_8)
+      case "UTF-16" => withEncoding(casedText, StandardCharsets.UTF_16)
+      case "US-ASCII" => withEncoding(casedText, StandardCharsets.US_ASCII)
       case "ISO-8859-1" => withEncoding(casedText, StandardCharsets.ISO_8859_1)
-      case "UTF-16BE"   => withEncoding(casedText, StandardCharsets.UTF_16BE)
-      case "UTF-16LE"   => withEncoding(casedText, StandardCharsets.UTF_16LE)
+      case "UTF-16BE" => withEncoding(casedText, StandardCharsets.UTF_16BE)
+      case "UTF-16LE" => withEncoding(casedText, StandardCharsets.UTF_16LE)
       case other =>
-        throw new Exception(
-          s"Unknown encoding parameter: $other. " +
-            "Please select one of disable, UTF-8, UTF-16, US-ASCII, ISO-8859-1, UTF-16BE, UTF-16LE."
-        )
+        throw new Exception(s"Unknown encoding parameter: $other. " +
+          "Please select one of disable, UTF-8, UTF-16, US-ASCII, ISO-8859-1, UTF-16BE, UTF-16LE.")
     }
   }
 
@@ -524,34 +461,30 @@ class DocumentNormalizer(override val uid: String)
     "CLEAN_EXTRA_WHITESPACE" -> CleanerHelper.cleanExtraWhitespace,
     "REMOVE_PUNCTUATION" -> CleanerHelper.removePunctuation,
     "CLEAN_NON_ASCII" -> CleanerHelper.cleanNonAsciiChars,
-    "REPLACE_UNICODE" -> CleanerHelper.replaceUnicodeCharacters
-  )
+    "REPLACE_UNICODE" -> CleanerHelper.replaceUnicodeCharacters)
 
   private lazy val AUTO_MODE_FUNCTIONS: Map[String, Seq[String => String]] = Map(
     "light_clean" -> Seq(
       CleanerHelper.cleanExtraWhitespace,
-      CleanerHelper.cleanTrailingPunctuation
-    ),
+      CleanerHelper.cleanTrailingPunctuation),
     "document_clean" -> Seq(
       CleanerHelper.cleanBullets,
       CleanerHelper.cleanOrderedBullets,
       CleanerHelper.cleanDashes,
-      CleanerHelper.cleanExtraWhitespace
-    ),
+      CleanerHelper.cleanExtraWhitespace),
     "social_clean" -> Seq(
       CleanerHelper.removePunctuation,
       CleanerHelper.cleanDashes,
-      CleanerHelper.cleanExtraWhitespace
-    ),
+      CleanerHelper.cleanExtraWhitespace),
     "html_clean" -> Seq(
       CleanerHelper.replaceUnicodeCharacters,
-      CleanerHelper.cleanNonAsciiChars
-    ),
-    "full_auto" -> FUNCTIONAL_PRESETS.values.toSeq
-  )
+      CleanerHelper.cleanNonAsciiChars,
+      CleanerHelper.decodeHtmlEntities),
+    "full_auto" -> FUNCTIONAL_PRESETS.values.toSeq)
 
   // Reverse-map functions to preset names (for logging)
-  private lazy val FUNCTION_NAME_LOOKUP: Map[String => String, String] = FUNCTIONAL_PRESETS.map(_.swap)
+  private lazy val FUNCTION_NAME_LOOKUP: Map[String => String, String] =
+    FUNCTIONAL_PRESETS.map(_.swap)
 
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = annotations.map {
     annotation =>
