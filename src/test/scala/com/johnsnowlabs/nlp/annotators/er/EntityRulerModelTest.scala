@@ -28,17 +28,18 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
   import spark.implicits._
 
   private val trainedModel: EntityRulerModel = getTrainedModel
-  private val basePipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, trainedModel))
-  private val sampleData = Seq(
-    s"Contact $email1 or $email2 from $ip1 or $ip2."
-  ).toDF("text")
+  private val basePipeline =
+    new Pipeline().setStages(Array(documentAssembler, tokenizer, trainedModel))
+  private val sampleData = Seq(s"Contact $email1 or $email2 from $ip1 or $ip2.").toDF("text")
 
   "EntityRulerModel (default)" should "extract both email and IP entities" in {
     trainedModel.setExtractEntities(Array())
 
     val resultDf = basePipeline.fit(sampleData).transform(sampleData)
 
-    val result = AssertAnnotations.getActualResult(resultDf, "entities").flatten
+    val result = AssertAnnotations
+      .getActualResult(resultDf, "entities")
+      .flatten
       .map(annotation => annotation.result)
     assert(result.length == 4)
     assert(result.contains(email1))
@@ -52,7 +53,9 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
 
     val resultDf = basePipeline.fit(sampleData).transform(sampleData)
 
-    val result = AssertAnnotations.getActualResult(resultDf, "entities").flatten
+    val result = AssertAnnotations
+      .getActualResult(resultDf, "entities")
+      .flatten
       .map(annotation => annotation.result)
     assert(result.length == 2)
     assert(result.contains(email1))
@@ -66,7 +69,9 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
 
     val resultDf = basePipeline.fit(sampleData).transform(sampleData)
 
-    val result = AssertAnnotations.getActualResult(resultDf, "entities").flatten
+    val result = AssertAnnotations
+      .getActualResult(resultDf, "entities")
+      .flatten
       .map(annotation => annotation.result)
     assert(result.length == 2)
     assert(!result.contains(email1))
@@ -80,7 +85,9 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
 
     val resultDf = basePipeline.fit(sampleData).transform(sampleData)
 
-    val result = AssertAnnotations.getActualResult(resultDf, "entities").flatten
+    val result = AssertAnnotations
+      .getActualResult(resultDf, "entities")
+      .flatten
       .map(annotation => annotation.result)
     assert(result.length == 4)
     assert(result.contains(email1))
@@ -99,7 +106,9 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
 
     val resultDf = autoPipeline.fit(sampleData).transform(sampleData)
 
-    val result = AssertAnnotations.getActualResult(resultDf, "entities").flatten
+    val result = AssertAnnotations
+      .getActualResult(resultDf, "entities")
+      .flatten
       .map(annotation => annotation.result)
 
     assert(result.length == 4)
@@ -111,7 +120,9 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
 
   it should "detect only emails and phones with COMMUNICATION_ENTITIES mode" in {
     val resultDf = runPipeline(EntityRulerModel.COMMUNICATION_ENTITIES)
-    val result = AssertAnnotations.getActualResult(resultDf, "entities").flatten
+    val result = AssertAnnotations
+      .getActualResult(resultDf, "entities")
+      .flatten
       .map(annotation => annotation.result)
 
     assert(result.contains(email1))
@@ -121,7 +132,9 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
 
   it should "detect only IPs and hostnames with NETWORK_ENTITIES mode" in {
     val resultDf = runPipeline(EntityRulerModel.NETWORK_ENTITIES)
-    val result = AssertAnnotations.getActualResult(resultDf, "entities").flatten
+    val result = AssertAnnotations
+      .getActualResult(resultDf, "entities")
+      .flatten
       .map(annotation => annotation.result)
 
     assert(result.contains(ip1))
@@ -130,7 +143,9 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
 
   it should "detect both emails, phones, and IPs with CONTACT_ENTITIES mode" in {
     val resultDf = runPipeline(EntityRulerModel.CONTACT_ENTITIES)
-    val result = AssertAnnotations.getActualResult(resultDf, "entities").flatten
+    val result = AssertAnnotations
+      .getActualResult(resultDf, "entities")
+      .flatten
       .map(annotation => annotation.result)
 
     assert(result.contains(email1))
@@ -142,7 +157,9 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
 
   it should "detect everything with ALL_ENTITIES mode" in {
     val resultDf = runPipeline(EntityRulerModel.ALL_ENTITIES)
-    val result = AssertAnnotations.getActualResult(resultDf, "entities").flatten
+    val result = AssertAnnotations
+      .getActualResult(resultDf, "entities")
+      .flatten
       .map(annotation => annotation.result)
 
     assert(result.contains(email1))
@@ -166,9 +183,9 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   it should "detect email addresses using sentence-level regex matching" in {
-    val data = Seq(
-      "Please contact us at info@mydomain.com or support@helpdesk.net for assistance."
-    ).toDF("text")
+    val data =
+      Seq("Please contact us at info@mydomain.com or support@helpdesk.net for assistance.").toDF(
+        "text")
 
     val model = new EntityRulerModel()
       .setInputCols("document", "token")
@@ -186,15 +203,15 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   it should "detect full IP range patterns at sentence-level when using NETWORK_ENTITIES mode" in {
-    val data = Seq(
-      "This server list includes 192.168.1.1, 10.0.0.45 and 172.16.0.2 for internal routing."
-    ).toDF("text")
+    val data =
+      Seq("This server list includes 192.168.1.1, 10.0.0.45 and 172.16.0.2 for internal routing.")
+        .toDF("text")
 
     val model = new EntityRulerModel()
       .setInputCols("document", "token")
       .setOutputCol("entities")
       .setAutoMode(EntityRulerModel.NETWORK_ENTITIES)
-      .setSentenceMatch(true) // ✅ sentence-based regex match
+      .setSentenceMatch(true)
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer, model))
     val result = pipeline.fit(data).transform(data)
@@ -209,9 +226,7 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   it should "handle case-insensitive autoMode with sentenceMatch = true" in {
-    val data = Seq(
-      "Reach us via contact@team.io or sales@biz.org — thank you."
-    ).toDF("text")
+    val data = Seq("Reach us via contact@team.io or sales@biz.org — thank you.").toDF("text")
 
     val model = new EntityRulerModel()
       .setInputCols("document", "token")
@@ -236,8 +251,7 @@ class EntityRulerModelTest extends AnyFlatSpec with SparkSessionTest {
       .setPatternsResource(
         path = "src/test/resources/entity-ruler/email-ip-regex.json",
         readAs = ReadAs.TEXT,
-        options = Map("format" -> "JSON")
-      )
+        options = Map("format" -> "JSON"))
       .setSentenceMatch(false)
       .setUseStorage(false)
 

@@ -391,8 +391,6 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
     val data: DataFrame =
       spark.createDataFrame(List(("Some title!", "<html>"))).toDF("title", "description")
 
-    data.show()
-
     val documentAssembler = new DocumentAssembler()
       .setInputCol("description")
       .setOutputCol("document")
@@ -427,7 +425,76 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
     docPatternRemoverPipeline.fit(data).transform(data).show(false)
   }
 
-  it should "clean bullets" in {
+  it should "clean bullets using the CLEAN_BULLETS preset" in {
+
+    val text = "• Buy milk\n- Feed the cat\n* Call mom"
+    val cleanedText = runPipeline("social_clean", text)
+
+    cleanedText should not include "•"
+    cleanedText should not include "-"
+    cleanedText should not include "*"
+
+    cleanedText should include("buy milk")
+    cleanedText should include("feed the cat")
+    cleanedText should include("call mom")
+
+    cleanedText.trim.nonEmpty shouldBe true
+  }
+
+  it should "apply light_clean mode (basic spacing and case only)" in {
+    val text = "Hello!!!  This   is a test...   "
+    val cleaned = runPipeline("light_clean", text)
+
+    // Light clean should only remove extra spaces and lowercase
+    cleaned should include("hello!!! this is a test")
+    cleaned should not include "   " // extra spaces
+    cleaned.trim.nonEmpty shouldBe true
+  }
+
+  it should "apply document_clean mode (paragraphs, dashes, bullets)" in {
+    val text =
+      """• Introduction
+        |This - is a document -- with bullets
+        |and double spaces""".stripMargin
+    val cleaned = runPipeline("document_clean", text)
+
+    cleaned should include("introduction")
+    cleaned should not include "•"
+    cleaned should not include "-"
+    cleaned should not include "--"
+    cleaned.trim.nonEmpty shouldBe true
+  }
+
+  it should "apply html_clean mode (remove tags and entities)" in {
+    val text =
+      """<html><body><h1>Hello &amp; Welcome!</h1><p>This is <b>bold</b> text.</p></body></html>"""
+    val cleaned = runPipeline("html_clean", text)
+
+    cleaned should include("hello")
+    cleaned should include("welcome")
+    cleaned should include("bold text")
+    cleaned should not include "<html>"
+    cleaned should not include "&amp;"
+    cleaned should not include "<b>"
+  }
+
+  it should "apply full_auto mode (combine all normalizations)" in {
+    val text =
+      """<html>• Buy milk &amp; bread!!! 😄 <a href='link'>Click</a> - Thanks!</html>"""
+    val cleaned = runPipeline("FULL_AUTO", text)
+
+    cleaned should include("buy milk")
+    cleaned should include("bread")
+    cleaned should not include "•"
+    cleaned should not include "&amp;"
+    cleaned should not include "<a"
+    cleaned should not include "!!!"
+    cleaned should not include "😄"
+    cleaned should not include "<html>"
+    cleaned.trim.nonEmpty shouldBe true
+  }
+
+  private def runPipeline(autoMode: String, text: String): String = {
     val spark = SparkAccessor.spark
     import spark.implicits._
 
@@ -435,17 +502,16 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val documentNormalizer = new DocumentNormalizer()
+    val normalizer = new DocumentNormalizer()
       .setInputCols("document")
       .setOutputCol("cleanedDocument")
-      .setPresetPattern("CLEAN_BULLETS")
-      .setPolicy("pretty_all")
+      .setAutoMode(autoMode)
       .setLowercase(true)
 
-    val data = Seq("• Buy milk\n- Feed the cat\n* Call mom").toDF("text")
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, documentNormalizer))
+    val data = Seq(text).toDF("text")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, normalizer))
     val result = pipeline.fit(data).transform(data)
-    result.selectExpr("cleanedDocument.result").show(false)
+    result.selectExpr("cleanedDocument.result[0]").as[String].collect().head
   }
 
 }

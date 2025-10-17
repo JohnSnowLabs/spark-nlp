@@ -122,6 +122,21 @@ class DocumentNormalizer(AnnotatorModel):
                      "file encoding to apply on normalized documents",
                      typeConverter=TypeConverters.toString)
 
+    presetPattern = Param(
+        Params._dummy(),
+        "presetPattern",
+        "Selects a single text cleaning function from the functional presets (e.g., 'CLEAN_BULLETS', 'CLEAN_DASHES', etc.).",
+        typeConverter=TypeConverters.toString
+    )
+
+    autoMode = Param(
+        Params._dummy(),
+        "autoMode",
+        "Enables a predefined cleaning mode combining multiple text cleaner functions (e.g., 'light_clean', 'document_clean', 'html_clean', 'full_auto').",
+        typeConverter=TypeConverters.toString
+    )
+
+
     @keyword_only
     def __init__(self):
         super(DocumentNormalizer, self).__init__(classname="com.johnsnowlabs.nlp.annotators.DocumentNormalizer")
@@ -197,3 +212,24 @@ class DocumentNormalizer(AnnotatorModel):
             File encoding to apply on normalized documents, by default "UTF-8"
         """
         return self._set(encoding=value)
+
+    def setPresetPattern(self, value):
+        """Sets a single text cleaning preset pattern.
+
+        Parameters
+        ----------
+        value : str
+            Preset cleaning pattern name, e.g., 'CLEAN_BULLETS', 'CLEAN_DASHES'.
+        """
+        return self._set(presetPattern=value)
+
+
+    def setAutoMode(self, value):
+        """Sets an automatic text cleaning mode using predefined groups of cleaning functions.
+
+        Parameters
+        ----------
+        value : str
+            Auto cleaning mode, e.g., 'light_clean', 'document_clean', 'social_clean', 'html_clean', 'full_auto'.
+        """
+        return self._set(autoMode=value)

@@ -215,6 +215,20 @@ class EntityRulerModel(AnnotatorModel, HasStorageModel):
 
     outputAnnotatorType = AnnotatorType.CHUNK
 
+    autoMode = Param(
+        Params._dummy(),
+        "autoMode",
+        "Enable built-in regex presets that combine related entity patterns (e.g., 'communication_entities', 'network_entities', 'media_entities', etc.).",
+        typeConverter=TypeConverters.toString
+    )
+
+    extractEntities = Param(
+        Params._dummy(),
+        "extractEntities",
+        "List of entity types to extract. If not set, all entities in the active autoMode or from regexPatterns are used.",
+        typeConverter=TypeConverters.toListString
+    )
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel", java_model=None):
         super(EntityRulerModel, self).__init__(
             classname=classname,
@@ -230,3 +244,24 @@ class EntityRulerModel(AnnotatorModel, HasStorageModel):
     def loadStorage(path, spark, storage_ref):
         HasStorageModel.loadStorages(path, spark, storage_ref, EntityRulerModel.database)
 
+
+    def setAutoMode(self, value):
+        """Sets the auto mode for predefined regex entity groups.
+
+        Parameters
+        ----------
+        value : str
+            Name of the auto mode to activate (e.g., 'communication_entities', 'network_entities', etc.)
+        """
+        return self._set(autoMode=value)
+
+
+    def setExtractEntities(self, value):
+        """Sets specific entities to extract, filtering only those defined in regexPatterns or autoMode.
+
+        Parameters
+        ----------
+        value : list[str]
+            List of entity names to extract, e.g., ['EMAIL_ADDRESS_PATTERN', 'IPV4_PATTERN'].
+        """
+        return self._set(extractEntities=value)
