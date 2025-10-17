@@ -426,4 +426,26 @@ trait DocumentNormalizerBehaviors extends AnyFlatSpec {
     println(Annotation.apply(""))
     docPatternRemoverPipeline.fit(data).transform(data).show(false)
   }
+
+  it should "clean bullets" in {
+    val spark = SparkAccessor.spark
+    import spark.implicits._
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val documentNormalizer = new DocumentNormalizer()
+      .setInputCols("document")
+      .setOutputCol("cleanedDocument")
+      .setPresetPattern("CLEAN_BULLETS")
+      .setPolicy("pretty_all")
+      .setLowercase(true)
+
+    val data = Seq("• Buy milk\n- Feed the cat\n* Call mom").toDF("text")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, documentNormalizer))
+    val result = pipeline.fit(data).transform(data)
+    result.selectExpr("cleanedDocument.result").show(false)
+  }
+
 }
