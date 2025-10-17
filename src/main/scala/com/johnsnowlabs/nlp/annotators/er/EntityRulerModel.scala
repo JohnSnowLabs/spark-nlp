@@ -18,16 +18,20 @@ package com.johnsnowlabs.nlp.annotators.er
 
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, TOKEN}
 import com.johnsnowlabs.nlp.annotators.common._
+import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel.{AUTO_MODES, ENTITY_PRESETS, describeAutoMode, getPatternByName}
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasPretrained, HasSimpleAnnotate}
 import com.johnsnowlabs.storage.Database.{ENTITY_REGEX_PATTERNS, Name}
 import com.johnsnowlabs.storage._
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.PipelineModel
-import org.apache.spark.ml.param.{BooleanParam, StringArrayParam}
+import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 import org.slf4j.{Logger, LoggerFactory}
+
+import java.util.Locale
+import scala.util.Try
 
 /** Instantiated model of the [[EntityRulerApproach]]. For usage and examples see the
   * documentation of the main class.
@@ -56,9 +60,10 @@ class EntityRulerModel(override val uid: String)
     with HasSimpleAnnotate[EntityRulerModel]
     with HasStorageModel {
 
-  def this() = this(Identifiable.randomUID("ENTITY_RULER"))
+  def this() = this(Identifiable.randomUID("ENTITY_RULER_MODEL"))
 
-  private val logger: Logger = LoggerFactory.getLogger("Credentials")
+  @transient
+  private val logger: Logger = LoggerFactory.getLogger("EntityRulerModel")
 
   // Keeping this parameter for backward compatibility
   private[er] val enablePatternRegex =
@@ -88,6 +93,16 @@ class EntityRulerModel(override val uid: String)
     "extractEntities",
     "List of entity labels to extract (empty = extract all entities)")
 
+  /**
+   * AutoMode defines logical bundles of regex patterns to activate (e.g., "network_entities", "email_entities").
+   * When set, overrides activeEntities selection.
+   */
+  private[er] val autoMode: Param[String] = new Param[String](
+    this,
+    "autoMode",
+    "Predefined bundle of entity patterns to use (e.g. 'network_entities', 'email_entities', 'all_entities')."
+  )
+
   private[er] def setRegexEntities(value: Array[String]): this.type = set(regexEntities, value)
 
   private[er] def setEntityRulerFeatures(value: EntityRulerFeatures): this.type =
@@ -102,7 +117,15 @@ class EntityRulerModel(override val uid: String)
 
   def setExtractEntities(value: Array[String]): this.type = set(extractEntities, value)
 
+  def setAutoMode(value: String): this.type = set(autoMode, value)
+
   private var automatonModel: Option[Broadcast[AhoCorasickAutomaton]] = None
+
+  val hasAutoMode: Boolean = {
+    val value = if (isDefined(autoMode)) Try($(autoMode)).toOption else None
+    val result = value.exists(AUTO_MODES.contains)
+    result
+  }
 
   def setAutomatonModelIfNotSet(
       spark: SparkSession,
@@ -117,15 +140,20 @@ class EntityRulerModel(override val uid: String)
     if (automatonModel.isDefined) {
       Some(automatonModel.get.value)
     } else {
-      if ($$(ahoCorasickAutomaton).isDefined) $$(ahoCorasickAutomaton) else None
+      if (this.get(ahoCorasickAutomaton).isDefined && $$(ahoCorasickAutomaton).isDefined) $$(ahoCorasickAutomaton) else None
     }
   }
 
+
   setDefault(
     useStorage -> false,
+    sentenceMatch -> false,
     caseSensitive -> true,
     enablePatternRegex -> false,
-    extractEntities -> Array())
+    extractEntities -> Array(),
+    regexEntities -> Array(),
+    autoMode -> ""
+  )
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -152,10 +180,25 @@ class EntityRulerModel(override val uid: String)
     }
   }
 
+  private def getActiveEntitiesFromAutoMode: Array[String] = {
+    if (isDefined(autoMode) && Option($(autoMode)).exists(_.nonEmpty)) {
+      val modeKey = $(autoMode).toUpperCase(Locale.ROOT)
+      val validEntities = EntityRulerModel.AUTO_MODES.getOrElse(modeKey, Seq.empty)
+      validEntities.toArray
+    } else {
+      //Fallback for legacy regex-based pipelines
+      $(regexEntities)
+    }
+  }
+
   override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
-    this.setAutomatonModelIfNotSet(dataset.sparkSession, $$(ahoCorasickAutomaton))
+    getAutomatonModelIfNotSet.foreach { automaton =>
+      this.setAutomatonModelIfNotSet(dataset.sparkSession, Some(automaton))
+    }
     dataset
   }
+
+
 
   /** takes a document and annotations and produces new annotations of this annotator's annotation
     * type
@@ -183,11 +226,15 @@ class EntityRulerModel(override val uid: String)
   private def computeAnnotatedEntitiesByRegex(
       annotations: Seq[Annotation],
       sentences: Seq[Sentence]): Seq[Annotation] = {
-    val entitiesToUse =
-      if ($(extractEntities).nonEmpty)
-        $(regexEntities).filter(e => $(extractEntities).contains(e.split(",")(0)))
-      else
-        $(regexEntities)
+    val entitiesToUse = {
+      val baseEntities =
+        if ($(extractEntities).nonEmpty) {
+          $(regexEntities).filter(e => $(extractEntities).contains(e.split(",")(0)))
+        } else if (isDefined(autoMode)) getActiveEntitiesFromAutoMode
+        else $(regexEntities)
+
+      baseEntities
+    }
 
     if (entitiesToUse.nonEmpty) {
       val regexPatternsReader =
@@ -208,9 +255,10 @@ class EntityRulerModel(override val uid: String)
   }
 
   private def annotateEntitiesFromRegexPatterns(
-      tokenizedWithSentences: Seq[TokenizedSentence],
-      regexPatternsReader: Option[RegexPatternsReader],
-      activeEntities: Array[String]): Seq[Annotation] = {
+     tokenizedWithSentences: Seq[TokenizedSentence],
+     regexPatternsReader: Option[RegexPatternsReader],
+     activeEntities: Array[String]
+   ): Seq[Annotation] = {
 
     val annotatedEntities = tokenizedWithSentences.flatMap { tokenizedWithSentence =>
       tokenizedWithSentence.indexedTokens.flatMap { indexedToken =>
@@ -223,76 +271,133 @@ class EntityRulerModel(override val uid: String)
               indexedToken.begin,
               indexedToken.end,
               indexedToken.token,
-              entityMetadata ++ Map("sentence" -> tokenizedWithSentence.sentenceIndex.toString)))
-        } else None
+              entityMetadata ++ Map("sentence" -> tokenizedWithSentence.sentenceIndex.toString)
+            )
+          )
+        } else {
+          None
+        }
       }
     }
 
     annotatedEntities
   }
 
+
   private def getMatchedEntity(
-      token: String,
-      regexPatternsReader: Option[RegexPatternsReader],
-      activeEntities: Array[String]): Option[String] = {
+                                token: String,
+                                regexPatternsReader: Option[RegexPatternsReader],
+                                activeEntities: Array[String]
+                              ): Option[String] = {
 
-    val matchesByEntity = activeEntities.flatMap { regexEntity =>
-      val regexPatterns: Option[Seq[String]] = regexPatternsReader match {
-        case Some(rpr) => rpr.lookup(regexEntity)
-        case None => $$(entityRulerFeatures).regexPatterns.get(regexEntity)
+    val hasActiveEntities = activeEntities != null && activeEntities.nonEmpty
+
+    val selectedEntities: Seq[(String, String)] = if (hasAutoMode) {
+      describeAutoMode($(autoMode)).flatMap(name => getPatternByName(name).map(name -> _))
+
+    } else if (hasActiveEntities) {
+      activeEntities.flatMap { regexEntity =>
+        // load from reader if available, else from local model storage
+        val regexPatterns: Option[Seq[String]] = regexPatternsReader match {
+          case Some(rpr) => {
+            rpr.lookup(regexEntity)
+          }
+          case None      => {
+            //fallback if entityRulerFeatures is not set
+            if (get(entityRulerFeatures).isDefined)
+              $$(entityRulerFeatures).regexPatterns.get(regexEntity)
+            else
+              EntityRulerModel.ENTITY_PRESETS.get(regexEntity).map(Seq(_))
+          }
+        }
+
+        regexPatterns match {
+          case Some(patterns) => patterns.map(p => regexEntity -> p)
+          case None           => Seq.empty
+        }
       }
-      if (regexPatterns.isDefined) {
-        val matches = regexPatterns.get.flatMap(regexPattern => regexPattern.r.findFirstIn(token))
-        if (matches.nonEmpty) Some(regexEntity) else None
-      } else None
-    }.toSeq
 
-    if (matchesByEntity.size > 1) {
-      logger.warn("More than one entity found. Sending the first element of the array")
+    } else {
+      ENTITY_PRESETS.toSeq
     }
+
+    val matchesByEntity = selectedEntities.flatMap { case (entityName, regexPattern) =>
+      regexPattern.r.findFirstIn(token).map(_ => entityName)
+    }
+
+    if (matchesByEntity.size > 1)
+      logger.warn(
+        s"[EntityRulerModel] Multiple entities matched token '$token': ${matchesByEntity.mkString(", ")}. " +
+          s"Returning first entity '${matchesByEntity.head}'."
+      )
 
     matchesByEntity.headOption
   }
 
-  private def getMatchedEntityBySentence(
-      sentence: Sentence,
-      regexPatternsReader: Option[RegexPatternsReader],
-      activeEntities: Array[String]): Array[(IndexedToken, String)] = {
 
-    val matchesByEntity = activeEntities
-      .flatMap { regexEntity =>
+  /**
+   * Extracts all regex-matched entities within a sentence, supporting both autoMode and manual patterns.
+   */
+  private def getMatchedEntityBySentence(
+    sentence: Sentence,
+    regexPatternsReader: Option[RegexPatternsReader],
+    activeEntities: Array[String]
+  ): Array[(IndexedToken, String)] = {
+
+    import EntityRulerModel._
+
+    val hasActiveEntities = activeEntities != null && activeEntities.nonEmpty
+
+    val selectedEntities: Seq[(String, String)] = if (hasAutoMode) {
+      describeAutoMode($(autoMode)).flatMap(name => getPatternByName(name).map(name -> _))
+
+    } else if (hasActiveEntities) {
+      activeEntities.flatMap { regexEntity =>
         val regexPatterns: Option[Seq[String]] = regexPatternsReader match {
           case Some(rpr) => rpr.lookup(regexEntity)
-          case None => $$(entityRulerFeatures).regexPatterns.get(regexEntity)
-        }
-        if (regexPatterns.isDefined) {
-
-          val resultMatches = regexPatterns.get.flatMap { regexPattern =>
-            val matchedResult = regexPattern.r.findFirstMatchIn(sentence.content)
-            if (matchedResult.isDefined) {
-              val begin = matchedResult.get.start + sentence.start
-              val end = matchedResult.get.end + sentence.start - 1
-              Some(matchedResult.get.toString(), begin, end, regexEntity)
-            } else None
+          case None      => {
+            //fallback if entityRulerFeatures is not set
+            if (get(entityRulerFeatures).isDefined)
+              $$(entityRulerFeatures).regexPatterns.get(regexEntity)
+            else
+              EntityRulerModel.ENTITY_PRESETS.get(regexEntity).map(Seq(_))
           }
+        }
 
-          val intervals =
-            resultMatches.map(resultMatch => List(resultMatch._2, resultMatch._3)).toList
-          val mergedIntervals = EntityRulerUtil.mergeIntervals(intervals)
-          val filteredMatches =
-            resultMatches.filter(x => mergedIntervals.contains(List(x._2, x._3)))
-
-          if (filteredMatches.nonEmpty) Some(filteredMatches) else None
-        } else None
+        regexPatterns match {
+          case Some(patterns) => patterns.map(p => regexEntity -> p)
+          case None           => Seq.empty
+        }
       }
-      .flatten
-      .sortBy(_._2)
 
-    // Convert to (IndexedToken, EntityLabel) tuples
-    matchesByEntity.map { case (matchedText, begin, end, entityLabel) =>
-      (IndexedToken(matchedText, begin, end), entityLabel)
+    } else {
+      ENTITY_PRESETS.toSeq
     }
+
+    val matchesByEntity = selectedEntities.flatMap { case (regexEntity, regexPattern) =>
+        val allMatches = regexPattern.r.findAllMatchIn(sentence.content).map { matched =>
+          val begin = matched.start + sentence.start
+          val end = matched.end + sentence.start - 1
+          (matched.matched, begin, end, regexEntity)
+        }.toSeq
+
+        // Merge overlapping intervals for same pattern
+        val intervals = allMatches.map { case (_, b, e, _) => List(b, e) }.toList
+        val mergedIntervals = EntityRulerUtil.mergeIntervals(intervals)
+
+        val filteredMatches =
+          allMatches.filter { case (_, b, e, _) => mergedIntervals.contains(List(b, e)) }
+
+        if (filteredMatches.nonEmpty) Some(filteredMatches) else None
+      }.flatten
+      .sortBy(_._2) // sort by begin position
+
+    matchesByEntity.map {
+      case (matchedText, begin, end, entityLabel) =>
+        (IndexedToken(matchedText, begin, end), entityLabel)
+    }.toArray
   }
+
 
   private def annotateEntitiesFromRegexPatternsBySentence(
       sentences: Seq[Sentence],
@@ -327,6 +432,12 @@ class EntityRulerModel(override val uid: String)
       .toMap
 
     entityMetadata
+  }
+
+  override def copy(extra: ParamMap): EntityRulerModel = {
+    val copied = defaultCopy(extra)
+    if (isDefined(autoMode)) this.setAutoMode($(autoMode))
+    copied
   }
 
   override def deserializeStorage(path: String, spark: SparkSession): Unit = {
@@ -368,4 +479,56 @@ trait ReadablePretrainedEntityRuler
 
 }
 
-object EntityRulerModel extends ReadablePretrainedEntityRuler
+object EntityRulerModel extends ReadablePretrainedEntityRuler {
+
+  val EMAIL_DATETIMETZ_PATTERN = "EMAIL_DATETIMETZ_PATTERN"
+  val EMAIL_ADDRESS_PATTERN    = "EMAIL_ADDRESS_PATTERN"
+  val IPV4_PATTERN             = "IPV4_PATTERN"
+  val IPV6_PATTERN             = "IPV6_PATTERN"
+  val IP_ADDRESS_PATTERN       = "IP_ADDRESS_PATTERN"
+  val IP_ADDRESS_NAME_PATTERN  = "IP_ADDRESS_NAME_PATTERN"
+  val MAPI_ID_PATTERN          = "MAPI_ID_PATTERN"
+  val US_PHONE_NUMBERS_PATTERN = "US_PHONE_NUMBERS_PATTERN"
+  val IMAGE_URL_PATTERN        = "IMAGE_URL_PATTERN"
+
+  val NETWORK_ENTITIES         = "NETWORK_ENTITIES"
+  val EMAIL_ENTITIES           = "EMAIL_ENTITIES"
+  val COMMUNICATION_ENTITIES   = "COMMUNICATION_ENTITIES"
+  val CONTACT_ENTITIES         = "CONTACT_ENTITIES"
+  val MEDIA_ENTITIES           = "MEDIA_ENTITIES"
+  val ALL_ENTITIES             = "ALL_ENTITIES"
+
+  private lazy val ENTITY_PRESETS: Map[String, String] = Map(
+    EMAIL_DATETIMETZ_PATTERN -> "[A-Za-z]{3},\\s\\d{1,2}\\s[A-Za-z]{3}\\s\\d{4}\\s\\d{2}:\\d{2}:\\d{2}\\s[+-]\\d{4}",
+    EMAIL_ADDRESS_PATTERN    -> "(?i)[a-z0-9\\.\\-+_]+@[a-z0-9\\.\\-+_]+\\.[a-z]+",
+    IPV4_PATTERN             -> "(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)){3}",
+    IPV6_PATTERN             -> "[a-z0-9]{4}::[a-z0-9]{4}:[a-z0-9]{4}:[a-z0-9]{4}:[a-z0-9]{4}%?[0-9]*",
+    IP_ADDRESS_NAME_PATTERN  -> "[a-zA-Z0-9-]*\\.[a-zA-Z]*\\.[a-zA-Z]*",
+    MAPI_ID_PATTERN          -> "[0-9]*\\.[0-9]*\\.[0-9]*\\.[0-9]*",
+    US_PHONE_NUMBERS_PATTERN -> "(?:\\+?(\\d{1,3}))?[-. (]*(\\d{3})?[-. )]*(\\d{3})[-. ]*(\\d{4})(?: *x(\\d+))?\\s*$",
+    IMAGE_URL_PATTERN        -> "(?i)https?://(?:[a-z0-9$_@.&+!*\\(\\),%-])+(?:/[a-z0-9$_@.&+!*\\(\\),%-]*)*\\.(?:jpg|jpeg|png|gif|bmp|heic)"
+  )
+
+  private lazy val AUTO_MODES: Map[String, Seq[String]] = Map(
+    NETWORK_ENTITIES.toUpperCase(Locale.ROOT) -> Seq(
+      IPV4_PATTERN, IPV6_PATTERN, IP_ADDRESS_NAME_PATTERN
+    ),
+    EMAIL_ENTITIES.toUpperCase(Locale.ROOT) -> Seq(
+      EMAIL_ADDRESS_PATTERN, EMAIL_DATETIMETZ_PATTERN, MAPI_ID_PATTERN
+    ),
+    COMMUNICATION_ENTITIES.toUpperCase(Locale.ROOT) -> Seq(
+      EMAIL_ADDRESS_PATTERN, US_PHONE_NUMBERS_PATTERN
+    ),
+    CONTACT_ENTITIES.toUpperCase(Locale.ROOT) -> (
+      Seq(EMAIL_ADDRESS_PATTERN, US_PHONE_NUMBERS_PATTERN) ++
+        Seq(IPV4_PATTERN, IPV6_PATTERN, IP_ADDRESS_NAME_PATTERN)
+      ),
+    MEDIA_ENTITIES.toUpperCase(Locale.ROOT) -> Seq(IMAGE_URL_PATTERN),
+    ALL_ENTITIES.toUpperCase(Locale.ROOT) -> ENTITY_PRESETS.keys.toSeq
+  )
+
+  def getPatternByName(name: String): Option[String] = ENTITY_PRESETS.get(name)
+
+  def describeAutoMode(mode: String): Seq[String] = AUTO_MODES.getOrElse(mode, Seq.empty)
+
+}
