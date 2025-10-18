@@ -25,6 +25,7 @@ import org.apache.spark.sql.functions.{col, udf}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element, Node, TextNode}
 
+import java.util.UUID
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
@@ -205,6 +206,11 @@ class HTMLReader(
     val trackingNodes = mutable.Map[Node, NodeMetadata]()
     var pageNumber = 1
 
+    // Track parent-child hierarchy
+    var currentParentId: Option[String] = None
+
+    def newUUID(): String = UUID.randomUUID().toString
+
     def isNodeHidden(node: Node): Boolean = {
       node match {
         case elem: Element =>
@@ -237,7 +243,6 @@ class HTMLReader(
               trackingNodes(elem).visited = true
               val text = elem.ownText().trim
               if (text.nonEmpty) textBuffer += text
-              // Recursively collect text from all child nodes
               elem.childNodes().asScala.foreach(traverseAndCollect)
 
             case _ => // Ignore other node types
@@ -245,7 +250,6 @@ class HTMLReader(
         }
       }
 
-      // Start traversal for each node in the list
       nodes.foreach(traverseAndCollect)
       textBuffer.mkString(" ").replaceAll("\\s+", " ").trim
     }
@@ -261,9 +265,7 @@ class HTMLReader(
           NodeMetadata(tagName = tagName, hidden = isNodeHidden(childNode), visited = false))
       }
 
-      if (trackingNodes(node).hidden) {
-        return
-      }
+      if (trackingNodes(node).hidden) return
 
       node match {
         case element: Element =>
@@ -279,48 +281,53 @@ class HTMLReader(
               val linkText = element.text().trim
               if (href.nonEmpty && linkText.nonEmpty && !visitedNode) {
                 trackingNodes(element).visited = true
+                pageMetadata("element_id") = newUUID()
+                currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
                 elements += HTMLElement(
                   ElementType.LINK,
                   content = s"[$linkText]($href)",
                   metadata = pageMetadata)
               }
+
             case "table" =>
               pageMetadata("sentence") = sentenceIndex.toString
               sentenceIndex += 1
               val tableContent = outputFormat match {
-                case "plain-text" =>
-                  extractNestedTableContent(element).trim
+                case "plain-text" => extractNestedTableContent(element).trim
                 case "html-table" =>
                   element
                     .outerHtml()
                     .replaceAll("\\n", "")
                     .replaceAll(">\\s+<", "><")
                     .replaceAll("^\\s+|\\s+$", "")
-                case "json-table" =>
-                  tableElementToJson(element)
-                case _ =>
-                  extractNestedTableContent(element).trim
+                case "json-table" => tableElementToJson(element)
+                case _ => extractNestedTableContent(element).trim
               }
               if (tableContent.nonEmpty && !visitedNode) {
                 trackingNodes(element).visited = true
+                pageMetadata("element_id") = newUUID()
+                currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
                 elements += HTMLElement(
                   ElementType.TABLE,
                   content = tableContent,
                   metadata = pageMetadata)
               }
+
             case "li" =>
               pageMetadata("sentence") = sentenceIndex.toString
               sentenceIndex += 1
               val itemText = element.text().trim
               if (itemText.nonEmpty && !visitedNode) {
                 trackingNodes(element).visited = true
+                pageMetadata("element_id") = newUUID()
+                currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
                 elements += HTMLElement(
                   ElementType.LIST_ITEM,
                   content = itemText,
                   metadata = pageMetadata)
               }
+
             case "pre" =>
-              // A <pre> tag typically contains a <code> child
               val codeElem = element.getElementsByTag("code").first()
               val codeText =
                 if (codeElem != null) codeElem.text().trim
@@ -329,22 +336,22 @@ class HTMLReader(
                 pageMetadata("sentence") = sentenceIndex.toString
                 sentenceIndex += 1
                 trackingNodes(element).visited = true
+                pageMetadata("element_id") = newUUID()
+                currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
                 elements += HTMLElement(
                   ElementType.UNCATEGORIZED_TEXT,
                   content = codeText,
                   metadata = pageMetadata)
               }
+
             case tag if isParagraphLikeElement(element) =>
               if (!visitedNode) {
                 val classType = classifyParagraphElement(element)
-
-                // Traverse children first so that <img>, <a>, etc. inside the paragraph are processed
                 element.childNodes().asScala.foreach { childNode =>
                   val tagName = getTagName(childNode)
                   traverse(childNode, tagName)
                 }
 
-                // Now handle the paragraph itself
                 classType match {
                   case ElementType.NARRATIVE_TEXT =>
                     val childNodes = element.childNodes().asScala.toList
@@ -353,6 +360,8 @@ class HTMLReader(
                       pageMetadata("sentence") = sentenceIndex.toString
                       sentenceIndex += 1
                       trackingNodes(element).visited = true
+                      pageMetadata("element_id") = newUUID()
+                      currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
                       elements += HTMLElement(
                         ElementType.NARRATIVE_TEXT,
                         content = aggregatedText,
@@ -365,10 +374,13 @@ class HTMLReader(
                       pageMetadata("sentence") = sentenceIndex.toString
                       sentenceIndex += 1
                       trackingNodes(element).visited = true
+                      val titleId = newUUID()
+                      pageMetadata("element_id") = titleId
                       elements += HTMLElement(
                         ElementType.TITLE,
                         content = titleText,
                         metadata = pageMetadata)
+                      currentParentId = Some(titleId)
                     }
 
                   case ElementType.UNCATEGORIZED_TEXT =>
@@ -377,6 +389,8 @@ class HTMLReader(
                       pageMetadata("sentence") = sentenceIndex.toString
                       sentenceIndex += 1
                       trackingNodes(element).visited = true
+                      pageMetadata("element_id") = newUUID()
+                      currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
                       elements += HTMLElement(
                         ElementType.UNCATEGORIZED_TEXT,
                         content = text,
@@ -384,21 +398,27 @@ class HTMLReader(
                     }
                 }
               }
+
             case _ if isTitleElement(element) && !visitedNode =>
               trackingNodes(element).visited = true
               val titleText = element.text().trim
               if (titleText.nonEmpty) {
                 pageMetadata("sentence") = sentenceIndex.toString
                 sentenceIndex += 1
+                val titleId = newUUID()
+                pageMetadata("element_id") = titleId
                 elements += HTMLElement(
                   ElementType.TITLE,
                   content = titleText,
                   metadata = pageMetadata)
+                currentParentId = Some(titleId)
               }
+
             case "hr" =>
               if (element.attr("style").toLowerCase.contains("page-break")) {
                 pageNumber = pageNumber + 1
               }
+
             case "img" =>
               pageMetadata("sentence") = sentenceIndex.toString
               sentenceIndex += 1
@@ -411,7 +431,6 @@ class HTMLReader(
                 val height = element.attr("height").trim
 
                 val imgMetadata = mutable.Map[String, String]("alt" -> alt) ++ pageMetadata
-
                 var contentValue = src
                 if (isBase64) {
                   val commaIndex = src.indexOf(',')
@@ -422,14 +441,16 @@ class HTMLReader(
                     contentValue = base64Payload
                   }
                 }
-
                 if (width.nonEmpty) imgMetadata("width") = width
                 if (height.nonEmpty) imgMetadata("height") = height
+                imgMetadata("element_id") = newUUID()
+                currentParentId.foreach(pid => imgMetadata("parent_id") = pid)
                 elements += HTMLElement(
                   ElementType.IMAGE,
                   content = contentValue,
                   metadata = imgMetadata)
               }
+
             case _ =>
               element.childNodes().asScala.foreach { childNode =>
                 val tagName = getTagName(childNode)
@@ -440,7 +461,6 @@ class HTMLReader(
       }
     }
 
-    // Start traversal from the root node
     val tagName = getTagName(root)
     traverse(root, tagName)
     elements.toArray
