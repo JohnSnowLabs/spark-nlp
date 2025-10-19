@@ -198,13 +198,14 @@ class SentenceDetector(override val uid: String)
     *   document
     */
   override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    val docs = annotations.map(_.result)
-    val sentences = docs
-      .flatMap(doc => tag(doc))
-      .filter(t =>
-        t.content.nonEmpty && t.content.length >= $(minLength) && get(maxLength).forall(m =>
-          t.content.length <= m))
-    SentenceSplit.pack(sentences)
+    val sentencesWithMetadata = annotations.flatMap { annotation =>
+      tag(annotation.result)
+        .filter(t =>
+          t.content.nonEmpty && t.content.length >= $(minLength) && get(maxLength).forall(m =>
+            t.content.length <= m))
+        .map(sentence => sentence.copy(metadata = Some(annotation.metadata)))
+    }
+    SentenceSplit.pack(sentencesWithMetadata)
   }
 
   override protected def afterAnnotate(dataset: DataFrame): DataFrame = {

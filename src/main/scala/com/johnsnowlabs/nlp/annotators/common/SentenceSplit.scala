@@ -62,7 +62,7 @@ object SentenceSplit extends Annotated[Sentence] {
         item.start,
         item.end,
         item.content,
-        Map("sentence" -> index.toString))
+        item.metadata.getOrElse(Map()) ++ Map("sentence" -> index.toString))
     }
   }
 }
