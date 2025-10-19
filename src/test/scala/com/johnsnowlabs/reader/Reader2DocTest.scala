@@ -15,12 +15,13 @@
  */
 package com.johnsnowlabs.reader
 
+import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.hadoop.mapreduce.lib.input.InvalidInputException
-import org.apache.spark.sql.functions.col
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
 class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
@@ -441,4 +442,42 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
 
     assert(attributeElements.length > 0, "Expected to find attribute elements in the XML content")
   }
+
+  it should "add metadata to sentenceDetector" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("text/html")
+      .setContentPath(s"$htmlFilesDirectory/simple-book.html")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc, sentenceDetector))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    resultDf.show(truncate = false)
+  }
+
+  it should "add metadata to sentence detector" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("text/html")
+      .setContentPath(s"$htmlFilesDirectory/simple-book.html")
+      .setOutputCol("document")
+
+    val sentenceDetectorDL = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc, sentenceDetectorDL))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    val annotationsResult = AssertAnnotations.getActualResult(resultDf, "sentence")
+    val attributeElements = annotationsResult.flatMap { annotations =>
+      annotations.filter(ann => ann.metadata.contains("element_id"))
+    }
+
+    assert(attributeElements.length > 0, "Expected to find attribute elements in the HTML content")
+  }
+
 }

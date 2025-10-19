@@ -207,8 +207,7 @@ class HTMLReaderTest extends AnyFlatSpec {
       .select(
         col("elem.elementType").as("elementType"),
         col("elem.content").as("content"),
-        col("elem.metadata").as("metadata")
-      )
+        col("elem.metadata").as("metadata"))
       .withColumn("element_id", col("metadata")("element_id"))
       .withColumn("parent_id", col("metadata")("parent_id"))
       .cache() // << important to prevent recomputation inconsistencies
@@ -239,8 +238,7 @@ class HTMLReaderTest extends AnyFlatSpec {
     val missingParents = allParentIds.diff(allElementIds)
     assert(
       missingParents.isEmpty,
-      s"Some parent_ids do not correspond to existing element_ids: $missingParents"
-    )
+      s"Some parent_ids do not correspond to existing element_ids: $missingParents")
 
     // 4. Each parent should have at least one child
     val parentChildCount = explodedDF
@@ -253,10 +251,7 @@ class HTMLReaderTest extends AnyFlatSpec {
 
     assert(
       parentChildCount.nonEmpty && parentChildCount.values.forall(_ >= 1),
-      "Each parent_id should have at least one child element"
-    )
+      "Each parent_id should have at least one child element")
   }
-
-
 
 }
