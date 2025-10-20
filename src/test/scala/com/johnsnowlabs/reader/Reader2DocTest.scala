@@ -463,11 +463,11 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
       .setContentPath(s"$htmlFilesDirectory/simple-book.html")
       .setOutputCol("document")
 
-    val sentenceDetectorDL = new SentenceDetector()
+    val sentenceDetector = new SentenceDetector()
       .setInputCols("document")
       .setOutputCol("sentence")
 
-    val pipeline = new Pipeline().setStages(Array(reader2Doc, sentenceDetectorDL))
+    val pipeline = new Pipeline().setStages(Array(reader2Doc, sentenceDetector))
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
