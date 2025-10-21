@@ -267,7 +267,7 @@ Please check [these instructions](https://sparknlp.org/docs/en/install#s3-integr
 Need more **examples**? Check out our dedicated [Spark NLP Examples](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples)
 repository to showcase all Spark NLP use cases!
 
-Also, don't forget to check [Spark NLP in Action](https://sparknlp.org/demo) built by Streamlit.
+Also, don't forget to check [Spark NLP in Action](https://sparknlp.org/demos) built by Streamlit.
 
 #### All examples: [spark-nlp/examples](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples)
 

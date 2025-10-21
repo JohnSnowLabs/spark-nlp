@@ -1,18 +1,18 @@
 source "https://rubygems.org"
 
 gem "github-pages", "227"
-gem "nokogiri", ">= 1.13.9"
+
+gem "nokogiri", ">= 1.18.9"
 
 gem "elasticsearch", "~> 7.10"
 
 gem 'wdm', '~> 0.1.0'
 
-gem "webrick"
+gem "webrick", ">= 1.8.2"
 
 gem "jekyll", "~> 3.9"
 
 gem "aws-sdk-s3", "~>1"
-
 
 group "jekyll-plugins" do
     gem "jekyll-incremental", "0.1.0", path: "_plugins/jekyll-incremental"

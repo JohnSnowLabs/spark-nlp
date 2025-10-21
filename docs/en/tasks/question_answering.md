@@ -11,123 +11,103 @@ sidebar:
   nav: sparknlp  
 ---
 
-**Question Answering (QA)** is the task of automatically answering questions posed by humans in natural language. It is a fundamental problem in *natural language processing (NLP)*, playing a vital role in applications such as search engines, virtual assistants, customer support systems, and more. Spark NLP provides state-of-the-art (SOTA) models for QA tasks, enabling accurate and context-aware responses to user queries.
+**Question Answering (QA)** is a natural language processing task where models provide answers to questions using a given context, or in some cases, from their own knowledge without any context. For example, given the question *"Which name is also used to describe the Amazon rainforest in English?"* and the context *"The Amazon rainforest, also known in English as Amazonia or the Amazon Jungle"*, a QA model would output *"Amazonia"*. This capability makes QA ideal for searching within documents and for powering systems like **FAQ automation**, **customer support**, and **knowledge-base search**.
 
-QA systems extract relevant information from a given context or knowledge base to answer a question. Depending on the model and input, they can either find exact answers within a text or generate a more comprehensive response.
+### Types of Question Answering
 
-## Types of Question Answering
+There are several QA variants: 
+- **Extractive QA**, which pulls the exact answer span from a context and is often solved with BERT-like models
+- **Open generative QA**, which generates natural-sounding answers based on a provided context
+- **Closed generative QA**, where the model answers entirely from its internal knowledge without any context. 
 
-- **Open-Book QA:** In this approach, the model has access to external documents, passages, or knowledge sources to extract the answer. The system looks for relevant information within the provided text (e.g., "What is the tallest mountain in the world?" answered using a document about mountains).
-  
-- **Closed-Book QA:** Here, the model must rely solely on the knowledge it has been trained on, without access to external sources. The answer is generated from the model's internal knowledge (e.g., answering trivia questions without referring to external material).
-
-Common use cases include:
-
-- **Fact-based QA:** Answering factoid questions such as "What is the capital of France?"
-- **Reading Comprehension:** Extracting answers from a provided context, often used in assessments or educational tools.
-- **Dialogue-based QA:** Supporting interactive systems that maintain context across multiple turns of conversation.
-
-By leveraging QA models, organizations can build robust systems that improve user engagement, provide instant information retrieval, and offer customer support in a more intuitive manner.
-
-<!-- <div style="text-align: center;">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div> -->
-
+QA systems can also be **open-domain**, covering a wide range of topics, or **closed-domain**, focused on specialized areas such as law or medicine. Together, these variants make QA a core building block for modern applications such as **search engines**, **chatbots**, and **virtual assistants**.
+∂
 ## Picking a Model
 
-When selecting a model for question answering, consider the following important factors. First, assess the **nature of your data** (e.g., structured knowledge base vs. unstructured text) and the **type of QA** needed (open-book or closed-book). Open-book QA requires models that can efficiently search and extract from external sources, while closed-book QA demands models with a large internal knowledge base.
+Depending on the QA variant and domain, different models are typically favored: **BERT**, **RoBERTa**, and **ALBERT** are strong choices for extractive QA; **T5**, **BART**, and newer families like **LLaMA 2** excel at open generative QA; models such as **LLaMA 2** and **Mistral** are well suited for closed generative QA; and domain-specific variants like **BioBERT**, **LegalBERT**, and **SciBERT** deliver the highest performance for specialized fields. A good rule of thumb is to use **extractive QA** when precise span-level answers are needed from a document, **open generative QA** when natural and context-aware responses are desired, and **closed generative QA** when relying on a model’s internal knowledge is sufficient or preferable.
 
-Evaluate the **complexity of the questions**—are they simple factoids or require more reasoning and multi-turn interactions? Metrics such as **Exact Match (EM)** and **F1 score** are commonly used to measure model performance in QA tasks. Finally, take into account the **computational resources** available, as some models, like BERT or T5, may require significant processing power.
+### Recommended Models for Specific QA Tasks  
 
-Explore models tailored for question answering at [Spark NLP Models](https://sparknlp.org/models), where you’ll find various options for different QA tasks.
+- **Extractive QA:** Models such as [`distilbert-base-cased-distilled-squad`](https://sparknlp.org/2023/11/26/distilbert_base_cased_qa_squad2_en.html){:target="_blank"} and [`bert-large-uncased-whole-word-masking-finetuned-squad`](https://sparknlp.org/2024/09/01/bert_large_uncased_whole_word_masking_finetuned_squad_google_bert_en.html){:target="_blank"} are well suited for identifying precise answer spans directly from context.  
 
-#### Recommended Models for Specific QA Tasks
+- **Open Generative QA (context-based):** For generating fluent, context-aware answers, models like [`t5_base`](https://sparknlp.org/2021/01/08/t5_base_en.html){:target="_blank"} and [`bart_base`](https://sparknlp.org/2025/02/08/qa_facebook_bart_base_ibrahimgiki_en.html){:target="_blank"} provide strong performance.  
 
-- **Extractive QA:** Use models like [`distilbert-base-cased-distilled-squad`](https://sparknlp.org/2023/11/26/distilbert_base_cased_qa_squad2_en.html){:target="_blank"} and [`bert-large-uncased-whole-word-masking-finetuned-squad`](https://sparknlp.org/2024/09/01/bert_large_uncased_whole_word_masking_finetuned_squad_google_bert_en.html){:target="_blank"} for extracting answers directly from a provided context.
-- **Generative QA (Closed-Book):** Consider models such as [`roberta-base-squad2`](https://sparknlp.org/2022/12/02/roberta_qa_deepset_base_squad2_en.html){:target="_blank"} or [`t5_base`](https://sparknlp.org/2021/01/08/t5_base_en.html){:target="_blank"} for generating answers based on internal knowledge without external context.
+- **Closed Generative QA (knowledge-based):** When answers must be drawn from the model’s internal knowledge rather than external context, options such as [`roberta-base-squad2`](https://sparknlp.org/2022/12/02/roberta_qa_deepset_base_squad2_en.html){:target="_blank"} and newer families like [`llama_2_7b_chat`](https://sparknlp.org/2024/05/19/llama_2_7b_chat_hf_int8_en.html){:target="_blank"} are effective choices.  
 
-By selecting the appropriate question answering model, you can enhance your ability to deliver accurate and relevant answers tailored to your specific NLP tasks.
+- **Domain-Specific QA:** For specialized use cases, consider domain-adapted models such as [`dmis-lab/biobert-large-cased-v1.1-squad`](https://sparknlp.org/2023/11/14/bert_qa_biobert_large_cased_v1.1_squad_en.html){:target="_blank"} for biomedical tasks, [`Beri/legal-qa`](http://127.0.0.1:4000/docs/en/tasks/question_answering){:target="_blank"} for legal texts, or [`ktrapeznikov/scibert_scivocab_uncased_squad_v2`](https://sparknlp.org/2023/11/15/bert_qa_scibert_scivocab_uncased_squad_v2_en.html){:target="_blank"} for scientific literature.  
 
 ## How to use
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
-# 1. Document Assembler: Prepares the question and context text for further processing
 documentAssembler = MultiDocumentAssembler() \
     .setInputCols(["question", "context"]) \
-    .setOutputCol(["document_question", "document_context"])
+    .setOutputCols(["document_question", "document_context"])
 
-# 2. Question Answering Model: Uses a pretrained RoBERTa model for QA
-spanClassifier = RoBertaForQuestionAnswering.pretrained() \
+spanClassifier = DistilBertForQuestionAnswering.pretrained("distilbert_base_cased_qa_squad2", "en") \
     .setInputCols(["document_question", "document_context"]) \
     .setOutputCol("answer") \
-    .setCaseSensitive(False)
+    .setCaseSensitive(True)
 
-# 3. Pipeline: Combines the stages (DocumentAssembler and RoBERTa model) into a pipeline
-pipeline = Pipeline().setStages([
+pipeline = Pipeline(stages=[
     documentAssembler,
     spanClassifier
 ])
 
-# 4. Sample Data: Creating a DataFrame with a question and context
-data = spark.createDataFrame([["What's my name?", "My name is Clara and I live in Berkeley."]]).toDF("question", "context")
+data = spark.createDataFrame([
+    ["What is my name?", "My name is Clara and I live in Berkeley."]
+]).toDF("question", "context")
 
-# 5. Running the Pipeline: Fitting the pipeline to the data and generating answers
-result = pipeline.fit(data).transform(data)
+model = pipeline.fit(data)
+result = model.transform(data)
 
-# 6. Displaying the Result: The output is the answer to the question extracted from the context
-result.select("answer.result").show(truncate=False)
+result.select("question", "context", "answer.result").show(truncate=False)
 
-+--------------------+
-|result              |
-+--------------------+
-|[Clara]             |
-+--------------------+
 ```
 
 ```scala
-import spark.implicits._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
 import org.apache.spark.ml.Pipeline
 
-// 1. Document Assembler: Prepares the question and context text for further processing
-val document = new MultiDocumentAssembler()
-  .setInputCols("question", "context")
-  .setOutputCols("document_question", "document_context")
+val documentAssembler = new MultiDocumentAssembler()
+  .setInputCols(Array("question", "context"))
+  .setOutputCols(Array("document_question", "document_context"))
 
-// 2. Question Answering Model: Uses a pretrained RoBERTa model for QA
-val questionAnswering = RoBertaForQuestionAnswering.pretrained()
+val spanClassifier = DistilBertForQuestionAnswering.pretrained("distilbert_base_cased_qa_squad2", "en")
   .setInputCols(Array("document_question", "document_context"))
   .setOutputCol("answer")
   .setCaseSensitive(true)
 
-// 3. Pipeline: Combines the stages (DocumentAssembler and RoBERTa model) into a pipeline
 val pipeline = new Pipeline().setStages(Array(
-  document,
-  questionAnswering
+  documentAssembler,
+  spanClassifier
 ))
 
-// 4. Sample Data: Creating a DataFrame with a question and context
-val data = Seq("What's my name?", "My name is Clara and I live in Berkeley.").toDF("question", "context")
+val data = Seq(
+  ("What is my name?", "My name is Clara and I live in Berkeley.")
+).toDF("question", "context")
 
-// 5. Running the Pipeline: Fitting the pipeline to the data and generating answers
-val result = pipeline.fit(data).transform(data)
+val model = pipeline.fit(data)
+val result = model.transform(data)
 
-// 6. Displaying the Result: The output is the answer to the question extracted from the context
-result.select("answer.result").show(false)
+result.select("question", "context", "answer.result").show(truncate = false)
 
-+---------------------+
-|result               |
-+---------------------+
-|[Clara]              |
-+---------------------+
+```
+</div>
+
+<div class="tabs-box" markdown="1">
+```
++----------------+----------------------------------------+-------+
+|question        |context                                 |result |
++----------------+----------------------------------------+-------+
+|What is my name?|My name is Clara and I live in Berkeley.|[Clara]|
++----------------+----------------------------------------+-------+
 ```
 </div>
 
@@ -135,10 +115,10 @@ result.select("answer.result").show(false)
 
 If you want to see the outputs of question answering models in real time, visit our interactive demos:
 
-- **[BERT for Extractive Question Answering](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-qa){:target="_blank"}** – Extract answers directly from provided context using the BERT model.
-- **[RoBERTa for Question Answering](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-roberta-qa){:target="_blank"}** – Use RoBERTa for advanced extractive question answering tasks.
-- **[T5 for Abstractive Question Answering](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-t5-qa){:target="_blank"}** – Generate abstractive answers using Google's T5 model.
-- **[Multihop QA with BERT](https://sparknlp.org/question_answering){:target="_blank"}** – Perform complex multihop question answering by reasoning over multiple pieces of text.
+- **[Multihop QA with BERT](https://sparknlp.org/question_answering){:target="_blank"}**
+- **[BERT for Extractive Question Answering](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-qa){:target="_blank"}**
+- **[RoBERTa for Question Answering](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-roberta-qa){:target="_blank"}**
+- **[T5 for Abstractive Question Answering](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-t5-qa){:target="_blank"}**
 
 ## Useful Resources
 

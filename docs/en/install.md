@@ -799,71 +799,30 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 Spark NLP {{ site.sparknlp_version }} has been tested and is compatible with the following runtimes:
 
-**CPU:**
-
-- 9.1
-- 9.1 ML
-- 10.1
-- 10.1 ML
-- 10.2
-- 10.2 ML
-- 10.3
-- 10.3 ML
-- 10.4
-- 10.4 ML
-- 10.5
-- 10.5 ML
-- 11.0
-- 11.0 ML
-- 11.1
-- 11.1 ML
-- 11.2
-- 11.2 ML
-- 11.3
-- 11.3 ML
-- 12.0
-- 12.0 ML
-- 12.1
-- 12.1 ML
-- 12.2
-- 12.2 ML
-- 13.0
-- 13.0 ML
-- 13.1
-- 13.1 ML
-- 13.2
-- 13.2 ML
-- 13.3
-- 13.3 ML
-- 14.0
-- 14.0 ML
-- 14.1
-- 14.1 ML
-- 15.x
-- 15.x ML
-
-**GPU:**
-
-- 9.1 ML & GPU
-- 10.1 ML & GPU
-- 10.2 ML & GPU
-- 10.3 ML & GPU
-- 10.4 ML & GPU
-- 10.5 ML & GPU
-- 11.0 ML & GPU
-- 11.1 ML & GPU
-- 11.2 ML & GPU
-- 11.3 ML & GPU
-- 12.0 ML & GPU
-- 12.1 ML & GPU
-- 12.2 ML & GPU
-- 13.0 ML & GPU
-- 13.1 ML & GPU
-- 13.2 ML & GPU
-- 13.3 ML & GPU
-- 14.0 ML & GPU
-- 14.1 ML & GPU
-- 15.x ML & GPU
+{:.table-model-big}
+|   CPU              |   GPU              |
+|--------------------|--------------------|
+| 9.1 / 9.1 ML       | 9.1 ML & GPU       |
+| 10.1 / 10.1 ML     | 10.1 ML & GPU      |
+| 10.2 / 10.2 ML     | 10.2 ML & GPU      |
+| 10.3 / 10.3 ML     | 10.3 ML & GPU      |
+| 10.4 / 10.4 ML     | 10.4 ML & GPU      |
+| 10.5 / 10.5 ML     | 10.5 ML & GPU      |
+| 11.0 / 11.0 ML     | 11.0 ML & GPU      |
+| 11.1 / 11.1 ML     | 11.1 ML & GPU      |
+| 11.2 / 11.2 ML     | 11.2 ML & GPU      |
+| 11.3 / 11.3 ML     | 11.3 ML & GPU      |
+| 12.0 / 12.0 ML     | 12.0 ML & GPU      |
+| 12.1 / 12.1 ML     | 12.1 ML & GPU      |
+| 12.2 / 12.2 ML     | 12.2 ML & GPU      |
+| 13.0 / 13.0 ML     | 13.0 ML & GPU      |
+| 13.1 / 13.1 ML     | 13.1 ML & GPU      |
+| 13.2 / 13.2 ML     | 13.2 ML & GPU      |
+| 13.3 / 13.3 ML     | 13.3 ML & GPU      |
+| 14.0 / 14.0 ML     | 14.0 ML & GPU      |
+| 14.1 / 14.1 ML     | 14.1 ML & GPU      |
+| 15.x / 15.x ML     | 15.x ML & GPU      |
+| 16.4 / 16.4 ML     | 16.4 ML & GPU      |
 
 </div><div class="h3-box" markdown="1">
 

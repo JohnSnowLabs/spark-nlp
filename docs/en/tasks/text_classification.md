@@ -11,14 +11,7 @@ sidebar:
   nav: sparknlp
 ---
 
-**Text classification** is the process of assigning a **category** or **label** to a piece of text, such as an email, tweet, or review. It plays a crucial role in *natural language processing (NLP)*, where it is used to automatically organize text into predefined categories. Spark NLP provides various solutions to address text classification challenges effectively.
-
-In this context, text classification involves analyzing a document's content to categorize it into one or more predefined groups. Common use cases include:
-
-- Organizing news articles into categories like **politics**, **sports**, **entertainment**, or **technology**.
-- Conducting sentiment analysis, where customer reviews of products or services are classified as **positive**, **negative**, or **neutral**.
-
-By leveraging text classification, organizations can enhance their ability to process and understand large volumes of text data efficiently.
+**Text classification** is a natural language processing task where entire pieces of text, such as sentences, paragraphs, or documents, are assigned *predefined labels*. Common subtasks include **sentiment analysis** and **topic classification**. For instance, *sentiment analysis* models can determine whether a review is *positive*, *negative*, or *neutral*, while *topic classification* models can categorize news articles into areas like **politics**, **sports**, or **technology**.
 
 <div style="text-align: center;">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/B3xB9gaBosw?si=BDII1NUUE2eSkME6&amp;start=245" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -26,116 +19,100 @@ By leveraging text classification, organizations can enhance their ability to pr
 
 ## Picking a Model
 
-When selecting a model for text classification, it’s crucial to evaluate several factors to ensure optimal performance for your specific use case. Start by analyzing the **nature of your data**, considering whether it is formal or informal and its length (e.g., tweets vs. reviews). Determine if your task requires **binary classification** (like spam detection) or **multiclass classification** (such as categorizing news topics), as some models excel in specific scenarios.
-
-Next, assess the **model complexity**; simpler models like Logistic Regression work well for straightforward tasks, while more complex models like BERT are suited for nuanced understanding. Consider the **availability of labeled data**—larger datasets allow for training sophisticated models, whereas smaller datasets may benefit from pre-trained options. Define key **performance metrics** (e.g., accuracy, F1 score) to inform your choice, and ensure the model's interpretability meets your requirements. Finally, account for **resource constraints**, as advanced models will demand more memory and processing power.
+When picking a model for text classification, think about what you’re trying to do—like detecting spam (binary), analyzing sentiment across positive, neutral, and negative (multiclass), or tagging a news article with several topics at once (multi-label). If you only have a small dataset, lightweight options such as **DistilBERT** are quick to train and deploy, while larger transformers like **BERT** or **RoBERTa** generally give better accuracy when fine-tuned on enough data. For specialized fields, domain-trained models like [**BioBERT**](https://sparknlp.org/models?q=biobert&sort=downloads&task=Text+Classification&type=model&annotator=BertForSequenceClassification) for biomedical research or [**FinBERT**](https://sparknlp.org/models?q=FinBERT&sort=downloads&task=Text+Classification&type=model&annotator=BertForSequenceClassification) for finance usually outperform general-purpose ones. Finally, keep in mind practical constraints—how much compute you have, whether you need real-time predictions, how important explainability is, and what balance you want between speed, cost, and accuracy.
 
 To explore and select from a variety of models, visit [Spark NLP Models](https://sparknlp.org/models), where you can find models tailored for different tasks and datasets.
-
 
 #### Recommended Models for Specific Text Classification Tasks
 - **Sentiment Analysis:** Use models specifically designed for sentiment detection, such as [`distilbert_sequence_classifier_sst2`](https://sparknlp.org/2021/11/21/distilbert_sequence_classifier_sst2_en.html){:target="_blank"}.
 - **News Categorization:** Models like [`distilroberta-finetuned-financial-news-sentiment-analysis`](https://sparknlp.org/2023/11/29/roberta_sequence_classifier_distilroberta_finetuned_financial_news_sentiment_analysis_en.html){:target="_blank"} are ideal for classifying news articles into relevant categories.
 - **Review Analysis:** For product reviews, consider using [`distilbert_base_uncased_finetuned_sentiment_amazon`](https://sparknlp.org/2023/11/18/distilbert_base_uncased_finetuned_sentiment_amazon_en.html){:target="_blank"} for more nuanced insights.
 
-If you have specific needs that are not covered by existing models, you can train your own model tailored to your unique requirements. Follow the guidelines provided in the [Spark NLP Training Documentation](https://sparknlp.org/docs/en/training) to get started on creating and training a model suited for your text classification task.
-
-By thoughtfully considering these factors and using the right models, you can enhance your NLP applications significantly.
+If you have specific needs that are not covered by existing models, you can train your own model tailored to your unique requirements. Follow the guidelines provided in the [Spark NLP Training Documentation](https://sparknlp.org/docs/en/training) to get started.
 
 ## How to use
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
-# Assembling the document from the input text
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
     .setOutputCol("document")
 
-# Tokenizing the text
 tokenizer = Tokenizer() \
     .setInputCols(["document"]) \
     .setOutputCol("token")
 
-# Loading a pre-trained sequence classification model
-# You can replace `BertForSequenceClassification.pretrained()` with your selected model 
-# For example: BertForSequenceClassification.pretrained("distilbert_sequence_classifier_sst2", "en")
 sequenceClassifier = BertForSequenceClassification.pretrained() \
     .setInputCols(["token", "document"]) \
     .setOutputCol("label") \
     .setCaseSensitive(True)
 
-# Defining the pipeline with document assembler, tokenizer, and classifier
 pipeline = Pipeline().setStages([
     documentAssembler,
     tokenizer,
     sequenceClassifier
 ])
 
-# Creating a sample DataFrame
-data = spark.createDataFrame([["I loved this movie when I was a child.", "It was pretty boring."]]).toDF("text")
+data = spark.createDataFrame([
+    ("I loved this movie when I was a child.",),
+    ("It was pretty boring.",)
+]).toDF("text")
 
-# Fitting the pipeline and transforming the data
-result = pipeline.fit(data).transform(data)
+model = pipeline.fit(data)
+result = model.transform(data)
 
-# Showing the classification result
-result.select("label.result").show(truncate=False)
+result.select("text", "label.result").show(truncate=False)
 
-+------+
-|result|
-+------+
-|[pos] |
-|[neg] |
-+------+
 ```
 
 ```scala
-import spark.implicits._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
 import org.apache.spark.ml.Pipeline
+import spark.implicits._
 
-// Step 1: Convert raw text into document format
 val documentAssembler = new DocumentAssembler()
   .setInputCol("text")
   .setOutputCol("document")
 
-// Step 2: Tokenize the document into words
 val tokenizer = new Tokenizer()
   .setInputCols("document")
   .setOutputCol("token")
 
-// Step 3: Load a pre-trained BERT model for sequence classification
 val sequenceClassifier = BertForSequenceClassification.pretrained()
   .setInputCols("token", "document")
   .setOutputCol("label")
   .setCaseSensitive(true)
 
-// Step 4: Define the pipeline with stages for document assembly, tokenization, and classification
 val pipeline = new Pipeline().setStages(Array(
   documentAssembler,
   tokenizer,
   sequenceClassifier
 ))
 
-// Step 5: Create sample data and apply the pipeline
 val data = Seq("I loved this movie when I was a child.", "It was pretty boring.").toDF("text")
-val result = pipeline.fit(data).transform(data)
 
-// Step 6: Show the classification results
-result.select("label.result").show(false)
+val model = pipeline.fit(data)
+val result = model.transform(data)
 
-+------+
-|result|
-+------+
-|[pos] |
-|[neg] |
-+------+
+result.select("text", "label.result").show(truncate=False)
+
+```
+</div>
+
+<div class="tabs-box" markdown="1">
+```
++--------------------------------------+------+
+|text                                  |result|
++--------------------------------------+------+
+|I loved this movie when I was a child.|[pos] |
+|It was pretty boring.                 |[neg] |
++--------------------------------------+------+
 ```
 </div>
 
@@ -143,8 +120,8 @@ result.select("label.result").show(false)
 
 If you want to see the outputs of text classification models in real time, visit our interactive demos:
 
-- **[BERT Annotators Demo](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-annotators){:target="_blank"}** – A live demo where you can try your inputs on text classification models on the go.
-- **[Sentiment & Emotion Detection Demo](https://nlp.johnsnowlabs.com/detect_sentiment_emotion){:target="_blank"}** – An interactive demo for sentiment and emotion detection.
+- **[Sentiment & Emotion Detection Demo](https://nlp.johnsnowlabs.com/detect_sentiment_emotion){:target="_blank"}**
+- **[BERT Annotators Demo](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-annotators){:target="_blank"}**
 
 ## Useful Resources
 
