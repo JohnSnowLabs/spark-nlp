@@ -3,10 +3,9 @@ Reader2Table
 {%- endcapture -%}
 
 {%- capture description -%}
-The Reader2Table annotator enables seamless extraction of tabular content from documents within existing Spark NLP workflows. It allows you to efficiently parse tables from a wide variety of file types, including plain text, HTML, Word, Excel, PowerPoint, and CSV files, and return them as structured Spark DataFrames with metadata, ready for downstream processing or analysis.
+The Reader2Table annotator enables seamless extraction of tabular content from documents within existing Spark NLP workflows. It allows you to efficiently parse tables from a wide variety of file types, including HTML, Word, Excel, PowerPoint, and CSV files, and return them as structured Spark DataFrames with metadata, ready for downstream processing or analysis.
 
 Supported File Formats:
-- Text files: `.txt`  
 - HTML: `.html`, `.htm`  
 - Word documents: `.doc`, `.docx`  
 - Excel spreadsheets: `.xls`, `.xlsx`  
@@ -44,7 +43,7 @@ from pyspark.ml import Pipeline
 
 reader2Table = Reader2Table() \
     .setContentType("application/csv") \
-    .setContentPath(f"./pdfDirectory")
+    .setContentPath(f"./csvDirectory")
 
 pipeline = Pipeline(stages=[reader2Table])
 
@@ -65,7 +64,7 @@ import org.apache.spark.ml.Pipeline
 
 val reader2Table = new Reader2Table()
   .setContentType("application/csv")
-  .setContentPath(s"$pdfDirectory/")
+  .setContentPath(s"$csvDirectory/")
 
 val pipeline = new Pipeline().setStages(Array(reader2Table))
 
