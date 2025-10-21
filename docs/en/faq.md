@@ -33,8 +33,21 @@ To use Spark NLP in Python, follow these steps:
 
    ```python
    import sparknlp
+
    spark = sparknlp.start()
    ```
+   
+   #### Optional Parameters
+   - **gpu** (`bool`, default `False`) – Enable GPU acceleration.  
+   - **apple_silicon** (`bool`, default `False`) – Support for macOS Apple Silicon.  
+   - **aarch64** (`bool`, default `False`) – Support for Linux Aarch64.  
+   - **memory** (`str`, default `"16G"`) – Spark driver memory.  
+   - **cache_folder** (`str`) – Folder for pretrained models (`~/cache_pretrained` by default).  
+   - **log_folder** (`str`) – Temp folder for embeddings/logs (local, HDFS, or DBFS only).  
+   - **params** (`dict`) – Custom Spark config options.  
+   - **cluster_tmp_dir** (`str`) – Where annotator logs are saved.  
+   - **real_time_output** (`bool`, default `False`) – Show JVM output live.  
+   - **output_level** (`int`, default `1`) – Logging verbosity.  
 
 3. **Use Annotators**:
    Spark NLP offers a variety of annotators (e.g., Tokenizer, SentenceDetector, Lemmatizer). To use them, first create the appropriate pipeline.
@@ -44,9 +57,15 @@ To use Spark NLP in Python, follow these steps:
    ```python
    from sparknlp.base import DocumentAssembler
    from sparknlp.annotator import Tokenizer
+   from pyspark.ml import Pipeline
 
-   documentAssembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
-   tokenizer = Tokenizer().setInputCols(["document"]).setOutputCol("token")
+   documentAssembler = DocumentAssembler() \
+      .setInputCol("text") \
+      .setOutputCol("document")
+
+   tokenizer = Tokenizer() \
+      .setInputCols(["document"]) \
+      .setOutputCol("token")
 
    pipeline = Pipeline(stages=[documentAssembler, tokenizer])
    ```
@@ -59,7 +78,7 @@ To use Spark NLP in Python, follow these steps:
    ```
 
 5. **Explore and Utilize Models**:
-   Spark NLP offers pre-trained models for tasks like Named Entity Recognition (NER), sentiment analysis, and more. You can easily plug these into your pipeline and customize as needed.
+   Spark NLP offers a wide range of [pretrained models](https://sparknlp.org/models) for tasks like Named Entity Recognition (NER), sentiment analysis, and more. You can easily plug these into your pipeline and customize as needed.
 
 6. **Further Reading**:
    Dive deeper into the [official documentation](https://sparknlp.org/docs/en/install) for more detailed examples, a complete list of annotators and models, and best practices for building NLP pipelines.
@@ -96,38 +115,59 @@ Both spaCy and Spark NLP are popular libraries for Natural Language Processing, 
 
 Spark NLP provides a range of models to tackle various NLP tasks. These models are often pre-trained on large datasets and can be fine-tuned or used directly for inference. Some of the primary categories and examples of Spark NLP models include:
 
-1. **Named Entity Recognition (NER)**:
-   - Pre-trained models for recognizing entities such as persons, organizations, locations, etc.
-   - Specialized models for sectors like healthcare to detect medical entities.
+1. **Named Entity Recognition (NER)**  
+   - Pre-trained models for recognizing entities such as persons, organizations, and locations.  
+   - Specialized models for domains like healthcare to detect medical entities.  
 
-2. **Text Classification**:
-   - Models for tasks like sentiment analysis, topic classification, and more.
+2. **Text Classification**  
+   - Models for sentiment analysis, topic classification, intent detection, and more.  
 
-3. **Word Embeddings**:
-   - Word2Vec, GloVe, and BERT embeddings.
-   - Models to generate embeddings for words or sentences, useful in many downstream tasks.
+3. **Word Embeddings**  
+   - Word2Vec, GloVe, and transformer embeddings (BERT, RoBERTa, etc.).  
+   - Generate embeddings for words or sentences to power downstream tasks.  
 
-4. **Language Models**:
-   - Models like BERT, ALBERT, and ELECTRA are available pre-trained and can be fine-tuned for specific tasks.
+4. **Language Models**  
+   - Pre-trained transformer-based models like BERT, ALBERT, ELECTRA.  
+   - Can be fine-tuned for domain-specific tasks.  
 
-5. **Dependency Parsing**:
-   - Models that analyze the grammatical structure of a sentence and determine relationships between words.
+5. **Dependency Parsing**  
+   - Models that analyze grammatical structure and word relationships.  
 
-6. **Spell Checking and Correction**:
-   - Models that can detect and correct spelling mistakes in the text.
+6. **Spell Checking and Correction**  
+   - Detect and correct spelling mistakes in text.  
 
-7. **Sentence Embeddings**:
-   - Models to generate vector representations for entire sentences, such as Universal Sentence Encoder.
+7. **Sentence Embeddings**  
+   - Models for sentence-level vector representations, such as Universal Sentence Encoder.  
 
-8. **Translation and Language Detection**:
-   - Models to detect the language of a given text or translate text between languages.
+8. **Translation and Language Detection**  
+   - Detect the language of a given text or translate between languages.  
 
-9. **Text Matching**:
-   - Models that can be used for tasks like textual similarity, paraphrase detection, etc.
+9. **Text Matching**  
+   - Models for textual similarity, duplicate detection, or paraphrase detection.  
 
-10. **Pretrained Pipelines**:
+10. **Question Answering (QA)**  
+   - Extractive QA models built on transformers (e.g., BERT, DistilBERT).  
 
-- Ready-to-use pipelines that combine multiple models and annotators for common tasks, allowing users to quickly start processing text without building a custom pipeline.
+11. **Summarization**  
+   - Models for abstractive or extractive text summarization.  
+
+12. **Entity Resolution / Normalization**  
+   - Map recognized entities to canonical forms (e.g., ICD-10 codes in healthcare).  
+
+13. **Zero-Shot & Few-Shot Classification**  
+   - Transformer-based models that classify text into categories without task-specific training.  
+
+14. **Large Language Models (LLMs)**  
+   - General-purpose models (e.g., Phi, Qwen, LLaMA, Mistral, Falcon, GPT-style, and MPT).  
+   - Used for text generation, summarization, rewriting, reasoning, and more.  
+
+15. **Vision-Language Models (VLMs)**  
+   - Multimodal models combining text and images (e.g., BLIP, CLIP, LLaVA, Kosmos-2).  
+   - Tasks include image captioning, document understanding, OCR post-processing, and visual QA.  
+
+16. **Pretrained Pipelines**  
+   - Ready-to-use pipelines combining multiple models and annotators.  
+   - Allow quick text processing without building a custom pipeline.  
 
 For the latest list of models, detailed documentation, and instructions on how to use them, visiting the [Official Spark NLP Models Hub](https://sparknlp.org/models) would be beneficial.
 

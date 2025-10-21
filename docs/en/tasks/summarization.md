@@ -11,123 +11,120 @@ sidebar:
   nav: sparknlp  
 ---
 
-**Summarization** is the task of generating concise and informative summaries from longer documents. This is useful for a wide range of applications, such as summarizing news articles, legal documents, or any large texts where key points need to be extracted. Spark NLP offers advanced summarization models that can create high-quality summaries efficiently.
+**Summarization** is a natural language processing task where models create a shorter version of a text while preserving its key information. Depending on the approach, models may use **extractive summarization**, which selects important sentences or phrases directly from the source, or **abstractive summarization**, which generates entirely new sentences that rephrase the original content. For example, given a passage about the Eiffel Tower’s height and history, a summarization model might produce *“The tower is 324 metres tall, about the height of an 81-storey building, and was the first structure to reach 300 metres.”*
 
-Summarization models take input text and generate shorter versions while preserving essential information. Common use cases include:
+This task is especially valuable for quickly processing large amounts of text in areas like **research paper summarization**, **news aggregation**, **financial reports**, and **legal documents**.
 
-- **News Summaries:** Automatically condensing long news articles into brief, digestible summaries.
-- **Legal Documents:** Summarizing lengthy contracts, case studies, or legal opinions.
-- **Research Papers:** Extracting key insights and conclusions from scientific papers.
+## Picking a Model  
 
-By leveraging summarization models, organizations can efficiently process large amounts of textual data and extract critical information, making it easier to consume and understand complex documents.
+The choice of model for summarization depends on whether the goal is extractive or abstractive. For **extractive summarization**, transformer-based classifiers like **BERTSUM** or lightweight variants such as **DistilBERT** can effectively identify the most important sentences to keep. For **abstractive summarization**, encoder–decoder architectures such as **BART** and **T5** are strong general-purpose options, while more recent families like **LLaMA 2** have shown strong performance when adapted for summarization tasks. In **domain-specific contexts** such as biomedical, legal, or financial texts—fine-tuned models like **BioBART** or **Longformer-based summarizers** often provide more accurate and context-aware results, particularly when working with long or technical documents.  
 
-## Picking a Model
+#### Recommended Models for Summarization Tasks  
 
-When choosing a summarization model, consider factors like the **length of the input text** and the **desired summary style** (e.g., extractive or abstractive). Some models are better suited for shorter inputs, while others excel in handling long documents. Evaluate whether your task requires **sentence-level summaries** or **paragraph-level condensation**.
+- **Extractive Summarization:** Models like [`sshleifer/distilbart-cnn-12-6`](https://sparknlp.org/2025/02/05/distilbart_cnn_12_6_sshleifer_en.html){:target="_blank"} and [`bertsumext`](https://github.com/nlpyang/PreSumm){:target="_blank"} are effective for selecting the most important sentences directly from the source text.  
 
-Consider the **domain** of the text, such as legal, scientific, or general news, as domain-specific models often perform better. Explore the available summarization models at [Spark NLP Models](https://sparknlp.org/models) to find the one that best suits your summarization needs.
+- **Abstractive Summarization:** Encoder–decoder models such as [`bart-large-cnn`](https://sparknlp.org/2025/01/26/bart_large_cnn_facebook_en.html){:target="_blank"} and [`t5-base`](https://sparknlp.org/2021/01/08/t5_base_en.html){:target="_blank"} are strong general-purpose choices for generating fluent, rephrased summaries.  
 
-#### Recommended Models for Summarization Tasks
+- **Domain-Specific Summarization:** Specialized variants like [`biobart`](https://sparknlp.org/2025/01/24/biobart_base_en.html){:target="_blank"} for biomedical literature or fine-tuned **Longformer-based summarizers** for legal and financial texts provide stronger results in technical or domain-focused contexts.  
 
-- **General Summarization:** For most summarization tasks, consider models like [`bart-large-cnn`](https://sparknlp.org/2023/05/11/bart_large_cnn_en.html){:target="_blank"} and [`t5-base`](https://sparknlp.org/2021/01/08/t5_base_en.html){:target="_blank"} are well suited for generating concise summaries.
-
-By selecting the right model, you can efficiently condense long documents into meaningful summaries, saving time and effort.
+Explore the available summarization models at [Spark NLP Models](https://sparknlp.org/models) to find the one that best suits your summarization needs.
 
 ## How to use
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
+from sparknlp.base import DocumentAssembler
+from sparknlp.annotator import BartTransformer
 from pyspark.ml import Pipeline
 
-# Step 1: Assemble raw text data into a format that Spark NLP can process
 documentAssembler = DocumentAssembler() \
     .setInputCol("text") \
-    .setOutputCol("documents")
+    .setOutputCol("document")
 
-# Step 2: Load a pretrained BART model for summarization
-bart = BartTransformer.pretrained("distilbart_xsum_12_6") \
+seq2seq = BartTransformer.pretrained("distilbart_cnn_12_6_sshleifer", "en") \
+    .setInputCols(["document"]) \
+    .setOutputCol("generation") \
     .setTask("summarize:") \
-    .setInputCols(["documents"]) \
     .setMaxOutputLength(200) \
-    .setOutputCol("summaries")
 
-# Step 3: Create a pipeline with the document assembler and BART model
-pipeline = Pipeline().setStages([documentAssembler, bart])
+pipeline = Pipeline(stages=[
+    documentAssembler, 
+    seq2seq
+])
 
-# Step 4: Sample data - a long text passage for summarization
-data = spark.createDataFrame([[
-    "Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a " +
-    "downstream task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness" +
-    " of transfer learning has given rise to a diversity of approaches, methodology, and practice. In this " +
-    "paper, we explore the landscape of transfer learning techniques for NLP by introducing a unified framework " +
-    "that converts all text-based language problems into a text-to-text format. Our systematic study compares " +
-    "pre-training objectives, architectures, unlabeled data sets, transfer approaches, and other factors on dozens " +
-    "of language understanding tasks. By combining the insights from our exploration with scale and our new " +
-    "Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many benchmarks covering " +
-    "summarization, question answering, text classification, and more. To facilitate future work on transfer " +
-    "learning for NLP, we release our data set, pre-trained models, and code."
-]]).toDF("text")
+passage = """
+Artificial intelligence is transforming industries around the world. 
+Healthcare systems are adopting AI to analyze medical images, predict patient outcomes, 
+and accelerate the discovery of new drugs. In finance, machine learning algorithms are 
+used to detect fraudulent transactions and provide personalized investment advice. 
+Transportation is also being reshaped by autonomous vehicles and smarter traffic 
+management systems. Despite these benefits, concerns remain about job displacement, 
+data privacy, and the ethical use of AI technologies. Governments and organizations 
+are working together to create guidelines and regulations that ensure the responsible 
+development of AI, while still fostering innovation and economic growth.
+"""
 
-# Step 5: Apply the pipeline to generate the summary
-result = pipeline.fit(data).transform(data)
+data = spark.createDataFrame([[passage]]).toDF("text")
 
-# Step 6: Display the summary
-result.select("summaries.result").show(truncate=False)
+model = pipeline.fit(data)
+result = model.transform(data)
 
-# +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-# |result                                                                                                                                                                          |
-# +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-# |[transfer learning has emerged as a powerful technique in natural language processing (NLP) the effectiveness of transfer learning has given rise to a diversity of approaches, |
-# |methodologies, and practice .]                                                                                                                                                  |
-# +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+result.select("generation.result").show(truncate=False)
 
 ```
 ```scala
-import spark.implicits._
-import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer
+import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.annotators._
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions._
 
-// Step 1: Document Assembler to prepare the text data
 val documentAssembler = new DocumentAssembler()
   .setInputCol("text")
-  .setOutputCol("documents")
+  .setOutputCol("document")
 
-// Step 2: Load BART model for text generation with customization
-val bart = BartTransformer.pretrained("distilbart_xsum_12_6")
-  .setInputCols(Array("documents"))
-  .setMinOutputLength(10)
-  .setMaxOutputLength(30)
-  .setDoSample(true)
-  .setTopK(50)
+val seq2seq = BartTransformer
+  .pretrained("distilbart_cnn_12_6_sshleifer", "en")
+  .setInputCols(Array("document"))
   .setOutputCol("generation")
+  .setTask("summarize:")
+  .setMaxOutputLength(200)
 
-// Step 3: Define the pipeline stages
-val pipeline = new Pipeline().setStages(Array(documentAssembler, bart))
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  seq2seq
+))
 
-// Step 4: Input text data to be summarized
-val data = Seq(
-  "PG&E stated it scheduled the blackouts in response to forecasts for high winds " +
-  "amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were " +
-  "scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow."
-).toDF("text")
+val passage =
+  """
+  Artificial intelligence is transforming industries around the world.
+  Healthcare systems are adopting AI to analyze medical images, predict patient outcomes,
+  and accelerate the discovery of new drugs. In finance, machine learning algorithms are
+  used to detect fraudulent transactions and provide personalized investment advice.
+  Transportation is also being reshaped by autonomous vehicles and smarter traffic
+  management systems. Despite these benefits, concerns remain about job displacement,
+  data privacy, and the ethical use of AI technologies. Governments and organizations
+  are working together to create guidelines and regulations that ensure the responsible
+  development of AI, while still fostering innovation and economic growth.
+  """
 
-// Step 5: Fit the model and apply the pipeline
-val result = pipeline.fit(data).transform(data)
+val data = Seq(passage).toDF("text")
 
-// Step 6: Show the generated summary
-results.select("generation.result").show(truncate = false)
+val model = pipeline.fit(data)
+val result = model.transform(data)
 
-// +--------------------------------------------------------------+
-// |result                                                        |
-// +--------------------------------------------------------------+
-// |[Nearly 800 thousand customers were affected by the shutoffs.]|
-// +--------------------------------------------------------------+
+result.select("generation.result").show(false)
 
+```
+</div>
+
+<div class="tabs-box" markdown="1">
+```
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|result                                                                                                                                                                                                                                                                                                                                                                                                    |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[ Artificial intelligence is transforming industries around the world . Healthcare systems are adopting AI to analyze medical images and predict patient outcomes . In finance, machine learning algorithms are used to detect fraudulent transactions and provide personalized investment advice . Transportation is also being reshaped by autonomous vehicles and smarter traffic management systems .]|
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 </div>
 
@@ -135,8 +132,8 @@ results.select("generation.result").show(truncate = false)
 
 If you want to see the outputs of text classification models in real time, visit our interactive demos:
 
-- **[Sparknlp Text Summarization](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-annotators){:target="_blank"}** – A live demo where you can try your inputs on text classification models on the go.
-- **[Text summarization](https://demo.johnsnowlabs.com/public/TEXT_SUMMARIZATION/){:target="_blank"}** – An interactive demo for sentiment and emotion detection.
+- **[Text summarization](https://demo.johnsnowlabs.com/public/TEXT_SUMMARIZATION/){:target="_blank"}**
+- **[Sparknlp Text Summarization](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-annotators){:target="_blank"}**
 
 ## Useful Resources
 

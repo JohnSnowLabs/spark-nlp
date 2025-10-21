@@ -11,63 +11,73 @@ sidebar:
   nav: sparknlp  
 ---
 
-**Table question answering** is the task of answering questions from structured tabular data. This is particularly useful for applications like financial reports, databases, and other contexts where information is stored in tables. Spark NLP provides state-of-the-art solutions for table question answering, enabling accurate extraction and generation of answers from tables in various formats.
+**Table Question Answering (Table QA)** is a natural language processing task where models answer questions using structured data from tables instead of plain text. Given a question and a table as context, the model retrieves or generates the correct answer by understanding the table’s rows, columns, and relationships. For example, if the table lists countries and their capitals, and the question is *“What is the capital of France?”*, the model would output *“Paris”*.  
 
-Table question answering models process tabular data and the question to output the most relevant answer. Common use cases include:
+Table QA is generally approached in two ways:  
 
-- **Financial Reports:** Automatically extracting insights from financial data tables.
-- **Databases:** Querying relational databases or spreadsheet data to extract specific information.
-- **Business Intelligence:** Enabling non-technical users to interact with and extract data from complex tables using natural language.
+- **Retrieval-based Table QA**, where the model selects the exact cell or value directly from the table.  
+- **Reasoning-based (or generative) Table QA**, where the model performs comparisons, aggregations, or generates a natural-language answer that goes beyond a single cell.  
 
-By leveraging table question answering, organizations can build systems capable of understanding tabular structures, making it easier to answer complex queries and automate data extraction.
+## Picking a Model  
 
-## Picking a Model
+The choice of model for Table QA depends on how the task is framed. For **Extractive table QA**, where the answer must be located within the table itself, models like **TaBERT** or **TAPAS** are effective since they are designed to align natural language questions with structured tabular data. For **Generative table QA**, where the model needs to produce more natural responses or combine information across rows and columns, sequence-to-sequence models such as **T5** or **BART** can be adapted with table-aware pretraining. For highly **specialized domains**, fine-tuned variants of TAPAS, TaBERT, or lightweight table-oriented transformers can deliver more accurate results, especially when trained on domain-specific spreadsheets, databases, or reporting formats.
 
-When selecting a model for table question answering, consider factors such as the **complexity of the table** and the **nature of the query**. Some models work better with numerical data, while others may handle textual data or multi-row operations more effectively.
+### Recommended Models for Specific Table QA Tasks  
 
-Evaluate the **format of the tables** you are working with (e.g., CSV, Excel, or SQL tables), and ensure that the model can process the tabular structure accurately. Also, consider the **domain** of your tables, such as finance, healthcare, or retail, as some models may be pre-trained on specific domains.
+- **Retrieval-based Table QA:** Use models like [`tapas-base-finetuned-wtq`](https://sparknlp.org/2022/09/30/table_qa_tapas_base_finetuned_wtq_en.html){:target="_blank"} or [`tabert`](https://github.com/facebookresearch/TaBERT){:target="_blank"} for selecting precise cells or values directly from a table.  
 
-Explore models tailored for table question answering at [Spark NLP Models](https://sparknlp.org/models), where you’ll find various options for different table QA tasks.
+- **Reasoning-based Table QA:** For questions requiring comparisons, aggregations, or multi-row/column reasoning, consider models such as [`tapas-medium-finetuned-wtq`](https://sparknlp.org/2022/09/30/table_qa_tapas_medium_finetuned_wtq_en.html){:target="_blank"} or table-adapted sequence-to-sequence models like [`t5-base`](https://sparknlp.org/2021/01/08/t5_base_en.html){:target="_blank"}.  
 
-#### Recommended Models for Specific Table Question Answering Tasks
-
-- **General Table QA:** Consider models such as [`tapas-large-finetuned-wtq`](https://sparknlp.org/2022/09/30/table_qa_tapas_large_finetuned_wtq_en.html){:target="_blank"} for answering questions across different types of tables.
-- **SQL Query Generation:** Use models like [`t5-small-wikiSQL`](https://sparknlp.org/2022/05/31/t5_small_wikiSQL_en_3_0.html){:target="_blank"} to automatically generate SQL queries from natural language inputs.
-
-By selecting the right model for table question answering, you can extract valuable insights from structured data and answer complex queries efficiently.
+Explore models tailored for table question answering at [Spark NLP Models](https://sparknlp.org/models)
 
 ## How to use
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
+from pyspark.sql.functions import *
 from pyspark.ml import Pipeline
 
-# Document Assembler: Assembles table JSON and questions into documents
-document_assembler = MultiDocumentAssembler()\
-    .setInputCols("table_json", "questions")\
+json_data = """
+{
+  "header": ["name", "money", "age"],
+  "rows": [
+    ["Donald Trump", "$100,000,000", "75"],
+    ["Elon Musk", "$20,000,000,000,000", "55"]
+  ]
+}
+"""
+
+queries = [
+    "Who earns less than 200,000,000?",
+    "Who earns 100,000,000?", 
+    "How much money has Donald Trump?",
+    "How old are they?"
+]
+
+data = spark.createDataFrame([
+    [json_data, " ".join(queries)]
+]).toDF("table_json", "questions")
+
+document_assembler = MultiDocumentAssembler() \
+    .setInputCols("table_json", "questions") \
     .setOutputCols("document_table", "document_questions")
 
-# Sentence Detector: Splits the questions into individual sentences
-sentence_detector = SentenceDetector()\
-    .setInputCols(["document_questions"])\
+sentence_detector = SentenceDetector() \
+    .setInputCols(["document_questions"]) \
     .setOutputCol("questions")
 
-# Table Assembler: Converts the table document to the proper format
-table_assembler = TableAssembler()\
-    .setInputCols(["document_table"])\
+table_assembler = TableAssembler() \
+    .setInputCols(["document_table"]) \
     .setOutputCol("table")
 
-# Tapas Model: Loads pretrained Tapas for table question answering
-tapas = TapasForQuestionAnswering\
-    .pretrained()\
-    .setInputCols(["questions", "table"])\
+tapas = TapasForQuestionAnswering \
+    .pretrained("table_qa_tapas_base_finetuned_wtq", "en") \
+    .setInputCols(["questions", "table"]) \
     .setOutputCol("answers")
 
-# Pipeline: Combines all stages
 pipeline = Pipeline(stages=[
     document_assembler,
     sentence_detector,
@@ -75,118 +85,89 @@ pipeline = Pipeline(stages=[
     tapas
 ])
 
-# Sample JSON data for the table
-json_data = """
-{
-    "header": ["name", "money", "age"],
-    "rows": [
-    ["Donald Trump", "$100,000,000", "75"],
-    ["Elon Musk", "$20,000,000,000,000", "55"]
-    ]
- }
- """
-
-# Fit and transform the data with the pipeline
 model = pipeline.fit(data)
-model\
-    .transform(data)\
-    .selectExpr("explode(answers) AS answer")\
-    .select("answer.metadata.question", "answer.result")\
-    .show(truncate=False)
+result = model.transform(data)
 
-# Expected Output:
-# +-----------------------+----------------------------------------+
-# |question               |result                                  |
-# +-----------------------+----------------------------------------+
-# |Who earns 100,000,000? |Donald Trump                            |
-# |Who has more money?    |Elon Musk                               |
-# |How much they all earn?|COUNT($100,000,000, $20,000,000,000,000)|
-# |How old are they?      |AVERAGE(75, 55)                         |
-# +-----------------------+----------------------------------------+
+result.select(
+    posexplode("questions.result").alias("pos", "question"),
+    col("answers.result")[col("pos")].alias("answer")
+).select("question", "answer").show(truncate=False)
+
 ```
 ```scala
-import spark.implicits._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.annotator._
+import org.apache.spark.sql.functions._
 import org.apache.spark.ml.Pipeline
 
-// Questions: Sample questions about the table data
-val questions =
+val json_data =
   """
-   |Who earns 100,000,000?
-   |Who has more money?
-   |How old are they?
-   |""".stripMargin.trim
-
-// Table Data: JSON format for table with name, money, and age columns
-val jsonData =
+  {
+    "header": ["name", "money", "age"],
+    "rows": [
+      ["Donald Trump", "$100,000,000", "75"],
+      ["Elon Musk", "$20,000,000,000,000", "55"]
+    ]
+  }
   """
-   |{
-   | "header": ["name", "money", "age"],
-   | "rows": [
-   |   ["Donald Trump", "$100,000,000", "75"],
-   |   ["Elon Musk", "$20,000,000,000,000", "55"]
-   | ]
-   |}
-   |""".stripMargin.trim
 
-// DataFrame: Create DataFrame with table data and questions
-val data = Seq((jsonData, questions))
-  .toDF("json_table", "questions")
-  .repartition(1)
+val queries = Array(
+  "Who earns less than 200,000,000?",
+  "Who earns 100,000,000?",
+  "How much money has Donald Trump?",
+  "How old are they?"
+)
 
-// Document Assembler: Assemble the table JSON and questions into documents
-val docAssembler = new MultiDocumentAssembler()
-  .setInputCols("json_table", "questions")
+val data = Seq((json_data, queries.mkString(" "))).toDF("table_json", "questions")
+
+val documentAssembler = new MultiDocumentAssembler()
+  .setInputCols("table_json", "questions")
   .setOutputCols("document_table", "document_questions")
 
-// Sentence Detector: Detects individual questions from the text
-val sentenceDetector = SentenceDetectorDLModel
-  .pretrained()
-  .setInputCols(Array("document_questions"))
-  .setOutputCol("question")
+val sentenceDetector = new SentenceDetector()
+  .setInputCols("document_questions")
+  .setOutputCol("questions")
 
-// Table Assembler: Converts JSON table data into table format
 val tableAssembler = new TableAssembler()
-  .setInputFormat("json")
-  .setInputCols(Array("document_table"))
+  .setInputCols("document_table")
   .setOutputCol("table")
 
-// Tapas Model: Pretrained model for table question answering
 val tapas = TapasForQuestionAnswering
-  .pretrained()
-  .setInputCols(Array("question", "table"))
-  .setOutputCol("answer")
+  .pretrained("table_qa_tapas_base_finetuned_wtq", "en")
+  .setInputCols("questions", "table")
+  .setOutputCol("answers")
 
-// Pipeline: Combine all components into a pipeline
-val pipeline = new Pipeline()
-  .setStages(
-    Array(
-      docAssembler,
-      sentenceDetector,
-      tableAssembler,
-      tapas))
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  sentenceDetector,
+  tableAssembler,
+  tapas
+))
 
-// Model: Fit the pipeline to the data
-val pipelineModel = pipeline.fit(data)
-val result = pipeline.fit(data).transform(data)
+val model = pipeline.fit(data)
+val result = model.transform(data)
 
-// Show Results: Explode answers and show the results for each question
 result
-  .selectExpr("explode(answer) as answer")
-  .selectExpr(
-    "answer.metadata.question",
-    "answer.result")
+  .select(
+    posexplode($"questions.result").as(Seq("pos", "question")),
+    col("answers.result")(col("pos")).as("answer")
+  )
+  .select("question", "answer")
+  .show(false)
 
-// Expected Output:
-// +-----------------------+----------------------------------------+
-// |question               |result                                  |
-// +-----------------------+----------------------------------------+
-// |Who earns 100,000,000? |Donald Trump                            |
-// |Who has more money?    |Elon Musk                               |
-// |How much they all earn?|COUNT($100,000,000, $20,000,000,000,000)|
-// |How old are they?      |AVERAGE(75, 55)                         |
-// +-----------------------+----------------------------------------+
+```
+</div>
+
+<div class="tabs-box" markdown="1">
+```
++--------------------------------+-----------------+
+|question                        |answer           |
++--------------------------------+-----------------+
+|Who earns less than 200,000,000?|Donald Trump     |
+|Who earns 100,000,000?          |Donald Trump     |
+|How much money has Donald Trump?|SUM($100,000,000)|
+|How old are they?               |AVERAGE(75, 55)  |
++--------------------------------+-----------------+
 ```
 </div>
 
@@ -194,9 +175,9 @@ result
 
 If you want to see the outputs of table question answering models in real time, visit our interactive demos:
 
-- **[Tapas for Table Question Answering](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-tapas){:target="_blank"}** – TAPAS answers questions from tabular data.
-- **[Tapex for Table QA](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-tapex){:target="_blank"}** – TAPEX handles complex table queries and computations.
-- **[SQL Query Generation](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-text-to-sql-t5){:target="_blank"}** – Converts natural language questions into SQL queries from tables.
+- **[Tapas for Table Question Answering](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-tapas){:target="_blank"}**
+- **[Tapex for Table QA](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-tapex){:target="_blank"}**
+- **[SQL Query Generation](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-text-to-sql-t5){:target="_blank"}**
 
 ## Useful Resources
 
