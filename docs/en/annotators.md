@@ -87,6 +87,10 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="NorvigSweeting Spellchecker" summary="Retrieves tokens and makes corrections automatically if not found in an English dictionary."%}
 {% include templates/anno_table_entry.md path="" name="POSTagger (Part of speech tagger)" summary="Averaged Perceptron model to tag words part-of-speech."%}
 {% include templates/anno_table_entry.md path="" name="PromptAssembler" summary="Assembles a sequence of messages into a single string using a template."%}
+{% include templates/anno_table_entry.md path="" name="Reader2Doc" summary="Reads documents from files or directories and outputs structured text for NLP pipelines."%}
+{% include templates/anno_table_entry.md path="" name="Reader2Image" summary="Extracts images from files or documents and outputs them as structured Spark DataFrames with metadata."%}
+{% include templates/anno_table_entry.md path="" name="Reader2Table" summary="Reads tables from documents or CSV/Excel files and outputs structured tabular content for downstream processing."%}
+{% include templates/anno_table_entry.md path="" name="ReaderAssembler" summary="Combines multiple document or message segments into a single unified document for NLP processing."%}
 {% include templates/anno_table_entry.md path="" name="RecursiveTokenizer" summary="Tokenizes raw text recursively based on a handful of definable rules."%}
 {% include templates/anno_table_entry.md path="" name="RegexMatcher" summary="Uses rules to match a set of regular expressions and associate them with a provided identifier."%}
 {% include templates/anno_table_entry.md path="" name="RegexTokenizer" summary="A tokenizer that splits text by a regex pattern."%}
