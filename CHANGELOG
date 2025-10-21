@@ -1,4 +1,21 @@
 =======
+6.2.0
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1288] AutoGGUF close model #14671
+* [SPARKNLP-1283] Add remove thinking flag #14672
+* [SPARKNLP-1293] Enhancements EntityRuler and DocumentNormalizer #14674
+* [SPARKNLP-1299] Add Hierarchical Element Identification to HTMLReader #14675
+
+---------
+Bug Fixes
+---------
+* [SPARKNLP-1300] RobertaEmbeddings: changing token sequence in warmup test #14677
+
+=======
 6.1.5
 =======
 ---------------------------
