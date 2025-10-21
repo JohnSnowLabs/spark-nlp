@@ -70,7 +70,7 @@ private[johnsnowlabs] class RoBerta(
 
   private def sessionWarmup(): Unit = {
     val dummyInput =
-      Array(0, 7939, 18, 3279, 658, 5, 19374, 13, 5, 78, 42752, 4, 2)
+      Array(0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2)
     if (modelArch == ModelArch.wordEmbeddings) {
       tag(Seq(dummyInput))
     } else if (modelArch == ModelArch.sentenceEmbeddings) {
