@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.embeddings.auto_gguf_embeddings module &#8212; Spark NLP 6.1.5 documentation</title>
+    <title>sparknlp.annotator.embeddings.auto_gguf_embeddings module &#8212; Spark NLP 6.2.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=19338386"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=d345c3d3"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.5 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.5 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -576,6 +576,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_model.html">sparknlp.common.annotator_model module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_properties.html">sparknlp.common.annotator_properties module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_type.html">sparknlp.common.annotator_type module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.completion_post_processing.html">sparknlp.common.completion_post_processing module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.coverage_result.html">sparknlp.common.coverage_result module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.match_strategy.html">sparknlp.common.match_strategy module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.properties.html">sparknlp.common.properties module</a></li>
@@ -818,6 +819,12 @@ according to your hardware to avoid out-of-memory errors.</p>
 <span class="go">+--------------------------------------------------------------------------------+</span>
 </pre></div>
 </div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/auto_gguf_embeddings.html#AutoGGUFEmbeddings.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.close" title="Permalink to this definition">#</a></dt>
+<dd><p>Closes the llama.cpp model backend freeing resources. The model is reloaded when used again.</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.defragmentationThreshold">
 <span class="sig-name descname"><span class="pre">defragmentationThreshold</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='defragmentationThreshold',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">KV</span> <span class="pre">cache</span> <span class="pre">defragmentation</span> <span class="pre">threshold')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/embeddings/auto_gguf_embeddings.html#AutoGGUFEmbeddings.defragmentationThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.defragmentationThreshold" title="Permalink to this definition">#</a></dt>
@@ -1231,6 +1238,7 @@ Spark NLPs repositories otherwise.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings"><code class="docutils literal notranslate"><span class="pre">AutoGGUFEmbeddings</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.close"><code class="docutils literal notranslate"><span class="pre">AutoGGUFEmbeddings.close()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.defragmentationThreshold"><code class="docutils literal notranslate"><span class="pre">AutoGGUFEmbeddings.defragmentationThreshold</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.flashAttention"><code class="docutils literal notranslate"><span class="pre">AutoGGUFEmbeddings.flashAttention</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.embeddings.auto_gguf_embeddings.AutoGGUFEmbeddings.getMetadata"><code class="docutils literal notranslate"><span class="pre">AutoGGUFEmbeddings.getMetadata()</span></code></a></li>

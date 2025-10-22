@@ -477,7 +477,9 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
       annotations.filter(ann => ann.metadata.contains("element_id"))
     }
 
-    assert(attributeElements.length > 0, "Expected to find attribute elements in the HTML content")
+    assert(
+      attributeElements.length > 0,
+      "Expected to find attribute elements in the HTML content")
   }
 
 }

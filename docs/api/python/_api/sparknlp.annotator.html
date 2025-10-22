@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator package &#8212; Spark NLP 6.1.5 documentation</title>
+    <title>sparknlp.annotator package &#8212; Spark NLP 6.2.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=19338386"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=d345c3d3"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.5 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.5 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -576,6 +576,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_model.html">sparknlp.common.annotator_model module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_properties.html">sparknlp.common.annotator_properties module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_type.html">sparknlp.common.annotator_type module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.completion_post_processing.html">sparknlp.common.completion_post_processing module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.coverage_result.html">sparknlp.common.coverage_result module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.match_strategy.html">sparknlp.common.match_strategy module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.properties.html">sparknlp.common.properties module</a></li>
@@ -1578,18 +1579,22 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html">sparknlp.annotator.document_normalizer module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.action"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.action</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.autoMode"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.autoMode</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.encoding"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.encoding</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.inputAnnotatorTypes</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.lowercase"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.lowercase</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.outputAnnotatorType</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.patterns"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.patterns</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.policy"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.policy</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.presetPattern"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.presetPattern</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.replacement"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.replacement</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setAction"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setAction()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setAutoMode"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setAutoMode()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setEncoding"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setEncoding()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setLowercase"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setLowercase()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setPatterns"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setPatterns()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setPolicy"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setPolicy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setPresetPattern"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setPresetPattern()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html#sparknlp.annotator.document_normalizer.DocumentNormalizer.setReplacement"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setReplacement()</span></code></a></li>
 </ul>
 </li>
