@@ -5,7 +5,7 @@
   "main": "jquery.scrollTo.js",
   "license": "MIT",
   "ignore": ["**/.*","demo","tests","CHANGELOG","README.md","composer.json","bower.json"],
-  "dependencies": { "jquery": ">=3.5.0" },
+  "dependencies": { "jquery": ">=1.8" },
   "homepage": "https://github.com/flesler/jquery.scrollTo/",
   "docs": "https://github.com/flesler/jquery.scrollTo/",
   "demo": "http://demos.flesler.com/jquery/scrollTo/",

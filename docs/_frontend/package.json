@@ -21,14 +21,13 @@
     "terser-webpack-plugin": "^5.3.1",
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^5.2.2"
+    "webpack-dev-server": "^4.7.4"
   },
   "dependencies": {
     "@floating-ui/react-dom": "^0.7.1",
     "@floating-ui/react-dom-interactions": "^0.6.3",
     "classnames": "^2.3.1",
     "downshift": "^6.1.7",
-    "http-proxy-middleware": "^2.0.9",
     "preact": "^10.7.0",
     "react": "17",
     "react-dom": "17"
