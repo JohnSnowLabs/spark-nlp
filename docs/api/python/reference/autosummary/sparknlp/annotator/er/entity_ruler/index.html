@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.er.entity_ruler &#8212; Spark NLP 6.1.5 documentation</title>
+    <title>sparknlp.annotator.er.entity_ruler &#8212; Spark NLP 6.2.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js?v=19338386"></script>
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js?v=d345c3d3"></script>
     <script src="../../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.5 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.5 documentation - Home"/>`);</script>
+    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -876,6 +876,16 @@ For usage and examples see the documentation of the main class.</p>
 <span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">'chunk'</span></em><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerModel.autoMode">
+<span class="sig-name descname"><span class="pre">autoMode</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel.autoMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.autoMode" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerModel.extractEntities">
+<span class="sig-name descname"><span class="pre">extractEntities</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel.extractEntities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.extractEntities" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerModel.pretrained">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel.pretrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.pretrained" title="Permalink to this definition">#</a></dt>
@@ -885,6 +895,34 @@ For usage and examples see the documentation of the main class.</p>
 <dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerModel.loadStorage">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel.loadStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.loadStorage" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerModel.setAutoMode">
+<span class="sig-name descname"><span class="pre">setAutoMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel.setAutoMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.setAutoMode" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the auto mode for predefined regex entity groups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Name of the auto mode to activate (e.g., ‘communication_entities’, ‘network_entities’, etc.)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.er.entity_ruler.EntityRulerModel.setExtractEntities">
+<span class="sig-name descname"><span class="pre">setExtractEntities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/er/entity_ruler.html#EntityRulerModel.setExtractEntities"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.setExtractEntities" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets specific entities to extract, filtering only those defined in regexPatterns or autoMode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">list[str]</span></dt><dd><p>List of entity names to extract, e.g., [‘EMAIL_ADDRESS_PATTERN’, ‘IPV4_PATTERN’].</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -941,8 +979,12 @@ For usage and examples see the documentation of the main class.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">EntityRulerModel.inputAnnotatorTypes</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.optionalInputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">EntityRulerModel.optionalInputAnnotatorTypes</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">EntityRulerModel.outputAnnotatorType</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.autoMode"><code class="docutils literal notranslate"><span class="pre">EntityRulerModel.autoMode</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.extractEntities"><code class="docutils literal notranslate"><span class="pre">EntityRulerModel.extractEntities</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.pretrained"><code class="docutils literal notranslate"><span class="pre">EntityRulerModel.pretrained()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.loadStorage"><code class="docutils literal notranslate"><span class="pre">EntityRulerModel.loadStorage()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.setAutoMode"><code class="docutils literal notranslate"><span class="pre">EntityRulerModel.setAutoMode()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.er.entity_ruler.EntityRulerModel.setExtractEntities"><code class="docutils literal notranslate"><span class="pre">EntityRulerModel.setExtractEntities()</span></code></a></li>
 </ul>
 </li>
 </ul>

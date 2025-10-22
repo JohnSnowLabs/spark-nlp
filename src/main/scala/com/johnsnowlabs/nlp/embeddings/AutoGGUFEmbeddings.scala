@@ -139,7 +139,7 @@ class AutoGGUFEmbeddings(override val uid: String)
   }
 
   /** Closes the llama.cpp model backend freeing resources. The model is reloaded when used again.
-   */
+    */
   def close(): Unit = GGUFWrapper.closeBroadcastModel(_model)
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)

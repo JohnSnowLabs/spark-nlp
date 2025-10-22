@@ -11,6 +11,7 @@ Submodules
    sparknlp.common.annotator_model
    sparknlp.common.annotator_properties
    sparknlp.common.annotator_type
+   sparknlp.common.completion_post_processing
    sparknlp.common.coverage_result
    sparknlp.common.match_strategy
    sparknlp.common.properties
