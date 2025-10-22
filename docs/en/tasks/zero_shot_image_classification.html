@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -531,33 +531,15 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Zero-shot Image Classification"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Zero-shot image classification</strong> is a technique in computer vision where a model can classify images into categories that it has never seen before during training. This is achieved by leveraging semantic relationships between the image data and textual descriptions of classes, enabling models to predict labels without specific training on each category.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p>Zero-shot image classification is a technique that allows a model to recognize and categorize images into classes it has <strong>never seen during training</strong>. Instead of relying on labeled examples for every category, the model understands the relationship between images and text descriptions, enabling it to generalize to new concepts. For example, even if the model has never been trained on the class “red panda,” it can still correctly identify it by understanding how the phrase “red panda” relates to its visual features.</p>
 
-<p>This task is particularly useful for scenarios where obtaining labeled data for every possible category is challenging or expensive, such as real-world applications in e-commerce, media, or biology. Zero-shot classification can help scale image recognition systems without constantly retraining them for new categories.</p>
-
-<h2 id="how-zero-shot-image-classification-works">How Zero-shot Image Classification Works</h2>
-
-<p>The key idea behind zero-shot learning is the generalization capability of models. Instead of being restricted to the labels encountered during training, the model uses external knowledge—typically in the form of text or word embeddings—to make predictions about new classes.</p>
-
-<p>In Spark NLP, zero-shot image classification leverages models like CLIP (Contrastive Language–Image Pretraining), which are trained to understand both visual and textual data. These models align the visual representations of images with the semantic representations of text, allowing them to match unseen image categories based on their descriptions.</p>
-
-<p>Some common use cases include:</p>
-
-<ul>
-  <li><strong>Classifying new product images</strong> in an e-commerce platform without retraining the model for every new product.</li>
-  <li><strong>Detecting rare or new species of animals</strong> using images in wildlife research.</li>
-  <li><strong>Media categorization</strong> for content recommendation engines where new labels continuously emerge.</li>
-</ul>
+<p>This capability is made possible by <strong>multimodal models</strong> such as <strong>CLIP</strong> (Contrastive Language–Image Pretraining), which learn to connect images and textual descriptions through joint training on large image–text pairs. When given a new image and a set of text labels, the model compares how closely the image aligns with each label’s description and assigns the most relevant one.</p>
 
 <h2 id="picking-a-model">Picking a Model</h2>
 
-<p>When choosing a model for zero-shot image classification, you need to consider several factors:</p>
+<p>When picking a model for zero-shot image classification, focus on those that are designed to understand both <strong>images and text</strong> in a shared representation space. The most popular and effective option is <strong>CLIP</strong> (Contrastive Language–Image Pretraining), developed by OpenAI. CLIP connects images with natural language descriptions, allowing it to recognize objects and concepts it was never directly trained on.</p>
 
-<ul>
-  <li><strong>Text and Image Alignment:</strong> Choose models that are good at matching visual features to text-based descriptions.</li>
-  <li><strong>Task Complexity:</strong> Depending on the complexity of the task, a larger pre-trained model like CLIP or a fine-tuned ViT model might perform better.</li>
-  <li><strong>Efficiency:</strong> While zero-shot classification saves time by avoiding retraining, some models are more resource-intensive than others. Make sure the model is efficient enough for your computational setup.</li>
-</ul>
+<p>Other strong choices include <strong>ALIGN</strong>, <strong>BLIP</strong>, and <strong>BLIP-2</strong>, which build on similar multimodal principles and often deliver more fluent and adaptable results. These models differ mainly in how they pair vision and text encoders—some use <strong>Vision Transformers (ViT)</strong> or <strong>ResNet</strong> for image understanding, and <strong>Transformer-based text encoders</strong> for processing textual labels or prompts.</p>
 
 <p>You can explore a variety of pre-trained zero-shot models on the <a href="https://sparknlp.org/models" target="_blank">Spark NLP Models</a>, where models suited for different tasks and datasets are available.</p>
 
@@ -570,24 +552,20 @@
 
 <div class="tabs-box">
   <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="c1"># Loading images into a Spark DataFrame, with an option to discard invalid images
-</span><span class="n">imageDF</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
+<span class="n">imageDF</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
     <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">"dropInvalid"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"src/test/resources/image/"</span><span class="p">)</span>
 
-<span class="c1"># Assembling image data using the ImageAssembler, preparing the input images for further processing
-</span><span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
 
-<span class="c1"># Defining candidate labels for zero-shot classification
-</span><span class="n">candidateLabels</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">candidateLabels</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s">"a photo of a bird"</span><span class="p">,</span>
     <span class="s">"a photo of a cat"</span><span class="p">,</span>
     <span class="s">"a photo of a dog"</span><span class="p">,</span>
@@ -599,55 +577,36 @@
     <span class="s">"a photo of an ox"</span>
 <span class="p">]</span>
 
-<span class="c1"># Initializing the CLIPForZeroShotClassification model
-</span><span class="n">imageClassifier</span> <span class="o">=</span> <span class="n">CLIPForZeroShotClassification</span> \
+<span class="n">imageClassifier</span> <span class="o">=</span> <span class="n">CLIPForZeroShotClassification</span> \
     <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"clip_vit_large_patch14"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"image_assembler"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setCandidateLabels</span><span class="p">(</span><span class="n">candidateLabels</span><span class="p">)</span>
 
-<span class="c1"># Defining a Spark ML pipeline with two stages: the ImageAssembler and the CLIP image classifier
-</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">imageAssembler</span><span class="p">,</span> <span class="n">imageClassifier</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">imageAssembler</span><span class="p">,</span> <span class="n">imageClassifier</span><span class="p">])</span>
 
-<span class="c1"># Fitting the pipeline on the image DataFrame and transforming the data to apply classification
-</span><span class="n">pipelineDF</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">imageDF</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
 
-<span class="c1"># Selecting the image file name and the predicted label result, displaying the output in a readable format
-</span><span class="n">pipelineDF</span> \
+<span class="n">result</span> \
   <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"reverse(split(image.origin, '/'))[0] as image_name"</span><span class="p">,</span> <span class="s">"label.result"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="o">+-----------------+-----------------------+</span>
-<span class="o">|</span><span class="n">image_name</span>       <span class="o">|</span><span class="n">result</span>                 <span class="o">|</span>
-<span class="o">+-----------------+-----------------------+</span>
-<span class="o">|</span><span class="n">palace</span><span class="p">.</span><span class="n">JPEG</span>      <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">photo</span> <span class="n">of</span> <span class="n">a</span> <span class="n">room</span><span class="p">]</span>    <span class="o">|</span>
-<span class="o">|</span><span class="n">egyptian_cat</span><span class="p">.</span><span class="n">jpeg</span><span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">photo</span> <span class="n">of</span> <span class="n">a</span> <span class="n">cat</span><span class="p">]</span>     <span class="o">|</span>
-<span class="o">|</span><span class="n">hippopotamus</span><span class="p">.</span><span class="n">JPEG</span><span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">photo</span> <span class="n">of</span> <span class="n">a</span> <span class="n">hippo</span><span class="p">]</span>   <span class="o">|</span>
-<span class="o">|</span><span class="n">hen</span><span class="p">.</span><span class="n">JPEG</span>         <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">photo</span> <span class="n">of</span> <span class="n">a</span> <span class="n">hen</span><span class="p">]</span>     <span class="o">|</span>
-<span class="o">|</span><span class="n">ostrich</span><span class="p">.</span><span class="n">JPEG</span>     <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">photo</span> <span class="n">of</span> <span class="n">an</span> <span class="n">ostrich</span><span class="p">]</span><span class="o">|</span>
-<span class="o">|</span><span class="n">junco</span><span class="p">.</span><span class="n">JPEG</span>       <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">photo</span> <span class="n">of</span> <span class="n">a</span> <span class="n">bird</span><span class="p">]</span>    <span class="o">|</span>
-<span class="o">|</span><span class="n">bluetick</span><span class="p">.</span><span class="n">jpg</span>     <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">photo</span> <span class="n">of</span> <span class="n">a</span> <span class="n">dog</span><span class="p">]</span>     <span class="o">|</span>
-<span class="o">|</span><span class="n">chihuahua</span><span class="p">.</span><span class="n">jpg</span>    <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">photo</span> <span class="n">of</span> <span class="n">a</span> <span class="n">dog</span><span class="p">]</span>     <span class="o">|</span>
-<span class="o">|</span><span class="n">tractor</span><span class="p">.</span><span class="n">JPEG</span>     <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">photo</span> <span class="n">of</span> <span class="n">a</span> <span class="n">tractor</span><span class="p">]</span> <span class="o">|</span>
-<span class="o">|</span><span class="n">ox</span><span class="p">.</span><span class="n">JPEG</span>          <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">photo</span> <span class="n">of</span> <span class="n">an</span> <span class="n">ox</span><span class="p">]</span>     <span class="o">|</span>
-<span class="o">+-----------------+-----------------------+</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.ImageAssembler</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions._</span>
 
-<span class="c1">// Loading image data into a Spark DataFrame, removing any invalid images</span>
-<span class="k">val</span> <span class="nv">imageDF</span> <span class="k">=</span> <span class="nv">ResourceHelper</span><span class="o">.</span><span class="py">spark</span><span class="o">.</span><span class="py">read</span>
+<span class="k">val</span> <span class="nv">imageDF</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
   <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
   <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"src/test/resources/image/"</span><span class="o">)</span>
 
-<span class="c1">// Assembling the images with the ImageAssembler, which prepares image data for processing</span>
-<span class="k">val</span> <span class="nv">imageAssembler</span><span class="k">:</span> <span class="kt">ImageAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">imageAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
 
-<span class="c1">// Defining an array of candidate labels for zero-shot image classification</span>
 <span class="k">val</span> <span class="nv">candidateLabels</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span>
   <span class="s">"a photo of a bird"</span><span class="o">,</span>
   <span class="s">"a photo of a cat"</span><span class="o">,</span>
@@ -660,37 +619,39 @@
   <span class="s">"a photo of an ox"</span>
 <span class="o">)</span>
 
-<span class="c1">// Initializing the CLIPForZeroShotClassification model, setting input and output columns</span>
-<span class="c1">// The model classifies images based on comparison to the candidate labels</span>
 <span class="k">val</span> <span class="nv">imageClassifier</span> <span class="k">=</span> <span class="nc">CLIPForZeroShotClassification</span>
-  <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>  <span class="c1">// Loading a pretrained CLIP model </span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"clip_vit_large_patch14"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setCandidateLabels</span><span class="o">(</span><span class="n">candidateLabels</span><span class="o">)</span>
 
-<span class="c1">// Creating and running the Spark ML pipeline with the image assembler and classifier</span>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span>
-  <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">imageAssembler</span><span class="o">,</span> <span class="n">imageClassifier</span><span class="o">)).</span><span class="py">fit</span><span class="o">(</span><span class="n">imageDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">imageAssembler</span><span class="o">,</span> <span class="n">imageClassifier</span><span class="o">))</span>
 
-<span class="c1">// Selecting and displaying the image file name and classification result</span>
-<span class="n">pipeline</span>
-  <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"reverse(split(image.origin, '/'))[0] as image_name"</span><span class="o">,</span> <span class="s">"label.result"</span><span class="o">)</span>  <span class="c1">// Extracting image names and their classification labels</span>
-  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
 
-<span class="o">+-----------------+-----------------------+</span>
-<span class="o">|</span><span class="n">image_name</span>       <span class="o">|</span><span class="n">result</span>                 <span class="o">|</span>
-<span class="o">+-----------------+-----------------------+</span>
-<span class="o">|</span><span class="nv">palace</span><span class="o">.</span><span class="py">JPEG</span>      <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">room</span><span class="o">]</span>    <span class="o">|</span>
-<span class="o">|</span><span class="nv">egyptian_cat</span><span class="o">.</span><span class="py">jpeg</span><span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">cat</span><span class="o">]</span>     <span class="o">|</span>
-<span class="o">|</span><span class="nv">hippopotamus</span><span class="o">.</span><span class="py">JPEG</span><span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">hippo</span><span class="o">]</span>   <span class="o">|</span>
-<span class="o">|</span><span class="nv">hen</span><span class="o">.</span><span class="py">JPEG</span>         <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">hen</span><span class="o">]</span>     <span class="o">|</span>
-<span class="o">|</span><span class="nv">ostrich</span><span class="o">.</span><span class="py">JPEG</span>     <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">an</span> <span class="kt">ostrich</span><span class="o">]|</span>
-<span class="o">|</span><span class="nv">junco</span><span class="o">.</span><span class="py">JPEG</span>       <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">bird</span><span class="o">]</span>    <span class="o">|</span>
-<span class="o">|</span><span class="nv">bluetick</span><span class="o">.</span><span class="py">jpg</span>     <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">dog</span><span class="o">]</span>     <span class="o">|</span>
-<span class="o">|</span><span class="nv">chihuahua</span><span class="o">.</span><span class="py">jpg</span>    <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">dog</span><span class="o">]</span>     <span class="o">|</span>
-<span class="o">|</span><span class="nv">tractor</span><span class="o">.</span><span class="py">JPEG</span>     <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">tractor</span><span class="o">]</span> <span class="o">|</span>
-<span class="o">|</span><span class="nv">ox</span><span class="o">.</span><span class="py">JPEG</span>          <span class="o">|[</span><span class="kt">a</span> <span class="kt">photo</span> <span class="kt">of</span> <span class="kt">an</span> <span class="kt">ox</span><span class="o">]</span>     <span class="o">|</span>
-<span class="o">+-----------------+-----------------------+</span>
+<span class="n">result</span>
+  <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"reverse(split(image.origin, '/'))[0] as image_name"</span><span class="o">,</span> <span class="s">"label.result"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+
+</code></pre></div>  </div>
+</div>
+
+<div class="tabs-box">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------+-----------------------+
+|image_name       |result                 |
++-----------------+-----------------------+
+|palace.JPEG      |[a photo of a room]    |
+|egyptian_cat.jpeg|[a photo of a cat]     |
+|hippopotamus.JPEG|[a photo of a hippo]   |
+|hen.JPEG         |[a photo of a hen]     |
+|ostrich.JPEG     |[a photo of an ostrich]|
+|junco.JPEG       |[a photo of a bird]    |
+|bluetick.jpg     |[a photo of a dog]     |
+|chihuahua.jpg    |[a photo of a dog]     |
+|tractor.JPEG     |[a photo of a tractor] |
+|ox.JPEG          |[a photo of an ox]     |
++-----------------+-----------------------+
 </code></pre></div>  </div>
 </div>
 
@@ -704,14 +665,10 @@
 
 <h2 id="useful-resources">Useful Resources</h2>
 
-<p>Learn zero-shot image classification with Spark NLP:</p>
-
 <p><strong>Notebooks</strong></p>
 <ul>
   <li><em><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/image/CLIPForZeroShotClassification.ipynb" target="_blank">CLIP Classification Notebook</a></em></li>
 </ul>
-
-<p>Discover how to classify images without labeled data.</p>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2024-09-26T00:00:00+00:00">Sep 26, 2024</time>
     </span><!-- start custom article footer snippet -->

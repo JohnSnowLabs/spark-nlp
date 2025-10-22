@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -531,125 +531,123 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Summarization"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Summarization</strong> is the task of generating concise and informative summaries from longer documents. This is useful for a wide range of applications, such as summarizing news articles, legal documents, or any large texts where key points need to be extracted. Spark NLP offers advanced summarization models that can create high-quality summaries efficiently.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Summarization</strong> is a natural language processing task where models create a shorter version of a text while preserving its key information. Depending on the approach, models may use <strong>extractive summarization</strong>, which selects important sentences or phrases directly from the source, or <strong>abstractive summarization</strong>, which generates entirely new sentences that rephrase the original content. For example, given a passage about the Eiffel Tower’s height and history, a summarization model might produce <em>“The tower is 324 metres tall, about the height of an 81-storey building, and was the first structure to reach 300 metres.”</em></p>
 
-<p>Summarization models take input text and generate shorter versions while preserving essential information. Common use cases include:</p>
-
-<ul>
-  <li><strong>News Summaries:</strong> Automatically condensing long news articles into brief, digestible summaries.</li>
-  <li><strong>Legal Documents:</strong> Summarizing lengthy contracts, case studies, or legal opinions.</li>
-  <li><strong>Research Papers:</strong> Extracting key insights and conclusions from scientific papers.</li>
-</ul>
-
-<p>By leveraging summarization models, organizations can efficiently process large amounts of textual data and extract critical information, making it easier to consume and understand complex documents.</p>
+<p>This task is especially valuable for quickly processing large amounts of text in areas like <strong>research paper summarization</strong>, <strong>news aggregation</strong>, <strong>financial reports</strong>, and <strong>legal documents</strong>.</p>
 
 <h2 id="picking-a-model">Picking a Model</h2>
 
-<p>When choosing a summarization model, consider factors like the <strong>length of the input text</strong> and the <strong>desired summary style</strong> (e.g., extractive or abstractive). Some models are better suited for shorter inputs, while others excel in handling long documents. Evaluate whether your task requires <strong>sentence-level summaries</strong> or <strong>paragraph-level condensation</strong>.</p>
-
-<p>Consider the <strong>domain</strong> of the text, such as legal, scientific, or general news, as domain-specific models often perform better. Explore the available summarization models at <a href="https://sparknlp.org/models">Spark NLP Models</a> to find the one that best suits your summarization needs.</p>
+<p>The choice of model for summarization depends on whether the goal is extractive or abstractive. For <strong>extractive summarization</strong>, transformer-based classifiers like <strong>BERTSUM</strong> or lightweight variants such as <strong>DistilBERT</strong> can effectively identify the most important sentences to keep. For <strong>abstractive summarization</strong>, encoder–decoder architectures such as <strong>BART</strong> and <strong>T5</strong> are strong general-purpose options, while more recent families like <strong>LLaMA 2</strong> have shown strong performance when adapted for summarization tasks. In <strong>domain-specific contexts</strong> such as biomedical, legal, or financial texts—fine-tuned models like <strong>BioBART</strong> or <strong>Longformer-based summarizers</strong> often provide more accurate and context-aware results, particularly when working with long or technical documents.</p>
 
 <h4 id="recommended-models-for-summarization-tasks">Recommended Models for Summarization Tasks</h4>
 
 <ul>
-  <li><strong>General Summarization:</strong> For most summarization tasks, consider models like <a href="https://sparknlp.org/2023/05/11/bart_large_cnn_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">bart-large-cnn</code></a> and <a href="https://sparknlp.org/2021/01/08/t5_base_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">t5-base</code></a> are well suited for generating concise summaries.</li>
+  <li>
+    <p><strong>Extractive Summarization:</strong> Models like <a href="https://sparknlp.org/2025/02/05/distilbart_cnn_12_6_sshleifer_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">sshleifer/distilbart-cnn-12-6</code></a> and <a href="https://github.com/nlpyang/PreSumm" target="_blank"><code class="language-plaintext highlighter-rouge">bertsumext</code></a> are effective for selecting the most important sentences directly from the source text.</p>
+  </li>
+  <li>
+    <p><strong>Abstractive Summarization:</strong> Encoder–decoder models such as <a href="https://sparknlp.org/2025/01/26/bart_large_cnn_facebook_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">bart-large-cnn</code></a> and <a href="https://sparknlp.org/2021/01/08/t5_base_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">t5-base</code></a> are strong general-purpose choices for generating fluent, rephrased summaries.</p>
+  </li>
+  <li>
+    <p><strong>Domain-Specific Summarization:</strong> Specialized variants like <a href="https://sparknlp.org/2025/01/24/biobart_base_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">biobart</code></a> for biomedical literature or fine-tuned <strong>Longformer-based summarizers</strong> for legal and financial texts provide stronger results in technical or domain-focused contexts.</p>
+  </li>
 </ul>
 
-<p>By selecting the right model, you can efficiently condense long documents into meaningful summaries, saving time and effort.</p>
+<p>Explore the available summarization models at <a href="https://sparknlp.org/models">Spark NLP Models</a> to find the one that best suits your summarization needs.</p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">DocumentAssembler</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">BartTransformer</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="c1"># Step 1: Assemble raw text data into a format that Spark NLP can process
-</span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"documents"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="c1"># Step 2: Load a pretrained BART model for summarization
-</span><span class="n">bart</span> <span class="o">=</span> <span class="n">BartTransformer</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"distilbart_xsum_12_6"</span><span class="p">)</span> \
+<span class="n">seq2seq</span> <span class="o">=</span> <span class="n">BartTransformer</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"distilbart_cnn_12_6_sshleifer"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"generation"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setTask</span><span class="p">(</span><span class="s">"summarize:"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"documents"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setMaxOutputLength</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"summaries"</span><span class="p">)</span>
 
-<span class="c1"># Step 3: Create a pipeline with the document assembler and BART model
-</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">bart</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+    <span class="n">documentAssembler</span><span class="p">,</span> 
+    <span class="n">seq2seq</span>
+<span class="p">])</span>
 
-<span class="c1"># Step 4: Sample data - a long text passage for summarization
-</span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span>
-    <span class="s">"Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a "</span> <span class="o">+</span>
-    <span class="s">"downstream task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness"</span> <span class="o">+</span>
-    <span class="s">" of transfer learning has given rise to a diversity of approaches, methodology, and practice. In this "</span> <span class="o">+</span>
-    <span class="s">"paper, we explore the landscape of transfer learning techniques for NLP by introducing a unified framework "</span> <span class="o">+</span>
-    <span class="s">"that converts all text-based language problems into a text-to-text format. Our systematic study compares "</span> <span class="o">+</span>
-    <span class="s">"pre-training objectives, architectures, unlabeled data sets, transfer approaches, and other factors on dozens "</span> <span class="o">+</span>
-    <span class="s">"of language understanding tasks. By combining the insights from our exploration with scale and our new "</span> <span class="o">+</span>
-    <span class="s">"Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many benchmarks covering "</span> <span class="o">+</span>
-    <span class="s">"summarization, question answering, text classification, and more. To facilitate future work on transfer "</span> <span class="o">+</span>
-    <span class="s">"learning for NLP, we release our data set, pre-trained models, and code."</span>
-<span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">passage</span> <span class="o">=</span> <span class="s">"""
+Artificial intelligence is transforming industries around the world. 
+Healthcare systems are adopting AI to analyze medical images, predict patient outcomes, 
+and accelerate the discovery of new drugs. In finance, machine learning algorithms are 
+used to detect fraudulent transactions and provide personalized investment advice. 
+Transportation is also being reshaped by autonomous vehicles and smarter traffic 
+management systems. Despite these benefits, concerns remain about job displacement, 
+data privacy, and the ethical use of AI technologies. Governments and organizations 
+are working together to create guidelines and regulations that ensure the responsible 
+development of AI, while still fostering innovation and economic growth.
+"""</span>
 
-<span class="c1"># Step 5: Apply the pipeline to generate the summary
-</span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">passage</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="c1"># Step 6: Display the summary
-</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"summaries.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-<span class="c1"># +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-# |result                                                                                                                                                                          |
-# +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-# |[transfer learning has emerged as a powerful technique in natural language processing (NLP) the effectiveness of transfer learning has given rise to a diversity of approaches, |
-# |methodologies, and practice .]                                                                                                                                                  |
-# +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"generation.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.seq2seq.GPT2Transformer</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions._</span>
 
-<span class="c1">// Step 1: Document Assembler to prepare the text data</span>
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="c1">// Step 2: Load BART model for text generation with customization</span>
-<span class="k">val</span> <span class="nv">bart</span> <span class="k">=</span> <span class="nv">BartTransformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbart_xsum_12_6"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"documents"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setMinOutputLength</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setMaxOutputLength</span><span class="o">(</span><span class="mi">30</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setDoSample</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setTopK</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">seq2seq</span> <span class="k">=</span> <span class="nc">BartTransformer</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbart_cnn_12_6_sshleifer"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"generation"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTask</span><span class="o">(</span><span class="s">"summarize:"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMaxOutputLength</span><span class="o">(</span><span class="mi">200</span><span class="o">)</span>
 
-<span class="c1">// Step 3: Define the pipeline stages</span>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">bart</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">seq2seq</span>
+<span class="o">))</span>
 
-<span class="c1">// Step 4: Input text data to be summarized</span>
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
-  <span class="s">"PG&amp;E stated it scheduled the blackouts in response to forecasts for high winds "</span> <span class="o">+</span>
-  <span class="s">"amid dry conditions. The aim is to reduce the risk of wildfires. Nearly 800 thousand customers were "</span> <span class="o">+</span>
-  <span class="s">"scheduled to be affected by the shutoffs which were expected to last through at least midday tomorrow."</span>
-<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">passage</span> <span class="k">=</span>
+  <span class="s">"""
+  Artificial intelligence is transforming industries around the world.
+  Healthcare systems are adopting AI to analyze medical images, predict patient outcomes,
+  and accelerate the discovery of new drugs. In finance, machine learning algorithms are
+  used to detect fraudulent transactions and provide personalized investment advice.
+  Transportation is also being reshaped by autonomous vehicles and smarter traffic
+  management systems. Despite these benefits, concerns remain about job displacement,
+  data privacy, and the ethical use of AI technologies. Governments and organizations
+  are working together to create guidelines and regulations that ensure the responsible
+  development of AI, while still fostering innovation and economic growth.
+  """</span>
 
-<span class="c1">// Step 5: Fit the model and apply the pipeline</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">passage</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="c1">// Step 6: Show the generated summary</span>
-<span class="nv">results</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"generation.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
-<span class="c1">// +--------------------------------------------------------------+</span>
-<span class="c1">// |result                                                        |</span>
-<span class="c1">// +--------------------------------------------------------------+</span>
-<span class="c1">// |[Nearly 800 thousand customers were affected by the shutoffs.]|</span>
-<span class="c1">// +--------------------------------------------------------------+</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"generation.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 
+</code></pre></div>  </div>
+</div>
+
+<div class="tabs-box">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|result                                                                                                                                                                                                                                                                                                                                                                                                    |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|[ Artificial intelligence is transforming industries around the world . Healthcare systems are adopting AI to analyze medical images and predict patient outcomes . In finance, machine learning algorithms are used to detect fraudulent transactions and provide personalized investment advice . Transportation is also being reshaped by autonomous vehicles and smarter traffic management systems .]|
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 </code></pre></div>  </div>
 </div>
 
@@ -658,8 +656,8 @@
 <p>If you want to see the outputs of text classification models in real time, visit our interactive demos:</p>
 
 <ul>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-annotators" target="_blank">Sparknlp Text Summarization</a></strong> – A live demo where you can try your inputs on text classification models on the go.</li>
-  <li><strong><a href="https://demo.johnsnowlabs.com/public/TEXT_SUMMARIZATION/" target="_blank">Text summarization</a></strong> – An interactive demo for sentiment and emotion detection.</li>
+  <li><strong><a href="https://demo.johnsnowlabs.com/public/TEXT_SUMMARIZATION/" target="_blank">Text summarization</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-annotators" target="_blank">Sparknlp Text Summarization</a></strong></li>
 </ul>
 
 <h2 id="useful-resources">Useful Resources</h2>

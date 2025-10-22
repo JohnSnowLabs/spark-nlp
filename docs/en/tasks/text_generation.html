@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -531,147 +531,95 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Text Generation"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Text generation</strong> is the task of generating meaningful text based on a given input. It is widely used in various <em>natural language processing (NLP)</em> applications such as summarization, machine translation, conversational agents, and more. Spark NLP provides SOTA solutions for text generation, enabling you to produce high-quality and contextually relevant text outputs.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Text Generation</strong> is a natural language processing task where models create new text based on a given input. Instead of assigning labels, these models expand, complete, or rephrase text in a coherent way. For example, given <em>“Once upon a time,”</em> a text generation model might continue with <em>“we knew that our ancestors were on the verge of extinction…”</em>. This task includes both <strong>completion models</strong>, which predict the next word in a sequence to build longer passages, and <strong>text-to-text models</strong>, which map one piece of text to another for tasks like <em>translation</em>, <em>summarization</em>, or <em>classification</em>.</p>
 
-<p>Text generation models create text sequences by predicting the next word or sequence of words based on the input prompt. Common use cases include:</p>
-
-<ul>
-  <li><strong>Summarization:</strong> Automatically generating concise summaries from longer text.</li>
-  <li><strong>Machine Translation:</strong> Translating text from one language to another while maintaining meaning and fluency.</li>
-  <li><strong>Conversational Agents:</strong> Building intelligent systems that can hold natural and coherent conversations with users.</li>
-</ul>
-
-<p>By leveraging text generation, organizations can build systems capable of generating human-like text, making it useful for content creation, automated writing, and more.</p>
-
-<!-- <div style="text-align: center;">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div> -->
+<p>Depending on how they are trained, text generation models come in different variants: <strong>base models</strong> (e.g., Mistral 7B, Llama 3 70B) suited for fine-tuning, <strong>instruction-tuned models</strong> (e.g., Qwen 2, Yi 1.5, Llama 70B Instruct) that follow prompts like <em>“Write a recipe for chocolate cake”</em>, and <strong>human feedback models</strong>, which use RLHF to align outputs with human preferences. These capabilities make text generation useful for a wide range of applications, from <strong>chatbots and creative writing</strong> to <strong>code generation and summarization</strong>, with larger models typically producing more fluent and context-aware outputs.</p>
 
 <h2 id="picking-a-model">Picking a Model</h2>
 
-<p>When selecting a model for text generation, consider several important factors. First, determine the <strong>type of output</strong> you require (e.g., summarization, translation, or free-form generation). Decide whether your task needs <strong>structured output</strong> like summaries or <strong>creative text generation</strong>.</p>
+<p>When picking a model for text generation, start by clarifying your goal—whether you need completions, rephrasings, translations, summaries, or creative writing. Base models like <strong>Mistral 7B</strong> or <strong>Llama 3 70B</strong> are good for fine-tuning, while instruction-tuned ones such as <strong>Qwen 2</strong> or <strong>Llama 70B Instruct</strong> work better out of the box for prompts like “Write a recipe for chocolate cake.” Human-feedback models trained with RLHF usually give the most user-aligned responses. For quick or lightweight tasks, smaller models are efficient, while larger ones generally produce more fluent, context-aware text suited for chatbots, code generation, and long-form writing. For specific tasks, <strong>Pegasus</strong>, <strong>BART</strong>, or <strong>Llama 3 Instruct</strong> are strong for summarization; <strong>MarianMT</strong>, <strong>M2M-100</strong>, or <strong>NLLB</strong> excel at translation; <strong>GPT-based models</strong>, <strong>Llama 3 70B Instruct</strong>, and <strong>Yi 1.5</strong> are strong for creative writing; <strong>Code Llama</strong>, <strong>StarCoder</strong>, and <strong>GPT-4 Turbo (Code)</strong> are well-suited for code generation; and for dialogue, <strong>Llama 3 Instruct</strong>, <strong>Qwen 2</strong>, and <strong>GPT-4</strong> provide reliable conversational performance.</p>
 
-<p>Next, evaluate the <strong>style and language</strong> of the data you’ll be working with—are you dealing with formal language (e.g., research papers) or informal language (e.g., social media)? Model performance metrics such as <strong>perplexity</strong>, <strong>BLEU score</strong>, or <strong>ROUGE score</strong> are also crucial for understanding the quality of the generated text. Finally, take into account the <strong>computational resources</strong> available, as some models (e.g., GPT or T5) may require significant memory and processing power.</p>
+<p>Explore models tailored for text generation at <a href="https://sparknlp.org/models">Spark NLP Models</a></p>
 
-<p>Explore models tailored for text generation at <a href="https://sparknlp.org/models">Spark NLP Models</a>, where you’ll find various options for different text generation tasks.</p>
+<!-- 
+#### Recommended Models for Specific Text Generation Tasks
 
-<h4 id="recommended-models-for-specific-text-generation-tasks">Recommended Models for Specific Text Generation Tasks</h4>
-
-<ul>
-  <li><strong>Summarization:</strong> Use models like <a href="https://sparknlp.org/2021/01/08/t5_base_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">t5-base</code></a> and <a href="https://sparknlp.org/2023/05/11/bart_large_cnn_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">bart-large-cnn</code></a> for general-purpose text summarization tasks.</li>
-  <li><strong>Machine Translation:</strong> Consider models such as <a href="https://sparknlp.org/2021/01/08/t5_base_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">t5_base</code></a> and <a href="https://sparknlp.org/2024/05/19/m2m100_418M_xx.html" target="_blank"><code class="language-plaintext highlighter-rouge">m2m100_418M</code></a> you can also consider searching models with the <a href="https://sparknlp.org/models?annotator=MarianTransformer" target="_blank"><code class="language-plaintext highlighter-rouge">Marian Transformer</code></a> Annotator class for translating between non-english languages.</li>
-  <li><strong>Conversational Agents:</strong> For building chatbots and dialogue systems, use models like <a href="https://sparknlp.org/2021/12/03/gpt2_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">gpt2</code></a> to generate coherent and contextually aware responses.</li>
-</ul>
-
-<p>By selecting the appropriate text generation model, you can enhance your ability to produce contextually rich and meaningful text outputs tailored to your specific NLP tasks.</p>
+- **Summarization:** Use models like [`t5-base`](https://sparknlp.org/2021/01/08/t5_base_en.html){:target="_blank"} and [`bart-large-cnn`](https://sparknlp.org/2023/05/11/bart_large_cnn_en.html){:target="_blank"} for general-purpose text summarization tasks.
+- **Machine Translation:** Consider models such as [`t5_base`](https://sparknlp.org/2021/01/08/t5_base_en.html){:target="_blank"} and [`m2m100_418M`](https://sparknlp.org/2024/05/19/m2m100_418M_xx.html){:target="_blank"} you can also consider searching models with the [`Marian Transformer`](https://sparknlp.org/models?annotator=MarianTransformer){:target="_blank"} Annotator class for translating between non-english languages.
+- **Conversational Agents:** For building chatbots and dialogue systems, use models like [`gpt2`](https://sparknlp.org/2021/12/03/gpt2_en.html){:target="_blank"} to generate coherent and contextually aware responses. -->
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">DocumentAssembler</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">AutoGGUFModel</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="c1"># Assembling the document from the input text
-</span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"documents"</span><span class="p">)</span>
+<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span>\
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="c1"># Loading a pre-trained text generation model
-# You can replace `T5Transformer.pretrained("t5_small", "xx")` with your selected model and the transformer it's based on
-# For example: BartTransformer.pretrained("bart_large_cnn")
-</span><span class="n">t5</span> <span class="o">=</span> <span class="n">T5Transformer</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"t5_small"</span><span class="p">,</span> <span class="s">"xx"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setTask</span><span class="p">(</span><span class="s">"summarize:"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"documents"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setMaxOutputLength</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"summaries"</span><span class="p">)</span>
+<span class="n">auto_gguf_model</span> <span class="o">=</span> <span class="n">AutoGGUFModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"qwen3_4b_q4_k_m_gguf"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"completions"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setNPredict</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setNGpuLayers</span><span class="p">(</span><span class="mi">99</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setTemperature</span><span class="p">(</span><span class="mf">0.4</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setTopK</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setTopP</span><span class="p">(</span><span class="mf">0.9</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setPenalizeNl</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="c1"># Defining the pipeline with document assembler, tokenizer, and classifier
-</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">t5</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">document_assembler</span><span class="p">,</span>
+    <span class="n">auto_gguf_model</span>
+<span class="p">])</span>
 
-<span class="c1"># Creating a sample DataFrame
-</span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span>
-    <span class="s">"Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a "</span> <span class="o">+</span>
-    <span class="s">"downstream task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness"</span> <span class="o">+</span>
-    <span class="s">" of transfer learning has given rise to a diversity of approaches, methodology, and practice. In this "</span> <span class="o">+</span>
-    <span class="s">"paper, we explore the landscape of transfer learning techniques for NLP by introducing a unified framework "</span> <span class="o">+</span>
-    <span class="s">"that converts all text-based language problems into a text-to-text format. Our systematic study compares "</span> <span class="o">+</span>
-    <span class="s">"pre-training objectives, architectures, unlabeled data sets, transfer approaches, and other factors on dozens "</span> <span class="o">+</span>
-    <span class="s">"of language understanding tasks. By combining the insights from our exploration with scale and our new "</span> <span class="o">+</span>
-    <span class="s">"Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many benchmarks covering "</span> <span class="o">+</span>
-    <span class="s">"summarization, question answering, text classification, and more. To facilitate future work on transfer "</span> <span class="o">+</span>
-    <span class="s">"learning for NLP, we release our data set, pre-trained models, and code."</span>
-<span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+    <span class="p">[</span><span class="s">"A farmer has 17 sheep. All but 9 run away. How many sheep does the farmer have left?"</span><span class="p">]</span>
+<span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="c1"># Fitting the pipeline and transforming the data
-</span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-<span class="c1"># Showing the results
-</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"summaries.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="o">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                                                                                                                                                          <span class="o">|</span>
-<span class="o">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">transfer</span> <span class="n">learning</span> <span class="n">has</span> <span class="n">emerged</span> <span class="k">as</span> <span class="n">a</span> <span class="n">powerful</span> <span class="n">technique</span> <span class="ow">in</span> <span class="n">natural</span> <span class="n">language</span> <span class="n">processing</span> <span class="p">(</span><span class="n">NLP</span><span class="p">)</span> <span class="n">the</span> <span class="n">effectiveness</span> <span class="n">of</span> <span class="n">transfer</span> <span class="n">learning</span> <span class="n">has</span> <span class="n">given</span> <span class="n">rise</span> <span class="n">to</span> <span class="n">a</span> <span class="n">diversity</span> <span class="n">of</span> <span class="n">approaches</span><span class="p">,</span> <span class="o">|</span>
-<span class="o">|</span> <span class="n">methodologies</span><span class="p">,</span> <span class="ow">and</span> <span class="n">practice</span> <span class="p">.]</span>                                                                                                                                                 <span class="o">|</span>
-<span class="o">---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span> 
 </code></pre></div>  </div>
-
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 
-<span class="c1">// Step 1: Assembling the document from the input text</span>
-<span class="c1">// Converts the input 'text' column into a 'document' column, required for NLP tasks</span>
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"documents"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="c1">// Step 3: Loading a pre-trained BERT model for token classification</span>
-<span class="c1">// Applies a pre-trained BERT model for Named Entity Recognition (NER) to classify tokens</span>
-<span class="c1">// `T5Transformer.pretrained()` loads the model, and `setInputCols` defines the input columns</span>
-<span class="k">val</span> <span class="nv">t5</span> <span class="k">=</span> <span class="nv">T5Transformer</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"t5_small"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setTask</span><span class="o">(</span><span class="s">"summarize:"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"documents"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setMaxOutputLength</span><span class="o">(</span><span class="mi">200</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"summaries"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">autoGGUFModel</span> <span class="k">=</span> <span class="nv">AutoGGUFModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"qwen3_4b_q4_k_m_gguf"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"completions"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setBatchSize</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setNPredict</span><span class="o">(</span><span class="mi">20</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setNGpuLayers</span><span class="o">(</span><span class="mi">99</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTemperature</span><span class="o">(</span><span class="mf">0.4f</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTopK</span><span class="o">(</span><span class="mi">40</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTopP</span><span class="o">(</span><span class="mf">0.9f</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setPenalizeNl</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 
-<span class="c1">// Step 4: Defining the pipeline</span>
-<span class="c1">// The pipeline stages are document assembler, tokenizer, and token classifier</span>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">t5</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">autoGGUFModel</span>
+<span class="o">))</span>
 
-<span class="c1">// Step 5: Creating a sample DataFrame</span>
-<span class="c1">// Creates a DataFrame with a sample sentence that will be processed by the pipeline</span>
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
-  <span class="s">"Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a "</span> <span class="o">+</span>
-  <span class="s">"downstream task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness"</span> <span class="o">+</span>
-  <span class="s">" of transfer learning has given rise to a diversity of approaches, methodology, and practice. In this "</span> <span class="o">+</span>
-  <span class="s">"paper, we explore the landscape of transfer learning techniques for NLP by introducing a unified framework "</span> <span class="o">+</span>
-  <span class="s">"that converts all text-based language problems into a text-to-text format. Our systematic study compares "</span> <span class="o">+</span>
-  <span class="s">"pre-training objectives, architectures, unlabeled data sets, transfer approaches, and other factors on dozens "</span> <span class="o">+</span>
-  <span class="s">"of language understanding tasks. By combining the insights from our exploration with scale and our new "</span> <span class="o">+</span>
-  <span class="s">"Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many benchmarks covering "</span> <span class="o">+</span>
-  <span class="s">"summarization, question answering, text classification, and more. To facilitate future work on transfer "</span> <span class="o">+</span>
-  <span class="s">"learning for NLP, we release our data set, pre-trained models, and code."</span>
-<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"A farmer has 17 sheep. All but 9 run away. How many sheep does the farmer have left?"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="c1">// Step 6: Fitting the pipeline and transforming the data</span>
-<span class="c1">// The pipeline is fitted on the input data, then it performs the transformation to generate token labels</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
-<span class="c1">// Step 7: Showing the results</span>
-<span class="c1">// Displays the 'label.result' column, which contains the Named Entity Recognition (NER) labels for each token</span>
-<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"summaries.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>  </div>
+</div>
 
-<span class="o">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                                                                                                                                                          <span class="o">|</span>
-<span class="o">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
-<span class="o">|[</span><span class="kt">transfer</span> <span class="kt">learning</span> <span class="kt">has</span> <span class="kt">emerged</span> <span class="kt">as</span> <span class="kt">a</span> <span class="kt">powerful</span> <span class="kt">technique</span> <span class="kt">in</span> <span class="kt">natural</span> <span class="kt">language</span> <span class="kt">processing</span> <span class="o">(</span><span class="kt">NLP</span><span class="o">)</span> <span class="kt">the</span> <span class="kt">effectiveness</span> <span class="kt">of</span> <span class="kt">transfer</span> <span class="kt">learning</span> <span class="kt">has</span> <span class="kt">given</span> <span class="kt">rise</span> <span class="kt">to</span> <span class="kt">a</span> <span class="kt">diversity</span> <span class="kt">of</span> <span class="kt">approaches</span>, <span class="kt">|</span>
-<span class="kt">|methodologies</span>, <span class="kt">and</span> <span class="kt">practice</span> <span class="kt">.</span><span class="o">]</span>                                                                                                                                                  <span class="o">|</span>
-<span class="o">+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<div class="tabs-box">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Explanation:
+The phrase "all but 9 run away" means that 9 sheep did not run away, while the remaining (17 - 9 = 8) did. Therefore, the farmer still has the 9 sheep that stayed behind.
+Answer: 9.
 </code></pre></div>  </div>
 </div>
 
@@ -680,10 +628,10 @@
 <p>If you want to see the outputs of text generation models in real time, visit our interactive demos:</p>
 
 <ul>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-gpt2" target="_blank">Generative Pre-trained Transformer 2 (OpenAI GPT2)</a></strong> – GPT-2 generates human-like text from prompts.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-t5" target="_blank">Text-To-Text Transfer Transformer (Google T5)</a></strong> – T5 performs text tasks like summarization and translation.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-text-to-sql-t5" target="_blank">SQL Query Generation</a></strong> – Converts natural language commands into SQL queries.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-MarianMT" target="_blank">Multilingual Text Translation with MarianMT</a></strong> – Translates text between multiple languages.</li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-gpt2" target="_blank">Generative Pre-trained Transformer 2 (OpenAI GPT2)</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-t5" target="_blank">Text-To-Text Transfer Transformer (Google T5)</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-text-to-sql-t5" target="_blank">SQL Query Generation</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-MarianMT" target="_blank">Multilingual Text Translation with MarianMT</a></strong></li>
 </ul>
 
 <h2 id="useful-resources">Useful Resources</h2>

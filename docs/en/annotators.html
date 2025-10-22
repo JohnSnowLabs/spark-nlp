@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -765,16 +765,6 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
-        <td><a href="#nerdlgraphchecker">NerDLGraphChecker</a></td>
-        <td>Checks whether a suitable NerDL graph is available for the given training dataset, before any</td>
-        <td> </td>
-      </tr>
-      <tr>
-        <td>computations/training is done.</td>
-        <td>Opensource</td>
-        <td> </td>
-      </tr>
-      <tr>
         <td><a href="#neroverwriter">NerOverwriter</a></td>
         <td>Overwrites entities of specified strings.</td>
         <td>Opensource</td>
@@ -797,6 +787,26 @@ in the DataFrames.</li>
       <tr>
         <td><a href="#promptassembler">PromptAssembler</a></td>
         <td>Assembles a sequence of messages into a single string using a template.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="#reader2doc">Reader2Doc</a></td>
+        <td>Reads documents from files or directories and outputs structured text for NLP pipelines.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="#reader2image">Reader2Image</a></td>
+        <td>Extracts images from files or documents and outputs them as structured Spark DataFrames with metadata.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="#reader2table">Reader2Table</a></td>
+        <td>Reads tables from documents or CSV/Excel files and outputs structured tabular content for downstream processing.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="#readerassembler">ReaderAssembler</a></td>
+        <td>Combines multiple document or message segments into a single unified document for NLP processing.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -931,23 +941,28 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
-        <td><a href="./transformers#albertfortokenclassification">AlbertForTokenClassification</a></td>
-        <td>AlbertForTokenClassification can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.</td>
-        <td>Opensource</td>
-      </tr>
-      <tr>
         <td><a href="./transformers#albertforsequenceclassification">AlbertForSequenceClassification</a></td>
         <td>AlbertForSequenceClassification can load ALBERT Models with sequence classification/regression head on top e.g. for multi-class document classification tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="./transformers#albertfortokenclassification">AlbertForTokenClassification</a></td>
+        <td>AlbertForTokenClassification can load ALBERT Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="./transformers#bartforzeroshotclassification">BartForZeroShotClassification</a></td>
-        <td>BartForZeroShotClassification using a <code class="language-plaintext highlighter-rouge">ModelForSequenceClassification</code> trained on NLI (natural language inference) tasks.</td>
+        <td>BartForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
         <td><a href="./transformers#barttransformer">BartTransformer</a></td>
         <td>BART: Denoising Sequence-to-Sequence Pre-training for Natural Language Generation, Translation, and Comprehension Transformer</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#bertembeddings">BertEmbeddings</a></td>
+        <td>BERT (Bidirectional Encoder Representations from Transformers) embeddings for token-level vector representations.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -976,6 +991,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="./transformers#blipforquestionanswering">BLIPForQuestionAnswering</a></td>
+        <td>BLIPForQuestionAnswering loads BLIP models with a visual question answering head, enabling multimodal tasks where the model can answer text questions about images.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="./transformers#camembertembeddings">CamemBertEmbeddings</a></td>
         <td>CamemBert is based on Facebook’s RoBERTa model released in 2019.</td>
         <td>Opensource</td>
@@ -1001,8 +1021,18 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="./transformers#coheretransformer">CoHereTransformer</a></td>
+        <td>Integrates with Cohere’s large language models for text generation and other NLP tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="./transformers#convnextforimageclassification">ConvNextForImageClassification</a></td>
         <td>ConvNextForImageClassification is an image classifier based on ConvNet models</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#cpmtransformer">CPMTransformer</a></td>
+        <td>CPMTransformer provides access to CPM models, large-scale Chinese autoregressive language models designed for natural language understanding and generation.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -1023,6 +1053,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="./transformers#debertafortokenclassification">DeBertaForTokenClassification</a></td>
         <td>DeBertaForTokenClassification can load DeBERTA Models v2 and v3 with a token classification head on top.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#debertaforzeroshotclassification">DeBertaForZeroShotClassification</a></td>
+        <td>DeBertaForZeroShotClassification loads DeBERTa models fine-tuned for zero-shot classification, allowing natural language inference (NLI)-based categorization without task-specific training data.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -1056,13 +1091,23 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
-        <td><a href="./transformers#minilmembeddings">MiniLMEmbeddings</a></td>
-        <td>Sentence embeddings using MiniLM, a lightweight and efficient sentence embedding model that can generate text embeddings for various NLP tasks.</td>
+        <td><a href="./transformers#e5vembeddings">E5VEmbeddings</a></td>
+        <td>Provides access to E5-V, a multimodal embedding model for joint text and image representation.</td>
         <td>Opensource</td>
       </tr>
       <tr>
         <td><a href="./transformers#elmoembeddings">ElmoEmbeddings</a></td>
         <td>Word embeddings from ELMo (Embeddings from Language Models), a language model trained on the 1 Billion Word Benchmark.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#florence2transformer">Florence2Transformer</a></td>
+        <td>Loads Microsoft’s Florence-2, a versatile vision foundation model capable of handling a wide range of vision and vision-language tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#gemma3formultimodal">Gemma3ForMultiModal</a></td>
+        <td>Loads Google’s Gemma 3, a state-of-the-art multimodal model for advanced reasoning across text, images, and other data types.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -1078,6 +1123,31 @@ in the DataFrames.</li>
       <tr>
         <td><a href="./transformers#instructorembeddings">InstructorEmbeddings</a></td>
         <td>Sentence embeddings using INSTRUCTOR.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#internvlformultimodal">InternVLForMultiModal</a></td>
+        <td>Loads InternVL, a powerful vision-language model designed for large-scale, multimodal understanding and generation.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#janusformultimodal">JanusForMultiModal</a></td>
+        <td>Loads Janus, a multimodal model that excels at understanding and generating content across both visual and textual domains.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#llama2transformer">LLAMA2Transformer</a></td>
+        <td>LLAMA2Transformer provides access to the LLaMA 2 family of large language models, optimized for dialogue, reasoning, and text generation across various tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#llama3transformer">LLAMA3Transformer</a></td>
+        <td>LLAMA3Transformer loads Meta’s LLaMA 3 models, state-of-the-art large language models optimized for advanced reasoning, long context, and instruction-following.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#llavaformultimodal">LLAVAForMultiModal</a></td>
+        <td>Loads LLaVA (Large Language and Vision Assistant), an open-source multimodal model that combines a vision encoder with a large language model.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -1101,8 +1171,28 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="./transformers#m2m100transformer">M2M100Transformer</a></td>
+        <td>M2M100Transformer provides access to Facebook’s M2M100 multilingual translation models, capable of translating directly between 100+ languages without relying on English as an intermediate.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="./transformers#mariantransformer">MarianTransformer</a></td>
         <td>Marian is an efficient, free Neural Machine Translation framework written in pure C++ with minimal dependencies.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#minilmembeddings">MiniLMEmbeddings</a></td>
+        <td>Sentence embeddings using MiniLM, a lightweight and efficient sentence embedding model that can generate text embeddings for various NLP tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#mistraltransformer">MistralTransformer</a></td>
+        <td>MistralTransformer loads Mistral models, efficient dense and mixture-of-experts (MoE) language models optimized for high performance on reasoning and coding tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#mllamaformultimodal">MLLamaForMultimodal</a></td>
+        <td>MLLamaForMultimodal is an open-source multimodal model that combines a vision encoder with a large language model.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -1121,8 +1211,68 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="./transformers#mpnetfortokenclassification">MPNetForTokenClassification</a></td>
+        <td>MPNetForTokenClassification loads MPNet models with a token classification head for sequence labeling tasks such as Named Entity Recognition (NER).</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#mxbaiembeddings">MxbaiEmbeddings</a></td>
+        <td>MxbaiEmbeddings provides access to embedding models from Mxbai, optimized for retrieval, semantic search, and representation learning.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#nllbtransformer">NLLBTransformer</a></td>
+        <td>NLLBTransformer loads the No Language Left Behind (NLLB) models, designed to support translation across 200+ languages with high accuracy.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#nomicembeddings">NomicEmbeddings</a></td>
+        <td>NomicEmbeddings provides access to Nomic’s embedding models, designed for scalable semantic search, clustering, and retrieval tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#olmotransformer">OLMoTransformer</a></td>
+        <td>Provides access to AI2’s OLMo, a truly open language model designed for building and studying large language models.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="./transformers#openaicompletion">OpenAICompletion</a></td>
         <td>Transformer that makes a request for OpenAI Completion API for each executor.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#paligemmaformultimodal">PaliGemmaForMultiModal</a></td>
+        <td>Loads PaliGemma, Google’s versatile vision-language model based on Gemma and SigLIP, designed for image captioning, VQA, and other multimodal tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#phi2transformer">Phi2Transformer</a></td>
+        <td>Phi2Transformer loads Microsoft’s Phi-2 small language model, optimized for reasoning, coding, and efficient NLP tasks with limited compute requirements.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#phi3transformer">Phi3Transformer</a></td>
+        <td>Phi3Transformer provides access to Microsoft’s Phi-3 family of small language models, supporting long contexts and optimized for instruction following, reasoning, and code generation.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#phi3vision">Phi3Vision</a></td>
+        <td>Loads Microsoft’s Phi-3-Vision, a lightweight, high-performance multimodal model that brings language and vision capabilities to resource-constrained environments.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#phi4transformer">Phi4Transformer</a></td>
+        <td>Provides access to Microsoft’s Phi-4 family of powerful and efficient small language models.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#qwen2vltransformer">Qwen2VLTransformer</a></td>
+        <td>Loads Alibaba’s Qwen2-VL models, a family of powerful multimodal large language models for advanced vision-language tasks.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#qwentransformer">QwenTransformer</a></td>
+        <td>QwenTransformer loads Alibaba’s Qwen models, a family of large language models optimized for advanced reasoning, dialogue, and multilingual NLP tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -1147,7 +1297,7 @@ in the DataFrames.</li>
       </tr>
       <tr>
         <td><a href="./transformers#robertaforzeroshotclassification">RoBertaForZeroShotClassification</a></td>
-        <td>RoBertaForZeroShotClassification using a <code class="language-plaintext highlighter-rouge">ModelForSequenceClassification</code> trained on NLI (natural language inference) tasks.</td>
+        <td>RoBertaForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -1156,8 +1306,23 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="./transformers#smolvlmtransformer">SmolVLMTransformer</a></td>
+        <td>Loads Smol-VLM, a family of small yet powerful vision language models designed for efficient multimodal reasoning.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#snowflakeembeddings">SnowFlakeEmbeddings</a></td>
+        <td>SnowFlakeEmbeddings provides access to Snowflake’s embedding models, built for enterprise-scale retrieval-augmented generation (RAG) and semantic search.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="./transformers#spanbertcoref">SpanBertCoref</a></td>
         <td>A coreference resolution model based on SpanBert.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#starcodertransformer">StarCoderTransformer</a></td>
+        <td>StarCoderTransformer loads StarCoder models, code generation models trained on permissively licensed data, optimized for program synthesis, completion, and chat-based coding assistance.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -1227,7 +1392,7 @@ in the DataFrames.</li>
       </tr>
       <tr>
         <td><a href="./transformers#xlmrobertaforzeroshotclassification">XlmRoBertaForZeroShotClassification</a></td>
-        <td>XlmRoBertaForZeroShotClassification using a <code class="language-plaintext highlighter-rouge">ModelForSequenceClassification</code> trained on NLI (natural language inference) tasks.</td>
+        <td>XlmRoBertaForZeroShotClassification using a ModelForSequenceClassification trained on NLI (natural language inference) tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -1241,13 +1406,13 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
-        <td><a href="./transformers#xlnetfortokenclassification">XlnetForTokenClassification</a></td>
-        <td>XlnetForTokenClassification can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.</td>
+        <td><a href="./transformers#xlnetforsequenceclassification">XlnetForSequenceClassification</a></td>
+        <td>XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on top e.g. for multi-class document classification tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
-        <td><a href="./transformers#xlnetforsequenceclassification">XlnetForSequenceClassification</a></td>
-        <td>XlnetForSequenceClassification can load XLNet Models with sequence classification/regression head on top e.g. for multi-class document classification tasks.</td>
+        <td><a href="./transformers#xlnetfortokenclassification">XlnetForTokenClassification</a></td>
+        <td>XlnetForTokenClassification can load XLNet Models with a token classification head on top (a linear layer on top of the hidden-states output) e.g. for Named-Entity-Recognition (NER) tasks.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -8270,6 +8435,420 @@ supported.</p>
 <span class="o">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
 <span class="o">|[</span><span class="kt">&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;\n\nYou</span> <span class="kt">are</span> <span class="kt">a</span> <span class="kt">helpful</span> <span class="kt">assistant.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\nHello</span> <span class="kt">there</span>, <span class="kt">how</span> <span class="kt">can</span> <span class="kt">I</span> <span class="kt">help</span> <span class="kt">you?&lt;|eot_id|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\n\nI</span> <span class="kt">need</span> <span class="kt">help</span> <span class="kt">with</span> <span class="kt">organizing</span> <span class="kt">my</span> <span class="kt">room.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\n</span><span class="o">]|</span>
 <span class="o">+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="reader2doc">Reader2Doc</h2>
+
+  <p>The Reader2Doc annotator enables seamless integration of document reading capabilities into existing Spark NLP workflows. It allows you to efficiently extract and structure content from a wide range of document types, making it easier to reuse and extend your pipelines without additional preprocessing steps.</p>
+
+  <p>Supported File Formats:</p>
+  <ul>
+    <li>Text: <code class="language-plaintext highlighter-rouge">.txt</code></li>
+    <li>HTML: <code class="language-plaintext highlighter-rouge">.html</code>, <code class="language-plaintext highlighter-rouge">.htm</code></li>
+    <li>Microsoft Word: <code class="language-plaintext highlighter-rouge">.doc</code>, <code class="language-plaintext highlighter-rouge">.docx</code></li>
+    <li>Microsoft Excel: <code class="language-plaintext highlighter-rouge">.xls</code>, <code class="language-plaintext highlighter-rouge">.xlsx</code></li>
+    <li>Microsoft PowerPoint: <code class="language-plaintext highlighter-rouge">.ppt</code>, <code class="language-plaintext highlighter-rouge">.pptx</code></li>
+    <li>Email files: <code class="language-plaintext highlighter-rouge">.eml</code>, <code class="language-plaintext highlighter-rouge">.msg</code></li>
+    <li>PDF documents: <code class="language-plaintext highlighter-rouge">.pdf</code></li>
+  </ul>
+
+  <p>Parameters:</p>
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">explodeDocs</code> : Whether to output one document per row (default: <code class="language-plaintext highlighter-rouge">true</code>). Set to <code class="language-plaintext highlighter-rouge">false</code> to combine all content into a single row per input file.</li>
+    <li><code class="language-plaintext highlighter-rouge">flattenOutput</code> : Whether to output plain text with minimal metadata (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">outputAsDocument</code> : Whether to output data as one single document instead of multiple records (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">excludeNonText</code> : Whether to exclude non-textual data such as tables and images (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+  </ul>
+
+  <p>For an extended example see the
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/data-preprocessing/SparkNLP_Reader2Doc_Demo.ipynb">example notebook</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">NONE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/reader/reader2doc/index.html">Reader2Doc</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/reader/Reader2Doc.html">Reader2Doc</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/reader/Reader2Doc.scala">Reader2Doc</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs.reader</span> <span class="kn">import</span> <span class="n">Reader2Doc</span>
+<span class="kn">from</span> <span class="nn">johnsnowlabs.nlp.base</span> <span class="kn">import</span> <span class="n">DocumentAssembler</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">reader2doc</span> <span class="o">=</span> <span class="n">Reader2Doc</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setContentType</span><span class="p">(</span><span class="s">"application/pdf"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setContentPath</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">pdf_directory</span><span class="si">}</span><span class="s">/"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">reader2doc</span><span class="p">])</span>
+
+<span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data_set</span><span class="p">)</span>
+<span class="n">result_df</span> <span class="o">=</span> <span class="n">pipeline_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">empty_data_set</span><span class="p">)</span>
+
+<span class="n">result_df</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+<span class="o">+------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">document</span>                                                                                                                            <span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[{</span><span class="n">document</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">Title</span><span class="p">,</span> <span class="p">{</span><span class="n">pageNumber</span> <span class="o">-&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">elementType</span> <span class="o">-&gt;</span> <span class="n">Title</span><span class="p">,</span> <span class="n">fileName</span> <span class="o">-&gt;</span> <span class="n">pdf</span><span class="o">-</span><span class="n">title</span><span class="p">.</span><span class="n">pdf</span><span class="p">},</span> <span class="p">[]}]</span>                        <span class="o">|</span>
+<span class="o">|</span><span class="p">[{</span><span class="n">document</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">narrative</span> <span class="n">text</span><span class="p">,</span> <span class="p">{</span><span class="n">pageNumber</span> <span class="o">-&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">elementType</span> <span class="o">-&gt;</span> <span class="n">NarrativeText</span><span class="p">,</span> <span class="n">fileName</span> <span class="o">-&gt;</span> <span class="n">pdf</span><span class="o">-</span><span class="n">title</span><span class="p">.</span><span class="n">pdf</span><span class="p">},</span> <span class="p">[]}]</span>      <span class="o">|</span>
+<span class="o">|</span><span class="p">[{</span><span class="n">document</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="n">This</span> <span class="ow">is</span> <span class="n">another</span> <span class="n">narrative</span> <span class="n">text</span><span class="p">,</span> <span class="p">{</span><span class="n">pageNumber</span> <span class="o">-&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">elementType</span> <span class="o">-&gt;</span> <span class="n">NarrativeText</span><span class="p">,</span> <span class="n">fileName</span> <span class="o">-&gt;</span> <span class="n">pdf</span><span class="o">-</span><span class="n">title</span><span class="p">.</span><span class="n">pdf</span><span class="p">},</span> <span class="p">[]}]</span><span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.reader.Reader2Doc</span>
+<span class="k">import</span> <span class="nn">com.</span> <span class="nv">johnsnowlabs</span><span class="o">.</span><span class="py">nlp</span><span class="o">.</span><span class="py">base</span><span class="o">.</span><span class="py">DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">reader2Doc</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Reader2Doc</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setContentType</span><span class="o">(</span><span class="s">"application/pdf"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setContentPath</span><span class="o">(</span><span class="n">s</span><span class="s">"$pdfDirectory/"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">reader2Doc</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">pipelineModel</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">emptyDataSet</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">resultDf</span> <span class="k">=</span> <span class="nv">pipelineModel</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">emptyDataSet</span><span class="o">)</span>
+
+<span class="nv">resultDf</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+<span class="o">+------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">document</span>                                                                                                                            <span class="o">|</span>
+<span class="o">+------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|[{</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">14</span>, <span class="kt">This</span> <span class="kt">is</span> <span class="kt">a</span> <span class="kt">Title</span>, <span class="o">{</span><span class="kt">pageNumber</span> <span class="kt">-&gt;</span> <span class="err">1</span>, <span class="kt">elementType</span> <span class="kt">-&gt;</span> <span class="kt">Title</span>, <span class="kt">fileName</span> <span class="kt">-&gt;</span> <span class="kt">pdf-title.pdf</span><span class="o">}</span>, <span class="o">[]}]</span>                        <span class="o">|</span>
+<span class="o">|[{</span><span class="kt">document</span>, <span class="err">15</span>, <span class="err">38</span>, <span class="kt">This</span> <span class="kt">is</span> <span class="kt">a</span> <span class="kt">narrative</span> <span class="kt">text</span>, <span class="o">{</span><span class="kt">pageNumber</span> <span class="kt">-&gt;</span> <span class="err">1</span>, <span class="kt">elementType</span> <span class="kt">-&gt;</span> <span class="kt">NarrativeText</span>, <span class="kt">fileName</span> <span class="kt">-&gt;</span> <span class="kt">pdf-title.pdf</span><span class="o">}</span>, <span class="o">[]}]</span>      <span class="o">|</span>
+<span class="o">|[{</span><span class="kt">document</span>, <span class="err">39</span>, <span class="err">68</span>, <span class="kt">This</span> <span class="kt">is</span> <span class="kt">another</span> <span class="kt">narrative</span> <span class="kt">text</span>, <span class="o">{</span><span class="kt">pageNumber</span> <span class="kt">-&gt;</span> <span class="err">1</span>, <span class="kt">elementType</span> <span class="kt">-&gt;</span> <span class="kt">NarrativeText</span>, <span class="kt">fileName</span> <span class="kt">-&gt;</span> <span class="kt">pdf-title.pdf</span><span class="o">}</span>, <span class="o">[]}]|</span>
+<span class="o">+------------------------------------------------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="reader2image">Reader2Image</h2>
+
+  <p>The Reader2Image annotator enables seamless integration of image reading capabilities into existing Spark NLP workflows. It allows you to efficiently extract and structure image content from both individual image files and documents with embedded images.</p>
+
+  <p>With this, you can read image files or extract images from documents such as PDFs, Word, Excel, PowerPoint, HTML, Markdown, and email files. All extracted images are returned as structured Spark DataFrames with associated metadata, ready for downstream processing in Spark NLP pipelines.</p>
+
+  <p>Supported File Formats:</p>
+  <ul>
+    <li>Image files: <code class="language-plaintext highlighter-rouge">.png</code>, <code class="language-plaintext highlighter-rouge">.jpg</code>, <code class="language-plaintext highlighter-rouge">.jpeg</code>, <code class="language-plaintext highlighter-rouge">.bmp</code>, <code class="language-plaintext highlighter-rouge">.gif</code></li>
+    <li>Documents with embedded images: <code class="language-plaintext highlighter-rouge">.pdf</code>, <code class="language-plaintext highlighter-rouge">.doc</code>, <code class="language-plaintext highlighter-rouge">.docx</code>, <code class="language-plaintext highlighter-rouge">.ppt</code>, <code class="language-plaintext highlighter-rouge">.pptx</code>, <code class="language-plaintext highlighter-rouge">.xls</code>, <code class="language-plaintext highlighter-rouge">.xlsx</code>, <code class="language-plaintext highlighter-rouge">.eml</code>, <code class="language-plaintext highlighter-rouge">.msg</code>, <code class="language-plaintext highlighter-rouge">.html</code>, <code class="language-plaintext highlighter-rouge">.htm</code>, <code class="language-plaintext highlighter-rouge">.md</code></li>
+  </ul>
+
+  <p>Parameters:</p>
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">contentPath</code>: Path to the documents or image files to read.</li>
+    <li><code class="language-plaintext highlighter-rouge">inputCol</code>: Input column containing the documents.</li>
+    <li><code class="language-plaintext highlighter-rouge">outputCol</code>: Output column for structured image data (default: <code class="language-plaintext highlighter-rouge">"image"</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">explodeDocs</code>: Whether to split multi-document files into separate rows (default: <code class="language-plaintext highlighter-rouge">true</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">explodeImages</code>: Whether to output one image per row (default: <code class="language-plaintext highlighter-rouge">true</code>). Set to <code class="language-plaintext highlighter-rouge">false</code> to combine multiple images per file into a single record.</li>
+    <li><code class="language-plaintext highlighter-rouge">readAsImage</code>: Whether to read PDF pages as images (default: <code class="language-plaintext highlighter-rouge">true</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">storeContent</code>: Whether to store the raw file content alongside structured output (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">flattenOutput</code>: Whether to return plain image data with minimal metadata (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">outputAsDocument</code>: Whether to output all extracted images as a single combined document (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">excludeNonImage</code>: Whether to skip non-image content found in mixed-format files (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">contentType</code>: MIME type of the documents (e.g., “text/html”, “application/pdf”).</li>
+    <li><code class="language-plaintext highlighter-rouge">userMessage</code>: Custom message describing the image for prompt-based models (default: <code class="language-plaintext highlighter-rouge">"Describe this image"</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">promptTemplate</code>: Format of the output prompt for image models (default: <code class="language-plaintext highlighter-rouge">"qwen2vl-chat"</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">customPromptTemplate</code>: Custom prompt template for image models when <code class="language-plaintext highlighter-rouge">promptTemplate</code> is <code class="language-plaintext highlighter-rouge">"custom"</code>.</li>
+  </ul>
+
+  <p>For an extended example see the
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/data-preprocessing/SparkNLP_Reader2Image_Demo.ipynb">example notebook</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">NONE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">IMAGE</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/reader/Reader2Image/index.html">Reader2Image</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/reader/Reader2Image.html">Reader2Image</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/reader/Reader2Image.scala">Reader2Image</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">DocumentAssembler</span>
+<span class="kn">from</span> <span class="nn">sparknlp.reader.reader2image</span> <span class="kn">import</span> <span class="n">Reader2Image</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">reader2Image</span> <span class="o">=</span> <span class="n">Reader2Image</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setContentType</span><span class="p">(</span><span class="s">"text/html"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setContentPath</span><span class="p">(</span><span class="s">"./example-images.html"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">reader2Image</span><span class="p">])</span>
+
+<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">emptyDataSet</span><span class="p">)</span>
+<span class="n">resultDf</span> <span class="o">=</span> <span class="n">pipelineModel</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">emptyDataSet</span><span class="p">)</span>
+
+<span class="n">resultDf</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+<span class="o">+-------------------+--------------------+</span>
+<span class="o">|</span>           <span class="n">fileName</span><span class="o">|</span>               <span class="n">image</span><span class="o">|</span>
+<span class="o">+-------------------+--------------------+</span>
+<span class="o">|</span><span class="n">example</span><span class="o">-</span><span class="n">images</span><span class="p">.</span><span class="n">html</span><span class="o">|</span><span class="p">[{</span><span class="n">image</span><span class="p">,</span> <span class="n">example</span><span class="o">-</span><span class="p">...</span><span class="o">|</span>
+<span class="o">|</span><span class="n">example</span><span class="o">-</span><span class="n">images</span><span class="p">.</span><span class="n">html</span><span class="o">|</span><span class="p">[{</span><span class="n">image</span><span class="p">,</span> <span class="n">example</span><span class="o">-</span><span class="p">...</span><span class="o">|</span>
+<span class="o">+-------------------+--------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.reader.Reader2Image</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">reader2Image</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Reader2Image</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setContentType</span><span class="o">(</span><span class="s">"text/html"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setContentPath</span><span class="o">(</span><span class="s">"./example-images.html"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">reader2Image</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">pipelineModel</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">emptyDataSet</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">resultDf</span> <span class="k">=</span> <span class="nv">pipelineModel</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">emptyDataSet</span><span class="o">)</span>
+
+<span class="nv">resultDf</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+<span class="o">+-------------------+--------------------+</span>
+<span class="o">|</span>           <span class="n">fileName</span><span class="o">|</span>               <span class="n">image</span><span class="o">|</span>
+<span class="o">+-------------------+--------------------+</span>
+<span class="o">|</span><span class="n">example</span><span class="o">-</span><span class="nv">images</span><span class="o">.</span><span class="py">html</span><span class="o">|[{</span><span class="kt">image</span>, <span class="kt">example-...|</span>
+<span class="kt">|example-images.html|</span><span class="o">[{</span><span class="kt">image</span>, <span class="kt">example-...|</span>
+<span class="kt">+-------------------+--------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="reader2table">Reader2Table</h2>
+
+  <p>The Reader2Table annotator enables seamless extraction of tabular content from documents within existing Spark NLP workflows. It allows you to efficiently parse tables from a wide variety of file types, including HTML, Word, Excel, PowerPoint, and CSV files, and return them as structured Spark DataFrames with metadata, ready for downstream processing or analysis.</p>
+
+  <p>Supported File Formats:</p>
+  <ul>
+    <li>HTML: <code class="language-plaintext highlighter-rouge">.html</code>, <code class="language-plaintext highlighter-rouge">.htm</code></li>
+    <li>Word documents: <code class="language-plaintext highlighter-rouge">.doc</code>, <code class="language-plaintext highlighter-rouge">.docx</code></li>
+    <li>Excel spreadsheets: <code class="language-plaintext highlighter-rouge">.xls</code>, <code class="language-plaintext highlighter-rouge">.xlsx</code></li>
+    <li>PowerPoint presentations: <code class="language-plaintext highlighter-rouge">.ppt</code>, <code class="language-plaintext highlighter-rouge">.pptx</code></li>
+    <li>CSV files: <code class="language-plaintext highlighter-rouge">.csv</code></li>
+  </ul>
+
+  <p>Parameters:</p>
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">contentPath</code>: Path to the input documents or table-containing files (required).</li>
+    <li><code class="language-plaintext highlighter-rouge">inputCol</code>: Input column name (optional).</li>
+    <li><code class="language-plaintext highlighter-rouge">outputCol</code>: Output column name for structured table data (default: <code class="language-plaintext highlighter-rouge">document</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">contentType</code>: MIME type of the documents (e.g., <code class="language-plaintext highlighter-rouge">"text/html"</code>, <code class="language-plaintext highlighter-rouge">"application/vnd.ms-excel"</code>) (optional).</li>
+    <li><code class="language-plaintext highlighter-rouge">explodeDocs</code>: Whether to split multi-document files into separate rows (default: <code class="language-plaintext highlighter-rouge">true</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">storeContent</code>: Whether to include the raw file content alongside structured output (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">flattenOutput</code>: Whether to return plain table data with minimal metadata (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">inferTableStructure</code>: Whether to detect and preserve table structure from the input (default: <code class="language-plaintext highlighter-rouge">true</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">outputFormat</code>: Format of the extracted table output (<code class="language-plaintext highlighter-rouge">json-table</code> or <code class="language-plaintext highlighter-rouge">html-table</code>, default: <code class="language-plaintext highlighter-rouge">json-table</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">ignoreExceptions</code>: Whether to ignore exceptions during processing (default: <code class="language-plaintext highlighter-rouge">true</code>).</li>
+  </ul>
+
+  <p>For an extended example see the
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/data-preprocessing/SparkNLP_Reader2Table_Demo.ipynb">example notebook</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">NONE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">TABLE</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/reader/Reader2Table/index.html">Reader2Table</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/reader/Reader2Table.html">Reader2Table</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/reader/Reader2Table.scala">Reader2Table</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.reader.reader2table</span> <span class="kn">import</span> <span class="n">Reader2Table</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">reader2Table</span> <span class="o">=</span> <span class="n">Reader2Table</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setContentType</span><span class="p">(</span><span class="s">"application/csv"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setContentPath</span><span class="p">(</span><span class="sa">f</span><span class="s">"./csvDirectory"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">reader2Table</span><span class="p">])</span>
+
+<span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">emptyDataSet</span><span class="p">)</span>
+<span class="n">resultDf</span> <span class="o">=</span> <span class="n">pipelineModel</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">emptyDataSet</span><span class="p">)</span>
+
+<span class="n">resultDf</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+<span class="o">+----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">fileName</span>        <span class="o">|</span><span class="n">document</span>                                                                                                                                                                                    <span class="o">|</span>
+<span class="o">+----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">stanley</span><span class="o">-</span><span class="n">cups</span><span class="p">.</span><span class="n">csv</span><span class="o">|</span><span class="p">[{</span><span class="n">document</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">137</span><span class="p">,</span> <span class="p">{</span><span class="s">"caption"</span><span class="p">:</span><span class="s">""</span><span class="p">,</span><span class="s">"header"</span><span class="p">:[],</span><span class="s">"rows"</span><span class="p">:[[</span><span class="s">"Team"</span><span class="p">,</span><span class="s">"Location"</span><span class="p">,</span><span class="s">"Stanley Cups"</span><span class="p">],[</span><span class="s">"Blues"</span><span class="p">,</span><span class="s">"STL"</span><span class="p">,</span><span class="s">"1"</span><span class="p">],[</span><span class="s">"Flyers"</span><span class="p">,</span><span class="s">"PHI"</span><span class="p">,</span><span class="s">"2"</span><span class="p">],[</span><span class="s">"Maple Leafs"</span><span class="p">,</span><span class="s">"TOR"</span><span class="p">,</span><span class="s">"13"</span><span class="p">]]},</span> <span class="p">{</span><span class="n">elementType</span> <span class="o">-&gt;</span> <span class="n">Table</span><span class="p">},</span> <span class="p">[]}]</span><span class="o">|</span>
+<span class="o">+----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.reader.Reader2Table</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">reader2Table</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Reader2Table</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setContentType</span><span class="o">(</span><span class="s">"application/csv"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setContentPath</span><span class="o">(</span><span class="n">s</span><span class="s">"$csvDirectory/"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">reader2Table</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">pipelineModel</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">emptyDataSet</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">resultDf</span> <span class="k">=</span> <span class="nv">pipelineModel</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">emptyDataSet</span><span class="o">)</span>
+
+<span class="nv">resultDf</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+<span class="o">+----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">fileName</span>        <span class="o">|</span><span class="n">document</span>                                                                                                                                                                                    <span class="o">|</span>
+<span class="o">+----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">stanley</span><span class="o">-</span><span class="nv">cups</span><span class="o">.</span><span class="py">csv</span><span class="o">|[{</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">137</span>, <span class="o">{</span><span class="err">"</span><span class="kt">caption</span><span class="err">"</span><span class="kt">:</span><span class="err">""</span>,<span class="err">"</span><span class="kt">header</span><span class="err">"</span><span class="kt">:</span><span class="o">[]</span>,<span class="err">"</span><span class="kt">rows</span><span class="err">"</span><span class="kt">:</span><span class="o">[[</span><span class="err">"</span><span class="kt">Team</span><span class="err">"</span>,<span class="err">"</span><span class="kt">Location</span><span class="err">"</span>,<span class="err">"</span><span class="kt">Stanley</span> <span class="kt">Cups</span><span class="err">"</span><span class="o">]</span>,<span class="o">[</span><span class="err">"</span><span class="kt">Blues</span><span class="err">"</span>,<span class="err">"</span><span class="kt">STL</span><span class="err">"</span>,<span class="err">"1"</span><span class="o">]</span>,<span class="o">[</span><span class="err">"</span><span class="kt">Flyers</span><span class="err">"</span>,<span class="err">"</span><span class="kt">PHI</span><span class="err">"</span>,<span class="err">"2"</span><span class="o">]</span>,<span class="o">[</span><span class="err">"</span><span class="kt">Maple</span> <span class="kt">Leafs</span><span class="err">"</span>,<span class="err">"</span><span class="kt">TOR</span><span class="err">"</span>,<span class="err">"13"</span><span class="o">]]}</span>, <span class="o">{</span><span class="kt">elementType</span> <span class="kt">-&gt;</span> <span class="kt">Table</span><span class="o">}</span>, <span class="o">[]}]|</span>
+<span class="o">+----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="readerassembler">ReaderAssembler</h2>
+
+  <p>The ReaderAssembler annotator provides a unified interface to combine multiple Spark NLP readers such as <code class="language-plaintext highlighter-rouge">Reader2Doc</code>, <code class="language-plaintext highlighter-rouge">Reader2Table</code>, and <code class="language-plaintext highlighter-rouge">Reader2Image</code> into a single, configurable component. It automatically selects and orchestrates the appropriate reader for each input based on file type, content type, and configured priorities, allowing you to process heterogeneous content (documents, tables, images) seamlessly in one pipeline.</p>
+
+  <p>Supported Input Types:</p>
+  <ul>
+    <li>Text: <code class="language-plaintext highlighter-rouge">txt</code>, <code class="language-plaintext highlighter-rouge">html</code>, <code class="language-plaintext highlighter-rouge">htm</code>, <code class="language-plaintext highlighter-rouge">md</code>, <code class="language-plaintext highlighter-rouge">xml</code>, <code class="language-plaintext highlighter-rouge">csv</code></li>
+    <li>Documents: <code class="language-plaintext highlighter-rouge">pdf</code>, <code class="language-plaintext highlighter-rouge">doc</code>, <code class="language-plaintext highlighter-rouge">docx</code>, <code class="language-plaintext highlighter-rouge">xls</code>, <code class="language-plaintext highlighter-rouge">xlsx</code>, <code class="language-plaintext highlighter-rouge">ppt</code>, <code class="language-plaintext highlighter-rouge">pptx</code></li>
+    <li>Email: <code class="language-plaintext highlighter-rouge">eml</code>, <code class="language-plaintext highlighter-rouge">msg</code></li>
+    <li>Images: <code class="language-plaintext highlighter-rouge">png</code>, <code class="language-plaintext highlighter-rouge">jpg</code>, <code class="language-plaintext highlighter-rouge">jpeg</code>, <code class="language-plaintext highlighter-rouge">bmp</code>, <code class="language-plaintext highlighter-rouge">gif</code></li>
+  </ul>
+
+  <p>Parameters:</p>
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">contentPath</code>: Path to the content source (file or directory).</li>
+    <li><code class="language-plaintext highlighter-rouge">inputCol</code>: Input column name for in-memory string content (optional).</li>
+    <li><code class="language-plaintext highlighter-rouge">outputCol</code>: Base output column name; appends <code class="language-plaintext highlighter-rouge">text</code>, <code class="language-plaintext highlighter-rouge">table</code>, <code class="language-plaintext highlighter-rouge">image</code> for respective reader outputs (default: <code class="language-plaintext highlighter-rouge">document</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">contentType</code>: MIME type of the content (e.g., <code class="language-plaintext highlighter-rouge">text/html</code>, <code class="language-plaintext highlighter-rouge">application/pdf</code>) (optional).</li>
+    <li><code class="language-plaintext highlighter-rouge">explodeDocs</code>: Whether to split multi-document files into separate rows (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">flattenOutput</code>: Whether to return plain content with minimal metadata (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">inferTableStructure</code>: Whether to automatically detect table structure from tabular content (default: <code class="language-plaintext highlighter-rouge">true</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">excludeNonText</code>: Whether to ignore non-text rows, such as tables, in Reader2Doc (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">userMessage</code>: Custom message describing the content for prompt-based models (op—ional).</li>
+    <li><code class="language-plaintext highlighter-rouge">promptTemplate</code>: Template format for prompt generation (optional).</li>
+    <li><code class="language-plaintext highlighter-rouge">customPromptTemplate</code>: Custom prompt template if <code class="language-plaintext highlighter-rouge">promptTemplate</code> is set to <code class="language-plaintext highlighter-rouge">"custom"</code> (optional).</li>
+  </ul>
+
+  <p>For an extended example see the
+<a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/data-preprocessing/SparkNLP_ReaderAssembler_Demo.ipynb">example notebook</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">NONE</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TABLE, IMAGE</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/reader/reader_assembler/index.html">ReaderAssembler</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/reader/ReaderAssembler.html">ReaderAssembler</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/main/scala/com/johnsnowlabs/reader/ReaderAssembler.scala">ReaderAssembler</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">johnsnowlabs.reader</span> <span class="kn">import</span> <span class="n">ReaderAssembler</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">reader_assembler</span> <span class="o">=</span> <span class="n">ReaderAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setContentType</span><span class="p">(</span><span class="s">"text/html"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setContentPath</span><span class="p">(</span><span class="s">"/table-image.html"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">reader_assembler</span><span class="p">])</span>
+
+<span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data_set</span><span class="p">)</span>
+<span class="n">result_df</span> <span class="o">=</span> <span class="n">pipeline_model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">empty_data_set</span><span class="p">)</span>
+
+<span class="n">result_df</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+<span class="o">+--------+--------------------+--------------------+--------------------+---------+</span>
+<span class="o">|</span><span class="n">fileName</span><span class="o">|</span>       <span class="n">document_text</span><span class="o">|</span>      <span class="n">document_table</span><span class="o">|</span>      <span class="n">document_image</span><span class="o">|</span><span class="n">exception</span><span class="o">|</span>
+<span class="o">+--------+--------------------+--------------------+--------------------+---------+</span>
+<span class="o">|</span>    <span class="n">null</span><span class="o">|</span><span class="p">[{</span><span class="n">document</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">26.</span><span class="p">..</span><span class="o">|</span><span class="p">[{</span><span class="n">document</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">50.</span><span class="p">..</span><span class="o">|</span><span class="p">[{</span><span class="n">image</span><span class="p">,</span> <span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">...</span><span class="o">|</span>     <span class="n">null</span><span class="o">|</span>
+<span class="o">+--------+--------------------+--------------------+--------------------+---------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.reader.ReaderAssembler</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">readerAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ReaderAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setContentType</span><span class="o">(</span><span class="s">"text/html"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setContentPath</span><span class="o">(</span><span class="n">s</span><span class="s">"$htmlFilesDirectory/table-image.html"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">readerAssembler</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">pipelineModel</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">emptyDataSet</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">resultDf</span> <span class="k">=</span> <span class="nv">pipelineModel</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">emptyDataSet</span><span class="o">)</span>
+
+<span class="nv">resultDf</span><span class="o">.</span><span class="py">show</span><span class="o">()</span>
+<span class="o">+--------+--------------------+--------------------+--------------------+---------+</span>
+<span class="o">|</span><span class="n">fileName</span><span class="o">|</span>       <span class="n">document_text</span><span class="o">|</span>      <span class="n">document_table</span><span class="o">|</span>      <span class="n">document_image</span><span class="o">|</span><span class="n">exception</span><span class="o">|</span>
+<span class="o">+--------+--------------------+--------------------+--------------------+---------+</span>
+<span class="o">|</span>    <span class="kc">null</span><span class="o">|[{</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">26</span><span class="kt">...|</span><span class="o">[{</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">50</span><span class="kt">...|</span><span class="o">[{</span><span class="kt">image</span>, , <span class="err">5</span>, <span class="err">5</span>, <span class="kt">...|</span>     <span class="kt">null|</span>
+<span class="kt">+--------+--------------------+--------------------+--------------------+---------+</span>
 </code></pre></div>      </div>
 
     </div>

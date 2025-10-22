@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.1.5 ScalaDoc  - com.johnsnowlabs.ml.gguf.GGUFWrapperMultiModal</title>
-          <meta name="description" content="Spark NLP 6.1.5 ScalaDoc - com.johnsnowlabs.ml.gguf.GGUFWrapperMultiModal" />
-          <meta name="keywords" content="Spark NLP 6.1.5 ScalaDoc com.johnsnowlabs.ml.gguf.GGUFWrapperMultiModal" />
+          <title>Spark NLP 6.2.0 ScalaDoc  - com.johnsnowlabs.ml.gguf.GGUFWrapperMultiModal</title>
+          <meta name="description" content="Spark NLP 6.2.0 ScalaDoc - com.johnsnowlabs.ml.gguf.GGUFWrapperMultiModal" />
+          <meta name="keywords" content="Spark NLP 6.2.0 ScalaDoc com.johnsnowlabs.ml.gguf.GGUFWrapperMultiModal" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.1.5 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.2.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -316,6 +316,27 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.gguf.GGUFWrapperMultiModal#closeBroadcastModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="closeBroadcastModel(broadcastedModel:Option[org.apache.spark.broadcast.Broadcast[com.johnsnowlabs.ml.gguf.GGUFWrapperMultiModal]]):Unit"></a><a id="closeBroadcastModel(Option[Broadcast[GGUFWrapperMultiModal]]):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/gguf/GGUFWrapperMultiModal$.html#closeBroadcastModel(broadcastedModel:Option[org.apache.spark.broadcast.Broadcast[com.johnsnowlabs.ml.gguf.GGUFWrapperMultiModal]]):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">closeBroadcastModel</span><span class="params">(<span name="broadcastedModel">broadcastedModel: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="org.apache.spark.broadcast.Broadcast">Broadcast</span>[<a href="GGUFWrapperMultiModal.html" class="extype" name="com.johnsnowlabs.ml.gguf.GGUFWrapperMultiModal">GGUFWrapperMultiModal</a>]]</span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Closes the broadcasted GGUFWrapper model on all Spark workers and the driver, freeing up
+resources.</p><div class="fullcomment"><div class="comment cmt"><p>Closes the broadcasted GGUFWrapper model on all Spark workers and the driver, freeing up
+resources.</p><p>We use a foreachPartition on a dummy RDD to ensure that the close method is called on each
+executor.
+</p></div><dl class="paramcmts block"><dt class="param">broadcastedModel</dt><dd class="cmt"><p>
+  An optional Broadcast[GGUFWrapper] instance to be closed. If None, no action is taken.</p></dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">

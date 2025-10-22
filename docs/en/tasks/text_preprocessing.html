@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -531,7 +531,7 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Text Preprocessing"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Text Preprocessing</strong> is the foundational task of cleaning and transforming raw text data into a structured format that can be used in NLP tasks. It involves a series of steps to normalize text, remove noise, and prepare it for deeper analysis. Spark NLP provides a range of tools for efficient and scalable text preprocessing.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Text preprocessing</strong> is a critical step in <strong>Natural Language Processing (NLP)</strong> that converts raw, unstructured text into a clean and analyzable form. It typically includes operations such as <strong>tokenization</strong>, <strong>lowercasing</strong>, <strong>stopword removal</strong>, <strong>lemmatization or stemming</strong>, and <strong>handling of punctuation or special characters</strong>. These steps reduce noise, ensure uniformity, and improve the performance of downstream NLP models.</p>
 
 <h2 id="key-preprocessing-steps">Key Preprocessing Steps</h2>
 
@@ -545,121 +545,114 @@
   <li><a href="https://sparknlp.org/docs/en/annotators#lemmatizer" target="_blank"><code class="language-plaintext highlighter-rouge">Lemmatization:</code></a> Reduce words to their base form (e.g., “running” → “run”).</li>
 </ol>
 
-<p>These steps and annotators will help ensure your text data is clean, consistent, and ready for analysis.</p>
-
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="c1"># Document Assembler: Converts input text into a suitable format for NLP processing
-</span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="c1"># Tokenizer: Splits text into individual tokens (words)
-</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"tokens"</span><span class="p">)</span>
 
-<span class="c1"># SpellChecker: Corrects misspelled words
-</span><span class="n">spellChecker</span> <span class="o">=</span> <span class="n">NorvigSweetingModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="n">spellChecker</span> <span class="o">=</span> <span class="n">NorvigSweetingModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"tokens"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"corrected"</span><span class="p">)</span>
 
-<span class="c1"># Normalizer: Cleans and standardizes text data
-</span><span class="n">normalizer</span> <span class="o">=</span> <span class="n">Normalizer</span><span class="p">()</span> \
+<span class="n">normalizer</span> <span class="o">=</span> <span class="n">Normalizer</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"corrected"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"normalized"</span><span class="p">)</span>
 
-<span class="c1"># StopWordsCleaner: Removes stopwords
-</span><span class="n">stopwordsCleaner</span> <span class="o">=</span> <span class="n">StopWordsCleaner</span><span class="p">()</span> \
+<span class="n">stopwordsCleaner</span> <span class="o">=</span> <span class="n">StopWordsCleaner</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"normalized"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"cleanTokens"</span><span class="p">)</span>
 
-<span class="c1"># Lemmatizer: Reduces words to their base form
-</span><span class="n">lemmatizer</span> <span class="o">=</span> <span class="n">LemmatizerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="n">lemmatizer</span> <span class="o">=</span> <span class="n">LemmatizerModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"cleanTokens"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"lemmas"</span><span class="p">)</span>
 
-<span class="c1"># Pipeline: Assembles the document assembler and preprocessing stages
-</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
     <span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">spellChecker</span><span class="p">,</span> <span class="n">normalizer</span><span class="p">,</span> <span class="n">stopwordsCleaner</span><span class="p">,</span> <span class="n">lemmatizer</span>
 <span class="p">])</span>
 
-<span class="c1"># Input Data: A small example dataset is created and converted to a DataFrame
-</span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Text preprocessing is essential in NLP!"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"Dr. Emily Johnson visited New York's Mount Sinai Hospital on September 21, 2023, to evaluate patients suffering from chronic migraines."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="c1"># Running the Pipeline: Fits the pipeline to the data and preprocesses the text
-</span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-<span class="c1"># Output: Displays the processed tokens and lemmas
-</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"lemmas.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="o">+----------------------------------------------------+</span>
-<span class="o">|</span><span class="n">lemmas</span><span class="p">.</span><span class="n">result</span>                                       <span class="o">|</span>
-<span class="o">+----------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">text</span><span class="p">,</span> <span class="n">preprocess</span><span class="p">,</span> <span class="n">essential</span><span class="p">,</span> <span class="ow">in</span><span class="p">,</span> <span class="n">NLP</span><span class="p">]</span>              <span class="o">|</span>
-<span class="o">+----------------------------------------------------+</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.DocumentAssembler</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
-<span class="k">import</span> <span class="nn">spark.implicits._</span>
 
-<span class="c1">// Document Assembler: Converts input text into a suitable format for NLP processing</span>
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="c1">// Tokenizer: Splits text into individual tokens (words)</span>
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">)</span>
 
-<span class="c1">// SpellChecker: Corrects misspelled words</span>
 <span class="k">val</span> <span class="nv">spellChecker</span> <span class="k">=</span> <span class="nv">NorvigSweetingModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"tokens"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"corrected"</span><span class="o">)</span>
 
-<span class="c1">// Normalizer: Cleans and standardizes text data</span>
 <span class="k">val</span> <span class="nv">normalizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Normalizer</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"corrected"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"corrected"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"normalized"</span><span class="o">)</span>
 
-<span class="c1">// StopWordsCleaner: Removes stopwords</span>
 <span class="k">val</span> <span class="nv">stopwordsCleaner</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StopWordsCleaner</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"normalized"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"normalized"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"cleanTokens"</span><span class="o">)</span>
 
-<span class="c1">// Lemmatizer: Reduces words to their base form</span>
 <span class="k">val</span> <span class="nv">lemmatizer</span> <span class="k">=</span> <span class="nv">LemmatizerModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"cleanTokens"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"cleanTokens"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"lemmas"</span><span class="o">)</span>
 
-<span class="c1">// Pipeline: Assembles the document assembler and preprocessing stages</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
   <span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">spellChecker</span><span class="o">,</span> <span class="n">normalizer</span><span class="o">,</span> <span class="n">stopwordsCleaner</span><span class="o">,</span> <span class="n">lemmatizer</span>
 <span class="o">))</span>
 
-<span class="c1">// Input Data: A small example dataset is created and converted to a DataFrame</span>
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Text preprocessing is essential in NLP!"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"Dr. Emily Johnson visited New York's Mount Sinai Hospital on September 21, 2023, to evaluate patients suffering from chronic migraines."</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="c1">// Running the Pipeline: Fits the pipeline to the data and preprocesses the text</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
-<span class="c1">// Display the results</span>
-<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"lemmas.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>  </div>
+</div>
 
-<span class="o">+----------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                              <span class="o">|</span>
-<span class="o">+----------------------------------------------------+</span>
-<span class="o">|[</span><span class="kt">text</span>, <span class="kt">preprocess</span>, <span class="kt">essential</span>, <span class="kt">in</span>, <span class="kt">NLP</span><span class="o">]</span>              <span class="o">|</span>
-<span class="o">+----------------------------------------------------+</span>
+<div class="tabs-box">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+---------+---------+----------+----------+---------+
+|Token    |Corrected|Normalized|CleanToken|Lemma    |
++---------+---------+----------+----------+---------+
+|Dr       |Dr       |Dr        |Dr        |Dr       |
+|.        |.        |Emily     |Emily     |Emily    |
+|Emily    |Emily    |Johnson   |Johnson   |Johnson  |
+|Johnson  |Johnson  |visited   |visited   |visit    |
+|visited  |visited  |New       |New       |New      |
+|New      |New      |Yorks     |Yorks     |Yorks    |
+|York's   |Yorks    |Mount     |Mount     |Mount    |
+|Mount    |Mount    |Sinai     |Sinai     |Sinai    |
+|Sinai    |Sinai    |Hospital  |Hospital  |Hospital |
+|Hospital |Hospital |on        |September |September|
+|on       |on       |September |evaluate  |evaluate |
+|September|September|to        |patients  |patient  |
+|21       |21       |evaluate  |suffering |suffer   |
+|,        |,        |patients  |chronic   |chronic  |
+|2023     |2023     |suffering |migraines |migraine |
+|,        |,        |from      |NULL      |NULL     |
+|to       |to       |chronic   |NULL      |NULL     |
+|evaluate |evaluate |migraines |NULL      |NULL     |
+|patients |patients |NULL      |NULL      |NULL     |
+|suffering|suffering|NULL      |NULL      |NULL     |
++---------+---------+----------+----------+---------+
 </code></pre></div>  </div>
 </div>
 
@@ -668,8 +661,8 @@
 <p>If you want to see text preprocessing in real-time, check out our interactive demos:</p>
 
 <ul>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-text-preprocessing" target="_blank">Text Preprocessing with Spark NLP</a></strong> – Explore how Spark NLP preprocesses raw text data.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-stop-words-removal" target="_blank">Stopwords Removing with Spark NLP</a></strong> – Explore how Spark NLP removes stop words from text.</li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-text-preprocessing" target="_blank">Text Preprocessing with Spark NLP</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-stop-words-removal" target="_blank">Stopwords Removing with Spark NLP</a></strong></li>
 </ul>
 
 <h2 id="useful-resources">Useful Resources</h2>

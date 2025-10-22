@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.document_normalizer &#8212; Spark NLP 6.1.5 documentation</title>
+    <title>sparknlp.annotator.document_normalizer &#8212; Spark NLP 6.2.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=19338386"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=d345c3d3"></script>
     <script src="../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.5 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.5 documentation - Home"/>`);</script>
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -744,6 +744,16 @@ by default [‘&lt;[^&gt;]*&gt;’]</p>
 <span class="sig-name descname"><span class="pre">encoding</span></span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_normalizer.html#DocumentNormalizer.encoding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.encoding" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.document_normalizer.DocumentNormalizer.presetPattern">
+<span class="sig-name descname"><span class="pre">presetPattern</span></span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_normalizer.html#DocumentNormalizer.presetPattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.presetPattern" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.document_normalizer.DocumentNormalizer.autoMode">
+<span class="sig-name descname"><span class="pre">autoMode</span></span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_normalizer.html#DocumentNormalizer.autoMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.autoMode" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.document_normalizer.DocumentNormalizer.setAction">
 <span class="sig-name descname"><span class="pre">setAction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_normalizer.html#DocumentNormalizer.setAction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.setAction" title="Permalink to this definition">#</a></dt>
@@ -832,6 +842,34 @@ document</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.document_normalizer.DocumentNormalizer.setPresetPattern">
+<span class="sig-name descname"><span class="pre">setPresetPattern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_normalizer.html#DocumentNormalizer.setPresetPattern"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.setPresetPattern" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets a single text cleaning preset pattern.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Preset cleaning pattern name, e.g., ‘CLEAN_BULLETS’, ‘CLEAN_DASHES’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.document_normalizer.DocumentNormalizer.setAutoMode">
+<span class="sig-name descname"><span class="pre">setAutoMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/annotator/document_normalizer.html#DocumentNormalizer.setAutoMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.setAutoMode" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets an automatic text cleaning mode using predefined groups of cleaning functions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Auto cleaning mode, e.g., ‘light_clean’, ‘document_clean’, ‘social_clean’, ‘html_clean’, ‘full_auto’.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -875,12 +913,16 @@ document</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.lowercase"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.lowercase</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.policy"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.policy</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.encoding"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.encoding</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.presetPattern"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.presetPattern</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.autoMode"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.autoMode</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.setAction"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setAction()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.setPatterns"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setPatterns()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.setReplacement"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setReplacement()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.setLowercase"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setLowercase()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.setPolicy"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setPolicy()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.setEncoding"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setEncoding()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.setPresetPattern"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setPresetPattern()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.document_normalizer.DocumentNormalizer.setAutoMode"><code class="docutils literal notranslate"><span class="pre">DocumentNormalizer.setAutoMode()</span></code></a></li>
 </ul>
 </li>
 </ul>

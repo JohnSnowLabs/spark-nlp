@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -531,23 +531,17 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Image Classification"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Image classification</strong> is the process of assigning a <strong>label</strong> or <strong>category</strong> to an image based on its visual content. This task is fundamental in the field of computer vision and has numerous applications, from facial recognition to product classification in e-commerce. Spark NLP provides tools that make it easier to integrate image classification into your data pipelines, allowing for scalable, efficient image processing within the same framework.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p>Image classification is a way for computers to recognize what an image contains by assigning it a single label, such as <strong>“dog”</strong>, <strong>“car”</strong>, or <strong>“cat”</strong>. The model looks for patterns such as shapes, colors, and textures that distinguish one class from another. It does not locate where the object is in the image or handle multiple objects; it simply identifies the overall category.</p>
 
-<p>By using image classification models, we can analyze and classify images into predefined categories based on patterns and features in the image data. Some common use cases include:</p>
-
-<ul>
-  <li>Classifying product images into categories like <strong>clothing</strong>, <strong>electronics</strong>, <strong>furniture</strong>, etc.</li>
-  <li>Recognizing objects in images, such as identifying animals, vehicles, or various types of landscapes.</li>
-  <li>Detecting facial expressions and other human features for tasks like emotion analysis or identity verification.</li>
-</ul>
+<p>In practice, this is used to organize and tag large collections of photos (like in <strong>Google Photos</strong> or <strong>stock image sites</strong>), filter content, or power <strong>visual search systems</strong>. The model’s output usually includes a few possible labels with <strong>confidence scores</strong> that show how sure it is about each prediction.</p>
 
 <h2 id="picking-a-model">Picking a Model</h2>
 
-<p>When selecting a model for image classification, it’s essential to consider several factors that ensure optimal performance for your specific use case. Start by evaluating the <strong>type of images</strong> you are working with, such as grayscale vs. colored, high-resolution vs. low-resolution, or simple vs. complex visual patterns. Determine whether your task requires <strong>binary classification</strong> (e.g., cat vs. dog) or <strong>multiclass classification</strong> (e.g., classifying various animal species), as the right model choice depends on the complexity of the task.</p>
+<p>When picking a model for image classification, think about what you are trying to achieve. For simple tasks like recognizing a few object types or when you have limited computing power, lightweight models such as <strong>MobileNet</strong>, <strong>EfficientNet-Lite</strong>, or <strong>ResNet-18</strong> are good starting points because they are fast and easy to deploy. If you have a larger dataset and need higher accuracy, deeper architectures like <strong>ResNet-50</strong>, <strong>DenseNet</strong>, or <strong>EfficientNet-B7</strong> generally perform better when properly fine-tuned.</p>
 
-<p>Next, assess the <strong>computational power</strong> available to you. Complex models such as CNNs (Convolutional Neural Networks) can be resource-intensive but deliver highly accurate results. Simpler models may be sufficient for less demanding tasks. Ensure the model’s <strong>performance metrics</strong> (accuracy, precision, recall) align with your project goals, and consider the <strong>interpretability</strong> of the model—more advanced models may be less interpretable but offer greater accuracy.</p>
+<p>If your images belong to a specific domain, consider using a <strong>domain-pretrained model</strong> that has been trained on similar data. For example, <strong>MedNet</strong> is designed for medical imaging, <strong>GeoResNet</strong> works well for satellite imagery, and <strong>CLIP</strong> is effective for general-purpose image and text matching. These models often outperform generic ones on domain-specific tasks.</p>
 
-<p>Explore a wide variety of image classification models on the <a href="https://sparknlp.org/models">Spark NLP Models</a>, where you can find pre-trained models suited for different tasks and datasets.</p>
+<p>To explore and select from a variety of models, visit <a href="https://sparknlp.org/models">Spark NLP Models</a>, where you can find models tailored for different tasks and datasets.</p>
 
 <h4 id="recommended-models-for-specific-image-classification-tasks">Recommended Models for Specific Image Classification Tasks</h4>
 <ul>
@@ -556,129 +550,113 @@
   <li><strong>Scene Classification:</strong> To classify scenes into categories like <strong>urban</strong>, <strong>rural</strong>, or <strong>forest</strong>, models like <a href="https://sparknlp.org/2022/08/10/image_classifier_vit_base_patch16_224_en_3_0.html" target="_blank"><code class="language-plaintext highlighter-rouge">image_classifier_vit_base_patch16_224</code></a> can be applied effectively.</li>
 </ul>
 
-<p>By carefully considering your data, task requirements, and available resources, you can make an informed decision and leverage the best models for your image classification needs.</p>
-
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="c1"># Load image data into a DataFrame, discarding any invalid images
-</span><span class="n">imageDF</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
-    <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">"dropInvalid"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"src/test/resources/image/"</span><span class="p">)</span>
-
-<span class="c1"># Image Assembler: Prepares image data for processing
-</span><span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
 
-<span class="c1"># ViTForImageClassification: Pretrained Vision Transformer model for image classification
-</span><span class="n">imageClassifier</span> <span class="o">=</span> <span class="n">ViTForImageClassification</span> \
+<span class="n">imageClassifier</span> <span class="o">=</span> <span class="n">ViTForImageClassification</span> \
     <span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"image_assembler"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"class"</span><span class="p">)</span>
 
-<span class="c1"># Create a pipeline with image assembler and classifier stages
-</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">imageAssembler</span><span class="p">,</span> <span class="n">imageClassifier</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">imageAssembler</span><span class="p">,</span> 
+    <span class="n">imageClassifier</span>
+<span class="p">])</span>
 
-<span class="c1"># Fit the pipeline on the image DataFrame and transform the data
-</span><span class="n">pipelineDF</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">imageDF</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
+<span class="n">imageDF</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
+    <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">"dropInvalid"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"path/to/images/folder"</span><span class="p">)</span>
 
-<span class="c1"># Select and display the image file name and the classification result
-</span><span class="n">pipelineDF</span> \
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
+
+<span class="n">result</span> \
   <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"reverse(split(image.origin, '/'))[0] as image_name"</span><span class="p">,</span> <span class="s">"class.result"</span><span class="p">)</span> \
   <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="o">+-----------------+----------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">image_name</span>       <span class="o">|</span><span class="n">result</span>                                                    <span class="o">|</span>
-<span class="o">+-----------------+----------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">palace</span><span class="p">.</span><span class="n">JPEG</span>      <span class="o">|</span><span class="p">[</span><span class="n">palace</span><span class="p">]</span>                                                  <span class="o">|</span>
-<span class="o">|</span><span class="n">egyptian_cat</span><span class="p">.</span><span class="n">jpeg</span><span class="o">|</span><span class="p">[</span><span class="n">Egyptian</span> <span class="n">cat</span><span class="p">]</span>                                            <span class="o">|</span>
-<span class="o">|</span><span class="n">hippopotamus</span><span class="p">.</span><span class="n">JPEG</span><span class="o">|</span><span class="p">[</span><span class="n">hippopotamus</span><span class="p">,</span> <span class="n">hippo</span><span class="p">,</span> <span class="n">river</span> <span class="n">horse</span><span class="p">,</span> <span class="n">Hippopotamus</span> <span class="n">amphibius</span><span class="p">]</span><span class="o">|</span>
-<span class="o">|</span><span class="n">hen</span><span class="p">.</span><span class="n">JPEG</span>         <span class="o">|</span><span class="p">[</span><span class="n">hen</span><span class="p">]</span>                                                     <span class="o">|</span>
-<span class="o">|</span><span class="n">ostrich</span><span class="p">.</span><span class="n">JPEG</span>     <span class="o">|</span><span class="p">[</span><span class="n">ostrich</span><span class="p">,</span> <span class="n">Struthio</span> <span class="n">camelus</span><span class="p">]</span>                               <span class="o">|</span>
-<span class="o">|</span><span class="n">junco</span><span class="p">.</span><span class="n">JPEG</span>       <span class="o">|</span><span class="p">[</span><span class="n">junco</span><span class="p">,</span> <span class="n">snowbird</span><span class="p">]</span>                                         <span class="o">|</span>
-<span class="o">|</span><span class="n">bluetick</span><span class="p">.</span><span class="n">jpg</span>     <span class="o">|</span><span class="p">[</span><span class="n">bluetick</span><span class="p">]</span>                                                <span class="o">|</span>
-<span class="o">|</span><span class="n">chihuahua</span><span class="p">.</span><span class="n">jpg</span>    <span class="o">|</span><span class="p">[</span><span class="n">Chihuahua</span><span class="p">]</span>                                               <span class="o">|</span>
-<span class="o">|</span><span class="n">tractor</span><span class="p">.</span><span class="n">JPEG</span>     <span class="o">|</span><span class="p">[</span><span class="n">tractor</span><span class="p">]</span>                                                 <span class="o">|</span>
-<span class="o">|</span><span class="n">ox</span><span class="p">.</span><span class="n">JPEG</span>          <span class="o">|</span><span class="p">[</span><span class="n">ox</span><span class="p">]</span>                                                      <span class="o">|</span>
-<span class="o">+-----------------+----------------------------------------------------------+</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.ImageAssembler</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions._</span>
 
-<span class="c1">// Load image data into a DataFrame, discarding invalid images</span>
-<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
-  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"src/test/resources/image/"</span><span class="o">)</span>
-
-<span class="c1">// Image Assembler: Prepares image data for further processing</span>
 <span class="k">val</span> <span class="nv">imageAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
 
-<span class="c1">// Pretrained ViT model for image classification</span>
 <span class="k">val</span> <span class="nv">imageClassifier</span> <span class="k">=</span> <span class="nc">ViTForImageClassification</span>
   <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"class"</span><span class="o">)</span>
 
-<span class="c1">// Create a pipeline with the image assembler and classifier stages</span>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">imageAssembler</span><span class="o">,</span> <span class="n">imageClassifier</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">imageAssembler</span><span class="o">,</span>
+  <span class="n">imageClassifier</span>
+<span class="o">))</span>
 
-<span class="c1">// Fit the pipeline on the image DataFrame and apply transformations</span>
-<span class="k">val</span> <span class="nv">pipelineDF</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">imageDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">imageDF</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"path/to/images/folder"</span><span class="o">)</span>
 
-<span class="c1">// Select and display the image name and the classification result</span>
-<span class="n">pipelineDF</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+
+<span class="n">result</span>
   <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"reverse(split(image.origin, '/'))[0] as image_name"</span><span class="o">,</span> <span class="s">"class.result"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 
-<span class="o">+-----------------+----------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">image_name</span>       <span class="o">|</span><span class="n">result</span>                                                    <span class="o">|</span>
-<span class="o">+-----------------+----------------------------------------------------------+</span>
-<span class="o">|</span><span class="nv">palace</span><span class="o">.</span><span class="py">JPEG</span>      <span class="o">|[</span><span class="kt">palace</span><span class="o">]</span>                                                  <span class="o">|</span>
-<span class="o">|</span><span class="nv">egyptian_cat</span><span class="o">.</span><span class="py">jpeg</span><span class="o">|[</span><span class="kt">Egyptian</span> <span class="kt">cat</span><span class="o">]</span>                                            <span class="o">|</span>
-<span class="o">|</span><span class="nv">hippopotamus</span><span class="o">.</span><span class="py">JPEG</span><span class="o">|[</span><span class="kt">hippopotamus</span>, <span class="kt">hippo</span>, <span class="kt">river</span> <span class="kt">horse</span>, <span class="kt">Hippopotamus</span> <span class="kt">amphibius</span><span class="o">]|</span>
-<span class="o">|</span><span class="nv">hen</span><span class="o">.</span><span class="py">JPEG</span>         <span class="o">|[</span><span class="kt">hen</span><span class="o">]</span>                                                     <span class="o">|</span>
-<span class="o">|</span><span class="nv">ostrich</span><span class="o">.</span><span class="py">JPEG</span>     <span class="o">|[</span><span class="kt">ostrich</span>, <span class="kt">Struthio</span> <span class="kt">camelus</span><span class="o">]</span>                               <span class="o">|</span>
-<span class="o">|</span><span class="nv">junco</span><span class="o">.</span><span class="py">JPEG</span>       <span class="o">|[</span><span class="kt">junco</span>, <span class="kt">snowbird</span><span class="o">]</span>                                         <span class="o">|</span>
-<span class="o">|</span><span class="nv">bluetick</span><span class="o">.</span><span class="py">jpg</span>     <span class="o">|[</span><span class="kt">bluetick</span><span class="o">]</span>                                                <span class="o">|</span>
-<span class="o">|</span><span class="nv">chihuahua</span><span class="o">.</span><span class="py">jpg</span>    <span class="o">|[</span><span class="kt">Chihuahua</span><span class="o">]</span>                                               <span class="o">|</span>
-<span class="o">|</span><span class="nv">tractor</span><span class="o">.</span><span class="py">JPEG</span>     <span class="o">|[</span><span class="kt">tractor</span><span class="o">]</span>                                                 <span class="o">|</span>
-<span class="o">|</span><span class="nv">ox</span><span class="o">.</span><span class="py">JPEG</span>          <span class="o">|[</span><span class="kt">ox</span><span class="o">]</span>                                                      <span class="o">|</span>
-<span class="o">+-----------------+----------------------------------------------------------+</span>
 </code></pre></div>  </div>
-
-  <h2 id="try-real-time-demos">Try Real-Time Demos!</h2>
-
-  <p>If you want to explore real-time image classification outputs, visit our interactive demos:</p>
-
-  <ul>
-    <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-SwinForImageClassification" target="_blank">Swin For Image Classification</a></strong></li>
-    <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-VisionEncoderDecoderForImageCaptioning" target="_blank">VisionEncoderDecoder For Image Captioning</a></strong></li>
-    <li><strong><a href="https://nlp.johnsnowlabs.com/detect_objects_scenes" target="_blank">Object Detection &amp; Scene Classification</a></strong></li>
-    <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-ConvNextForImageClassification" target="_blank">ConvNext For Image Classification</a></strong></li>
-  </ul>
-
-  <h2 id="useful-resources">Useful Resources</h2>
-
-  <p>To dive deeper into image classification using Spark NLP, check out these useful resources:</p>
-
-  <p><strong>Notebooks</strong></p>
-  <ul>
-    <li><em><a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/annotation/image" target="_blank">Image Classification Notebooks in SparkNLP</a></em></li>
-    <li><em><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/19.Image_Classification.ipynb" target="_blank">ViT for Image Classification with Transformers</a></em></li>
-  </ul>
 </div>
+
+<div class="tabs-box">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------+----------------------------------------------------------+
+|image_name       |result                                                    |
++-----------------+----------------------------------------------------------+
+|palace.JPEG      |[palace]                                                  |
+|egyptian_cat.jpeg|[Egyptian cat]                                            |
+|hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|
+|hen.JPEG         |[hen]                                                     |
+|ostrich.JPEG     |[ostrich, Struthio camelus]                               |
+|junco.JPEG       |[junco, snowbird]                                         |
+|bluetick.jpg     |[bluetick]                                                |
+|chihuahua.jpg    |[Chihuahua]                                               |
+|tractor.JPEG     |[tractor]                                                 |
+|ox.JPEG          |[ox]                                                      |
++-----------------+----------------------------------------------------------+
+</code></pre></div>  </div>
+</div>
+
+<h2 id="try-real-time-demos">Try Real-Time Demos!</h2>
+
+<p>If you want to explore real-time image classification outputs, visit our interactive demos:</p>
+
+<ul>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-SwinForImageClassification" target="_blank">Swin For Image Classification</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-VisionEncoderDecoderForImageCaptioning" target="_blank">VisionEncoderDecoder For Image Captioning</a></strong></li>
+  <li><strong><a href="https://nlp.johnsnowlabs.com/detect_objects_scenes" target="_blank">Object Detection &amp; Scene Classification</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-ConvNextForImageClassification" target="_blank">ConvNext For Image Classification</a></strong></li>
+</ul>
+
+<h2 id="useful-resources">Useful Resources</h2>
+
+<p>To dive deeper into image classification using Spark NLP, check out these useful resources:</p>
+
+<p><strong>Notebooks</strong></p>
+<ul>
+  <li><em><a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/annotation/image" target="_blank">Image Classification Notebooks in SparkNLP</a></em></li>
+  <li><em><a href="https://github.com/JohnSnowLabs/spark-nlp-workshop/blob/master/tutorials/Certification_Trainings/Public/19.Image_Classification.ipynb" target="_blank">ViT for Image Classification with Transformers</a></em></li>
+</ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2024-09-26T00:00:00+00:00">Sep 26, 2024</time>
     </span><!-- start custom article footer snippet -->

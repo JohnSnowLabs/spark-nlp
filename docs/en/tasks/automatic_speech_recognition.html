@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -531,17 +531,9 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Automatic Speech Recognition"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Automatic Speech Recognition (ASR)</strong> is the technology that enables computers to recognize and process human speech into text. ASR plays a vital role in numerous applications, from voice-activated assistants to transcription services, making it an essential part of modern natural language processing (NLP) solutions. Spark NLP provides powerful tools for implementing ASR systems effectively.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p>Automatic Speech Recognition (ASR), also known as Speech-to-Text (STT), is the process of converting spoken language into written text. ASR systems analyze audio signals to identify speech patterns and map them to words using models that combine acoustic, linguistic, and contextual understanding. This enables devices and applications to interpret human speech naturally and accurately.</p>
 
-<p>In this context, ASR involves converting spoken language into text by analyzing audio signals. Common use cases include:</p>
-
-<ul>
-  <li><strong>Voice Assistants:</strong> Enabling devices like smartphones and smart speakers to understand and respond to user commands.</li>
-  <li><strong>Transcription Services:</strong> Automatically converting audio recordings from meetings, interviews, or lectures into written text.</li>
-  <li><strong>Accessibility:</strong> Helping individuals with disabilities interact with technology through voice commands.</li>
-</ul>
-
-<p>By leveraging ASR, organizations can enhance user experience, improve accessibility, and streamline workflows that involve audio data.</p>
+<p>ASR is widely used in virtual assistants like <strong>Siri</strong>, <strong>Alexa</strong>, and <strong>Google Assistant</strong> for voice commands, and it powers automatic captioning, meeting transcriptions, and accessibility tools that help users with hearing impairments. By turning speech into text, ASR enables faster, hands-free interaction and improves access to spoken content across many applications.</p>
 
 <div style="text-align: center;">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/hscJK-4kA_A?si=xYgz6ejc-2XvXcoR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
@@ -549,11 +541,11 @@
 
 <h2 id="picking-a-model">Picking a Model</h2>
 
-<p>When selecting a model for Automatic Speech Recognition, it’s essential to evaluate several factors to ensure optimal performance for your specific use case. Begin by analyzing the <strong>nature of your audio data</strong>, considering the accent, language, and quality of the recordings. Determine if your task requires <strong>real-time transcription</strong> or if batch processing is sufficient, as some models excel in specific scenarios.</p>
+<p>When picking a model for Automatic Speech Recognition, consider the language coverage, accuracy requirements, and computational resources available. Pretrained models like <strong>Whisper</strong> (by OpenAI) are excellent general-purpose options that support over 100 languages and handle accents, background noise, and different speech styles effectively. For English-only or smaller-scale use cases, models such as <strong>Wav2Vec 2.0</strong>, <strong>Conformer</strong>, or <strong>DeepSpeech</strong> offer strong accuracy with lower resource demands.</p>
 
-<p>Next, assess the <strong>model complexity</strong>; simpler models may suffice for straightforward tasks, while more sophisticated models are better suited for nuanced speech recognition. Consider the <strong>availability of diverse audio data</strong> for training, as larger datasets can significantly enhance model performance. Define key <strong>performance metrics</strong> (e.g., word error rate, accuracy) to guide your choice, and ensure the model’s interpretability meets your requirements. Finally, account for <strong>resource constraints</strong>, as advanced models typically demand more memory and processing power.</p>
+<p>If your application involves multiple languages, look for <strong>multilingual ASR models</strong> that can automatically detect and transcribe speech in different languages within the same audio. For real-time or on-device applications, lightweight versions of these models are better suited due to their faster processing speed. Ultimately, the best model depends on your trade-off between <strong>accuracy, speed, language support, and deployment constraints</strong>.</p>
 
-<p>To explore and select from a variety of models, visit <a href="https://sparknlp.org/models">Spark NLP Models</a>, where you can find models tailored for different ASR tasks and languages.</p>
+<p>To explore and select from a variety of models, visit <a href="https://sparknlp.org/models">Spark NLP Models</a></p>
 
 <h4 id="recommended-models-for-automatic-speech-recognition-tasks">Recommended Models for Automatic Speech Recognition Tasks</h4>
 <ul>
@@ -561,91 +553,70 @@
   <li><strong>Multilingual Support:</strong> For applications requiring support for multiple languages, consider using models like <a href="https://sparknlp.org/2021/12/15/wav2vec2.html" target="_blank"><code class="language-plaintext highlighter-rouge">asr_wav2vec2_large_xlsr_53_portuguese_by_jonatasgrosman</code></a> from the <a href="https://sparknlp.org/docs/en/transformers#wav2vec2forctc" target="_blank"><code class="language-plaintext highlighter-rouge">Wav2Vec2ForCTC</code></a> transformer.</li>
 </ul>
 
-<p>By thoughtfully considering these factors and using the right models, you can enhance your ASR applications significantly.</p>
-
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="c1"># Step 1: Assemble the raw audio content into a suitable format
-</span><span class="n">audioAssembler</span> <span class="o">=</span> <span class="n">AudioAssembler</span><span class="p">()</span> \
+<span class="n">audioAssembler</span> <span class="o">=</span> <span class="n">AudioAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"audio_content"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"audio_assembler"</span><span class="p">)</span>
 
-<span class="c1"># Step 2: Load a pre-trained Wav2Vec2 model for automatic speech recognition (ASR)
-</span><span class="n">speechToText</span> <span class="o">=</span> <span class="n">Wav2Vec2ForCTC</span> \
+<span class="n">speechToText</span> <span class="o">=</span> <span class="n">Wav2Vec2ForCTC</span> \
     <span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"audio_assembler"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="c1"># Step 3: Define the pipeline with audio assembler and speech-to-text model
-</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">audioAssembler</span><span class="p">,</span> <span class="n">speechToText</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+  <span class="n">audioAssembler</span><span class="p">,</span> 
+  <span class="n">speechToText</span>
+<span class="p">])</span>
 
-<span class="c1"># Step 4: Create a DataFrame containing the raw audio content (as floats)
-</span><span class="n">processedAudioFloats</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">rawFloats</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"audio_content"</span><span class="p">)</span>
+<span class="n">processedAudioFloats</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="n">rawFloats</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"audio_content"</span><span class="p">)</span>
 
-<span class="c1"># Step 5: Fit the pipeline and transform the audio data
-</span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">processedAudioFloats</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">processedAudioFloats</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">processedAudioFloats</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">processedAudioFloats</span><span class="p">)</span>
 
-<span class="c1"># Step 6: Display the transcribed text from the audio
-</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"text.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"text.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="o">+------------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                                                                    <span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">MISTER</span> <span class="n">QUILTER</span> <span class="n">IS</span> <span class="n">THE</span> <span class="n">APOSTLE</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">MIDLE</span> <span class="n">CLASES</span> <span class="n">AND</span> <span class="n">WE</span> <span class="n">ARE</span> <span class="n">GLAD</span> <span class="n">TO</span> <span class="n">WELCOME</span> <span class="n">HIS</span> <span class="n">GOSPEL</span> <span class="p">]</span><span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------------------------+</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.audio.Wav2Vec2ForCTC</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.types._</span>
 
-<span class="c1">// Step 1: Assemble the raw audio content into a suitable format</span>
-<span class="k">val</span> <span class="nv">audioAssembler</span><span class="k">:</span> <span class="kt">AudioAssembler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">AudioAssembler</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">audioAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">AudioAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"audio_content"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"audio_assembler"</span><span class="o">)</span>
 
-<span class="c1">// Step 2: Load a pre-trained Wav2Vec2 model for automatic speech recognition (ASR)</span>
-<span class="k">val</span> <span class="nv">speechToText</span><span class="k">:</span> <span class="kt">Wav2Vec2ForCTC</span> <span class="o">=</span> <span class="nc">Wav2Vec2ForCTC</span>
+<span class="k">val</span> <span class="nv">speechToText</span> <span class="k">=</span> <span class="nc">Wav2Vec2ForCTC</span>
   <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"audio_assembler"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="c1">// Step 3: Define the pipeline with audio assembler and speech-to-text model</span>
-<span class="k">val</span> <span class="nv">pipeline</span><span class="k">:</span> <span class="kt">Pipeline</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">audioAssembler</span><span class="o">,</span> <span class="n">speechToText</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">audioAssembler</span><span class="o">,</span> <span class="n">speechToText</span><span class="o">))</span>
 
-<span class="c1">// Step 4: Load raw audio floats from a CSV file</span>
-<span class="k">val</span> <span class="nv">bufferedSource</span> <span class="k">=</span>
-  <span class="nv">scala</span><span class="o">.</span><span class="py">io</span><span class="o">.</span><span class="py">Source</span><span class="o">.</span><span class="py">fromFile</span><span class="o">(</span><span class="s">"src/test/resources/audio/csv/audio_floats.csv"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">schema</span> <span class="k">=</span> <span class="nc">StructType</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="nc">StructField</span><span class="o">(</span><span class="s">"audio_content"</span><span class="o">,</span> <span class="nc">ArrayType</span><span class="o">(</span><span class="nc">FloatType</span><span class="o">))))</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span><span class="n">rawFloats</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">processedAudioFloats</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nv">data</span><span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="nc">Tuple1</span><span class="o">(</span><span class="k">_</span><span class="o">))).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"audio_content"</span><span class="o">)</span>
 
-<span class="c1">// Step 5: Extract raw audio floats from CSV and convert to an array of floats</span>
-<span class="k">val</span> <span class="nv">rawFloats</span> <span class="k">=</span> <span class="n">bufferedSource</span>
-  <span class="o">.</span><span class="py">getLines</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">map</span><span class="o">(</span><span class="nv">_</span><span class="o">.</span><span class="py">split</span><span class="o">(</span><span class="s">","</span><span class="o">).</span><span class="py">head</span><span class="o">.</span><span class="py">trim</span><span class="o">.</span><span class="py">toFloat</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">toArray</span>
-<span class="nv">bufferedSource</span><span class="o">.</span><span class="py">close</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">processedAudioFloats</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">processedAudioFloats</span><span class="o">)</span>
 
-<span class="c1">// Step 6: Create a DataFrame with raw audio content (as floats)</span>
-<span class="k">val</span> <span class="nv">processedAudioFloats</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="n">rawFloats</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"audio_content"</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"text.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 
-<span class="c1">// Step 7: Fit the pipeline and transform the audio data</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">processedAudioFloats</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">processedAudioFloats</span><span class="o">)</span>
+</code></pre></div>  </div>
+</div>
 
-<span class="c1">// Step 8: Display the transcribed text from the audio</span>
-<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"text.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
-
-<span class="o">+------------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                                                                    <span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------------------------+</span>
-<span class="o">|[</span><span class="kt">MISTER</span> <span class="kt">QUILTER</span> <span class="kt">IS</span> <span class="kt">THE</span> <span class="kt">APOSTLE</span> <span class="kt">OF</span> <span class="kt">THE</span> <span class="kt">MIDLE</span> <span class="kt">CLASES</span> <span class="kt">AND</span> <span class="kt">WE</span> <span class="kt">ARE</span> <span class="kt">GLAD</span> <span class="kt">TO</span> <span class="kt">WELCOME</span> <span class="kt">HIS</span> <span class="kt">GOSPEL</span> <span class="o">]|</span>
-<span class="o">+------------------------------------------------------------------------------------------+</span>
+<div class="tabs-box">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------------------------------------------------------------------------+
+|result                                                                                    |
++------------------------------------------------------------------------------------------+
+|[MISTER QUILTER IS THE APOSTLE OF THE MIDLE CLASES AND WE ARE GLAD TO WELCOME HIS GOSPEL ]|
++------------------------------------------------------------------------------------------+
 </code></pre></div>  </div>
 </div>
 
@@ -654,14 +625,14 @@
 <p>If you want to see the outputs of ASR models in real time, visit our interactive demos:</p>
 
 <ul>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-Wav2Vec2ForCTC" target="_blank">Wav2Vec2ForCTC</a></strong> – Try this powerful model for real-time speech-to-text from raw audio.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-WhisperForCTC" target="_blank">WhisperForCTC</a></strong> – Test speech recognition in multiple languages and noisy environments.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-HubertForCTC" target="_blank">HubertForCTC</a></strong> – Experience quick and accurate voice command recognition.</li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-Wav2Vec2ForCTC" target="_blank">Wav2Vec2ForCTC</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-WhisperForCTC" target="_blank">WhisperForCTC</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-HubertForCTC" target="_blank">HubertForCTC</a></strong></li>
 </ul>
 
 <h2 id="useful-resources">Useful Resources</h2>
 
-<p>Want to dive deeper into Automatic Speech Recognition with Spark NLP? Here are somText Preprocessinge curated resources to help you get started and explore further:</p>
+<p>Want to dive deeper into Automatic Speech Recognition with Spark NLP? Here are some curated resources to help you get started and explore further:</p>
 
 <p><strong>Articles and Guides</strong></p>
 <ul>

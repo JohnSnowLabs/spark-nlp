@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -531,16 +531,7 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Token Classification"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Token classification</strong> is the task of assigning a <strong>label</strong> to each token (word or sub-word) in a given text sequence. It is fundamental in various <em>natural language processing (NLP)</em> tasks like named entity recognition (NER), part-of-speech tagging (POS), and more. Spark NLP provides state of the art solutions to tackle token classification challenges effectively, helping you analyze and label individual tokens in a document.</p>
-
-<p>Token classification involves processing text at a granular level, labeling each token for its role or entity. Typical use cases include:</p>
-
-<ul>
-  <li><strong>Named Entity Recognition (NER):</strong> Identifying proper names, locations, organizations, etc., within text.</li>
-  <li><strong>Part-of-Speech Tagging (POS):</strong> Labeling each token with its grammatical category (e.g., noun, verb, adjective).</li>
-</ul>
-
-<p>By utilizing token classification, organizations can enhance their ability to extract detailed insights from text data, enabling applications like information extraction, text annotation, and more.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Token classification</strong> is a natural language understanding task where labels are assigned to individual tokens in a text. Common subtasks include <strong>Named Entity Recognition (NER)</strong> and <strong>Part-of-Speech (PoS)</strong> tagging. For example, NER models can be trained to detect entities like dates, people, and locations, while PoS tagging identifies whether a word functions as a noun, verb, punctuation mark, or another grammatical category.</p>
 
 <div style="text-align: center;">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/B3xB9gaBosw?si=hDgXLUoduQkkodPN&amp;start=258" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
@@ -548,11 +539,9 @@
 
 <h2 id="picking-a-model">Picking a Model</h2>
 
-<p>When selecting a model for token classification, it’s important to consider various factors that impact performance. First, analyze the <strong>type of entities or tags</strong> you want to classify (e.g., named entities, parts of speech). Determine if your task requires <strong>fine-grained tagging</strong> (such as multiple types of named entities) or a simpler tag set.</p>
+<p>When picking a model for token classification, start with the type of task you need—such as <strong>Named Entity Recognition (NER)</strong> for tagging names of people, places, or organizations, <strong>Part-of-Speech (POS) tagging</strong> for grammatical structure, or <strong>slot filling</strong> in chatbots. For small or less complex datasets, lighter models like <strong>DistilBERT</strong> or <strong>pretrained pipelines</strong> can give fast and practical results. If you have more data or need higher accuracy, larger models like <strong>BERT</strong>, <strong>RoBERTa</strong>, or <strong>XLM-R</strong> are strong baselines, and domain-specialized versions like <strong>BioBERT</strong> (for biomedical text) or <strong>Legal-BERT</strong> (for legal text) often perform best in their fields. Keep in mind trade-offs: smaller models are faster and easier to deploy, while larger transformers provide richer context understanding but come with higher compute costs.</p>
 
-<p>Next, assess the <strong>complexity of your data</strong>—does it involve formal text like news articles, or informal text like social media posts? <strong>Model performance metrics</strong> (e.g., precision, recall, F1 score) are also key to determining whether a model is suitable. Lastly, evaluate your <strong>computational resources</strong>, as more complex models like BERT may require greater memory and processing power.</p>
-
-<p>You can explore and select models for your token classification tasks at <a href="https://sparknlp.org/models">Spark NLP Models</a>, where you’ll find various models for specific datasets and challenges.</p>
+<p>You can explore and select models for your token classification tasks at <a href="https://sparknlp.org/models">Spark NLP Models</a></p>
 
 <h4 id="recommended-models-for-specific-token-classification-tasks">Recommended Models for Specific Token Classification Tasks</h4>
 
@@ -564,58 +553,40 @@
 
 <p>If existing models do not meet your requirements, you can train your own custom model using the <a href="https://sparknlp.org/docs/en/training">Spark NLP Training Documentation</a>.</p>
 
-<p>By selecting the appropriate model, you can optimize token classification performance for your specific NLP tasks.</p>
-
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="c1"># Assembling the document from the input text
-</span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="c1"># Tokenizing the text
-</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="c1"># Loading a pre-trained sequence classification model
-# You can replace `BertForTokenClassification.pretrained()` with your selected model and the transformer it's based on
-# For example: XlmRoBertaForTokenClassification.pretrained("xlmroberta_ner_large_finetuned_conll03_english","xx")
-</span><span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="n">tokenClassifier</span> <span class="o">=</span> <span class="n">BertForTokenClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="c1"># Defining the pipeline with document assembler, tokenizer, and classifier
-</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
     <span class="n">documentAssembler</span><span class="p">,</span>
     <span class="n">tokenizer</span><span class="p">,</span>
     <span class="n">tokenClassifier</span>
 <span class="p">])</span>
 
-<span class="c1"># Creating a sample DataFrame
-</span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="c1"># Fitting the pipeline and transforming the data
-</span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-<span class="c1"># Showing the results
-</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="o">&lt;</span><span class="err">!</span><span class="o">--</span> 
-<span class="o">+------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">result</span>                                                                              <span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">B</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="n">I</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">PER</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">O</span><span class="p">,</span> <span class="n">B</span><span class="o">-</span><span class="n">LOC</span><span class="p">]</span><span class="o">|</span>
-<span class="o">+------------------------------------------------------------------------------------+</span>
-<span class="o">--&gt;</span>
 </code></pre></div>  </div>
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
@@ -623,52 +594,41 @@
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 
-<span class="c1">// Step 1: Assembling the document from the input text</span>
-<span class="c1">// Converts the input 'text' column into a 'document' column, required for NLP tasks</span>
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="c1">// Step 2: Tokenizing the text</span>
-<span class="c1">// Splits the 'document' column into tokens (words), creating the 'token' column</span>
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="c1">// Step 3: Loading a pre-trained BERT model for token classification</span>
-<span class="c1">// Applies a pre-trained BERT model for Named Entity Recognition (NER) to classify tokens</span>
-<span class="c1">// `BertForTokenClassification.pretrained()` loads the model, and `setInputCols` defines the input columns</span>
 <span class="k">val</span> <span class="nv">tokenClassifier</span> <span class="k">=</span> <span class="nv">BertForTokenClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 
-<span class="c1">// Step 4: Defining the pipeline</span>
-<span class="c1">// The pipeline stages are document assembler, tokenizer, and token classifier</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
   <span class="n">documentAssembler</span><span class="o">,</span>
   <span class="n">tokenizer</span><span class="o">,</span>
   <span class="n">tokenClassifier</span>
 <span class="o">))</span>
 
-<span class="c1">// Step 5: Creating a sample DataFrame</span>
-<span class="c1">// Creates a DataFrame with a sample sentence that will be processed by the pipeline</span>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"John Lenon was born in London and lived in Paris. My name is Sarah and I live in London"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="c1">// Step 6: Fitting the pipeline and transforming the data</span>
-<span class="c1">// The pipeline is fitted on the input data, then it performs the transformation to generate token labels</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
-<span class="c1">// Step 7: Showing the results</span>
-<span class="c1">// Displays the 'label.result' column, which contains the Named Entity Recognition (NER) labels for each token</span>
 <span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 
-<span class="c1">// Output:</span>
-<span class="c1">// +------------------------------------------------------------------------------------+</span>
-<span class="c1">// |result                                                                              |</span>
-<span class="c1">// +------------------------------------------------------------------------------------+</span>
-<span class="c1">// |[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|</span>
-<span class="c1">// +------------------------------------------------------------------------------------+</span>
+</code></pre></div>  </div>
+</div>
+
+<div class="tabs-box">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+------------------------------------------------------------------------------------+
+|result                                                                              |
++------------------------------------------------------------------------------------+
+|[B-PER, I-PER, O, O, O, B-LOC, O, O, O, B-LOC, O, O, O, O, B-PER, O, O, O, O, B-LOC]|
++------------------------------------------------------------------------------------+
 </code></pre></div>  </div>
 </div>
 
@@ -677,10 +637,10 @@
 <p>If you want to see the outputs of text classification models in real time, visit our interactive demos:</p>
 
 <ul>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-annotators" target="_blank">BERT Annotators Demo</a></strong> – A live demo where you can try your inputs on classification models on the go.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-named-entity-recognition" target="_blank">Named Entity Recognition (NER)</a></strong> – A live demo where you can try your inputs on NER models on the go.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-POS-tagging" target="_blank">POS Tagging</a></strong> – A live demo where you can try your inputs on preception models on the go.</li>
-  <li><strong><a href="https://sparknlp.org/recognize_entitie" target="_blank">Recognize Entities - Live Demos &amp; Notebooks</a></strong> – An interactive demo for Recognizing Entities in text</li>
+  <li><strong><a href="https://sparknlp.org/recognize_entitie" target="_blank">Recognize Entities - Live Demos &amp; Notebooks</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-annotators" target="_blank">BERT Annotators Demo</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-named-entity-recognition" target="_blank">Named Entity Recognition (NER)</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-POS-tagging" target="_blank">POS Tagging</a></strong></li>
 </ul>
 
 <h2 id="useful-resources">Useful Resources</h2>

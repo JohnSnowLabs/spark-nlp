@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -531,16 +531,7 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Text Classification"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Text classification</strong> is the process of assigning a <strong>category</strong> or <strong>label</strong> to a piece of text, such as an email, tweet, or review. It plays a crucial role in <em>natural language processing (NLP)</em>, where it is used to automatically organize text into predefined categories. Spark NLP provides various solutions to address text classification challenges effectively.</p>
-
-<p>In this context, text classification involves analyzing a document’s content to categorize it into one or more predefined groups. Common use cases include:</p>
-
-<ul>
-  <li>Organizing news articles into categories like <strong>politics</strong>, <strong>sports</strong>, <strong>entertainment</strong>, or <strong>technology</strong>.</li>
-  <li>Conducting sentiment analysis, where customer reviews of products or services are classified as <strong>positive</strong>, <strong>negative</strong>, or <strong>neutral</strong>.</li>
-</ul>
-
-<p>By leveraging text classification, organizations can enhance their ability to process and understand large volumes of text data efficiently.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Text classification</strong> is a natural language processing task where entire pieces of text, such as sentences, paragraphs, or documents, are assigned <em>predefined labels</em>. Common subtasks include <strong>sentiment analysis</strong> and <strong>topic classification</strong>. For instance, <em>sentiment analysis</em> models can determine whether a review is <em>positive</em>, <em>negative</em>, or <em>neutral</em>, while <em>topic classification</em> models can categorize news articles into areas like <strong>politics</strong>, <strong>sports</strong>, or <strong>technology</strong>.</p>
 
 <div style="text-align: center;">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/B3xB9gaBosw?si=BDII1NUUE2eSkME6&amp;start=245" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen=""></iframe>
@@ -548,9 +539,7 @@
 
 <h2 id="picking-a-model">Picking a Model</h2>
 
-<p>When selecting a model for text classification, it’s crucial to evaluate several factors to ensure optimal performance for your specific use case. Start by analyzing the <strong>nature of your data</strong>, considering whether it is formal or informal and its length (e.g., tweets vs. reviews). Determine if your task requires <strong>binary classification</strong> (like spam detection) or <strong>multiclass classification</strong> (such as categorizing news topics), as some models excel in specific scenarios.</p>
-
-<p>Next, assess the <strong>model complexity</strong>; simpler models like Logistic Regression work well for straightforward tasks, while more complex models like BERT are suited for nuanced understanding. Consider the <strong>availability of labeled data</strong>—larger datasets allow for training sophisticated models, whereas smaller datasets may benefit from pre-trained options. Define key <strong>performance metrics</strong> (e.g., accuracy, F1 score) to inform your choice, and ensure the model’s interpretability meets your requirements. Finally, account for <strong>resource constraints</strong>, as advanced models will demand more memory and processing power.</p>
+<p>When picking a model for text classification, think about what you’re trying to do—like detecting spam (binary), analyzing sentiment across positive, neutral, and negative (multiclass), or tagging a news article with several topics at once (multi-label). If you only have a small dataset, lightweight options such as <strong>DistilBERT</strong> are quick to train and deploy, while larger transformers like <strong>BERT</strong> or <strong>RoBERTa</strong> generally give better accuracy when fine-tuned on enough data. For specialized fields, domain-trained models like <a href="https://sparknlp.org/models?q=biobert&amp;sort=downloads&amp;task=Text+Classification&amp;type=model&amp;annotator=BertForSequenceClassification"><strong>BioBERT</strong></a> for biomedical research or <a href="https://sparknlp.org/models?q=FinBERT&amp;sort=downloads&amp;task=Text+Classification&amp;type=model&amp;annotator=BertForSequenceClassification"><strong>FinBERT</strong></a> for finance usually outperform general-purpose ones. Finally, keep in mind practical constraints—how much compute you have, whether you need real-time predictions, how important explainability is, and what balance you want between speed, cost, and accuracy.</p>
 
 <p>To explore and select from a variety of models, visit <a href="https://sparknlp.org/models">Spark NLP Models</a>, where you can find models tailored for different tasks and datasets.</p>
 
@@ -561,102 +550,88 @@
   <li><strong>Review Analysis:</strong> For product reviews, consider using <a href="https://sparknlp.org/2023/11/18/distilbert_base_uncased_finetuned_sentiment_amazon_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">distilbert_base_uncased_finetuned_sentiment_amazon</code></a> for more nuanced insights.</li>
 </ul>
 
-<p>If you have specific needs that are not covered by existing models, you can train your own model tailored to your unique requirements. Follow the guidelines provided in the <a href="https://sparknlp.org/docs/en/training">Spark NLP Training Documentation</a> to get started on creating and training a model suited for your text classification task.</p>
-
-<p>By thoughtfully considering these factors and using the right models, you can enhance your NLP applications significantly.</p>
+<p>If you have specific needs that are not covered by existing models, you can train your own model tailored to your unique requirements. Follow the guidelines provided in the <a href="https://sparknlp.org/docs/en/training">Spark NLP Training Documentation</a> to get started.</p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="c1"># Assembling the document from the input text
-</span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="c1"># Tokenizing the text
-</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="c1"># Loading a pre-trained sequence classification model
-# You can replace `BertForSequenceClassification.pretrained()` with your selected model 
-# For example: BertForSequenceClassification.pretrained("distilbert_sequence_classifier_sst2", "en")
-</span><span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="c1"># Defining the pipeline with document assembler, tokenizer, and classifier
-</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
     <span class="n">documentAssembler</span><span class="p">,</span>
     <span class="n">tokenizer</span><span class="p">,</span>
     <span class="n">sequenceClassifier</span>
 <span class="p">])</span>
 
-<span class="c1"># Creating a sample DataFrame
-</span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I loved this movie when I was a child."</span><span class="p">,</span> <span class="s">"It was pretty boring."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+    <span class="p">(</span><span class="s">"I loved this movie when I was a child."</span><span class="p">,),</span>
+    <span class="p">(</span><span class="s">"It was pretty boring."</span><span class="p">,)</span>
+<span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
 
-<span class="c1"># Fitting the pipeline and transforming the data
-</span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-<span class="c1"># Showing the classification result
-</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="o">+------+</span>
-<span class="o">|</span><span class="n">result</span><span class="o">|</span>
-<span class="o">+------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">]</span> <span class="o">|</span>
-<span class="o">+------+</span>
 </code></pre></div>  </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
 
-<span class="c1">// Step 1: Convert raw text into document format</span>
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="c1">// Step 2: Tokenize the document into words</span>
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="c1">// Step 3: Load a pre-trained BERT model for sequence classification</span>
 <span class="k">val</span> <span class="nv">sequenceClassifier</span> <span class="k">=</span> <span class="nv">BertForSequenceClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 
-<span class="c1">// Step 4: Define the pipeline with stages for document assembly, tokenization, and classification</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
   <span class="n">documentAssembler</span><span class="o">,</span>
   <span class="n">tokenizer</span><span class="o">,</span>
   <span class="n">sequenceClassifier</span>
 <span class="o">))</span>
 
-<span class="c1">// Step 5: Create sample data and apply the pipeline</span>
 <span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I loved this movie when I was a child."</span><span class="o">,</span> <span class="s">"It was pretty boring."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
-<span class="c1">// Step 6: Show the classification results</span>
-<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
-<span class="o">+------+</span>
-<span class="o">|</span><span class="n">result</span><span class="o">|</span>
-<span class="o">+------+</span>
-<span class="o">|[</span><span class="kt">pos</span><span class="o">]</span> <span class="o">|</span>
-<span class="o">|[</span><span class="kt">neg</span><span class="o">]</span> <span class="o">|</span>
-<span class="o">+------+</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span><span class="k">=</span><span class="nc">False</span><span class="o">)</span>
+
+</code></pre></div>  </div>
+</div>
+
+<div class="tabs-box">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------------------+------+
+|text                                  |result|
++--------------------------------------+------+
+|I loved this movie when I was a child.|[pos] |
+|It was pretty boring.                 |[neg] |
++--------------------------------------+------+
 </code></pre></div>  </div>
 </div>
 
@@ -665,8 +640,8 @@
 <p>If you want to see the outputs of text classification models in real time, visit our interactive demos:</p>
 
 <ul>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-annotators" target="_blank">BERT Annotators Demo</a></strong> – A live demo where you can try your inputs on text classification models on the go.</li>
-  <li><strong><a href="https://nlp.johnsnowlabs.com/detect_sentiment_emotion" target="_blank">Sentiment &amp; Emotion Detection Demo</a></strong> – An interactive demo for sentiment and emotion detection.</li>
+  <li><strong><a href="https://nlp.johnsnowlabs.com/detect_sentiment_emotion" target="_blank">Sentiment &amp; Emotion Detection Demo</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-annotators" target="_blank">BERT Annotators Demo</a></strong></li>
 </ul>
 
 <h2 id="useful-resources">Useful Resources</h2>

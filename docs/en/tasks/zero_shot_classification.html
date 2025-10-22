@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -531,23 +531,13 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Zero-Shot Classification"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Zero-Shot Classification</strong> is a method of classifying unseen labels in text without needing any prior training data for those labels. This technique is especially useful for scenarios where pre-defined categories are not available, allowing for flexibility in categorizing text based on descriptions of labels alone. Spark NLP offers state-of-the-art solutions for zero-shot classification, enabling users to classify texts into various categories even when no labeled data is available.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Zero-Shot Text Classification</strong> is a natural language processing task where a model can assign text to <em>categories it was never explicitly trained on</em>. Instead of relying only on predefined classes, it uses general language understanding to match new inputs to a list of <strong>candidate labels</strong> given at inference time. For example, given the text <em>“Dune is the best movie ever”</em> and labels <em>CINEMA, ART, MUSIC</em>, a zero-shot model might output <em>CINEMA (0.900)</em>, <em>ART (0.100)</em>, and <em>MUSIC (0.000)</em>. This approach is especially useful when labeled data is limited or when new categories appear after training.</p>
 
-<p>Zero-shot classification processes text at a broader level, where the system predicts the most relevant labels based on their descriptions. Typical use cases include:</p>
-
-<ul>
-  <li><strong>Text Categorization:</strong> Automatically classifying text into a set of predefined or custom categories based on label descriptions.</li>
-</ul>
-
-<p>By leveraging zero-shot classification, organizations can classify large volumes of text data without the need to curate annotated datasets for each possible label, significantly reducing manual efforts in text annotation and data preparation.</p>
+<p>Zero-shot classification works by pairing a <strong>natural language prompt</strong> with candidate labels, without needing any examples of the task itself. This differs from single-shot or few-shot classification, which provide one or a few examples of the task. The ability to perform zero-, single-, and few-shot tasks emerges in <strong>large language models</strong> (typically with 100M+ parameters), with performance improving as models scale. Thanks to this, zero-shot classification is widely used for tasks like <strong>sentiment analysis, topic labeling, and intent detection</strong>, making it a flexible solution for real-world applications without retraining.</p>
 
 <h2 id="picking-a-model">Picking a Model</h2>
 
-<p>When selecting a model for zero-shot classification, it is important to consider several factors that impact performance. First, analyze the <strong>range of labels or categories</strong> you want to classify. Zero-shot classification is versatile, but choosing models trained on broader datasets often yields better results.</p>
-
-<p>Next, consider the <strong>complexity of your text</strong>. Is it formal or informal? Does it involve domain-specific language such as legal or healthcare text? <strong>Performance metrics</strong> (e.g., accuracy, precision, recall) help assess whether a model fits your requirements. Additionally, ensure you evaluate your <strong>computational resources</strong>, as larger models, like those based on transformer architectures, may require significant memory and processing power.</p>
-
-<p>You can explore and select models for your zero-shot classification tasks at <a href="https://sparknlp.org/models">Spark NLP Models</a>, where you’ll find a variety of models for specific datasets and classification challenges.</p>
+<p>When picking a model for zero-shot classification, first check if a task-specific model already exists—because trained models usually outperform zero-shot ones. Smaller models like <strong>DistilBART-MNLI</strong> are fast and efficient, while larger ones such as <strong>RoBERTa-MNLI</strong> or <strong>GPT-based classifiers</strong> deliver higher accuracy and handle nuance better. In specialized domains, domain-adapted or prompt-tuned models are usually worth exploring.</p>
 
 <h4 id="recommended-models-for-zero-shot-classification">Recommended Models for Zero-Shot Classification</h4>
 
@@ -556,105 +546,93 @@
   <li><strong>Zero-Shot Named Entity Recognition (NER):</strong> Use models like <a href="https://sparknlp.org/2023/02/08/zero_shot_ner_roberta_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">zero_shot_ner_roberta</code></a> for identifying entities across various domains and languages without requiring task-specific labeled data.</li>
 </ul>
 
-<p>If pre-trained models don’t match your exact needs, you can train your own custom model using the <a href="https://sparknlp.org/docs/en/training">Spark NLP Training Documentation</a>.</p>
-
-<p>By selecting the appropriate zero-shot classification model, you can expand your ability to analyze text data without predefined labels, providing flexibility for dynamic and evolving classification tasks.</p>
+<p>You can explore and select models for your zero-shot classification tasks at <a href="https://sparknlp.org/models">Spark NLP Models</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="c1"># 1. Document Assembler: Converts raw input text into a document format.
-</span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
 
-<span class="c1"># 2. Tokenizer: Splits the document into individual tokens (words).
-</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
-<span class="c1"># 3. Pre-trained Sequence Classifier (Zero-Shot Classification): Loads a pre-trained BART model for zero-shot classification.
-</span><span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BartForZeroShotClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="n">sequenceClassifier</span> <span class="o">=</span> <span class="n">BertForZeroShotClassification</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">,</span> <span class="s">"document"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"label"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setCandidateLabels</span><span class="p">([</span><span class="s">"technology"</span><span class="p">,</span> <span class="s">"health"</span><span class="p">,</span> <span class="s">"finance"</span><span class="p">])</span>
 
-<span class="c1"># 4. Pipeline: Defines a pipeline with three stages - document assembler, tokenizer, and zero-shot classifier.
-</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
     <span class="n">documentAssembler</span><span class="p">,</span>
     <span class="n">tokenizer</span><span class="p">,</span>
     <span class="n">sequenceClassifier</span>
 <span class="p">])</span>
 
-<span class="c1"># 5. Sample Data: Creating a DataFrame with sample text data to test zero-shot classification.
-</span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"I loved this movie when I was a child."</span><span class="p">,</span> <span class="s">"It was pretty boring."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+  <span class="p">(</span><span class="s">"The new iPhone release has sparked debates about innovation in technology."</span><span class="p">,),</span>
+  <span class="p">(</span><span class="s">"Doctors recommend regular exercise to maintain good health."</span><span class="p">,),</span>
+  <span class="p">(</span><span class="s">"The stock market experienced strong gains this week as investor confidence boosted financial markets."</span><span class="p">,)</span>
+<span class="p">],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">])</span>
 
-<span class="c1"># 6. Fit and Transform: Fits the pipeline to the data and applies the model for classification.
-</span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-<span class="c1"># 7. Displaying Results: Shows the classification labels assigned to each text (e.g., positive or negative sentiment).
-</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="s">"label.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="o">&lt;</span><span class="err">!</span><span class="o">--</span> <span class="n">Sample</span> <span class="n">Output</span><span class="p">:</span>
-<span class="o">+------+</span>
-<span class="o">|</span><span class="n">result</span><span class="o">|</span>
-<span class="o">+------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">|</span>
-<span class="o">|</span><span class="p">[</span><span class="n">neg</span><span class="p">]</span> <span class="o">|</span>
-<span class="o">+------+</span> 
-<span class="o">--&gt;</span>
 </code></pre></div>  </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 
-<span class="c1">// Assembling the document from the input text</span>
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
 
-<span class="c1">// Tokenizing the text</span>
 <span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
-<span class="c1">// Loading the pre-trained zero-shot classification model (BERT)</span>
 <span class="k">val</span> <span class="nv">sequenceClassifier</span> <span class="k">=</span> <span class="nv">BertForZeroShotClassification</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"token"</span><span class="o">,</span> <span class="s">"document"</span><span class="o">))</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"label"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCandidateLabels</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"technology"</span><span class="o">,</span> <span class="s">"health"</span><span class="o">,</span> <span class="s">"finance"</span><span class="o">))</span>
 
-<span class="c1">// Creating a pipeline with document assembler, tokenizer, and classifier</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
   <span class="n">documentAssembler</span><span class="o">,</span>
   <span class="n">tokenizer</span><span class="o">,</span>
   <span class="n">sequenceClassifier</span>
 <span class="o">))</span>
 
-<span class="c1">// Creating a sample DataFrame</span>
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"I loved this movie when I was a child."</span><span class="o">,</span> <span class="s">"It was pretty boring."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="o">(</span><span class="s">"The new iPhone release has sparked debates about innovation in technology."</span><span class="o">),</span>
+  <span class="o">(</span><span class="s">"Doctors recommend regular exercise to maintain good health."</span><span class="o">),</span>
+  <span class="o">(</span><span class="s">"The stock market experienced strong gains this week as investor confidence boosted financial markets."</span><span class="o">)</span>
+<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
 
-<span class="c1">// Fitting the pipeline and transforming the data</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
-<span class="c1">// Showing the results</span>
-<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="s">"label.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 
-<span class="c1">// Sample Output:</span>
-<span class="c1">// +------+</span>
-<span class="c1">// |result|</span>
-<span class="c1">// +------+</span>
-<span class="c1">// |[pos] |</span>
-<span class="c1">// |[neg] |</span>
-<span class="c1">// +------+</span>
+</code></pre></div>  </div>
+</div>
+
+<div class="tabs-box">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------------------------------------------------------------------------------+------------+
+|text                                                                                                 |result      |
++-----------------------------------------------------------------------------------------------------+------------+
+|The new iPhone release has sparked debates about innovation in technology.                           |[technology]|
+|Doctors recommend regular exercise to maintain good health.                                          |[health]    |
+|The stock market experienced strong gains this week as investor confidence boosted financial markets.|[finance]   |
++-----------------------------------------------------------------------------------------------------+------------+
 </code></pre></div>  </div>
 </div>
 
@@ -663,13 +641,11 @@
 <p>If you want to see the outputs of text classification models in real time, visit our interactive demos:</p>
 
 <ul>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-annotators" target="_blank">BERT Annotators Demo</a></strong> – A live demo where you can try your labels and inputs on zero shot classification models on the go.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-Zero-Shot-NER" target="_blank">Zero-Shot Named Entity Recognition (NER)</a></strong> – A live demo where you can try your labels and inputs on zero shot classification models on the go.</li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-annotators" target="_blank">BERT Annotators Demo</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-Zero-Shot-NER" target="_blank">Zero-Shot Named Entity Recognition (NER)</a></strong></li>
 </ul>
 
 <h2 id="useful-resources">Useful Resources</h2>
-
-<p>Want to dive deeper into text classification with Spark NLP? Here are some curated resources to help you get started and explore further:</p>
 
 <p><strong>Notebooks</strong></p>
 <ul>

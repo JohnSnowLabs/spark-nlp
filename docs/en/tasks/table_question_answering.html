@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -531,184 +531,167 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Table Question Answering"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Table question answering</strong> is the task of answering questions from structured tabular data. This is particularly useful for applications like financial reports, databases, and other contexts where information is stored in tables. Spark NLP provides state-of-the-art solutions for table question answering, enabling accurate extraction and generation of answers from tables in various formats.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Table Question Answering (Table QA)</strong> is a natural language processing task where models answer questions using structured data from tables instead of plain text. Given a question and a table as context, the model retrieves or generates the correct answer by understanding the table’s rows, columns, and relationships. For example, if the table lists countries and their capitals, and the question is <em>“What is the capital of France?”</em>, the model would output <em>“Paris”</em>.</p>
 
-<p>Table question answering models process tabular data and the question to output the most relevant answer. Common use cases include:</p>
+<p>Table QA is generally approached in two ways:</p>
 
 <ul>
-  <li><strong>Financial Reports:</strong> Automatically extracting insights from financial data tables.</li>
-  <li><strong>Databases:</strong> Querying relational databases or spreadsheet data to extract specific information.</li>
-  <li><strong>Business Intelligence:</strong> Enabling non-technical users to interact with and extract data from complex tables using natural language.</li>
+  <li><strong>Retrieval-based Table QA</strong>, where the model selects the exact cell or value directly from the table.</li>
+  <li><strong>Reasoning-based (or generative) Table QA</strong>, where the model performs comparisons, aggregations, or generates a natural-language answer that goes beyond a single cell.</li>
 </ul>
-
-<p>By leveraging table question answering, organizations can build systems capable of understanding tabular structures, making it easier to answer complex queries and automate data extraction.</p>
 
 <h2 id="picking-a-model">Picking a Model</h2>
 
-<p>When selecting a model for table question answering, consider factors such as the <strong>complexity of the table</strong> and the <strong>nature of the query</strong>. Some models work better with numerical data, while others may handle textual data or multi-row operations more effectively.</p>
+<p>The choice of model for Table QA depends on how the task is framed. For <strong>Extractive table QA</strong>, where the answer must be located within the table itself, models like <strong>TaBERT</strong> or <strong>TAPAS</strong> are effective since they are designed to align natural language questions with structured tabular data. For <strong>Generative table QA</strong>, where the model needs to produce more natural responses or combine information across rows and columns, sequence-to-sequence models such as <strong>T5</strong> or <strong>BART</strong> can be adapted with table-aware pretraining. For highly <strong>specialized domains</strong>, fine-tuned variants of TAPAS, TaBERT, or lightweight table-oriented transformers can deliver more accurate results, especially when trained on domain-specific spreadsheets, databases, or reporting formats.</p>
 
-<p>Evaluate the <strong>format of the tables</strong> you are working with (e.g., CSV, Excel, or SQL tables), and ensure that the model can process the tabular structure accurately. Also, consider the <strong>domain</strong> of your tables, such as finance, healthcare, or retail, as some models may be pre-trained on specific domains.</p>
-
-<p>Explore models tailored for table question answering at <a href="https://sparknlp.org/models">Spark NLP Models</a>, where you’ll find various options for different table QA tasks.</p>
-
-<h4 id="recommended-models-for-specific-table-question-answering-tasks">Recommended Models for Specific Table Question Answering Tasks</h4>
+<h3 id="recommended-models-for-specific-table-qa-tasks">Recommended Models for Specific Table QA Tasks</h3>
 
 <ul>
-  <li><strong>General Table QA:</strong> Consider models such as <a href="https://sparknlp.org/2022/09/30/table_qa_tapas_large_finetuned_wtq_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">tapas-large-finetuned-wtq</code></a> for answering questions across different types of tables.</li>
-  <li><strong>SQL Query Generation:</strong> Use models like <a href="https://sparknlp.org/2022/05/31/t5_small_wikiSQL_en_3_0.html" target="_blank"><code class="language-plaintext highlighter-rouge">t5-small-wikiSQL</code></a> to automatically generate SQL queries from natural language inputs.</li>
+  <li>
+    <p><strong>Retrieval-based Table QA:</strong> Use models like <a href="https://sparknlp.org/2022/09/30/table_qa_tapas_base_finetuned_wtq_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">tapas-base-finetuned-wtq</code></a> or <a href="https://github.com/facebookresearch/TaBERT" target="_blank"><code class="language-plaintext highlighter-rouge">tabert</code></a> for selecting precise cells or values directly from a table.</p>
+  </li>
+  <li>
+    <p><strong>Reasoning-based Table QA:</strong> For questions requiring comparisons, aggregations, or multi-row/column reasoning, consider models such as <a href="https://sparknlp.org/2022/09/30/table_qa_tapas_medium_finetuned_wtq_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">tapas-medium-finetuned-wtq</code></a> or table-adapted sequence-to-sequence models like <a href="https://sparknlp.org/2021/01/08/t5_base_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">t5-base</code></a>.</p>
+  </li>
 </ul>
 
-<p>By selecting the right model for table question answering, you can extract valuable insights from structured data and answer complex queries efficiently.</p>
+<p>Explore models tailored for table question answering at <a href="https://sparknlp.org/models">Spark NLP Models</a></p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="c1"># Document Assembler: Assembles table JSON and questions into documents
-</span><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"table_json"</span><span class="p">,</span> <span class="s">"questions"</span><span class="p">)</span>\
+<span class="n">json_data</span> <span class="o">=</span> <span class="s">"""
+{
+  "header": ["name", "money", "age"],
+  "rows": [
+    ["Donald Trump", "$100,000,000", "75"],
+    ["Elon Musk", "$20,000,000,000,000", "55"]
+  ]
+}
+"""</span>
+
+<span class="n">queries</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">"Who earns less than 200,000,000?"</span><span class="p">,</span>
+    <span class="s">"Who earns 100,000,000?"</span><span class="p">,</span> 
+    <span class="s">"How much money has Donald Trump?"</span><span class="p">,</span>
+    <span class="s">"How old are they?"</span>
+<span class="p">]</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+    <span class="p">[</span><span class="n">json_data</span><span class="p">,</span> <span class="s">" "</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">queries</span><span class="p">)]</span>
+<span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"table_json"</span><span class="p">,</span> <span class="s">"questions"</span><span class="p">)</span>
+
+<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">(</span><span class="s">"table_json"</span><span class="p">,</span> <span class="s">"questions"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCols</span><span class="p">(</span><span class="s">"document_table"</span><span class="p">,</span> <span class="s">"document_questions"</span><span class="p">)</span>
 
-<span class="c1"># Sentence Detector: Splits the questions into individual sentences
-</span><span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_questions"</span><span class="p">])</span>\
+<span class="n">sentence_detector</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_questions"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"questions"</span><span class="p">)</span>
 
-<span class="c1"># Table Assembler: Converts the table document to the proper format
-</span><span class="n">table_assembler</span> <span class="o">=</span> <span class="n">TableAssembler</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_table"</span><span class="p">])</span>\
+<span class="n">table_assembler</span> <span class="o">=</span> <span class="n">TableAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_table"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"table"</span><span class="p">)</span>
 
-<span class="c1"># Tapas Model: Loads pretrained Tapas for table question answering
-</span><span class="n">tapas</span> <span class="o">=</span> <span class="n">TapasForQuestionAnswering</span>\
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">()</span>\
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"questions"</span><span class="p">,</span> <span class="s">"table"</span><span class="p">])</span>\
+<span class="n">tapas</span> <span class="o">=</span> <span class="n">TapasForQuestionAnswering</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"table_qa_tapas_base_finetuned_wtq"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"questions"</span><span class="p">,</span> <span class="s">"table"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answers"</span><span class="p">)</span>
 
-<span class="c1"># Pipeline: Combines all stages
-</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
     <span class="n">document_assembler</span><span class="p">,</span>
     <span class="n">sentence_detector</span><span class="p">,</span>
     <span class="n">table_assembler</span><span class="p">,</span>
     <span class="n">tapas</span>
 <span class="p">])</span>
 
-<span class="c1"># Sample JSON data for the table
-</span><span class="n">json_data</span> <span class="o">=</span> <span class="s">"""
-{
-    "header": ["name", "money", "age"],
-    "rows": [
-    ["Donald Trump", "$100,000,000", "75"],
-    ["Elon Musk", "$20,000,000,000,000", "55"]
-    ]
- }
- """</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-<span class="c1"># Fit and transform the data with the pipeline
-</span><span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">model</span>\
-    <span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(answers) AS answer"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"answer.metadata.question"</span><span class="p">,</span> <span class="s">"answer.result"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="n">posexplode</span><span class="p">(</span><span class="s">"questions.result"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"pos"</span><span class="p">,</span> <span class="s">"question"</span><span class="p">),</span>
+    <span class="n">col</span><span class="p">(</span><span class="s">"answers.result"</span><span class="p">)[</span><span class="n">col</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)].</span><span class="n">alias</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span>
+<span class="p">).</span><span class="n">select</span><span class="p">(</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"answer"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="c1"># Expected Output:
-# +-----------------------+----------------------------------------+
-# |question               |result                                  |
-# +-----------------------+----------------------------------------+
-# |Who earns 100,000,000? |Donald Trump                            |
-# |Who has more money?    |Elon Musk                               |
-# |How much they all earn?|COUNT($100,000,000, $20,000,000,000,000)|
-# |How old are they?      |AVERAGE(75, 55)                         |
-# +-----------------------+----------------------------------------+
-</span></code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+</code></pre></div>  </div>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 
-<span class="c1">// Questions: Sample questions about the table data</span>
-<span class="k">val</span> <span class="nv">questions</span> <span class="k">=</span>
+<span class="k">val</span> <span class="nv">json_data</span> <span class="k">=</span>
   <span class="s">"""
-   |Who earns 100,000,000?
-   |Who has more money?
-   |How old are they?
-   |"""</span><span class="o">.</span><span class="py">stripMargin</span><span class="o">.</span><span class="py">trim</span>
+  {
+    "header": ["name", "money", "age"],
+    "rows": [
+      ["Donald Trump", "$100,000,000", "75"],
+      ["Elon Musk", "$20,000,000,000,000", "55"]
+    ]
+  }
+  """</span>
 
-<span class="c1">// Table Data: JSON format for table with name, money, and age columns</span>
-<span class="k">val</span> <span class="nv">jsonData</span> <span class="k">=</span>
-  <span class="s">"""
-   |{
-   | "header": ["name", "money", "age"],
-   | "rows": [
-   |   ["Donald Trump", "$100,000,000", "75"],
-   |   ["Elon Musk", "$20,000,000,000,000", "55"]
-   | ]
-   |}
-   |"""</span><span class="o">.</span><span class="py">stripMargin</span><span class="o">.</span><span class="py">trim</span>
+<span class="k">val</span> <span class="nv">queries</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span>
+  <span class="s">"Who earns less than 200,000,000?"</span><span class="o">,</span>
+  <span class="s">"Who earns 100,000,000?"</span><span class="o">,</span>
+  <span class="s">"How much money has Donald Trump?"</span><span class="o">,</span>
+  <span class="s">"How old are they?"</span>
+<span class="o">)</span>
 
-<span class="c1">// DataFrame: Create DataFrame with table data and questions</span>
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">((</span><span class="n">jsonData</span><span class="o">,</span> <span class="n">questions</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"json_table"</span><span class="o">,</span> <span class="s">"questions"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">repartition</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">((</span><span class="n">json_data</span><span class="o">,</span> <span class="nv">queries</span><span class="o">.</span><span class="py">mkString</span><span class="o">(</span><span class="s">" "</span><span class="o">))).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"table_json"</span><span class="o">,</span> <span class="s">"questions"</span><span class="o">)</span>
 
-<span class="c1">// Document Assembler: Assemble the table JSON and questions into documents</span>
-<span class="k">val</span> <span class="nv">docAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MultiDocumentAssembler</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"json_table"</span><span class="o">,</span> <span class="s">"questions"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MultiDocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"table_json"</span><span class="o">,</span> <span class="s">"questions"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="s">"document_table"</span><span class="o">,</span> <span class="s">"document_questions"</span><span class="o">)</span>
 
-<span class="c1">// Sentence Detector: Detects individual questions from the text</span>
-<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="nc">SentenceDetectorDLModel</span>
-  <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document_questions"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"question"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">sentenceDetector</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document_questions"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"questions"</span><span class="o">)</span>
 
-<span class="c1">// Table Assembler: Converts JSON table data into table format</span>
 <span class="k">val</span> <span class="nv">tableAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">TableAssembler</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputFormat</span><span class="o">(</span><span class="s">"json"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document_table"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document_table"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"table"</span><span class="o">)</span>
 
-<span class="c1">// Tapas Model: Pretrained model for table question answering</span>
 <span class="k">val</span> <span class="nv">tapas</span> <span class="k">=</span> <span class="nc">TapasForQuestionAnswering</span>
-  <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"table"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"table_qa_tapas_base_finetuned_wtq"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"questions"</span><span class="o">,</span> <span class="s">"table"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answers"</span><span class="o">)</span>
 
-<span class="c1">// Pipeline: Combine all components into a pipeline</span>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span>
-    <span class="nc">Array</span><span class="o">(</span>
-      <span class="n">docAssembler</span><span class="o">,</span>
-      <span class="n">sentenceDetector</span><span class="o">,</span>
-      <span class="n">tableAssembler</span><span class="o">,</span>
-      <span class="n">tapas</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">sentenceDetector</span><span class="o">,</span>
+  <span class="n">tableAssembler</span><span class="o">,</span>
+  <span class="n">tapas</span>
+<span class="o">))</span>
 
-<span class="c1">// Model: Fit the pipeline to the data</span>
-<span class="k">val</span> <span class="nv">pipelineModel</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
-<span class="c1">// Show Results: Explode answers and show the results for each question</span>
 <span class="n">result</span>
-  <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(answer) as answer"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span>
-    <span class="s">"answer.metadata.question"</span><span class="o">,</span>
-    <span class="s">"answer.result"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">select</span><span class="o">(</span>
+    <span class="nf">posexplode</span><span class="o">(</span><span class="n">$</span><span class="s">"questions.result"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span><span class="s">"pos"</span><span class="o">,</span> <span class="s">"question"</span><span class="o">)),</span>
+    <span class="nf">col</span><span class="o">(</span><span class="s">"answers.result"</span><span class="o">)(</span><span class="nf">col</span><span class="o">(</span><span class="s">"pos"</span><span class="o">)).</span><span class="py">as</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
+  <span class="o">)</span>
+  <span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"answer"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 
-<span class="c1">// Expected Output:</span>
-<span class="c1">// +-----------------------+----------------------------------------+</span>
-<span class="c1">// |question               |result                                  |</span>
-<span class="c1">// +-----------------------+----------------------------------------+</span>
-<span class="c1">// |Who earns 100,000,000? |Donald Trump                            |</span>
-<span class="c1">// |Who has more money?    |Elon Musk                               |</span>
-<span class="c1">// |How much they all earn?|COUNT($100,000,000, $20,000,000,000,000)|</span>
-<span class="c1">// |How old are they?      |AVERAGE(75, 55)                         |</span>
-<span class="c1">// +-----------------------+----------------------------------------+</span>
+</code></pre></div>  </div>
+</div>
+
+<div class="tabs-box">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+--------------------------------+-----------------+
+|question                        |answer           |
++--------------------------------+-----------------+
+|Who earns less than 200,000,000?|Donald Trump     |
+|Who earns 100,000,000?          |Donald Trump     |
+|How much money has Donald Trump?|SUM($100,000,000)|
+|How old are they?               |AVERAGE(75, 55)  |
++--------------------------------+-----------------+
 </code></pre></div>  </div>
 </div>
 
@@ -717,9 +700,9 @@
 <p>If you want to see the outputs of table question answering models in real time, visit our interactive demos:</p>
 
 <ul>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-tapas" target="_blank">Tapas for Table Question Answering</a></strong> – TAPAS answers questions from tabular data.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-tapex" target="_blank">Tapex for Table QA</a></strong> – TAPEX handles complex table queries and computations.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-text-to-sql-t5" target="_blank">SQL Query Generation</a></strong> – Converts natural language questions into SQL queries from tables.</li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-tapas" target="_blank">Tapas for Table Question Answering</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-tapex" target="_blank">Tapex for Table QA</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-text-to-sql-t5" target="_blank">SQL Query Generation</a></strong></li>
 </ul>
 
 <h2 id="useful-resources">Useful Resources</h2>

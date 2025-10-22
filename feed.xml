@@ -1,268 +1,228 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-10-09T11:41:11+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized)</title><link href="/2025/09/15/qwen2.5_vl_7b_instruct_q16_gguf_en.html" rel="alternate" type="text/html" title="Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized)" /><published>2025-09-15T00:00:00+00:00</published><updated>2025-09-15T00:00:00+00:00</updated><id>/2025/09/15/qwen2.5_vl_7b_instruct_q16_gguf_en</id><content type="html" xml:base="/2025/09/15/qwen2.5_vl_7b_instruct_q16_gguf_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-10-22T15:30:24+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized)</title><link href="/2025/09/15/qwen2.5_vl_7b_instruct_q16_gguf_en.html" rel="alternate" type="text/html" title="Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized)" /><published>2025-09-15T00:00:00+00:00</published><updated>2025-09-15T00:00:00+00:00</updated><id>/2025/09/15/qwen2.5_vl_7b_instruct_q16_gguf_en</id><content type="html" xml:base="/2025/09/15/qwen2.5_vl_7b_instruct_q16_gguf_en.html">## Description
 
-&lt;p&gt;&lt;strong&gt;Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized)&lt;/strong&gt; is a 7-billion-parameter multimodal instruction-tuned model supporting &lt;strong&gt;text, image, and video understanding&lt;/strong&gt;. Compared to Qwen2-VL, it introduces major enhancements in &lt;strong&gt;fine-grained visual analysis (objects, text, charts, layouts), structured outputs (tables, invoices, forms), visual localization (bounding boxes, points with JSON), and long-video comprehension (over 1 hour with temporal reasoning)&lt;/strong&gt;.&lt;/p&gt;
+**Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized)** is a 7-billion-parameter multimodal instruction-tuned model supporting **text, image, and video understanding**. Compared to Qwen2-VL, it introduces major enhancements in **fine-grained visual analysis (objects, text, charts, layouts), structured outputs (tables, invoices, forms), visual localization (bounding boxes, points with JSON), and long-video comprehension (over 1 hour with temporal reasoning)**.  
 
-&lt;p&gt;It also adds &lt;strong&gt;agentic capabilities&lt;/strong&gt;, enabling tool use such as computer and phone control. This version is provided in &lt;strong&gt;GGUF Q16 format&lt;/strong&gt; for efficient inference in SparkNLP pipelines and lightweight runtimes, balancing speed and accuracy.&lt;/p&gt;
+It also adds **agentic capabilities**, enabling tool use such as computer and phone control. This version is provided in **GGUF Q16 format** for efficient inference in SparkNLP pipelines and lightweight runtimes, balancing speed and accuracy.  
 
-&lt;p&gt;Originally from &lt;a href=&quot;https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct&quot;&gt;Qwen/Qwen2.5-VL-7B-Instruct&lt;/a&gt;.&lt;/p&gt;
+Originally from [Qwen/Qwen2.5-VL-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-VL-7B-Instruct).
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/qwen2.5_vl_7b_instruct_q16_gguf_en_6.1.1_3.0_1757966755156.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/qwen2.5_vl_7b_instruct_q16_gguf_en_6.1.1_3.0_1757966755156.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/qwen2.5_vl_7b_instruct_q16_gguf_en_6.1.1_3.0_1757966755156.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/qwen2.5_vl_7b_instruct_q16_gguf_en_6.1.1_3.0_1757966755156.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageAssembler&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AutoGGUFVisionModel&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.sql.functions&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lit&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;images_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;path/to/images/folder&quot;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;prompt&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Caption this image.&quot;&lt;/span&gt;
 
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loadImagesAsBytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;images_path&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;caption&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prompt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+from sparknlp.base import DocumentAssembler, ImageAssembler
+from sparknlp.annotator import AutoGGUFVisionModel
+from pyspark.sql.functions import lit
+from pyspark.ml import Pipeline
 
-&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;caption&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;caption_document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+images_path = &quot;path/to/images/folder&quot;
+prompt = &quot;Caption this image.&quot;
 
-&lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+data = ImageAssembler.loadImagesAsBytes(spark, images_path)
+data = data.withColumn(&quot;caption&quot;, lit(prompt))
 
-&lt;span class=&quot;n&quot;&gt;qwen_chat_template&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;&amp;lt;|im_start|&amp;gt;user
-prompt&amp;lt;|im_end|&amp;gt;
-&amp;lt;|im_start|&amp;gt;assistant
-&quot;&quot;&quot;&lt;/span&gt;
+document_assembler = (
+    DocumentAssembler()
+    .setInputCol(&quot;caption&quot;)
+    .setOutputCol(&quot;caption_document&quot;)
+)
 
-&lt;span class=&quot;n&quot;&gt;autoGGUFVisionModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;AutoGGUFVisionModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;qwen2.5_vl_7b_instruct_q16_gguf&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;caption_document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;completions&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setChatTemplate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;qwen_chat_template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setBatchSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setNGpuLayers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setNCtx&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4096&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMinKeep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setMinP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.05&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setNPredict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setNProbs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setPenalizeNl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setRepeatLastN&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;256&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setRepeatPenalty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStopStrings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;/s&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;|im_end|&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;User:&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setTemperature&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setTfsZ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setTypicalP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setTopK&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setTopP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.95&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+image_assembler = (
+    ImageAssembler()
+    .setInputCol(&quot;image&quot;)
+    .setOutputCol(&quot;image_assembler&quot;)
+)
 
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;autoGGUFVisionModel&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+qwen_chat_template = &quot;&quot;&quot;&lt;|im_start|&gt;user
+prompt&lt;|im_end|&gt;
+&lt;|im_start|&gt;assistant
+&quot;&quot;&quot;
 
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+autoGGUFVisionModel = (
+    AutoGGUFVisionModel.pretrained(&quot;qwen2.5_vl_7b_instruct_q16_gguf&quot;)
+    .setInputCols([&quot;caption_document&quot;, &quot;image_assembler&quot;])
+    .setOutputCol(&quot;completions&quot;)
+    .setChatTemplate(qwen_chat_template)
+    .setBatchSize(4)
+    .setNGpuLayers(32)
+    .setNCtx(4096)
+    .setMinKeep(0)
+    .setMinP(0.05)
+    .setNPredict(64)
+    .setNProbs(0)
+    .setPenalizeNl(False)
+    .setRepeatLastN(256)
+    .setRepeatPenalty(1.1)
+    .setStopStrings([&quot;&lt;/s&gt;&quot;, &quot;&lt;|im_end|&gt;&quot;, &quot;User:&quot;])
+    .setTemperature(0.2)
+    .setTfsZ(1)
+    .setTypicalP(1)
+    .setTopK(40)
+    .setTopP(0.95)
+)
 
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;selectExpr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;reverse(split(image.origin, '/'))[0] as image_name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;s&quot;&gt;&quot;completions.result&quot;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
-  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.base._&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.annotators._&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.sql.functions.lit&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.ml.Pipeline&lt;/span&gt;
+pipeline = Pipeline().setStages([
+    document_assembler,
+    image_assembler,
+    autoGGUFVisionModel
+])
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;images_path&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;path/to/images/folder&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;prompt&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Caption this image.&quot;&lt;/span&gt;
+model = pipeline.fit(data)
+result = model.transform(data)
 
-&lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;loadImagesAsBytes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;images_path&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;withColumn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;caption&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;lit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prompt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+result.selectExpr(
+    &quot;reverse(split(image.origin, '/'))[0] as image_name&quot;,
+    &quot;completions.result&quot;
+).show(truncate=False)
+```
+```scala
+import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.annotators._
+import org.apache.spark.sql.functions.lit
+import org.apache.spark.ml.Pipeline
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;caption&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;caption_document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val images_path = &quot;path/to/images/folder&quot;
+val prompt = &quot;Caption this image.&quot;
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;image_assembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ImageAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+var data = ImageAssembler.loadImagesAsBytes(spark, images_path)
+data = data.withColumn(&quot;caption&quot;, lit(prompt))
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;qwen_chat_template&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;&amp;lt;|im_start|&amp;gt;user
-prompt&amp;lt;|im_end|&amp;gt;
-&amp;lt;|im_start|&amp;gt;assistant
-&quot;&quot;&quot;&lt;/span&gt;
+val document_assembler = new DocumentAssembler()
+  .setInputCol(&quot;caption&quot;)
+  .setOutputCol(&quot;caption_document&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;autoGGUFVisionModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;AutoGGUFVisionModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;qwen2.5_vl_7b_instruct_q16_gguf&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;caption_document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;image_assembler&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;completions&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setChatTemplate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;qwen_chat_template&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setBatchSize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setNGpuLayers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setNCtx&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4096&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setMinKeep&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setMinP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.05&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setNPredict&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setNProbs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setPenalizeNl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setRepeatLastN&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;256&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setRepeatPenalty&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;1.1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStopStrings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;/s&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;&amp;lt;|im_end|&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;User:&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setTemperature&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setTfsZ&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setTypicalP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setTopK&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;40&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setTopP&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.95&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val image_assembler = new ImageAssembler()
+  .setInputCol(&quot;image&quot;)
+  .setOutputCol(&quot;image_assembler&quot;)
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;image_assembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;autoGGUFVisionModel&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+val qwen_chat_template = &quot;&quot;&quot;&lt;|im_start|&gt;user
+prompt&lt;|im_end|&gt;
+&lt;|im_start|&gt;assistant
+&quot;&quot;&quot;
 
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;model&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+val autoGGUFVisionModel = AutoGGUFVisionModel.pretrained(&quot;qwen2.5_vl_7b_instruct_q16_gguf&quot;)
+  .setInputCols(Array(&quot;caption_document&quot;, &quot;image_assembler&quot;))
+  .setOutputCol(&quot;completions&quot;)
+  .setChatTemplate(qwen_chat_template)
+  .setBatchSize(4)
+  .setNGpuLayers(32)
+  .setNCtx(4096)
+  .setMinKeep(0)
+  .setMinP(0.05)
+  .setNPredict(64)
+  .setNProbs(0)
+  .setPenalizeNl(false)
+  .setRepeatLastN(256)
+  .setRepeatPenalty(1.1)
+  .setStopStrings(Array(&quot;&lt;/s&gt;&quot;, &quot;&lt;|im_end|&gt;&quot;, &quot;User:&quot;))
+  .setTemperature(0.2)
+  .setTfsZ(1)
+  .setTypicalP(1)
+  .setTopK(40)
+  .setTopP(0.95)
 
-&lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;selectExpr&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
-  &lt;span class=&quot;s&quot;&gt;&quot;reverse(split(image.origin, '/'))[0] as image_name&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;s&quot;&gt;&quot;completions.result&quot;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+val pipeline = new Pipeline().setStages(Array(
+  document_assembler,
+  image_assembler,
+  autoGGUFVisionModel
+))
+
+val model = pipeline.fit(data)
+val result = model.transform(data)
+
+result.selectExpr(
+  &quot;reverse(split(image.origin, '/'))[0] as image_name&quot;,
+  &quot;completions.result&quot;
+).show(false)
+```
 &lt;/div&gt;
 
-&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+## Results
 
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+```bash
+
 +-------------------+-----------------------------------------------------------------------------------------------------------------------------------+
 |image_name         |result                                                                                                                             |
 +-------------------+-----------------------------------------------------------------------------------------------------------------------------------+
-|prescription_02.png|[&lt;span class=&quot;s2&quot;&gt;&quot;Medical prescription for systemic lupus erythematosus and scleroderma overlap with interstitial lung disease, dated 02/07/2021.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;|
-|prescription_01.png|[&lt;span class=&quot;s2&quot;&gt;&quot;Prescription for malaria treatment, dated 30-Aug-2023, from SMS Hospital.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;                                                      |
+|prescription_02.png|[&quot;Medical prescription for systemic lupus erythematosus and scleroderma overlap with interstitial lung disease, dated 02/07/2021.&quot;]|
+|prescription_01.png|[&quot;Prescription for malaria treatment, dated 30-Aug-2023, from SMS Hospital.&quot;]                                                      |
 +-------------------+-----------------------------------------------------------------------------------------------------------------------------------+
 
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+```
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;qwen2.5_vl_7b_instruct_q16_gguf&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 6.1.1+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[caption_document, image_assembler]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[completions]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;13.3 GB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="qwen2_5_vl" /><category term="image_to_text" /><category term="multimodal" /><category term="conversational" /><category term="instruct" /><category term="q16" /><category term="7b" /><category term="en" /><category term="open_source" /><category term="llamacpp" /><summary type="html">Description Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized) is a 7-billion-parameter multimodal instruction-tuned model supporting text, image, and video understanding. Compared to Qwen2-VL, it introduces major enhancements in fine-grained visual analysis (objects, text, charts, layouts), structured outputs (tables, invoices, forms), visual localization (bounding boxes, points with JSON), and long-video comprehension (over 1 hour with temporal reasoning). It also adds agentic capabilities, enabling tool use such as computer and phone control. This version is provided in GGUF Q16 format for efficient inference in SparkNLP pipelines and lightweight runtimes, balancing speed and accuracy. Originally from Qwen/Qwen2.5-VL-7B-Instruct. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import DocumentAssembler, ImageAssembler from sparknlp.annotator import AutoGGUFVisionModel from pyspark.sql.functions import lit from pyspark.ml import Pipeline images_path = &quot;path/to/images/folder&quot; prompt = &quot;Caption this image.&quot; data = ImageAssembler.loadImagesAsBytes(spark, images_path) data = data.withColumn(&quot;caption&quot;, lit(prompt)) document_assembler = ( DocumentAssembler() .setInputCol(&quot;caption&quot;) .setOutputCol(&quot;caption_document&quot;) ) image_assembler = ( ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) ) qwen_chat_template = &quot;&quot;&quot;&amp;lt;|im_start|&amp;gt;user prompt&amp;lt;|im_end|&amp;gt; &amp;lt;|im_start|&amp;gt;assistant &quot;&quot;&quot; autoGGUFVisionModel = ( AutoGGUFVisionModel.pretrained(&quot;qwen2.5_vl_7b_instruct_q16_gguf&quot;) .setInputCols([&quot;caption_document&quot;, &quot;image_assembler&quot;]) .setOutputCol(&quot;completions&quot;) .setChatTemplate(qwen_chat_template) .setBatchSize(4) .setNGpuLayers(32) .setNCtx(4096) .setMinKeep(0) .setMinP(0.05) .setNPredict(64) .setNProbs(0) .setPenalizeNl(False) .setRepeatLastN(256) .setRepeatPenalty(1.1) .setStopStrings([&quot;&amp;lt;/s&amp;gt;&quot;, &quot;&amp;lt;|im_end|&amp;gt;&quot;, &quot;User:&quot;]) .setTemperature(0.2) .setTfsZ(1) .setTypicalP(1) .setTopK(40) .setTopP(0.95) ) pipeline = Pipeline().setStages([ document_assembler, image_assembler, autoGGUFVisionModel ]) model = pipeline.fit(data) result = model.transform(data) result.selectExpr( &quot;reverse(split(image.origin, '/'))[0] as image_name&quot;, &quot;completions.result&quot; ).show(truncate=False) import com.johnsnowlabs.nlp.base._ import com.johnsnowlabs.nlp.annotators._ import org.apache.spark.sql.functions.lit import org.apache.spark.ml.Pipeline val images_path = &quot;path/to/images/folder&quot; val prompt = &quot;Caption this image.&quot; var data = ImageAssembler.loadImagesAsBytes(spark, images_path) data = data.withColumn(&quot;caption&quot;, lit(prompt)) val document_assembler = new DocumentAssembler() .setInputCol(&quot;caption&quot;) .setOutputCol(&quot;caption_document&quot;) val image_assembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val qwen_chat_template = &quot;&quot;&quot;&amp;lt;|im_start|&amp;gt;user prompt&amp;lt;|im_end|&amp;gt; &amp;lt;|im_start|&amp;gt;assistant &quot;&quot;&quot; val autoGGUFVisionModel = AutoGGUFVisionModel.pretrained(&quot;qwen2.5_vl_7b_instruct_q16_gguf&quot;) .setInputCols(Array(&quot;caption_document&quot;, &quot;image_assembler&quot;)) .setOutputCol(&quot;completions&quot;) .setChatTemplate(qwen_chat_template) .setBatchSize(4) .setNGpuLayers(32) .setNCtx(4096) .setMinKeep(0) .setMinP(0.05) .setNPredict(64) .setNProbs(0) .setPenalizeNl(false) .setRepeatLastN(256) .setRepeatPenalty(1.1) .setStopStrings(Array(&quot;&amp;lt;/s&amp;gt;&quot;, &quot;&amp;lt;|im_end|&amp;gt;&quot;, &quot;User:&quot;)) .setTemperature(0.2) .setTfsZ(1) .setTypicalP(1) .setTopK(40) .setTopP(0.95) val pipeline = new Pipeline().setStages(Array( document_assembler, image_assembler, autoGGUFVisionModel )) val model = pipeline.fit(data) val result = model.transform(data) result.selectExpr( &quot;reverse(split(image.origin, '/'))[0] as image_name&quot;, &quot;completions.result&quot; ).show(false) Results +-------------------+-----------------------------------------------------------------------------------------------------------------------------------+ |image_name |result | +-------------------+-----------------------------------------------------------------------------------------------------------------------------------+ |prescription_02.png|[&quot;Medical prescription for systemic lupus erythematosus and scleroderma overlap with interstitial lung disease, dated 02/07/2021.&quot;]| |prescription_01.png|[&quot;Prescription for malaria treatment, dated 30-Aug-2023, from SMS Hospital.&quot;] | +-------------------+-----------------------------------------------------------------------------------------------------------------------------------+ Model Information Model Name: qwen2.5_vl_7b_instruct_q16_gguf Compatibility: Spark NLP 6.1.1+ License: Open Source Edition: Official Input Labels: [caption_document, image_assembler] Output Labels: [completions] Language: en Size: 13.3 GB</summary></entry><entry><title type="html">BGE Reranker V2 M3 Q4_K_M GGUF</title><link href="/2025/09/01/bge_reranker_v2_m3_Q4_K_M_en.html" rel="alternate" type="text/html" title="BGE Reranker V2 M3 Q4_K_M GGUF" /><published>2025-09-01T00:00:00+00:00</published><updated>2025-09-01T00:00:00+00:00</updated><id>/2025/09/01/bge_reranker_v2_m3_Q4_K_M_en</id><content type="html" xml:base="/2025/09/01/bge_reranker_v2_m3_Q4_K_M_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+{:.table-model}
+|---|---|
+|Model Name:|qwen2.5_vl_7b_instruct_q16_gguf|
+|Compatibility:|Spark NLP 6.1.1+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[caption_document, image_assembler]|
+|Output Labels:|[completions]|
+|Language:|en|
+|Size:|13.3 GB|</content><author><name>John Snow Labs</name></author><category term="qwen2_5_vl" /><category term="image_to_text" /><category term="multimodal" /><category term="conversational" /><category term="instruct" /><category term="q16" /><category term="7b" /><category term="en" /><category term="open_source" /><category term="llamacpp" /><summary type="html">Description Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized) is a 7-billion-parameter multimodal instruction-tuned model supporting text, image, and video understanding. Compared to Qwen2-VL, it introduces major enhancements in fine-grained visual analysis (objects, text, charts, layouts), structured outputs (tables, invoices, forms), visual localization (bounding boxes, points with JSON), and long-video comprehension (over 1 hour with temporal reasoning). It also adds agentic capabilities, enabling tool use such as computer and phone control. This version is provided in GGUF Q16 format for efficient inference in SparkNLP pipelines and lightweight runtimes, balancing speed and accuracy. Originally from Qwen/Qwen2.5-VL-7B-Instruct. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import DocumentAssembler, ImageAssembler from sparknlp.annotator import AutoGGUFVisionModel from pyspark.sql.functions import lit from pyspark.ml import Pipeline images_path = &quot;path/to/images/folder&quot; prompt = &quot;Caption this image.&quot; data = ImageAssembler.loadImagesAsBytes(spark, images_path) data = data.withColumn(&quot;caption&quot;, lit(prompt)) document_assembler = ( DocumentAssembler() .setInputCol(&quot;caption&quot;) .setOutputCol(&quot;caption_document&quot;) ) image_assembler = ( ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) ) qwen_chat_template = &quot;&quot;&quot;&amp;lt;|im_start|&amp;gt;user prompt&amp;lt;|im_end|&amp;gt; &amp;lt;|im_start|&amp;gt;assistant &quot;&quot;&quot; autoGGUFVisionModel = ( AutoGGUFVisionModel.pretrained(&quot;qwen2.5_vl_7b_instruct_q16_gguf&quot;) .setInputCols([&quot;caption_document&quot;, &quot;image_assembler&quot;]) .setOutputCol(&quot;completions&quot;) .setChatTemplate(qwen_chat_template) .setBatchSize(4) .setNGpuLayers(32) .setNCtx(4096) .setMinKeep(0) .setMinP(0.05) .setNPredict(64) .setNProbs(0) .setPenalizeNl(False) .setRepeatLastN(256) .setRepeatPenalty(1.1) .setStopStrings([&quot;&amp;lt;/s&amp;gt;&quot;, &quot;&amp;lt;|im_end|&amp;gt;&quot;, &quot;User:&quot;]) .setTemperature(0.2) .setTfsZ(1) .setTypicalP(1) .setTopK(40) .setTopP(0.95) ) pipeline = Pipeline().setStages([ document_assembler, image_assembler, autoGGUFVisionModel ]) model = pipeline.fit(data) result = model.transform(data) result.selectExpr( &quot;reverse(split(image.origin, '/'))[0] as image_name&quot;, &quot;completions.result&quot; ).show(truncate=False) import com.johnsnowlabs.nlp.base._ import com.johnsnowlabs.nlp.annotators._ import org.apache.spark.sql.functions.lit import org.apache.spark.ml.Pipeline val images_path = &quot;path/to/images/folder&quot; val prompt = &quot;Caption this image.&quot; var data = ImageAssembler.loadImagesAsBytes(spark, images_path) data = data.withColumn(&quot;caption&quot;, lit(prompt)) val document_assembler = new DocumentAssembler() .setInputCol(&quot;caption&quot;) .setOutputCol(&quot;caption_document&quot;) val image_assembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val qwen_chat_template = &quot;&quot;&quot;&amp;lt;|im_start|&amp;gt;user prompt&amp;lt;|im_end|&amp;gt; &amp;lt;|im_start|&amp;gt;assistant &quot;&quot;&quot; val autoGGUFVisionModel = AutoGGUFVisionModel.pretrained(&quot;qwen2.5_vl_7b_instruct_q16_gguf&quot;) .setInputCols(Array(&quot;caption_document&quot;, &quot;image_assembler&quot;)) .setOutputCol(&quot;completions&quot;) .setChatTemplate(qwen_chat_template) .setBatchSize(4) .setNGpuLayers(32) .setNCtx(4096) .setMinKeep(0) .setMinP(0.05) .setNPredict(64) .setNProbs(0) .setPenalizeNl(false) .setRepeatLastN(256) .setRepeatPenalty(1.1) .setStopStrings(Array(&quot;&amp;lt;/s&amp;gt;&quot;, &quot;&amp;lt;|im_end|&amp;gt;&quot;, &quot;User:&quot;)) .setTemperature(0.2) .setTfsZ(1) .setTypicalP(1) .setTopK(40) .setTopP(0.95) val pipeline = new Pipeline().setStages(Array( document_assembler, image_assembler, autoGGUFVisionModel )) val model = pipeline.fit(data) val result = model.transform(data) result.selectExpr( &quot;reverse(split(image.origin, '/'))[0] as image_name&quot;, &quot;completions.result&quot; ).show(false) Results +-------------------+-----------------------------------------------------------------------------------------------------------------------------------+ |image_name |result | +-------------------+-----------------------------------------------------------------------------------------------------------------------------------+ |prescription_02.png|[&quot;Medical prescription for systemic lupus erythematosus and scleroderma overlap with interstitial lung disease, dated 02/07/2021.&quot;]| |prescription_01.png|[&quot;Prescription for malaria treatment, dated 30-Aug-2023, from SMS Hospital.&quot;] | +-------------------+-----------------------------------------------------------------------------------------------------------------------------------+ Model Information Model Name: qwen2.5_vl_7b_instruct_q16_gguf Compatibility: Spark NLP 6.1.1+ License: Open Source Edition: Official Input Labels: [caption_document, image_assembler] Output Labels: [completions] Language: en Size: 13.3 GB</summary></entry><entry><title type="html">BGE Reranker V2 M3 Q4_K_M GGUF</title><link href="/2025/09/01/bge_reranker_v2_m3_Q4_K_M_en.html" rel="alternate" type="text/html" title="BGE Reranker V2 M3 Q4_K_M GGUF" /><published>2025-09-01T00:00:00+00:00</published><updated>2025-09-01T00:00:00+00:00</updated><id>/2025/09/01/bge_reranker_v2_m3_Q4_K_M_en</id><content type="html" xml:base="/2025/09/01/bge_reranker_v2_m3_Q4_K_M_en.html">## Description
 
-&lt;p&gt;Lightweight reranker model, possesses strong multilingual capabilities, easy to deploy, with fast inference.&lt;/p&gt;
+Lightweight reranker model, possesses strong multilingual capabilities, easy to deploy, with fast inference.
 
-&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
-&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_reranker_v2_m3_Q4_K_M_en_6.1.2_3.0_1756718229635.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
-&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_reranker_v2_m3_Q4_K_M_en_6.1.2_3.0_1756718229635.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+{:.btn-box}
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
+[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_reranker_v2_m3_Q4_K_M_en_6.1.2_3.0_1756718229635.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
+[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/bge_reranker_v2_m3_Q4_K_M_en_6.1.2_3.0_1756718229635.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
 
-&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+## How to use
 
-&lt;div class=&quot;tabs-box&quot;&gt;
-  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
-  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
-&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;reranker&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AutoGGUFReranker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_reranker_v2_m3_Q4_K_M&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;reranked_documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setBatchSize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setQuery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A man is eating pasta.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reranker&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A man is eating food.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A man is eating a piece of bread.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The girl is carrying a baby.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A man is riding a horse.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;reranked_documents&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# Each document will have a relevance_score in metadata showing how relevant it is to the query
-&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+
+
+&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
+{% include programmingLanguageSelectScalaPythonNLU.html %}
+```python
+import sparknlp
+from sparknlp.base import *
+from sparknlp.annotator import *
+from pyspark.ml import Pipeline
+document = DocumentAssembler() \n    .setInputCol(&quot;text&quot;) \n    .setOutputCol(&quot;document&quot;)
+reranker = AutoGGUFReranker.pretrained(&quot;bge_reranker_v2_m3_Q4_K_M&quot;) \n    .setInputCols([&quot;document&quot;]) \n    .setOutputCol(&quot;reranked_documents&quot;) \n    .setBatchSize(4) \n    .setQuery(&quot;A man is eating pasta.&quot;)
+pipeline = Pipeline().setStages([document, reranker])
+data = spark.createDataFrame([
+    [&quot;A man is eating food.&quot;],
+    [&quot;A man is eating a piece of bread.&quot;],
+    [&quot;The girl is carrying a baby.&quot;],
+    [&quot;A man is riding a horse.&quot;]
+]).toDF(&quot;text&quot;)
+result = pipeline.fit(data).transform(data)
+result.select(&quot;reranked_documents&quot;).show(truncate = False)
+# Each document will have a relevance_score in metadata showing how relevant it is to the query
+
+```
 
 &lt;/div&gt;
 
-&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+{:.model-param}
+## Model Information
 
-&lt;table class=&quot;table-model&quot;&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Model Name:&lt;/td&gt;
-      &lt;td&gt;bge_reranker_v2_m3_Q4_K_M&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Compatibility:&lt;/td&gt;
-      &lt;td&gt;Spark NLP 6.1.2+&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;License:&lt;/td&gt;
-      &lt;td&gt;Open Source&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Edition:&lt;/td&gt;
-      &lt;td&gt;Official&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Input Labels:&lt;/td&gt;
-      &lt;td&gt;[document]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Output Labels:&lt;/td&gt;
-      &lt;td&gt;[reranked_documents]&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Language:&lt;/td&gt;
-      &lt;td&gt;en&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Size:&lt;/td&gt;
-      &lt;td&gt;416.0 MB&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="llamacpp" /><category term="gguf" /><category term="reranker" /><category term="bge" /><category term="en" /><category term="open_source" /><summary type="html">Description Lightweight reranker model, possesses strong multilingual capabilities, easy to deploy, with fast inference. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU import sparknlp from sparknlp.base import * from sparknlp.annotator import * from pyspark.ml import Pipeline document = DocumentAssembler() \n .setInputCol(&quot;text&quot;) \n .setOutputCol(&quot;document&quot;) reranker = AutoGGUFReranker.pretrained(&quot;bge_reranker_v2_m3_Q4_K_M&quot;) \n .setInputCols([&quot;document&quot;]) \n .setOutputCol(&quot;reranked_documents&quot;) \n .setBatchSize(4) \n .setQuery(&quot;A man is eating pasta.&quot;) pipeline = Pipeline().setStages([document, reranker]) data = spark.createDataFrame([ [&quot;A man is eating food.&quot;], [&quot;A man is eating a piece of bread.&quot;], [&quot;The girl is carrying a baby.&quot;], [&quot;A man is riding a horse.&quot;] ]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) result.select(&quot;reranked_documents&quot;).show(truncate = False) # Each document will have a relevance_score in metadata showing how relevant it is to the query Model Information Model Name: bge_reranker_v2_m3_Q4_K_M Compatibility: Spark NLP 6.1.2+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [reranked_documents] Language: en Size: 416.0 MB</summary></entry><entry><title type="html">Qwen2-VL-2B-Instruct (Q4 GGUF Quantized)</title><link href="/2025/08/11/qwen2_vl_2b_instruct_q4_gguf_en.html" rel="alternate" type="text/html" title="Qwen2-VL-2B-Instruct (Q4 GGUF Quantized)" /><published>2025-08-11T00:00:00+00:00</published><updated>2025-08-11T00:00:00+00:00</updated><id>/2025/08/11/qwen2_vl_2b_instruct_q4_gguf_en</id><content type="html" xml:base="/2025/08/11/qwen2_vl_2b_instruct_q4_gguf_en.html">## Description
+{:.table-model}
+|---|---|
+|Model Name:|bge_reranker_v2_m3_Q4_K_M|
+|Compatibility:|Spark NLP 6.1.2+|
+|License:|Open Source|
+|Edition:|Official|
+|Input Labels:|[document]|
+|Output Labels:|[reranked_documents]|
+|Language:|en|
+|Size:|416.0 MB|</content><author><name>John Snow Labs</name></author><category term="llamacpp" /><category term="gguf" /><category term="reranker" /><category term="bge" /><category term="en" /><category term="open_source" /><summary type="html">Description Lightweight reranker model, possesses strong multilingual capabilities, easy to deploy, with fast inference. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU import sparknlp from sparknlp.base import * from sparknlp.annotator import * from pyspark.ml import Pipeline document = DocumentAssembler() \n .setInputCol(&quot;text&quot;) \n .setOutputCol(&quot;document&quot;) reranker = AutoGGUFReranker.pretrained(&quot;bge_reranker_v2_m3_Q4_K_M&quot;) \n .setInputCols([&quot;document&quot;]) \n .setOutputCol(&quot;reranked_documents&quot;) \n .setBatchSize(4) \n .setQuery(&quot;A man is eating pasta.&quot;) pipeline = Pipeline().setStages([document, reranker]) data = spark.createDataFrame([ [&quot;A man is eating food.&quot;], [&quot;A man is eating a piece of bread.&quot;], [&quot;The girl is carrying a baby.&quot;], [&quot;A man is riding a horse.&quot;] ]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) result.select(&quot;reranked_documents&quot;).show(truncate = False) # Each document will have a relevance_score in metadata showing how relevant it is to the query Model Information Model Name: bge_reranker_v2_m3_Q4_K_M Compatibility: Spark NLP 6.1.2+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [reranked_documents] Language: en Size: 416.0 MB</summary></entry><entry><title type="html">Qwen2-VL-2B-Instruct (Q4 GGUF Quantized)</title><link href="/2025/08/11/qwen2_vl_2b_instruct_q4_gguf_en.html" rel="alternate" type="text/html" title="Qwen2-VL-2B-Instruct (Q4 GGUF Quantized)" /><published>2025-08-11T00:00:00+00:00</published><updated>2025-08-11T00:00:00+00:00</updated><id>/2025/08/11/qwen2_vl_2b_instruct_q4_gguf_en</id><content type="html" xml:base="/2025/08/11/qwen2_vl_2b_instruct_q4_gguf_en.html">## Description
 
 Qwen2-VL-2B-Instruct is a 2-billion-parameter vision-language model fine-tuned for following instructions across text, image, and video inputs, enabling tasks like captioning, visual question answering, and multimodal dialogue.
 

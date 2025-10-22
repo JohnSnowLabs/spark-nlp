@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -531,151 +531,128 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Image Captioning"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Image Captioning</strong> is the process of generating descriptive text for an image based on its visual content. This task is crucial in computer vision and has a variety of applications, such as enhancing accessibility for visually impaired individuals, improving image search, and enriching multimedia content. Spark NLP integrates image captioning with other NLP and vision-based tasks, enabling efficient and scalable caption generation within the same framework.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p>Image captioning is the task of automatically generating a short, meaningful description for an image. It combines <strong>computer vision</strong>, which helps the model understand what is in the image, with <strong>natural language processing</strong>, which enables it to express that understanding in human language. For example, given an image of a dog running on the beach, the model might generate a caption like <em>“A dog running along the shoreline.”</em></p>
 
-<p>By utilizing image captioning models, we can produce natural language descriptions that capture the key elements and context of images. Common use cases include:</p>
+<p>This process typically involves two main components: a <strong>vision model</strong> (such as a CNN or Vision Transformer) that extracts visual features from the image, and a <strong>language model</strong> (like an LSTM or Transformer) that uses those features to generate text. The goal is not just to recognize objects but also to describe their relationships, actions, and context in a fluent, natural sentence.</p>
 
-<ul>
-  <li><strong>Social Media</strong>: Automatically generating captions for user-uploaded images.</li>
-  <li><strong>E-Commerce</strong>: Generating product descriptions based on visual attributes.</li>
-  <li><strong>Accessibility</strong>: Describing visual content for the visually impaired.</li>
-  <li><strong>Search Engines</strong>: Improving search results by associating images with relevant text.</li>
-</ul>
+<p>Image captioning has many practical uses, such as improving accessibility for visually impaired users, enhancing image search systems, organizing large photo collections, and supporting content generation in applications that rely on visual media.</p>
 
 <h2 id="picking-a-model">Picking a Model</h2>
 
-<p>When selecting a model for image captioning, it’s important to consider the <strong>image complexity</strong> and the <strong>quality of captions</strong> required. For example, some tasks may need simple, high-level descriptions (e.g., “a person riding a bike”), while others might require more detailed, context-rich captions (e.g., “a young man riding a mountain bike on a sunny day”).</p>
+<p>When picking a model for image captioning, consider how complex and descriptive you want the captions to be. Most modern systems use a <strong>vision encoder</strong> to interpret the image and a <strong>language decoder</strong> to generate the text. Popular pretrained combinations include <strong>CNN + LSTM</strong> architectures, and more recently, <strong>Vision Transformer (ViT)</strong> or <strong>CLIP</strong> encoders paired with <strong>Transformer-based decoders</strong> like <strong>GPT-2</strong> or <strong>T5</strong>.</p>
 
-<p>Additionally, assess the <strong>performance metrics</strong> such as <strong>BLEU score</strong> or <strong>ROUGE score</strong> for evaluating the quality of generated captions. Ensure that the model is well-suited to your specific dataset, whether it consists of simple images like products or more complex images like natural scenes.</p>
+<p>If you want a general-purpose captioning model that works well across a wide variety of images, options like <strong>BLIP</strong>, <strong>BLIP-2</strong>, <strong>OFA</strong>, or <strong>GIT</strong> provide strong results out of the box. These models are trained on large image–text datasets and can generate fluent, contextually rich captions.</p>
 
 <p>Explore pre-trained image captioning models in the <a href="https://sparknlp.org/models">Spark NLP Models Hub</a> for a variety of datasets and tasks.</p>
 
-<h4 id="recommended-models-for-image-captioning">Recommended Models for Image Captioning</h4>
-<ul>
-  <li><strong>VisionEncoderDecoder For Image Captioning:</strong> This model can be used for generating descriptive captions based on images. It utilizes a transformer-based architecture, providing high-quality captions for various types of images. Check out the pre-trained model <a href="https://sparknlp.org/2023/09/20/image_captioning_vit_gpt2_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">image-captioning-vit-gpt2</code></a>.</li>
-</ul>
+<!-- #### Recommended Models for Image Captioning
+- **VisionEncoderDecoder For Image Captioning:** This model can be used for generating descriptive captions based on images. It utilizes a transformer-based architecture, providing high-quality captions for various types of images. Check out the pre-trained model [`image-captioning-vit-gpt2`](https://sparknlp.org/2023/09/20/image_captioning_vit_gpt2_en.html){:target="_blank"}. -->
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Import necessary libraries from Spark NLP
-</span><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="c1"># Load image data into a DataFrame, discarding any invalid images
-</span><span class="n">imageDF</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
-    <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">"dropInvalid"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"src/test/resources/image/"</span><span class="p">)</span>
-
-<span class="c1"># Create an ImageAssembler to prepare image data for processing
-</span><span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \
+<span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
 
-<span class="c1"># Initialize the VisionEncoderDecoder model for image captioning
-</span><span class="n">imageCaptioning</span> <span class="o">=</span> <span class="n">VisionEncoderDecoderForImageCaptioning</span> \
-    <span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \  <span class="c1"># Load a pre-trained model for image captioning
-</span>    <span class="p">.</span><span class="n">setBeamSize</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-    <span class="p">.</span><span class="n">setDoSample</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">imageCaptioning</span> <span class="o">=</span> <span class="n">VisionEncoderDecoderForImageCaptioning</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setDoSample</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"image_assembler"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"caption"</span><span class="p">)</span>
 
-<span class="c1"># Create a pipeline that includes the image assembler and image captioning stages
-</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">imageAssembler</span><span class="p">,</span> <span class="n">imageCaptioning</span><span class="p">])</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">imageAssembler</span><span class="p">,</span> 
+    <span class="n">imageCaptioning</span>
+<span class="p">])</span>
 
-<span class="c1"># Fit the pipeline on the image DataFrame and transform the data
-</span><span class="n">pipelineDF</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">imageDF</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
+<span class="n">imageDF</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span> \
+    <span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">"dropInvalid"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"path/to/images/folder"</span><span class="p">)</span>
 
-<span class="c1"># Select and display the image file name and the generated captions
-</span><span class="n">pipelineDF</span> \
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">imageDF</span><span class="p">)</span>
+
+<span class="n">result</span> \
     <span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"reverse(split(image.origin, '/'))[0] as image_name"</span><span class="p">,</span> <span class="s">"caption.result"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="o">+-----------------+---------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">image_name</span>       <span class="o">|</span><span class="n">result</span>                                                   <span class="o">|</span>
-<span class="o">+-----------------+---------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">palace</span><span class="p">.</span><span class="n">JPEG</span>      <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">large</span> <span class="n">room</span> <span class="n">filled</span> <span class="k">with</span> <span class="n">furniture</span> <span class="ow">and</span> <span class="n">a</span> <span class="n">large</span> <span class="n">window</span><span class="p">]</span>  <span class="o">|</span>
-<span class="o">|</span><span class="n">egyptian_cat</span><span class="p">.</span><span class="n">jpeg</span><span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">cat</span> <span class="n">laying</span> <span class="n">on</span> <span class="n">a</span> <span class="n">couch</span> <span class="nb">next</span> <span class="n">to</span> <span class="n">another</span> <span class="n">cat</span><span class="p">]</span>            <span class="o">|</span>
-<span class="o">|</span><span class="n">hippopotamus</span><span class="p">.</span><span class="n">JPEG</span><span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">brown</span> <span class="n">bear</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">body</span> <span class="n">of</span> <span class="n">water</span><span class="p">]</span>                        <span class="o">|</span>
-<span class="o">|</span><span class="n">hen</span><span class="p">.</span><span class="n">JPEG</span>         <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">flock</span> <span class="n">of</span> <span class="n">chickens</span> <span class="n">standing</span> <span class="nb">next</span> <span class="n">to</span> <span class="n">each</span> <span class="n">other</span><span class="p">]</span>        <span class="o">|</span>
-<span class="o">|</span><span class="n">ostrich</span><span class="p">.</span><span class="n">JPEG</span>     <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">large</span> <span class="n">bird</span> <span class="n">standing</span> <span class="n">on</span> <span class="n">top</span> <span class="n">of</span> <span class="n">a</span> <span class="n">lush</span> <span class="n">green</span> <span class="n">field</span><span class="p">]</span>     <span class="o">|</span>
-<span class="o">|</span><span class="n">junco</span><span class="p">.</span><span class="n">JPEG</span>       <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">small</span> <span class="n">bird</span> <span class="n">standing</span> <span class="n">on</span> <span class="n">a</span> <span class="n">wet</span> <span class="n">ground</span><span class="p">]</span>                  <span class="o">|</span>
-<span class="o">|</span><span class="n">bluetick</span><span class="p">.</span><span class="n">jpg</span>     <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">small</span> <span class="n">dog</span> <span class="n">standing</span> <span class="n">on</span> <span class="n">a</span> <span class="n">wooden</span> <span class="n">floor</span><span class="p">]</span>                 <span class="o">|</span>
-<span class="o">|</span><span class="n">chihuahua</span><span class="p">.</span><span class="n">jpg</span>    <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">small</span> <span class="n">brown</span> <span class="n">dog</span> <span class="n">wearing</span> <span class="n">a</span> <span class="n">blue</span> <span class="n">sweater</span><span class="p">]</span>               <span class="o">|</span>
-<span class="o">|</span><span class="n">tractor</span><span class="p">.</span><span class="n">JPEG</span>     <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">man</span> <span class="ow">is</span> <span class="n">standing</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">field</span> <span class="k">with</span> <span class="n">a</span> <span class="n">tractor</span><span class="p">]</span>            <span class="o">|</span>
-<span class="o">|</span><span class="n">ox</span><span class="p">.</span><span class="n">JPEG</span>          <span class="o">|</span><span class="p">[</span><span class="n">a</span> <span class="n">large</span> <span class="n">brown</span> <span class="n">cow</span> <span class="n">standing</span> <span class="n">on</span> <span class="n">top</span> <span class="n">of</span> <span class="n">a</span> <span class="n">lush</span> <span class="n">green</span> <span class="n">field</span><span class="p">]</span><span class="o">|</span>
-<span class="o">+-----------------+---------------------------------------------------------+</span>
 </code></pre></div>  </div>
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Import necessary libraries from Spark NLP</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.ImageAssembler</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions._</span>
 
-<span class="c1">// Load image data into a DataFrame, discarding invalid images</span>
-<span class="k">val</span> <span class="nv">imageDF</span><span class="k">:</span> <span class="kt">DataFrame</span> <span class="o">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
-  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"src/test/resources/image/"</span><span class="o">)</span>
-
-<span class="c1">// Image Assembler: Prepares image data for processing</span>
 <span class="k">val</span> <span class="nv">imageAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
 
-<span class="c1">// Initialize image captioning model</span>
 <span class="k">val</span> <span class="nv">imageCaptioning</span> <span class="k">=</span> <span class="nc">VisionEncoderDecoderForImageCaptioning</span>
   <span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setBeamSize</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setDoSample</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"caption"</span><span class="o">)</span>
 
-<span class="c1">// Create and fit the pipeline</span>
-<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">imageAssembler</span><span class="o">,</span> <span class="n">imageCaptioning</span><span class="o">))</span>
-<span class="k">val</span> <span class="nv">pipelineDF</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">imageDF</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+  <span class="n">imageAssembler</span><span class="o">,</span>
+  <span class="n">imageCaptioning</span>
+<span class="o">))</span>
 
-<span class="c1">// Display image names and generated captions</span>
-<span class="n">pipelineDF</span>
+<span class="k">val</span> <span class="nv">imageDF</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span>
+  <span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"path/to/images/folder"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">imageDF</span><span class="o">)</span>
+
+<span class="n">result</span>
   <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"reverse(split(image.origin, '/'))[0] as image_name"</span><span class="o">,</span> <span class="s">"caption.result"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
 
-<span class="o">+-----------------+---------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">image_name</span>       <span class="o">|</span><span class="n">result</span>                                                   <span class="o">|</span>
-<span class="o">+-----------------+---------------------------------------------------------+</span>
-<span class="o">|</span><span class="nv">palace</span><span class="o">.</span><span class="py">JPEG</span>      <span class="o">|[</span><span class="kt">a</span> <span class="kt">large</span> <span class="kt">room</span> <span class="kt">filled</span> <span class="kt">with</span> <span class="kt">furniture</span> <span class="kt">and</span> <span class="kt">a</span> <span class="kt">large</span> <span class="kt">window</span><span class="o">]</span>  <span class="o">|</span>
-<span class="o">|</span><span class="nv">egyptian_cat</span><span class="o">.</span><span class="py">jpeg</span><span class="o">|[</span><span class="kt">a</span> <span class="kt">cat</span> <span class="kt">laying</span> <span class="kt">on</span> <span class="kt">a</span> <span class="kt">couch</span> <span class="kt">next</span> <span class="kt">to</span> <span class="kt">another</span> <span class="kt">cat</span><span class="o">]</span>            <span class="o">|</span>
-<span class="o">|</span><span class="nv">hippopotamus</span><span class="o">.</span><span class="py">JPEG</span><span class="o">|[</span><span class="kt">a</span> <span class="kt">brown</span> <span class="kt">bear</span> <span class="kt">in</span> <span class="kt">a</span> <span class="kt">body</span> <span class="kt">of</span> <span class="kt">water</span><span class="o">]</span>                        <span class="o">|</span>
-<span class="o">|</span><span class="nv">hen</span><span class="o">.</span><span class="py">JPEG</span>         <span class="o">|[</span><span class="kt">a</span> <span class="kt">flock</span> <span class="kt">of</span> <span class="kt">chickens</span> <span class="kt">standing</span> <span class="kt">next</span> <span class="kt">to</span> <span class="kt">each</span> <span class="kt">other</span><span class="o">]</span>        <span class="o">|</span>
-<span class="o">|</span><span class="nv">ostrich</span><span class="o">.</span><span class="py">JPEG</span>     <span class="o">|[</span><span class="kt">a</span> <span class="kt">large</span> <span class="kt">bird</span> <span class="kt">standing</span> <span class="kt">on</span> <span class="kt">top</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">lush</span> <span class="kt">green</span> <span class="kt">field</span><span class="o">]</span>     <span class="o">|</span>
-<span class="o">|</span><span class="nv">junco</span><span class="o">.</span><span class="py">JPEG</span>       <span class="o">|[</span><span class="kt">a</span> <span class="kt">small</span> <span class="kt">bird</span> <span class="kt">standing</span> <span class="kt">on</span> <span class="kt">a</span> <span class="kt">wet</span> <span class="kt">ground</span><span class="o">]</span>                  <span class="o">|</span>
-<span class="o">|</span><span class="nv">bluetick</span><span class="o">.</span><span class="py">jpg</span>     <span class="o">|[</span><span class="kt">a</span> <span class="kt">small</span> <span class="kt">dog</span> <span class="kt">standing</span> <span class="kt">on</span> <span class="kt">a</span> <span class="kt">wooden</span> <span class="kt">floor</span><span class="o">]</span>                 <span class="o">|</span>
-<span class="o">|</span><span class="nv">chihuahua</span><span class="o">.</span><span class="py">jpg</span>    <span class="o">|[</span><span class="kt">a</span> <span class="kt">small</span> <span class="kt">brown</span> <span class="kt">dog</span> <span class="kt">wearing</span> <span class="kt">a</span> <span class="kt">blue</span> <span class="kt">sweater</span><span class="o">]</span>               <span class="o">|</span>
-<span class="o">|</span><span class="nv">tractor</span><span class="o">.</span><span class="py">JPEG</span>     <span class="o">|[</span><span class="kt">a</span> <span class="kt">man</span> <span class="kt">is</span> <span class="kt">standing</span> <span class="kt">in</span> <span class="kt">a</span> <span class="kt">field</span> <span class="kt">with</span> <span class="kt">a</span> <span class="kt">tractor</span><span class="o">]</span>            <span class="o">|</span>
-<span class="o">|</span><span class="nv">ox</span><span class="o">.</span><span class="py">JPEG</span>          <span class="o">|[</span><span class="kt">a</span> <span class="kt">large</span> <span class="kt">brown</span> <span class="kt">cow</span> <span class="kt">standing</span> <span class="kt">on</span> <span class="kt">top</span> <span class="kt">of</span> <span class="kt">a</span> <span class="kt">lush</span> <span class="kt">green</span> <span class="kt">field</span><span class="o">]|</span>
-<span class="o">+-----------------+---------------------------------------------------------+</span>
 </code></pre></div>  </div>
-
-  <h2 id="try-real-time-demos">Try Real-Time Demos!</h2>
-
-  <p>Explore real-time image captioning outputs with our interactive demos:</p>
-
-  <ul>
-    <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-VisionEncoderDecoderForImageCaptioning" target="_blank">VisionEncoderDecoder For Image Captioning</a></strong></li>
-  </ul>
-
-  <h2 id="useful-resources">Useful Resources</h2>
-
-  <p>To dive deeper into image captioning using Spark NLP, check out these useful resources:</p>
-
-  <p><strong>Notebooks</strong></p>
-  <ul>
-    <li><em><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/image/VisionEncoderDecoderForImageCaptioning.ipynb" target="_blank">Vision Encoder-Decoder for Image Captioning</a></em></li>
-  </ul>
 </div>
+
+<div class="tabs-box">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------+---------------------------------------------------------+
+|image_name       |result                                                   |
++-----------------+---------------------------------------------------------+
+|palace.JPEG      |[a large room filled with furniture and a large window]  |
+|egyptian_cat.jpeg|[a cat laying on a couch next to another cat]            |
+|hippopotamus.JPEG|[a brown bear in a body of water]                        |
+|hen.JPEG         |[a flock of chickens standing next to each other]        |
+|ostrich.JPEG     |[a large bird standing on top of a lush green field]     |
+|junco.JPEG       |[a small bird standing on a wet ground]                  |
+|bluetick.jpg     |[a small dog standing on a wooden floor]                 |
+|chihuahua.jpg    |[a small brown dog wearing a blue sweater]               |
+|tractor.JPEG     |[a man is standing in a field with a tractor]            |
+|ox.JPEG          |[a large brown cow standing on top of a lush green field]|
++-----------------+---------------------------------------------------------+
+</code></pre></div>  </div>
+</div>
+
+<h2 id="try-real-time-demos">Try Real-Time Demos!</h2>
+
+<p>Explore real-time image captioning outputs with our interactive demos:</p>
+
+<ul>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-VisionEncoderDecoderForImageCaptioning" target="_blank">VisionEncoderDecoder For Image Captioning</a></strong></li>
+</ul>
+
+<h2 id="useful-resources">Useful Resources</h2>
+
+<p>To dive deeper into image captioning using Spark NLP, check out these useful resources:</p>
+
+<p><strong>Notebooks</strong></p>
+<ul>
+  <li><em><a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/image/VisionEncoderDecoderForImageCaptioning.ipynb" target="_blank">Vision Encoder-Decoder for Image Captioning</a></em></li>
+</ul>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
       <time itemprop="dateModified" datetime="2024-10-05T00:00:00+00:00">Oct 05, 2024</time>
     </span><!-- start custom article footer snippet -->

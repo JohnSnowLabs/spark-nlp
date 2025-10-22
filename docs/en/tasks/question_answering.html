@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -531,130 +531,109 @@
             <i class="far fa-edit"></i></a></div><meta itemprop="headline" content="Question Answering"><meta itemprop="author" content=""/><div class="js-article-content"><div class="docs-wrapper">
 <div class="layout--article"><!-- start custom article top snippet -->
 
-<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Question Answering (QA)</strong> is the task of automatically answering questions posed by humans in natural language. It is a fundamental problem in <em>natural language processing (NLP)</em>, playing a vital role in applications such as search engines, virtual assistants, customer support systems, and more. Spark NLP provides state-of-the-art (SOTA) models for QA tasks, enabling accurate and context-aware responses to user queries.</p>
+<!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><p><strong>Question Answering (QA)</strong> is a natural language processing task where models provide answers to questions using a given context, or in some cases, from their own knowledge without any context. For example, given the question <em>“Which name is also used to describe the Amazon rainforest in English?”</em> and the context <em>“The Amazon rainforest, also known in English as Amazonia or the Amazon Jungle”</em>, a QA model would output <em>“Amazonia”</em>. This capability makes QA ideal for searching within documents and for powering systems like <strong>FAQ automation</strong>, <strong>customer support</strong>, and <strong>knowledge-base search</strong>.</p>
 
-<p>QA systems extract relevant information from a given context or knowledge base to answer a question. Depending on the model and input, they can either find exact answers within a text or generate a more comprehensive response.</p>
+<h3 id="types-of-question-answering">Types of Question Answering</h3>
 
-<h2 id="types-of-question-answering">Types of Question Answering</h2>
-
+<p>There are several QA variants:</p>
 <ul>
-  <li>
-    <p><strong>Open-Book QA:</strong> In this approach, the model has access to external documents, passages, or knowledge sources to extract the answer. The system looks for relevant information within the provided text (e.g., “What is the tallest mountain in the world?” answered using a document about mountains).</p>
-  </li>
-  <li>
-    <p><strong>Closed-Book QA:</strong> Here, the model must rely solely on the knowledge it has been trained on, without access to external sources. The answer is generated from the model’s internal knowledge (e.g., answering trivia questions without referring to external material).</p>
-  </li>
+  <li><strong>Extractive QA</strong>, which pulls the exact answer span from a context and is often solved with BERT-like models</li>
+  <li><strong>Open generative QA</strong>, which generates natural-sounding answers based on a provided context</li>
+  <li><strong>Closed generative QA</strong>, where the model answers entirely from its internal knowledge without any context.</li>
 </ul>
 
-<p>Common use cases include:</p>
-
-<ul>
-  <li><strong>Fact-based QA:</strong> Answering factoid questions such as “What is the capital of France?”</li>
-  <li><strong>Reading Comprehension:</strong> Extracting answers from a provided context, often used in assessments or educational tools.</li>
-  <li><strong>Dialogue-based QA:</strong> Supporting interactive systems that maintain context across multiple turns of conversation.</li>
-</ul>
-
-<p>By leveraging QA models, organizations can build robust systems that improve user engagement, provide instant information retrieval, and offer customer support in a more intuitive manner.</p>
-
-<!-- <div style="text-align: center;">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div> -->
-
+<p>QA systems can also be <strong>open-domain</strong>, covering a wide range of topics, or <strong>closed-domain</strong>, focused on specialized areas such as law or medicine. Together, these variants make QA a core building block for modern applications such as <strong>search engines</strong>, <strong>chatbots</strong>, and <strong>virtual assistants</strong>.
+∂</p>
 <h2 id="picking-a-model">Picking a Model</h2>
 
-<p>When selecting a model for question answering, consider the following important factors. First, assess the <strong>nature of your data</strong> (e.g., structured knowledge base vs. unstructured text) and the <strong>type of QA</strong> needed (open-book or closed-book). Open-book QA requires models that can efficiently search and extract from external sources, while closed-book QA demands models with a large internal knowledge base.</p>
+<p>Depending on the QA variant and domain, different models are typically favored: <strong>BERT</strong>, <strong>RoBERTa</strong>, and <strong>ALBERT</strong> are strong choices for extractive QA; <strong>T5</strong>, <strong>BART</strong>, and newer families like <strong>LLaMA 2</strong> excel at open generative QA; models such as <strong>LLaMA 2</strong> and <strong>Mistral</strong> are well suited for closed generative QA; and domain-specific variants like <strong>BioBERT</strong>, <strong>LegalBERT</strong>, and <strong>SciBERT</strong> deliver the highest performance for specialized fields. A good rule of thumb is to use <strong>extractive QA</strong> when precise span-level answers are needed from a document, <strong>open generative QA</strong> when natural and context-aware responses are desired, and <strong>closed generative QA</strong> when relying on a model’s internal knowledge is sufficient or preferable.</p>
 
-<p>Evaluate the <strong>complexity of the questions</strong>—are they simple factoids or require more reasoning and multi-turn interactions? Metrics such as <strong>Exact Match (EM)</strong> and <strong>F1 score</strong> are commonly used to measure model performance in QA tasks. Finally, take into account the <strong>computational resources</strong> available, as some models, like BERT or T5, may require significant processing power.</p>
-
-<p>Explore models tailored for question answering at <a href="https://sparknlp.org/models">Spark NLP Models</a>, where you’ll find various options for different QA tasks.</p>
-
-<h4 id="recommended-models-for-specific-qa-tasks">Recommended Models for Specific QA Tasks</h4>
+<h3 id="recommended-models-for-specific-qa-tasks">Recommended Models for Specific QA Tasks</h3>
 
 <ul>
-  <li><strong>Extractive QA:</strong> Use models like <a href="https://sparknlp.org/2023/11/26/distilbert_base_cased_qa_squad2_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">distilbert-base-cased-distilled-squad</code></a> and <a href="https://sparknlp.org/2024/09/01/bert_large_uncased_whole_word_masking_finetuned_squad_google_bert_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">bert-large-uncased-whole-word-masking-finetuned-squad</code></a> for extracting answers directly from a provided context.</li>
-  <li><strong>Generative QA (Closed-Book):</strong> Consider models such as <a href="https://sparknlp.org/2022/12/02/roberta_qa_deepset_base_squad2_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">roberta-base-squad2</code></a> or <a href="https://sparknlp.org/2021/01/08/t5_base_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">t5_base</code></a> for generating answers based on internal knowledge without external context.</li>
+  <li>
+    <p><strong>Extractive QA:</strong> Models such as <a href="https://sparknlp.org/2023/11/26/distilbert_base_cased_qa_squad2_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">distilbert-base-cased-distilled-squad</code></a> and <a href="https://sparknlp.org/2024/09/01/bert_large_uncased_whole_word_masking_finetuned_squad_google_bert_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">bert-large-uncased-whole-word-masking-finetuned-squad</code></a> are well suited for identifying precise answer spans directly from context.</p>
+  </li>
+  <li>
+    <p><strong>Open Generative QA (context-based):</strong> For generating fluent, context-aware answers, models like <a href="https://sparknlp.org/2021/01/08/t5_base_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">t5_base</code></a> and <a href="https://sparknlp.org/2025/02/08/qa_facebook_bart_base_ibrahimgiki_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">bart_base</code></a> provide strong performance.</p>
+  </li>
+  <li>
+    <p><strong>Closed Generative QA (knowledge-based):</strong> When answers must be drawn from the model’s internal knowledge rather than external context, options such as <a href="https://sparknlp.org/2022/12/02/roberta_qa_deepset_base_squad2_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">roberta-base-squad2</code></a> and newer families like <a href="https://sparknlp.org/2024/05/19/llama_2_7b_chat_hf_int8_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">llama_2_7b_chat</code></a> are effective choices.</p>
+  </li>
+  <li>
+    <p><strong>Domain-Specific QA:</strong> For specialized use cases, consider domain-adapted models such as <a href="https://sparknlp.org/2023/11/14/bert_qa_biobert_large_cased_v1.1_squad_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">dmis-lab/biobert-large-cased-v1.1-squad</code></a> for biomedical tasks, <a href="http://127.0.0.1:4000/docs/en/tasks/question_answering" target="_blank"><code class="language-plaintext highlighter-rouge">Beri/legal-qa</code></a> for legal texts, or <a href="https://sparknlp.org/2023/11/15/bert_qa_scibert_scivocab_uncased_squad_v2_en.html" target="_blank"><code class="language-plaintext highlighter-rouge">ktrapeznikov/scibert_scivocab_uncased_squad_v2</code></a> for scientific literature.</p>
+  </li>
 </ul>
-
-<p>By selecting the appropriate question answering model, you can enhance your ability to deliver accurate and relevant answers tailored to your specific NLP tasks.</p>
 
 <h2 id="how-to-use">How to use</h2>
 
 <div class="tabs-box">
   <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="c1"># 1. Document Assembler: Prepares the question and context text for further processing
-</span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">MultiDocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
+    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span>
 
-<span class="c1"># 2. Question Answering Model: Uses a pretrained RoBERTa model for QA
-</span><span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">RoBertaForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="n">spanClassifier</span> <span class="o">=</span> <span class="n">DistilBertForQuestionAnswering</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"distilbert_base_cased_qa_squad2"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_question"</span><span class="p">,</span> <span class="s">"document_context"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"answer"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
 
-<span class="c1"># 3. Pipeline: Combines the stages (DocumentAssembler and RoBERTa model) into a pipeline
-</span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span>
     <span class="n">documentAssembler</span><span class="p">,</span>
     <span class="n">spanClassifier</span>
 <span class="p">])</span>
 
-<span class="c1"># 4. Sample Data: Creating a DataFrame with a question and context
-</span><span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"What's my name?"</span><span class="p">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+    <span class="p">[</span><span class="s">"What is my name?"</span><span class="p">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="p">]</span>
+<span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">)</span>
 
-<span class="c1"># 5. Running the Pipeline: Fitting the pipeline to the data and generating answers
-</span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-<span class="c1"># 6. Displaying the Result: The output is the answer to the question extracted from the context
-</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"answer.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"question"</span><span class="p">,</span> <span class="s">"context"</span><span class="p">,</span> <span class="s">"answer.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="n">result</span>              <span class="o">|</span>
-<span class="o">+--------------------+</span>
-<span class="o">|</span><span class="p">[</span><span class="n">Clara</span><span class="p">]</span>             <span class="o">|</span>
-<span class="o">+--------------------+</span>
 </code></pre></div>  </div>
 
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
 <span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 
-<span class="c1">// 1. Document Assembler: Prepares the question and context text for further processing</span>
-<span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MultiDocumentAssembler</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MultiDocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">))</span>
 
-<span class="c1">// 2. Question Answering Model: Uses a pretrained RoBERTa model for QA</span>
-<span class="k">val</span> <span class="nv">questionAnswering</span> <span class="k">=</span> <span class="nv">RoBertaForQuestionAnswering</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+<span class="k">val</span> <span class="nv">spanClassifier</span> <span class="k">=</span> <span class="nv">DistilBertForQuestionAnswering</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"distilbert_base_cased_qa_squad2"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document_question"</span><span class="o">,</span> <span class="s">"document_context"</span><span class="o">))</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"answer"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
 
-<span class="c1">// 3. Pipeline: Combines the stages (DocumentAssembler and RoBERTa model) into a pipeline</span>
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
-  <span class="n">document</span><span class="o">,</span>
-  <span class="n">questionAnswering</span>
+  <span class="n">documentAssembler</span><span class="o">,</span>
+  <span class="n">spanClassifier</span>
 <span class="o">))</span>
 
-<span class="c1">// 4. Sample Data: Creating a DataFrame with a question and context</span>
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"What's my name?"</span><span class="o">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="o">(</span><span class="s">"What is my name?"</span><span class="o">,</span> <span class="s">"My name is Clara and I live in Berkeley."</span><span class="o">)</span>
+<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">)</span>
 
-<span class="c1">// 5. Running the Pipeline: Fitting the pipeline to the data and generating answers</span>
-<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
-<span class="c1">// 6. Displaying the Result: The output is the answer to the question extracted from the context</span>
-<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"answer.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"question"</span><span class="o">,</span> <span class="s">"context"</span><span class="o">,</span> <span class="s">"answer.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
 
-<span class="o">+---------------------+</span>
-<span class="o">|</span><span class="n">result</span>               <span class="o">|</span>
-<span class="o">+---------------------+</span>
-<span class="o">|[</span><span class="kt">Clara</span><span class="o">]</span>              <span class="o">|</span>
-<span class="o">+---------------------+</span>
+</code></pre></div>  </div>
+</div>
+
+<div class="tabs-box">
+  <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+----------------+----------------------------------------+-------+
+|question        |context                                 |result |
++----------------+----------------------------------------+-------+
+|What is my name?|My name is Clara and I live in Berkeley.|[Clara]|
++----------------+----------------------------------------+-------+
 </code></pre></div>  </div>
 </div>
 
@@ -663,10 +642,10 @@
 <p>If you want to see the outputs of question answering models in real time, visit our interactive demos:</p>
 
 <ul>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-qa" target="_blank">BERT for Extractive Question Answering</a></strong> – Extract answers directly from provided context using the BERT model.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-roberta-qa" target="_blank">RoBERTa for Question Answering</a></strong> – Use RoBERTa for advanced extractive question answering tasks.</li>
-  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-t5-qa" target="_blank">T5 for Abstractive Question Answering</a></strong> – Generate abstractive answers using Google’s T5 model.</li>
-  <li><strong><a href="https://sparknlp.org/question_answering" target="_blank">Multihop QA with BERT</a></strong> – Perform complex multihop question answering by reasoning over multiple pieces of text.</li>
+  <li><strong><a href="https://sparknlp.org/question_answering" target="_blank">Multihop QA with BERT</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-bert-qa" target="_blank">BERT for Extractive Question Answering</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-roberta-qa" target="_blank">RoBERTa for Question Answering</a></strong></li>
+  <li><strong><a href="https://huggingface.co/spaces/abdullahmubeen10/sparknlp-t5-qa" target="_blank">T5 for Abstractive Question Answering</a></strong></li>
 </ul>
 
 <h2 id="useful-resources">Useful Resources</h2>

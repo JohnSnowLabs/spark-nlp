@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -553,8 +553,23 @@
       <p><strong>Initialize SparkSession with Spark NLP</strong>:</p>
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+
 <span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
 </code></pre></div>      </div>
+
+      <h4 id="optional-parameters">Optional Parameters</h4>
+      <ul>
+        <li><strong>gpu</strong> (<code class="language-plaintext highlighter-rouge">bool</code>, default <code class="language-plaintext highlighter-rouge">False</code>) – Enable GPU acceleration.</li>
+        <li><strong>apple_silicon</strong> (<code class="language-plaintext highlighter-rouge">bool</code>, default <code class="language-plaintext highlighter-rouge">False</code>) – Support for macOS Apple Silicon.</li>
+        <li><strong>aarch64</strong> (<code class="language-plaintext highlighter-rouge">bool</code>, default <code class="language-plaintext highlighter-rouge">False</code>) – Support for Linux Aarch64.</li>
+        <li><strong>memory</strong> (<code class="language-plaintext highlighter-rouge">str</code>, default <code class="language-plaintext highlighter-rouge">"16G"</code>) – Spark driver memory.</li>
+        <li><strong>cache_folder</strong> (<code class="language-plaintext highlighter-rouge">str</code>) – Folder for pretrained models (<code class="language-plaintext highlighter-rouge">~/cache_pretrained</code> by default).</li>
+        <li><strong>log_folder</strong> (<code class="language-plaintext highlighter-rouge">str</code>) – Temp folder for embeddings/logs (local, HDFS, or DBFS only).</li>
+        <li><strong>params</strong> (<code class="language-plaintext highlighter-rouge">dict</code>) – Custom Spark config options.</li>
+        <li><strong>cluster_tmp_dir</strong> (<code class="language-plaintext highlighter-rouge">str</code>) – Where annotator logs are saved.</li>
+        <li><strong>real_time_output</strong> (<code class="language-plaintext highlighter-rouge">bool</code>, default <code class="language-plaintext highlighter-rouge">False</code>) – Show JVM output live.</li>
+        <li><strong>output_level</strong> (<code class="language-plaintext highlighter-rouge">int</code>, default <code class="language-plaintext highlighter-rouge">1</code>) – Logging verbosity.</li>
+      </ul>
     </li>
     <li>
       <p><strong>Use Annotators</strong>:
@@ -564,9 +579,15 @@ Spark NLP offers a variety of annotators (e.g., Tokenizer, SentenceDetector, Lem
 
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">DocumentAssembler</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">Tokenizer</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
-<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">().</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">().</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">]).</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+   <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+   <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+   <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">])</span>
 </code></pre></div>      </div>
@@ -580,7 +601,7 @@ Once you have a pipeline, you can transform your data.</p>
     </li>
     <li>
       <p><strong>Explore and Utilize Models</strong>:
-Spark NLP offers pre-trained models for tasks like Named Entity Recognition (NER), sentiment analysis, and more. You can easily plug these into your pipeline and customize as needed.</p>
+Spark NLP offers a wide range of <a href="https://sparknlp.org/models">pretrained models</a> for tasks like Named Entity Recognition (NER), sentiment analysis, and more. You can easily plug these into your pipeline and customize as needed.</p>
     </li>
     <li>
       <p><strong>Further Reading</strong>:
@@ -633,59 +654,93 @@ Dive deeper into the <a href="https://sparknlp.org/docs/en/install">official doc
   <p>Spark NLP provides a range of models to tackle various NLP tasks. These models are often pre-trained on large datasets and can be fine-tuned or used directly for inference. Some of the primary categories and examples of Spark NLP models include:</p>
 
   <ol>
-    <li><strong>Named Entity Recognition (NER)</strong>:
+    <li><strong>Named Entity Recognition (NER)</strong>
       <ul>
-        <li>Pre-trained models for recognizing entities such as persons, organizations, locations, etc.</li>
-        <li>Specialized models for sectors like healthcare to detect medical entities.</li>
+        <li>Pre-trained models for recognizing entities such as persons, organizations, and locations.</li>
+        <li>Specialized models for domains like healthcare to detect medical entities.</li>
       </ul>
     </li>
-    <li><strong>Text Classification</strong>:
+    <li><strong>Text Classification</strong>
       <ul>
-        <li>Models for tasks like sentiment analysis, topic classification, and more.</li>
+        <li>Models for sentiment analysis, topic classification, intent detection, and more.</li>
       </ul>
     </li>
-    <li><strong>Word Embeddings</strong>:
+    <li><strong>Word Embeddings</strong>
       <ul>
-        <li>Word2Vec, GloVe, and BERT embeddings.</li>
-        <li>Models to generate embeddings for words or sentences, useful in many downstream tasks.</li>
+        <li>Word2Vec, GloVe, and transformer embeddings (BERT, RoBERTa, etc.).</li>
+        <li>Generate embeddings for words or sentences to power downstream tasks.</li>
       </ul>
     </li>
-    <li><strong>Language Models</strong>:
+    <li><strong>Language Models</strong>
       <ul>
-        <li>Models like BERT, ALBERT, and ELECTRA are available pre-trained and can be fine-tuned for specific tasks.</li>
+        <li>Pre-trained transformer-based models like BERT, ALBERT, ELECTRA.</li>
+        <li>Can be fine-tuned for domain-specific tasks.</li>
       </ul>
     </li>
-    <li><strong>Dependency Parsing</strong>:
+    <li><strong>Dependency Parsing</strong>
       <ul>
-        <li>Models that analyze the grammatical structure of a sentence and determine relationships between words.</li>
+        <li>Models that analyze grammatical structure and word relationships.</li>
       </ul>
     </li>
-    <li><strong>Spell Checking and Correction</strong>:
+    <li><strong>Spell Checking and Correction</strong>
       <ul>
-        <li>Models that can detect and correct spelling mistakes in the text.</li>
+        <li>Detect and correct spelling mistakes in text.</li>
       </ul>
     </li>
-    <li><strong>Sentence Embeddings</strong>:
+    <li><strong>Sentence Embeddings</strong>
       <ul>
-        <li>Models to generate vector representations for entire sentences, such as Universal Sentence Encoder.</li>
+        <li>Models for sentence-level vector representations, such as Universal Sentence Encoder.</li>
       </ul>
     </li>
-    <li><strong>Translation and Language Detection</strong>:
+    <li><strong>Translation and Language Detection</strong>
       <ul>
-        <li>Models to detect the language of a given text or translate text between languages.</li>
+        <li>Detect the language of a given text or translate between languages.</li>
       </ul>
     </li>
-    <li><strong>Text Matching</strong>:
+    <li><strong>Text Matching</strong>
       <ul>
-        <li>Models that can be used for tasks like textual similarity, paraphrase detection, etc.</li>
+        <li>Models for textual similarity, duplicate detection, or paraphrase detection.</li>
       </ul>
     </li>
-    <li><strong>Pretrained Pipelines</strong>:</li>
+    <li><strong>Question Answering (QA)</strong>
+      <ul>
+        <li>Extractive QA models built on transformers (e.g., BERT, DistilBERT).</li>
+      </ul>
+    </li>
+    <li><strong>Summarization</strong>
+      <ul>
+        <li>Models for abstractive or extractive text summarization.</li>
+      </ul>
+    </li>
+    <li><strong>Entity Resolution / Normalization</strong>
+      <ul>
+        <li>Map recognized entities to canonical forms (e.g., ICD-10 codes in healthcare).</li>
+      </ul>
+    </li>
+    <li><strong>Zero-Shot &amp; Few-Shot Classification</strong>
+      <ul>
+        <li>Transformer-based models that classify text into categories without task-specific training.</li>
+      </ul>
+    </li>
+    <li><strong>Large Language Models (LLMs)</strong>
+      <ul>
+        <li>General-purpose models (e.g., Phi, Qwen, LLaMA, Mistral, Falcon, GPT-style, and MPT).</li>
+        <li>Used for text generation, summarization, rewriting, reasoning, and more.</li>
+      </ul>
+    </li>
+    <li><strong>Vision-Language Models (VLMs)</strong>
+      <ul>
+        <li>Multimodal models combining text and images (e.g., BLIP, CLIP, LLaVA, Kosmos-2).</li>
+        <li>Tasks include image captioning, document understanding, OCR post-processing, and visual QA.</li>
+      </ul>
+    </li>
+    <li><strong>Pretrained Pipelines</strong>
+      <ul>
+        <li>Ready-to-use pipelines combining multiple models and annotators.</li>
+        <li>Allow quick text processing without building a custom pipeline.</li>
+      </ul>
+    </li>
   </ol>
-
-  <ul>
-    <li>Ready-to-use pipelines that combine multiple models and annotators for common tasks, allowing users to quickly start processing text without building a custom pipeline.</li>
-  </ul>
 
   <p>For the latest list of models, detailed documentation, and instructions on how to use them, visiting the <a href="https://sparknlp.org/models">Official Spark NLP Models Hub</a> would be beneficial.</p>
 

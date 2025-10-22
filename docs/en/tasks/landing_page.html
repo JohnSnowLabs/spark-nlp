@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -533,14 +533,14 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <p>Spark NLP is the central hub for all your State of the Art Natural Language Processing needs. Whether you’re looking for demos, use cases, models, or datasets, you’ll find the resources you need to begin any NLP task right here!</p>
+  <p>Spark NLP is the central hub for all your State of the Art Natural Language Processing needs. Whether you’re looking for models, use cases, or demos you’ll find the resources you need to begin any NLP task right here!</p>
 
   <h2 id="natural-language-processing">Natural Language Processing</h2>
 </div>
 
 <div class="block-wrapper"><div class="block-box">
 
-    <h2 id="text-classification">Text Classification</h2>
+    <h3 id="text-classification">Text Classification</h3>
 
     <p>Text classification is the process of automatically categorizing text into predefined labels or categories based on its content.</p>
 
@@ -548,7 +548,7 @@
 
   </div><div class="block-box">
 
-    <h2 id="token-classification">Token Classification</h2>
+    <h3 id="token-classification">Token Classification</h3>
 
     <p>Token classification is the process of assigning labels to individual tokens (words or subwords) in a text, commonly used for tasks like named entity recognition or part-of-speech tagging.</p>
 
@@ -558,7 +558,7 @@
 
 <div class="block-wrapper"><div class="block-box">
 
-    <h2 id="zero-shot-classification">Zero-Shot Classification</h2>
+    <h3 id="zero-shot-classification">Zero-Shot Classification</h3>
 
     <p>Zero-shot classification is the process of categorizing text into labels without the model having seen any examples of those labels during training, using general knowledge and context.</p>
 
@@ -566,7 +566,7 @@
 
   </div><div class="block-box">
 
-    <h2 id="text-generation">Text Generation</h2>
+    <h3 id="text-generation">Text Generation</h3>
 
     <p>Text generation is the process of automatically creating coherent and contextually relevant text based on a given input or prompt using machine learning models.</p>
 
@@ -576,7 +576,7 @@
 
 <div class="block-wrapper"><div class="block-box">
 
-    <h2 id="question-answering">Question Answering</h2>
+    <h3 id="question-answering">Question Answering</h3>
 
     <p>Question answering models can retrieve answers from a given text, making them useful for searching documents. Some models can even generate answers independently, without needing any context!</p>
 
@@ -584,7 +584,7 @@
 
   </div><div class="block-box">
 
-    <h2 id="table-question-answering">Table Question Answering</h2>
+    <h3 id="table-question-answering">Table Question Answering</h3>
 
     <p>Table question answering models can extract answers from structured data in tables, making it easy to query and retrieve specific information.</p>
 
@@ -594,7 +594,7 @@
 
 <div class="block-wrapper"><div class="block-box">
 
-    <h2 id="summarization">Summarization</h2>
+    <h3 id="summarization">Summarization</h3>
 
     <p>Summarization models condense long texts into shorter versions, capturing the main ideas and key points while maintaining the overall meaning of the original content.</p>
 
@@ -602,7 +602,7 @@
 
   </div><div class="block-box">
 
-    <h2 id="translation">Translation</h2>
+    <h3 id="translation">Translation</h3>
 
     <p>Translation models automatically convert text from one language to another while preserving the meaning and context of the original content.</p>
 
@@ -612,19 +612,35 @@
 
 <div class="block-wrapper"><div class="block-box">
 
-    <h2 id="text-preprocessing">Text Preprocessing</h2>
+    <h3 id="text-preprocessing">Text Preprocessing</h3>
 
     <p>Text Preprocessing is the task of cleaning and transforming raw text into a format suitable for NLP tasks. This includes steps like tokenization, lowercasing, removing stop words, and stemming or lemmatization to prepare text for analysis.</p>
 
     <p class="btn-block"><a href="text_preprocessing" class="button button--primary button--rounded button--md">Learn More</a></p>
 
-  </div><div class="block-box">
+    <!-- </div><div class="block-box" markdown="1">
 
-    <h2 id="dependency-parsing">Dependency Parsing</h2>
+### Dependency Parsing
 
-    <p>Dependency Parsing is a syntactic analysis method that examines the grammatical structure of a sentence by identifying the dependencies between its words. It illustrates how words relate to each other through a dependency tree or graph, where some words act as “parents” and others as “children.”</p>
+Dependency Parsing is a syntactic analysis method that examines the grammatical structure of a sentence by identifying the dependencies between its words. It illustrates how words relate to each other through a dependency tree or graph, where some words act as "parents" and others as "children."
 
-    <p class="btn-block"><a href="dependency_parsing" class="button button--primary button--rounded button--md">Learn More</a></p>
+{:.btn-block}
+[Learn More](dependency_parsing){:.button.button--primary.button--rounded.button--md} -->
+
+  </div></div>
+
+<div class="h3-box">
+
+  <h2 id="multimodal">Multimodal</h2>
+</div>
+
+<div class="block-wrapper"><div class="block-box">
+
+    <h3 id="image-text-to-text">Image-Text-to-Text</h3>
+
+    <p>Image-Text-to-Text models take both an image and text as input and generate meaningful text outputs.</p>
+
+    <p class="btn-block"><a href="image_text_to_text" class="button button--primary button--rounded button--md">Learn More</a></p>
 
   </div></div>
 
@@ -635,7 +651,7 @@
 
 <div class="block-wrapper"><div class="block-box">
 
-    <h2 id="image-classification">Image Classification</h2>
+    <h3 id="image-classification">Image Classification</h3>
 
     <p>Image classification models automatically categorize images into predefined labels or classes based on their visual content.</p>
 
@@ -643,7 +659,7 @@
 
   </div><div class="block-box">
 
-    <h2 id="image-captioning">Image Captioning</h2>
+    <h3 id="image-captioning">Image Captioning</h3>
 
     <p>Image captioning models generate descriptive text for images, providing context and details about the visual content they depict.</p>
 
@@ -653,7 +669,7 @@
 
 <div class="block-wrapper"><div class="block-box">
 
-    <h2 id="zero-shot-image-classification">Zero-Shot Image Classification</h2>
+    <h3 id="zero-shot-image-classification">Zero-Shot Image Classification</h3>
 
     <p>Zero-shot image classification is the process of categorizing images into labels without the model having seen any examples of those labels during training, using general knowledge and context.</p>
 
@@ -668,7 +684,7 @@
 
 <div class="block-wrapper"><div class="block-box">
 
-    <h2 id="automatic-speech-recognition">Automatic Speech Recognition</h2>
+    <h3 id="automatic-speech-recognition">Automatic Speech Recognition</h3>
 
     <p>Automatic speech recognition (ASR) is the process of converting spoken language into written text.</p>
 
