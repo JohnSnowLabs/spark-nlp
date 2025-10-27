@@ -135,7 +135,7 @@ class Reader2DocTestInputColumn(unittest.TestCase):
         self.assertTrue(result_df.select("document").count() > 0)
 
 @pytest.mark.fast
-class Reader2DocTestHierarchy(unittest.TestCase):
+class Reader2DocTestHTMLHierarchy(unittest.TestCase):
 
     def setUp(self):
         spark = SparkContextForTest.spark
@@ -145,6 +145,39 @@ class Reader2DocTestHierarchy(unittest.TestCase):
         reader2doc = Reader2Doc() \
             .setContentType("text/html") \
             .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/html/simple-book.html") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        pipeline = Pipeline(stages=[reader2doc, sentence_detector])
+        model = pipeline.fit(self.empty_df)
+
+        result_df = model.transform(self.empty_df)
+        rows = result_df.select("sentence").collect()
+
+        all_sentences = [elem for row in rows for elem in row.sentence]
+
+        # Check for required metadata keys
+        for s in all_sentences:
+            metadata = s.metadata
+            assert (
+                    "element_id" in metadata or "parent_id" in metadata
+            ), f"❌ Missing 'element_id' or 'parent_id' in metadata: {metadata}"
+
+
+@pytest.mark.fast
+class Reader2DocTestPDFHierarchy(unittest.TestCase):
+
+    def setUp(self):
+        spark = SparkContextForTest.spark
+        self.empty_df = spark.createDataFrame([], "string").toDF("text")
+
+    def runTest(self):
+        reader2doc = Reader2Doc() \
+            .setContentType("application/pdf") \
+            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/pdf/hierarchy_test.pdf") \
             .setOutputCol("document")
 
         sentence_detector = SentenceDetector() \

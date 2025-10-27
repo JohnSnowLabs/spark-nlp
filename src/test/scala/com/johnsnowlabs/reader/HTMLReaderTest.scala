@@ -15,6 +15,7 @@
  */
 package com.johnsnowlabs.reader
 
+import com.johnsnowlabs.reader.util.AssertReaders
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.sql.functions.{col, explode}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -76,11 +77,10 @@ class HTMLReaderTest extends AnyFlatSpec {
     val HTMLReader = new HTMLReader(titleFontSize = 19)
 
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/title-test.html")
-    htmlDF.show(truncate = false)
+
     val titleDF = htmlDF
       .select(explode(col("html")).as("exploded_html"))
       .filter(col("exploded_html.elementType") === ElementType.TITLE)
-    titleDF.select("exploded_html").show(truncate = false)
 
     assert(titleDF.count() == 2)
   }
@@ -92,7 +92,6 @@ class HTMLReaderTest extends AnyFlatSpec {
     val titleDF = htmlDF
       .select(explode(col("html")).as("exploded_html"))
       .filter(col("exploded_html.elementType") === ElementType.TITLE)
-    titleDF.select("exploded_html").show(truncate = false)
 
     assert(titleDF.count() == 1)
   }
@@ -114,7 +113,7 @@ class HTMLReaderTest extends AnyFlatSpec {
   it should "correctly parse bold and strong tags" taggedAs FastTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-bold-strong.html")
-    htmlDF.show(truncate = false)
+
     val titleDF = htmlDF
       .select(explode(col("html")).as("exploded_html"))
       .filter(col("exploded_html.elementType") === ElementType.TITLE)
@@ -125,7 +124,7 @@ class HTMLReaderTest extends AnyFlatSpec {
   it should "correctly parse caption and th tags" taggedAs FastTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-caption-th.html")
-    htmlDF.show(truncate = false)
+
     val titleDF = htmlDF
       .select(explode(col("html")).as("exploded_html"))
       .filter(col("exploded_html.elementType") === ElementType.TABLE)
@@ -186,72 +185,11 @@ class HTMLReaderTest extends AnyFlatSpec {
     assert(imagesDF.count() == 1)
   }
 
-  it should "include parent and element ids" taggedAs FastTest in {
-    val HTMLReader = new HTMLReader()
-    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/simple-book.html")
-    htmlDF.show(truncate = false)
-    val parentChildDF = htmlDF
-      .select(explode(col("html")).as("exploded_html"))
-
-    parentChildDF.show(truncate = false)
-
-//    assert(parentChildDF.count() == 3)
-  }
-
   it should "produce valid element_id and parent_id relationships" taggedAs FastTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/simple-book.html")
 
-    val explodedDF = htmlDF
-      .select(explode(col("html")).as("elem"))
-      .select(
-        col("elem.elementType").as("elementType"),
-        col("elem.content").as("content"),
-        col("elem.metadata").as("metadata"))
-      .withColumn("element_id", col("metadata")("element_id"))
-      .withColumn("parent_id", col("metadata")("parent_id"))
-      .cache() // << important to prevent recomputation inconsistencies
-
-    val allElementIds = explodedDF
-      .select("element_id")
-      .where(col("element_id").isNotNull)
-      .distinct()
-      .collect()
-      .map(_.getString(0))
-      .toSet
-
-    val allParentIds = explodedDF
-      .select("parent_id")
-      .where(col("parent_id").isNotNull)
-      .distinct()
-      .collect()
-      .map(_.getString(0))
-      .toSet
-
-    // 1. There should be at least one element with an element_id
-    assert(allElementIds.nonEmpty, "No elements have element_id metadata")
-
-    // 2. There should be at least one element with a parent_id
-    assert(allParentIds.nonEmpty, "No elements have parent_id metadata")
-
-    // 3. Every parent_id should exist as an element_id
-    val missingParents = allParentIds.diff(allElementIds)
-    assert(
-      missingParents.isEmpty,
-      s"Some parent_ids do not correspond to existing element_ids: $missingParents")
-
-    // 4. Each parent should have at least one child
-    val parentChildCount = explodedDF
-      .filter(col("parent_id").isNotNull)
-      .groupBy("parent_id")
-      .count()
-      .collect()
-      .map(r => r.getString(0) -> r.getLong(1))
-      .toMap
-
-    assert(
-      parentChildCount.nonEmpty && parentChildCount.values.forall(_ >= 1),
-      "Each parent_id should have at least one child element")
+    AssertReaders.assertHierarchy(htmlDF, "html")
   }
 
 }

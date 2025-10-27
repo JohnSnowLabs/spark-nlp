@@ -24,6 +24,7 @@ import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
 
 import java.io.ByteArrayOutputStream
+import java.util.UUID
 import javax.imageio.ImageIO
 import scala.collection.JavaConverters._
 import scala.collection.mutable
@@ -117,15 +118,24 @@ class PdfReader(
 
   private def extractElementsFromPdf(pdfDoc: PDDocument): Seq[HTMLElement] = {
     val collectedElements = mutable.ListBuffer[HTMLElement]()
+    var currentParentId: Option[String] = None
+
     val textStripper = new PDFTextStripper() {
       override def writeString(
           text: String,
           textPositions: java.util.List[TextPosition]): Unit = {
         val lineGroups = groupTextPositionsByLine(textPositions)
         val lineElements = lineGroups.flatMap { case (_, linePositions) =>
-          classifyLineElement(linePositions, getCurrentPageNo)
+          classifyLineElement(linePositions, getCurrentPageNo, currentParentId)
         }
-        collectedElements ++= lineElements
+
+        // Update parentId when encountering titles
+        lineElements.foreach { elem =>
+          collectedElements += elem
+          if (elem.elementType == ElementType.TITLE)
+            currentParentId = Some(elem.metadata("element_id"))
+        }
+
       }
     }
     textStripper.setSortByPosition(true)
@@ -143,18 +153,21 @@ class PdfReader(
 
   private def classifyLineElement(
       linePositions: Seq[TextPosition],
-      pageNumber: Int): Option[HTMLElement] = {
+      pageNumber: Int,
+      currentParentId: Option[String]): Option[HTMLElement] = {
     val lineText = linePositions.map(_.getUnicode).mkString.trim
     if (lineText.isEmpty) return None
 
     val averageFontSize = linePositions.map(_.getFontSize).sum / linePositions.size
     val mostCommonFontName = linePositions.groupBy(_.getFont.getName).maxBy(_._2.size)._1
-
+    val isTitleLine = isTitle(averageFontSize, mostCommonFontName)
     val elementType =
-      if (isTitle(averageFontSize, mostCommonFontName)) ElementType.TITLE
-      else ElementType.NARRATIVE_TEXT
+      if (isTitleLine) ElementType.TITLE else ElementType.NARRATIVE_TEXT
 
-    val metadata = mutable.Map("pageNumber" -> pageNumber.toString)
+    val metadata =
+      mutable.Map("pageNumber" -> pageNumber.toString, "element_id" -> UUID.randomUUID().toString)
+    // Assign parent_id only for narrative text or non-titles
+    if (!isTitleLine) currentParentId.foreach(pid => metadata("parent_id") = pid)
     Some(HTMLElement(elementType, lineText, metadata))
   }
 
@@ -176,7 +189,8 @@ class PdfReader(
           "pageNumber" -> pageIndex.toString,
           "format" -> "jpg",
           "width" -> bufferedImage.getWidth.toString,
-          "height" -> bufferedImage.getHeight.toString)
+          "height" -> bufferedImage.getHeight.toString,
+          "element_id" -> UUID.randomUUID().toString)
 
         Some(
           HTMLElement(

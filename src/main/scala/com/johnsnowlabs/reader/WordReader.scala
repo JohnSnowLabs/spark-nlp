@@ -30,6 +30,7 @@ import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
 
 import java.io.{ByteArrayInputStream, IOException}
+import java.util.UUID
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
@@ -127,6 +128,8 @@ class WordReader(
     Array(0xd0.toByte, 0xcf.toByte, 0x11.toByte, 0xe0.toByte) // Bytes indicating .doc
 
   private var pageBreak = 0
+  private var currentParentId: Option[String] = None
+  private def newUUID(): String = UUID.randomUUID().toString
 
   private def isDocxFile(content: Array[Byte]): Boolean = {
     content.length > 1 && content(0) == ZipMagicNumberFirstByte && content(
@@ -184,7 +187,7 @@ class WordReader(
     elements
   }
 
-  private def processParagraph(
+  private def processParagraphOld(
       paragraph: XWPFParagraph,
       source: String,
       tableLocation: mutable.Map[String, String] = mutable.Map()): Option[HTMLElement] = {
@@ -192,6 +195,8 @@ class WordReader(
     if (text.isEmpty) None
     else {
       val metadata = mutable.Map[String, String]()
+      val elementId = newUUID()
+      metadata("element_id") = elementId
 
       if (includePageBreaks) {
         val isBreak = paragraph.isCustomPageBreak || paragraph.isSectionBreak
@@ -206,7 +211,9 @@ class WordReader(
       }
 
       val elementType = paragraph match {
-        case p if p.isTitle => ElementType.TITLE
+        case p if p.isTitle =>
+          currentParentId = Some(elementId)
+          ElementType.TITLE
         case p if p.isListItem => ElementType.LIST_ITEM
         case _ => if (source == "table") ElementType.TABLE else ElementType.NARRATIVE_TEXT
       }
@@ -214,33 +221,83 @@ class WordReader(
     }
   }
 
+  private def processParagraph(
+      paragraph: XWPFParagraph,
+      source: String,
+      tableLocation: mutable.Map[String, String] = mutable.Map()): Option[HTMLElement] = {
+
+    val text = paragraph.getText.trim
+    if (text.isEmpty) None
+    else {
+      val metadata = mutable.Map[String, String]()
+      val elementId = newUUID()
+      metadata("element_id") = elementId
+
+      val style = Option(paragraph.getStyleID).getOrElse("").toLowerCase
+      val isHeading = style.startsWith("heading") || style.startsWith("title")
+
+      // Handle page breaks if needed
+      if (includePageBreaks) {
+        val isBreak = paragraph.isCustomPageBreak || paragraph.isSectionBreak
+        if (isBreak) {
+          pageBreak += 1
+          metadata += ("pageBreak" -> pageBreak.toString)
+          currentParentId = None
+        }
+      }
+
+      if (tableLocation.nonEmpty) metadata ++= tableLocation
+
+      val elementType = paragraph match {
+        case _ if isHeading =>
+          // Titles have no parent
+          currentParentId = Some(elementId)
+          ElementType.TITLE
+        case p if p.isListItem =>
+          currentParentId.foreach(pid => metadata("parent_id") = pid)
+          ElementType.LIST_ITEM
+        case _ =>
+          currentParentId.foreach(pid => metadata("parent_id") = pid)
+          if (source == "table") ElementType.TABLE else ElementType.NARRATIVE_TEXT
+      }
+
+      Some(HTMLElement(elementType, text, metadata))
+    }
+  }
+
   private def processTable(table: XWPFTable): Seq[HTMLElement] = {
     val tableHtml = if (inferTableStructure) Some(table.processAsHtml) else None
-
+    val tableId = newUUID()
     val tableElements: Seq[HTMLElement] = table.getRows.asScala.zipWithIndex.flatMap {
       case (row, rowIndex) =>
         row.getTableCells.asScala.zipWithIndex.flatMap { case (cell, cellIndex) =>
-          val tableLocation = mutable.Map("tableLocation" -> s"($rowIndex, $cellIndex)")
+          val tableLocation = mutable.Map(
+            "tableLocation" -> s"($rowIndex, $cellIndex)",
+            "element_id" -> newUUID(),
+            "parent_id" -> tableId)
           cell.getParagraphs.asScala.flatMap { paragraph =>
             processParagraph(paragraph, "table", tableLocation)
           }
         }
     }
 
-    if (tableHtml.isDefined) {
-      if (outputFormat == "html-table") {
-        val htmlElement =
-          HTMLElement(ElementType.HTML, tableHtml.get, mutable.Map.empty[String, String])
-        tableElements :+ htmlElement
-      } else if (outputFormat == "json-table") {
-        val tableElement = HTMLParser.parseFirstTableElement(tableHtml.get)
-        val jsonString = HTMLParser.tableElementToJson(tableElement)
-        val jsonElement =
-          HTMLElement(ElementType.JSON, jsonString, mutable.Map.empty[String, String])
-        tableElements :+ jsonElement
-      } else tableElements
-    } else tableElements
+    val tableMetadata = mutable.Map[String, String]("element_id" -> tableId)
+    currentParentId.foreach(pid => tableMetadata("parent_id") = pid)
 
+    val tableElement: Option[HTMLElement] = tableHtml.map { html =>
+      outputFormat match {
+        case "html-table" =>
+          HTMLElement(ElementType.HTML, html, tableMetadata)
+        case "json-table" =>
+          val tableElem = HTMLParser.parseFirstTableElement(html)
+          val jsonString = HTMLParser.tableElementToJson(tableElem)
+          HTMLElement(ElementType.JSON, jsonString, tableMetadata)
+        case _ =>
+          HTMLElement(ElementType.TABLE, table.getText.trim, tableMetadata)
+      }
+    }
+
+    tableElements ++ tableElement.toSeq
   }
 
   private def parseDocToElements(document: HWPFDocument): Seq[HTMLElement] = {
@@ -252,6 +309,10 @@ class WordReader(
       if (text.isEmpty) None
       else {
         val metadata = mutable.Map[String, String]()
+        val elementId = newUUID()
+        metadata("element_id") = elementId
+        currentParentId.foreach(pid => metadata("parent_id") = pid)
+
         paragraph match {
           case p if p.isInTable(paragraphs) =>
             val tableText = p.tableText(paragraphs).getOrElse("")
@@ -271,7 +332,8 @@ class WordReader(
     document.getAllPictures.asScala.map { pic =>
       val metadata = mutable.Map(
         "format" -> pic.suggestFileExtension,
-        "imageType" -> pic.getPictureType.toString)
+        "imageType" -> pic.getPictureType.toString,
+        "element_id" -> newUUID())
       HTMLElement(
         elementType = ElementType.IMAGE,
         content = "", // leave textual content empty
@@ -282,7 +344,8 @@ class WordReader(
 
   private def extractImages(document: HWPFDocument): Seq[HTMLElement] = {
     document.getPicturesTable.getAllPictures.asScala.map { pic =>
-      val metadata = mutable.Map("format" -> pic.suggestFileExtension)
+      val metadata = mutable.Map("format" -> pic.suggestFileExtension, "element_id" -> newUUID())
+      currentParentId.foreach(pid => metadata("parent_id") = pid)
       HTMLElement(
         elementType = ElementType.IMAGE,
         content = "",
