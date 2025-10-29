@@ -110,15 +110,16 @@ object Dependencies {
   val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowVersion
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowVersion
   val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
-  val tensorflowLinuxAarch64 = "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
+  val tensorflowLinuxAarch64 =
+    "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
 
   val onnxRuntimeVersion = "1.19.2"
   val onnxCPU = "com.microsoft.onnxruntime" % "onnxruntime" % onnxRuntimeVersion
   val onnxGPU = "com.microsoft.onnxruntime" % "onnxruntime_gpu" % onnxRuntimeVersion
 
   val openVinoRuntimeVersion = "0.2.0"
-  val openVinoCPU = "com.johnsnowlabs.nlp" %% "jsl-openvino-cpu" % openVinoRuntimeVersion
-  val openVinoGPU = "com.johnsnowlabs.nlp" %% "jsl-openvino-gpu" % openVinoRuntimeVersion
+  val openVinoCPU = "com.johnsnowlabs.nlp" % "jsl-openvino-cpu_2.12" % openVinoRuntimeVersion
+  val openVinoGPU = "com.johnsnowlabs.nlp" % "jsl-openvino-gpu_2.12" % openVinoRuntimeVersion
 
   val gcpStorageVersion = "2.20.1"
   val gcpStorage = "com.google.cloud" % "google-cloud-storage" % gcpStorageVersion
@@ -155,5 +156,6 @@ object Dependencies {
 
   val tagSoupVersion = "1.2.1"
   val tagSoup = "org.ccil.cowan.tagsoup" % "tagsoup" % tagSoupVersion
+
   /** ------- Dependencies end  ------- */
 }
