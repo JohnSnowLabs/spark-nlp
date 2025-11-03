@@ -16,7 +16,14 @@ while getopts s:p:g option; do
   esac
 done
 
+# Java check and install if missing
+if ! type -p java >/dev/null 2>&1; then
+  echo "Java not found. Installing OpenJDK 11..."
+  apt-get install -y -qq openjdk-11-jdk > /dev/null 2>&1
+fi
+
 export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+export PATH=$PATH:$JAVA_HOME/bin
 
 if [[ "$PYSPARK" == "3.3"* ]]; then
   PYSPARK="3.3.4"
