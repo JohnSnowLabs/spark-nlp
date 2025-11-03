@@ -7,7 +7,7 @@ date: 2025-11-03
 tags: [embeddings, en, biomedical, open_source, onnx]
 task: Embeddings
 language: en
-edition: Healthcare NLP 6.1.0
+edition: Spark NLP 6.1.0
 spark_version: 3.0
 supported: true
 engine: onnx
