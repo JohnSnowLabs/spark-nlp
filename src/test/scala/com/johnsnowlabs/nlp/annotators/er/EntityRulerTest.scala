@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerFixture._
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -848,6 +848,27 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     val entityRulerPipeline = pipeline.fit(emptyDataSet)
 
     entityRulerPipeline
+  }
+
+  it should "serialize EntityRulerModel" taggedAs SlowTest in {
+    //Should br run with Java 8 and Scala 2.12
+    val entityRuler = new EntityRulerApproach()
+      .setInputCols("document", "token")
+      .setOutputCol("entities")
+      .setPatternsResource("src/test/resources/entity-ruler/keywords_only.json", ReadAs.TEXT)
+    val entityRulerModel = entityRuler.fit(emptyDataSet)
+
+    entityRulerModel.write.overwrite().save("./tmp_entity_ruler_model_java8_scala2_12")
+  }
+
+  it should "deserialize EntityRulerModel" in {
+    val textDataSet = Seq(text1).toDS.toDF("text")
+    val loadedEntityRulerModel = EntityRulerModel.load("./tmp_entity_ruler_model_java8_scala2_12")
+
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, tokenizer, loadedEntityRulerModel))
+    val resultDf = pipeline.fit(emptyDataSet).transform(textDataSet)
+    resultDf.select("entities").show(truncate = false)
   }
 
 }
