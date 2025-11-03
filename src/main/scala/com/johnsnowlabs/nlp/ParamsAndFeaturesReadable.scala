@@ -31,8 +31,7 @@ import scala.util.{Failure, Success, Try}
 class FeaturesReader[T <: HasFeatures](
     baseReader: MLReader[T],
     onRead: (T, String, SparkSession) => Unit)
-    extends MLReader[T]
-    with Logging {
+    extends MLReader[T] {
 
   override def load(path: String): T = {
 

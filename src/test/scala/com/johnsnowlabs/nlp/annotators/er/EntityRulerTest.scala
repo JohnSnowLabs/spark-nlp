@@ -851,7 +851,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   it should "serialize EntityRulerModel" taggedAs SlowTest in {
-    //Should br run with Java 8 and Scala 2.12
+    //Should be run with Java 8 and Scala 2.12
     val entityRuler = new EntityRulerApproach()
       .setInputCols("document", "token")
       .setOutputCol("entities")
@@ -861,7 +861,7 @@ class EntityRulerTest extends AnyFlatSpec with SparkSessionTest {
     entityRulerModel.write.overwrite().save("./tmp_entity_ruler_model_java8_scala2_12")
   }
 
-  it should "deserialize EntityRulerModel" in {
+  it should "deserialize EntityRulerModel" taggedAs SlowTest in {
     val textDataSet = Seq(text1).toDS.toDF("text")
     val loadedEntityRulerModel = EntityRulerModel.load("./tmp_entity_ruler_model_java8_scala2_12")
 
