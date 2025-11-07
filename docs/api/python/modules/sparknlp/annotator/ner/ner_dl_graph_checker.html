@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.ner.ner_dl_graph_checker &#8212; Spark NLP 6.2.0 documentation</title>
+    <title>sparknlp.annotator.ner.ner_dl_graph_checker &#8212; Spark NLP 6.2.1 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=d345c3d3"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=773d47ca"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -379,10 +379,10 @@ document.write(`
 <span class="c1">#  limitations under the License.</span>
 <span class="sd">&quot;&quot;&quot;Contains classes for NerDL.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">JavaMLReadable</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_internal</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">JavaMLWritable</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JavaEstimator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 
 
 <div class="viewcode-block" id="NerDLGraphChecker"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphChecker">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NerDLGraphChecker</span><span class="p">(</span>
@@ -393,6 +393,9 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks whether a suitable NerDL graph is available for the given training dataset, before any</span>
 <span class="sd">    computations/training is done. This annotator is useful for custom training cases, where</span>
 <span class="sd">    specialized graphs are needed.</span>
+
+<span class="sd">    This annotator will fill graph hyperparameters as metadata in the label column, which will be</span>
+<span class="sd">    available for NerDLApproach, saving computations.</span>
 
 <span class="sd">    Important: This annotator should be used or positioned before any embedding or NerDLApproach</span>
 <span class="sd">    annotators in the pipeline and will process the whole dataset to extract the required graph parameters.</span>
@@ -568,17 +571,18 @@ document.write(`
         <span class="c1"># self._setDefault()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">NerDLGraphCheckerModel</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="n">NerDLGraphCheckerModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="NerDLGraphCheckerModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphCheckerModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NerDLGraphCheckerModel</span><span class="p">(</span>
     <span class="n">JavaModel</span><span class="p">,</span>
     <span class="n">JavaMLWritable</span><span class="p">,</span>
+    <span class="n">JavaMLReadable</span><span class="p">,</span>
     <span class="n">_internal</span><span class="o">.</span><span class="n">ParamsGettersSetters</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Resulting model from NerDLGraphChecker, that does not perform any transformations, as the</span>
-<span class="sd">    checks are done during the ``fit`` phase. It acts as the identity.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resulting model from `NerDLGraphChecker`, that updates dataframe metadata (label column)</span>
+<span class="sd">    with NerDLGraph parameters. It does not perform any actual data transformations, as the</span>
+<span class="sd">    checks/computations are done during the `fit` phase.</span>
 
 <span class="sd">    This annotator should never be used directly.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -590,17 +594,69 @@ document.write(`
 
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphCheckerModel&quot;</span><span class="p">,</span>
-        <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphCheckerModel&quot;</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">NerDLGraphCheckerModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">classname</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">java_model</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">_java_class_name</span> <span class="o">=</span> <span class="n">classname</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_java_obj</span><span class="p">(</span><span class="n">classname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">)</span>
+        <span class="c1"># Custom init, different from AnnotatorModel</span>
+        <span class="c1"># We don&#39;t have a output annotation column, so we inherit directly from JavaModel</span>
         <span class="k">if</span> <span class="n">java_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_transfer_params_from_java</span><span class="p">()</span></div>
-        <span class="c1"># self._setDefault(lazyAnnotator=False)</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">NerDLGraphCheckerModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span> <span class="o">=</span> <span class="n">java_model</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transfer_params_from_java</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">classname</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">NerDLGraphCheckerModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">_java_class_name</span> <span class="o">=</span> <span class="n">classname</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_java_obj</span><span class="p">(</span><span class="n">classname</span><span class="p">)</span>
+
+    <span class="c1"># Metadata keys for graph parameters</span>
+<div class="viewcode-block" id="NerDLGraphCheckerModel.graphParamsMetadataKey"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphCheckerModel.graphParamsMetadataKey">[docs]</a>    <span class="n">graphParamsMetadataKey</span> <span class="o">=</span> <span class="s2">&quot;NerDLGraphCheckerParams&quot;</span></div>
+<div class="viewcode-block" id="NerDLGraphCheckerModel.embeddingsDimKey"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphCheckerModel.embeddingsDimKey">[docs]</a>    <span class="n">embeddingsDimKey</span> <span class="o">=</span> <span class="s2">&quot;embeddingsDim&quot;</span></div>
+<div class="viewcode-block" id="NerDLGraphCheckerModel.labelsKey"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphCheckerModel.labelsKey">[docs]</a>    <span class="n">labelsKey</span> <span class="o">=</span> <span class="s2">&quot;labels&quot;</span></div>
+<div class="viewcode-block" id="NerDLGraphCheckerModel.charsKey"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphCheckerModel.charsKey">[docs]</a>    <span class="n">charsKey</span> <span class="o">=</span> <span class="s2">&quot;chars&quot;</span></div>
+<div class="viewcode-block" id="NerDLGraphCheckerModel.dsLenKey"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphCheckerModel.dsLenKey">[docs]</a>    <span class="n">dsLenKey</span> <span class="o">=</span> <span class="s2">&quot;dsLen&quot;</span></div>
+
+<div class="viewcode-block" id="NerDLGraphCheckerModel.labelColumn"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphCheckerModel.labelColumn">[docs]</a>    <span class="n">labelColumn</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;labelColumn&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Column with label per each token&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDLGraphCheckerModel.embeddingsDim"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphCheckerModel.embeddingsDim">[docs]</a>    <span class="n">embeddingsDim</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;embeddingsDim&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Dimensionality of embeddings&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDLGraphCheckerModel.labels"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphCheckerModel.labels">[docs]</a>    <span class="n">labels</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;labels&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Labels in the dataset&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDLGraphCheckerModel.chars"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphCheckerModel.chars">[docs]</a>    <span class="n">chars</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;chars&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Set of characters in the dataset&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDLGraphCheckerModel.graphFolder"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphCheckerModel.graphFolder">[docs]</a>    <span class="n">graphFolder</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;graphFolder&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Folder path that contain external graph files&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDLGraphCheckerModel.dsLen"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl_graph_checker/index.html#sparknlp.annotator.ner.ner_dl_graph_checker.NerDLGraphCheckerModel.dsLen">[docs]</a>    <span class="n">dsLen</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;dsLen&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Length of the training dataset.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">,</span>
+    <span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.reader.reader_assembler module &#8212; Spark NLP 6.2.0 documentation</title>
+    <title>sparknlp.reader.reader_assembler module &#8212; Spark NLP 6.2.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=d345c3d3"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=773d47ca"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.1 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -691,138 +691,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="module-sparknlp.reader.reader_assembler">
-<span id="sparknlp-reader-reader-assembler-module"></span><h1>sparknlp.reader.reader_assembler module<a class="headerlink" href="#module-sparknlp.reader.reader_assembler" title="Permalink to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="sparknlp.reader.reader_assembler.ReaderAssembler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ReaderAssembler</span></span><a class="reference internal" href="../modules/sparknlp/reader/reader_assembler.html#ReaderAssembler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader_assembler.ReaderAssembler" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/internal/annotator_transformer/index.html#sparknlp.internal.annotator_transformer.AnnotatorTransformer" title="sparknlp.internal.annotator_transformer.AnnotatorTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorTransformer</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties" title="sparknlp.partition.partition_properties.HasReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties" title="sparknlp.partition.partition_properties.HasHTMLReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasHTMLReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasEmailReaderProperties" title="sparknlp.partition.partition_properties.HasEmailReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmailReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasExcelReaderProperties" title="sparknlp.partition.partition_properties.HasExcelReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasExcelReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPowerPointProperties" title="sparknlp.partition.partition_properties.HasPowerPointProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasPowerPointProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties" title="sparknlp.partition.partition_properties.HasTextReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasTextReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties" title="sparknlp.partition.partition_properties.HasPdfProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasPdfProperties</span></code></a></p>
-<p>The ReaderAssembler annotator provides a unified interface for combining multiple Spark NLP
-readers (such as Reader2Doc, Reader2Table, and Reader2Image) into a single, configurable
-component. It automatically orchestrates the execution of different readers based on input type,
-configured priorities, and fallback strategies allowing you to handle diverse content formats
-without manually chaining multiple readers in your pipeline.</p>
-<p>ReaderAssembler simplifies the process of building flexible pipelines capable of ingesting and
-processing documents, tables, and images in a consistent way. It handles reader selection,
-ordering, and fault-tolerance internally, ensuring that pipelines remain concise, robust, and
-easy to maintain.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">johnsnowlabs.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReaderAssembler</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">reader_assembler</span> <span class="o">=</span> <span class="n">ReaderAssembler</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setContentType</span><span class="p">(</span><span class="s2">&quot;text/html&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setContentPath</span><span class="p">(</span><span class="s2">&quot;/table-image.html&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">reader_assembler</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data_set</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_df</span> <span class="o">=</span> <span class="n">pipeline_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">empty_data_set</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">result_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="go">+--------+--------------------+--------------------+--------------------+---------+</span>
-<span class="go">|fileName|       document_text|      document_table|      document_image|exception|</span>
-<span class="go">+--------+--------------------+--------------------+--------------------+---------+</span>
-<span class="go">|    null|[{&#39;document&#39;, 0, 26...|[{&#39;document&#39;, 0, 50...|[{&#39;image&#39;, , 5, 5, ...|     null|</span>
-<span class="go">+--------+--------------------+--------------------+--------------------+---------+</span>
-</pre></div>
-</div>
-<p>This annotator is especially useful when working with heterogeneous input data — for example,
-when a dataset includes PDFs, spreadsheets, and images — allowing Spark NLP to automatically
-invoke the appropriate reader for each file type while preserving a unified schema in the output.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.reader_assembler.ReaderAssembler.customPromptTemplate">
-<span class="sig-name descname"><span class="pre">customPromptTemplate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='customPromptTemplate',</span> <span class="pre">doc='Custom</span> <span class="pre">prompt</span> <span class="pre">template</span> <span class="pre">for</span> <span class="pre">image</span> <span class="pre">models.')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader_assembler.html#ReaderAssembler.customPromptTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader_assembler.ReaderAssembler.customPromptTemplate" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.reader_assembler.ReaderAssembler.excludeNonText">
-<span class="sig-name descname"><span class="pre">excludeNonText</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='excludeNonText',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">exclude</span> <span class="pre">non-text</span> <span class="pre">content</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">output.</span> <span class="pre">Default</span> <span class="pre">is</span> <span class="pre">False.')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader_assembler.html#ReaderAssembler.excludeNonText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader_assembler.ReaderAssembler.excludeNonText" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.reader_assembler.ReaderAssembler.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ReaderAssembler'</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader_assembler.html#ReaderAssembler.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader_assembler.ReaderAssembler.name" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.reader_assembler.ReaderAssembler.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader_assembler.html#ReaderAssembler.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader_assembler.ReaderAssembler.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.reader_assembler.ReaderAssembler.promptTemplate">
-<span class="sig-name descname"><span class="pre">promptTemplate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='promptTemplate',</span> <span class="pre">doc='Format</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">output</span> <span class="pre">prompt.')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader_assembler.html#ReaderAssembler.promptTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader_assembler.ReaderAssembler.promptTemplate" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.reader_assembler.ReaderAssembler.setCustomPromptTemplate">
-<span class="sig-name descname"><span class="pre">setCustomPromptTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader_assembler.html#ReaderAssembler.setCustomPromptTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader_assembler.ReaderAssembler.setCustomPromptTemplate" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets custom prompt template for image models.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Custom prompt template string.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.reader_assembler.ReaderAssembler.setExcludeNonText">
-<span class="sig-name descname"><span class="pre">setExcludeNonText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader_assembler.html#ReaderAssembler.setExcludeNonText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader_assembler.ReaderAssembler.setExcludeNonText" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets whether to exclude non-text content from the output.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to exclude non-text content from the output. Default is False.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.reader_assembler.ReaderAssembler.setParams">
-<span class="sig-name descname"><span class="pre">setParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader_assembler.html#ReaderAssembler.setParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader_assembler.ReaderAssembler.setParams" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.reader_assembler.ReaderAssembler.setPromptTemplate">
-<span class="sig-name descname"><span class="pre">setPromptTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader_assembler.html#ReaderAssembler.setPromptTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader_assembler.ReaderAssembler.setPromptTemplate" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets format of the output prompt.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Prompt template format.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.reader.reader_assembler.ReaderAssembler.setUserMessage">
-<span class="sig-name descname"><span class="pre">setUserMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader_assembler.html#ReaderAssembler.setUserMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader_assembler.ReaderAssembler.setUserMessage" title="Permalink to this definition">#</a></dt>
-<dd><p>Sets custom user message.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Custom user message to include.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.reader.reader_assembler.ReaderAssembler.userMessage">
-<span class="sig-name descname"><span class="pre">userMessage</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='userMessage',</span> <span class="pre">doc='Custom</span> <span class="pre">user</span> <span class="pre">message.')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader_assembler.html#ReaderAssembler.userMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader_assembler.ReaderAssembler.userMessage" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+  <section id="sparknlp-reader-reader-assembler-module">
+<h1>sparknlp.reader.reader_assembler module<a class="headerlink" href="#sparknlp-reader-reader-assembler-module" title="Permalink to this heading">#</a></h1>
 </section>
 
 
@@ -843,30 +713,6 @@ invoke the appropriate reader for each file type while preserving a unified sche
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader_assembler.ReaderAssembler"><code class="docutils literal notranslate"><span class="pre">ReaderAssembler</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader_assembler.ReaderAssembler.customPromptTemplate"><code class="docutils literal notranslate"><span class="pre">ReaderAssembler.customPromptTemplate</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader_assembler.ReaderAssembler.excludeNonText"><code class="docutils literal notranslate"><span class="pre">ReaderAssembler.excludeNonText</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader_assembler.ReaderAssembler.name"><code class="docutils literal notranslate"><span class="pre">ReaderAssembler.name</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader_assembler.ReaderAssembler.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">ReaderAssembler.outputAnnotatorType</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader_assembler.ReaderAssembler.promptTemplate"><code class="docutils literal notranslate"><span class="pre">ReaderAssembler.promptTemplate</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader_assembler.ReaderAssembler.setCustomPromptTemplate"><code class="docutils literal notranslate"><span class="pre">ReaderAssembler.setCustomPromptTemplate()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader_assembler.ReaderAssembler.setExcludeNonText"><code class="docutils literal notranslate"><span class="pre">ReaderAssembler.setExcludeNonText()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader_assembler.ReaderAssembler.setParams"><code class="docutils literal notranslate"><span class="pre">ReaderAssembler.setParams()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader_assembler.ReaderAssembler.setPromptTemplate"><code class="docutils literal notranslate"><span class="pre">ReaderAssembler.setPromptTemplate()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader_assembler.ReaderAssembler.setUserMessage"><code class="docutils literal notranslate"><span class="pre">ReaderAssembler.setUserMessage()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader_assembler.ReaderAssembler.userMessage"><code class="docutils literal notranslate"><span class="pre">ReaderAssembler.userMessage</span></code></a></li>
-</ul>
-</li>
-</ul>
-  </nav></div>
 
   <div class="sidebar-secondary-item">
 

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.reader.reader2doc &#8212; Spark NLP 6.2.0 documentation</title>
+    <title>sparknlp.reader.reader2doc &#8212; Spark NLP 6.2.1 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=d345c3d3"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=773d47ca"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.0 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -452,6 +452,19 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">excludeNonText</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="Reader2Doc.joinString"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.joinString">[docs]</a>    <span class="n">joinString</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;joinString&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;If outputAsDocument is true, specifies the string used to join elements into a single document.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Reader2Doc.setJoinString"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.setJoinString">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setJoinString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If outputAsDocument is true, specifies the string used to join elements into a single</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">joinString</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Reader2Doc</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.reader.Reader2Doc&quot;</span><span class="p">)</span>
@@ -460,8 +473,12 @@ document.write(`
             <span class="n">explodeDocs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">contentType</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
             <span class="n">flattenOutput</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">titleThreshold</span><span class="o">=</span><span class="mi">18</span>
+            <span class="n">outputAsDocument</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">outputFormat</span><span class="o">=</span><span class="s2">&quot;plain-text&quot;</span><span class="p">,</span>
+            <span class="n">excludeNonText</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">joinString</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="p">)</span>
+
     <span class="nd">@keyword_only</span>
 <div class="viewcode-block" id="Reader2Doc.setParams"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader2doc/index.html#sparknlp.reader.reader2doc.Reader2Doc.setParams">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setParams</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_kwargs</span>

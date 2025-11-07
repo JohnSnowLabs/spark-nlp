@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.reader.reader2doc &#8212; Spark NLP 6.2.0 documentation</title>
+    <title>sparknlp.reader.reader2doc &#8212; Spark NLP 6.2.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=d345c3d3"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=773d47ca"></script>
     <script src="../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.0 documentation - Home"/>`);</script>
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -445,6 +445,11 @@ output as a structured Spark DataFrame.</p>
 <span class="sig-name descname"><span class="pre">excludeNonText</span></span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2doc.html#Reader2Doc.excludeNonText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.excludeNonText" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.joinString">
+<span class="sig-name descname"><span class="pre">joinString</span></span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2doc.html#Reader2Doc.joinString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.joinString" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setExcludeNonText">
 <span class="sig-name descname"><span class="pre">setExcludeNonText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setExcludeNonText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setExcludeNonText" title="Permalink to this definition">#</a></dt>
@@ -457,6 +462,12 @@ output as a structured Spark DataFrame.</p>
 </dl>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setJoinString">
+<span class="sig-name descname"><span class="pre">setJoinString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setJoinString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setJoinString" title="Permalink to this definition">#</a></dt>
+<dd><p>If outputAsDocument is true, specifies the string used to join elements into a single</p>
 </dd></dl>
 
 <dl class="py method">
@@ -502,7 +513,9 @@ output as a structured Spark DataFrame.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.name"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.name</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.outputAnnotatorType</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.excludeNonText"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.excludeNonText</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.joinString"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.joinString</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setExcludeNonText"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setExcludeNonText()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setJoinString"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setJoinString()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setParams"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setParams()</span></code></a></li>
 </ul>
 </li>

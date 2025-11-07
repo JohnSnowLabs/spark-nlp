@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach</title>
-          <meta name="description" content="Spark NLP 6.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach" />
-          <meta name="keywords" content="Spark NLP 6.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach" />
+          <title>Spark NLP 6.2.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach</title>
+          <meta name="description" content="Spark NLP 6.2.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach" />
+          <meta name="keywords" content="Spark NLP 6.2.1 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.2.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.2.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -179,8 +179,8 @@
                         <a href="NerDLGraphChecker.html" title="Checks whether a suitable NerDL graph is available for the given training dataset, before any computations/training is done.">NerDLGraphChecker</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="NerDLGraphCheckerModel$.html" title=""></a>
-                        <a class="class" href="NerDLGraphCheckerModel.html" title="Resulting model from NerDLGraphChecker, that does not perform any transformations, as the checks are done during the fit phase."></a>
-                        <a href="NerDLGraphCheckerModel.html" title="Resulting model from NerDLGraphChecker, that does not perform any transformations, as the checks are done during the fit phase.">NerDLGraphCheckerModel</a>
+                        <a class="class" href="NerDLGraphCheckerModel.html" title="Resulting model from NerDLGraphChecker, that updates dataframe metadata (label column) with NerDLGraph parameters."></a>
+                        <a href="NerDLGraphCheckerModel.html" title="Resulting model from NerDLGraphChecker, that updates dataframe metadata (label column) with NerDLGraph parameters.">NerDLGraphCheckerModel</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="NerDLModel$.html" title="This is the companion object of NerDLModel."></a>
                         <a class="class" href="NerDLModel.html" title="This Named Entity recognition annotator is a generic NER model based on Neural Networks."></a>
@@ -479,6 +479,26 @@ documentation.
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach#getDataSetParamsFromMetadata" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getDataSetParamsFromMetadata(dataset:org.apache.spark.sql.Dataset[_],labelColumn:String):Option[(scala.collection.mutable.Set[String],scala.collection.mutable.Set[Char],Int,Long)]"></a><a id="getDataSetParamsFromMetadata(Dataset[_],String):Option[(Set[String],Set[Char],Int,Long)]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach$.html#getDataSetParamsFromMetadata(dataset:org.apache.spark.sql.Dataset[_],labelColumn:String):Option[(scala.collection.mutable.Set[String],scala.collection.mutable.Set[Char],Int,Long)]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getDataSetParamsFromMetadata</span><span class="params">(<span name="dataset">dataset: <span class="extype" name="org.apache.spark.sql.Dataset">Dataset</span>[_]</span>, <span name="labelColumn">labelColumn: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[(<span class="extype" name="scala.collection.mutable.Set">Set</span>[<span class="extype" name="scala.Predef.String">String</span>], <span class="extype" name="scala.collection.mutable.Set">Set</span>[<span class="extype" name="scala.Char">Char</span>], <span class="extype" name="scala.Int">Int</span>, <span class="extype" name="scala.Long">Long</span>)]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Try to get dataset params from metadata by fitting <a href="NerDLGraphChecker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphChecker">NerDLGraphChecker</a> and written by
+<a href="NerDLGraphCheckerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphCheckerModel">NerDLGraphCheckerModel</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Try to get dataset params from metadata by fitting <a href="NerDLGraphChecker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphChecker">NerDLGraphChecker</a> and written by
+<a href="NerDLGraphCheckerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphCheckerModel">NerDLGraphCheckerModel</a>.
+</p></div><dl class="paramcmts block"><dt>returns</dt><dd class="cmt"><p>
+  Some(labels, chars, embeddingsDim, dsLen) if metadata found, None otherwise</p></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach#getGraphParams" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="getGraphParams(dataset:org.apache.spark.sql.Dataset[_],inputColumns:java.util.ArrayList[String],labelColumn:String):(Int,Int,Int)"></a><a id="getGraphParams(Dataset[_],ArrayList[String],String):(Int,Int,Int)"></a>
       <span class="permalink">
@@ -568,6 +588,22 @@ documentation.
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach#logger" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logger:org.slf4j.Logger"></a><a id="logger:Logger"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ner/dl/NerDLApproach$.html#logger:org.slf4j.Logger" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logger</span><span class="result">: <span class="extype" name="org.slf4j.Logger">Logger</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#ne" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="ne(x$1:AnyRef):Boolean"></a><a id="ne(AnyRef):Boolean"></a>
       <span class="permalink">

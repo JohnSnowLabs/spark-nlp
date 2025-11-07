@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.partition.partition_transformer module &#8212; Spark NLP 6.2.0 documentation</title>
+    <title>sparknlp.partition.partition_transformer module &#8212; Spark NLP 6.2.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=d345c3d3"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=773d47ca"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.1 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -691,176 +691,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="module-sparknlp.partition.partition_transformer">
-<span id="sparknlp-partition-partition-transformer-module"></span><h1>sparknlp.partition.partition_transformer module<a class="headerlink" href="#module-sparknlp.partition.partition_transformer" title="Permalink to this heading">#</a></h1>
-<p>Contains the PartitionTransformer class for reading various types of documents into chunks.</p>
-<dl class="py class">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">PartitionTransformer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.partition.PartitionTransformer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasEmailReaderProperties" title="sparknlp.partition.partition_properties.HasEmailReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmailReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasExcelReaderProperties" title="sparknlp.partition.partition_properties.HasExcelReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasExcelReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties" title="sparknlp.partition.partition_properties.HasHTMLReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasHTMLReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPowerPointProperties" title="sparknlp.partition.partition_properties.HasPowerPointProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasPowerPointProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties" title="sparknlp.partition.partition_properties.HasTextReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasTextReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties" title="sparknlp.partition.partition_properties.HasChunkerProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasChunkerProperties</span></code></a></p>
-<p>The PartitionTransformer annotator allows you to use the Partition feature more smoothly
-within existing Spark NLP workflows, enabling seamless reuse of your pipelines.</p>
-<p>It supports reading from files, URLs, in-memory strings, or byte arrays, and works
-within a Spark NLP pipeline.</p>
-<p>Supported formats include:
-- Plain text
-- HTML
-- Word (.doc/.docx)
-- Excel (.xls/.xlsx)
-- PowerPoint (.ppt/.pptx)
-- Email files (.eml, .msg)
-- PDFs</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>inputCols</strong><span class="classifier">list of str</span></dt><dd><p>Names of input columns (typically from DocumentAssembler).</p>
-</dd>
-<dt><strong>outputCol</strong><span class="classifier">str</span></dt><dd><p>Name of the column to store the output.</p>
-</dd>
-<dt><strong>contentType</strong><span class="classifier">str</span></dt><dd><p>The type of content: e.g., “text”, “url”, “file”, etc.</p>
-</dd>
-<dt><strong>headers</strong><span class="classifier">dict, optional</span></dt><dd><p>Headers to be used if content type is a URL.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dataset</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([</span>
-<span class="gp">... </span>    <span class="p">(</span><span class="s2">&quot;https://www.blizzard.com&quot;</span><span class="p">,),</span>
-<span class="gp">... </span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;document&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">partition</span> <span class="o">=</span> <span class="n">PartitionTransformer</span><span class="p">()</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;document&quot;</span><span class="p">])</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;partition&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setContentType</span><span class="p">(</span><span class="s2">&quot;url&quot;</span><span class="p">)</span> \
-<span class="gp">... </span>    <span class="o">.</span><span class="n">setHeaders</span><span class="p">({</span><span class="s2">&quot;Accept-Language&quot;</span><span class="p">:</span> <span class="s2">&quot;es-ES&quot;</span><span class="p">})</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">partition</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pipelineModel</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">resultDf</span> <span class="o">=</span> <span class="n">pipelineModel</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">resultDf</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="go">+--------------------+--------------------+--------------------+</span>
-<span class="go">|                text|            document|           partition|</span>
-<span class="go">+--------------------+--------------------+--------------------+</span>
-<span class="go">|https://www.blizz...|[{Title, Juegos d...|[{document, 0, 16...|</span>
-<span class="go">|https://www.googl...|[{Title, Gmail Im...|[{document, 0, 28...|</span>
-<span class="go">+--------------------+--------------------+--------------------+</span>
-</pre></div>
-</div>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.contentPath">
-<span class="sig-name descname"><span class="pre">contentPath</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='contentPath',</span> <span class="pre">doc='Path</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">content</span> <span class="pre">source')</span></em><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.contentPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.contentPath" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.contentType">
-<span class="sig-name descname"><span class="pre">contentType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='contentType',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">content</span> <span class="pre">type</span> <span class="pre">to</span> <span class="pre">load</span> <span class="pre">following</span> <span class="pre">MIME</span> <span class="pre">specification')</span></em><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.contentType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.contentType" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.getContentPath">
-<span class="sig-name descname"><span class="pre">getContentPath</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.getContentPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.getContentPath" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.getContentType">
-<span class="sig-name descname"><span class="pre">getContentType</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.getContentType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.getContentType" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.getIncludePageBreaks">
-<span class="sig-name descname"><span class="pre">getIncludePageBreaks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.getIncludePageBreaks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.getIncludePageBreaks" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.getInferTableStructure">
-<span class="sig-name descname"><span class="pre">getInferTableStructure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.getInferTableStructure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.getInferTableStructure" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.getStoreContent">
-<span class="sig-name descname"><span class="pre">getStoreContent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.getStoreContent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.getStoreContent" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.getTitleFontSize">
-<span class="sig-name descname"><span class="pre">getTitleFontSize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.getTitleFontSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.getTitleFontSize" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.includePageBreaks">
-<span class="sig-name descname"><span class="pre">includePageBreaks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='includePageBreaks',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">detect</span> <span class="pre">and</span> <span class="pre">tag</span> <span class="pre">content</span> <span class="pre">with</span> <span class="pre">page</span> <span class="pre">break</span> <span class="pre">metadata.</span> <span class="pre">In</span> <span class="pre">Word</span> <span class="pre">documents,</span> <span class="pre">this</span> <span class="pre">includes</span> <span class="pre">manual</span> <span class="pre">and</span> <span class="pre">section</span> <span class="pre">breaks.</span> <span class="pre">In</span> <span class="pre">Excel</span> <span class="pre">files,</span> <span class="pre">this</span> <span class="pre">includes</span> <span class="pre">page</span> <span class="pre">breaks</span> <span class="pre">based</span> <span class="pre">on</span> <span class="pre">column</span> <span class="pre">boundaries.')</span></em><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.includePageBreaks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.includePageBreaks" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.inferTableStructure">
-<span class="sig-name descname"><span class="pre">inferTableStructure</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='inferTableStructure',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">generate</span> <span class="pre">an</span> <span class="pre">HTML</span> <span class="pre">table</span> <span class="pre">representation</span> <span class="pre">from</span> <span class="pre">structured</span> <span class="pre">table</span> <span class="pre">content.</span> <span class="pre">When</span> <span class="pre">enabled,</span> <span class="pre">a</span> <span class="pre">full</span> <span class="pre">&lt;table&gt;</span> <span class="pre">element</span> <span class="pre">is</span> <span class="pre">added</span> <span class="pre">alongside</span> <span class="pre">cell-level</span> <span class="pre">elements,</span> <span class="pre">based</span> <span class="pre">on</span> <span class="pre">row</span> <span class="pre">and</span> <span class="pre">column</span> <span class="pre">layout.')</span></em><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.inferTableStructure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.inferTableStructure" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.inputAnnotatorTypes">
-<span class="sig-name descname"><span class="pre">inputAnnotatorTypes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['document']</span></em><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.inputAnnotatorTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.inputAnnotatorTypes" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.name">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PartitionTransformer'</span></em><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.name" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.outputAnnotatorType">
-<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.setContentPath">
-<span class="sig-name descname"><span class="pre">setContentPath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.setContentPath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.setContentPath" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.setContentType">
-<span class="sig-name descname"><span class="pre">setContentType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.setContentType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.setContentType" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.setIncludePageBreaks">
-<span class="sig-name descname"><span class="pre">setIncludePageBreaks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.setIncludePageBreaks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.setIncludePageBreaks" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.setInferTableStructure">
-<span class="sig-name descname"><span class="pre">setInferTableStructure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.setInferTableStructure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.setInferTableStructure" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.setStoreContent">
-<span class="sig-name descname"><span class="pre">setStoreContent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.setStoreContent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.setStoreContent" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.setTitleFontSize">
-<span class="sig-name descname"><span class="pre">setTitleFontSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.setTitleFontSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.setTitleFontSize" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.storeContent">
-<span class="sig-name descname"><span class="pre">storeContent</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='storeContent',</span> <span class="pre">doc=&quot;Whether</span> <span class="pre">to</span> <span class="pre">include</span> <span class="pre">the</span> <span class="pre">raw</span> <span class="pre">file</span> <span class="pre">content</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">output</span> <span class="pre">DataFrame</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">separate</span> <span class="pre">'content'</span> <span class="pre">column,</span> <span class="pre">alongside</span> <span class="pre">the</span> <span class="pre">structured</span> <span class="pre">output.&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.storeContent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.storeContent" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="sparknlp.partition.partition_transformer.PartitionTransformer.titleFontSize">
-<span class="sig-name descname"><span class="pre">titleFontSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='titleFontSize',</span> <span class="pre">doc='Minimum</span> <span class="pre">font</span> <span class="pre">size</span> <span class="pre">threshold</span> <span class="pre">used</span> <span class="pre">as</span> <span class="pre">part</span> <span class="pre">of</span> <span class="pre">heuristic</span> <span class="pre">rules</span> <span class="pre">to</span> <span class="pre">detect</span> <span class="pre">title</span> <span class="pre">elements</span> <span class="pre">based</span> <span class="pre">on</span> <span class="pre">formatting</span> <span class="pre">(e.g.,</span> <span class="pre">bold,</span> <span class="pre">centered,</span> <span class="pre">capitalized).')</span></em><a class="reference internal" href="../modules/sparknlp/partition/partition_transformer.html#PartitionTransformer.titleFontSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_transformer.PartitionTransformer.titleFontSize" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
+  <section id="sparknlp-partition-partition-transformer-module">
+<h1>sparknlp.partition.partition_transformer module<a class="headerlink" href="#sparknlp-partition-partition-transformer-module" title="Permalink to this heading">#</a></h1>
 </section>
 
 
@@ -881,40 +713,6 @@ within a Spark NLP pipeline.</p>
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.contentPath"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.contentPath</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.contentType"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.contentType</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.getContentPath"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.getContentPath()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.getContentType"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.getContentType()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.getIncludePageBreaks"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.getIncludePageBreaks()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.getInferTableStructure"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.getInferTableStructure()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.getStoreContent"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.getStoreContent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.getTitleFontSize"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.getTitleFontSize()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.includePageBreaks"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.includePageBreaks</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.inferTableStructure"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.inferTableStructure</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.inputAnnotatorTypes</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.name"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.name</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.outputAnnotatorType</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.setContentPath"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.setContentPath()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.setContentType"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.setContentType()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.setIncludePageBreaks"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.setIncludePageBreaks()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.setInferTableStructure"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.setInferTableStructure()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.setStoreContent"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.setStoreContent()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.setTitleFontSize"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.setTitleFontSize()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.storeContent"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.storeContent</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_transformer.PartitionTransformer.titleFontSize"><code class="docutils literal notranslate"><span class="pre">PartitionTransformer.titleFontSize</span></code></a></li>
-</ul>
-</li>
-</ul>
-  </nav></div>
 
   <div class="sidebar-secondary-item">
 
