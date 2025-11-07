@@ -330,7 +330,7 @@ class Florence2Transformer(override val uid: String)
 trait ReadablePretrainedFlorence2TransformerModel
     extends ParamsAndFeaturesReadable[Florence2Transformer]
     with HasPretrained[Florence2Transformer] {
-  override val defaultModelName: Some[String] = Some("florence2_base_ft_int4")
+  override val defaultModelName: Some[String] = Some("florence_2_base_ft_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): Florence2Transformer = super.pretrained()
