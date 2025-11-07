@@ -1,4 +1,20 @@
 =======
+6.2.1
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1306] Adding hierarchical support for Readers
+* [SPARKNLP-1297] NerDLApproach Optimizations
+* XML Reader and Reader2Doc Improvements
+
+---------
+Bug Fixes
+---------
+* Add Java installation to Colab setup script
+
+=======
 6.2.0
 =======
 ---------------------------
