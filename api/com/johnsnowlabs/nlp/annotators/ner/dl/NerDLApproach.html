@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach</title>
-          <meta name="description" content="Spark NLP 6.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach" />
-          <meta name="keywords" content="Spark NLP 6.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach" />
+          <title>Spark NLP 6.2.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach</title>
+          <meta name="description" content="Spark NLP 6.2.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach" />
+          <meta name="keywords" content="Spark NLP 6.2.1 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.2.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.2.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -179,8 +179,8 @@
                         <a href="NerDLGraphChecker.html" title="Checks whether a suitable NerDL graph is available for the given training dataset, before any computations/training is done.">NerDLGraphChecker</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="NerDLGraphCheckerModel$.html" title=""></a>
-                        <a class="class" href="NerDLGraphCheckerModel.html" title="Resulting model from NerDLGraphChecker, that does not perform any transformations, as the checks are done during the fit phase."></a>
-                        <a href="NerDLGraphCheckerModel.html" title="Resulting model from NerDLGraphChecker, that does not perform any transformations, as the checks are done during the fit phase.">NerDLGraphCheckerModel</a>
+                        <a class="class" href="NerDLGraphCheckerModel.html" title="Resulting model from NerDLGraphChecker, that updates dataframe metadata (label column) with NerDLGraph parameters."></a>
+                        <a href="NerDLGraphCheckerModel.html" title="Resulting model from NerDLGraphChecker, that updates dataframe metadata (label column) with NerDLGraph parameters.">NerDLGraphCheckerModel</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="NerDLModel$.html" title="This is the companion object of NerDLModel."></a>
                         <a class="class" href="NerDLModel.html" title="This Named Entity recognition annotator is a generic NER model based on Neural Networks."></a>
@@ -252,7 +252,10 @@ column of annotator type <code>NAMED_ENTITY</code>. Excluding the label, this ca
 example</p><ul><li>a <a href="../../sbd/pragmatic/SentenceDetector.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector">SentenceDetector</a>,</li><li>a <a href="../../Tokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> and</li><li>a <a href="../../../embeddings/WordEmbeddingsModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a> (any
     embeddings can be chosen, e.g.
     <a href="../../../embeddings/BertEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a> for BERT based
-    embeddings).</li></ul><p>Setting a test dataset to monitor model metrics can be done with <code>.setTestDataset</code>. The method
+    embeddings).</li></ul><p>By default, collects all data points into memory for training. For larger datasets, use
+<code>setEnableMemoryOptimizer(true)</code>. This will optimize memory usage during training at the cost
+of speed. Note that this annotator will use as much memory as the largest partition of the
+input dataset, so we recommend repartitioning to batch sizes.</p><p>Setting a test dataset to monitor model metrics can be done with <code>.setTestDataset</code>. The method
 expects a path to a parquet file containing a dataframe that has the same required columns as
 the training dataframe. The pre-processing steps for the training dataframe should also be
 applied to the test dataframe. The following example will show how to create the test dataset

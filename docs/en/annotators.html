@@ -7230,6 +7230,11 @@ Excluding the label, this can be done with for example</p>
   (any word embeddings can be chosen, e.g. <a href="/docs/en/transformers#bertembeddings">BertEmbeddings</a> for BERT based embeddings).</li>
     </ul>
 
+    <p>By default, collects all data points into memory for training. For larger datasets, use
+<code class="language-plaintext highlighter-rouge">setEnableMemoryOptimizer(true)</code>. This will optimize memory usage during training at the cost
+of speed. Note that this annotator will use as much memory as the largest partition of the
+input dataset, so we recommend repartitioning to batch sizes.</p>
+
     <p>Setting a test dataset to monitor model metrics can be done with <code class="language-plaintext highlighter-rouge">.setTestDataset</code>. The method
 expects a path to a parquet file containing a dataframe that has the same required columns as
 the training dataframe. The pre-processing steps for the training dataframe should also be

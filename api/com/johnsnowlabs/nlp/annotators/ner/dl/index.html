@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.2.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl</title>
-          <meta name="description" content="Spark NLP 6.2.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl" />
-          <meta name="keywords" content="Spark NLP 6.2.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl" />
+          <title>Spark NLP 6.2.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ner.dl</title>
+          <meta name="description" content="Spark NLP 6.2.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.ner.dl" />
+          <meta name="keywords" content="Spark NLP 6.2.1 ScalaDoc com.johnsnowlabs.nlp.annotators.ner.dl" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.2.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.2.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -195,8 +195,8 @@
                         <a href="NerDLGraphChecker.html" title="Checks whether a suitable NerDL graph is available for the given training dataset, before any computations/training is done.">NerDLGraphChecker</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="NerDLGraphCheckerModel$.html" title=""></a>
-                        <a class="class" href="NerDLGraphCheckerModel.html" title="Resulting model from NerDLGraphChecker, that does not perform any transformations, as the checks are done during the fit phase."></a>
-                        <a href="NerDLGraphCheckerModel.html" title="Resulting model from NerDLGraphChecker, that does not perform any transformations, as the checks are done during the fit phase.">NerDLGraphCheckerModel</a>
+                        <a class="class" href="NerDLGraphCheckerModel.html" title="Resulting model from NerDLGraphChecker, that updates dataframe metadata (label column) with NerDLGraph parameters."></a>
+                        <a href="NerDLGraphCheckerModel.html" title="Resulting model from NerDLGraphChecker, that updates dataframe metadata (label column) with NerDLGraph parameters.">NerDLGraphCheckerModel</a>
                       </li><li class="current-entities indented6">
                         <a class="object" href="NerDLModel$.html" title="This is the companion object of NerDLModel."></a>
                         <a class="class" href="NerDLModel.html" title="This Named Entity recognition annotator is a generic NER model based on Neural Networks."></a>
@@ -317,7 +317,10 @@ column of annotator type <code>NAMED_ENTITY</code>. Excluding the label, this ca
 example</p><ul><li>a <a href="../../sbd/pragmatic/SentenceDetector.html" class="extype" name="com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector">SentenceDetector</a>,</li><li>a <a href="../../Tokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> and</li><li>a <a href="../../../embeddings/WordEmbeddingsModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel">WordEmbeddingsModel</a> (any
     embeddings can be chosen, e.g.
     <a href="../../../embeddings/BertEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertEmbeddings">BertEmbeddings</a> for BERT based
-    embeddings).</li></ul><p>Setting a test dataset to monitor model metrics can be done with <code>.setTestDataset</code>. The method
+    embeddings).</li></ul><p>By default, collects all data points into memory for training. For larger datasets, use
+<code>setEnableMemoryOptimizer(true)</code>. This will optimize memory usage during training at the cost
+of speed. Note that this annotator will use as much memory as the largest partition of the
+input dataset, so we recommend repartitioning to batch sizes.</p><p>Setting a test dataset to monitor model metrics can be done with <code>.setTestDataset</code>. The method
 expects a path to a parquet file containing a dataframe that has the same required columns as
 the training dataframe. The pre-processing steps for the training dataframe should also be
 applied to the test dataframe. The following example will show how to create the test dataset
@@ -421,7 +424,8 @@ and the
 computations/training is done.</p><div class="fullcomment"><div class="comment cmt"><p>Checks whether a suitable NerDL graph is available for the given training dataset, before any
 computations/training is done. This annotator is useful for custom training cases, where
 specialized graphs might not be available and we want to check before embeddings are
-evaluated.</p><p>Important: This annotator should be used or positioned before any embedding or NerDLApproach
+evaluated.</p><p>This annotator will fill graph hyperparameters as metadata in the label column, which will be
+available for NerDLApproach, saving computations.</p><p>Important: This annotator should be used or positioned before any embedding or NerDLApproach
 annotators in the pipeline and will process the whole dataset to extract the required graph
 parameters.</p><p>This annotator requires a dataset with at least two columns: one with tokens and one with the
 labels. In addition, it requires the used embedding annotator in the pipeline to extract the
@@ -474,12 +478,13 @@ and the
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a title="Resulting model from NerDLGraphChecker, that does not perform any transformations, as the checks are done during the fit phase." href="NerDLGraphCheckerModel.html"><span class="name">NerDLGraphCheckerModel</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="NerDLGraphCheckerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphCheckerModel">NerDLGraphCheckerModel</a>] with <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a> with <a href="../../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
+        <a title="Resulting model from NerDLGraphChecker, that updates dataframe metadata (label column) with NerDLGraph parameters." href="NerDLGraphCheckerModel.html"><span class="name">NerDLGraphCheckerModel</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="NerDLGraphCheckerModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphCheckerModel">NerDLGraphCheckerModel</a>] with <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a> with <a href="../../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
       </span>
       
-      <p class="shortcomment cmt">Resulting model from <a href="NerDLGraphChecker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphChecker">NerDLGraphChecker</a>, that does not perform any transformations, as the
-checks are done during the <code>fit</code> phase.</p><div class="fullcomment"><div class="comment cmt"><p>Resulting model from <a href="NerDLGraphChecker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphChecker">NerDLGraphChecker</a>, that does not perform any transformations, as the
-checks are done during the <code>fit</code> phase. It acts as the identity.</p><p>This annotator should never be used directly.
+      <p class="shortcomment cmt">Resulting model from <a href="NerDLGraphChecker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphChecker">NerDLGraphChecker</a>, that updates dataframe metadata (label column)
+with NerDLGraph parameters.</p><div class="fullcomment"><div class="comment cmt"><p>Resulting model from <a href="NerDLGraphChecker.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphChecker">NerDLGraphChecker</a>, that updates dataframe metadata (label column)
+with NerDLGraph parameters. It does not perform any actual data transformations, as the
+checks/computations are done during the <code>fit</code> phase.</p><p>This annotator should never be used directly.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="NerDLModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.ner.dl.NerDLModel]withWriteTensorflowModelwithHasStorageRefwithParamsAndFeaturesWritablewithHasEngine"></a><a id="NerDLModel:NerDLModel"></a>

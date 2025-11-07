@@ -165,6 +165,11 @@ Excluding the label, this can be done with for example
   - a [WordEmbeddingsModel](/docs/en/annotators#wordembeddings)
   (any word embeddings can be chosen, e.g. [BertEmbeddings](/docs/en/transformers#bertembeddings) for BERT based embeddings).
 
+By default, collects all data points into memory for training. For larger datasets, use
+`setEnableMemoryOptimizer(true)`. This will optimize memory usage during training at the cost
+of speed. Note that this annotator will use as much memory as the largest partition of the
+input dataset, so we recommend repartitioning to batch sizes.
+
 Setting a test dataset to monitor model metrics can be done with `.setTestDataset`. The method
 expects a path to a parquet file containing a dataframe that has the same required columns as
 the training dataframe. The pre-processing steps for the training dataframe should also be

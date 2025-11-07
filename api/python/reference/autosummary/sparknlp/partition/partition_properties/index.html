@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.2.0 documentation</title>
+    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.2.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=d345c3d3"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=773d47ca"></script>
     <script src="../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.0 documentation - Home"/>`);</script>
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -929,65 +929,243 @@ param map to store parameter values attached to the instance.</p>
 <span class="sig-name descname"><span class="pre">threshold</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.threshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.threshold" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.extractTagAttributes">
+<span class="sig-name descname"><span class="pre">extractTagAttributes</span></span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.extractTagAttributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.extractTagAttributes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.setTitleLengthSize">
 <span class="sig-name descname"><span class="pre">setTitleLengthSize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.setTitleLengthSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.setTitleLengthSize" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Set the maximum character length used to identify title blocks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Maximum number of characters a text block can have to be considered a title.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>self</dt><dd><p>The instance with updated <cite>titleLengthSize</cite> parameter.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.getTitleLengthSize">
 <span class="sig-name descname"><span class="pre">getTitleLengthSize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.getTitleLengthSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getTitleLengthSize" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Get the configured maximum title length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>int</dt><dd><p>The maximum character length used to detect title blocks.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.setGroupBrokenParagraphs">
 <span class="sig-name descname"><span class="pre">setGroupBrokenParagraphs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.setGroupBrokenParagraphs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.setGroupBrokenParagraphs" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Enable or disable grouping of broken paragraphs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>True to merge fragmented lines into paragraphs, False to leave lines as-is.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>self</dt><dd><p>The instance with updated <cite>groupBrokenParagraphs</cite> parameter.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.getGroupBrokenParagraphs">
 <span class="sig-name descname"><span class="pre">getGroupBrokenParagraphs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.getGroupBrokenParagraphs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getGroupBrokenParagraphs" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Get whether broken paragraph grouping is enabled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>bool</dt><dd><p>True if grouping of broken paragraphs is enabled, False otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.setParagraphSplit">
 <span class="sig-name descname"><span class="pre">setParagraphSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.setParagraphSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.setParagraphSplit" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Set the regex pattern used to split paragraphs when grouping broken paragraphs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Regular expression string used to detect paragraph boundaries.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>self</dt><dd><p>The instance with updated <cite>paragraphSplit</cite> parameter.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.getParagraphSplit">
 <span class="sig-name descname"><span class="pre">getParagraphSplit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.getParagraphSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getParagraphSplit" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Get the paragraph-splitting regex pattern.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>str</dt><dd><p>The regex pattern used to detect paragraph boundaries.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.setShortLineWordThreshold">
 <span class="sig-name descname"><span class="pre">setShortLineWordThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.setShortLineWordThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.setShortLineWordThreshold" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Set the maximum word count for a line to be considered short.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of words under which a line is considered ‘short’.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>self</dt><dd><p>The instance with updated <cite>shortLineWordThreshold</cite> parameter.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.getShortLineWordThreshold">
 <span class="sig-name descname"><span class="pre">getShortLineWordThreshold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.getShortLineWordThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getShortLineWordThreshold" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Get the short line word threshold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>int</dt><dd><p>Word count threshold for short lines used in paragraph grouping.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.setMaxLineCount">
 <span class="sig-name descname"><span class="pre">setMaxLineCount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.setMaxLineCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.setMaxLineCount" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Set the maximum number of lines to inspect when estimating paragraph layout.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Maximum number of lines to evaluate for layout heuristics.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>self</dt><dd><p>The instance with updated <cite>maxLineCount</cite> parameter.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.getMaxLineCount">
 <span class="sig-name descname"><span class="pre">getMaxLineCount</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.getMaxLineCount"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getMaxLineCount" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Get the maximum number of lines used for layout heuristics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>int</dt><dd><p>The configured maximum number of lines to consider.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.setThreshold">
 <span class="sig-name descname"><span class="pre">setThreshold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.setThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.setThreshold" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Set the empty-line ratio threshold for paragraph grouping decision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">float</span></dt><dd><p>Ratio (0.0-1.0) of empty lines used to switch grouping strategies.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>self</dt><dd><p>The instance with updated <cite>threshold</cite> parameter.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.getThreshold">
 <span class="sig-name descname"><span class="pre">getThreshold</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.getThreshold"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getThreshold" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Get the configured empty-line threshold ratio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>float</dt><dd><p>The ratio used to decide paragraph grouping strategy.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.setExtractTagAttributes">
+<span class="sig-name descname"><span class="pre">setExtractTagAttributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attributes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.setExtractTagAttributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.setExtractTagAttributes" title="Permalink to this definition">#</a></dt>
+<dd><p>Specify which tag attributes should have their values extracted as text when parsing
+tag-based formats (e.g., HTML or XML).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>attributes</strong> – list of attribute names to extract</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>this instance with the updated <cite>extractTagAttributes</cite> parameter</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.partition.partition_properties.HasTextReaderProperties.getExtractTagAttributes">
+<span class="sig-name descname"><span class="pre">getExtractTagAttributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/partition/partition_properties.html#HasTextReaderProperties.getExtractTagAttributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getExtractTagAttributes" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the list of tag attribute names configured to be extracted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>list[str]</dt><dd><p>The attribute names whose values will be extracted as text.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -1378,6 +1556,7 @@ param map to store parameter values attached to the instance.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.shortLineWordThreshold"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.shortLineWordThreshold</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.maxLineCount"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.maxLineCount</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.threshold"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.threshold</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.extractTagAttributes"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.extractTagAttributes</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.setTitleLengthSize"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.setTitleLengthSize()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getTitleLengthSize"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.getTitleLengthSize()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.setGroupBrokenParagraphs"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.setGroupBrokenParagraphs()</span></code></a></li>
@@ -1390,6 +1569,8 @@ param map to store parameter values attached to the instance.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getMaxLineCount"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.getMaxLineCount()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.setThreshold"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.setThreshold()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getThreshold"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.getThreshold()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.setExtractTagAttributes"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.setExtractTagAttributes()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasTextReaderProperties.getExtractTagAttributes"><code class="docutils literal notranslate"><span class="pre">HasTextReaderProperties.getExtractTagAttributes()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.partition.partition_properties.HasChunkerProperties"><code class="docutils literal notranslate"><span class="pre">HasChunkerProperties</span></code></a><ul class="nav section-nav flex-column">

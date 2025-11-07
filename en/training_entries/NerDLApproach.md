@@ -16,6 +16,11 @@ Excluding the label, this can be done with for example
   - a [WordEmbeddingsModel](/docs/en/annotators#wordembeddings)
   (any word embeddings can be chosen, e.g. [BertEmbeddings](/docs/en/transformers#bertembeddings) for BERT based embeddings).
 
+By default, collects all data points into memory for training. For larger datasets, use
+`setEnableMemoryOptimizer(true)`. This will optimize memory usage during training at the cost
+of speed. Note that this annotator will use as much memory as the largest partition of the
+input dataset, so we recommend repartitioning to batch sizes.
+
 For extended examples of usage, see the [Examples](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner).
 {%- endcapture -%}
 

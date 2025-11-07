@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.2.0 ScalaDoc  - com.johnsnowlabs.reader.ReaderAssembler</title>
-          <meta name="description" content="Spark NLP 6.2.0 ScalaDoc - com.johnsnowlabs.reader.ReaderAssembler" />
-          <meta name="keywords" content="Spark NLP 6.2.0 ScalaDoc com.johnsnowlabs.reader.ReaderAssembler" />
+          <title>Spark NLP 6.2.1 ScalaDoc  - com.johnsnowlabs.reader.ReaderAssembler</title>
+          <meta name="description" content="Spark NLP 6.2.1 ScalaDoc - com.johnsnowlabs.reader.ReaderAssembler" />
+          <meta name="keywords" content="Spark NLP 6.2.1 ScalaDoc com.johnsnowlabs.reader.ReaderAssembler" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.2.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.2.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -891,6 +891,22 @@ output.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.partition.HasTextReaderProperties#extractTagAttributes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="extractTagAttributes:org.apache.spark.ml.param.StringArrayParam"></a><a id="extractTagAttributes:StringArrayParam"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/ReaderAssembler.html#extractTagAttributes:org.apache.spark.ml.param.StringArrayParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">extractTagAttributes</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#features" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="features:scala.collection.mutable.ArrayBuffer[com.johnsnowlabs.nlp.serialization.Feature[_,_,_]]"></a><a id="features:ArrayBuffer[Feature[_,_,_]]"></a>
       <span class="permalink">
@@ -2280,6 +2296,27 @@ output.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasReaderProperties">HasReaderProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.partition.HasTextReaderProperties#setExtractTagAttributes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setExtractTagAttributes(attributes:Array[String]):HasTextReaderProperties.this.type"></a><a id="setExtractTagAttributes(Array[String]):ReaderAssembler.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/ReaderAssembler.html#setExtractTagAttributes(attributes:Array[String]):HasTextReaderProperties.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setExtractTagAttributes</span><span class="params">(<span name="attributes">attributes: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.ReaderAssembler">ReaderAssembler</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Specify which tag attributes should have their values extracted as text when parsing
+tag-based formats (e.g., HTML or XML).</p><div class="fullcomment"><div class="comment cmt"><p>Specify which tag attributes should have their values extracted as text when parsing
+tag-based formats (e.g., HTML or XML).
+</p></div><dl class="paramcmts block"><dt class="param">attributes</dt><dd class="cmt"><p>
+  array of attribute names to extract</p></dd><dt>returns</dt><dd class="cmt"><p>
+  this instance with the updated <code>extractTagAttributes</code> parameter</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.partition.HasReaderProperties#setFlattenOutput" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setFlattenOutput(value:Boolean):HasReaderProperties.this.type"></a><a id="setFlattenOutput(Boolean):ReaderAssembler.this.type"></a>
       <span class="permalink">
@@ -2311,7 +2348,11 @@ output.
         <span class="name">setGroupBrokenParagraphs</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.ReaderAssembler">ReaderAssembler</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
+      <p class="shortcomment cmt">Enable or disable merging of fragmented lines into coherent paragraphs when parsing text.</p><div class="fullcomment"><div class="comment cmt"><p>Enable or disable merging of fragmented lines into coherent paragraphs when parsing text.
+When enabled, heuristics based on line length and structure are used to group lines.
+</p></div><dl class="paramcmts block"><dt class="param">value</dt><dd class="cmt"><p>
+  true to group broken paragraphs, false to preserve original line breaks</p></dd><dt>returns</dt><dd class="cmt"><p>
+  this instance with the updated <code>groupBrokenParagraphs</code> parameter</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.partition.HasHTMLReaderProperties#setHeaders" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setHeaders(value:Map[String,String]):HasHTMLReaderProperties.this.type"></a><a id="setHeaders(Map[String,String]):ReaderAssembler.this.type"></a>
       <span class="permalink">
@@ -2455,7 +2496,12 @@ output.
         <span class="name">setMaxLineCount</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.ReaderAssembler">ReaderAssembler</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
+      <p class="shortcomment cmt">Set the maximum number of lines to evaluate when estimating paragraph layout
+characteristics.</p><div class="fullcomment"><div class="comment cmt"><p>Set the maximum number of lines to evaluate when estimating paragraph layout
+characteristics. This limits the amount of text inspected for layout heuristics.
+</p></div><dl class="paramcmts block"><dt class="param">value</dt><dd class="cmt"><p>
+  maximum number of lines to inspect</p></dd><dt>returns</dt><dd class="cmt"><p>
+  this instance with the updated <code>maxLineCount</code> parameter</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.partition.HasXmlReaderProperties#setOnlyLeafNodes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOnlyLeafNodes(value:Boolean):HasXmlReaderProperties.this.type"></a><a id="setOnlyLeafNodes(Boolean):ReaderAssembler.this.type"></a>
       <span class="permalink">
@@ -2519,7 +2565,12 @@ output.
         <span class="name">setParagraphSplit</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.ReaderAssembler">ReaderAssembler</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
+      <p class="shortcomment cmt">Set the regular expression used to detect paragraph boundaries when grouping broken
+paragraphs.</p><div class="fullcomment"><div class="comment cmt"><p>Set the regular expression used to detect paragraph boundaries when grouping broken
+paragraphs.
+</p></div><dl class="paramcmts block"><dt class="param">value</dt><dd class="cmt"><p>
+  regex pattern string to detect paragraph boundaries</p></dd><dt>returns</dt><dd class="cmt"><p>
+  this instance with the updated <code>paragraphSplit</code> parameter</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.reader.ReaderAssembler#setPromptTemplate" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setPromptTemplate(value:String):ReaderAssembler.this.type"></a><a id="setPromptTemplate(String):ReaderAssembler.this.type"></a>
       <span class="permalink">
@@ -2551,7 +2602,13 @@ output.
         <span class="name">setShortLineWordThreshold</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.ReaderAssembler">ReaderAssembler</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
+      <p class="shortcomment cmt">Set the maximum number of words for a line to be considered &quot;short&quot; when grouping broken
+paragraphs.</p><div class="fullcomment"><div class="comment cmt"><p>Set the maximum number of words for a line to be considered &quot;short&quot; when grouping broken
+paragraphs. Short lines often indicate line-wrapping within a paragraph rather than a real
+paragraph break.
+</p></div><dl class="paramcmts block"><dt class="param">value</dt><dd class="cmt"><p>
+  maximum word count for a line to be considered short</p></dd><dt>returns</dt><dd class="cmt"><p>
+  this instance with the updated <code>shortLineWordThreshold</code> parameter</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.partition.HasReaderProperties#setStoreContent" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setStoreContent(value:Boolean):HasReaderProperties.this.type"></a><a id="setStoreContent(Boolean):ReaderAssembler.this.type"></a>
       <span class="permalink">
@@ -2583,7 +2640,12 @@ output.
         <span class="name">setThreshold</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Double">Double</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.ReaderAssembler">ReaderAssembler</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
+      <p class="shortcomment cmt">Set the threshold ratio of empty lines used to decide between new line-based or
+broken-paragraph grouping.</p><div class="fullcomment"><div class="comment cmt"><p>Set the threshold ratio of empty lines used to decide between new line-based or
+broken-paragraph grouping. Lower values make it easier to choose broken-paragraph grouping.
+</p></div><dl class="paramcmts block"><dt class="param">value</dt><dd class="cmt"><p>
+  ratio between 0.0 and 1.0 representing the empty-line threshold</p></dd><dt>returns</dt><dd class="cmt"><p>
+  this instance with the updated <code>threshold</code> parameter</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.partition.HasHTMLReaderProperties#setTimeout" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setTimeout(value:Int):HasHTMLReaderProperties.this.type"></a><a id="setTimeout(Int):ReaderAssembler.this.type"></a>
       <span class="permalink">
@@ -2631,7 +2693,12 @@ output.
         <span class="name">setTitleLengthSize</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.ReaderAssembler">ReaderAssembler</a>.this.type</span>
       </span>
       
-      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
+      <p class="shortcomment cmt">Set the maximum character length used to determine if a text block qualifies as a title
+during parsing.</p><div class="fullcomment"><div class="comment cmt"><p>Set the maximum character length used to determine if a text block qualifies as a title
+during parsing.
+</p></div><dl class="paramcmts block"><dt class="param">value</dt><dd class="cmt"><p>
+  maximum number of characters to treat a block as a title</p></dd><dt>returns</dt><dd class="cmt"><p>
+  this instance with the updated <code>titleLengthSize</code> parameter</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasTextReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasTextReaderProperties">HasTextReaderProperties</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.partition.HasPdfReaderProperties#setTitleThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setTitleThreshold(value:Double):HasPdfReaderProperties.this.type"></a><a id="setTitleThreshold(Double):ReaderAssembler.this.type"></a>
       <span class="permalink">

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.ner.ner_dl &#8212; Spark NLP 6.2.0 documentation</title>
+    <title>sparknlp.annotator.ner.ner_dl &#8212; Spark NLP 6.2.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js?v=d345c3d3"></script>
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js?v=773d47ca"></script>
     <script src="../../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.0 documentation - Home"/>`);</script>
+    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -641,6 +641,10 @@ label column of annotator type <code class="docutils literal notranslate"><span 
 <li><p>a WordEmbeddingsModel (any embeddings can be chosen, e.g. BertEmbeddings
 for BERT based embeddings).</p></li>
 </ul>
+<p>By default, collects all data points into memory for training. For larger datasets, use
+<code class="docutils literal notranslate"><span class="pre">setEnableMemoryOptimizer(true)</span></code>. This will optimize memory usage during training at the cost
+of speed. Note that this annotator will use as much memory as the largest partition of the
+input dataset, so we recommend repartitioning to batch sizes.</p>
 <p>Setting a test dataset to monitor model metrics can be done with
 <code class="docutils literal notranslate"><span class="pre">.setTestDataset</span></code>. The method expects a path to a parquet file containing a
 dataframe that has the same required columns as the training dataframe. The

@@ -256,16 +256,16 @@
       version: '2.2.4',
       sources: {
         font_awesome: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
-        jquery: 'https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js',
+        jquery: 'https://unpkg.com/jquery@3.3.1/dist/jquery.min.js',
         leancloud_js_sdk: '//cdn1.lncld.net/static/js/3.4.1/av-min.js',
-        chart: 'https://cdn.bootcss.com/Chart.js/2.7.2/Chart.bundle.min.js',
+        chart: 'https://unpkg.com/chart.js@2.7.2/dist/Chart.min.js',
         gitalk: {
-          js: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.js',
-          css: 'https://cdn.bootcss.com/gitalk/1.2.2/gitalk.min.css'
+          js: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.min.js',
+          css: 'https://unpkg.com/gitalk@1.2.2/dist/gitalk.css'
         },
-        valine: 'https://unpkg.com/valine/dist/Valine.min.js',
-        mathjax: 'https://cdn.bootcss.com/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML',
-        mermaid: 'https://cdn.bootcss.com/mermaid/8.0.0-rc.8/mermaid.min.js'
+        valine: 'https//unpkg.com/valine/dist/Valine.min.js',
+        mathjax: 'https://unpkg.com/mathjax@2.7.4/unpacked/MathJax.js?config=TeX-MML-AM_CHTML',
+        mermaid: 'https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js'
       },
       site: {
         toc: {
@@ -2306,6 +2306,11 @@ Excluding the label, this can be done with for example</p>
       <li>a <a href="/docs/en/annotators#wordembeddings">WordEmbeddingsModel</a>
   (any word embeddings can be chosen, e.g. <a href="/docs/en/transformers#bertembeddings">BertEmbeddings</a> for BERT based embeddings).</li>
     </ul>
+
+    <p>By default, collects all data points into memory for training. For larger datasets, use
+<code class="language-plaintext highlighter-rouge">setEnableMemoryOptimizer(true)</code>. This will optimize memory usage during training at the cost
+of speed. Note that this annotator will use as much memory as the largest partition of the
+input dataset, so we recommend repartitioning to batch sizes.</p>
 
     <p>For extended examples of usage, see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner">Examples</a>.</p>
 

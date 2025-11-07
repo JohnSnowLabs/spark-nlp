@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.2.0 documentation</title>
+    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.2.1 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=d345c3d3"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=773d47ca"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.0 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -378,7 +378,6 @@ document.write(`
 
 
 <div class="viewcode-block" id="HasReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
-
 <div class="viewcode-block" id="HasReaderProperties.inputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.inputCol">[docs]</a>    <span class="n">inputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;inputCol&quot;</span><span class="p">,</span>
@@ -606,8 +605,8 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputAsDocument</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="HasEmailReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasEmailReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasEmailReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
 
+<div class="viewcode-block" id="HasEmailReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasEmailReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasEmailReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
 <div class="viewcode-block" id="HasEmailReaderProperties.addAttachmentContent"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasEmailReaderProperties.addAttachmentContent">[docs]</a>    <span class="n">addAttachmentContent</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;addAttachmentContent&quot;</span><span class="p">,</span>
@@ -639,7 +638,6 @@ document.write(`
 
 
 <div class="viewcode-block" id="HasExcelReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasExcelReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasExcelReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
-
 <div class="viewcode-block" id="HasExcelReaderProperties.cellSeparator"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasExcelReaderProperties.cellSeparator">[docs]</a>    <span class="n">cellSeparator</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;cellSeparator&quot;</span><span class="p">,</span>
@@ -698,8 +696,8 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">appendCells</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="HasHTMLReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasHTMLReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
 
+<div class="viewcode-block" id="HasHTMLReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasHTMLReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
 <div class="viewcode-block" id="HasHTMLReaderProperties.timeout"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.timeout">[docs]</a>    <span class="n">timeout</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;timeout&quot;</span><span class="p">,</span>
@@ -756,8 +754,8 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputFormat</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="HasPowerPointProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPowerPointProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasPowerPointProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
 
+<div class="viewcode-block" id="HasPowerPointProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPowerPointProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasPowerPointProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
 <div class="viewcode-block" id="HasPowerPointProperties.includeSlideNotes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPowerPointProperties.includeSlideNotes">[docs]</a>    <span class="n">includeSlideNotes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;includeSlideNotes&quot;</span><span class="p">,</span>
@@ -787,8 +785,8 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">includeSlideNotes</span><span class="p">)</span></div></div>
 
-<div class="viewcode-block" id="HasTextReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasTextReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
 
+<div class="viewcode-block" id="HasTextReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasTextReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
 <div class="viewcode-block" id="HasTextReaderProperties.titleLengthSize"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.titleLengthSize">[docs]</a>    <span class="n">titleLengthSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;titleLengthSize&quot;</span><span class="p">,</span>
@@ -797,9 +795,28 @@ document.write(`
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.setTitleLengthSize"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.setTitleLengthSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTitleLengthSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the maximum character length used to identify title blocks.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Maximum number of characters a text block can have to be considered a title.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self</span>
+<span class="sd">            The instance with updated `titleLengthSize` parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">titleLengthSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.getTitleLengthSize"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.getTitleLengthSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getTitleLengthSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the configured maximum title length.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The maximum character length used to detect title blocks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">titleLengthSize</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.groupBrokenParagraphs"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.groupBrokenParagraphs">[docs]</a>    <span class="n">groupBrokenParagraphs</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
@@ -810,9 +827,28 @@ document.write(`
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.setGroupBrokenParagraphs"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.setGroupBrokenParagraphs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setGroupBrokenParagraphs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Enable or disable grouping of broken paragraphs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to merge fragmented lines into paragraphs, False to leave lines as-is.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self</span>
+<span class="sd">            The instance with updated `groupBrokenParagraphs` parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">groupBrokenParagraphs</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.getGroupBrokenParagraphs"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.getGroupBrokenParagraphs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getGroupBrokenParagraphs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get whether broken paragraph grouping is enabled.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bool</span>
+<span class="sd">            True if grouping of broken paragraphs is enabled, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">groupBrokenParagraphs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.paragraphSplit"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.paragraphSplit">[docs]</a>    <span class="n">paragraphSplit</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
@@ -823,9 +859,28 @@ document.write(`
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.setParagraphSplit"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.setParagraphSplit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setParagraphSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the regex pattern used to split paragraphs when grouping broken paragraphs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Regular expression string used to detect paragraph boundaries.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self</span>
+<span class="sd">            The instance with updated `paragraphSplit` parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">paragraphSplit</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.getParagraphSplit"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.getParagraphSplit">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getParagraphSplit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the paragraph-splitting regex pattern.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            The regex pattern used to detect paragraph boundaries.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">paragraphSplit</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.shortLineWordThreshold"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.shortLineWordThreshold">[docs]</a>    <span class="n">shortLineWordThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
@@ -836,9 +891,28 @@ document.write(`
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.setShortLineWordThreshold"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.setShortLineWordThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setShortLineWordThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the maximum word count for a line to be considered short.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Number of words under which a line is considered &#39;short&#39;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self</span>
+<span class="sd">            The instance with updated `shortLineWordThreshold` parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">shortLineWordThreshold</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.getShortLineWordThreshold"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.getShortLineWordThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getShortLineWordThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the short line word threshold.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            Word count threshold for short lines used in paragraph grouping.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shortLineWordThreshold</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.maxLineCount"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.maxLineCount">[docs]</a>    <span class="n">maxLineCount</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
@@ -849,9 +923,28 @@ document.write(`
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.setMaxLineCount"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.setMaxLineCount">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxLineCount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the maximum number of lines to inspect when estimating paragraph layout.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Maximum number of lines to evaluate for layout heuristics.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self</span>
+<span class="sd">            The instance with updated `maxLineCount` parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxLineCount</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.getMaxLineCount"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.getMaxLineCount">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getMaxLineCount</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the maximum number of lines used for layout heuristics.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        int</span>
+<span class="sd">            The configured maximum number of lines to consider.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxLineCount</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.threshold"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.threshold">[docs]</a>    <span class="n">threshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
@@ -862,10 +955,57 @@ document.write(`
     <span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.setThreshold"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.setThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the empty-line ratio threshold for paragraph grouping decision.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            Ratio (0.0-1.0) of empty lines used to switch grouping strategies.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self</span>
+<span class="sd">            The instance with updated `threshold` parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasTextReaderProperties.getThreshold"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.getThreshold">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">)</span></div></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the configured empty-line threshold ratio.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        float</span>
+<span class="sd">            The ratio used to decide paragraph grouping strategy.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasTextReaderProperties.extractTagAttributes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.extractTagAttributes">[docs]</a>    <span class="n">extractTagAttributes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;extractTagAttributes&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Extract attribute values into separate lines when parsing tag-based formats (e.g., HTML or XML).&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasTextReaderProperties.setExtractTagAttributes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.setExtractTagAttributes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setExtractTagAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Specify which tag attributes should have their values extracted as text when parsing</span>
+<span class="sd">        tag-based formats (e.g., HTML or XML).</span>
+
+<span class="sd">        :param attributes: list of attribute names to extract</span>
+<span class="sd">        :return: this instance with the updated `extractTagAttributes` parameter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">extractTagAttributes</span><span class="o">=</span><span class="n">attributes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasTextReaderProperties.getExtractTagAttributes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties.getExtractTagAttributes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getExtractTagAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the list of tag attribute names configured to be extracted.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[str]</span>
+<span class="sd">            The attribute names whose values will be extracted as text.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extractTagAttributes</span><span class="p">)</span></div></div>
+
 
 <div class="viewcode-block" id="HasChunkerProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasChunkerProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasChunkerProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
 
