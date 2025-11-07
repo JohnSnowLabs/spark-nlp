@@ -509,7 +509,7 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
         return AutoGGUFEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="Qwen3_Embedding_0.6B_Q8_0_gguf", lang="en", remote_loc=None):
+    def pretrained(name="Qwen3_Embedding_0.6B_Q8_0_gguf", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -530,7 +530,7 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
         from sparknlp.pretrained import ResourceDownloader
 
         return ResourceDownloader.downloadModel(
-            AutoGGUFEmbeddings, name, lang, remote_loc
+            AutoGGUFEmbeddings, name, lang, remote_loc,engine
         )
 
     def close(self):

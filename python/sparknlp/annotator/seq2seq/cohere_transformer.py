@@ -335,7 +335,7 @@ class CoHereTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return CoHereTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="c4ai_command_r_v01_int4", lang="en", remote_loc=None):
+    def pretrained(name="c4ai_command_r_v01_int4", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -354,4 +354,4 @@ class CoHereTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(CoHereTransformer, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(CoHereTransformer, name, lang, remote_loc,engine)

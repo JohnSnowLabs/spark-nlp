@@ -341,7 +341,7 @@ class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return GPT2Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="gpt2", lang="en", remote_loc=None):
+    def pretrained(name="gpt2", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -360,4 +360,4 @@ class GPT2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(GPT2Transformer, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(GPT2Transformer, name, lang, remote_loc,engine)

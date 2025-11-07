@@ -228,7 +228,7 @@ class WhisperForCTC(AnnotatorModel,
         return WhisperForCTC(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="asr_whisper_tiny_opt", lang="xx", remote_loc=None):
+    def pretrained(name="asr_whisper_tiny_opt", lang="xx", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -248,4 +248,4 @@ class WhisperForCTC(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(WhisperForCTC, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(WhisperForCTC, name, lang, remote_loc,engine )

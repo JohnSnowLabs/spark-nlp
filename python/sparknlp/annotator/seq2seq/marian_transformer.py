@@ -352,7 +352,7 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return MarianTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="opus_mt_en_fr", lang="xx", remote_loc=None):
+    def pretrained(name="opus_mt_en_fr", lang="xx", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -371,4 +371,4 @@ class MarianTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(MarianTransformer, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(MarianTransformer, name, lang, remote_loc,engine)

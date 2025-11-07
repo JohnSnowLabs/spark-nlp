@@ -370,7 +370,7 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return M2M100Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="m2m100_418M", lang="xx", remote_loc=None):
+    def pretrained(name="m2m100_418M", lang="xx", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -389,4 +389,4 @@ class M2M100Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(M2M100Transformer, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(M2M100Transformer, name, lang, remote_loc,engine)

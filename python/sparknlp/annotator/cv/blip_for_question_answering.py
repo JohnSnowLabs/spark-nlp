@@ -149,7 +149,7 @@ class BLIPForQuestionAnswering(AnnotatorModel,
         return BLIPForQuestionAnswering(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="blip_vqa_base", lang="en", remote_loc=None):
+    def pretrained(name="blip_vqa_base", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -169,4 +169,4 @@ class BLIPForQuestionAnswering(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BLIPForQuestionAnswering, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(BLIPForQuestionAnswering, name, lang, remote_loc,engine)

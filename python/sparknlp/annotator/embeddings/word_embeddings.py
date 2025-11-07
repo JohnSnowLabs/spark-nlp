@@ -348,7 +348,7 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
         return DataFrame(_EmbeddingsCoverageColumn(dataset, embeddings_col, output_col).apply(), dataset.sql_ctx)
 
     @staticmethod
-    def pretrained(name="glove_100d", lang="en", remote_loc=None):
+    def pretrained(name="glove_100d", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -367,7 +367,7 @@ class WordEmbeddingsModel(AnnotatorModel, HasEmbeddingsProperties, HasStorageMod
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(WordEmbeddingsModel, name, lang, remote_loc,engine)
 
     @staticmethod
     def loadStorage(path, spark, storage_ref):

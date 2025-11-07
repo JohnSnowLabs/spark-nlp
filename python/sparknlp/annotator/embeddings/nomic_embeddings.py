@@ -159,7 +159,7 @@ class NomicEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveP
         return NomicEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="nomic_embed_v1", lang="en", remote_loc=None):
+    def pretrained(name="nomic_embed_v1", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -178,4 +178,4 @@ class NomicEmbeddings(AnnotatorModel, HasEmbeddingsProperties, HasCaseSensitiveP
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NomicEmbeddings, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(NomicEmbeddings, name, lang, remote_loc,engine)

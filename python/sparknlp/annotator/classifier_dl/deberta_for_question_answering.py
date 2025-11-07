@@ -145,7 +145,7 @@ class DeBertaForQuestionAnswering(AnnotatorModel,
         return DeBertaForQuestionAnswering(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="deberta_v3_xsmall_qa_squad2", lang="en", remote_loc=None):
+    def pretrained(name="deberta_v3_xsmall_qa_squad2", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -165,4 +165,4 @@ class DeBertaForQuestionAnswering(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(DeBertaForQuestionAnswering, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(DeBertaForQuestionAnswering, name, lang, remote_loc,engine)

@@ -138,7 +138,7 @@ class RoBertaForMultipleChoice(AnnotatorModel,
         return RoBertaForMultipleChoice(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="Roberta_base_uncased_multiple_choice", lang="en", remote_loc=None):
+    def pretrained(name="Roberta_base_uncased_multiple_choice", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -158,4 +158,4 @@ class RoBertaForMultipleChoice(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(RoBertaForMultipleChoice, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(RoBertaForMultipleChoice, name, lang, remote_loc,engine)

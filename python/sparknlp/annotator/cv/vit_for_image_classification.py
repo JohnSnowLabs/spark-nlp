@@ -194,7 +194,7 @@ class ViTForImageClassification(AnnotatorModel,
         return ViTForImageClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="image_classifier_vit_base_patch16_224", lang="en", remote_loc=None):
+    def pretrained(name="image_classifier_vit_base_patch16_224", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -214,4 +214,4 @@ class ViTForImageClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(ViTForImageClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(ViTForImageClassification, name, lang, remote_loc,engine)

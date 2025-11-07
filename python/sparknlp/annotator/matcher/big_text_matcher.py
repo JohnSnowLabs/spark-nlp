@@ -234,7 +234,7 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
         return self._set(caseSensitive=v)
 
     @staticmethod
-    def pretrained(name, lang="en", remote_loc=None):
+    def pretrained(name, lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -253,7 +253,7 @@ class BigTextMatcherModel(AnnotatorModel, HasStorageModel):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(TextMatcherModel, name, lang, remote_loc,engine)
 
     @staticmethod
     def loadStorage(path, spark, storage_ref):

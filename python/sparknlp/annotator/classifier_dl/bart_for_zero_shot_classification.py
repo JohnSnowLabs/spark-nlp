@@ -202,7 +202,7 @@ class BartForZeroShotClassification(AnnotatorModel,
         return BartForZeroShotClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bart_large_zero_shot_classifier_mnli", lang="en", remote_loc=None):
+    def pretrained(name="bart_large_zero_shot_classifier_mnli", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -222,4 +222,4 @@ class BartForZeroShotClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BartForZeroShotClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(BartForZeroShotClassification, name, lang, remote_loc,engine )

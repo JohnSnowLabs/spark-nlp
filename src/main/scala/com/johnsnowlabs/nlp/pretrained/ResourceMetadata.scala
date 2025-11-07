@@ -109,15 +109,44 @@ object ResourceMetadata {
       candidates: List[ResourceMetadata],
       request: ResourceRequest): Option[ResourceMetadata] = {
 
-    val compatibleCandidates = candidates
-      .filter(item =>
-        item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined
-          && item.name == request.name
-          && (request.language.isEmpty || item.language.isEmpty || request.language.get == item.language.get)
-          && Version.isCompatible(request.libVersion, item.libVersion)
-          && Version.isCompatible(request.sparkVersion, item.sparkVersion))
+    val compatibleCandidates = candidates.filter(item =>
+      item.readyToUse &&
+        item.libVersion.isDefined &&
+        item.sparkVersion.isDefined &&
+        item.name == request.name &&
+        (request.annotator.isEmpty || item.annotator.isEmpty ||
+          request.annotator.get.equalsIgnoreCase(item.annotator.get)) &&
+        (request.language.isEmpty || item.language.isEmpty ||
+          request.language.get == item.language.get) &&
+        Version.isCompatible(request.libVersion, item.libVersion) &&
+        Version.isCompatible(request.sparkVersion, item.sparkVersion))
 
-    val sortedResult = compatibleCandidates.sorted
+    val defaultPriority = Seq("onnx", "tensorflow", "openvino", "unk")
+
+    val finalPriority = request.engine match {
+      case Some(pref) =>
+        val p = pref.toLowerCase // incase user types ONNX instead of onnx
+        (Seq(p) ++ defaultPriority.filterNot(_ == p)).distinct
+      case None =>
+        defaultPriority
+    }
+
+    def enginePriority(engineOpt: Option[String]): Int = {
+      val engine = engineOpt.map(_.toLowerCase).getOrElse("unk")
+      finalPriority.indexOf(engine) match {
+        case -1 =>
+          finalPriority.length // unknown engine → lowest priority ( therefore highest numerical value )
+        case idx => idx
+      }
+    }
+
+    //  Engine → Spark → Lib → Time
+    val sortedResult = compatibleCandidates.sortWith { (a, b) =>
+      val engineComp = enginePriority(a.engine) compare enginePriority(b.engine)
+      if (engineComp != 0) engineComp > 0
+      else a < b // fallback to old logic
+    }
+
     sortedResult.lastOption
   }
 

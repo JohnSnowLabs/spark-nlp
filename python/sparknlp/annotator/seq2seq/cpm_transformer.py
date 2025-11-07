@@ -299,7 +299,7 @@ class CPMTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return CPMTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="mini_cpm_2b_8bit", lang="xx", remote_loc=None):
+    def pretrained(name="mini_cpm_2b_8bit", lang="xx", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -318,4 +318,4 @@ class CPMTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(CPMTransformer, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(CPMTransformer, name, lang, remote_loc,engine)

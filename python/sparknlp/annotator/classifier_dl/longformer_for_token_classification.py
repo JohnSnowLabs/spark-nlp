@@ -153,7 +153,7 @@ class LongformerForTokenClassification(AnnotatorModel,
         return LongformerForTokenClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="longformer_base_token_classifier_conll03", lang="en", remote_loc=None):
+    def pretrained(name="longformer_base_token_classifier_conll03", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -173,4 +173,4 @@ class LongformerForTokenClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(LongformerForTokenClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(LongformerForTokenClassification, name, lang, remote_loc,engine)

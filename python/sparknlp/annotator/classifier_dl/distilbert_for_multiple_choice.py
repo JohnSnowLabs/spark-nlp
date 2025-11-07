@@ -138,7 +138,7 @@ class DistilBertForMultipleChoice(AnnotatorModel,
         return DistilBertForMultipleChoice(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="distilbert_base_uncased_multiple_choice", lang="en", remote_loc=None):
+    def pretrained(name="distilbert_base_uncased_multiple_choice", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -158,4 +158,4 @@ class DistilBertForMultipleChoice(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(DistilBertForMultipleChoice, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(DistilBertForMultipleChoice, name, lang, remote_loc,engine )

@@ -179,7 +179,7 @@ class BertForSequenceClassification(AnnotatorModel,
         return BertForSequenceClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bert_base_sequence_classifier_imdb", lang="en", remote_loc=None):
+    def pretrained(name="bert_base_sequence_classifier_imdb", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -199,4 +199,4 @@ class BertForSequenceClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertForSequenceClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(BertForSequenceClassification, name, lang, remote_loc,engine )

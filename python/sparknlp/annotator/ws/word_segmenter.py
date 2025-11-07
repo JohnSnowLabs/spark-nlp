@@ -407,7 +407,7 @@ class WordSegmenterModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="wordseg_pku", lang="zh", remote_loc=None):
+    def pretrained(name="wordseg_pku", lang="zh", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -426,4 +426,4 @@ class WordSegmenterModel(AnnotatorModel):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(WordSegmenterModel, name, lang, remote_loc,engine)

@@ -161,9 +161,9 @@ class ZeroShotNerModel(RoBertaForQuestionAnswering, HasEngine):
         )
 
     @staticmethod
-    def pretrained(name="zero_shot_ner_roberta", lang="en", remote_loc=None):
+    def pretrained(name="zero_shot_ner_roberta", lang="en", remote_loc=None,engine="onnx"):
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(ZeroShotNerModel, name, lang, remote_loc,
+        return ResourceDownloader.downloadModel(ZeroShotNerModel, name, lang, remote_loc,engine,
                                                 j_dwn='PythonResourceDownloader')
 
     @staticmethod

@@ -170,7 +170,7 @@ class MPNetEmbeddings(AnnotatorModel,
         return MPNetEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="all_mpnet_base_v2", lang="en", remote_loc=None):
+    def pretrained(name="all_mpnet_base_v2", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -189,4 +189,4 @@ class MPNetEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(MPNetEmbeddings, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(MPNetEmbeddings, name, lang, remote_loc,engine)

@@ -305,7 +305,7 @@ class Phi3Vision(AnnotatorModel,
         return Phi3Vision(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="phi_3_vision_128k_instruct", lang="en", remote_loc=None):
+    def pretrained(name="phi_3_vision_128k_instruct", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -325,4 +325,4 @@ class Phi3Vision(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(Phi3Vision, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(Phi3Vision, name, lang, remote_loc,engine)

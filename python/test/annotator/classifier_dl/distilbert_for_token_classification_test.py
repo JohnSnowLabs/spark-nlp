@@ -28,8 +28,8 @@ class DistilBertForTokenClassificationTestSpec(unittest.TestCase, HasMaxSentence
         self.data = SparkContextForTest.spark.read.option("header", "true") \
             .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
 
-        self.tested_annotator = DistilBertForTokenClassification.pretrained() \
-            .setInputCols(["document", "token"]) \
+        self.tested_annotator = DistilBertForTokenClassification.pretrained("distilbert_token_classifier_keyphrase_extraction_inspec",engine="openvino") \
+                                                                                        .setInputCols(["document", "token"]) \
             .setOutputCol("ner")
 
     def test_run(self):
@@ -50,5 +50,5 @@ class DistilBertForTokenClassificationTestSpec(unittest.TestCase, HasMaxSentence
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
 
-        print(self.classifier.getClasses())
-        print(self.classifier.getBatchSize())
+        #print(self.classifier.getClasses())
+        #print(self.classifier.getBatchSize())

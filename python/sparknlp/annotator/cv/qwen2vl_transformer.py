@@ -309,7 +309,7 @@ class Qwen2VLTransformer(AnnotatorModel,
         return Qwen2VLTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="qwen2_vl_2b_instruct_int4", lang="en", remote_loc=None):
+    def pretrained(name="qwen2_vl_2b_instruct_int4", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -329,4 +329,4 @@ class Qwen2VLTransformer(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(Qwen2VLTransformer, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(Qwen2VLTransformer, name, lang, remote_loc,engine)

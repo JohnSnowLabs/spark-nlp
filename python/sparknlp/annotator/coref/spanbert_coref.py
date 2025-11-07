@@ -199,7 +199,7 @@ class SpanBertCorefModel(AnnotatorModel,
         return SpanBertCorefModel(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="spanbert_base_coref", lang="en", remote_loc=None):
+    def pretrained(name="spanbert_base_coref", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -218,4 +218,4 @@ class SpanBertCorefModel(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(SpanBertCorefModel, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(SpanBertCorefModel, name, lang, remote_loc,engine)

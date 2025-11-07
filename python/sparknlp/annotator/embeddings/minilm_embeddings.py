@@ -167,7 +167,7 @@ class MiniLMEmbeddings(AnnotatorModel,
         return MiniLMEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="minilm_l6_v2", lang="en", remote_loc=None):
+    def pretrained(name="minilm_l6_v2", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -186,4 +186,4 @@ class MiniLMEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(MiniLMEmbeddings, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(MiniLMEmbeddings, name, lang, remote_loc,engine)

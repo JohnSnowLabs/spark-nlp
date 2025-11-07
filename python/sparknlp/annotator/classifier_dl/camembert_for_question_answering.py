@@ -145,7 +145,7 @@ class CamemBertForQuestionAnswering(AnnotatorModel,
         return CamemBertForQuestionAnswering(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="camembert_base_qa_fquad", lang="fr", remote_loc=None):
+    def pretrained(name="camembert_base_qa_fquad", lang="fr", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -165,4 +165,4 @@ class CamemBertForQuestionAnswering(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(CamemBertForQuestionAnswering, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(CamemBertForQuestionAnswering, name, lang, remote_loc,engine )

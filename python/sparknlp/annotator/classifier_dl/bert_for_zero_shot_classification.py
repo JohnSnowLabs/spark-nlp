@@ -189,7 +189,7 @@ class BertForZeroShotClassification(AnnotatorModel,
         return BertForZeroShotClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bert_zero_shot_classifier_mnli", lang="xx", remote_loc=None):
+    def pretrained(name="bert_zero_shot_classifier_mnli", lang="xx", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -209,4 +209,4 @@ class BertForZeroShotClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertForZeroShotClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(BertForZeroShotClassification, name, lang, remote_loc,engine )

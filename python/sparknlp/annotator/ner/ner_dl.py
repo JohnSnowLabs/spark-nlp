@@ -569,7 +569,7 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate, HasEngine):
         return self._set(includeAllConfidenceScores=value)
 
     @staticmethod
-    def pretrained(name="ner_dl", lang="en", remote_loc=None):
+    def pretrained(name="ner_dl", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -588,4 +588,4 @@ class NerDLModel(AnnotatorModel, HasStorageRef, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NerDLModel, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(NerDLModel, name, lang, remote_loc,engine)

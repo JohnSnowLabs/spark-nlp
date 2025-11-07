@@ -405,7 +405,7 @@ class SmolVLMTransformer(AnnotatorModel,
         return SmolVLMTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="smolvlm_instruct_int4", lang="en", remote_loc=None):
+    def pretrained(name="smolvlm_instruct_int4", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
         Parameters
         ----------
@@ -423,4 +423,4 @@ class SmolVLMTransformer(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(SmolVLMTransformer, name, lang, remote_loc) 
+        return ResourceDownloader.downloadModel(SmolVLMTransformer, name, lang, remote_loc,engine)

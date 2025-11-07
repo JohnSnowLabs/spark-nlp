@@ -205,7 +205,7 @@ class XlnetEmbeddings(AnnotatorModel,
         return XlnetEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="xlnet_base_cased", lang="en", remote_loc=None):
+    def pretrained(name="xlnet_base_cased", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -224,4 +224,4 @@ class XlnetEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(XlnetEmbeddings, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(XlnetEmbeddings, name, lang, remote_loc,engine)

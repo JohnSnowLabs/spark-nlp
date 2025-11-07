@@ -162,7 +162,7 @@ class MxbaiEmbeddings(AnnotatorModel,
 		return MxbaiEmbeddings(java_model=jModel)
 
 	@staticmethod
-	def pretrained(name="mxbai_large_v1", lang="en", remote_loc=None):
+	def pretrained(name="mxbai_large_v1", lang="en", remote_loc=None,engine="onnx"):
 		"""Downloads and loads a pretrained model.
 
 		Parameters
@@ -181,4 +181,4 @@ class MxbaiEmbeddings(AnnotatorModel,
 			The restored model
 		"""
 		from sparknlp.pretrained import ResourceDownloader
-		return ResourceDownloader.downloadModel(MxbaiEmbeddings, name, lang, remote_loc)
+		return ResourceDownloader.downloadModel(MxbaiEmbeddings, name, lang, remote_loc,engine)

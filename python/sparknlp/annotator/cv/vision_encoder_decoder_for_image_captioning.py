@@ -217,7 +217,7 @@ class VisionEncoderDecoderForImageCaptioning(AnnotatorModel,
         return VisionEncoderDecoderForImageCaptioning(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="image_captioning_vit_gpt2", lang="en", remote_loc=None):
+    def pretrained(name="image_captioning_vit_gpt2", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -237,4 +237,4 @@ class VisionEncoderDecoderForImageCaptioning(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(VisionEncoderDecoderForImageCaptioning, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(VisionEncoderDecoderForImageCaptioning, name, lang, remote_loc,engine)

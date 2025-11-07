@@ -182,7 +182,7 @@ class CamemBertForSequenceClassification(AnnotatorModel,
         return CamemBertForSequenceClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="camembert_base_sequence_classifier_allocine", lang="fr", remote_loc=None):
+    def pretrained(name="camembert_base_sequence_classifier_allocine", lang="fr", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -202,4 +202,4 @@ class CamemBertForSequenceClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(CamemBertForSequenceClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(CamemBertForSequenceClassification, name, lang, remote_loc,engine )

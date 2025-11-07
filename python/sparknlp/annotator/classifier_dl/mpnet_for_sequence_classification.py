@@ -165,7 +165,7 @@ class MPNetForSequenceClassification(AnnotatorModel,
         return MPNetForSequenceClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="mpnet_sequence_classifier_ukr_message", lang="en", remote_loc=None):
+    def pretrained(name="mpnet_sequence_classifier_ukr_message", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -185,4 +185,4 @@ class MPNetForSequenceClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(MPNetForSequenceClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(MPNetForSequenceClassification, name, lang, remote_loc,engine)

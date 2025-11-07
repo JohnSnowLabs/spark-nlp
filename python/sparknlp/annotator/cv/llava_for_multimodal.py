@@ -305,7 +305,7 @@ class LLAVAForMultiModal(AnnotatorModel,
         return LLAVAForMultiModal(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="llava_1_5_7b_hf", lang="en", remote_loc=None):
+    def pretrained(name="llava_1_5_7b_hf", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -325,4 +325,4 @@ class LLAVAForMultiModal(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(LLAVAForMultiModal, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(LLAVAForMultiModal, name, lang, remote_loc,engine)

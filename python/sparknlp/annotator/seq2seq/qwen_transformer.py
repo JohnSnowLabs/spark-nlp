@@ -318,7 +318,7 @@ class QwenTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return QwenTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="qwen_7.5b_chat", lang="en", remote_loc=None):
+    def pretrained(name="qwen_7.5b_chat", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -337,4 +337,4 @@ class QwenTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(QwenTransformer, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(QwenTransformer, name, lang, remote_loc,engine)

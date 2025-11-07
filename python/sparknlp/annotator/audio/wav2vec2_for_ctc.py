@@ -138,7 +138,7 @@ class Wav2Vec2ForCTC(AnnotatorModel,
         return Wav2Vec2ForCTC(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="asr_wav2vec2_base_960h", lang="en", remote_loc=None):
+    def pretrained(name="asr_wav2vec2_base_960h", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -158,4 +158,4 @@ class Wav2Vec2ForCTC(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(Wav2Vec2ForCTC, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(Wav2Vec2ForCTC, name, lang, remote_loc,engine )

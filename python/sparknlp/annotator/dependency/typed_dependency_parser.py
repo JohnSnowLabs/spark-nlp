@@ -296,7 +296,7 @@ class TypedDependencyParserModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="dependency_typed_conllu", lang="en", remote_loc=None):
+    def pretrained(name="dependency_typed_conllu", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -315,4 +315,4 @@ class TypedDependencyParserModel(AnnotatorModel):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(TypedDependencyParserModel, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(TypedDependencyParserModel, name, lang, remote_loc,engine)

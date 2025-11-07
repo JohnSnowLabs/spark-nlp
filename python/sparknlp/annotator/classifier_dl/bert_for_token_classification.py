@@ -154,7 +154,7 @@ class BertForTokenClassification(AnnotatorModel,
         return BertForTokenClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bert_base_token_classifier_conll03", lang="en", remote_loc=None):
+    def pretrained(name="bert_base_token_classifier_conll03", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -174,4 +174,4 @@ class BertForTokenClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertForTokenClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(BertForTokenClassification, name, lang, remote_loc,engine )

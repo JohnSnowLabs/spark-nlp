@@ -156,7 +156,7 @@ class AlbertForTokenClassification(AnnotatorModel,
         return AlbertForTokenClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="albert_base_token_classifier_conll03", lang="en", remote_loc=None):
+    def pretrained(name="albert_base_token_classifier_conll03", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -176,4 +176,4 @@ class AlbertForTokenClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AlbertForTokenClassification, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(AlbertForTokenClassification, name, lang, remote_loc,engine )

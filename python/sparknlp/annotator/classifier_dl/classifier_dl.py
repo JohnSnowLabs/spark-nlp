@@ -298,7 +298,7 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
         return self._set(configProtoBytes=b)
 
     @staticmethod
-    def pretrained(name="classifierdl_use_trec6", lang="en", remote_loc=None):
+    def pretrained(name="classifierdl_use_trec6", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -317,4 +317,4 @@ class ClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(ClassifierDLModel, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(ClassifierDLModel, name, lang, remote_loc,engine )

@@ -228,7 +228,7 @@ class LemmatizerModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="lemma_antbnc", lang="en", remote_loc=None):
+    def pretrained(name="lemma_antbnc", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -247,4 +247,4 @@ class LemmatizerModel(AnnotatorModel):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(LemmatizerModel, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(LemmatizerModel, name, lang, remote_loc,engine)

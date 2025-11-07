@@ -147,7 +147,7 @@ class TapasForQuestionAnswering(BertForQuestionAnswering):
         return TapasForQuestionAnswering(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="table_qa_tapas_base_finetuned_wtq", lang="en", remote_loc=None):
+    def pretrained(name="table_qa_tapas_base_finetuned_wtq", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -167,4 +167,4 @@ class TapasForQuestionAnswering(BertForQuestionAnswering):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(TapasForQuestionAnswering, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(TapasForQuestionAnswering, name, lang, remote_loc,engine)

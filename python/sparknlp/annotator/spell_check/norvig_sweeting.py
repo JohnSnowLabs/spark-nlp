@@ -335,7 +335,7 @@ class NorvigSweetingModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="spellcheck_norvig", lang="en", remote_loc=None):
+    def pretrained(name="spellcheck_norvig", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -354,5 +354,5 @@ class NorvigSweetingModel(AnnotatorModel):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NorvigSweetingModel, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(NorvigSweetingModel, name, lang, remote_loc,engine)
 

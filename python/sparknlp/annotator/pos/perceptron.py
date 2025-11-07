@@ -241,7 +241,7 @@ class PerceptronModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="pos_anc", lang="en", remote_loc=None):
+    def pretrained(name="pos_anc", lang="en", remote_loc=None,engine="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -260,4 +260,4 @@ class PerceptronModel(AnnotatorModel):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(PerceptronModel, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(PerceptronModel, name, lang, remote_loc,engine)

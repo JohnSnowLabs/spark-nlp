@@ -372,7 +372,7 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
         return self._set(configProtoBytes=b)
 
     @staticmethod
-    def pretrained(name="multiclassifierdl_use_toxic", lang="en", remote_loc=None):
+    def pretrained(name="multiclassifierdl_use_toxic", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -392,4 +392,4 @@ class MultiClassifierDLModel(AnnotatorModel, HasStorageRef, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(MultiClassifierDLModel, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(MultiClassifierDLModel, name, lang, remote_loc,engine)

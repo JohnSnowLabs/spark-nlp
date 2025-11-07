@@ -259,7 +259,7 @@ class InternVLForMultiModal(AnnotatorModel,
         return InternVLForMultiModal(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="internvl2_5_1b_int4", lang="en", remote_loc=None):
+    def pretrained(name="internvl2_5_1b_int4", lang="en", remote_loc=None,engine ="onnx"):
         """Downloads and loads a pretrained model.
         Parameters
         ----------
@@ -277,4 +277,4 @@ class InternVLForMultiModal(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(InternVLForMultiModal, name, lang, remote_loc) 
+        return ResourceDownloader.downloadModel(InternVLForMultiModal, name, lang, remote_loc,engine)
