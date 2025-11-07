@@ -155,7 +155,7 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     val actualImages = imageResult.filter(annotation => annotation.nonEmpty)
 
     assert(actualText.nonEmpty)
-    assert(actualTable.isEmpty)
+    assert(actualTable.nonEmpty)
     assert(actualImages.nonEmpty)
   }
 

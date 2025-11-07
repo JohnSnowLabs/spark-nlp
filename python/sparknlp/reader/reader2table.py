@@ -35,7 +35,8 @@ class Reader2Table(
     @keyword_only
     def __init__(self):
         super(Reader2Table, self).__init__(classname="com.johnsnowlabs.reader.Reader2Table")
-        self._setDefault(outputCol="document")
+        self._setDefault(outputCol="document", outputFormat="json-table", inferTableStructure=True,
+                         outputAsDocument=False)
 
     @keyword_only
     def setParams(self):

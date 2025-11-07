@@ -58,7 +58,7 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
 
   def this() = this(Identifiable.randomUID("Reader2Table"))
 
-  setDefault(outputFormat -> "json-table", inferTableStructure -> true)
+  setDefault(outputFormat -> "json-table", inferTableStructure -> true, outputAsDocument -> false)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     super.transform(dataset)

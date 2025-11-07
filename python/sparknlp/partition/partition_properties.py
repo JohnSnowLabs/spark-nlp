@@ -17,7 +17,6 @@ from pyspark.ml.param import Param, Params, TypeConverters
 
 
 class HasReaderProperties(Params):
-
     inputCol = Param(
         Params._dummy(),
         "inputCol",
@@ -245,8 +244,8 @@ class HasReaderProperties(Params):
         """
         return self._set(outputAsDocument=value)
 
-class HasEmailReaderProperties(Params):
 
+class HasEmailReaderProperties(Params):
     addAttachmentContent = Param(
         Params._dummy(),
         "addAttachmentContent",
@@ -278,7 +277,6 @@ class HasEmailReaderProperties(Params):
 
 
 class HasExcelReaderProperties(Params):
-
     cellSeparator = Param(
         Params._dummy(),
         "cellSeparator",
@@ -337,8 +335,8 @@ class HasExcelReaderProperties(Params):
         """
         return self.getOrDefault(self.appendCells)
 
-class HasHTMLReaderProperties(Params):
 
+class HasHTMLReaderProperties(Params):
     timeout = Param(
         Params._dummy(),
         "timeout",
@@ -395,8 +393,8 @@ class HasHTMLReaderProperties(Params):
         """
         return self._set(outputFormat=value)
 
-class HasPowerPointProperties(Params):
 
+class HasPowerPointProperties(Params):
     includeSlideNotes = Param(
         Params._dummy(),
         "includeSlideNotes",
@@ -426,8 +424,8 @@ class HasPowerPointProperties(Params):
         """
         return self.getOrDefault(self.includeSlideNotes)
 
-class HasTextReaderProperties(Params):
 
+class HasTextReaderProperties(Params):
     titleLengthSize = Param(
         Params._dummy(),
         "titleLengthSize",
@@ -436,9 +434,28 @@ class HasTextReaderProperties(Params):
     )
 
     def setTitleLengthSize(self, value):
+        """Set the maximum character length used to identify title blocks.
+
+        Parameters
+        ----------
+        value : int
+            Maximum number of characters a text block can have to be considered a title.
+
+        Returns
+        -------
+        self
+            The instance with updated `titleLengthSize` parameter.
+        """
         return self._set(titleLengthSize=value)
 
     def getTitleLengthSize(self):
+        """Get the configured maximum title length.
+
+        Returns
+        -------
+        int
+            The maximum character length used to detect title blocks.
+        """
         return self.getOrDefault(self.titleLengthSize)
 
     groupBrokenParagraphs = Param(
@@ -449,9 +466,28 @@ class HasTextReaderProperties(Params):
     )
 
     def setGroupBrokenParagraphs(self, value):
+        """Enable or disable grouping of broken paragraphs.
+
+        Parameters
+        ----------
+        value : bool
+            True to merge fragmented lines into paragraphs, False to leave lines as-is.
+
+        Returns
+        -------
+        self
+            The instance with updated `groupBrokenParagraphs` parameter.
+        """
         return self._set(groupBrokenParagraphs=value)
 
     def getGroupBrokenParagraphs(self):
+        """Get whether broken paragraph grouping is enabled.
+
+        Returns
+        -------
+        bool
+            True if grouping of broken paragraphs is enabled, False otherwise.
+        """
         return self.getOrDefault(self.groupBrokenParagraphs)
 
     paragraphSplit = Param(
@@ -462,9 +498,28 @@ class HasTextReaderProperties(Params):
     )
 
     def setParagraphSplit(self, value):
+        """Set the regex pattern used to split paragraphs when grouping broken paragraphs.
+
+        Parameters
+        ----------
+        value : str
+            Regular expression string used to detect paragraph boundaries.
+
+        Returns
+        -------
+        self
+            The instance with updated `paragraphSplit` parameter.
+        """
         return self._set(paragraphSplit=value)
 
     def getParagraphSplit(self):
+        """Get the paragraph-splitting regex pattern.
+
+        Returns
+        -------
+        str
+            The regex pattern used to detect paragraph boundaries.
+        """
         return self.getOrDefault(self.paragraphSplit)
 
     shortLineWordThreshold = Param(
@@ -475,9 +530,28 @@ class HasTextReaderProperties(Params):
     )
 
     def setShortLineWordThreshold(self, value):
+        """Set the maximum word count for a line to be considered short.
+
+        Parameters
+        ----------
+        value : int
+            Number of words under which a line is considered 'short'.
+
+        Returns
+        -------
+        self
+            The instance with updated `shortLineWordThreshold` parameter.
+        """
         return self._set(shortLineWordThreshold=value)
 
     def getShortLineWordThreshold(self):
+        """Get the short line word threshold.
+
+        Returns
+        -------
+        int
+            Word count threshold for short lines used in paragraph grouping.
+        """
         return self.getOrDefault(self.shortLineWordThreshold)
 
     maxLineCount = Param(
@@ -488,9 +562,28 @@ class HasTextReaderProperties(Params):
     )
 
     def setMaxLineCount(self, value):
+        """Set the maximum number of lines to inspect when estimating paragraph layout.
+
+        Parameters
+        ----------
+        value : int
+            Maximum number of lines to evaluate for layout heuristics.
+
+        Returns
+        -------
+        self
+            The instance with updated `maxLineCount` parameter.
+        """
         return self._set(maxLineCount=value)
 
     def getMaxLineCount(self):
+        """Get the maximum number of lines used for layout heuristics.
+
+        Returns
+        -------
+        int
+            The configured maximum number of lines to consider.
+        """
         return self.getOrDefault(self.maxLineCount)
 
     threshold = Param(
@@ -501,10 +594,57 @@ class HasTextReaderProperties(Params):
     )
 
     def setThreshold(self, value):
+        """Set the empty-line ratio threshold for paragraph grouping decision.
+
+        Parameters
+        ----------
+        value : float
+            Ratio (0.0-1.0) of empty lines used to switch grouping strategies.
+
+        Returns
+        -------
+        self
+            The instance with updated `threshold` parameter.
+        """
         return self._set(threshold=value)
 
     def getThreshold(self):
+        """Get the configured empty-line threshold ratio.
+
+        Returns
+        -------
+        float
+            The ratio used to decide paragraph grouping strategy.
+        """
         return self.getOrDefault(self.threshold)
+
+    extractTagAttributes = Param(
+        Params._dummy(),
+        "extractTagAttributes",
+        "Extract attribute values into separate lines when parsing tag-based formats (e.g., HTML or XML).",
+        typeConverter=TypeConverters.toListString
+    )
+
+    def setExtractTagAttributes(self, attributes: list[str]):
+        """
+        Specify which tag attributes should have their values extracted as text when parsing
+        tag-based formats (e.g., HTML or XML).
+
+        :param attributes: list of attribute names to extract
+        :return: this instance with the updated `extractTagAttributes` parameter
+        """
+        return self._set(extractTagAttributes=attributes)
+
+    def getExtractTagAttributes(self):
+        """Get the list of tag attribute names configured to be extracted.
+
+        Returns
+        -------
+        list[str]
+            The attribute names whose values will be extracted as text.
+        """
+        return self.getOrDefault(self.extractTagAttributes)
+
 
 class HasChunkerProperties(Params):
 

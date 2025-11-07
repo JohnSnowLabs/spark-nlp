@@ -19,13 +19,8 @@ import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{
   BLOCK_SPLIT_PATTERN,
   DOUBLE_PARAGRAPH_PATTERN
 }
+import com.johnsnowlabs.reader.util.PartitionOptions._
 import com.johnsnowlabs.reader.util.pdf.TextStripperType
-import com.johnsnowlabs.reader.util.PartitionOptions.{
-  getDefaultBoolean,
-  getDefaultInt,
-  getDefaultString,
-  getDefaultDouble
-}
 import org.apache.spark.sql.DataFrame
 
 import scala.collection.JavaConverters._
@@ -756,7 +751,12 @@ class SparkNLPReader(
   }
 
   def xmlToHTMLElement(xml: String): Seq[HTMLElement] = {
-    val xmlReader = new XMLReader(getStoreContent, getXmlKeepTags, getOnlyLeafNodes)
+    val xmlReader =
+      new XMLReader(
+        getStoreContent,
+        getXmlKeepTags,
+        getOnlyLeafNodes,
+        getExtractTagAttributes.toSet)
     xmlReader.parseXml(xml)
   }
 
@@ -769,6 +769,13 @@ class SparkNLPReader(
       params.asScala.toMap,
       Seq("onlyLeafNodes", "only_leaf_nodes"),
       default = true)
+  }
+
+  private def getExtractTagAttributes: Array[String] = {
+    getDefaultArray[String](
+      params.asScala.toMap,
+      Seq("extractTagAttributes", "extract_tag_attributes"),
+      Array.empty)
   }
 
   /** Instantiates class to read Markdown (.md) files.

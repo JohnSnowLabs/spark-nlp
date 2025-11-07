@@ -17,7 +17,7 @@ package com.johnsnowlabs.partition
 
 import com.johnsnowlabs.nlp.ParamsAndFeaturesWritable
 import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.DOUBLE_PARAGRAPH_PATTERN
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{Param, StringArrayParam}
 
 trait HasTextReaderProperties extends ParamsAndFeaturesWritable {
 
@@ -26,6 +26,14 @@ trait HasTextReaderProperties extends ParamsAndFeaturesWritable {
     "titleLengthSize",
     "Maximum character length used to determine if a text block qualifies as a title during parsing.")
 
+  /** Set the maximum character length used to determine if a text block qualifies as a title
+    * during parsing.
+    *
+    * @param value
+    *   maximum number of characters to treat a block as a title
+    * @return
+    *   this instance with the updated `titleLengthSize` parameter
+    */
   def setTitleLengthSize(value: Int): this.type = set(titleLengthSize, value)
 
   val groupBrokenParagraphs = new Param[Boolean](
@@ -33,6 +41,14 @@ trait HasTextReaderProperties extends ParamsAndFeaturesWritable {
     "groupBrokenParagraphs",
     "Whether to merge fragmented lines into coherent paragraphs using heuristics based on line length and structure.")
 
+  /** Enable or disable merging of fragmented lines into coherent paragraphs when parsing text.
+    * When enabled, heuristics based on line length and structure are used to group lines.
+    *
+    * @param value
+    *   true to group broken paragraphs, false to preserve original line breaks
+    * @return
+    *   this instance with the updated `groupBrokenParagraphs` parameter
+    */
   def setGroupBrokenParagraphs(value: Boolean): this.type = set(groupBrokenParagraphs, value)
 
   val paragraphSplit = new Param[String](
@@ -40,6 +56,14 @@ trait HasTextReaderProperties extends ParamsAndFeaturesWritable {
     "paragraphSplit",
     "Regex pattern used to detect paragraph boundaries when grouping broken paragraphs.")
 
+  /** Set the regular expression used to detect paragraph boundaries when grouping broken
+    * paragraphs.
+    *
+    * @param value
+    *   regex pattern string to detect paragraph boundaries
+    * @return
+    *   this instance with the updated `paragraphSplit` parameter
+    */
   def setParagraphSplit(value: String): this.type = set(paragraphSplit, value)
 
   val shortLineWordThreshold = new Param[Int](
@@ -47,6 +71,15 @@ trait HasTextReaderProperties extends ParamsAndFeaturesWritable {
     "shortLineWordThreshold",
     "Maximum word count for a line to be considered 'short' during broken paragraph grouping.")
 
+  /** Set the maximum number of words for a line to be considered "short" when grouping broken
+    * paragraphs. Short lines often indicate line-wrapping within a paragraph rather than a real
+    * paragraph break.
+    *
+    * @param value
+    *   maximum word count for a line to be considered short
+    * @return
+    *   this instance with the updated `shortLineWordThreshold` parameter
+    */
   def setShortLineWordThreshold(value: Int): this.type = set(shortLineWordThreshold, value)
 
   val maxLineCount = new Param[Int](
@@ -54,6 +87,14 @@ trait HasTextReaderProperties extends ParamsAndFeaturesWritable {
     "maxLineCount",
     "Maximum number of lines to evaluate when estimating paragraph layout characteristics.")
 
+  /** Set the maximum number of lines to evaluate when estimating paragraph layout
+    * characteristics. This limits the amount of text inspected for layout heuristics.
+    *
+    * @param value
+    *   maximum number of lines to inspect
+    * @return
+    *   this instance with the updated `maxLineCount` parameter
+    */
   def setMaxLineCount(value: Int): this.type = set(maxLineCount, value)
 
   val threshold = new Param[Double](
@@ -61,7 +102,31 @@ trait HasTextReaderProperties extends ParamsAndFeaturesWritable {
     "threshold",
     "Threshold ratio of empty lines used to decide between new line-based or broken-paragraph grouping.")
 
+  /** Set the threshold ratio of empty lines used to decide between new line-based or
+    * broken-paragraph grouping. Lower values make it easier to choose broken-paragraph grouping.
+    *
+    * @param value
+    *   ratio between 0.0 and 1.0 representing the empty-line threshold
+    * @return
+    *   this instance with the updated `threshold` parameter
+    */
   def setThreshold(value: Double): this.type = set(threshold, value)
+
+  val extractTagAttributes = new StringArrayParam(
+    this,
+    "extractTagAttributes",
+    "Extract attribute values into separate lines when parsing tag-based formats (e.g., HTML or XML).")
+
+  /** Specify which tag attributes should have their values extracted as text when parsing
+    * tag-based formats (e.g., HTML or XML).
+    *
+    * @param attributes
+    *   array of attribute names to extract
+    * @return
+    *   this instance with the updated `extractTagAttributes` parameter
+    */
+  def setExtractTagAttributes(attributes: Array[String]): this.type =
+    set(extractTagAttributes, attributes)
 
   setDefault(
     titleLengthSize -> 50,
@@ -69,6 +134,7 @@ trait HasTextReaderProperties extends ParamsAndFeaturesWritable {
     paragraphSplit -> DOUBLE_PARAGRAPH_PATTERN,
     shortLineWordThreshold -> 5,
     maxLineCount -> 2000,
-    threshold -> 0.1)
+    threshold -> 0.1,
+    extractTagAttributes -> Array.empty[String])
 
 }

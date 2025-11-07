@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.{Annotation, HasOutputAnnotationCol, HasOutputAnnota
 import com.johnsnowlabs.partition._
 import com.johnsnowlabs.partition.util.PartitionHelper.isStringContent
 import org.apache.spark.ml.Transformer
-import org.apache.spark.ml.param.{BooleanParam, ParamMap}
+import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql._
 import org.apache.spark.sql.expressions.UserDefinedFunction
@@ -34,6 +34,10 @@ import scala.jdk.CollectionConverters.mapAsJavaMapConverter
   * Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Doc can be used for
   * extracting structured content from various document types using Spark NLP readers. It supports
   * reading from many files types and returns parsed output as a structured Spark DataFrame.
+  *
+  * By default, the annotator combines all extracted elements into a single document annotation.
+  * For more fine-grained control, you can use `setOutputAsDocument(false)` and
+  * `setExplodeDocs(true)` to filter individual elements.
   *
   * Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
   * (.ppt/.pptx), email files (.eml, .msg), and PDFs.
@@ -94,13 +98,23 @@ class Reader2Doc(override val uid: String)
   /** Excludes rows that are not text data. e.g. tables */
   def setExcludeNonText(value: Boolean): this.type = set(excludeNonText, value)
 
+  val joinString =
+    new Param[String](
+      this,
+      "joinString",
+      "If outputAsDocument is true, specifies the string used to join elements into a single document.")
+
+  /** If outputAsDocument is true, specifies the string used to join elements into a single */
+  def setJoinString(value: String): this.type = set(joinString, value)
+
   setDefault(
-    this.explodeDocs -> false,
+    explodeDocs -> false,
     contentType -> "",
     flattenOutput -> false,
-    outputAsDocument -> false,
+    outputAsDocument -> true,
     outputFormat -> "plain-text",
-    excludeNonText -> false)
+    excludeNonText -> false,
+    joinString -> "\n")
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
@@ -145,7 +159,8 @@ class Reader2Doc(override val uid: String)
       "xmlKeepTags" -> $(xmlKeepTags).toString,
       "onlyLeafNodes" -> $(onlyLeafNodes).toString,
       "titleThreshold" -> $(titleThreshold).toString,
-      "outputFormat" -> $(outputFormat))
+      "outputFormat" -> $(outputFormat),
+      "extractTagAttributes" -> $(extractTagAttributes).mkString(","))
     new Partition(params.asJava)
   }
 
@@ -196,7 +211,9 @@ class Reader2Doc(override val uid: String)
       if ($(excludeNonText)) partitions.filterNot(isTableElement) else partitions
 
     val allText =
-      partitionsToKept.flatMap(part => Option(part.getAs[String]("content"))).mkString(" ")
+      partitionsToKept
+        .flatMap(part => Option(part.getAs[String]("content")))
+        .mkString($(joinString))
 
     val begin = 0
     val end = if (allText.isEmpty) 0 else allText.length - 1
