@@ -4,7 +4,7 @@ title: English mminilmv2_l12_h384_distilled_from_xlmr_large XlmRoBertaEmbeddings
 author: John Snow Labs
 name: mminilmv2_l12_h384_distilled_from_xlmr_large
 date: 2025-05-21
-tags: [en, open_source, onnx, embeddings, xlm_roberta, openvino]
+tags: [en, open_source, embeddings, xlm_roberta, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

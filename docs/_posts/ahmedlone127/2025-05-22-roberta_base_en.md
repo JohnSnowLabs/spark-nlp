@@ -4,7 +4,7 @@ title: RoBERTa base model
 author: John Snow Labs
 name: roberta_base
 date: 2025-05-22
-tags: [en, english, roberta, embeddings, open_source, onnx, openvino]
+tags: [en, english, roberta, embeddings, open_source, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

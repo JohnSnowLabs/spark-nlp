@@ -4,7 +4,7 @@ title: French drbert_7gb CamemBertEmbeddings from Dr-BERT
 author: John Snow Labs
 name: drbert_7gb
 date: 2025-06-22
-tags: [fr, open_source, onnx, embeddings, camembert, openvino]
+tags: [fr, open_source, embeddings, camembert, openvino]
 task: Embeddings
 language: fr
 edition: Spark NLP 5.5.1

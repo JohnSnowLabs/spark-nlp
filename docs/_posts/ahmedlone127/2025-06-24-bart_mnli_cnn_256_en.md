@@ -4,7 +4,7 @@ title: English bart_mnli_cnn_256 BartForZeroShotClassification from AyoubChLin
 author: John Snow Labs
 name: bart_mnli_cnn_256
 date: 2025-06-24
-tags: [en, open_source, onnx, zero_shot, bart, openvino]
+tags: [en, open_source, zero_shot, bart, openvino]
 task: Zero-Shot Classification
 language: en
 edition: Spark NLP 5.5.1

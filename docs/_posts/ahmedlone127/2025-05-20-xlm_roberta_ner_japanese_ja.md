@@ -4,7 +4,7 @@ title: Japanese xlm_roberta_ner_japanese XlmRoBertaForTokenClassification from t
 author: John Snow Labs
 name: xlm_roberta_ner_japanese
 date: 2025-05-20
-tags: [ja, open_source, onnx, token_classification, xlm_roberta, ner, openvino]
+tags: [ja, open_source, token_classification, xlm_roberta, ner, openvino]
 task: Named Entity Recognition
 language: ja
 edition: Spark NLP 5.5.1

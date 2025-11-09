@@ -4,7 +4,7 @@ title: Arabic XlmRoBertaForQuestionAnswering (from bhavikardeshna)
 author: John Snow Labs
 name: xlm_roberta_qa_xlm_roberta_base_arabic
 date: 2025-05-21
-tags: [ar, open_source, question_answering, xlmroberta, onnx, openvino]
+tags: [ar, open_source, question_answering, xlmroberta, openvino]
 task: Question Answering
 language: ar
 edition: Spark NLP 5.5.1

@@ -4,7 +4,7 @@ title: SnowFlake Medium Model
 author: John Snow Labs
 name: snowflake_artic_m
 date: 2024-10-11
-tags: [embeddings, snowflake, en, open_source, onnx, openvino]
+tags: [embeddings, snowflake, en, open_source, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.0

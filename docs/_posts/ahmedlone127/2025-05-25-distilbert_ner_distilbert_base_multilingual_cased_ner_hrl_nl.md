@@ -4,7 +4,7 @@ title: Dutch Named Entity Recognition (from Davlan)
 author: John Snow Labs
 name: distilbert_ner_distilbert_base_multilingual_cased_ner_hrl
 date: 2025-05-25
-tags: [distilbert, ner, token_classification, nl, open_source, onnx, openvino]
+tags: [distilbert, ner, token_classification, nl, open_source, openvino]
 task: Named Entity Recognition
 language: nl
 edition: Spark NLP 5.5.1

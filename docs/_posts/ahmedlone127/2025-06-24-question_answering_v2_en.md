@@ -4,7 +4,7 @@ title: English question_answering_v2 DistilBertForQuestionAnswering from Falcons
 author: John Snow Labs
 name: question_answering_v2
 date: 2025-06-24
-tags: [distilbert, en, open_source, question_answering, onnx, openvino]
+tags: [distilbert, en, open_source, question_answering, openvino]
 task: Question Answering
 language: en
 edition: Spark NLP 5.5.1

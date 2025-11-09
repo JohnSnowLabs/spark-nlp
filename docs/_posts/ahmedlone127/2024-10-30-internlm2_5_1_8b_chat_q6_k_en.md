@@ -4,7 +4,7 @@ title: English internlm2_5_1_8b_chat_q6_k AutoGGUFModel from lmstudio-community
 author: John Snow Labs
 name: internlm2_5_1_8b_chat_q6_k
 date: 2024-10-30
-tags: [en, open_source, onnx, conversational, text_generation, text_to_text, llamacpp]
+tags: [en, open_source, conversational, text_generation, text_to_text, llamacpp]
 task: Text Generation
 language: en
 edition: Spark NLP 5.5.1

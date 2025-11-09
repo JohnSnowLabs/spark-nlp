@@ -4,7 +4,7 @@ title: English multi_qa_mpnet_base_dot_v1_finetuned_squad2_all MPNetForQuestionA
 author: John Snow Labs
 name: multi_qa_mpnet_base_dot_v1_finetuned_squad2_all
 date: 2025-05-22
-tags: [en, open_source, onnx, question_answering, mpnet, openvino]
+tags: [en, open_source, question_answering, mpnet, openvino]
 task: Question Answering
 language: en
 edition: Spark NLP 5.5.1

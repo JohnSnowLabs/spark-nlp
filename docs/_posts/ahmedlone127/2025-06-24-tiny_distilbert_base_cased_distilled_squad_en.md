@@ -4,7 +4,7 @@ title: English tiny_distilbert_base_cased_distilled_squad DistilBertForQuestionA
 author: John Snow Labs
 name: tiny_distilbert_base_cased_distilled_squad
 date: 2025-06-24
-tags: [en, open_source, onnx, question_answering, distilbert, openvino]
+tags: [en, open_source, question_answering, distilbert, openvino]
 task: Question Answering
 language: en
 edition: Spark NLP 5.5.1

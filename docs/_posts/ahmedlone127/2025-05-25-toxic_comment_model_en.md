@@ -4,7 +4,7 @@ title: English toxic_comment_model DistilBertForSequenceClassification from mart
 author: John Snow Labs
 name: toxic_comment_model
 date: 2025-05-25
-tags: [en, open_source, onnx, sequence_classification, distilbert, openvino]
+tags: [en, open_source, sequence_classification, distilbert, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1

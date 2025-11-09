@@ -4,7 +4,7 @@ title: Multilingual ag_nli_dets_sentence_similarity_v4 CamemBertForSequenceClass
 author: John Snow Labs
 name: ag_nli_dets_sentence_similarity_v4
 date: 2025-06-22
-tags: [xx, open_source, onnx, sequence_classification, camembert, openvino]
+tags: [xx, open_source, sequence_classification, camembert, openvino]
 task: Text Classification
 language: xx
 edition: Spark NLP 5.5.1

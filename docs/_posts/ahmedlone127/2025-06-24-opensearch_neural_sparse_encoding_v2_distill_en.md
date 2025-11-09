@@ -4,7 +4,7 @@ title: English opensearch_neural_sparse_encoding_v2_distill DistilBertEmbeddings
 author: John Snow Labs
 name: opensearch_neural_sparse_encoding_v2_distill
 date: 2025-06-24
-tags: [en, open_source, onnx, embeddings, distilbert, openvino]
+tags: [en, open_source, embeddings, distilbert, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

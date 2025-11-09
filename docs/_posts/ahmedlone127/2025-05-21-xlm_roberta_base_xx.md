@@ -4,7 +4,7 @@ title: XLM-RoBERTa Base (xlm_roberta_base)
 author: John Snow Labs
 name: xlm_roberta_base
 date: 2025-05-21
-tags: [xx, multilingual, embeddings, xlm_roberta, open_source, onnx, openvino]
+tags: [xx, multilingual, embeddings, xlm_roberta, open_source, openvino]
 task: Embeddings
 language: xx
 edition: Spark NLP 5.5.1

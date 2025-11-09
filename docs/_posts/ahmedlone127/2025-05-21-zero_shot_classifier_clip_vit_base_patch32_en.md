@@ -4,7 +4,7 @@ title: Image Zero Shot Classification with CLIP
 author: John Snow Labs
 name: zero_shot_classifier_clip_vit_base_patch32
 date: 2025-05-21
-tags: [classification, image, en, zero_shot, open_source, onnx, openvino]
+tags: [classification, image, en, zero_shot, open_source, openvino]
 task: Zero-Shot Classification
 language: en
 edition: Spark NLP 5.5.1

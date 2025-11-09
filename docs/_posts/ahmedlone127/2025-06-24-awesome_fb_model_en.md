@@ -4,7 +4,7 @@ title: English awesome_fb_model BartForZeroShotClassification from ClaudeYang
 author: John Snow Labs
 name: awesome_fb_model
 date: 2025-06-24
-tags: [en, open_source, onnx, zero_shot, bart, openvino]
+tags: [en, open_source, zero_shot, bart, openvino]
 task: Zero-Shot Classification
 language: en
 edition: Spark NLP 5.5.1

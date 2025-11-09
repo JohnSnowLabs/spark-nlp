@@ -4,7 +4,7 @@ title: ALBERT Embeddings (Base Uncase)
 author: John Snow Labs
 name: albert_base_uncased
 date: 2024-09-19
-tags: [open_source, en, english, embeddings, albert, onnx, openvino]
+tags: [open_source, en, english, embeddings, albert, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.0

@@ -4,7 +4,7 @@ title: English distilbert_base_uncased_go_emotions_student DistilBertForSequence
 author: John Snow Labs
 name: distilbert_base_uncased_go_emotions_student
 date: 2025-05-25
-tags: [en, open_source, onnx, sequence_classification, distilbert, openvino]
+tags: [en, open_source, sequence_classification, distilbert, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1

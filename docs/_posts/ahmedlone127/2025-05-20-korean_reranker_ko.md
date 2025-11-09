@@ -4,7 +4,7 @@ title: Korean korean_reranker XlmRoBertaForSequenceClassification from Dongjin-k
 author: John Snow Labs
 name: korean_reranker
 date: 2025-05-20
-tags: [ko, open_source, onnx, sequence_classification, xlm_roberta, openvino]
+tags: [ko, open_source, sequence_classification, xlm_roberta, openvino]
 task: Text Classification
 language: ko
 edition: Spark NLP 5.5.1
