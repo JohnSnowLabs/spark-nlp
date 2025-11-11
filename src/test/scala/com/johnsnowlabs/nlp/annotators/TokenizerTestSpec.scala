@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel, Transformer}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
@@ -699,7 +699,7 @@ class TokenizerTestSpec extends AnyFlatSpec with TokenizerBehaviors {
     assertIndexAlignment(result, text)
   }
 
-  it should "benchmark exceptions" taggedAs SlowTest ignore {
+  it should "benchmark exceptions" taggedAs LocalTest ignore {
     val data = AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
 
     val documentAssembler = new DocumentAssembler()

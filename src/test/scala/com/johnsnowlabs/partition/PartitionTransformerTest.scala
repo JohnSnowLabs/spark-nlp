@@ -18,7 +18,7 @@ package com.johnsnowlabs.partition
 import com.johnsnowlabs.nlp.annotator.MarianTransformer
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.annotators.cleaners.Cleaner
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -29,7 +29,7 @@ class PartitionTransformerTest extends AnyFlatSpec with SparkSessionTest {
   val htmlDirectory = "src/test/resources/reader/html"
   val txtDirectory = "src/test/resources/reader/txt"
 
-  "PartitionTransformer" should "work in a RAG pipeline" taggedAs SlowTest in {
+  "PartitionTransformer" should "work in a RAG pipeline" taggedAs LocalTest in {
     val partition = new PartitionTransformer()
       .setInputCols("text")
       .setContentType("application/msword")
@@ -93,7 +93,7 @@ class PartitionTransformerTest extends AnyFlatSpec with SparkSessionTest {
     assert(resultDf.select("partition").count() > 0)
   }
 
-  it should "set headers for URLs" taggedAs SlowTest in {
+  it should "set headers for URLs" taggedAs LocalTest in {
     import spark.implicits._
     val testDataSet = Seq("https://www.blizzard.com", "https://www.google.com/").toDS.toDF("text")
 

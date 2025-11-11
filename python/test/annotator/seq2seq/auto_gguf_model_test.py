@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import *
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -62,7 +62,7 @@ class AutoGGUFModelTestSpec(unittest.TestCase):
         results.select("completions").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelParametersTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -176,7 +176,7 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         results.select("completions").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelMetadataTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -193,7 +193,7 @@ class AutoGGUFModelMetadataTestSpec(unittest.TestCase):
         print(eval(metadata))
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelErrorMessagesTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark

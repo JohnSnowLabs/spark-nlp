@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class YakeKeywordExtractionTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.createDataFrame([

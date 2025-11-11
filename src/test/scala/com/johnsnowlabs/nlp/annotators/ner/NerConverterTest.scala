@@ -21,13 +21,13 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class NerConverterTest extends AnyFlatSpec {
 
-  "NerConverter" should "correctly use any TOKEN type input" taggedAs SlowTest in {
+  "NerConverter" should "correctly use any TOKEN type input" taggedAs LocalTest in {
 
     val conll = CoNLL()
     val training_data = conll.readDataset(
@@ -88,7 +88,7 @@ class NerConverterTest extends AnyFlatSpec {
 
   }
 
-  "NeConverter" should "correctly work in a pipeline with per-processing" taggedAs SlowTest in {
+  "NeConverter" should "correctly work in a pipeline with per-processing" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
 
     val testDF =

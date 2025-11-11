@@ -1,11 +1,11 @@
 package com.johnsnowlabs.nlp.pretrained
 
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 class PretrainedPipelineTest extends AnyFlatSpec {
 
-  "PretrainedPipeline" should "infer for text input" taggedAs SlowTest in {
+  "PretrainedPipeline" should "infer for text input" taggedAs LocalTest in {
     val pipeline = PretrainedPipeline("clean_slang")
     val slangText = "yo, what is wrong with ya?"
 
@@ -19,7 +19,7 @@ class PretrainedPipelineTest extends AnyFlatSpec {
     assert(annotationsResults.nonEmpty)
   }
 
-  it should "infer for image input" taggedAs SlowTest in {
+  it should "infer for image input" taggedAs LocalTest in {
     val pipeline = PretrainedPipeline("pipeline_image_classifier_vit_dogs")
     val imagesPath = "src/test/resources/image/"
 
@@ -35,7 +35,7 @@ class PretrainedPipelineTest extends AnyFlatSpec {
 
   }
 
-  it should "infer with fullAnnotateImage" taggedAs SlowTest in {
+  it should "infer with fullAnnotateImage" taggedAs LocalTest in {
     val pipeline = PretrainedPipeline("pipeline_image_classifier_vit_dogs")
     val imagesPath = "src/test/resources/image/"
 
@@ -51,7 +51,7 @@ class PretrainedPipelineTest extends AnyFlatSpec {
 
   }
 
-  it should " infer for audio input" taggedAs SlowTest in {
+  it should " infer for audio input" taggedAs LocalTest in {
     val pathToFileWithFloats = "src/test/resources/audio/csv/audio_floats.csv"
     val bufferedSource = scala.io.Source.fromFile(pathToFileWithFloats)
     val rawFloats = bufferedSource

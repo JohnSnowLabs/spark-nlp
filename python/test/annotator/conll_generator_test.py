@@ -19,7 +19,7 @@ from test.util import SparkContextForTest
 from sparknlp.util import CoNLLGenerator
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class CoNLLGeneratorTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.read.load("file:///" + os.getcwd() + "/../src/test/resources/conllgenerator/conllgenerator_nonint_token_metadata.parquet").cache()

@@ -22,14 +22,14 @@ import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class NerPerfTest extends AnyFlatSpec {
 
-  "NerCRF Approach" should "be fast to train" taggedAs SlowTest in {
+  "NerCRF Approach" should "be fast to train" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -76,7 +76,7 @@ class NerPerfTest extends AnyFlatSpec {
 
   }
 
-  "NerDL Approach" should "be fast to train" taggedAs SlowTest in {
+  "NerDL Approach" should "be fast to train" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -125,7 +125,7 @@ class NerPerfTest extends AnyFlatSpec {
 
   }
 
-  "NerDL Model" should "label correctly" taggedAs SlowTest in {
+  "NerDL Model" should "label correctly" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -182,7 +182,7 @@ class NerPerfTest extends AnyFlatSpec {
 
   }
 
-  "NerCRF Model" should "label correctly" taggedAs SlowTest in {
+  "NerCRF Model" should "label correctly" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 

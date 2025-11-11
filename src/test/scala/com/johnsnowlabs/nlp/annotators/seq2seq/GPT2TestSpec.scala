@@ -18,13 +18,13 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class GPT2TestSpec extends AnyFlatSpec {
-  "gpt2" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs SlowTest in {
+  "gpt2" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs LocalTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark
@@ -63,7 +63,7 @@ class GPT2TestSpec extends AnyFlatSpec {
 
   }
 
-  "gpt2" should "run SparkNLP pipeline with larger batch size" taggedAs SlowTest in {
+  "gpt2" should "run SparkNLP pipeline with larger batch size" taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(Seq(
         (1, "My name is Leonardo."),
@@ -118,7 +118,7 @@ class GPT2TestSpec extends AnyFlatSpec {
     }
   }
 
-  "gpt2" should "run SparkNLP pipeline with doSample=true " taggedAs SlowTest in {
+  "gpt2" should "run SparkNLP pipeline with doSample=true " taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(Seq((1, "Leonardo Da Vinci invented the wheel?")))
       .toDF("id", "text")
@@ -162,7 +162,7 @@ class GPT2TestSpec extends AnyFlatSpec {
 
   }
 
-  "gpt2" should "run SparkNLP pipeline with doSample=true and fixed random seed " taggedAs SlowTest in {
+  "gpt2" should "run SparkNLP pipeline with doSample=true and fixed random seed " taggedAs LocalTest in {
     val testData =
       ResourceHelper.spark.createDataFrame(Seq((1, "Preheat the oven to."))).toDF("id", "text")
 

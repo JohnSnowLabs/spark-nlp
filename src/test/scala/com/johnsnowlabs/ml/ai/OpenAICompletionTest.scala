@@ -16,7 +16,7 @@
 package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -24,7 +24,7 @@ class OpenAICompletionTest extends AnyFlatSpec with SparkSessionTest {
 
   import spark.implicits._
 
-  "OpenAICompletion" should "generate a completion for prompts" taggedAs SlowTest in {
+  "OpenAICompletion" should "generate a completion for prompts" taggedAs LocalTest in {
     // Set OPENAI_API_KEY env variable to make this work
     val promptDF = Seq(
       "Generate a restaurant review.",

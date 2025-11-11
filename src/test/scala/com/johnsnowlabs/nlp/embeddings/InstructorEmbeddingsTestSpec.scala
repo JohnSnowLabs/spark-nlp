@@ -19,14 +19,14 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class InstructorEmbeddingsTestSpec extends AnyFlatSpec {
 
-  "Instructor Embeddings" should "correctly embed multiple sentences" taggedAs SlowTest in {
+  "Instructor Embeddings" should "correctly embed multiple sentences" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -65,7 +65,7 @@ class InstructorEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  "InstructorEmbeddings" should "download, save, and load a model" taggedAs SlowTest in {
+  "InstructorEmbeddings" should "download, save, and load a model" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 

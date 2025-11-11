@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
@@ -117,7 +117,7 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  "BertSentenceEmbeddings" should "benchmark test" taggedAs SlowTest in {
+  "BertSentenceEmbeddings" should "benchmark test" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -159,7 +159,7 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
     assert(totalSentences == totalEmbeddings)
   }
 
-  "BertSentenceEmbeddings" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "BertSentenceEmbeddings" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -233,7 +233,7 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "work with onnx" taggedAs SlowTest in {
+  it should "work with onnx" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
 
     val ddd = Seq("Something is weird on the notebooks, something is happening.").toDF("text")

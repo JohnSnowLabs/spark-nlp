@@ -57,7 +57,7 @@ def setup_context(spark):
     return pipeline, data, model
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFVisionModelTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkSessionForTest.spark
@@ -90,7 +90,7 @@ class AutoGGUFVisionModelTestSpec(unittest.TestCase):
             ), f"Expected '{expectedWords[image_name]}' in '{completion.lower()}'"
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFVisionModelSerializationTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkSessionForTest.spark
@@ -111,7 +111,7 @@ class AutoGGUFVisionModelSerializationTestSpec(unittest.TestCase):
         AutoGGUFVisionModel.load(model_path)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFVisionModelCloseTest(unittest.TestCase):
     def setUp(self):
         self.spark = SparkSessionForTest.spark

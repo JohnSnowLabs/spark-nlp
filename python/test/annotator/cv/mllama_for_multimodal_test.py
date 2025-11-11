@@ -48,7 +48,7 @@ class MLLamaForMultimodalTestSetup(unittest.TestCase):
 
         self.model = self.pipeline.fit(self.test_df)
 
-@pytest.mark.slow
+@pytest.mark.local
 class MLLamaForMultimodalTest(MLLamaForMultimodalTestSetup, unittest.TestCase):
 
     def setUp(self):

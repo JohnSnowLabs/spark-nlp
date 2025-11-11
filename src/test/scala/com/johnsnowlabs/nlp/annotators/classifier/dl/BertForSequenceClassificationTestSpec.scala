@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{PipelineModel, Pipeline}
 import org.apache.spark.sql.functions.{col, size, explode}
@@ -30,7 +30,7 @@ class BertForSequenceClassificationTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 
-  "BertForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "BertForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 
     val ddd = Seq(
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London.",
@@ -79,7 +79,7 @@ class BertForSequenceClassificationTestSpec extends AnyFlatSpec {
     assert(totalDocs == totalLabels)
   }
 
-  "BertForSequenceClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "BertForSequenceClassification" should "be saved and loaded correctly" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -130,7 +130,7 @@ class BertForSequenceClassificationTestSpec extends AnyFlatSpec {
 
   }
 
-  "BertForSequenceClassification" should "benchmark test" taggedAs SlowTest in {
+  "BertForSequenceClassification" should "benchmark test" taggedAs LocalTest in {
 
     val conll = CoNLL()
     val training_data =

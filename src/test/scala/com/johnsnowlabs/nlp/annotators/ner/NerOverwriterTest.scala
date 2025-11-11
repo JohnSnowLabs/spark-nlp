@@ -19,13 +19,13 @@ package com.johnsnowlabs.nlp.annotators.ner
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class NerOverwriterTest extends AnyFlatSpec {
 
-  "NerOverwriter" should "correctly should change all the NER tags" taggedAs SlowTest in {
+  "NerOverwriter" should "correctly should change all the NER tags" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
 
     val testDF =

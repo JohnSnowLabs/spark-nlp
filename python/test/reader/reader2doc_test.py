@@ -23,7 +23,7 @@ from sparknlp.reader.reader2doc import Reader2Doc
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class Reader2DocTest(unittest.TestCase):
 
     def setUp(self):
@@ -44,7 +44,7 @@ class Reader2DocTest(unittest.TestCase):
         self.assertTrue(result_df.select("document").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class Reader2DocTokenTest(unittest.TestCase):
 
     def setUp(self):
@@ -70,7 +70,7 @@ class Reader2DocTokenTest(unittest.TestCase):
         self.assertTrue(result_df.select("document").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class Reader2DocPdfTest(unittest.TestCase):
 
     def setUp(self):
@@ -92,7 +92,7 @@ class Reader2DocPdfTest(unittest.TestCase):
         self.assertTrue(result_df.select("document").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class Reader2DocTestOutputAsDoc(unittest.TestCase):
 
     def setUp(self):
@@ -114,7 +114,7 @@ class Reader2DocTestOutputAsDoc(unittest.TestCase):
         self.assertTrue(result_df.select("document").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class Reader2DocTestInputColumn(unittest.TestCase):
 
     def setUp(self):
@@ -135,7 +135,7 @@ class Reader2DocTestInputColumn(unittest.TestCase):
         self.assertTrue(result_df.select("document").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class Reader2DocTestHTMLHierarchy(unittest.TestCase):
 
     def setUp(self):
@@ -169,7 +169,7 @@ class Reader2DocTestHTMLHierarchy(unittest.TestCase):
             ), f"❌ Missing 'element_id' or 'parent_id' in metadata: {metadata}"
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class Reader2DocTestPDFHierarchy(unittest.TestCase):
 
     def setUp(self):
@@ -203,7 +203,7 @@ class Reader2DocTestPDFHierarchy(unittest.TestCase):
             ), f"❌ Missing 'element_id' or 'parent_id' in metadata: {metadata}"
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class Reader2DocXmlTest(unittest.TestCase):
 
     def setUp(self):

@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class T5TransformerQATestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -50,7 +50,7 @@ class T5TransformerQATestSpec(unittest.TestCase):
         results.select("questions.result", "answers.result").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class T5TransformerSummaryTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -92,7 +92,7 @@ class T5TransformerSummaryTestSpec(unittest.TestCase):
         results.select("summaries.result").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class T5TransformerSummaryWithRepetitionPenaltyTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -129,7 +129,7 @@ class T5TransformerSummaryWithRepetitionPenaltyTestSpec(unittest.TestCase):
         results.select("summaries.result").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class T5TransformerSummaryWithSamplingAndDeactivatedTopKTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -167,7 +167,7 @@ class T5TransformerSummaryWithSamplingAndDeactivatedTopKTestSpec(unittest.TestCa
         results.select("summaries.result").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class T5TransformerSummaryWithSamplingAndTemperatureTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -206,7 +206,7 @@ class T5TransformerSummaryWithSamplingAndTemperatureTestSpec(unittest.TestCase):
         results.select("summaries.result").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class T5TransformerSummaryWithSamplingAndTopPTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark

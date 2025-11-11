@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, AssertAnnotations, ImageAssembler}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.lit
@@ -57,7 +57,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
   }
   lazy val model = getJanusForMultiModalPipelineModel
 
-  "JanusForMultiModal" should "answer a question for a given image" taggedAs SlowTest in {
+  "JanusForMultiModal" should "answer a question for a given image" taggedAs LocalTest in {
 
     val testDF = getTestDF
     val result = model.transform(testDF)
@@ -74,7 +74,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     }
 
   }
-  "reshape2D" should "reshape a 1D array into a 2D array" taggedAs SlowTest in {
+  "reshape2D" should "reshape a 1D array into a 2D array" taggedAs LocalTest in {
     val data = Array(1f, 2f, 3f, 4f, 5f, 6f)
     val rows = 2
     val cols = 3
@@ -82,7 +82,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     reshape2D(data, rows, cols) shouldEqual expected
   }
 
-  "reshape3D" should "reshape a 1D array into a 3D array" taggedAs SlowTest in {
+  "reshape3D" should "reshape a 1D array into a 3D array" taggedAs LocalTest in {
     val data = Array(1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 9f, 10f, 11f, 12f)
     val depth = 2
     val rows = 2
@@ -93,7 +93,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     reshape3D(data, depth, rows, cols) shouldBe expected
   }
 
-  it should "generate images when generate image mode is set to true" taggedAs SlowTest in {
+  it should "generate images when generate image mode is set to true" taggedAs LocalTest in {
     model.stages.last.asInstanceOf[JanusForMultiModal].setImageGenerateMode(true)
     model.stages.last.asInstanceOf[JanusForMultiModal].setRandomSeed(123467L)
     model.stages.last.asInstanceOf[JanusForMultiModal].setNumOfParallelImages(1)
@@ -126,7 +126,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "work with light pipeline annotate" taggedAs SlowTest in {
+  it should "work with light pipeline annotate" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/image1.jpg"
     val resultAnnotate =
@@ -138,7 +138,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     assert(resultAnnotate("answer").head.contains("cat"))
   }
 
-  it should "work with light pipeline full annotate" taggedAs SlowTest in {
+  it should "work with light pipeline full annotate" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/bluetick.jpg"
     val resultFullAnnotate =
@@ -152,7 +152,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     assert(answerAnnotation.result.nonEmpty)
   }
 
-  it should "fullAnnotate with empty Map when a text is empty" taggedAs SlowTest in {
+  it should "fullAnnotate with empty Map when a text is empty" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",
@@ -190,7 +190,7 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "annotate with empty Map when a text is empty" taggedAs SlowTest in {
+  it should "annotate with empty Map when a text is empty" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",

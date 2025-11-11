@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, ImageAssembler}
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Row}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -40,7 +40,7 @@ class VisionEncoderDecoderForImageCaptioningTestSpec extends AnyFlatSpec {
   def correctTranscriber(
       model: => VisionEncoderDecoderForImageCaptioning,
       engine: => String): Unit = {
-    it should "correctly caption" taggedAs SlowTest in {
+    it should "correctly caption" taggedAs LocalTest in {
       val pipeline = new Pipeline().setStages(Array(imageAssembler, model))
 
       val result = pipeline.fit(imageDF).transform(imageDF)
@@ -50,7 +50,7 @@ class VisionEncoderDecoderForImageCaptioningTestSpec extends AnyFlatSpec {
       }
     }
 
-    it should s"correctly work with Tokenizer ($engine)" taggedAs SlowTest in {
+    it should s"correctly work with Tokenizer ($engine)" taggedAs LocalTest in {
       val pipeline: Pipeline =
         new Pipeline().setStages(Array(imageAssembler, model, tokenizer))
 
@@ -67,7 +67,7 @@ class VisionEncoderDecoderForImageCaptioningTestSpec extends AnyFlatSpec {
       model: => VisionEncoderDecoderForImageCaptioning,
       engine: => String): Unit = {
 
-    it should s"transform speech to text with LightPipeline ($engine)" taggedAs SlowTest in {
+    it should s"transform speech to text with LightPipeline ($engine)" taggedAs LocalTest in {
       val pipeline: Pipeline =
         new Pipeline().setStages(Array(imageAssembler, model, tokenizer))
 
@@ -81,7 +81,7 @@ class VisionEncoderDecoderForImageCaptioningTestSpec extends AnyFlatSpec {
       assert(result("token").nonEmpty)
     }
 
-    it should s"transform several speeches to text with LightPipeline ($engine)" taggedAs SlowTest in {
+    it should s"transform several speeches to text with LightPipeline ($engine)" taggedAs LocalTest in {
       val pipeline: Pipeline =
         new Pipeline().setStages(Array(imageAssembler, model, tokenizer))
 
@@ -101,7 +101,7 @@ class VisionEncoderDecoderForImageCaptioningTestSpec extends AnyFlatSpec {
   def serializableModel(
       model: => VisionEncoderDecoderForImageCaptioning,
       engine: => String): Unit = {
-    it should s"be serializable ($engine)" taggedAs SlowTest in {
+    it should s"be serializable ($engine)" taggedAs LocalTest in {
 
       val pipeline: Pipeline = new Pipeline().setStages(Array(imageAssembler, model))
 

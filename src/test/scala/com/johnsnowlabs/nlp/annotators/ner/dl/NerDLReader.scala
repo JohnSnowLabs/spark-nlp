@@ -20,13 +20,13 @@ import com.johnsnowlabs.nlp.LightPipeline
 import com.johnsnowlabs.nlp.annotators.NormalizerModel
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class NerDLReaderTestSpec extends AnyFlatSpec {
 
-  "Tensorflow NerDLReader" should "correctly load and save a ner model" taggedAs SlowTest in {
+  "Tensorflow NerDLReader" should "correctly load and save a ner model" taggedAs LocalTest in {
 
     val model = NerDLModelPythonReader.read("./source_model", 100, ResourceHelper.spark)
     model.write.overwrite().save("./some_model")
@@ -34,7 +34,7 @@ class NerDLReaderTestSpec extends AnyFlatSpec {
     succeed
   }
 
-  "NerDLModel" should "correctly read and use a tensorflow originated ner model" taggedAs SlowTest in {
+  "NerDLModel" should "correctly read and use a tensorflow originated ner model" taggedAs LocalTest in {
     val spark = ResourceHelper.spark
     import spark.implicits._
 

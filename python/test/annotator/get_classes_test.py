@@ -18,7 +18,7 @@ import pytest
 from sparknlp.annotator import *
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class GetClassesTestSpec(unittest.TestCase):
 
     def runTest(self):

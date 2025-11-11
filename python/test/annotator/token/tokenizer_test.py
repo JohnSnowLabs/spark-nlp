@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class TokenizerTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -49,7 +49,7 @@ class TokenizerTestSpec(unittest.TestCase):
         self.assertEqual(len(finished.first()['token_out']), 4)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class TokenizerWithExceptionsTestSpec(unittest.TestCase):
 
     def setUp(self):

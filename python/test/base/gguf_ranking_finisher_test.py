@@ -23,7 +23,7 @@ from sparknlp.annotation import Annotation
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class GGUFRankingFinisherTestSpec(unittest.TestCase):
 
     def setUp(self):

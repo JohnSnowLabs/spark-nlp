@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, ImageAssembler}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.lit
@@ -29,7 +29,7 @@ class SmolVLMTransformerTestSpec extends AnyFlatSpec {
 
   lazy val model = getSmolVLMTransformerPipelineModel
 
-  "SmolVLMTransformer" should "answer a question for a given image" taggedAs SlowTest in {
+  "SmolVLMTransformer" should "answer a question for a given image" taggedAs LocalTest in {
 
     val testDF = getTestDF
     val result = model.transform(testDF)
@@ -46,7 +46,7 @@ class SmolVLMTransformerTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "work with light pipeline annotate" taggedAs SlowTest in {
+  it should "work with light pipeline annotate" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/image1.jpg"
     val resultAnnotate =
@@ -58,7 +58,7 @@ class SmolVLMTransformerTestSpec extends AnyFlatSpec {
     assert(resultAnnotate("answer").head.contains("cat"))
   }
 
-  it should "work with light pipeline full annotate" taggedAs SlowTest in {
+  it should "work with light pipeline full annotate" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/image1.jpg"
     val resultFullAnnotate =
@@ -72,7 +72,7 @@ class SmolVLMTransformerTestSpec extends AnyFlatSpec {
     assert(answerAnnotation.result.nonEmpty)
   }
 
-  it should "fullAnnotate with empty Map when a text is empty" taggedAs SlowTest in {
+  it should "fullAnnotate with empty Map when a text is empty" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",
@@ -110,7 +110,7 @@ class SmolVLMTransformerTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "annotate with empty Map when a text is empty" taggedAs SlowTest in {
+  it should "annotate with empty Map when a text is empty" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",

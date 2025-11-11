@@ -43,7 +43,7 @@ class LightPipelineTextSetUp(unittest.TestCase):
         self.model = pipeline.fit(self.textDataSet)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class LightPipelineTextInputTest(LightPipelineTextSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -68,7 +68,7 @@ class LightPipelineTextInputTest(LightPipelineTextSetUp, unittest.TestCase):
             self.assertTrue(len(result["token"]) > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class LightPipelineNoisyTextInputTest(LightPipelineTextSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -125,7 +125,7 @@ class LightPipelineImageSetUp(unittest.TestCase):
         self.vit_model = pipeline.fit(self.data)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightPipelineImageInputTest(LightPipelineImageSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -151,7 +151,7 @@ class LightPipelineImageInputTest(LightPipelineImageSetUp, unittest.TestCase):
             self.assertTrue(len(result["class"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightPipelineImagesInputTest(LightPipelineImageSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -177,7 +177,7 @@ class LightPipelineImagesInputTest(LightPipelineImageSetUp, unittest.TestCase):
             self.assertTrue(len(result["class"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightPipelineAudioInputTest(unittest.TestCase):
 
     def setUp(self):
@@ -224,7 +224,7 @@ class LightPipelineAudioInputTest(unittest.TestCase):
             self.assertTrue(len(result["text"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightPipelineTapasInputTest(unittest.TestCase):
 
     def setUp(self):
@@ -288,7 +288,7 @@ class LightPipelineTapasInputTest(unittest.TestCase):
             self.assertTrue(len(result["answers"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightPipelineQAInputTest(unittest.TestCase):
 
     def setUp(self):
@@ -333,7 +333,7 @@ class LightPipelineQAInputTest(unittest.TestCase):
             self.assertTrue(len(result["answer"]) > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class LightPipelineWrongInputTest(LightPipelineTextSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -352,7 +352,7 @@ class LightPipelineWrongInputTest(LightPipelineTextSetUp, unittest.TestCase):
             light_pipeline.fullAnnotate({"key": "value"})
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class LightPipelineWrongInputColsTest(unittest.TestCase):
 
     def setUp(self):
@@ -391,7 +391,7 @@ class LightPipelineWrongInputColsTest(unittest.TestCase):
             light_model.annotate(self.sample_text)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightPipelineWithEmbeddings(unittest.TestCase):
 
     def setUp(self):

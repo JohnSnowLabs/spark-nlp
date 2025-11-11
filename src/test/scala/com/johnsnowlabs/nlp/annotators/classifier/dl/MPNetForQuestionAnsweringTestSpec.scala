@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.{LightPipeline, MultiDocumentAssembler}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.scalactic.TolerantNumerics
 import org.scalatest.flatspec.AnyFlatSpec
@@ -48,7 +48,7 @@ class MPNetForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   behavior of "MPNetForQuestionAnsweringTestSpec"
 
-  it should "tokenize correctly" taggedAs SlowTest in {
+  it should "tokenize correctly" taggedAs LocalTest in {
     val expectedTokens = Array(0, 2033, 2175, 2007, 2040, 2113, 2004, 6239, 2000, 9737, 18955,
       2003, 2398, 1033, 2, 2, 2000, 9737, 18955, 1010, 5081, 1028, 17347, 2700, 9737, 5559, 2034,
       9737, 2405, 1029, 3013, 1028, 7371, 22148, 9737, 5559, 1014, 9737, 2405, 2034, 2792, 9737,
@@ -90,7 +90,7 @@ class MPNetForQuestionAnsweringTestSpec extends AnyFlatSpec {
     assert(tokenized sameElements expectedTokens)
   }
 
-  it should "predict correctly" taggedAs SlowTest in {
+  it should "predict correctly" taggedAs LocalTest in {
     val resultAnno = Annotation.collect(pipeline.fit(data).transform(data), "answer").head.head
     val (result, score, start, end) = (
       resultAnno.result,
@@ -107,7 +107,7 @@ class MPNetForQuestionAnsweringTestSpec extends AnyFlatSpec {
     assert(score === expectedScore, "Wrong Score")
   }
 
-  it should "work with multiple batches" taggedAs SlowTest in {
+  it should "work with multiple batches" taggedAs LocalTest in {
     val questions = Seq("What's my name?", "Where do I live?")
     val contexts =
       Seq("My name is Clara and I live in Berkeley.", "My name is Wolfgang and I live in Berlin.")
@@ -116,7 +116,7 @@ class MPNetForQuestionAnsweringTestSpec extends AnyFlatSpec {
     pipeline.fit(data).transform(data).select("answer").show(false)
   }
 
-  it should "be serializable" taggedAs SlowTest in {
+  it should "be serializable" taggedAs LocalTest in {
     val pipelineModel = pipeline.fit(data)
     pipelineModel.stages.last
       .asInstanceOf[MPNetForQuestionAnswering]
@@ -146,7 +146,7 @@ class MPNetForQuestionAnsweringTestSpec extends AnyFlatSpec {
     assert(score === expectedScore, "Wrong Score")
   }
 
-  it should "be compatible with LightPipeline" taggedAs SlowTest in {
+  it should "be compatible with LightPipeline" taggedAs LocalTest in {
     val pipeline: Pipeline =
       new Pipeline().setStages(Array(document, questionAnswering))
 

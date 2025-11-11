@@ -20,14 +20,14 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.embeddings.UniversalSentenceEncoder
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ClassifierDLTestSpec extends AnyFlatSpec {
   import ResourceHelper.spark.implicits._
 
-  "ClassifierDL" should "correctly train IMDB train dataset" taggedAs SlowTest in {
+  "ClassifierDL" should "correctly train IMDB train dataset" taggedAs LocalTest in {
 
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")
@@ -63,7 +63,7 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
 
   }
 
-  "ClassifierDL" should "not fail on empty inputs" taggedAs SlowTest in {
+  "ClassifierDL" should "not fail on empty inputs" taggedAs LocalTest in {
 
     val testData = ResourceHelper.spark
       .createDataFrame(
@@ -108,7 +108,7 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
     classifierDL.getClasses.foreach(x => print(x + ", "))
   }
 
-  "ClassifierDL" should "not fail on empty validation sets" taggedAs SlowTest in {
+  "ClassifierDL" should "not fail on empty validation sets" taggedAs LocalTest in {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")

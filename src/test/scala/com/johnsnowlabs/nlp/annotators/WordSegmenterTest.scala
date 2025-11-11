@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.annotators.ws.{WordSegmenterApproach, WordSegmenterModel}
 import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, SparkAccessor}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
@@ -128,7 +128,7 @@ class WordSegmenterTest extends AnyFlatSpec with SparkSessionTest {
     AssertAnnotations.assertFields(expectedResult, actualResult)
   }
 
-  it should "segment multilingual texts" taggedAs SlowTest in {
+  it should "segment multilingual texts" taggedAs LocalTest in {
     val text =
       "oem loomma สำหรับฐานลำโพง apple homepod อุปกรณ์เครื่องเสียงยึดขาตั้งไม้แข็งตั้งพื้น speaker stands null. oem loomma สำหรับฐานลำโพง apple"
     val testDataSet = Seq(text).toDS.toDF("text")

@@ -40,7 +40,7 @@ class Florence2TransformerTestSetup(unittest.TestCase):
         model = pipeline.fit(test_df)
         return model, test_df
 
-@pytest.mark.slow
+@pytest.mark.local
 class Florence2TransformerTest(Florence2TransformerTestSetup, unittest.TestCase):
     def setUp(self):
         super().setUp()
@@ -91,7 +91,7 @@ class Florence2TransformerTest(Florence2TransformerTestSetup, unittest.TestCase)
     def test_region_to_ocr(self):
         self.run_task(self.ocr_image, "<REGION_TO_OCR> region1")
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightFlorence2TransformerTest(Florence2TransformerTestSetup, unittest.TestCase):
     def setUp(self):
         super().setUp()

@@ -24,7 +24,7 @@ from sparknlp.reader.reader2table import Reader2Table
 from test.util import SparkContextForTest
 from pyspark.ml import Pipeline
 
-@pytest.mark.fast
+@pytest.mark.local
 class Reader2TableTest(unittest.TestCase):
     def setUp(self):
         spark = SparkContextForTest.spark
@@ -43,7 +43,7 @@ class Reader2TableTest(unittest.TestCase):
 
         self.assertTrue(result_df.select("document").count() > 0)
 
-@pytest.mark.fast
+@pytest.mark.local
 class Reader2TableMixedFilesTest(unittest.TestCase):
     def setUp(self):
         spark = SparkContextForTest.spark
@@ -61,7 +61,7 @@ class Reader2TableMixedFilesTest(unittest.TestCase):
 
         self.assertTrue(result_df.select("document").count() > 1)
 
-@pytest.mark.fast
+@pytest.mark.local
 class Reader2TableInputColTest(unittest.TestCase):
 
     def setUp(self):

@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -28,7 +28,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
-  "XlmRoBertaEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
+  "XlmRoBertaEmbeddings" should "correctly work with empty tokens" taggedAs LocalTest in {
 
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")
@@ -64,7 +64,7 @@ class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
     }
   }
 
-  "XlmRoBertaEmbeddings" should "benchmark test" taggedAs SlowTest in {
+  "XlmRoBertaEmbeddings" should "benchmark test" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL()
@@ -106,7 +106,7 @@ class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
     assert(totalTokens == totalEmbeddings)
   }
 
-  "XlmRoBertaEmbeddings" should "download, save, and load a model" taggedAs SlowTest in {
+  "XlmRoBertaEmbeddings" should "download, save, and load a model" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -153,7 +153,7 @@ class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  "XlmRoBertaEmbeddings" should "be aligned with custom tokens from Tokenizer" taggedAs SlowTest in {
+  "XlmRoBertaEmbeddings" should "be aligned with custom tokens from Tokenizer" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 

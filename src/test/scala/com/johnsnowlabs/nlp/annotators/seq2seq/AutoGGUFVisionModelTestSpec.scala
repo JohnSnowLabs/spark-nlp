@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, ImageAssembler}
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.TestUtils.measureRAMChange
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.lit
@@ -76,11 +76,11 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     assert(imageData sameElements byteContent)
   }
 
-  it should "replace image data with bytes" taggedAs SlowTest in {
+  it should "replace image data with bytes" taggedAs LocalTest in {
     checkBinaryContents()
   }
 
-  it should "caption the images correctly" taggedAs SlowTest in {
+  it should "caption the images correctly" taggedAs LocalTest in {
     import java.lang.management.ManagementFactory
     val pid = ManagementFactory.getRuntimeMXBean.getName.split("@")(0)
     println(s"Current PID: $pid")
@@ -104,7 +104,7 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "be serializable" taggedAs SlowTest in {
+  it should "be serializable" taggedAs LocalTest in {
     val pipelineModel = pipeline.fit(data)
     val savePath = "./tmp_autogguf_vision_model"
     pipelineModel.stages.last
@@ -124,7 +124,7 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
       .show(truncate = false)
   }
 
-  it should "accept protocol prepended paths" taggedAs SlowTest in {
+  it should "accept protocol prepended paths" taggedAs LocalTest in {
     lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, imageAssembler, model))
     val pipelineModel = pipeline.fit(data)
 
@@ -138,12 +138,12 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     AutoGGUFVisionModel.load(savePath)
   }
 
-  it should "load models with deprecated parameters" taggedAs SlowTest in {
+  it should "load models with deprecated parameters" taggedAs LocalTest in {
     AutoGGUFVisionModel.pretrained("llava_v1.5_7b_Q4_0_gguf")
   }
 
   // This test requires cpu
-  it should "be closeable" taggedAs SlowTest in {
+  it should "be closeable" taggedAs LocalTest in {
     lazy val model: AutoGGUFVisionModel = AutoGGUFVisionModel
       .pretrained()
       .setInputCols("caption_document", "image_assembler")
@@ -157,7 +157,7 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     assert(ramChange < -100, "Freed RAM should be greater than 100 MB")
   }
 
-  it should "be able to remove thinking tags" taggedAs SlowTest in {
+  it should "be able to remove thinking tags" taggedAs LocalTest in {
     val thinkTag = "think"
     val model = AutoGGUFVisionModel
       .loadSavedModel(

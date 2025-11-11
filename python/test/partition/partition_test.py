@@ -17,7 +17,7 @@ import pytest
 from sparknlp.partition.partition import Partition
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class PartitionTextTesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -31,7 +31,7 @@ class PartitionTextTesSpec(unittest.TestCase):
         self.assertTrue(text_file_df.select("txt").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class PartitionWordTesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -45,7 +45,7 @@ class PartitionWordTesSpec(unittest.TestCase):
         self.assertTrue(doc_file_df.select("doc").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class PartitionExcelTesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -59,7 +59,7 @@ class PartitionExcelTesSpec(unittest.TestCase):
         self.assertTrue(xls_file_df.select("xls").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class PartitionPowerPointTesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -73,7 +73,7 @@ class PartitionPowerPointTesSpec(unittest.TestCase):
         self.assertTrue(ppt_file_df.select("ppt").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class PartitionEmailTesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -87,7 +87,7 @@ class PartitionEmailTesSpec(unittest.TestCase):
         self.assertTrue(eml_file_df.select("email").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class PartitionHtmlTesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -112,7 +112,7 @@ class PartitionUrlTesSpec(unittest.TestCase):
         self.assertTrue(urls_df.select("html").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class PartitionPdfTesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -125,7 +125,7 @@ class PartitionPdfTesSpec(unittest.TestCase):
         self.assertTrue(pdf_df.select("pdf").count() > 0)
         self.assertTrue(pdf_file_df.select("pdf").count() > 0)
 
-@pytest.mark.fast
+@pytest.mark.local
 class PartitionTextInMemoryTesSpec(unittest.TestCase):
 
     def setUp(self):

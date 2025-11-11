@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest.flatspec.AnyFlatSpec
@@ -27,7 +27,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 class SentimentDLTestSpec extends AnyFlatSpec {
   val spark: SparkSession = ResourceHelper.spark
 
-  "SentimentDL" should "correctly train on a test dataset" taggedAs SlowTest in {
+  "SentimentDL" should "correctly train on a test dataset" taggedAs LocalTest in {
 
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")
@@ -71,7 +71,7 @@ class SentimentDLTestSpec extends AnyFlatSpec {
 
   }
 
-  "SentimentDL" should "not fail on empty inputs" taggedAs SlowTest in {
+  "SentimentDL" should "not fail on empty inputs" taggedAs LocalTest in {
 
     val testData = ResourceHelper.spark
       .createDataFrame(

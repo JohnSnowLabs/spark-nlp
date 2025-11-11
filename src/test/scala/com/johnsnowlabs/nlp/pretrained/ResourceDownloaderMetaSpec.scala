@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import com.johnsnowlabs.util.TestUtils.captureOutput
 import com.johnsnowlabs.util.Version
 import org.scalatest.flatspec.AnyFlatSpec
@@ -176,7 +176,7 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
     assert(noAnnoFieldFilter.head.equals("anno_not_missing:tst:2.5.4"))
 
   }
-  it should "should download a model and unzip file" taggedAs SlowTest in {
+  it should "should download a model and unzip file" taggedAs LocalTest in {
     ResourceDownloader.privateDownloader = realPrivateDownloader
     ResourceDownloader.publicDownloader = realPublicDownloader
     ResourceDownloader.communityDownloader = realCommunityDownloader
@@ -184,7 +184,7 @@ class ResourceDownloaderMetaSpec extends AnyFlatSpec with BeforeAndAfter {
       "public/models/bert_base_cased_es_3.2.2_3.0_1630999631885.zip")
   }
 
-  it should "download a model and keep it as zip" taggedAs SlowTest in {
+  it should "download a model and keep it as zip" taggedAs LocalTest in {
     ResourceDownloader.privateDownloader = realPrivateDownloader
     ResourceDownloader.publicDownloader = realPublicDownloader
     ResourceDownloader.communityDownloader = realCommunityDownloader

@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.annotator.Tokenizer
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AudioAssembler}
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
@@ -33,7 +33,7 @@ class HubertForCTCTest extends AnyFlatSpec {
 
   behavior of "HubertForCTC"
 
-  it should "load from saved model" taggedAs SlowTest in {
+  it should "load from saved model" taggedAs LocalTest in {
 
     val hubert: HubertForCTC = HubertForCTC
       .pretrained()
@@ -62,7 +62,7 @@ class HubertForCTCTest extends AnyFlatSpec {
     assert(text == expected)
   }
 
-  it should "correctly transform speech to text from already processed audio files" taggedAs SlowTest in {
+  it should "correctly transform speech to text from already processed audio files" taggedAs LocalTest in {
 
     val speechToText = HubertForCTC
       .pretrained()
@@ -91,7 +91,7 @@ class HubertForCTCTest extends AnyFlatSpec {
 
   }
 
-  it should "correctly work with Tokenizer" taggedAs SlowTest in {
+  it should "correctly work with Tokenizer" taggedAs LocalTest in {
 
     val speechToText = HubertForCTC
       .pretrained()
@@ -124,7 +124,7 @@ class HubertForCTCTest extends AnyFlatSpec {
 
   }
 
-  it should "transform speech to text with LightPipeline" taggedAs SlowTest in {
+  it should "transform speech to text with LightPipeline" taggedAs LocalTest in {
     val speechToText = HubertForCTC
       .pretrained()
       .setInputCols("audio_assembler")
@@ -157,7 +157,7 @@ class HubertForCTCTest extends AnyFlatSpec {
     assert(result("token").nonEmpty)
   }
 
-  it should "transform several speeches to text with LightPipeline" taggedAs SlowTest in {
+  it should "transform several speeches to text with LightPipeline" taggedAs LocalTest in {
     val speechToText = HubertForCTC
       .pretrained()
       .setInputCols("audio_assembler")
@@ -194,7 +194,7 @@ class HubertForCTCTest extends AnyFlatSpec {
 
   }
 
-  it should "be serializable" taggedAs SlowTest in {
+  it should "be serializable" taggedAs LocalTest in {
 
     val speechToText = HubertForCTC
       .pretrained()
@@ -221,7 +221,7 @@ class HubertForCTCTest extends AnyFlatSpec {
 
   }
 
-  it should "benchmark" taggedAs SlowTest in {
+  it should "benchmark" taggedAs LocalTest in {
 
     val speechToText = HubertForCTC
       .pretrained()
@@ -247,7 +247,7 @@ class HubertForCTCTest extends AnyFlatSpec {
     })
   }
 
-  //  it should "pretrained pipeline" taggedAs SlowTest in {
+  //  it should "pretrained pipeline" taggedAs LocalTest in {
   //
   //    val processedAudioDoubles: Dataset[Row] =
   //      spark.read

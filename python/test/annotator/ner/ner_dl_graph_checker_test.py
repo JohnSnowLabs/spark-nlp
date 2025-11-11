@@ -64,7 +64,7 @@ def setup_annotators(dataset, embeddingDim: int = 100):
     return embeddings, ner_graph_checker, ner
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class NerDLGraphCheckerTest(unittest.TestCase):
     def setUp(self) -> None:
         data_path = "../src/test/resources/ner-corpus/test_ner_dataset.txt"
@@ -186,7 +186,7 @@ class NerDLGraphCheckerTest(unittest.TestCase):
         ), "Extracted dataset length should match the dataset length."
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class NerDLGraphCheckerBatchAnnotateTest(unittest.TestCase):
     def setUp(self) -> None:
         data_path = "../src/test/resources/ner-corpus/test_ner_dataset.txt"

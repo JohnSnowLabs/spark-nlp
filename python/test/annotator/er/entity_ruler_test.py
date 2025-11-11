@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class EntityRulerTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -43,7 +43,7 @@ class EntityRulerTestSpec(unittest.TestCase):
         self.assertTrue(result.select("entity").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class EntityRulerOneColumnTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -64,7 +64,7 @@ class EntityRulerOneColumnTestSpec(unittest.TestCase):
         self.assertTrue(result.select("entity").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class EntityRulerLightPipelineTestSpec(unittest.TestCase):
     def setUp(self):
         self.empty_df = SparkContextForTest.spark.createDataFrame([[""]]).toDF("text")
@@ -86,7 +86,7 @@ class EntityRulerLightPipelineTestSpec(unittest.TestCase):
 
         self.assertTrue(len(result["entity"]) == 2)
 
-@pytest.mark.fast
+@pytest.mark.local
 class EntityRulerAutoModeTestSpec(unittest.TestCase):
 
     def setUp(self):

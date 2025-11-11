@@ -18,7 +18,7 @@ package com.johnsnowlabs.util
 
 import com.johnsnowlabs.nlp.SparkAccessor
 import org.scalatest.flatspec.AnyFlatSpec
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 
 class ExportCSVToolTestSpec extends AnyFlatSpec with ExportCSVToolBehaviors {
 

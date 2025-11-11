@@ -19,7 +19,7 @@ import sparknlp
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class SparkNLPTestHTMLRealTimeSpec(unittest.TestCase):
 
     def setUp(self):
@@ -36,7 +36,7 @@ class SparkNLPTestHTMLRealTimeSpec(unittest.TestCase):
         self.assertTrue(html_params_df.select("html").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class SparkNLPTestHTMLFilesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -50,7 +50,7 @@ class SparkNLPTestHTMLFilesSpec(unittest.TestCase):
         self.assertTrue(html_df.select("html").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class SparkNLPTestHTMLValidationSpec(unittest.TestCase):
 
     def setUp(self):
@@ -61,7 +61,7 @@ class SparkNLPTestHTMLValidationSpec(unittest.TestCase):
             sparknlp.read().html(123)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class SparkNLPTestEmailFilesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -74,7 +74,7 @@ class SparkNLPTestEmailFilesSpec(unittest.TestCase):
 
         self.assertTrue(email_df.select("email").count() > 0)
 
-@pytest.mark.fast
+@pytest.mark.local
 class SparkNLPTestWordFilesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -87,7 +87,7 @@ class SparkNLPTestWordFilesSpec(unittest.TestCase):
 
         self.assertTrue(word_df.select("doc").count() > 0)
 
-@pytest.mark.fast
+@pytest.mark.local
 class SparkNLPTestExcelFilesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -100,7 +100,7 @@ class SparkNLPTestExcelFilesSpec(unittest.TestCase):
 
         self.assertTrue(excel_df.select("xls").count() > 0)
 
-@pytest.mark.fast
+@pytest.mark.local
 class SparkNLPTestPowerPointFilesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -113,7 +113,7 @@ class SparkNLPTestPowerPointFilesSpec(unittest.TestCase):
 
         self.assertTrue(ppt_df.select("ppt").count() > 0)
 
-@pytest.mark.fast
+@pytest.mark.local
 class SparkNLPTestTXTFilesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -127,7 +127,7 @@ class SparkNLPTestTXTFilesSpec(unittest.TestCase):
         self.assertTrue(txt_df.select("txt").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class SparkNLPTestXMLFilesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -140,7 +140,7 @@ class SparkNLPTestXMLFilesSpec(unittest.TestCase):
 
         self.assertTrue(xml_df.select("xml").count() > 0)
 
-@pytest.mark.fast
+@pytest.mark.local
 class SparkNLPTestMdFilesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -154,7 +154,7 @@ class SparkNLPTestMdFilesSpec(unittest.TestCase):
         self.assertTrue(md_df.select("md").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class SparkNLPTestCSVFilesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -167,7 +167,7 @@ class SparkNLPTestCSVFilesSpec(unittest.TestCase):
 
         self.assertTrue(csv_df.select("csv").count() > 0)
 
-@pytest.mark.fast
+@pytest.mark.local
 class SparkNLPTestPDFFilesSpec(unittest.TestCase):
 
     def setUp(self):

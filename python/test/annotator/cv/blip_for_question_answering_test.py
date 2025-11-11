@@ -47,7 +47,7 @@ class BLIPForQuestionAnsweringTestSetup(unittest.TestCase):
 
         self.model = self.pipeline.fit(self.test_df)
 
-@pytest.mark.slow
+@pytest.mark.local
 class BLIPForQuestionAnsweringTest(BLIPForQuestionAnsweringTestSetup, unittest.TestCase):
 
    def setUp(self):
@@ -60,7 +60,7 @@ class BLIPForQuestionAnsweringTest(BLIPForQuestionAnsweringTestSetup, unittest.T
            self.assertTrue(row["answer"] != "")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightBLIPForQuestionAnsweringTest(BLIPForQuestionAnsweringTestSetup, unittest.TestCase):
 
     def setUp(self):

@@ -22,7 +22,7 @@ from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class Wav2Vec2TestSetUp(unittest.TestCase):
 
     def setUp(self):
@@ -44,7 +44,7 @@ class Wav2Vec2TestSetUp(unittest.TestCase):
         self.model.write().overwrite().save("./tmp_wav2vec2_pipeline_model")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class Wav2Vec2ForCTCTestSpec(Wav2Vec2TestSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -57,7 +57,7 @@ class Wav2Vec2ForCTCTestSpec(Wav2Vec2TestSetUp, unittest.TestCase):
         assert result_df.select("text").count() > 0
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightWav2Vec2ForCTCOneAudioTestSpec(Wav2Vec2TestSetUp, unittest.TestCase):
     def setUp(self):
         super().setUp()
@@ -80,7 +80,7 @@ class LightWav2Vec2ForCTCOneAudioTestSpec(Wav2Vec2TestSetUp, unittest.TestCase):
             self.assertTrue(len(result["text"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightWav2Vec2ForCTCTestSpec(Wav2Vec2TestSetUp, unittest.TestCase):
     def setUp(self):
         super().setUp()

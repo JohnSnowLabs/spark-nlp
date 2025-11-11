@@ -22,7 +22,7 @@ from test.util import SparkContextForTest
 from pyspark.sql.types import StringType
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class Token2ChunkTestSpec(unittest.TestCase):
 
     def setUp(self):

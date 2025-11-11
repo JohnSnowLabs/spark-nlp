@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.DataFrame
@@ -50,7 +50,7 @@ class CamemBertForTokenClassificationTestSpec extends AnyFlatSpec {
     .setInputCols(Array("document"))
     .setOutputCol("token")
 
-  "CamemBertForTokenClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "CamemBertForTokenClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 
     val tokenClassifier: CamemBertForTokenClassification = CamemBertForTokenClassification
       .pretrained()
@@ -81,7 +81,7 @@ class CamemBertForTokenClassificationTestSpec extends AnyFlatSpec {
 
   }
 
-  "CamemBertForTokenClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "CamemBertForTokenClassification" should "be saved and loaded correctly" taggedAs LocalTest in {
 
     val tokenClassifier: CamemBertForTokenClassification = CamemBertForTokenClassification
       .pretrained()
@@ -118,7 +118,7 @@ class CamemBertForTokenClassificationTestSpec extends AnyFlatSpec {
 
   }
 
-  "CamemBertForTokenClassification" should "benchmark test" taggedAs SlowTest in {
+  "CamemBertForTokenClassification" should "benchmark test" taggedAs LocalTest in {
 
     val tokenClassifier: CamemBertForTokenClassification = CamemBertForTokenClassification
       .pretrained()

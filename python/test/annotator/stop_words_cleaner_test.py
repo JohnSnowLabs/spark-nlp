@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class StopWordsCleanerTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.createDataFrame([
@@ -55,7 +55,7 @@ class StopWordsCleanerTestSpec(unittest.TestCase):
         model.transform(self.data).select("cleanTokens.result").show()
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class StopWordsCleanerModelTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.createDataFrame([

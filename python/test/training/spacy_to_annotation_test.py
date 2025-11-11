@@ -27,7 +27,7 @@ class SpacyToAnnotationTestSetUp(unittest.TestCase):
         self.resources_path = "../src/test/resources/spacy-to-annotation/"
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class SpacyToAnnotationMultiDocTestSpec(SpacyToAnnotationTestSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -42,7 +42,7 @@ class SpacyToAnnotationMultiDocTestSpec(SpacyToAnnotationTestSetUp, unittest.Tes
         self.assertTrue(result.select("token").count() > 0)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class SpacyToAnnotationWithoutSentenceTestSpec(SpacyToAnnotationTestSetUp, unittest.TestCase):
 
     def setUp(self):

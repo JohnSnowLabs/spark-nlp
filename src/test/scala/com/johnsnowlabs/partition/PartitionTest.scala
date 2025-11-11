@@ -17,7 +17,7 @@ package com.johnsnowlabs.partition
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.{ElementType, HTMLElement}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -108,13 +108,13 @@ class PartitionTest extends AnyFlatSpec {
     assert(!htmlDf.select(col("html").getItem(0)).isEmpty)
   }
 
-  it should "work with an URL" taggedAs SlowTest in {
+  it should "work with an URL" taggedAs LocalTest in {
     val htmlDf = Partition().partition("https://www.wikipedia.org")
 
     assert(!htmlDf.select(col("html").getItem(0)).isEmpty)
   }
 
-  it should "work with a set of URLS" taggedAs SlowTest in {
+  it should "work with a set of URLS" taggedAs LocalTest in {
     val htmlDf =
       Partition().partitionUrls(Array("https://www.wikipedia.org", "https://example.com/"))
 

@@ -19,14 +19,14 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.explode
 import org.scalatest.flatspec.AnyFlatSpec
 
 class AlbertForZeroShotClassificationTestSpec extends AnyFlatSpec {
 
-  "AlbertForZeroShotClassification" should "correctly load custom ONNX model" taggedAs SlowTest in {
+  "AlbertForZeroShotClassification" should "correctly load custom ONNX model" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
 
     val dataDf =

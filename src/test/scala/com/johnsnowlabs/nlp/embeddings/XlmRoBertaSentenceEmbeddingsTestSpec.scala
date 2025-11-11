@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
@@ -32,7 +32,7 @@ import scala.collection.mutable
 
 class XlmRoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
-  "XlmRoBertaSentenceEmbeddings" should "produce consistent embeddings" taggedAs SlowTest in {
+  "XlmRoBertaSentenceEmbeddings" should "produce consistent embeddings" taggedAs LocalTest in {
 
     val testData = ResourceHelper.spark
       .createDataFrame(
@@ -92,7 +92,7 @@ class XlmRoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
     model2.transform(testData).select("id", "sentence_embeddings").show()
   }
 
-  "XlmRoBertaSentenceEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
+  "XlmRoBertaSentenceEmbeddings" should "correctly work with empty tokens" taggedAs LocalTest in {
 
     val testData = ResourceHelper.spark
       .createDataFrame(
@@ -124,7 +124,7 @@ class XlmRoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  "XlmRoBertaSentenceEmbeddings" should "benchmark test" taggedAs SlowTest in {
+  "XlmRoBertaSentenceEmbeddings" should "benchmark test" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -172,7 +172,7 @@ class XlmRoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
     assert(totalSentences == totalEmbeddings)
   }
 
-  "XlmRoBertaSentenceEmbeddings" should "download, save, and load a model" taggedAs SlowTest in {
+  "XlmRoBertaSentenceEmbeddings" should "download, save, and load a model" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 

@@ -22,7 +22,7 @@ from sparknlp.functions import map_annotations_cols, map_annotations_col
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class FunctionMapColumnsTestSpec(unittest.TestCase):
 
     def runTest(self):
@@ -47,7 +47,7 @@ class FunctionMapColumnsTestSpec(unittest.TestCase):
         mapped_sentence.show(truncate=False)
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class FunctionMapColumnTestSpec(unittest.TestCase):
 
     def runTest(self):

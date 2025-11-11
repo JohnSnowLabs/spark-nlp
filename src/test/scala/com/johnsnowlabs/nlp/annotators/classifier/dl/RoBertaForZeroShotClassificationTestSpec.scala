@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -33,7 +33,7 @@ class RoBertaForZeroShotClassificationTestSpec extends AnyFlatSpec {
   val candidateLabels =
     Array("urgent", "mobile", "travel", "movie", "music", "sport", "weather", "technology")
 
-  "RoBertaForZeroShotClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "RoBertaForZeroShotClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 
     val ddd = Seq(
       "I have a problem with my iphone that needs to be resolved asap!!",
@@ -84,7 +84,7 @@ class RoBertaForZeroShotClassificationTestSpec extends AnyFlatSpec {
     assert(totalDocs == totalLabels)
   }
 
-  "RoBertaForZeroShotClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "RoBertaForZeroShotClassification" should "be saved and loaded correctly" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -139,7 +139,7 @@ class RoBertaForZeroShotClassificationTestSpec extends AnyFlatSpec {
 
   }
 
-  "RoBertaForZeroShotClassification" should "benchmark test" taggedAs SlowTest in {
+  "RoBertaForZeroShotClassification" should "benchmark test" taggedAs LocalTest in {
 
     val conll = CoNLL(explodeSentences = false)
     val training_data =

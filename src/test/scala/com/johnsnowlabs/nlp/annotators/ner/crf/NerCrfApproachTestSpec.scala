@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.annotators.ner.crf
 
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -33,7 +33,7 @@ class NerCrfApproachTestSpec extends AnyFlatSpec {
   //  System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
   val nerModel: NerCrfModel = AnnotatorBuilder.getNerCrfModel(nerSentence)
 
-  "NerCrfApproach" should "be serializable and deserializable correctly" taggedAs SlowTest in {
+  "NerCrfApproach" should "be serializable and deserializable correctly" taggedAs LocalTest in {
     nerModel.write.overwrite.save("./test_crf_pipeline")
     val loadedNer = NerCrfModel.read.load("./test_crf_pipeline")
 
@@ -70,7 +70,7 @@ class NerCrfApproachTestSpec extends AnyFlatSpec {
     assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
-  "NerCrfModel" should "correctly train using dataset from file" taggedAs SlowTest in {
+  "NerCrfModel" should "correctly train using dataset from file" taggedAs LocalTest in {
     val tagged = AnnotatorBuilder.withNerCrfTagger(nerInputDataset)
     val annotations = Annotation.collect(tagged, "ner").flatten
 

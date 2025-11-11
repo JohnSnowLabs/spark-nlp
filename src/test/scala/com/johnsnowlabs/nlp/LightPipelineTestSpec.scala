@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.when
@@ -157,7 +157,7 @@ class LightPipelineTestSpec extends AnyFlatSpec {
     assert(result("token")(4) == "is")
   }
 
-  it should "run faster than a traditional pipelineWithNormalizer" taggedAs SlowTest in {
+  it should "run faster than a traditional pipelineWithNormalizer" taggedAs LocalTest in {
     val t1: Double = Benchmark.measure("Time to collect SparkML pipelineWithNormalizer results") {
       fixtureWithNormalizer.model.transform(fixtureWithNormalizer.textDF).collect
     }
@@ -198,7 +198,7 @@ class LightPipelineTestSpec extends AnyFlatSpec {
     assert(result("token")(4) == "is")
   }
 
-  it should "run faster than a traditional pipelineWithoutNormalizer" taggedAs SlowTest in {
+  it should "run faster than a traditional pipelineWithoutNormalizer" taggedAs LocalTest in {
     val t1: Double =
       Benchmark.measure("Time to collect SparkML pipelineWithoutNormalizer results") {
         fixtureWithoutNormalizer.model.transform(fixtureWithoutNormalizer.textDF).collect
@@ -220,7 +220,7 @@ class LightPipelineTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "output embeddings for LightPipeline" taggedAs SlowTest in {
+  it should "output embeddings for LightPipeline" taggedAs LocalTest in {
     val pipeline = new PretrainedPipeline("onto_recognize_entities_bert_tiny", "en")
     val lightPipeline = new LightPipeline(pipeline.model, parseEmbeddings = true)
 

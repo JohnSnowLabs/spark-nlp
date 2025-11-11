@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -27,7 +27,7 @@ class CamemBertForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 
-  "CamemBertForQuestionAnswering" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "CamemBertForQuestionAnswering" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 
     val fquadContext =
       """L'idée selon laquelle une planète inconnue
@@ -80,7 +80,7 @@ class CamemBertForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   }
 
-  "CamemBertForQuestionAnswering" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "CamemBertForQuestionAnswering" should "be saved and loaded correctly" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -139,7 +139,7 @@ class CamemBertForQuestionAnsweringTestSpec extends AnyFlatSpec {
       CamemBertForQuestionAnswering.load("./tmp_forquestionanswering_model")
 
   }
-  "CamemBertForQuestionAnswering" should "benchmark test" taggedAs SlowTest in {
+  "CamemBertForQuestionAnswering" should "benchmark test" taggedAs LocalTest in {
 
     val data = ResourceHelper.spark.read
       .option("header", "true")

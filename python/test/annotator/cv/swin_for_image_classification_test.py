@@ -56,7 +56,7 @@ class SwinForImageClassificationTestSetUp(unittest.TestCase):
         self.model = pipeline.fit(self.data)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class SwinForImageClassificationTestSpec(SwinForImageClassificationTestSetUp, unittest.TestCase):
     def setUp(self):
         super().setUp()
@@ -69,7 +69,7 @@ class SwinForImageClassificationTestSpec(SwinForImageClassificationTestSetUp, un
             self.assertEqual(self.gold_standards[file_name], row["result"][0])
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightSwinForImageClassificationOneImageTestSpec(SwinForImageClassificationTestSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -86,7 +86,7 @@ class LightSwinForImageClassificationOneImageTestSpec(SwinForImageClassification
             self.assertTrue(len(result["class"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightSwinForImageClassificationTestSpec(SwinForImageClassificationTestSetUp, unittest.TestCase):
 
     def setUp(self):

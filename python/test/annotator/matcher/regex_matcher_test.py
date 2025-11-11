@@ -21,7 +21,7 @@ from sparknlp.annotator import *
 from sparknlp.base import *
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class RegexMatcherTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -42,7 +42,7 @@ class RegexMatcherTestSpec(unittest.TestCase):
         regex_matcher.fit(assembled).transform(assembled).show()
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class RegexMatcherWithStringTestSpec(unittest.TestCase):
     def setUp(self):
         # This implicitly sets up py4j for us

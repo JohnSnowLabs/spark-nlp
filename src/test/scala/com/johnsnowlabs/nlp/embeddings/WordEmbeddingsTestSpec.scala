@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.WORD_EMBEDDINGS
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.util.io.{ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
@@ -31,7 +31,7 @@ class WordEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
     .option("header", "true")
     .csv("src/test/resources/embeddings/clinical_words.txt")
 
-  "Word Embeddings" should "correctly embed clinical words not embed non-existent words" taggedAs SlowTest in {
+  "Word Embeddings" should "correctly embed clinical words not embed non-existent words" taggedAs LocalTest in {
 
     val notWords = spark.read
       .option("header", "true")

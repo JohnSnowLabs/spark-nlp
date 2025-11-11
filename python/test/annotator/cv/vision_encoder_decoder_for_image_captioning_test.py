@@ -59,7 +59,7 @@ class VisionEncoderDecoderForImageCaptioningTestSetUp(unittest.TestCase):
         self.model = pipeline.fit(self.data)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class VisionEncoderDecoderForImageCaptioningTestSpec(VisionEncoderDecoderForImageCaptioningTestSetUp,
                                                      unittest.TestCase):
     def setUp(self):
@@ -73,7 +73,7 @@ class VisionEncoderDecoderForImageCaptioningTestSpec(VisionEncoderDecoderForImag
             self.assertGreater(len(row["result"][0]), 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightVisionEncoderDecoderForImageCaptioningOneImageTestSpec(VisionEncoderDecoderForImageCaptioningTestSetUp,
                                                                   unittest.TestCase):
 
@@ -91,7 +91,7 @@ class LightVisionEncoderDecoderForImageCaptioningOneImageTestSpec(VisionEncoderD
             self.assertTrue(len(result["caption"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightVisionEncoderDecoderForImageCaptioningTestSpec(VisionEncoderDecoderForImageCaptioningTestSetUp,
                                                           unittest.TestCase):
 

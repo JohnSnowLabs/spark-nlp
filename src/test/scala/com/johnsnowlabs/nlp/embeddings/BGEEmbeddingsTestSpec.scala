@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotator.{SentenceDetector, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, size}
@@ -28,7 +28,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class BGEEmbeddingsTestSpec extends AnyFlatSpec {
 
-  "BGE Embeddings" should "correctly embed multiple sentences" taggedAs SlowTest in {
+  "BGE Embeddings" should "correctly embed multiple sentences" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -60,7 +60,7 @@ class BGEEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  "BGE Embeddings" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "BGE Embeddings" should "be saved and loaded correctly" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -112,7 +112,7 @@ class BGEEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "have embeddings of the same size" taggedAs SlowTest in {
+  it should "have embeddings of the same size" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
     val testDf = Seq(
       "I like apples",
@@ -143,7 +143,7 @@ class BGEEmbeddingsTestSpec extends AnyFlatSpec {
     assert(sizesArray.forall(_ == sizesArray.head))
   }
 
-  it should "work with sentences" taggedAs SlowTest in {
+  it should "work with sentences" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
     val testData = "I really enjoy my job. This is amazing"
     val testDf = Seq(testData).toDF("text")
@@ -168,7 +168,7 @@ class BGEEmbeddingsTestSpec extends AnyFlatSpec {
     pipelineDF.select("bge.embeddings").show(false)
   }
 
-  it should "not return empty embeddings" taggedAs SlowTest in {
+  it should "not return empty embeddings" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
     val interests = Seq(
       "I like music",

@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -27,7 +27,7 @@ import org.apache.spark.sql.functions.{col, size}
 
 class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
 
-  "Mpnet Embeddings" should "correctly embed multiple sentences" taggedAs SlowTest in {
+  "Mpnet Embeddings" should "correctly embed multiple sentences" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -50,7 +50,7 @@ class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  "MPNetEmbeddings" should "download, save, and load a model" taggedAs SlowTest in {
+  "MPNetEmbeddings" should "download, save, and load a model" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -106,7 +106,7 @@ class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "have embeddings of the same size" taggedAs SlowTest in {
+  it should "have embeddings of the same size" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
     val testDf = Seq(
       "I like apples",
@@ -137,7 +137,7 @@ class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
     assert(sizesArray.forall(_ == sizesArray.head))
   }
 
-  it should "work with sentences" taggedAs SlowTest in {
+  it should "work with sentences" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
     val testData = "I really enjoy my job. This is amazing"
     val testDf = Seq(testData).toDF("text")
@@ -164,7 +164,7 @@ class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
     pipelineDF.select("mpnet.embeddings").show(false)
   }
 
-  it should "not return empty embeddings" taggedAs SlowTest in {
+  it should "not return empty embeddings" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
     val interests = Seq(
       "I like music",

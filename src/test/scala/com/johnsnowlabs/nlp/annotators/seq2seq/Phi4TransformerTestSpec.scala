@@ -18,13 +18,13 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class Phi4TransformerTestSpec extends AnyFlatSpec {
 
-  "phi4" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs SlowTest in {
+  "phi4" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(

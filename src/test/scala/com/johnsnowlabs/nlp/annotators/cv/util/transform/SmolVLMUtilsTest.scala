@@ -4,11 +4,11 @@ import java.awt.image.BufferedImage
 import java.awt.Color
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 
 class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
 
-  "SmolVLMUtils" should "resize image correctly" taggedAs SlowTest in {
+  "SmolVLMUtils" should "resize image correctly" taggedAs LocalTest in {
     // Create a test image
     val originalImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB)
     val g = originalImage.createGraphics()
@@ -24,7 +24,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     resizedImage.getHeight shouldBe 50
   }
 
-  it should "crop image correctly" taggedAs SlowTest in {
+  it should "crop image correctly" taggedAs LocalTest in {
     // Create a test image
     val originalImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB)
     val g = originalImage.createGraphics()
@@ -40,7 +40,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     croppedImage.getHeight shouldBe 20
   }
 
-  it should "split large image into smaller tiles" taggedAs SlowTest in {
+  it should "split large image into smaller tiles" taggedAs LocalTest in {
     // Create a test image larger than max size
     val imageURL =
       "https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg"
@@ -83,7 +83,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
 
   }
 
-  it should "not split small image" taggedAs SlowTest in {
+  it should "not split small image" taggedAs LocalTest in {
     // Create a test image smaller than max size
     val originalImage = new BufferedImage(200, 200, BufferedImage.TYPE_INT_RGB)
     val g = originalImage.createGraphics()
@@ -101,7 +101,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     result.frames.head shouldBe originalImage
   }
 
-  it should "calculate correct resize output size" taggedAs SlowTest in {
+  it should "calculate correct resize output size" taggedAs LocalTest in {
     // Create a test image
     val image = new BufferedImage(1000, 500, BufferedImage.TYPE_INT_RGB)
 
@@ -113,7 +113,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     size.height shouldBe 250
   }
 
-  it should "resize image with longest edge correctly" taggedAs SlowTest in {
+  it should "resize image with longest edge correctly" taggedAs LocalTest in {
     // Create a test image
     val originalImage = new BufferedImage(1000, 500, BufferedImage.TYPE_INT_RGB)
     val g = originalImage.createGraphics()
@@ -129,7 +129,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     resizedImage.getHeight shouldBe 250
   }
 
-  it should "resize image for vision encoder correctly" taggedAs SlowTest in {
+  it should "resize image for vision encoder correctly" taggedAs LocalTest in {
     // Create a test image
     val originalImage = new BufferedImage(1000, 500, BufferedImage.TYPE_INT_RGB)
     val g = originalImage.createGraphics()
@@ -145,7 +145,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     resizedImage.getHeight shouldBe 768 // 384 * 2
   }
 
-  it should "create correct pixel mask" taggedAs SlowTest in {
+  it should "create correct pixel mask" taggedAs LocalTest in {
     // Create a test image
     val image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB)
     val outputSize = SmolVLMUtils.ImageSize(100, 100)
@@ -159,7 +159,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     mask.flatten.sum shouldBe 10000 // All pixels should be valid
   }
 
-  it should "handle non-square image splitting correctly" taggedAs SlowTest in {
+  it should "handle non-square image splitting correctly" taggedAs LocalTest in {
     // Create a rectangular test image
     val originalImage = new BufferedImage(800, 400, BufferedImage.TYPE_INT_RGB)
     val g = originalImage.createGraphics()
@@ -180,7 +180,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     result.frames.head.getHeight shouldBe 400
   }
 
-  it should "handle edge case of very small image" taggedAs SlowTest in {
+  it should "handle edge case of very small image" taggedAs LocalTest in {
     // Create a very small test image
     val originalImage = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB)
     val g = originalImage.createGraphics()
@@ -198,7 +198,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     result.frames.head shouldBe originalImage
   }
 
-  it should "handle edge case of very large image" taggedAs SlowTest in {
+  it should "handle edge case of very large image" taggedAs LocalTest in {
     // Create a very large test image
     val originalImage = new BufferedImage(2000, 2000, BufferedImage.TYPE_INT_RGB)
     val g = originalImage.createGraphics()
@@ -219,7 +219,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     result.frames.head.getHeight shouldBe 400
   }
 
-  it should "create correct pixel mask for partial image" taggedAs SlowTest in {
+  it should "create correct pixel mask for partial image" taggedAs LocalTest in {
     // Create a test image
     val image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB)
     val outputSize = SmolVLMUtils.ImageSize(200, 200) // Larger than input image
@@ -233,7 +233,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     mask.flatten.sum shouldBe 10000 // Only the original image area should be valid
   }
 
-  it should "handle resize with minimum length constraint" taggedAs SlowTest in {
+  it should "handle resize with minimum length constraint" taggedAs LocalTest in {
     // Create a test image
     val image = new BufferedImage(100, 50, BufferedImage.TYPE_INT_RGB)
 
@@ -245,7 +245,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     size.height shouldBe 250
   }
 
-  it should "handle resize with maximum length constraint" taggedAs SlowTest in {
+  it should "handle resize with maximum length constraint" taggedAs LocalTest in {
     // Create a test image
     val image = new BufferedImage(2000, 1000, BufferedImage.TYPE_INT_RGB)
 
@@ -257,7 +257,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     size.height shouldBe 250
   }
 
-  it should "pad single image correctly" taggedAs SlowTest in {
+  it should "pad single image correctly" taggedAs LocalTest in {
     // Create a test image array (3x3x2) in (channels, height, width) format
     val image = Array(
       Array(Array(1.0f, 2.0f), Array(3.0f, 4.0f), Array(5.0f, 6.0f)), // channel 1
@@ -290,7 +290,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     result.pixelMasks.get.head.head shouldBe Array(Array(1, 1), Array(1, 1), Array(1, 1))
   }
 
-  it should "pad multiple images in batch correctly" taggedAs SlowTest in {
+  it should "pad multiple images in batch correctly" taggedAs LocalTest in {
     // Create test image arrays with proper dimensions (3x2x2) in (channels, height, width) format
     val image1 = Array( // 3x2x2
       Array(Array(1.0f, 2.0f), Array(3.0f, 4.0f)), // channel 1
@@ -341,7 +341,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     result.pixelMasks.get.head(1) shouldBe Array(Array(1, 1), Array(1, 1), Array(1, 1))
   }
 
-  it should "pad with different constant value" taggedAs SlowTest in {
+  it should "pad with different constant value" taggedAs LocalTest in {
     // Create a test image array with proper dimensions (3x2x2) in (channels, height, width) format
     val image1 = Array( // 3x2x2
       Array(Array(1.0f, 2.0f), Array(3.0f, 4.0f)), // channel 1
@@ -372,7 +372,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
 
   }
 
-  it should "handle padding without pixel mask" taggedAs SlowTest in {
+  it should "handle padding without pixel mask" taggedAs LocalTest in {
     // Create a test image array with proper dimensions (3x2x2) in (channels, height, width) format
     val image1 = Array( // 3x2x2
       Array(Array(1.0f, 2.0f), Array(3.0f, 4.0f)), // channel 1
@@ -399,7 +399,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     result.paddedImages.head.head(0)(0)(0) shouldBe 1.0f
   }
 
-  it should "handle different sized images in batch" taggedAs SlowTest in {
+  it should "handle different sized images in batch" taggedAs LocalTest in {
     // Create test image arrays of different sizes in (channels, height, width) format
     val image1 = Array(
       Array(Array(1.0f)), // channel 1
@@ -429,7 +429,7 @@ class SmolVLMUtilsTest extends AnyFlatSpec with Matchers {
     result.pixelMasks.get.head(1) shouldBe Array(Array(1, 1), Array(1, 1))
   }
 
-  it should "handle empty batch" taggedAs SlowTest in {
+  it should "handle empty batch" taggedAs LocalTest in {
     // Create empty batch
     val images = Seq(Seq())
 

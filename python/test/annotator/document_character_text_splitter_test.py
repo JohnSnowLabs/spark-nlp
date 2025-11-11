@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class DocumentCharacterTextSplitterTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkSessionForTest.spark.createDataFrame(

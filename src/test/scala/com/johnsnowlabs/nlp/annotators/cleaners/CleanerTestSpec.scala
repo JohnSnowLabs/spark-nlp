@@ -16,7 +16,7 @@
 package com.johnsnowlabs.nlp.annotators.cleaners
 
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -156,7 +156,7 @@ class CleanerTestSpec extends AnyFlatSpec with SparkSessionTest {
     resultDf.select("cleaned").show(truncate = false)
   }
 
-  it should "translate text" taggedAs SlowTest in {
+  it should "translate text" taggedAs LocalTest in {
     val cleaner = Cleaner
       .pretrained()
       .setInputCols("document")

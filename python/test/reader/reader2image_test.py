@@ -23,7 +23,7 @@ from sparknlp.reader.reader2image import Reader2Image
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class Reader2ImageTest(unittest.TestCase):
 
     def setUp(self):
@@ -44,7 +44,7 @@ class Reader2ImageTest(unittest.TestCase):
         self.assertTrue(result_df.select("image").count() > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class Reader2ImageIntegrationVLMTest(unittest.TestCase):
 
     def setUp(self):

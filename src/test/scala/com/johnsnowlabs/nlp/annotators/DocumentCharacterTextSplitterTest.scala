@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
@@ -237,7 +237,7 @@ class DocumentCharacterTextSplitterTest extends AnyFlatSpec {
     assertResult(sampleText, result, expected)
   }
 
-  it should "be serializable" taggedAs SlowTest in {
+  it should "be serializable" taggedAs LocalTest in {
     val textSplitter = new DocumentCharacterTextSplitter()
       .setInputCols("document")
       .setOutputCol("splits")
@@ -259,7 +259,7 @@ class DocumentCharacterTextSplitterTest extends AnyFlatSpec {
     loadedTextSplitModel.transform(textDocument).select("splits").show(truncate = false)
   }
 
-  it should "be exportable to pipeline" taggedAs SlowTest in {
+  it should "be exportable to pipeline" taggedAs LocalTest in {
     val textSplitter = new DocumentCharacterTextSplitter()
       .setInputCols("document")
       .setOutputCol("splits")

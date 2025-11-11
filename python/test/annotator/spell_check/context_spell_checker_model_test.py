@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.local
 class ContextSpellCheckerModelTestSpec(unittest.TestCase):
 
     def setUp(self):

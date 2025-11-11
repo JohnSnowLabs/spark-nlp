@@ -15,7 +15,7 @@
  */
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import com.johnsnowlabs.util.ConfigHelper.{awsJavaSdkVersion, hadoopAwsVersion}
 import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
@@ -60,14 +60,14 @@ class SparkNLPTestSpec extends AnyFlatSpec {
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
   }
 
-  it should "structured HTML in real time" taggedAs SlowTest in {
+  it should "structured HTML in real time" taggedAs LocalTest in {
     val url = "https://www.wikipedia.org"
     val htmlDF = SparkNLP.read.html(url)
 
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
   }
 
-  it should "structured HTML in real time for a set of URLs" taggedAs SlowTest in {
+  it should "structured HTML in real time for a set of URLs" taggedAs LocalTest in {
     val urls = Array("https://www.wikipedia.org", "https://example.com/")
     val htmlDF = SparkNLP.read.html(urls)
 

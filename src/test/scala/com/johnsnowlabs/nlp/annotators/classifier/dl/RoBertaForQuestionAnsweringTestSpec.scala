@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalactic.TolerantNumerics
@@ -29,7 +29,7 @@ class RoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 
-  "RoBertaForQuestionAnswering" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "RoBertaForQuestionAnswering" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 
     val beyonceContext =
       """Beyoncé Giselle Knowles-Carter (/biːˈjɒnseɪ/ bee-YON-say) (born September 4, 1981) is an American singer, songwriter, record producer and actress. Born and raised in Houston, Texas, she performed in various singing and dancing competitions as a child, and rose to fame in the late 1990s as lead singer of R&B girl-group Destiny's Child. Managed by her father, Mathew Knowles, the group became one of the world's best-selling girl groups of all time. Their hiatus saw the release of Beyoncé's debut album, Dangerously in Love (2003), which established her as a solo artist worldwide, earned five Grammy Awards and featured the Billboard Hot 100 number-one singles "Crazy in Love" and "Baby Boy"."""
@@ -71,7 +71,7 @@ class RoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   }
 
-  "RoBertaForQuestionAnswering" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "RoBertaForQuestionAnswering" should "be saved and loaded correctly" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -130,7 +130,7 @@ class RoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   }
 
-  "RoBertaForQuestionAnswering" should "benchmark test" taggedAs SlowTest in {
+  "RoBertaForQuestionAnswering" should "benchmark test" taggedAs LocalTest in {
 
     val data = ResourceHelper.spark.read
       .option("header", "true")
@@ -170,7 +170,7 @@ class RoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
     }
   }
 
-  "RoBertaForQuestionAnswering" should "produce correct score and index" taggedAs SlowTest in {
+  "RoBertaForQuestionAnswering" should "produce correct score and index" taggedAs LocalTest in {
 
     val context = "My name is Sarah and I live in London"
     val ddd = Seq(("Where do I live?", context))
