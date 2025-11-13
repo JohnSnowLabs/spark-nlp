@@ -191,7 +191,7 @@ class NerDLGraphChecker(override val uid: String)
         case Some(value) => col(value.name)
         case None =>
           throw new IllegalArgumentException(
-            s"Token input column not found in the dataset schema.")
+            s"$annoType type column not found in the dataset schema.")
       }
     }
 
@@ -217,7 +217,8 @@ class NerDLGraphChecker(override val uid: String)
 
     val embeddingsDim = getEmbeddingsDim
 
-    val dsLen = dataset.count()
+    val sentenceCol = getCol(AnnotatorType.DOCUMENT).toString()
+    val dsLen = dataset.selectExpr(s"explode($sentenceCol)").count()
 
     (labels, chars, embeddingsDim, dsLen)
   }
