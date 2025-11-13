@@ -39,8 +39,7 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
           .filter(token =>
             token.begin >= sentence.start &&
               token.end <= sentence.end &&
-              token.metadata.getOrElse("sentence", "0").toInt == sentence.index
-          )
+              token.metadata.getOrElse("sentence", "0").toInt == sentence.index)
           .map(token => IndexedToken(token.result, token.begin, token.end))
         sentenceTokens
       })

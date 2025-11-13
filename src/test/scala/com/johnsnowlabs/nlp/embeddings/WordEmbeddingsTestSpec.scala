@@ -32,18 +32,17 @@ class WordEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
     .option("header", "true")
     .csv("src/test/resources/embeddings/clinical_words.txt")
 
-
   "Word Embeddings" should "Should not repeat tokens" taggedAs FastTest in {
 
     val loaded = spark.read.parquet("src/test/resources/word-embedding/test-repeated-tokens")
 
-    val embeddings =  WordEmbeddingsModel
+    val embeddings = WordEmbeddingsModel
       .pretrained("glove_100d", "en")
       .setInputCols(Array("splitter", "token"))
       .setOutputCol("embedding")
 
     val pipeline = new Pipeline()
-      .setStages(Array( embeddings))
+      .setStages(Array(embeddings))
 
     val model = pipeline.fit(loaded)
 
@@ -56,10 +55,10 @@ class WordEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
       .filter(col("count") > 2)
       .count()
 
-    assert(duplicateBegins == 0, s"Found $duplicateBegins repeated tokens (duplicate begin positions)")
-
+    assert(
+      duplicateBegins == 0,
+      s"Found $duplicateBegins repeated tokens (duplicate begin positions)")
   }
-
 
   "Word Embeddings" should "correctly embed clinical words not embed non-existent words" taggedAs SlowTest in {
 
