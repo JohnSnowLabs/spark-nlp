@@ -376,7 +376,7 @@ trait ReadablePretrainedE5VEmbeddings
     extends ParamsAndFeaturesReadable[E5VEmbeddings]
     with HasPretrained[E5VEmbeddings] {
 
-  override val defaultModelName: Some[String] = Some("e5v_1_5_7b_int4")
+  override val defaultModelName: Some[String] = Some("e5v_int4")
 
   /** Java compliant-overrides */
   override def pretrained(): E5VEmbeddings = super.pretrained()
