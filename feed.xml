@@ -1,5 +1,706 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-11-13T16:14:08+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
-</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized)</title><link href="/2025/09/15/qwen2.5_vl_7b_instruct_q16_gguf_en.html" rel="alternate" type="text/html" title="Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized)" /><published>2025-09-15T00:00:00+00:00</published><updated>2025-09-15T00:00:00+00:00</updated><id>/2025/09/15/qwen2.5_vl_7b_instruct_q16_gguf_en</id><content type="html" xml:base="/2025/09/15/qwen2.5_vl_7b_instruct_q16_gguf_en.html">## Description
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2025-11-13T16:28:00+00:00</updated><id>/feed.xml</id><title type="html">Spark NLP</title><subtitle>High Performance NLP with Apache Spark
+</subtitle><author><name>{&quot;type&quot;=&gt;nil, &quot;name&quot;=&gt;nil, &quot;url&quot;=&gt;nil, &quot;avatar&quot;=&gt;nil, &quot;bio&quot;=&gt;nil, &quot;email&quot;=&gt;nil, &quot;facebook&quot;=&gt;nil, &quot;twitter&quot;=&gt;nil, &quot;weibo&quot;=&gt;nil, &quot;googleplus&quot;=&gt;nil, &quot;telegram&quot;=&gt;nil, &quot;medium&quot;=&gt;nil, &quot;zhihu&quot;=&gt;nil, &quot;douban&quot;=&gt;nil, &quot;linkedin&quot;=&gt;nil, &quot;github&quot;=&gt;nil, &quot;npm&quot;=&gt;nil}</name></author><entry><title type="html">GloVe 2024 Wikipedia + Gigaword 5 (200d, uncased)</title><link href="/2025/11/09/glove2024_wikigiga_200d_en.html" rel="alternate" type="text/html" title="GloVe 2024 Wikipedia + Gigaword 5 (200d, uncased)" /><published>2025-11-09T00:00:00+00:00</published><updated>2025-11-09T00:00:00+00:00</updated><id>/2025/11/09/glove2024_wikigiga_200d_en</id><content type="html" xml:base="/2025/11/09/glove2024_wikigiga_200d_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This model provides 200-dimensional pre-trained word embeddings trained on the 2024 Wikipedia and Gigaword 5 corpora (11.9B tokens, 1.2M vocabulary).&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/glove2024_wikigiga_200d_en_6.0.0_3.0_1762676792461.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/glove2024_wikigiga_200d_en_6.0.0_3.0_1762676792461.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings_loaded&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;WordEmbeddingsModel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;./glove2024_wikigiga_200d&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;\
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddingsFinisher&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;EmbeddingsFinisher&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finished_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputAsVector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setCleanAnnotations&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;embeddings_loaded&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;embeddingsFinisher&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;This is a test sentence for an embedding model&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finished_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp._&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.annotators._&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.ml.Pipeline&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings_loaded&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;WordEmbeddingsModel&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;./glove2024_wikigiga_200d&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddingsFinisher&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;EmbeddingsFinisher&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finished_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputAsVector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setCleanAnnotations&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;embeddings_loaded&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;embeddingsFinisher&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;This is a test sentence for an embedding model&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;finished_embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
++-------------------------------+
+| embeddings                    |
++-------------------------------+
+|[[-0.08433199673891068, &lt;span class=&quot;nt&quot;&gt;-0&lt;/span&gt;.2...|
++-------------------------------+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;glove2024_wikigiga_200d&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Type:&lt;/td&gt;
+      &lt;td&gt;embeddings&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 6.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;974.1 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;false&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Dimension:&lt;/td&gt;
+      &lt;td&gt;200&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="word_embedding" /><category term="en" /><category term="open_source" /><summary type="html">Description This model provides 200-dimensional pre-trained word embeddings trained on the 2024 Wikipedia and Gigaword 5 corpora (11.9B tokens, 1.2M vocabulary). Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import * from sparknlp.annotator import * from pyspark.ml import Pipeline documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) tokenizer = Tokenizer() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;token&quot;) embeddings_loaded = WordEmbeddingsModel.pretrained(&quot;./glove2024_wikigiga_200d&quot;)\ .setInputCols([&quot;document&quot;, &quot;token&quot;])\ .setOutputCol(&quot;embeddings&quot;) embeddingsFinisher = EmbeddingsFinisher() \ .setInputCols([&quot;embeddings&quot;]) \ .setOutputCols(&quot;finished_embeddings&quot;) \ .setOutputAsVector(True) \ .setCleanAnnotations(False) pipeline = Pipeline() \ .setStages([ documentAssembler, tokenizer, embeddings_loaded, embeddingsFinisher ]) data = spark.createDataFrame([[&quot;This is a test sentence for an embedding model&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) result.select(&quot;finished_embeddings&quot;).show(truncate=False) import com.johnsnowlabs.nlp._ import com.johnsnowlabs.nlp.annotators._ import org.apache.spark.ml.Pipeline val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = new Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val embeddings_loaded = WordEmbeddingsModel .pretrained(&quot;./glove2024_wikigiga_200d&quot;) .setInputCols(&quot;document&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) val embeddingsFinisher = new EmbeddingsFinisher() .setInputCols(&quot;embeddings&quot;) .setOutputCols(&quot;finished_embeddings&quot;) .setOutputAsVector(true) .setCleanAnnotations(false) val pipeline = new Pipeline().setStages(Array( documentAssembler, tokenizer, embeddings_loaded, embeddingsFinisher )) val data = Seq(&quot;This is a test sentence for an embedding model&quot;).toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) result.select(&quot;finished_embeddings&quot;).show(false) Results +-------------------------------+ | embeddings | +-------------------------------+ |[[-0.08433199673891068, -0.2...| +-------------------------------+ Model Information Model Name: glove2024_wikigiga_200d Type: embeddings Compatibility: Spark NLP 6.0.0+ License: Open Source Edition: Official Input Labels: [document, token] Output Labels: [embeddings] Language: en Size: 974.1 MB Case sensitive: false Dimension: 200</summary></entry><entry><title type="html">BGE Base Embeddings v1.5 (ONNX)</title><link href="/2025/11/07/bge_base_en_v1_5_onnx_en.html" rel="alternate" type="text/html" title="BGE Base Embeddings v1.5 (ONNX)" /><published>2025-11-07T00:00:00+00:00</published><updated>2025-11-07T00:00:00+00:00</updated><id>/2025/11/07/bge_base_en_v1_5_onnx_en</id><content type="html" xml:base="/2025/11/07/bge_base_en_v1_5_onnx_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;FlagEmbedding focuses on retrieval-augmented LLMs&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bge_base_en_v1_5_onnx_en_6.0.0_3.0_1762522014019.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bge_base_en_v1_5_onnx_en_6.0.0_3.0_1762522014019.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_en_v1_5_onnx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;nlp_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;This is a test sentence for BGE embeddings.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings.embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.base._&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.embeddings._&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.ml.Pipeline&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;BGEEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bge_base_en_v1_5_onnx&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;This is a test sentence for BGE embeddings.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings.embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
++--------------------+
+|          embeddings|
++--------------------+
+|[[0.023069248, &lt;span class=&quot;nt&quot;&gt;-0&lt;/span&gt;...|
++--------------------+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;bge_base_en_v1_5_onnx&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 6.0.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;256.0 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;false&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Max sentence length:&lt;/td&gt;
+      &lt;td&gt;512&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="embedding" /><category term="en" /><category term="open_source" /><category term="onnx" /><summary type="html">Description FlagEmbedding focuses on retrieval-augmented LLMs Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import * from sparknlp.annotator import * from pyspark.ml import Pipeline document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) embeddings = BGEEmbeddings.pretrained(&quot;bge_base_en_v1_5_onnx&quot;, &quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) nlp_pipeline = Pipeline(stages=[ document_assembler, embeddings ]) data = spark.createDataFrame([[&quot;This is a test sentence for BGE embeddings.&quot;]]).toDF(&quot;text&quot;) result = nlp_pipeline.fit(data).transform(data) result.select(&quot;embeddings.embeddings&quot;).show() import com.johnsnowlabs.nlp.base._ import com.johnsnowlabs.nlp.embeddings._ import org.apache.spark.ml.Pipeline val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val embeddings = BGEEmbeddings.pretrained(&quot;bge_base_en_v1_5_onnx&quot;, &quot;en&quot;) .setInputCols(Array(&quot;document&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array( documentAssembler, embeddings )) val data = spark.createDataFrame(Seq( (&quot;This is a test sentence for BGE embeddings.&quot;) )).toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) result.select(&quot;embeddings.embeddings&quot;).show() Results +--------------------+ | embeddings| +--------------------+ |[[0.023069248, -0...| +--------------------+ Model Information Model Name: bge_base_en_v1_5_onnx Compatibility: Spark NLP 6.0.0+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [embeddings] Language: en Size: 256.0 MB Case sensitive: false Max sentence length: 512</summary></entry><entry><title type="html">DistilBERT base model (Cased, ONNX)</title><link href="/2025/11/07/distilbert_base_cased_en.html" rel="alternate" type="text/html" title="DistilBERT base model (Cased, ONNX)" /><published>2025-11-07T00:00:00+00:00</published><updated>2025-11-07T00:00:00+00:00</updated><id>/2025/11/07/distilbert_base_cased_en</id><content type="html" xml:base="/2025/11/07/distilbert_base_cased_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This model is a distilled version of the &lt;a href=&quot;https://huggingface.co/bert-base-cased&quot;&gt;BERT base model&lt;/a&gt;. It was introduced in &lt;a href=&quot;https://arxiv.org/abs/1910.01108&quot;&gt;this paper&lt;/a&gt;. The code for the distillation process can be found &lt;a href=&quot;https://github.com/huggingface/transformers/tree/master/examples/research_projects/distillation&quot;&gt;here&lt;/a&gt;. This model is cased: it does make a difference between english and English.&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/distilbert_base_cased_en_6.1.0_3.0_1762495659699.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/distilbert_base_cased_en_6.1.0_3.0_1762495659699.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;SentenceDetector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DistilBertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbert_base_cased&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;nlp_pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;sentence_detector&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;This is a test sentence for DistilBERT embeddings.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;nlp_pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings.embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.base._&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.annotator._&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.ml.Pipeline&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sentenceDetector&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SentenceDetector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;DistilBertEmbeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;distilbert_base_cased&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;sentence&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;sentenceDetector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;This is a test sentence for DistilBERT embeddings.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
++--------------------+
+|          embeddings|
++--------------------+
+|[[0.1959381, &lt;span class=&quot;nt&quot;&gt;-0&lt;/span&gt;.2...|
++--------------------+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;distilbert_base_cased&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 6.1.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[sentence, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;243.8 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;true&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Max sentence length:&lt;/td&gt;
+      &lt;td&gt;512&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="embedding" /><category term="en" /><category term="open_source" /><category term="onnx" /><summary type="html">Description This model is a distilled version of the BERT base model. It was introduced in this paper. The code for the distillation process can be found here. This model is cased: it does make a difference between english and English. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import * from sparknlp.annotator import * from pyspark.ml import Pipeline document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) sentence_detector = SentenceDetector() \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;sentence&quot;) tokenizer = Tokenizer() \ .setInputCols([&quot;sentence&quot;]) \ .setOutputCol(&quot;token&quot;) embeddings = DistilBertEmbeddings.pretrained(&quot;distilbert_base_cased&quot;, &quot;en&quot;) \ .setInputCols([&quot;sentence&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) nlp_pipeline = Pipeline(stages=[ document_assembler, sentence_detector, tokenizer, embeddings ]) data = spark.createDataFrame([[&quot;This is a test sentence for DistilBERT embeddings.&quot;]]).toDF(&quot;text&quot;) result = nlp_pipeline.fit(data).transform(data) result.select(&quot;embeddings.embeddings&quot;).show() import com.johnsnowlabs.nlp.base._ import com.johnsnowlabs.nlp.annotator._ import org.apache.spark.ml.Pipeline val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val sentenceDetector = new SentenceDetector() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;sentence&quot;) val tokenizer = new Tokenizer() .setInputCols(&quot;sentence&quot;) .setOutputCol(&quot;token&quot;) val embeddings = DistilBertEmbeddings.pretrained(&quot;distilbert_base_cased&quot;, &quot;en&quot;) .setInputCols(&quot;sentence&quot;, &quot;token&quot;) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array( documentAssembler, sentenceDetector, tokenizer, embeddings )) val data = Seq(&quot;This is a test sentence for DistilBERT embeddings.&quot;).toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) result.select(&quot;embeddings&quot;).show(false) Results +--------------------+ | embeddings| +--------------------+ |[[0.1959381, -0.2...| +--------------------+ Model Information Model Name: distilbert_base_cased Compatibility: Spark NLP 6.1.0+ License: Open Source Edition: Official Input Labels: [sentence, token] Output Labels: [embeddings] Language: en Size: 243.8 MB Case sensitive: true Max sentence length: 512</summary></entry><entry><title type="html">BERT Base Uncased Multiple Choice Fine-Tuned (ONNX)</title><link href="/2025/11/04/bert_base_uncased_multiple_choice_en.html" rel="alternate" type="text/html" title="BERT Base Uncased Multiple Choice Fine-Tuned (ONNX)" /><published>2025-11-04T00:00:00+00:00</published><updated>2025-11-04T00:00:00+00:00</updated><id>/2025/11/04/bert_base_uncased_multiple_choice_en</id><content type="html" xml:base="/2025/11/04/bert_base_uncased_multiple_choice_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This model is a fine-tuned version of bert-base-uncased on the None dataset.&lt;/p&gt;
+
+&lt;p&gt;It achieves the following results on the evaluation set:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Loss: 1.4499&lt;/li&gt;
+  &lt;li&gt;Accuracy: 0.535&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Originally from: &lt;a href=&quot;https://huggingface.co/irfanamal/bert_multiple_choice&quot;&gt;irfanamal/bert_multiple_choice&lt;/a&gt;&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/bert_base_uncased_multiple_choice_en_6.1.0_3.0_1762245877790.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/bert_base_uncased_multiple_choice_en_6.1.0_3.0_1762245877790.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MultiDocumentAssembler&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertForMultipleChoice&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MultiDocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;choices&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document_question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document_choices&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;bert_for_multiple_choice&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertForMultipleChoice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_base_uncased_multiple_choice&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document_question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document_choices&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;answer&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;document_assembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;bert_for_multiple_choice&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;testing_data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;In Italy, pizza served in formal settings is presented unsliced.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+     &lt;span class=&quot;s&quot;&gt;&quot;It is eaten with a fork and a knife, It is eaten while held in the hand.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The Eiffel Tower is located in which country?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Germany, France, Italy&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which animal is known as the king of the jungle?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Lion, Elephant, Tiger, Leopard&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Water boils at what temperature?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;90°C, 120°C, 100°C&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which planet is known as the Red Planet?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Jupiter, Mars, Venus&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which language is primarily spoken in Brazil?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Spanish, Portuguese, English&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The Great Wall of China was built to protect against which group?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;The Greeks, The Romans, The Mongols, The Persians&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which chemical element has the symbol 'O'?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Oxygen, Osmium, Ozone&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which continent is the Sahara Desert located in?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Asia, Africa, South America&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which artist painted the Mona Lisa?&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Vincent van Gogh, Leonardo da Vinci, Pablo Picasso&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;testing_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;testing_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;choices&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline_model&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;testing_df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;pipeline_df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline_model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;testing_df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;pipeline_df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;answer.result&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.base.MultiDocumentAssembler&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.annotator.BertForMultipleChoice&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.ml.Pipeline&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;spark.implicits._&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MultiDocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;choices&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document_question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document_choices&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bertForMultipleChoice&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BertForMultipleChoice&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;bert_base_uncased_multiple_choice&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document_question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;document_choices&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;answer&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;bertForMultipleChoice&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;testingData&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;In Italy, pizza served in formal settings is presented unsliced.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+   &lt;span class=&quot;s&quot;&gt;&quot;It is eaten with a fork and a knife, It is eaten while held in the hand.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The Eiffel Tower is located in which country?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Germany, France, Italy&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which animal is known as the king of the jungle?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Lion, Elephant, Tiger, Leopard&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Water boils at what temperature?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;90°C, 120°C, 100°C&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which planet is known as the Red Planet?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Jupiter, Mars, Venus&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which language is primarily spoken in Brazil?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Spanish, Portuguese, English&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;The Great Wall of China was built to protect against which group?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;The Greeks, The Romans, The Mongols, The Persians&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which chemical element has the symbol 'O'?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Oxygen, Osmium, Ozone&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which continent is the Sahara Desert located in?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Asia, Africa, South America&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;),&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Which artist painted the Mona Lisa?&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Vincent van Gogh, Leonardo da Vinci, Pablo Picasso&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;testingDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;testingData&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;choices&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;testingDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipelineModel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;testingDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;pipelineDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;question&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;answer.result&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
++-----------------------------------------------------------------+-------------------------------------+
+|question                                                         |result                               |
++-----------------------------------------------------------------+-------------------------------------+
+|In Italy, pizza served &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;formal settings is presented unsliced. |[It is eaten with a fork and a knife]|
+|The Eiffel Tower is located &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;which country?                    |[Germany]                            |
+|Which animal is known as the king of the jungle?                 |[Lion]                               |
+|Water boils at what temperature?                                 |[90°C]                               |
+|Which planet is known as the Red Planet?                         |[ Mars]                              |
+|Which language is primarily spoken &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;Brazil?                    |[ Portuguese]                        |
+|The Great Wall of China was built to protect against which group?|[ The Mongols]                       |
+|Which chemical element has the symbol &lt;span class=&quot;s1&quot;&gt;'O'&lt;/span&gt;?                       |[Oxygen]                             |
+|Which continent is the Sahara Desert located &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;?                 |[ Africa]                            |
+|Which artist painted the Mona Lisa?                              |[Vincent van Gogh]                   |
++-----------------------------------------------------------------+-------------------------------------+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;bert_base_uncased_multiple_choice&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Spark NLP 6.1.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document_question, document_context]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[answer]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;409.4 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;false&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Max sentence length:&lt;/td&gt;
+      &lt;td&gt;512&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="multiple_choice" /><category term="en" /><category term="open_source" /><category term="onnx" /><summary type="html">Description This model is a fine-tuned version of bert-base-uncased on the None dataset. It achieves the following results on the evaluation set: Loss: 1.4499 Accuracy: 0.535 Originally from: irfanamal/bert_multiple_choice Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import MultiDocumentAssembler from sparknlp.annotator import BertForMultipleChoice from pyspark.ml import Pipeline document_assembler = MultiDocumentAssembler() \ .setInputCols([&quot;question&quot;, &quot;choices&quot;]) \ .setOutputCols([&quot;document_question&quot;, &quot;document_choices&quot;]) bert_for_multiple_choice = BertForMultipleChoice() \ .pretrained(&quot;bert_base_uncased_multiple_choice&quot;, &quot;en&quot;) \ .setInputCols([&quot;document_question&quot;, &quot;document_choices&quot;]) \ .setOutputCol(&quot;answer&quot;) pipeline = Pipeline(stages=[ document_assembler, bert_for_multiple_choice ]) testing_data = [ (&quot;In Italy, pizza served in formal settings is presented unsliced.&quot;, &quot;It is eaten with a fork and a knife, It is eaten while held in the hand.&quot;), (&quot;The Eiffel Tower is located in which country?&quot;, &quot;Germany, France, Italy&quot;), (&quot;Which animal is known as the king of the jungle?&quot;, &quot;Lion, Elephant, Tiger, Leopard&quot;), (&quot;Water boils at what temperature?&quot;, &quot;90°C, 120°C, 100°C&quot;), (&quot;Which planet is known as the Red Planet?&quot;, &quot;Jupiter, Mars, Venus&quot;), (&quot;Which language is primarily spoken in Brazil?&quot;, &quot;Spanish, Portuguese, English&quot;), (&quot;The Great Wall of China was built to protect against which group?&quot;, &quot;The Greeks, The Romans, The Mongols, The Persians&quot;), (&quot;Which chemical element has the symbol 'O'?&quot;, &quot;Oxygen, Osmium, Ozone&quot;), (&quot;Which continent is the Sahara Desert located in?&quot;, &quot;Asia, Africa, South America&quot;), (&quot;Which artist painted the Mona Lisa?&quot;, &quot;Vincent van Gogh, Leonardo da Vinci, Pablo Picasso&quot;) ] testing_df = spark.createDataFrame(testing_data, [&quot;question&quot;, &quot;choices&quot;]) pipeline_model = pipeline.fit(testing_df) pipeline_df = pipeline_model.transform(testing_df) pipeline_df.select(&quot;question&quot;, &quot;answer.result&quot;).show(truncate=False) import com.johnsnowlabs.nlp.base.MultiDocumentAssembler import com.johnsnowlabs.nlp.annotator.BertForMultipleChoice import org.apache.spark.ml.Pipeline import spark.implicits._ val documentAssembler = new MultiDocumentAssembler() .setInputCols(&quot;question&quot;, &quot;choices&quot;) .setOutputCols(&quot;document_question&quot;, &quot;document_choices&quot;) val bertForMultipleChoice = BertForMultipleChoice .pretrained(&quot;bert_base_uncased_multiple_choice&quot;, &quot;en&quot;) .setInputCols(&quot;document_question&quot;, &quot;document_choices&quot;) .setOutputCol(&quot;answer&quot;) val pipeline = new Pipeline().setStages(Array( documentAssembler, bertForMultipleChoice )) val testingData = Seq( (&quot;In Italy, pizza served in formal settings is presented unsliced.&quot;, &quot;It is eaten with a fork and a knife, It is eaten while held in the hand.&quot;), (&quot;The Eiffel Tower is located in which country?&quot;, &quot;Germany, France, Italy&quot;), (&quot;Which animal is known as the king of the jungle?&quot;, &quot;Lion, Elephant, Tiger, Leopard&quot;), (&quot;Water boils at what temperature?&quot;, &quot;90°C, 120°C, 100°C&quot;), (&quot;Which planet is known as the Red Planet?&quot;, &quot;Jupiter, Mars, Venus&quot;), (&quot;Which language is primarily spoken in Brazil?&quot;, &quot;Spanish, Portuguese, English&quot;), (&quot;The Great Wall of China was built to protect against which group?&quot;, &quot;The Greeks, The Romans, The Mongols, The Persians&quot;), (&quot;Which chemical element has the symbol 'O'?&quot;, &quot;Oxygen, Osmium, Ozone&quot;), (&quot;Which continent is the Sahara Desert located in?&quot;, &quot;Asia, Africa, South America&quot;), (&quot;Which artist painted the Mona Lisa?&quot;, &quot;Vincent van Gogh, Leonardo da Vinci, Pablo Picasso&quot;) ) val testingDF = testingData.toDF(&quot;question&quot;, &quot;choices&quot;) val pipelineModel = pipeline.fit(testingDF) val pipelineDF = pipelineModel.transform(testingDF) pipelineDF.select(&quot;question&quot;, &quot;answer.result&quot;).show(false) Results +-----------------------------------------------------------------+-------------------------------------+ |question |result | +-----------------------------------------------------------------+-------------------------------------+ |In Italy, pizza served in formal settings is presented unsliced. |[It is eaten with a fork and a knife]| |The Eiffel Tower is located in which country? |[Germany] | |Which animal is known as the king of the jungle? |[Lion] | |Water boils at what temperature? |[90°C] | |Which planet is known as the Red Planet? |[ Mars] | |Which language is primarily spoken in Brazil? |[ Portuguese] | |The Great Wall of China was built to protect against which group?|[ The Mongols] | |Which chemical element has the symbol 'O'? |[Oxygen] | |Which continent is the Sahara Desert located in? |[ Africa] | |Which artist painted the Mona Lisa? |[Vincent van Gogh] | +-----------------------------------------------------------------+-------------------------------------+ Model Information Model Name: bert_base_uncased_multiple_choice Compatibility: Spark NLP 6.1.0+ License: Open Source Edition: Official Input Labels: [document_question, document_context] Output Labels: [answer] Language: en Size: 409.4 MB Case sensitive: false Max sentence length: 512</summary></entry><entry><title type="html">CODER: Knowledge-Infused Biomedical Embedding Model (ONNX)</title><link href="/2025/11/03/umlsbert_eng_onnx_en.html" rel="alternate" type="text/html" title="CODER: Knowledge-Infused Biomedical Embedding Model (ONNX)" /><published>2025-11-03T00:00:00+00:00</published><updated>2025-11-03T00:00:00+00:00</updated><id>/2025/11/03/umlsbert_eng_onnx_en</id><content type="html" xml:base="/2025/11/03/umlsbert_eng_onnx_en.html">&lt;h2 id=&quot;description&quot;&gt;Description&lt;/h2&gt;
+
+&lt;p&gt;This model is the English version of &lt;a href=&quot;https://github.com/GanjinZero/CODER&quot;&gt;CODER&lt;/a&gt;, a knowledge-infused biomedical embedding model designed for medical concept normalization and cross-lingual representation learning.&lt;/p&gt;
+
+&lt;p class=&quot;btn-box&quot;&gt;&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Live Demo&lt;/button&gt;
+&lt;button class=&quot;button button-orange&quot; disabled=&quot;&quot;&gt;Open in Colab&lt;/button&gt;
+&lt;a href=&quot;https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/umlsbert_eng_onnx_en_6.1.0_3.0_1762173382824.zip&quot; class=&quot;button button-orange button-orange-trans arr button-icon&quot;&gt;Download&lt;/a&gt;
+&lt;a href=&quot;s3://auxdata.johnsnowlabs.com/public/models/umlsbert_eng_onnx_en_6.1.0_3.0_1762173382824.zip&quot; class=&quot;button button-orange button-orange-trans button-icon button-copy-s3&quot;&gt;Copy S3 URI&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;how-to-use&quot;&gt;How to use&lt;/h2&gt;
+
+&lt;div class=&quot;tabs-box&quot;&gt;
+  &lt;div class=&quot;tabs-model-aproach-head&quot;&gt;&lt;button class=&quot;tab-li-model-aproach tabheader_active&quot;&gt;Python&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;Scala&lt;/button&gt;&lt;button class=&quot;tab-li-model-aproach&quot;&gt;NLU&lt;/button&gt;&lt;/div&gt;
+  &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.base&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sparknlp.annotator&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pyspark.ml&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BertEmbeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;umlsbert_eng_onnx&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; \
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; \
+
+&lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createDataFrame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Artificial intelligence is transforming the world.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Machine learning enables powerful data-driven systems.&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings.embeddings&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+  &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.base._&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.johnsnowlabs.nlp.annotator._&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.ml.Pipeline&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;spark.implicits._&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;documentAssembler&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;DocumentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;tokenizer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;BertEmbeddings&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;pretrained&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;umlsbert_eng_onnx&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setInputCols&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;document&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setOutputCol&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;setStages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;documentAssembler&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;tokenizer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Seq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&quot;Artificial intelligence is transforming the world.&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&quot;Machine learning enables powerful data-driven systems.&quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;pipeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;fit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;transform&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;select&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;embeddings.embeddings&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;py&quot;&gt;show&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;truncate&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
++--------------------+
+|          embeddings|
++--------------------+
+|[[-0.6771237, 0.5...|
+|[[-1.016453, 0.21...|
++--------------------+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 class=&quot;model-param&quot; id=&quot;model-information&quot;&gt;Model Information&lt;/h2&gt;
+
+&lt;table class=&quot;table-model&quot;&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Model Name:&lt;/td&gt;
+      &lt;td&gt;umlsbert_eng_onnx&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Compatibility:&lt;/td&gt;
+      &lt;td&gt;Healthcare NLP 6.1.0+&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;License:&lt;/td&gt;
+      &lt;td&gt;Open Source&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Edition:&lt;/td&gt;
+      &lt;td&gt;Official&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Input Labels:&lt;/td&gt;
+      &lt;td&gt;[document, token]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Output Labels:&lt;/td&gt;
+      &lt;td&gt;[embeddings]&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Language:&lt;/td&gt;
+      &lt;td&gt;en&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Size:&lt;/td&gt;
+      &lt;td&gt;408.0 MB&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Case sensitive:&lt;/td&gt;
+      &lt;td&gt;false&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Max sentence length:&lt;/td&gt;
+      &lt;td&gt;512&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name>John Snow Labs</name></author><category term="embeddings" /><category term="en" /><category term="biomedical" /><category term="open_source" /><category term="onnx" /><summary type="html">Description This model is the English version of CODER, a knowledge-infused biomedical embedding model designed for medical concept normalization and cross-lingual representation learning. Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import * from sparknlp.annotator import * from pyspark.ml import Pipeline documentAssembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) tokenizer = Tokenizer() \ .setInputCols(&quot;document&quot;) \ .setOutputCol(&quot;token&quot;) embeddings = BertEmbeddings.pretrained(&quot;umlsbert_eng_onnx&quot;, &quot;en&quot;) \ .setInputCols([&quot;document&quot;, &quot;token&quot;]) \ .setOutputCol(&quot;embeddings&quot;) \ pipeline = Pipeline(stages=[ documentAssembler, tokenizer, embeddings ]) data = spark.createDataFrame([ [&quot;Artificial intelligence is transforming the world.&quot;], [&quot;Machine learning enables powerful data-driven systems.&quot;] ]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) result.select(&quot;embeddings.embeddings&quot;).show() import com.johnsnowlabs.nlp.base._ import com.johnsnowlabs.nlp.annotator._ import org.apache.spark.ml.Pipeline import spark.implicits._ val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val tokenizer = new Tokenizer() .setInputCols(&quot;document&quot;) .setOutputCol(&quot;token&quot;) val embeddings = BertEmbeddings .pretrained(&quot;umlsbert_eng_onnx&quot;, &quot;en&quot;) .setInputCols(Array(&quot;document&quot;, &quot;token&quot;)) .setOutputCol(&quot;embeddings&quot;) val pipeline = new Pipeline().setStages(Array( documentAssembler, tokenizer, embeddings )) val data = Seq( &quot;Artificial intelligence is transforming the world.&quot;, &quot;Machine learning enables powerful data-driven systems.&quot; ).toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) result.select(&quot;embeddings.embeddings&quot;).show(truncate = false) Results +--------------------+ | embeddings| +--------------------+ |[[-0.6771237, 0.5...| |[[-1.016453, 0.21...| +--------------------+ Model Information Model Name: umlsbert_eng_onnx Compatibility: Healthcare NLP 6.1.0+ License: Open Source Edition: Official Input Labels: [document, token] Output Labels: [embeddings] Language: en Size: 408.0 MB Case sensitive: false Max sentence length: 512</summary></entry><entry><title type="html">Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized)</title><link href="/2025/09/15/qwen2.5_vl_7b_instruct_q16_gguf_en.html" rel="alternate" type="text/html" title="Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized)" /><published>2025-09-15T00:00:00+00:00</published><updated>2025-09-15T00:00:00+00:00</updated><id>/2025/09/15/qwen2.5_vl_7b_instruct_q16_gguf_en</id><content type="html" xml:base="/2025/09/15/qwen2.5_vl_7b_instruct_q16_gguf_en.html">## Description
 
 **Qwen2.5-VL-7B-Instruct (Q16 GGUF Quantized)** is a 7-billion-parameter multimodal instruction-tuned model supporting **text, image, and video understanding**. Compared to Qwen2-VL, it introduces major enhancements in **fine-grained visual analysis (objects, text, charts, layouts), structured outputs (tables, invoices, forms), visual localization (bounding boxes, points with JSON), and long-video comprehension (over 1 hour with temporal reasoning)**.  
 
@@ -587,537 +1288,4 @@ pipeline
 |Input Labels:|[caption_document, image_assembler]|
 |Output Labels:|[completions]|
 |Language:|en|
-|Size:|2.6 GB|</content><author><name>John Snow Labs</name></author><category term="gguf" /><category term="qwen" /><category term="vlm" /><category term="vl" /><category term="q4" /><category term="llamacpp" /><category term="en" /><category term="open_source" /><summary type="html">Description In the past five months since Qwen2-VL’s release, numerous developers have built new models on the Qwen2-VL vision-language models, providing us with valuable feedback. During this period, we focused on building more useful vision-language models. Today, we are excited to introduce the latest addition to the Qwen family: Qwen2.5-VL. Imported from https://huggingface.co/ggml-org/Qwen2.5-VL-3B-Instruct-GGUF Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU import sparknlp from sparknlp.base import * from sparknlp.annotator import * from pyspark.ml import Pipeline from pyspark.sql.functions import lit documentAssembler = DocumentAssembler() \ .setInputCol(&quot;caption&quot;) \ .setOutputCol(&quot;caption_document&quot;) imageAssembler = ImageAssembler() \ .setInputCol(&quot;image&quot;) \ .setOutputCol(&quot;image_assembler&quot;) imagesPath = &quot;src/test/resources/image/&quot; data = ImageAssembler \ .loadImagesAsBytes(spark, imagesPath) \ .withColumn(&quot;caption&quot;, lit(&quot;Caption this image.&quot;)) # Add a caption to each image. nPredict = 40 model = AutoGGUFVisionModel.pretrained(&quot;Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf&quot;) \ .setInputCols([&quot;caption_document&quot;, &quot;image_assembler&quot;]) \ .setOutputCol(&quot;completions&quot;) \ .setBatchSize(4) \ .setNGpuLayers(99) \ .setNCtx(4096) \ .setNPredict(nPredict) pipeline = Pipeline().setStages([documentAssembler, imageAssembler, model]) pipeline.fit(data).transform(data) \ .selectExpr(&quot;reverse(split(image.origin, '/'))[0] as image_name&quot;, &quot;completions.result&quot;) \ .show(truncate = False) import com.johnsnowlabs.nlp.ImageAssembler import com.johnsnowlabs.nlp.annotator._ import com.johnsnowlabs.nlp.base._ import org.apache.spark.ml.Pipeline import org.apache.spark.sql.DataFrame import org.apache.spark.sql.functions.lit val documentAssembler = new DocumentAssembler() .setInputCol(&quot;caption&quot;) .setOutputCol(&quot;caption_document&quot;) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imagesPath = &quot;src/test/resources/image/&quot; val data: DataFrame = ImageAssembler .loadImagesAsBytes(ResourceHelper.spark, imagesPath) .withColumn(&quot;caption&quot;, lit(&quot;Caption this image.&quot;)) // Add a caption to each image. val nPredict = 40 val model = AutoGGUFVisionModel.pretrained(&quot;Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf&quot;) .setInputCols(&quot;caption_document&quot;, &quot;image_assembler&quot;) .setOutputCol(&quot;completions&quot;) .setBatchSize(4) .setNGpuLayers(99) .setNCtx(4096) .setNPredict(nPredict) val pipeline = new Pipeline().setStages(Array(documentAssembler, imageAssembler, model)) pipeline .fit(data) .transform(data) .selectExpr(&quot;reverse(split(image.origin, '/'))[0] as image_name&quot;, &quot;completions.result&quot;) .show(truncate = false) Model Information Model Name: Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf Compatibility: Spark NLP 6.1.1+ License: Open Source Edition: Official Input Labels: [caption_document, image_assembler] Output Labels: [completions] Language: en Size: 2.6 GB</summary></entry><entry><title type="html">Qwen3-Embedding-0.6B-GGUF</title><link href="/2025/08/04/Qwen3_Embedding_0.6B_Q8_0_gguf_en.html" rel="alternate" type="text/html" title="Qwen3-Embedding-0.6B-GGUF" /><published>2025-08-04T00:00:00+00:00</published><updated>2025-08-04T00:00:00+00:00</updated><id>/2025/08/04/Qwen3_Embedding_0.6B_Q8_0_gguf_en</id><content type="html" xml:base="/2025/08/04/Qwen3_Embedding_0.6B_Q8_0_gguf_en.html">## Description
-
-The Qwen3 Embedding model series is the latest proprietary model of the Qwen family, specifically designed for text embedding and ranking tasks. Building upon the dense foundational models of the Qwen3 series, it provides a comprehensive range of text embeddings and reranking models in various sizes (0.6B, 4B, and 8B). This series inherits the exceptional multilingual capabilities, long-text understanding, and reasoning skills of its foundational model. The Qwen3 Embedding series represents significant advancements in multiple text embedding and ranking tasks, including text retrieval, code retrieval, text classification, text clustering, and bitext mining.
-
-Imported from https://huggingface.co/Qwen/Qwen3-Embedding-0.6B-GGUF
-
-## Predicted Entities
-
-
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/Qwen3_Embedding_0.6B_Q8_0_gguf_en_6.1.1_3.0_1754314464060.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/Qwen3_Embedding_0.6B_Q8_0_gguf_en_6.1.1_3.0_1754314464060.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
-from pyspark.ml import Pipeline
-
-document = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;document&quot;)
-autoGGUFEmbeddings = AutoGGUFEmbeddings.pretrained(&quot;Qwen3_Embedding_0.6B_Q8_0_gguf&quot;) \
-    .setInputCols([&quot;document&quot;]) \
-    .setOutputCol(&quot;embeddings&quot;) \
-    .setBatchSize(4) \
-    .setNGpuLayers(99) \
-    .setPoolingType(&quot;MEAN&quot;)
-pipeline = Pipeline().setStages([document, autoGGUFEmbeddings])
-
-data = spark.createDataFrame([[&quot;The moons of Jupiter are 77 in total, with 79 confirmed natural satellites and 2 man-made ones.&quot;]]).toDF(&quot;text&quot;)
-result = pipeline.fit(data).transform(data)
-result.select(&quot;embeddings.embeddings&quot;).show(truncate = False)
-
-```
-```scala
-import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.annotator._
-import org.apache.spark.ml.Pipeline
-import spark.implicits._
-
-val document = new DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;)
-
-val autoGGUFModel = AutoGGUFEmbeddings
-  .pretrained(&quot;Qwen3_Embedding_0.6B_Q8_0_gguf&quot;)
-  .setInputCols(&quot;document&quot;)
-  .setOutputCol(&quot;embeddings&quot;)
-  .setBatchSize(4)
-  .setPoolingType(&quot;MEAN&quot;)
-
-val pipeline = new Pipeline().setStages(Array(document, autoGGUFModel))
-
-val data = Seq(
-  &quot;The moons of Jupiter are 77 in total, with 79 confirmed natural satellites and 2 man-made ones.&quot;)
-  .toDF(&quot;text&quot;)
-val result = pipeline.fit(data).transform(data)
-result.select(&quot;embeddings.embeddings&quot;).show(truncate = false)
-```
-&lt;/div&gt;
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|Qwen3_Embedding_0.6B_Q8_0_gguf|
-|Compatibility:|Spark NLP 6.1.1+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[document]|
-|Output Labels:|[embeddings]|
-|Language:|en|
-|Size:|609.4 MB|</content><author><name>John Snow Labs</name></author><category term="gguf" /><category term="qwen3" /><category term="qwen" /><category term="embedding" /><category term="q8" /><category term="llamacpp" /><category term="en" /><category term="open_source" /><summary type="html">Description The Qwen3 Embedding model series is the latest proprietary model of the Qwen family, specifically designed for text embedding and ranking tasks. Building upon the dense foundational models of the Qwen3 series, it provides a comprehensive range of text embeddings and reranking models in various sizes (0.6B, 4B, and 8B). This series inherits the exceptional multilingual capabilities, long-text understanding, and reasoning skills of its foundational model. The Qwen3 Embedding series represents significant advancements in multiple text embedding and ranking tasks, including text retrieval, code retrieval, text classification, text clustering, and bitext mining. Imported from https://huggingface.co/Qwen/Qwen3-Embedding-0.6B-GGUF Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU import sparknlp from sparknlp.base import * from sparknlp.annotator import * from pyspark.ml import Pipeline document = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;document&quot;) autoGGUFEmbeddings = AutoGGUFEmbeddings.pretrained(&quot;Qwen3_Embedding_0.6B_Q8_0_gguf&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;embeddings&quot;) \ .setBatchSize(4) \ .setNGpuLayers(99) \ .setPoolingType(&quot;MEAN&quot;) pipeline = Pipeline().setStages([document, autoGGUFEmbeddings]) data = spark.createDataFrame([[&quot;The moons of Jupiter are 77 in total, with 79 confirmed natural satellites and 2 man-made ones.&quot;]]).toDF(&quot;text&quot;) result = pipeline.fit(data).transform(data) result.select(&quot;embeddings.embeddings&quot;).show(truncate = False) import com.johnsnowlabs.nlp.base._ import com.johnsnowlabs.nlp.annotator._ import org.apache.spark.ml.Pipeline import spark.implicits._ val document = new DocumentAssembler().setInputCol(&quot;text&quot;).setOutputCol(&quot;document&quot;) val autoGGUFModel = AutoGGUFEmbeddings .pretrained(&quot;Qwen3_Embedding_0.6B_Q8_0_gguf&quot;) .setInputCols(&quot;document&quot;) .setOutputCol(&quot;embeddings&quot;) .setBatchSize(4) .setPoolingType(&quot;MEAN&quot;) val pipeline = new Pipeline().setStages(Array(document, autoGGUFModel)) val data = Seq( &quot;The moons of Jupiter are 77 in total, with 79 confirmed natural satellites and 2 man-made ones.&quot;) .toDF(&quot;text&quot;) val result = pipeline.fit(data).transform(data) result.select(&quot;embeddings.embeddings&quot;).show(truncate = false) Model Information Model Name: Qwen3_Embedding_0.6B_Q8_0_gguf Compatibility: Spark NLP 6.1.1+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [embeddings] Language: en Size: 609.4 MB</summary></entry><entry><title type="html">Qwen3-4B GGUF (F16 Quantized) by Qwen</title><link href="/2025/07/31/qwen3_4b_bf16_gguf_en.html" rel="alternate" type="text/html" title="Qwen3-4B GGUF (F16 Quantized) by Qwen" /><published>2025-07-31T00:00:00+00:00</published><updated>2025-07-31T00:00:00+00:00</updated><id>/2025/07/31/qwen3_4b_bf16_gguf_en</id><content type="html" xml:base="/2025/07/31/qwen3_4b_bf16_gguf_en.html">## Description
-
-Qwen3 is the latest generation of large language models in Qwen series, offering a comprehensive suite of dense and mixture-of-experts (MoE) models. Built upon extensive training, Qwen3 delivers groundbreaking advancements in reasoning, instruction-following, agent capabilities, and multilingual support
-
-Original model from https://huggingface.co/Qwen/Qwen3-4B
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/qwen3_4b_bf16_gguf_en_6.0.3_3.0_1753977562790.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/qwen3_4b_bf16_gguf_en_6.0.3_3.0_1753977562790.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-from sparknlp.base import DocumentAssembler
-from sparknlp.annotator import AutoGGUFModel
-from pyspark.ml import Pipeline
-
-document_assembler = DocumentAssembler()\
-    .setInputCol(&quot;text&quot;)\
-    .setOutputCol(&quot;document&quot;)
-
-auto_gguf_model = AutoGGUFModel.pretrained(&quot;qwen3_4b_bf16_gguf&quot;, &quot;en&quot;) \
-    .setInputCols([&quot;document&quot;]) \
-    .setOutputCol(&quot;completions&quot;) \
-    .setBatchSize(4) \
-    .setNPredict(-1) \
-    .setNGpuLayers(99) \
-    .setTemperature(0.4) \
-    .setTopK(40) \
-    .setTopP(0.9) \
-    .setPenalizeNl(True)
-
-pipeline = Pipeline().setStages([
-    document_assembler,
-    auto_gguf_model
-])
-
-data = spark.createDataFrame([
-    [&quot;Give me a short introduction to large language model.&quot;]
-]).toDF(&quot;text&quot;)
-
-model = pipeline.fit(data)
-result = model.transform(data)
-
-result.select(&quot;completions&quot;).show(truncate=False)
-
-```
-```scala
-import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.auto.gguf.AutoGGUFModel
-import org.apache.spark.ml.Pipeline
-
-val documentAssembler = new DocumentAssembler()
-  .setInputCol(&quot;text&quot;)
-  .setOutputCol(&quot;document&quot;)
-
-val autoGGUFModel = AutoGGUFModel.pretrained(&quot;qwen3_4b_bf16_gguf&quot;, &quot;en&quot;)
-  .setInputCols(&quot;document&quot;)
-  .setOutputCol(&quot;completions&quot;)
-  .setBatchSize(4)
-  .setNPredict(20)
-  .setNGpuLayers(99)
-  .setTemperature(0.4f)
-  .setTopK(40)
-  .setTopP(0.9f)
-  .setPenalizeNl(true)
-
-val pipeline = new Pipeline().setStages(Array(
-  documentAssembler,
-  autoGGUFModel
-))
-
-val data = Seq(&quot;Give me a short introduction to large language model.&quot;).toDF(&quot;text&quot;)
-
-val model = pipeline.fit(data)
-val result = model.transform(data)
-
-result.select(&quot;completions&quot;).show(false)
-
-```
-&lt;/div&gt;
-
-## Results
-
-```bash
-Large language models (LLMs) are advanced artificial intelligence systems designed to understand and generate human-like text. Trained on vast amounts of data, they can answer questions, write essays, code, create stories, and engage in conversations. These models use deep learning algorithms to recognize patterns in language, enabling them to produce coherent and contextually relevant responses. LLMs have revolutionized fields like customer service, content creation, and research, offering powerful tools for tasks ranging from translation to creative writing. While they are highly capable, their outputs depend on the quality of their training data and the specific instructions given.
-```
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|qwen3_4b_bf16_gguf|
-|Compatibility:|Spark NLP 6.0.3+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[document]|
-|Output Labels:|[completions]|
-|Language:|en|
-|Size:|6.4 GB|</content><author><name>John Snow Labs</name></author><category term="qwen3" /><category term="float16" /><category term="quantized" /><category term="conversational" /><category term="en" /><category term="open_source" /><category term="llamacpp" /><category term="gguf" /><summary type="html">Description Qwen3 is the latest generation of large language models in Qwen series, offering a comprehensive suite of dense and mixture-of-experts (MoE) models. Built upon extensive training, Qwen3 delivers groundbreaking advancements in reasoning, instruction-following, agent capabilities, and multilingual support Original model from https://huggingface.co/Qwen/Qwen3-4B Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import DocumentAssembler from sparknlp.annotator import AutoGGUFModel from pyspark.ml import Pipeline document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) auto_gguf_model = AutoGGUFModel.pretrained(&quot;qwen3_4b_bf16_gguf&quot;, &quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;completions&quot;) \ .setBatchSize(4) \ .setNPredict(-1) \ .setNGpuLayers(99) \ .setTemperature(0.4) \ .setTopK(40) \ .setTopP(0.9) \ .setPenalizeNl(True) pipeline = Pipeline().setStages([ document_assembler, auto_gguf_model ]) data = spark.createDataFrame([ [&quot;Give me a short introduction to large language model.&quot;] ]).toDF(&quot;text&quot;) model = pipeline.fit(data) result = model.transform(data) result.select(&quot;completions&quot;).show(truncate=False) import com.johnsnowlabs.nlp.base.DocumentAssembler import com.johnsnowlabs.nlp.annotators.auto.gguf.AutoGGUFModel import org.apache.spark.ml.Pipeline val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val autoGGUFModel = AutoGGUFModel.pretrained(&quot;qwen3_4b_bf16_gguf&quot;, &quot;en&quot;) .setInputCols(&quot;document&quot;) .setOutputCol(&quot;completions&quot;) .setBatchSize(4) .setNPredict(20) .setNGpuLayers(99) .setTemperature(0.4f) .setTopK(40) .setTopP(0.9f) .setPenalizeNl(true) val pipeline = new Pipeline().setStages(Array( documentAssembler, autoGGUFModel )) val data = Seq(&quot;Give me a short introduction to large language model.&quot;).toDF(&quot;text&quot;) val model = pipeline.fit(data) val result = model.transform(data) result.select(&quot;completions&quot;).show(false) Results Large language models (LLMs) are advanced artificial intelligence systems designed to understand and generate human-like text. Trained on vast amounts of data, they can answer questions, write essays, code, create stories, and engage in conversations. These models use deep learning algorithms to recognize patterns in language, enabling them to produce coherent and contextually relevant responses. LLMs have revolutionized fields like customer service, content creation, and research, offering powerful tools for tasks ranging from translation to creative writing. While they are highly capable, their outputs depend on the quality of their training data and the specific instructions given. Model Information Model Name: qwen3_4b_bf16_gguf Compatibility: Spark NLP 6.0.3+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [completions] Language: en Size: 6.4 GB</summary></entry><entry><title type="html">Qwen3-4B GGUF (Q4_K_M Quantized) by Qwen</title><link href="/2025/07/31/qwen3_4b_q4_k_m_gguf_en.html" rel="alternate" type="text/html" title="Qwen3-4B GGUF (Q4_K_M Quantized) by Qwen" /><published>2025-07-31T00:00:00+00:00</published><updated>2025-07-31T00:00:00+00:00</updated><id>/2025/07/31/qwen3_4b_q4_k_m_gguf_en</id><content type="html" xml:base="/2025/07/31/qwen3_4b_q4_k_m_gguf_en.html">## Description
-
-Qwen3 is the latest generation of large language models in Qwen series, offering a comprehensive suite of dense and mixture-of-experts (MoE) models. Built upon extensive training, Qwen3 delivers groundbreaking advancements in reasoning, instruction-following, agent capabilities, and multilingual support
-
-Original model from https://huggingface.co/Qwen/Qwen3-4B
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/qwen3_4b_q4_k_m_gguf_en_6.0.3_3.0_1753972317683.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/qwen3_4b_q4_k_m_gguf_en_6.0.3_3.0_1753972317683.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-from sparknlp.base import DocumentAssembler
-from sparknlp.annotator import AutoGGUFModel
-from pyspark.ml import Pipeline
-
-document_assembler = DocumentAssembler()\
-    .setInputCol(&quot;text&quot;)\
-    .setOutputCol(&quot;document&quot;)
-
-auto_gguf_model = AutoGGUFModel.pretrained(&quot;qwen3_4b_q4_k_m_gguf&quot;, &quot;en&quot;) \
-    .setInputCols([&quot;document&quot;]) \
-    .setOutputCol(&quot;completions&quot;) \
-    .setBatchSize(4) \
-    .setNPredict(20) \
-    .setNGpuLayers(99) \
-    .setTemperature(0.4) \
-    .setTopK(40) \
-    .setTopP(0.9) \
-    .setPenalizeNl(True)
-
-pipeline = Pipeline().setStages([
-    document_assembler,
-    auto_gguf_model
-])
-
-data = spark.createDataFrame([
-    [&quot;A farmer has 17 sheep. All but 9 run away. How many sheep does the farmer have left?&quot;]
-]).toDF(&quot;text&quot;)
-
-model = pipeline.fit(data)
-result = model.transform(data)
-
-result.select(&quot;completions&quot;).show(truncate=False)
-
-```
-```scala
-import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.auto.gguf.AutoGGUFModel
-import org.apache.spark.ml.Pipeline
-
-val documentAssembler = new DocumentAssembler()
-  .setInputCol(&quot;text&quot;)
-  .setOutputCol(&quot;document&quot;)
-
-val autoGGUFModel = AutoGGUFModel.pretrained(&quot;qwen3_4b_q4_k_m_gguf&quot;, &quot;en&quot;)
-  .setInputCols(&quot;document&quot;)
-  .setOutputCol(&quot;completions&quot;)
-  .setBatchSize(4)
-  .setNPredict(20)
-  .setNGpuLayers(99)
-  .setTemperature(0.4f)
-  .setTopK(40)
-  .setTopP(0.9f)
-  .setPenalizeNl(true)
-
-val pipeline = new Pipeline().setStages(Array(
-  documentAssembler,
-  autoGGUFModel
-))
-
-val data = Seq(&quot;A farmer has 17 sheep. All but 9 run away. How many sheep does the farmer have left?&quot;).toDF(&quot;text&quot;)
-
-val model = pipeline.fit(data)
-val result = model.transform(data)
-
-result.select(&quot;completions&quot;).show(false)
-
-```
-&lt;/div&gt;
-
-## Results
-
-```bash
-Explanation:
-The phrase &quot;all but 9 run away&quot; means that 9 sheep did not run away, while the remaining (17 - 9 = 8) did. Therefore, the farmer still has the 9 sheep that stayed behind.
-Answer: 9.
-```
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|qwen3_4b_q4_k_m_gguf|
-|Compatibility:|Spark NLP 6.0.3+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[document]|
-|Output Labels:|[completions]|
-|Language:|en|
-|Size:|2.5 GB|</content><author><name>John Snow Labs</name></author><category term="qwen3" /><category term="q4" /><category term="quantized" /><category term="conversational" /><category term="en" /><category term="open_source" /><category term="llamacpp" /><category term="gguf" /><summary type="html">Description Qwen3 is the latest generation of large language models in Qwen series, offering a comprehensive suite of dense and mixture-of-experts (MoE) models. Built upon extensive training, Qwen3 delivers groundbreaking advancements in reasoning, instruction-following, agent capabilities, and multilingual support Original model from https://huggingface.co/Qwen/Qwen3-4B Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import DocumentAssembler from sparknlp.annotator import AutoGGUFModel from pyspark.ml import Pipeline document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) auto_gguf_model = AutoGGUFModel.pretrained(&quot;qwen3_4b_q4_k_m_gguf&quot;, &quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;completions&quot;) \ .setBatchSize(4) \ .setNPredict(20) \ .setNGpuLayers(99) \ .setTemperature(0.4) \ .setTopK(40) \ .setTopP(0.9) \ .setPenalizeNl(True) pipeline = Pipeline().setStages([ document_assembler, auto_gguf_model ]) data = spark.createDataFrame([ [&quot;A farmer has 17 sheep. All but 9 run away. How many sheep does the farmer have left?&quot;] ]).toDF(&quot;text&quot;) model = pipeline.fit(data) result = model.transform(data) result.select(&quot;completions&quot;).show(truncate=False) import com.johnsnowlabs.nlp.base.DocumentAssembler import com.johnsnowlabs.nlp.annotators.auto.gguf.AutoGGUFModel import org.apache.spark.ml.Pipeline val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val autoGGUFModel = AutoGGUFModel.pretrained(&quot;qwen3_4b_q4_k_m_gguf&quot;, &quot;en&quot;) .setInputCols(&quot;document&quot;) .setOutputCol(&quot;completions&quot;) .setBatchSize(4) .setNPredict(20) .setNGpuLayers(99) .setTemperature(0.4f) .setTopK(40) .setTopP(0.9f) .setPenalizeNl(true) val pipeline = new Pipeline().setStages(Array( documentAssembler, autoGGUFModel )) val data = Seq(&quot;A farmer has 17 sheep. All but 9 run away. How many sheep does the farmer have left?&quot;).toDF(&quot;text&quot;) val model = pipeline.fit(data) val result = model.transform(data) result.select(&quot;completions&quot;).show(false) Results Explanation: The phrase &quot;all but 9 run away&quot; means that 9 sheep did not run away, while the remaining (17 - 9 = 8) did. Therefore, the farmer still has the 9 sheep that stayed behind. Answer: 9. Model Information Model Name: qwen3_4b_q4_k_m_gguf Compatibility: Spark NLP 6.0.3+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [completions] Language: en Size: 2.5 GB</summary></entry><entry><title type="html">Qwen3-4B GGUF (Q8 Quantized) by Qwen</title><link href="/2025/07/31/qwen3_4b_q8_0_gguf_en.html" rel="alternate" type="text/html" title="Qwen3-4B GGUF (Q8 Quantized) by Qwen" /><published>2025-07-31T00:00:00+00:00</published><updated>2025-07-31T00:00:00+00:00</updated><id>/2025/07/31/qwen3_4b_q8_0_gguf_en</id><content type="html" xml:base="/2025/07/31/qwen3_4b_q8_0_gguf_en.html">## Description
-
-Qwen3 is the latest generation of large language models in Qwen series, offering a comprehensive suite of dense and mixture-of-experts (MoE) models. Built upon extensive training, Qwen3 delivers groundbreaking advancements in reasoning, instruction-following, agent capabilities, and multilingual support
-
-Original model from https://huggingface.co/Qwen/Qwen3-4B
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/qwen3_4b_q8_0_gguf_en_6.0.3_3.0_1753974988649.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/qwen3_4b_q8_0_gguf_en_6.0.3_3.0_1753974988649.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-from sparknlp.base import DocumentAssembler
-from sparknlp.annotator import AutoGGUFModel
-from pyspark.ml import Pipeline
-
-document_assembler = DocumentAssembler()\
-    .setInputCol(&quot;text&quot;)\
-    .setOutputCol(&quot;document&quot;)
-
-auto_gguf_model = AutoGGUFModel.pretrained(&quot;qwen3_4b_q8_0_gguf&quot;, &quot;en&quot;) \
-    .setInputCols([&quot;document&quot;]) \
-    .setOutputCol(&quot;completions&quot;) \
-    .setBatchSize(4) \
-    .setNPredict(-1) \
-    .setNGpuLayers(99) \
-    .setTemperature(0.4) \
-    .setTopK(40) \
-    .setTopP(0.9) \
-    .setPenalizeNl(True)
-
-pipeline = Pipeline().setStages([
-    document_assembler,
-    auto_gguf_model
-])
-
-data = spark.createDataFrame([
-    [&quot;Give me a short introduction to large language model.&quot;]
-]).toDF(&quot;text&quot;)
-
-model = pipeline.fit(data)
-result = model.transform(data)
-
-result.select(&quot;completions&quot;).show(truncate=False)
-
-```
-```scala
-import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.auto.gguf.AutoGGUFModel
-import org.apache.spark.ml.Pipeline
-
-val documentAssembler = new DocumentAssembler()
-  .setInputCol(&quot;text&quot;)
-  .setOutputCol(&quot;document&quot;)
-
-val autoGGUFModel = AutoGGUFModel.pretrained(&quot;qwen3_4b_q8_0_gguf&quot;, &quot;en&quot;)
-  .setInputCols(&quot;document&quot;)
-  .setOutputCol(&quot;completions&quot;)
-  .setBatchSize(4)
-  .setNPredict(20)
-  .setNGpuLayers(99)
-  .setTemperature(0.4f)
-  .setTopK(40)
-  .setTopP(0.9f)
-  .setPenalizeNl(true)
-
-val pipeline = new Pipeline().setStages(Array(
-  documentAssembler,
-  autoGGUFModel
-))
-
-val data = Seq(&quot;Give me a short introduction to large language model.&quot;).toDF(&quot;text&quot;)
-
-val model = pipeline.fit(data)
-val result = model.transform(data)
-
-result.select(&quot;completions&quot;).show(false)
-
-```
-&lt;/div&gt;
-
-## Results
-
-```bash
-Large language models (LLMs) are advanced artificial intelligence systems designed to understand and generate human-like text. Trained on vast amounts of textual data, they can perform tasks such as answering questions, writing stories, coding, summarizing information, and engaging in conversations. These models leverage deep learning techniques to recognize patterns, context, and semantics in language, making them highly versatile tools for various applications, from customer service to creative writing. While powerful, they require careful use to ensure accuracy and ethical considerations.
-```
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|qwen3_4b_q8_0_gguf|
-|Compatibility:|Spark NLP 6.0.3+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[document]|
-|Output Labels:|[completions]|
-|Language:|en|
-|Size:|4.1 GB|</content><author><name>John Snow Labs</name></author><category term="qwen3" /><category term="q8" /><category term="quantized" /><category term="conversational" /><category term="en" /><category term="open_source" /><category term="llamacpp" /><category term="gguf" /><summary type="html">Description Qwen3 is the latest generation of large language models in Qwen series, offering a comprehensive suite of dense and mixture-of-experts (MoE) models. Built upon extensive training, Qwen3 delivers groundbreaking advancements in reasoning, instruction-following, agent capabilities, and multilingual support Original model from https://huggingface.co/Qwen/Qwen3-4B Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import DocumentAssembler from sparknlp.annotator import AutoGGUFModel from pyspark.ml import Pipeline document_assembler = DocumentAssembler()\ .setInputCol(&quot;text&quot;)\ .setOutputCol(&quot;document&quot;) auto_gguf_model = AutoGGUFModel.pretrained(&quot;qwen3_4b_q8_0_gguf&quot;, &quot;en&quot;) \ .setInputCols([&quot;document&quot;]) \ .setOutputCol(&quot;completions&quot;) \ .setBatchSize(4) \ .setNPredict(-1) \ .setNGpuLayers(99) \ .setTemperature(0.4) \ .setTopK(40) \ .setTopP(0.9) \ .setPenalizeNl(True) pipeline = Pipeline().setStages([ document_assembler, auto_gguf_model ]) data = spark.createDataFrame([ [&quot;Give me a short introduction to large language model.&quot;] ]).toDF(&quot;text&quot;) model = pipeline.fit(data) result = model.transform(data) result.select(&quot;completions&quot;).show(truncate=False) import com.johnsnowlabs.nlp.base.DocumentAssembler import com.johnsnowlabs.nlp.annotators.auto.gguf.AutoGGUFModel import org.apache.spark.ml.Pipeline val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;document&quot;) val autoGGUFModel = AutoGGUFModel.pretrained(&quot;qwen3_4b_q8_0_gguf&quot;, &quot;en&quot;) .setInputCols(&quot;document&quot;) .setOutputCol(&quot;completions&quot;) .setBatchSize(4) .setNPredict(20) .setNGpuLayers(99) .setTemperature(0.4f) .setTopK(40) .setTopP(0.9f) .setPenalizeNl(true) val pipeline = new Pipeline().setStages(Array( documentAssembler, autoGGUFModel )) val data = Seq(&quot;Give me a short introduction to large language model.&quot;).toDF(&quot;text&quot;) val model = pipeline.fit(data) val result = model.transform(data) result.select(&quot;completions&quot;).show(false) Results Large language models (LLMs) are advanced artificial intelligence systems designed to understand and generate human-like text. Trained on vast amounts of textual data, they can perform tasks such as answering questions, writing stories, coding, summarizing information, and engaging in conversations. These models leverage deep learning techniques to recognize patterns, context, and semantics in language, making them highly versatile tools for various applications, from customer service to creative writing. While powerful, they require careful use to ensure accuracy and ethical considerations. Model Information Model Name: qwen3_4b_q8_0_gguf Compatibility: Spark NLP 6.0.3+ License: Open Source Edition: Official Input Labels: [document] Output Labels: [completions] Language: en Size: 4.1 GB</summary></entry><entry><title type="html">Phi-4-mini-Instruct OpenVINO (Q4 Quantized) by Microsoft</title><link href="/2025/07/25/Phi_4_mini_instruct_int4_openvino_en.html" rel="alternate" type="text/html" title="Phi-4-mini-Instruct OpenVINO (Q4 Quantized) by Microsoft" /><published>2025-07-25T00:00:00+00:00</published><updated>2025-07-25T00:00:00+00:00</updated><id>/2025/07/25/Phi_4_mini_instruct_int4_openvino_en</id><content type="html" xml:base="/2025/07/25/Phi_4_mini_instruct_int4_openvino_en.html">## Description
-
-Phi-4-mini-instruct is a lightweight open model built upon synthetic data and filtered publicly available websites - with a focus on high-quality, reasoning dense data. The model belongs to the Phi-4 model family and supports 128K token context length. The model underwent an enhancement process, incorporating both supervised fine-tuning and direct preference optimization to support precise instruction adherence and robust safety measures.
-
-Original model from https://huggingface.co/microsoft/Phi-4-mini-instruct
-
-{:.btn-box}
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Live Demo&lt;/button&gt;
-&lt;button class=&quot;button button-orange&quot; disabled&gt;Open in Colab&lt;/button&gt;
-[Download](https://s3.amazonaws.com/auxdata.johnsnowlabs.com/public/models/Phi_4_mini_instruct_int4_openvino_en_6.0.0_3.0_1753454352119.zip){:.button.button-orange.button-orange-trans.arr.button-icon}
-[Copy S3 URI](s3://auxdata.johnsnowlabs.com/public/models/Phi_4_mini_instruct_int4_openvino_en_6.0.0_3.0_1753454352119.zip){:.button.button-orange.button-orange-trans.button-icon.button-copy-s3}
-
-## How to use
-
-
-
-&lt;div class=&quot;tabs-box&quot; markdown=&quot;1&quot;&gt;
-{% include programmingLanguageSelectScalaPythonNLU.html %}
-```python
-from sparknlp.base import DocumentAssembler
-from sparknlp.annotator import Phi4Transformer
-from pyspark.ml import Pipeline
-
-test_data = spark.createDataFrame(
-    [
-        [
-            1,
-            &quot;&quot;&quot;&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;
-You are a helpful assistant that provides concise and accurate answers to user queries.
-&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;
-Explain the concept of the Internet to a medieval knight.
-&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;&quot;&quot;&quot;
-            .strip().replace(&quot;\n&quot;, &quot; &quot;),
-        ]
-    ]
-).toDF(&quot;id&quot;, &quot;text&quot;)
-
-document_assembler = DocumentAssembler() \
-    .setInputCol(&quot;text&quot;) \
-    .setOutputCol(&quot;documents&quot;)
-
-Phi4 = (
-    Phi4Transformer.pretrained(&quot;Phi_4_mini_instruct_int4_openvino&quot;)
-    .setMaxOutputLength(120)
-    .setInputCols([&quot;documents&quot;])
-    .setOutputCol(&quot;generation&quot;)
-)
-
-pipeline = Pipeline().setStages(
-    [document_assembler, Phi4]
-)
-
-model = pipeline.fit(test_data)
-results = model.transform(test_data)
-
-results.select(&quot;generation.result&quot;).show(truncate=False)
-
-```
-```scala
-import com.johnsnowlabs.nlp.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.transformer.Phi4Transformer
-import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.functions._
-
-val text =
-  &quot;&quot;&quot;&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;
-You are a helpful assistant that provides concise and accurate answers to user queries.
-&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;
-Explain the concept of the Internet to a medieval knight.
-&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;&quot;&quot;&quot;
-    .stripMargin
-    .replaceAll(&quot;\n&quot;, &quot; &quot;)
-
-val testData = Seq(
-  (1, text)
-).toDF(&quot;id&quot;, &quot;text&quot;)
-
-val documentAssembler = new DocumentAssembler()
-  .setInputCol(&quot;text&quot;)
-  .setOutputCol(&quot;documents&quot;)
-
-val phi4 = Phi4Transformer.pretrained(&quot;Phi_4_mini_instruct_int4_openvino&quot;)
-  .setMaxOutputLength(120)
-  .setInputCols(&quot;documents&quot;)
-  .setOutputCol(&quot;generation&quot;)
-
-val pipeline = new Pipeline().setStages(Array(
-  documentAssembler,
-  phi4
-))
-
-val model = pipeline.fit(testData)
-val results = model.transform(testData)
-
-results.selectExpr(&quot;explode(generation.result) as result&quot;).show(false)
-
-```
-&lt;/div&gt;
-
-## Results
-
-```bash
-
-&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;
-You are a helpful assistant that provides concise and accurate answers to user queries.
-
-&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;
-Explain the concept of the Internet to a medieval knight.
-
-&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;
-The internet, my good sir Knight Sir Gareth,
-is akin unto an invisible network much like our cobblestone roads but spanning across kingdoms far greater than any map you possess.
-Imagine if every squire in your land could send messages instantly over vast distances without crossing paths or carrying physical missives on horseback! 
-This is what we call 'the web', where information travels at lightning speed through unseen pathways known as cables buried deep below earth's surface connecting castles worldwide.
-Furthermore imagine gathering all knowledge from libraries scattered around realms within moments using magical mirrors reflecting light instead...
-Wait no longer!
-The magic behind it involves bits
-
-```
-
-{:.model-param}
-## Model Information
-
-{:.table-model}
-|---|---|
-|Model Name:|Phi_4_mini_instruct_int4_openvino|
-|Compatibility:|Spark NLP 6.0.0+|
-|License:|Open Source|
-|Edition:|Official|
-|Input Labels:|[documents]|
-|Output Labels:|[generation]|
-|Language:|en|
-|Size:|2.4 GB|</content><author><name>John Snow Labs</name></author><category term="openvino" /><category term="phi4" /><category term="mini" /><category term="q4" /><category term="quantized" /><category term="instruct" /><category term="conversational" /><category term="128k" /><category term="en" /><category term="open_source" /><summary type="html">Description Phi-4-mini-instruct is a lightweight open model built upon synthetic data and filtered publicly available websites - with a focus on high-quality, reasoning dense data. The model belongs to the Phi-4 model family and supports 128K token context length. The model underwent an enhancement process, incorporating both supervised fine-tuning and direct preference optimization to support precise instruction adherence and robust safety measures. Original model from https://huggingface.co/microsoft/Phi-4-mini-instruct Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU from sparknlp.base import DocumentAssembler from sparknlp.annotator import Phi4Transformer from pyspark.ml import Pipeline test_data = spark.createDataFrame( [ [ 1, &quot;&quot;&quot;&amp;lt;|start_header_id|&amp;gt;system&amp;lt;|end_header_id|&amp;gt; You are a helpful assistant that provides concise and accurate answers to user queries. &amp;lt;|start_header_id|&amp;gt;user&amp;lt;|end_header_id|&amp;gt; Explain the concept of the Internet to a medieval knight. &amp;lt;|start_header_id|&amp;gt;assistant&amp;lt;|end_header_id|&amp;gt;&quot;&quot;&quot; .strip().replace(&quot;\n&quot;, &quot; &quot;), ] ] ).toDF(&quot;id&quot;, &quot;text&quot;) document_assembler = DocumentAssembler() \ .setInputCol(&quot;text&quot;) \ .setOutputCol(&quot;documents&quot;) Phi4 = ( Phi4Transformer.pretrained(&quot;Phi_4_mini_instruct_int4_openvino&quot;) .setMaxOutputLength(120) .setInputCols([&quot;documents&quot;]) .setOutputCol(&quot;generation&quot;) ) pipeline = Pipeline().setStages( [document_assembler, Phi4] ) model = pipeline.fit(test_data) results = model.transform(test_data) results.select(&quot;generation.result&quot;).show(truncate=False) import com.johnsnowlabs.nlp.DocumentAssembler import com.johnsnowlabs.nlp.annotators.transformer.Phi4Transformer import org.apache.spark.ml.Pipeline import org.apache.spark.sql.functions._ val text = &quot;&quot;&quot;&amp;lt;|start_header_id|&amp;gt;system&amp;lt;|end_header_id|&amp;gt; You are a helpful assistant that provides concise and accurate answers to user queries. &amp;lt;|start_header_id|&amp;gt;user&amp;lt;|end_header_id|&amp;gt; Explain the concept of the Internet to a medieval knight. &amp;lt;|start_header_id|&amp;gt;assistant&amp;lt;|end_header_id|&amp;gt;&quot;&quot;&quot; .stripMargin .replaceAll(&quot;\n&quot;, &quot; &quot;) val testData = Seq( (1, text) ).toDF(&quot;id&quot;, &quot;text&quot;) val documentAssembler = new DocumentAssembler() .setInputCol(&quot;text&quot;) .setOutputCol(&quot;documents&quot;) val phi4 = Phi4Transformer.pretrained(&quot;Phi_4_mini_instruct_int4_openvino&quot;) .setMaxOutputLength(120) .setInputCols(&quot;documents&quot;) .setOutputCol(&quot;generation&quot;) val pipeline = new Pipeline().setStages(Array( documentAssembler, phi4 )) val model = pipeline.fit(testData) val results = model.transform(testData) results.selectExpr(&quot;explode(generation.result) as result&quot;).show(false) Results &amp;lt;|start_header_id|&amp;gt;system&amp;lt;|end_header_id|&amp;gt; You are a helpful assistant that provides concise and accurate answers to user queries. &amp;lt;|start_header_id|&amp;gt;user&amp;lt;|end_header_id|&amp;gt; Explain the concept of the Internet to a medieval knight. &amp;lt;|start_header_id|&amp;gt;assistant&amp;lt;|end_header_id|&amp;gt; The internet, my good sir Knight Sir Gareth, is akin unto an invisible network much like our cobblestone roads but spanning across kingdoms far greater than any map you possess. Imagine if every squire in your land could send messages instantly over vast distances without crossing paths or carrying physical missives on horseback! This is what we call 'the web', where information travels at lightning speed through unseen pathways known as cables buried deep below earth's surface connecting castles worldwide. Furthermore imagine gathering all knowledge from libraries scattered around realms within moments using magical mirrors reflecting light instead... Wait no longer! The magic behind it involves bits Model Information Model Name: Phi_4_mini_instruct_int4_openvino Compatibility: Spark NLP 6.0.0+ License: Open Source Edition: Official Input Labels: [documents] Output Labels: [generation] Language: en Size: 2.4 GB</summary></entry></feed>
+|Size:|2.6 GB|</content><author><name>John Snow Labs</name></author><category term="gguf" /><category term="qwen" /><category term="vlm" /><category term="vl" /><category term="q4" /><category term="llamacpp" /><category term="en" /><category term="open_source" /><summary type="html">Description In the past five months since Qwen2-VL’s release, numerous developers have built new models on the Qwen2-VL vision-language models, providing us with valuable feedback. During this period, we focused on building more useful vision-language models. Today, we are excited to introduce the latest addition to the Qwen family: Qwen2.5-VL. Imported from https://huggingface.co/ggml-org/Qwen2.5-VL-3B-Instruct-GGUF Predicted Entities Live Demo Open in Colab Download Copy S3 URI How to use PythonScalaNLU import sparknlp from sparknlp.base import * from sparknlp.annotator import * from pyspark.ml import Pipeline from pyspark.sql.functions import lit documentAssembler = DocumentAssembler() \ .setInputCol(&quot;caption&quot;) \ .setOutputCol(&quot;caption_document&quot;) imageAssembler = ImageAssembler() \ .setInputCol(&quot;image&quot;) \ .setOutputCol(&quot;image_assembler&quot;) imagesPath = &quot;src/test/resources/image/&quot; data = ImageAssembler \ .loadImagesAsBytes(spark, imagesPath) \ .withColumn(&quot;caption&quot;, lit(&quot;Caption this image.&quot;)) # Add a caption to each image. nPredict = 40 model = AutoGGUFVisionModel.pretrained(&quot;Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf&quot;) \ .setInputCols([&quot;caption_document&quot;, &quot;image_assembler&quot;]) \ .setOutputCol(&quot;completions&quot;) \ .setBatchSize(4) \ .setNGpuLayers(99) \ .setNCtx(4096) \ .setNPredict(nPredict) pipeline = Pipeline().setStages([documentAssembler, imageAssembler, model]) pipeline.fit(data).transform(data) \ .selectExpr(&quot;reverse(split(image.origin, '/'))[0] as image_name&quot;, &quot;completions.result&quot;) \ .show(truncate = False) import com.johnsnowlabs.nlp.ImageAssembler import com.johnsnowlabs.nlp.annotator._ import com.johnsnowlabs.nlp.base._ import org.apache.spark.ml.Pipeline import org.apache.spark.sql.DataFrame import org.apache.spark.sql.functions.lit val documentAssembler = new DocumentAssembler() .setInputCol(&quot;caption&quot;) .setOutputCol(&quot;caption_document&quot;) val imageAssembler = new ImageAssembler() .setInputCol(&quot;image&quot;) .setOutputCol(&quot;image_assembler&quot;) val imagesPath = &quot;src/test/resources/image/&quot; val data: DataFrame = ImageAssembler .loadImagesAsBytes(ResourceHelper.spark, imagesPath) .withColumn(&quot;caption&quot;, lit(&quot;Caption this image.&quot;)) // Add a caption to each image. val nPredict = 40 val model = AutoGGUFVisionModel.pretrained(&quot;Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf&quot;) .setInputCols(&quot;caption_document&quot;, &quot;image_assembler&quot;) .setOutputCol(&quot;completions&quot;) .setBatchSize(4) .setNGpuLayers(99) .setNCtx(4096) .setNPredict(nPredict) val pipeline = new Pipeline().setStages(Array(documentAssembler, imageAssembler, model)) pipeline .fit(data) .transform(data) .selectExpr(&quot;reverse(split(image.origin, '/'))[0] as image_name&quot;, &quot;completions.result&quot;) .show(truncate = false) Model Information Model Name: Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf Compatibility: Spark NLP 6.1.1+ License: Open Source Edition: Official Input Labels: [caption_document, image_assembler] Output Labels: [completions] Language: en Size: 2.6 GB</summary></entry></feed>
