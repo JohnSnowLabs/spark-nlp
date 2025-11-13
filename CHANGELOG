@@ -1,4 +1,19 @@
 =======
+6.2.2
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+None
+
+---------
+Bug Fixes
+---------
+* Fixes WordEmbeddings creating duplicate results
+* Minor fixes to NerDLApproach logging
+
+=======
 6.2.1
 =======
 ---------------------------
