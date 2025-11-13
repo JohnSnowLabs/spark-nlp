@@ -69,7 +69,7 @@ class E5VEmbeddingsTestSpec extends AnyFlatSpec {
       .setOutputCol("image_assembler")
 
     val loadModel = E5VEmbeddings
-      .pretrained("e5v_int4", "en")
+      .pretrained()
       .setInputCols("image_assembler")
       .setOutputCol("e5v")
 
