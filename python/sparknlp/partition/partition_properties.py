@@ -625,7 +625,7 @@ class HasTextReaderProperties(Params):
         typeConverter=TypeConverters.toListString
     )
 
-    def setExtractTagAttributes(self, attributes: list[str]):
+    def setExtractTagAttributes(self, attributes):
         """
         Specify which tag attributes should have their values extracted as text when parsing
         tag-based formats (e.g., HTML or XML).
