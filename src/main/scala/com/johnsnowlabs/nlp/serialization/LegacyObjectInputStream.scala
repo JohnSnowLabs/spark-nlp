@@ -13,12 +13,39 @@ import scala.util.{Failure, Success, Try}
   *   The class that should be the replacement
   * @param serializedClassName
   *   The name of the serialized class in the input stream
+  * @param resolveCustomDescriptor
+  *   Method to provide additional legacy class descriptor mappings for custom classes. By
+  *   default, doesn't provide additional classes.
   */
 class LegacyObjectInputStream(
     in: ByteArrayInputStream,
     val replacedClass: Class[_],
-    val serializedClassName: String)
+    val serializedClassName: String,
+    resolveCustomDescriptor: ObjectStreamClass => ObjectStreamClass)
     extends ObjectInputStream(in) {
+
+  /** Checks for explicit mappings of old serialized class names to replacement classes such as
+    * Scala 2.12 collection serialization proxies and Spark NLP legacy classes.
+    *
+    * @param classDescriptor
+    *   The class descriptor read from the deserialization stream
+    * @return
+    *   The replacement class descriptor, or null if no mapping found
+    */
+  protected def resolveLegacyDescriptor(classDescriptor: ObjectStreamClass): ObjectStreamClass = {
+    classDescriptor.getName match {
+      case "scala.collection.immutable.HashMap$SerializationProxy" =>
+        ObjectStreamClass.lookup(classOf[LegacyHashMapSerializationProxy])
+      case "scala.collection.immutable.HashSet$SerializationProxy" =>
+        ObjectStreamClass.lookup(classOf[LegacyHashSetSerializationProxy])
+      case "scala.collection.immutable.List$SerializationProxy" =>
+        ObjectStreamClass.lookup(classOf[LegacyListSerializationProxy])
+      case "scala.collection.immutable.ListSerializeEnd$" =>
+        ObjectStreamClass.lookup(LegacyListSerializeEnd.getClass)
+      case _ => // No replacement class found, delegate to subclass
+        resolveCustomDescriptor(classDescriptor)
+    }
+  }
 
   /** Reads the class descriptor from the serialization stream, handling conflicting
     * serialVersionUIDs (SUID) of old Spark NLP objects.
@@ -28,11 +55,11 @@ class LegacyObjectInputStream(
     *
     * Taken and adapted from
     * https://stackoverflow.com/questions/795470/how-to-deserialize-an-object-persisted-in-a-db-now-when-the-object-has-different
+    *
     * @throws IOException
     *   if an I/O error occurs
     * @throws ClassNotFoundException
     *   if the class of a serialized object could not be found
-    *
     * @return
     *   The class descriptor to be used for deserialization.
     */
@@ -41,21 +68,6 @@ class LegacyObjectInputStream(
   override protected def readClassDescriptor: ObjectStreamClass = {
     var resultClassDescriptor = super.readClassDescriptor // initially streams descriptor
 
-    def checkSerializationProxy(): ObjectStreamClass = {
-      resultClassDescriptor.getName match {
-        case "scala.collection.immutable.HashMap$SerializationProxy" =>
-          ObjectStreamClass.lookup(classOf[LegacyHashMapSerializationProxy])
-        case "scala.collection.immutable.HashSet$SerializationProxy" =>
-          ObjectStreamClass.lookup(classOf[LegacyHashSetSerializationProxy])
-        case "scala.collection.immutable.List$SerializationProxy" =>
-          ObjectStreamClass.lookup(classOf[LegacyListSerializationProxy])
-        case "scala.collection.immutable.ListSerializeEnd$" =>
-          println("DHA: Using LegacyListSerializationEnd")
-          ObjectStreamClass.lookup(LegacyListSerializeEnd.getClass)
-        case _ => null // No replacement class found
-      }
-    }
-
     // Ignore all serialVersionUIDs, if they are not array
     if (!resultClassDescriptor.getName.startsWith("[")) {
       val classForName = Try {
@@ -63,7 +75,7 @@ class LegacyObjectInputStream(
       }
       val localClassDescriptor: ObjectStreamClass = classForName match {
         case Success(clazz) => ObjectStreamClass.lookup(clazz)
-        case Failure(_) => checkSerializationProxy() // SerializationProxy case
+        case Failure(_) => resolveLegacyDescriptor(resultClassDescriptor) // Manual mapping case
       }
 
       if (localClassDescriptor != null) {
@@ -91,13 +103,17 @@ object LegacyObjectInputStream {
     * @param serializedClassName
     *   The name of the serialized class to replace. By default, chooses the same class as the
     *   type T
+    * @param resolveCustomDescriptor
+    *   Method to provide additional legacy class descriptor mappings for custom classes.
     * @tparam T
     *   The type of the array contents, which will be the replacement for serializedClassName
     * @return
     */
   def deserializeArray[T: ClassTag](
       bytes: Array[Byte],
-      serializedClassName: Option[String] = None): Array[T] = {
+      serializedClassName: Option[String] = None,
+      resolveCustomDescriptor: ObjectStreamClass => ObjectStreamClass = (_: ObjectStreamClass) =>
+        null): Array[T] = {
     val bis = new ByteArrayInputStream(bytes)
 
     // Use ClassTag to store runtime information of class and avoid type erasure.
@@ -107,7 +123,11 @@ object LegacyObjectInputStream {
       else implicitly[ClassTag[T]].runtimeClass.getCanonicalName
 
     val ois =
-      new LegacyObjectInputStream(bis, implicitly[ClassTag[T]].runtimeClass, className)
+      new LegacyObjectInputStream(
+        bis,
+        implicitly[ClassTag[T]].runtimeClass,
+        className,
+        resolveCustomDescriptor)
 
     ois.readObject.asInstanceOf[Array[T]]
   }

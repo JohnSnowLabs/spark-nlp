@@ -28,6 +28,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 import org.slf4j.{Logger, LoggerFactory}
 
+import java.io.ObjectStreamClass
 import scala.reflect.ClassTag
 
 abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
@@ -41,6 +42,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
 
   val serializationMode: String =
     ConfigLoader.getConfigStringValue(ConfigHelper.serializationMode)
+
   val useBroadcast: Boolean = ConfigLoader.getConfigBooleanValue(ConfigHelper.useBroadcast)
   final protected var broadcastValue: Option[Broadcast[TComplete]] = None
 
@@ -160,6 +162,16 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
     this
   }
 
+  /** Method to provide additional legacy class descriptor mappings for custom classes. If none
+    * are found, should return null.
+    *
+    * @param osc
+    *   The ObjectStreamClass to resolve
+    * @return
+    *   The resolved ObjectStreamClass, or null if not found
+    */
+  protected def resolveCustomLegacyClasses(osc: ObjectStreamClass): ObjectStreamClass = null
+
   /** Loads an object from a SequenceFile containing serialized objects. It tries to load the
     * tuple across Scala version, handling serialVersionUID mismatches.
     *
@@ -184,7 +196,9 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
         classOf[BytesWritable],
         spark.sparkContext.defaultMinPartitions)
       .flatMap((x: (NullWritable, BytesWritable)) =>
-        LegacyObjectInputStream.deserializeArray[ObjectType](x._2.getBytes))
+        LegacyObjectInputStream.deserializeArray[ObjectType](
+          x._2.getBytes,
+          resolveCustomDescriptor = resolveCustomLegacyClasses))
   }
 }
 
