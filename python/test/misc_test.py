@@ -22,7 +22,7 @@ from sparknlp.annotator import *
 from sparknlp.base import *
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class UtilitiesTestSpec(unittest.TestCase):
 
     @staticmethod
@@ -31,7 +31,7 @@ class UtilitiesTestSpec(unittest.TestCase):
         assert (regex_rule.rule() == "\w+")
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class SerializersTestSpec(unittest.TestCase):
     def setUp(self):
         self.test_dir = tempfile.mkdtemp()

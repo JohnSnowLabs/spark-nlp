@@ -21,7 +21,7 @@ from test.annotator.common.has_max_sentence_length_test import HasMaxSentenceLen
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class SpanBertCorefTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
 
     def setUp(self):

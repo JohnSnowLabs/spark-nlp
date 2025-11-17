@@ -20,7 +20,7 @@ from sparknlp.annotator import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class MultiDocumentAssemblerTest(unittest.TestCase):
 
     def setUp(self):
@@ -52,7 +52,7 @@ class MultiDocumentAssemblerTest(unittest.TestCase):
         self.assertGreater(len(tokens), 0)
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class LightFullAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
 
     def setUp(self):
@@ -119,7 +119,7 @@ class LightFullAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
         self.assertEqual(actual_result2, expected_result2)
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class LightAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
 
     def setUp(self):
@@ -168,7 +168,7 @@ class LightAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
         self.assertEqual(actual_result2, expected_result2)
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class LightAnnotateMultiDocumentAssemblerExceptionsTest(unittest.TestCase):
     def setUp(self):
         self.spark = SparkSessionForTest.spark

@@ -41,7 +41,9 @@ class BertForQuestionAnsweringTestSpec extends AnyFlatSpec {
       ("What's my name?", "My name is Clara and I live in Berkeley."),
       ("Which name is also used to describe the Amazon rainforest in English?", amazonContext),
       ("When did Beyonce start becoming popular?", beyonceContext),
-      ("What areas didBeyonce compete in when she was growing up?\", beyonceContext),\n      (\"When did Beyonc e leave Destiny's Child and become a solo singer?", beyonceContext),
+      (
+        "What areas didBeyonce compete in when she was growing up?\", beyonceContext),\n      (\"When did Beyonc e leave Destiny's Child and become a solo singer?",
+        beyonceContext),
       ("What was the first album Beyoncé released as a solo artist?", beyonceContext))
       .toDF("question", "context")
       .repartition(1)

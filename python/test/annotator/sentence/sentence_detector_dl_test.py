@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class SentenceDetectorDLTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.read.option("header", "true") \
@@ -45,7 +45,7 @@ class SentenceDetectorDLTestSpec(unittest.TestCase):
         model.transform(self.data).show()
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class SentenceDetectorDLExtraParamsTestSpec(unittest.TestCase):
     def runTest(self):
         sampleText = """

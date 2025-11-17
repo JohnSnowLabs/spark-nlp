@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class RegexTokenizerTestSpec(unittest.TestCase):
     def setUp(self) -> None:
         self.data = SparkSessionForTest.spark.createDataFrame(

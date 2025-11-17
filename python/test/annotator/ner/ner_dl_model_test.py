@@ -18,7 +18,7 @@ import pytest
 from sparknlp.annotator import *
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class NerDLModelTestSpec(unittest.TestCase):
     def runTest(self):
         ner_model = NerDLModel.pretrained()

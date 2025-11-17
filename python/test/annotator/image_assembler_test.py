@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class ImageAssemblerTestSpec(unittest.TestCase):
 
     def setUp(self):

@@ -28,7 +28,7 @@ class PdfToTextTestSetup(unittest.TestCase):
         self.spark = SparkContextForTest.spark
         self.spark.conf.set("spark.sql.legacy.allowUntypedScalaUDF", "true")
 
-@pytest.mark.slow
+@pytest.mark.local
 class PdfToTextTest(PdfToTextTestSetup, unittest.TestCase):
 
     def setUp(self):

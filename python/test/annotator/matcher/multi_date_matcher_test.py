@@ -21,7 +21,7 @@ from pyspark.sql.functions import size
 from test.util import SparkContextForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class MultiDateMatcherTestSpec(unittest.TestCase):
 
     def setUp(self):

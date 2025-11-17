@@ -22,7 +22,7 @@ from sparknlp.training import CoNLLU
 from test.util import SparkContextForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class LemmatizerTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -45,7 +45,7 @@ class LemmatizerTestSpec(unittest.TestCase):
         lemmatizer.fit(tokenized).transform(tokenized).show()
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class LemmatizerWithTrainingDataSetTestSpec(unittest.TestCase):
 
     def setUp(self):

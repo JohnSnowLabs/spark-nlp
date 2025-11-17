@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class CleanerBytesTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -45,7 +45,7 @@ class CleanerBytesTestSpec(unittest.TestCase):
         result = model.transform(self.data_set)
         result.show(truncate=False)
 
-@pytest.mark.local
+@pytest.mark.fast
 class CleanerBulletsTestSpec(unittest.TestCase):
 
     def setUp(self):

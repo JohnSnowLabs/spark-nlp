@@ -22,7 +22,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class PragmaticSBDTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -44,7 +44,7 @@ class PragmaticSBDTestSpec(unittest.TestCase):
         sentence_detector.transform(assembled).show()
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class PragmaticScorerTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -79,7 +79,7 @@ class PragmaticScorerTestSpec(unittest.TestCase):
         sentiment_detector.fit(lemmatized).transform(lemmatized).show()
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class PragmaticSBDReturnCustomBoundsTestSpec(unittest.TestCase):
 
     def create_data(self, data):

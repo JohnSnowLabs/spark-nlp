@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class DependencyParserConllUTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -68,7 +68,7 @@ class DependencyParserConllUTestSpec(unittest.TestCase):
         dependency_parsed.show()
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class DependencyParserTreeBankTestSpec(unittest.TestCase):
 
     def setUp(self):

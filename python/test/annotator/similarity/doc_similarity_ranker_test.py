@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class DocumentSimilarityRankerTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkSessionForTest.spark

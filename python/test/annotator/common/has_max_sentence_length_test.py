@@ -20,7 +20,7 @@ class HasMaxSentenceLengthTests:
             self.tested_annotator.setMaxSentenceLength(self.over_max_length)
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class HasMaxSentenceLengthTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
     def setUp(self):
         class MockAnnotator(HasMaxSentenceLengthLimit):

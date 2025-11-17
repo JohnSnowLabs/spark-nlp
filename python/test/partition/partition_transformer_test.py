@@ -22,7 +22,7 @@ from sparknlp.partition.partition_transformer import PartitionTransformer
 from test.util import SparkContextForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class PartitionTransformerTesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -52,7 +52,7 @@ class PartitionTransformerTesSpec(unittest.TestCase):
         self.assertTrue(resultDf.select("partition").count() > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class PartitionTransformerURLsTesSpec(unittest.TestCase):
 
     def setUp(self):
@@ -83,7 +83,7 @@ class PartitionTransformerURLsTesSpec(unittest.TestCase):
         self.assertTrue(resultDf.select("partition").count() > 0)
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class PartitionTransformerChunkTestSpec(unittest.TestCase):
 
     def setUp(self):

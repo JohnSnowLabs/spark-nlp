@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class WordSegmenterTestSpec(unittest.TestCase):
 
     def setUp(self):

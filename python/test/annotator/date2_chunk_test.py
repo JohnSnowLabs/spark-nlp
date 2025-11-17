@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class Date2ChunkTestSpec(unittest.TestCase):
 
     def setUp(self):

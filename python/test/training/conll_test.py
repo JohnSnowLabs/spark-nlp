@@ -22,7 +22,7 @@ from test.util import SparkContextForTest
 expectedColumnNames = ["document", "sentence", "token", "pos", "label"]
 expectedAnnotatorTypes = ["document", "document", "token", "pos", "named_entity"]
 
-@pytest.mark.local
+@pytest.mark.fast
 class CoNLLTestSpec(unittest.TestCase):
     def runTest(self):
         trainingData = CoNLL().readDataset(SparkContextForTest.spark, "../src/test/resources/conll/test_conll_docid.txt")
@@ -31,7 +31,7 @@ class CoNLLTestSpec(unittest.TestCase):
         assert(all([x == y for x, y in (comparedColumnNames +  comparedAnnotationTypes)]))
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class CoNLLWithIdsTestSpec(unittest.TestCase):
     def runTest(self):
         trainingData = CoNLL(includeDocId=True).readDataset(SparkContextForTest.spark, "../src/test/resources/conll/test_conll_docid.txt")

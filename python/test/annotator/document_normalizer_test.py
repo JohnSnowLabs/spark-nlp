@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class DocumentNormalizerSpec(unittest.TestCase):
 
     def setUp(self):
@@ -81,7 +81,7 @@ class DocumentNormalizerSpec(unittest.TestCase):
         ds.select("normalizedDocument").show()
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class DocumentNormalizerAutoModeTestSpec(unittest.TestCase):
 
     def setUp(self):

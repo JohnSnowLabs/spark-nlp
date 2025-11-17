@@ -22,7 +22,7 @@ from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class MultiClassifierDLTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkSessionForTest.spark.read.option("header", "true") \

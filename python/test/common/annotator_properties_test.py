@@ -7,7 +7,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class AnnotatorPropertiesTest(unittest.TestCase):
 
     def setUp(self):
@@ -49,7 +49,7 @@ class AnnotatorPropertiesTest(unittest.TestCase):
         sentence_desc_output = result_df.select("sentence_desc.result").collect()[0][0][0]
         self.assertEqual(sentence_desc_output, self.desc)
 
-@pytest.mark.local
+@pytest.mark.fast
 class AnnotatorPropertiesTestInvalidNumberOfColumns(unittest.TestCase):
 
     def setUp(self):
@@ -63,7 +63,7 @@ class AnnotatorPropertiesTestInvalidNumberOfColumns(unittest.TestCase):
         self.assertRaises(TypeError, SentenceDetector().setInputCols, self.tuple_input)
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class AnnotatorPropertiesTestInvalidInput(unittest.TestCase):
 
     def setUp(self):

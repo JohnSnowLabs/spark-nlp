@@ -22,7 +22,7 @@ from pyspark.ml import Pipeline
 from sparknlp.reader.reader_assembler import ReaderAssembler
 from test.util import SparkContextForTest
 
-@pytest.mark.local
+@pytest.mark.fast
 class ReaderAssemblerTest(unittest.TestCase):
 
     def setUp(self):

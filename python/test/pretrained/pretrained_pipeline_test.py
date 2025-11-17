@@ -19,7 +19,7 @@ import pytest
 from sparknlp.pretrained import PretrainedPipeline
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class PretrainedPipelineTextInputTest(unittest.TestCase):
 
     def setUp(self):
@@ -47,7 +47,7 @@ class PretrainedPipelineImageSetUp(unittest.TestCase):
         self.pipeline = PretrainedPipeline("pipeline_image_classifier_vit_dogs", "en")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class PretrainedPipelineImageInputTest(PretrainedPipelineImageSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -71,7 +71,7 @@ class PretrainedPipelineImageInputTest(PretrainedPipelineImageSetUp, unittest.Te
             self.assertTrue(len(result) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class PretrainedPipelineImagesInputTest(PretrainedPipelineImageSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -95,7 +95,7 @@ class PretrainedPipelineImagesInputTest(PretrainedPipelineImageSetUp, unittest.T
             self.assertTrue(len(result) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class PretrainedPipelineAudioInputTest(unittest.TestCase):
 
     def setUp(self):
@@ -124,7 +124,7 @@ class PretrainedPipelineAudioInputTest(unittest.TestCase):
             self.assertTrue(len(result) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class PretrainedPipelineWithFinisher(unittest.TestCase):
 
     def setUp(self):

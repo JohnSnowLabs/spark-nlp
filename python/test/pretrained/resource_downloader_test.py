@@ -18,7 +18,7 @@ import pytest
 from sparknlp.pretrained import ResourceDownloader
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class ResourceDownloaderShowTestSpec(unittest.TestCase):
 
     def runTest(self):

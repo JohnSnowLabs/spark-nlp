@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class DocumentTokenSplitterTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkSessionForTest.spark.createDataFrame(

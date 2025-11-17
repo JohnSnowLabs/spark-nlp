@@ -21,7 +21,7 @@ from sparknlp.annotator import SentenceDetector
 from sparknlp.annotator.dataframe_optimizer import DataFrameOptimizer
 from test.util import SparkSessionForTest
 
-@pytest.mark.local
+@pytest.mark.fast
 class DataframeOptimizerTestSpec(unittest.TestCase):
 
     def setUp(self):
@@ -43,7 +43,7 @@ class DataframeOptimizerTestSpec(unittest.TestCase):
         self.assertEqual(optimized_df.rdd.getNumPartitions(), 2)
         self.assertTrue(optimized_df.is_cached)
 
-@pytest.mark.local
+@pytest.mark.fast
 class DataframeOptimizerPipelineTestSpec(unittest.TestCase):
 
     def setUp(self):

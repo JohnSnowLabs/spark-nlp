@@ -7,7 +7,7 @@ from sparknlp.annotator import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.local
+@pytest.mark.fast
 class NerConverterTestSpec(unittest.TestCase):
 
     def runTest(self):

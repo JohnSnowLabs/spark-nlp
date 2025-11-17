@@ -86,7 +86,7 @@ class SomeModelTest(AnnotatorModel, HasRecursiveTransform):
         )
 
 
-@pytest.mark.slow
+@pytest.mark.local
 @pytest.mark.skip(reason="Needs to be Fixed.")
 class RecursiveTestSpec(unittest.TestCase):
     def setUp(self):
