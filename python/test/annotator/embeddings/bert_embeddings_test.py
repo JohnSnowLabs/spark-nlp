@@ -22,7 +22,7 @@ from test.annotator.common.has_max_sentence_length_test import HasMaxSentenceLen
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class BertEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
 
     def setUp(self):
@@ -56,7 +56,7 @@ class BertEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
         model.transform(self.data).show()
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class BertEmbeddingsLoadSavedModelTestSpec(unittest.TestCase):
 
     def setUp(self):

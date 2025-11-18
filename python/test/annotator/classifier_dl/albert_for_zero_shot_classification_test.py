@@ -22,7 +22,7 @@ from test.annotator.common.has_max_sentence_length_test import HasMaxSentenceLen
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AlbertForZeroShotClassificationTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
     def setUp(self):
         self.text = "I have a problem with my iphone that needs to be resolved asap!!"

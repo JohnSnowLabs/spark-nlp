@@ -18,7 +18,7 @@ from sparknlp.base import *
 from pyspark.sql import DataFrame
 from pyspark.sql import SparkSession
 
-@pytest.mark.slow
+@pytest.mark.local
 class OpenAIEmbeddingsTestCase(unittest.TestCase):
 # Set your OpenAI API key to run unit test...
     def setUp(self):

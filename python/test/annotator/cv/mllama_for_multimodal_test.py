@@ -61,7 +61,7 @@ class MLLamaForMultimodalTest(MLLamaForMultimodalTestSetup, unittest.TestCase):
             self.assertTrue(row["answer"] != "")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightMLLamaForMultimodalTest(MLLamaForMultimodalTestSetup, unittest.TestCase):
 
     def setUp(self):

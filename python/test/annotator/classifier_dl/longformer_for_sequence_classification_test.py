@@ -22,7 +22,7 @@ from test.annotator.common.has_max_sentence_length_test import HasMaxSentenceLen
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LongformerForSequenceClassificationTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
     valid_max_length = 4096
 

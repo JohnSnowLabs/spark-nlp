@@ -65,7 +65,7 @@ class SmolVLMTransformerTest(SmolVLMTransformerTestSetup, unittest.TestCase):
             self.assertTrue(row["answer"] != "")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightSmolVLMTransformerTest(SmolVLMTransformerTestSetup, unittest.TestCase):
 
     def setUp(self):

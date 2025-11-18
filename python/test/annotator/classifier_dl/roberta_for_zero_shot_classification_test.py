@@ -19,7 +19,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class RoBertaForZeroShotClassificationTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark

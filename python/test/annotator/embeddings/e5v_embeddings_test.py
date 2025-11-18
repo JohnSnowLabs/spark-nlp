@@ -21,7 +21,7 @@ from pyspark.ml import Pipeline
 from pyspark.sql.functions import lit
 from test.util import SparkContextForTest
 
-@pytest.mark.slow
+@pytest.mark.local
 class E5VEmbeddingsTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark

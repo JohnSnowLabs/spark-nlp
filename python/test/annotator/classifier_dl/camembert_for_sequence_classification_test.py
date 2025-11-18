@@ -22,7 +22,7 @@ from test.annotator.common.has_max_sentence_length_test import HasMaxSentenceLen
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class CamemBertForSequenceClassificationTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
     def setUp(self):
         self.data = SparkContextForTest.spark.read.option("header", "true") \

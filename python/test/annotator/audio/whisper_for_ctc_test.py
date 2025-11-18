@@ -22,7 +22,7 @@ from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class WhisperTestSetUp(unittest.TestCase):
     def setUp(self):
         audio_path = os.getcwd() + "/../src/test/resources/audio/json/audio_floats.json"
@@ -45,7 +45,7 @@ class WhisperTestSetUp(unittest.TestCase):
         self.model.write().overwrite().save("./tmp_Whisper_pipeline_model")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class WhisperForCTCTestSpec(WhisperTestSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -59,7 +59,7 @@ class WhisperForCTCTestSpec(WhisperTestSetUp, unittest.TestCase):
         assert result_df.select("text").count() > 0
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightWhisperForCTCOneAudioTestSpec(WhisperTestSetUp, unittest.TestCase):
     def setUp(self):
         super().setUp()
@@ -82,7 +82,7 @@ class LightWhisperForCTCOneAudioTestSpec(WhisperTestSetUp, unittest.TestCase):
             self.assertTrue(len(result["text"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightWhisperForCTCTestSpec(WhisperTestSetUp, unittest.TestCase):
     def setUp(self):
         super().setUp()
@@ -106,7 +106,7 @@ class LightWhisperForCTCTestSpec(WhisperTestSetUp, unittest.TestCase):
             self.assertTrue(len(result["text"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class WhisperForCTCLangTaskTestSpec(WhisperTestSetUp, unittest.TestCase):
     def setUp(self):
         super().setUp()

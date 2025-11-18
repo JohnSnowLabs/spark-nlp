@@ -240,7 +240,7 @@ class AutoGGUFModelErrorMessagesTestSpec(unittest.TestCase):
             )
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelSerializationTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -261,7 +261,7 @@ class AutoGGUFModelSerializationTestSpec(unittest.TestCase):
         AutoGGUFModel.load(model_path)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelCloseTest(unittest.TestCase):
     def setUp(self):
         self.spark = SparkSessionForTest.spark
@@ -295,7 +295,7 @@ class AutoGGUFModelCloseTest(unittest.TestCase):
         assert ramChange < -100, "Freed RAM should be greater than 100 MB"
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelThinkingTagTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark

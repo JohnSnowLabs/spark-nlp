@@ -245,7 +245,7 @@ class T5TransformerSummaryWithSamplingAndTopPTestSpec(unittest.TestCase):
         results.select("summaries.result").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class T5TransformerSummaryWithSamplingTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark

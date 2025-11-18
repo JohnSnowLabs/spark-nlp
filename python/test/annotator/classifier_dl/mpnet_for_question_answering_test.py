@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class MPNetForQuestionAnsweringTestSpec(unittest.TestCase):
     def setUp(self):
         question = (
