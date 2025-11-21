@@ -61,6 +61,21 @@ class AutoGGUFModelTestSpec(unittest.TestCase):
                 sum(embds) > 0
             ), "Embeddings should not be zero. Was there an error on llama.cpp side?"
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        model = (
+            AutoGGUFEmbeddings.pretrained()
+            .setInputCols("document")
+            .setOutputCol("embeddings")
+            .setBatchSize(4)
+            .setNGpuLayers(99)
+            .setNCtx(4096)
+        )
+
+        pipeline = Pipeline().setStages([self.document_assembler, model])
+        results = pipeline.fit(self.data).transform(self.data)
+        results.select("embeddings.embeddings").show()
+
 
 @pytest.mark.local
 class AutoGGUFEmbeddingsPoolingTypeTestSpec(unittest.TestCase):

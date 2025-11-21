@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.TestUtils.measureRAMChange
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
@@ -54,6 +54,11 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     val data = Seq("Hello, I am a").toDF("text")
     val result = pipeline.fit(data).transform(data)
     assertAnnotationsNonEmpty(result)
+  }
+
+  it should "run end to end pipeline test" taggedAs SlowTest in {
+    val data = Seq("Hello, I am a").toDF("text")
+    pipeline.fit(data).transform(data).show()
   }
 
   it should "create batch completions" taggedAs LocalTest in {

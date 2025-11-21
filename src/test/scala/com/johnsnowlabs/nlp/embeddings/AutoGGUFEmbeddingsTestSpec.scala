@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.TestUtils.measureRAMChange
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
@@ -34,7 +34,7 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
   println(ResourceHelper.spark.version)
   // nomic-embed-text-v1.5.Q8_0.gguf
   def model(poolingType: String): AutoGGUFEmbeddings = AutoGGUFEmbeddings
-    .loadSavedModel("models/Qwen3-Embedding-0.6B-Q8_0.gguf", ResourceHelper.spark)
+    .pretrained()
     .setInputCols("document")
     .setOutputCol("embeddings")
     .setBatchSize(4)
@@ -43,6 +43,11 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
 
   def pipeline(embedModel: AutoGGUFEmbeddings = model("MEAN")): Pipeline =
     new Pipeline().setStages(Array(documentAssembler, embedModel))
+
+
+  it should "run end to end pipeline test" taggedAs SlowTest  in {
+   pipeline().fit(data).transform(data).show()
+    }
 
   it should "produce embeddings" taggedAs LocalTest in {
     val result = pipeline().fit(data).transform(data)

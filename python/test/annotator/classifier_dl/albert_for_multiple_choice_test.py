@@ -24,12 +24,8 @@ from test.util import SparkContextForTest
 class AlbertForMultipleChoiceTestSetup(unittest.TestCase):
     def setUp(self):
 
-        sparkNLPModelPath = "/media/danilo/Data/Danilo/JSL/models/transformers/spark-nlp"
-
-        self.spark = SparkContextForTest.spark
         self.question = "The Eiffel Tower is located in which country?"
         self.choices = "Germany, France, Italy"
-
         self.spark = SparkContextForTest.spark
         empty_df = self.spark.createDataFrame([[""]]).toDF("text")
 
@@ -37,7 +33,7 @@ class AlbertForMultipleChoiceTestSetup(unittest.TestCase):
             .setInputCols(["question", "context"]) \
             .setOutputCols(["document_question", "document_context"])
 
-        albert_for_multiple_choice = AlbertForMultipleChoice.load(sparkNLPModelPath + "/openvino/albert_multiple_choice_openvino") \
+        albert_for_multiple_choice = AlbertForMultipleChoice.pretrained() \
             .setInputCols(["document_question", "document_context"]) \
             .setOutputCol("answer")
 
@@ -59,6 +55,10 @@ class AlbertForMultipleChoiceTest(AlbertForMultipleChoiceTestSetup, unittest.Tes
         result_df.show(truncate=False)
         for row in result_df.collect():
             self.assertTrue(row["answer"][0].result != "")
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        self.pipeline_model.transform(self.data).show()
+
 
 
 @pytest.mark.local

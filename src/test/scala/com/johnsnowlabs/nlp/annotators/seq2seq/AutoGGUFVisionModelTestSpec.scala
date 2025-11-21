@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, ImageAssembler}
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.TestUtils.measureRAMChange
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.lit
@@ -78,6 +78,10 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
 
   it should "replace image data with bytes" taggedAs LocalTest in {
     checkBinaryContents()
+  }
+
+  it should "run end to end pipeline test" taggedAs SlowTest in {
+    pipeline.fit(data).transform(data).show()
   }
 
   it should "caption the images correctly" taggedAs LocalTest in {

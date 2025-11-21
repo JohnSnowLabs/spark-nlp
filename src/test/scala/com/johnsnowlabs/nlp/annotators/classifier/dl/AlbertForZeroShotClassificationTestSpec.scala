@@ -19,12 +19,41 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.explode
 import org.scalatest.flatspec.AnyFlatSpec
 
 class AlbertForZeroShotClassificationTestSpec extends AnyFlatSpec {
+
+  "AlbertForZeroShotClassification" should "run end to end pipeline test" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
+
+    val dataDf =
+      Seq("I have a problem with my iphone that needs to be resolved asap!!").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val zeroShotClassifier = AlbertForZeroShotClassification
+      .pretrained()
+      .setInputCols(Array("document", "token"))
+      .setOutputCol("multi_class")
+      .setCandidateLabels(Array("urgent", "mobile", "technology"))
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, zeroShotClassifier))
+
+    val pipelineModel = pipeline.fit(dataDf)
+    val pipelineDF = pipelineModel.transform(dataDf)
+    pipelineDF.select("multi_class").show(false)
+  }
+
+
 
   "AlbertForZeroShotClassification" should "correctly load custom ONNX model" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._

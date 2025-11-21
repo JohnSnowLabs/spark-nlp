@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.finisher.GGUFRankingFinisher
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.TestUtils.measureRAMChange
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
@@ -54,6 +54,11 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
         println(annotations.head.metadata)
         assert(annotations.head.result.nonEmpty)
       })
+  }
+
+  it should "run end to end pipeline test" taggedAs SlowTest in {
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+    pipeline.fit(data).transform(data).show()
   }
 
   it should "create batch completions" taggedAs LocalTest in {

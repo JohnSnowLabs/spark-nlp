@@ -90,6 +90,12 @@ class AutoGGUFVisionModelTestSpec(unittest.TestCase):
             ), f"Expected '{expectedWords[image_name]}' in '{completion.lower()}'"
 
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        pipeline, data, _ = setup_context(self.spark)
+        pipeline.fit(data).transform(data).show()
+
+
 @pytest.mark.local
 class AutoGGUFVisionModelSerializationTestSpec(unittest.TestCase):
     def setUp(self):

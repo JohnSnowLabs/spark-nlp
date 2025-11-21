@@ -61,6 +61,36 @@ class AutoGGUFModelTestSpec(unittest.TestCase):
 
         results.select("completions").show(truncate=False)
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = (
+            self.spark.createDataFrame(
+                [
+                    ["The sun is "]]
+            )
+            .toDF("text")
+        )
+
+        document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+        model = (
+            AutoGGUFModel.pretrained()
+            .setInputCols("document")
+            .setOutputCol("completions")
+            .setBatchSize(4)
+            .setNPredict(20)
+            .setNGpuLayers(99)
+            .setTemperature(0.4)
+            .setTopK(40)
+            .setTopP(0.9)
+            .setPenalizeNl(True)
+        )
+
+        pipeline = Pipeline().setStages([document_assembler, model])
+        pipeline.fit(data).transform(data).show()
+
 
 @pytest.mark.local
 class AutoGGUFModelParametersTestSpec(unittest.TestCase):

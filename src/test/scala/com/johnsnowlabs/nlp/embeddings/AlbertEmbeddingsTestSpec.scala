@@ -20,13 +20,46 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
+
+  import ResourceHelper.spark.implicits._
+
+  "AlbertEmbeddings" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val ddd = Seq(
+      "Rare Hendrix song draft sells for almost $17,000.",
+      "carbon emissions have come down without impinging on our growth .\\u2009.\\u2009.").toDF(
+      "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val embeddings = AlbertEmbeddings
+      .pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("embeddings")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentence, tokenizer, embeddings))
+
+    pipeline.fit(ddd).transform(ddd).show()
+
+  }
 
   "AlbertEmbeddings" should "correctly load pretrained model" taggedAs LocalTest in {
 
@@ -116,7 +149,6 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
   }
 
   "AlbertEmbeddings" should "benchmark test" taggedAs LocalTest in {
-    import ResourceHelper.spark.implicits._
 
     val conll = CoNLL()
     val training_data =

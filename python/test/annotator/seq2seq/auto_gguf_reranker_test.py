@@ -81,6 +81,33 @@ class AutoGGUFRerankerTestSpec(unittest.TestCase):
 
         results.select("reranked_documents").show(truncate=False)
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+
+        query = "A man is eating pasta."
+        data = (
+        self.spark.createDataFrame(
+            [
+                ["A man is eating food."],
+            ]
+        )
+        .toDF("text")
+    )
+
+        document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+        reranker = (
+            AutoGGUFReranker.pretrained()
+            .setInputCols("document")
+            .setOutputCol("reranked_documents")
+            .setBatchSize(4)
+            .setQuery(query)
+        )
+
+        pipeline = Pipeline().setStages([document_assembler, reranker])
+        pipeline.fit(data).transform(data).show()
+
 
 @pytest.mark.local
 class AutoGGUFRerankerPretrainedTestSpec(unittest.TestCase):

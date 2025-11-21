@@ -55,3 +55,32 @@ class AlbertEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
 
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+
+        text = "I love spark nlp so much!"
+        data = SparkContextForTest.spark \
+            .createDataFrame([[text]]).toDF("text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+        albert = self.tested_annotator
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            tokenizer,
+            albert
+        ])
+
+        model = pipeline.fit(data)
+        model.transform(data).show()
+
