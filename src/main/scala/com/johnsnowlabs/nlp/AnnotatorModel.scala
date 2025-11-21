@@ -18,9 +18,9 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.util.SparkNlpConfig
 import org.apache.spark.ml.{Model, PipelineModel}
-import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import org.apache.spark.sql.types.{DataType, StructType}
+import org.apache.spark.sql.{DataFrame, Dataset, Encoder, Row}
 
 /** This trait implements logic that applies nlp using Spark ML Pipeline transformers Should
   * strongly change once UsedDefinedTypes are allowed
@@ -49,23 +49,25 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
         s"${inputAnnotatorTypes.mkString(", ")}")
 
     val inputDataset = beforeAnnotate(dataset)
+    val outputColName = getOutputCol
     val newStructType = inputDataset.schema.add(getOutputCol, Annotation.arrayType)
     val processedDataset = {
       this match {
         case withAnnotate: HasSimpleAnnotate[M] =>
-          inputDataset.withColumn(
-            getOutputCol,
-            wrapColumnMetadata({
-              this match {
-                case a: HasRecursiveTransform[M] =>
-                  a.dfRecAnnotate(recursivePipeline.get)(
-                    array(getInputCols.map(c => dataset.col(c)): _*))
-                case _ =>
-                  withAnnotate.dfAnnotate(array(getInputCols.map(c => dataset.col(c)): _*))
-              }
-            }))
+          val spark = dataset.sparkSession
+          val transformer = withAnnotate.dfAnnotate(getInputCols, withAnnotate.annotate)
+
+          val rdd = inputDataset.toDF().rdd.mapPartitions(transformer)
+          val schemaWithOutput = inputDataset.schema.add(outputColName, Annotation.arrayType)
+          val schemaCopy = schemaWithOutput.json
+          val dfWithMetadata = spark
+            .createDataFrame(rdd, DataType.fromJson(schemaCopy).asInstanceOf[StructType])
+            .withColumn(outputColName, wrapColumnMetadata(col(outputColName)))
+
+          dfWithMetadata
+
         case withBatchAnnotate: HasBatchedAnnotate[M] =>
-          implicit val encoder: ExpressionEncoder[Row] =
+          implicit val encoder: Encoder[Row] =
             SparkNlpConfig.getEncoder(inputDataset, newStructType)
           val processedDataFrame = inputDataset.mapPartitions(partition => {
             withBatchAnnotate.batchProcess(partition)
@@ -81,7 +83,7 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
           dfWithMetadata
 
         case withBatchAnnotateImage: HasBatchedAnnotateImage[M] =>
-          implicit val encoder: ExpressionEncoder[Row] =
+          implicit val encoder: Encoder[Row] =
             SparkNlpConfig.getEncoder(inputDataset, newStructType)
           val processedDataFrame = inputDataset.mapPartitions(partition => {
             withBatchAnnotateImage.batchProcess(partition)
@@ -97,7 +99,7 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
           dfWithMetadata
 
         case withBatchAnnotateAudio: HasBatchedAnnotateAudio[M] =>
-          implicit val encoder: ExpressionEncoder[Row] =
+          implicit val encoder: Encoder[Row] =
             SparkNlpConfig.getEncoder(inputDataset, newStructType)
           val processedDataFrame = inputDataset.mapPartitions(partition => {
             withBatchAnnotateAudio.batchProcess(partition)
@@ -113,7 +115,7 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
           dfWithMetadata
 
         case withBatchAnnotateTextImage: HasBatchedAnnotateTextImage[M] =>
-          implicit val encoder: ExpressionEncoder[Row] =
+          implicit val encoder: Encoder[Row] =
             SparkNlpConfig.getEncoder(inputDataset, newStructType)
           val processedDataFrame = inputDataset.mapPartitions(partition => {
             withBatchAnnotateTextImage.batchProcess(partition)

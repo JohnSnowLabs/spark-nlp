@@ -205,6 +205,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
 class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: String)
     extends Feature[TValue, TValue, TValue](model, name) {
 
+  @transient
   implicit val encoder: Encoder[TValue] = Encoders.kryo[TValue]
 
   override def serializeObject(
@@ -268,6 +269,7 @@ class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: Str
 class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override val name: String)
     extends Feature[TKey, TValue, Map[TKey, TValue]](model, name) {
 
+  @transient
   implicit val encoder: Encoder[(TKey, TValue)] = Encoders.kryo[(TKey, TValue)]
 
   override def serializeObject(
@@ -333,6 +335,7 @@ class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override 
 class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: String)
     extends Feature[TValue, TValue, Array[TValue]](model, name) {
 
+  @transient
   implicit val encoder: Encoder[TValue] = Encoders.kryo[TValue]
 
   override def serializeObject(
@@ -396,6 +399,7 @@ class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: Stri
 class SetFeature[TValue: ClassTag](model: HasFeatures, override val name: String)
     extends Feature[TValue, TValue, Set[TValue]](model, name) {
 
+  @transient
   implicit val encoder: Encoder[TValue] = Encoders.kryo[TValue]
 
   override def serializeObject(

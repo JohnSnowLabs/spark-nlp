@@ -4,6 +4,7 @@ object Dependencies {
 
   /** ------- Spark version start ------- */
   /* default spark version to base the APIS */
+  val spark40Ver = "4.0.1"
   val spark34Ver = "3.4.0"
   /* only used in unit tests */
   val spark30Ver = "3.0.3"
@@ -23,11 +24,12 @@ object Dependencies {
   val is_spark31: String = System.getProperty("is_spark31", "false")
   val is_spark32: String = System.getProperty("is_spark32", "false")
   val is_spark33: String = System.getProperty("is_spark33", "false")
-  val is_spark34: String = System.getProperty("is_spark34", "true")
+  val is_spark34: String = System.getProperty("is_spark34", "False")
   val is_spark35: String = System.getProperty("is_spark35", "false")
+  val is_spark40: String = System.getProperty("is_spark40", "true")
 
   val sparkVer: String =
-    getSparkVersion(is_spark30, is_spark31, is_spark32, is_spark33, is_spark34, is_spark35)
+    getSparkVersion(is_spark30, is_spark31, is_spark32, is_spark33, is_spark34, is_spark35, is_spark40)
 
   /** ------- Spark version end ------- */
 
@@ -50,7 +52,8 @@ object Dependencies {
       is_spark32: String,
       is_spark33: String,
       is_spark34: String,
-      is_spark35: String): String = {
+      is_spark35: String,
+      is_spark40: String): String = {
     if (is_spark30.equals("true")) {
       spark30Ver
     } else if (is_spark31.equals("true")) {
@@ -59,11 +62,14 @@ object Dependencies {
       spark32Ver
     } else if (is_spark33.equals("true")) {
       spark33Ver
+    } else if (is_spark34.equals("true")) {
+      spark34Ver
     } else if (is_spark35.equals("true")) {
       spark35Ver
-    } else {
+    }
+    else {
       /* default spark version */
-      spark34Ver
+      spark40Ver
     }
   }
 

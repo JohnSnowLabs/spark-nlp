@@ -11,7 +11,7 @@ version := "6.2.0-dev2"
 (ThisBuild / scalaVersion) := scalaVer
 
 //(ThisBuild / scalacOptions) += "-target:11"
-(ThisBuild / javacOptions) ++= Seq("-source", "11", "-target", "11")
+(ThisBuild / javacOptions) ++= Seq("-source", "17", "-target", "17")
 
 (ThisBuild / javaOptions) += "-Xmx4096m"
 (ThisBuild / javaOptions) += "-XX:+UseG1GC"
@@ -135,6 +135,23 @@ lazy val root = (project in file("."))
     mavenProps := {
       sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else ""
     })
+
+// === Spark 4 + Java 17 Compatibility ===
+Test / javaOptions ++= Seq(
+  "--add-exports=java.base/sun.nio.ch=ALL-UNNAMED",
+  "--add-opens=java.base/java.nio=ALL-UNNAMED"
+)
+
+// Apply same JVM flags when running Spark jobs via sbt run
+Compile / javaOptions ++= Seq(
+  "--add-exports=java.base/sun.nio.ch=ALL-UNNAMED",
+  "--add-opens=java.base/java.nio=ALL-UNNAMED",
+  "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED",
+  "--add-opens=java.base/java.util=ALL-UNNAMED"
+)
+
+// Run tests in their own JVM (needed for javaOptions to apply)
+Test / fork := true
 
 (assembly / assemblyShadeRules) := Seq(
   ShadeRule.rename("org.apache.http.**" -> "org.apache.httpShaded@1").inAll,

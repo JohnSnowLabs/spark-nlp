@@ -17,9 +17,9 @@
 package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.Model
-import org.apache.spark.sql.expressions.UserDefinedFunction
-import org.apache.spark.sql.functions.udf
-import scala.collection.immutable
+import org.apache.spark.sql.Row
+
+import scala.collection.{immutable, mutable}
 
 trait HasSimpleAnnotate[M <: Model[M]] {
 
@@ -43,9 +43,58 @@ trait HasSimpleAnnotate[M <: Model[M]] {
     *   udf function to be applied to [[inputCols]] using this annotator's annotate function as
     *   part of ML transformation
     */
-  def dfAnnotate: UserDefinedFunction = udf {
-    annotationProperties: immutable.Seq[AnnotationContent] =>
-      annotate(annotationProperties.flatMap(_.map(Annotation(_))))
+  // TODO: Do we need this for backward compatibility?
+//  def dfAnnotate: UserDefinedFunction = udf { // Original Code with AnnotationContent rises AgnosticEncoders$UnboundRowEncoder error
+//    annotationProperties: immutable.Seq[AnnotationContent] =>
+//      annotate(annotationProperties.flatMap(_.map(Annotation(_))))
+//  }
+
+  /** Spark 4–safe row-level annotation transformer.
+    *
+    * This method builds a function that Spark can execute safely across distributed partitions to
+    * apply the annotator’s logic (`annotateFn`) on each row of the dataset.
+    *
+    * ### Why this change was needed
+    *   - Spark 4 changed internal dataset encoders to return `mutable.ArraySeq` instead of
+    *     immutable collections.
+    *   - Older UDF-based implementations failed because these mutable collections couldn’t be
+    *     safely cast.
+    *   - This version explicitly handles both `mutable.Seq` and `immutable.Seq`, converting them
+    *     to a uniform Scala `List` before applying annotation logic.
+    *
+    * ### Why return a function instead of a DataFrame Spark’s `mapPartitions` API expects a
+    * function of type `Iterator[Row] => Iterator[Row]`. This approach avoids non-serializable
+    * Spark UDFs and keeps the closure lightweight, making it compatible with Spark 4’s stricter
+    * serialization model.
+    *
+    * @param inputCols
+    *   The annotation columns used as input for this annotator
+    * @param annotateFn
+    *   The annotator function applied to the extracted annotations
+    * @return
+    *   A transformation function to be passed to `RDD.mapPartitions`
+    */
+  def dfAnnotate(
+      inputCols: Array[String],
+      annotateFn: Seq[Annotation] => Seq[Annotation]): Iterator[Row] => Iterator[Row] = {
+    (rows: Iterator[Row]) =>
+      rows.map { row =>
+        val annotations = inputCols
+          .flatMap { col =>
+            row.getAs[Any](col) match {
+              case null => Nil
+              case s: mutable.Seq[_] => s.iterator.collect { case r: Row => r }.toList
+              case s: Seq[_] => s.iterator.collect { case r: Row => r }.toList
+              case other =>
+                throw new IllegalArgumentException(
+                  s"Unexpected type in column '$col': ${other.getClass.getName}")
+            }
+          }
+          .map(Annotation.apply)
+
+        val result = annotateFn(annotations).map(_.castToRow)
+        Row.fromSeq(row.toSeq :+ result)
+      }
   }
 
 }

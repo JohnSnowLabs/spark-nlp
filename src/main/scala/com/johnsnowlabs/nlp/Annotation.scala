@@ -43,6 +43,8 @@ case class Annotation(
     embeddings: Array[Float] = Array.emptyFloatArray)
     extends IAnnotation {
 
+  def castToRow: Row = Row(annotatorType, begin, end, result, metadata, embeddings)
+
   override def equals(obj: Any): Boolean = {
     obj match {
       case annotation: Annotation =>

@@ -28,7 +28,8 @@ import com.johnsnowlabs.nlp.util.GraphBuilder
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.functions.array
+import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.types.{DataType, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 /** Extracts a dependency graph between entities.
@@ -365,10 +366,26 @@ class GraphExtraction(override val uid: String)
 
       val columnNames = structFields.map(structField => structField.name)
       val inputCols = getInputCols ++ columnNames
-      val processedDataset = dataset.withColumn(
-        getOutputCol,
-        wrapColumnMetadata(dfAnnotate(array(inputCols.map(c => dataset.col(c)): _*))))
-      processedDataset
+      // TODO: Do we need to keep the old logic for backward compatibility?
+//      val processedDataset = dataset.withColumn(
+//        getOutputCol,
+//        wrapColumnMetadata(dfAnnotate(array(inputCols.map(c => dataset.col(c)): _*))))
+//      processedDataset
+
+      // === NEW LOGIC USING dfAnnotate ===
+      val schemaWithOutput = dataset.schema.add(getOutputCol, Annotation.arrayType)
+      val schemaCopy = schemaWithOutput.json
+      val spark = dataset.sparkSession
+
+      // Build transformer using new dfAnnotate signature
+      val transformer = dfAnnotate(inputCols, annotate)
+
+      // Apply transformation at RDD level
+      val rdd = dataset.toDF().rdd.mapPartitions(transformer)
+      val df = spark.createDataFrame(rdd, DataType.fromJson(schemaCopy).asInstanceOf[StructType])
+
+      // Add NLP metadata to the new output column
+      df.withColumn(getOutputCol, wrapColumnMetadata(col(getOutputCol)))
     }
   }
 
