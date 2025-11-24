@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotator.{SentenceDetector, Tokenizer}
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, size}
@@ -49,6 +49,34 @@ class BGEEmbeddingsTestSpec extends AnyFlatSpec {
 
     val embeddings = BGEEmbeddings
       .pretrained("bge_small_en_v1.5")
+      .setInputCols(Array("document"))
+      .setOutputCol("bge")
+      .setUseCLSToken(false)
+
+    val pipeline = new Pipeline().setStages(Array(document, embeddings))
+
+    val pipelineDF = pipeline.fit(ddd).transform(ddd)
+    pipelineDF.select("bge.embeddings").show(truncate = false)
+
+  }
+
+  "BGE Embeddings" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "query: summit define",
+      "passage: Definition of summit for English Language Learners. : 1  the highest point of a mountain : the top of" +
+        " a mountain. : 2  the highest level. : 3  a meeting or series of meetings between the leaders of two or more" +
+        " governments.")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val embeddings = BGEEmbeddings
+      .pretrained()
       .setInputCols(Array("document"))
       .setOutputCol("bge")
       .setUseCLSToken(false)

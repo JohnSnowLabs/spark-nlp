@@ -44,10 +44,9 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
   def pipeline(embedModel: AutoGGUFEmbeddings = model("MEAN")): Pipeline =
     new Pipeline().setStages(Array(documentAssembler, embedModel))
 
-
-  it should "run end to end pipeline test" taggedAs SlowTest  in {
-   pipeline().fit(data).transform(data).show()
-    }
+  it should "run end to end pipeline test" taggedAs SlowTest in {
+    pipeline().fit(data).transform(data).show()
+  }
 
   it should "produce embeddings" taggedAs LocalTest in {
     val result = pipeline().fit(data).transform(data)

@@ -50,3 +50,28 @@ class BartForZeroShotClassificationTestSpec(unittest.TestCase):
         model.transform(self.inputDataset).show()
         light_pipeline = LightPipeline(model)
         annotations_result = light_pipeline.fullAnnotate(self.text)
+
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        zero_shot_classifier = BartForZeroShotClassification \
+            .pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("class") \
+            .setCandidateLabels(["urgent", "mobile", "travel", "movie", "music", "sport", "weather", "technology"])
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            zero_shot_classifier
+        ])
+
+        model = pipeline.fit(self.inputDataset)
+        model.transform(self.inputDataset).show()
+

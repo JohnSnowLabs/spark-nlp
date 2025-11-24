@@ -62,7 +62,7 @@ class AudioAssemblerTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "run end to end pipeline test"  taggedAs SlowTest in {
+  it should "run end to end pipeline test" taggedAs SlowTest in {
 
     val processedAudioDoubles: DataFrame =
       spark.read
@@ -80,7 +80,6 @@ class AudioAssemblerTestSpec extends AnyFlatSpec {
     audioAssembler.transform(processedAudioDoubles).show()
 
   }
-
 
   it should "run in a LightPipeline" taggedAs FastTest in {
     val audioAssembler = new AudioAssembler()

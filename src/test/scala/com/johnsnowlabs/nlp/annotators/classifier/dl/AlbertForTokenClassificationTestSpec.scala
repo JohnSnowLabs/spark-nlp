@@ -33,7 +33,8 @@ class AlbertForTokenClassificationTestSpec extends AnyFlatSpec {
   "AlbertForTokenClassification" should "run end to end pipeline test" taggedAs SlowTest in {
 
     val ddd = Seq(
-      "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London").toDF("text")
+      "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London")
+      .toDF("text")
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -56,7 +57,6 @@ class AlbertForTokenClassificationTestSpec extends AnyFlatSpec {
     pipelineDF.select("token.result").show(false)
 
   }
-
 
   "AlbertForTokenClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 

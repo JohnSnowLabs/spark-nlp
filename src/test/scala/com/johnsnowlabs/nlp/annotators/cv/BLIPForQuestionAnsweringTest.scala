@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, ImageAssembler}
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.lit
@@ -48,6 +48,11 @@ class BLIPForQuestionAnsweringTest extends AnyFlatSpec {
     println(s"resultAnnotate: $resultAnnotate")
 
     assert(resultAnnotate("answer").head.contains("cat"))
+  }
+
+  it should "run end to end pipeline test" taggedAs SlowTest in {
+    val testDF = getTestDF
+    model.transform(testDF).show()
   }
 
   it should "work with light pipeline full annotate" taggedAs LocalTest in {

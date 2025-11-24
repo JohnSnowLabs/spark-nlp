@@ -55,7 +55,6 @@ class AlbertForSequenceClassificationTestSpec extends AnyFlatSpec {
     pipelineDF.select("label").show(20, truncate = false)
   }
 
-
   "AlbertForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 
     val ddd = Seq(

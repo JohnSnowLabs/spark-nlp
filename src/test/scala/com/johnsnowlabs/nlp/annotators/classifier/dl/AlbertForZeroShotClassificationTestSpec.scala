@@ -53,8 +53,6 @@ class AlbertForZeroShotClassificationTestSpec extends AnyFlatSpec {
     pipelineDF.select("multi_class").show(false)
   }
 
-
-
   "AlbertForZeroShotClassification" should "correctly load custom ONNX model" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
 

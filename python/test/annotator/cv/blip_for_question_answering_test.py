@@ -50,15 +50,18 @@ class BLIPForQuestionAnsweringTestSetup(unittest.TestCase):
 @pytest.mark.local
 class BLIPForQuestionAnsweringTest(BLIPForQuestionAnsweringTestSetup, unittest.TestCase):
 
-   def setUp(self):
-       super().setUp()
+    def setUp(self):
+        super().setUp()
 
-   def runTest(self):
-       result = self.model.transform(self.test_df).collect()
+    def runTest(self):
+        result = self.model.transform(self.test_df).collect()
 
-       for row in result:
-           self.assertTrue(row["answer"] != "")
+        for row in result:
+            self.assertTrue(row["answer"] != "")
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        self.model.transform(self.test_df).show()
 
 @pytest.mark.local
 class LightBLIPForQuestionAnsweringTest(BLIPForQuestionAnsweringTestSetup, unittest.TestCase):
