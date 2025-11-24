@@ -23,6 +23,8 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
+import scala.collection.mutable
+
 class GGUFRankingFinisherTest extends AnyFlatSpec {
   // Mock data to simulate AutoGGUFReranker output
   def createMockRerankerOutput(): DataFrame = {
@@ -73,7 +75,7 @@ class GGUFRankingFinisherTest extends AnyFlatSpec {
 
     // Get the ranked documents
     val rankedDocs =
-      result.select("ranked_documents").rdd.map(_.getAs[Seq[Row]](0)).collect().head
+      result.select("ranked_documents").rdd.map(_.getAs[mutable.Seq[Row]](0)).collect().head
 
     assert(rankedDocs.length == 5)
 
@@ -101,7 +103,7 @@ class GGUFRankingFinisherTest extends AnyFlatSpec {
     assert(result.count() == 1)
 
     val rankedDocs =
-      result.select("ranked_documents").rdd.map(_.getAs[Seq[Row]](0)).collect().head
+      result.select("ranked_documents").rdd.map(_.getAs[mutable.Seq[Row]](0)).collect().head
     assert(rankedDocs.length == 3)
 
     // Check that we get the top 3 scores
@@ -128,7 +130,7 @@ class GGUFRankingFinisherTest extends AnyFlatSpec {
     val result = finisher.transform(mockData)
 
     val rankedDocs =
-      result.select("ranked_documents").rdd.map(_.getAs[Seq[Row]](0)).collect().head
+      result.select("ranked_documents").rdd.map(_.getAs[mutable.Seq[Row]](0)).collect().head
     assert(rankedDocs.length == 2) // Only scores >= 0.3 (0.85 and 0.72)
 
     val scores =
@@ -147,7 +149,7 @@ class GGUFRankingFinisherTest extends AnyFlatSpec {
     val result = finisher.transform(mockData)
 
     val rankedDocs =
-      result.select("ranked_documents").rdd.map(_.getAs[Seq[Row]](0)).collect().head
+      result.select("ranked_documents").rdd.map(_.getAs[mutable.Seq[Row]](0)).collect().head
     val scores =
       rankedDocs.map(_.getAs[Map[String, String]]("metadata")("relevance_score").toDouble)
 
@@ -172,7 +174,7 @@ class GGUFRankingFinisherTest extends AnyFlatSpec {
     val result = finisher.transform(mockData)
 
     val rankedDocs =
-      result.select("ranked_documents").rdd.map(_.getAs[Seq[Row]](0)).collect().head
+      result.select("ranked_documents").rdd.map(_.getAs[mutable.Seq[Row]](0)).collect().head
 
     // Should have at most 2 results due to topK
     assert(rankedDocs.length <= 2)
@@ -228,7 +230,7 @@ class GGUFRankingFinisherTest extends AnyFlatSpec {
     val result = finisher.transform(mockData)
 
     val rankedDocs =
-      result.select("ranked_documents").rdd.map(_.getAs[Seq[Row]](0)).collect().head
+      result.select("ranked_documents").rdd.map(_.getAs[mutable.Seq[Row]](0)).collect().head
 
     // Check that query information is preserved in metadata
     rankedDocs.foreach { doc =>
@@ -272,7 +274,7 @@ class GGUFRankingFinisherTest extends AnyFlatSpec {
     val result = finisher.transform(testData)
 
     val rankedDocs =
-      result.select("ranked_documents").rdd.map(_.getAs[Seq[Row]](0)).collect().head
+      result.select("ranked_documents").rdd.map(_.getAs[mutable.Seq[Row]](0)).collect().head
     assert(rankedDocs.length == 3)
 
     // Document with missing score should get 0.0 and be ranked last

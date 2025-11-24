@@ -5,6 +5,8 @@ import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.{DataFrame, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
+import scala.collection.mutable
+
 class CSVReaderTest extends AnyFlatSpec {
 
   val cvsFilesDirectory = "src/test/resources/reader/csv"
@@ -52,7 +54,7 @@ class CSVReaderTest extends AnyFlatSpec {
     val reader = new CSVReader(encoding = "UTF-16", includeHeader = true)
     val csvDf = reader.csv(filePath)
 
-    val elements = csvDf.head.getAs[Seq[Row]]("csv")
+    val elements = csvDf.head.getAs[mutable.Seq[Row]]("csv")
     val plainText = elements.head.getAs[String]("content")
     val EXPECTED_TEXT =
       "Stanley Cups Team Location Stanley Cups Blues STL 1 Flyers PHI 2 Maple Leafs TOR 13"
@@ -68,7 +70,7 @@ class CSVReaderTest extends AnyFlatSpec {
     val reader = new CSVReader(encoding = "UTF-16", includeHeader = false)
     val csvDf = reader.csv(filePath)
 
-    val elements = csvDf.head.getAs[Seq[Row]]("csv")
+    val elements = csvDf.head.getAs[mutable.Seq[Row]]("csv")
     val plainText = elements.head.getAs[String]("content")
     val EXPECTED_TEXT = "Team Location Stanley Cups Blues STL 1 Flyers PHI 2 Maple Leafs TOR 13"
     val result = cleanExtraWhitespace(plainText)
