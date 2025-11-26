@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.util
 import com.johnsnowlabs.nlp.Finisher
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util._
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
@@ -32,7 +32,7 @@ class CoNLLGeneratorTestSpec extends AnyFlatSpec {
   ResourceHelper.spark
   import ResourceHelper.spark.implicits._ // for toDS and toDF
 
-  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right file" taggedAs SlowTest in {
+  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right file" taggedAs LocalTest in {
     val preModel = PretrainedPipeline("explain_document_dl", lang = "en").model
 
     val finisherNoNER = new Finisher()
@@ -76,7 +76,7 @@ class CoNLLGeneratorTestSpec extends AnyFlatSpec {
     assert(fileContents == testText)
   }
 
-  "The (dataframe, outputpath) generator" should "make the right file" taggedAs SlowTest in {
+  "The (dataframe, outputpath) generator" should "make the right file" taggedAs LocalTest in {
     val preModel = PretrainedPipeline("explain_document_dl", lang = "en").model
 
     val finisherNoNER = new Finisher()
@@ -122,7 +122,7 @@ class CoNLLGeneratorTestSpec extends AnyFlatSpec {
     assert(fileContents == testText)
   }
 
-  "The generator" should "make the right file with ners when appropriate" taggedAs SlowTest in {
+  "The generator" should "make the right file with ners when appropriate" taggedAs LocalTest in {
     val preModel = PretrainedPipeline("explain_document_dl", lang = "en").model
 
     val testing = Seq(
@@ -168,7 +168,7 @@ class CoNLLGeneratorTestSpec extends AnyFlatSpec {
     assert(fileContents == testNERText)
   }
 
-  "The generator" should "work even if token metadata has non-ints" taggedAs SlowTest in {
+  "The generator" should "work even if token metadata has non-ints" taggedAs LocalTest in {
     val df = ResourceHelper.spark.read.load(
       "src/test/resources/conllgenerator/conllgenerator_nonint_token_metadata.parquet")
 

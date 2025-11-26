@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import *
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFRerankerTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -81,8 +81,35 @@ class AutoGGUFRerankerTestSpec(unittest.TestCase):
 
         results.select("reranked_documents").show(truncate=False)
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
 
-@pytest.mark.slow
+        query = "A man is eating pasta."
+        data = (
+        self.spark.createDataFrame(
+            [
+                ["A man is eating food."],
+            ]
+        )
+        .toDF("text")
+    )
+
+        document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+        reranker = (
+            AutoGGUFReranker.pretrained()
+            .setInputCols("document")
+            .setOutputCol("reranked_documents")
+            .setBatchSize(4)
+            .setQuery(query)
+        )
+
+        pipeline = Pipeline().setStages([document_assembler, reranker])
+        pipeline.fit(data).transform(data).show()
+
+
+@pytest.mark.local
 class AutoGGUFRerankerPretrainedTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -129,7 +156,7 @@ class AutoGGUFRerankerPretrainedTestSpec(unittest.TestCase):
         results.show()
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFRerankerMetadataTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -154,7 +181,7 @@ class AutoGGUFRerankerMetadataTestSpec(unittest.TestCase):
 
 
 #
-# @pytest.mark.slow
+# @pytest.mark.local
 # class AutoGGUFRerankerSerializationTestSpec(unittest.TestCase):
 #     def setUp(self):
 #         self.spark = SparkContextForTest.spark
@@ -214,7 +241,7 @@ class AutoGGUFRerankerMetadataTestSpec(unittest.TestCase):
 #         results.select("reranked_documents").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFRerankerErrorHandlingTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -254,7 +281,7 @@ class AutoGGUFRerankerErrorHandlingTestSpec(unittest.TestCase):
             print(f"Expected behavior when query not set: {str(e)}")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFRerankerWithFinisherTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -345,7 +372,7 @@ class AutoGGUFRerankerWithFinisherTestSpec(unittest.TestCase):
         results.select("ranked_documents").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFRerankerFinisherCombinedFiltersTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -421,7 +448,7 @@ class AutoGGUFRerankerFinisherCombinedFiltersTestSpec(unittest.TestCase):
         results.select("ranked_documents").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFRerankerCloseTest(unittest.TestCase):
     def setUp(self):
         self.spark = SparkSessionForTest.spark

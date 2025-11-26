@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -27,7 +27,7 @@ class BertForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 
-  "BertForQuestionAnswering" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "BertForQuestionAnswering" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 
     val beyonceContext =
       """Beyoncé Giselle Knowles-Carter (/biːˈjɒnseɪ/ bee-YON-say) (born September 4, 1981) is an American singer, songwriter, record producer and actress. Born and raised in Houston, Texas, she performed in various singing and dancing competitions as a child, and rose to fame in the late 1990s as lead singer of R&B girl-group Destiny's Child. Managed by her father, Mathew Knowles, the group became one of the world's best-selling girl groups of all time. Their hiatus saw the release of Beyoncé's debut album, Dangerously in Love (2003), which established her as a solo artist worldwide, earned five Grammy Awards and featured the Billboard Hot 100 number-one singles "Crazy in Love" and "Baby Boy"."""
@@ -41,8 +41,9 @@ class BertForQuestionAnsweringTestSpec extends AnyFlatSpec {
       ("What's my name?", "My name is Clara and I live in Berkeley."),
       ("Which name is also used to describe the Amazon rainforest in English?", amazonContext),
       ("When did Beyonce start becoming popular?", beyonceContext),
-      ("What areas did Beyonce compete in when she was growing up?", beyonceContext),
-      ("When did Beyonce leave Destiny's Child and become a solo singer?", beyonceContext),
+      (
+        "What areas didBeyonce compete in when she was growing up?\", beyonceContext),\n      (\"When did Beyonc e leave Destiny's Child and become a solo singer?",
+        beyonceContext),
       ("What was the first album Beyoncé released as a solo artist?", beyonceContext))
       .toDF("question", "context")
       .repartition(1)
@@ -69,7 +70,7 @@ class BertForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   }
 
-  "BertForQuestionAnswering" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "BertForQuestionAnswering" should "be saved and loaded correctly" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -127,7 +128,7 @@ class BertForQuestionAnsweringTestSpec extends AnyFlatSpec {
     val loadedSequenceModel = BertForQuestionAnswering.load("./tmp_forquestionanswering_model")
 
   }
-  "BertForQuestionAnswering" should "benchmark test" taggedAs SlowTest in {
+  "BertForQuestionAnswering" should "benchmark test" taggedAs LocalTest in {
 
     val data = ResourceHelper.spark.read
       .option("header", "true")

@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.WORD_EMBEDDINGS
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.util.io.{ReadAs, ResourceHelper}
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.col

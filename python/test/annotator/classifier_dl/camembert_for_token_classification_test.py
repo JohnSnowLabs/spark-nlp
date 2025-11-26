@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class CamemBertForTokenClassificationTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.read.option("header", "true") \

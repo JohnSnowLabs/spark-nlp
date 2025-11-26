@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotator.PerceptronModel
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.util.MLWriter
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
@@ -74,7 +74,7 @@ class DependencyParserModelTestSpec extends AnyFlatSpec with SparkSessionTest {
     }
   }
 
-  "DependencyParser" should "A Dependency Parser (trained through TreeBank format file)" taggedAs SlowTest in {
+  "DependencyParser" should "A Dependency Parser (trained through TreeBank format file)" taggedAs LocalTest in {
     val testDataSet: Dataset[Row] =
       AnnotatorBuilder.withTreeBankDependencyParser(
         DataBuilder.basicDataBuild(ContentProvider.depSentence))
@@ -106,7 +106,7 @@ class DependencyParserModelTestSpec extends AnyFlatSpec with SparkSessionTest {
     "I solved the problem with statistics. I saw a girl with a telescope")
   private val testDataSet = text.toDS.toDF("text")
 
-  "DependencyParser" should "A dependency parser (trained through TreeBank format file) with an input text of of several rows" taggedAs SlowTest in {
+  "DependencyParser" should "A dependency parser (trained through TreeBank format file) with an input text of of several rows" taggedAs LocalTest in {
 
     val dependencyParserModel = pipelineTreeBank.fit(emptyDataSet)
     val model = dependencyParserModel.stages.last.asInstanceOf[DependencyParserModel]
@@ -116,7 +116,7 @@ class DependencyParserModelTestSpec extends AnyFlatSpec with SparkSessionTest {
     assert(dependencyParserDataFrame.isInstanceOf[DataFrame])
   }
 
-  "DependencyParser" should "A dependency parser (trained through Universal Dependencies format file) with an input text of several rows" taggedAs SlowTest in {
+  "DependencyParser" should "A dependency parser (trained through Universal Dependencies format file) with an input text of several rows" taggedAs LocalTest in {
     val dependencyParserModel = pipelineConllU.fit(emptyDataSet)
     val model = dependencyParserModel.stages.last.asInstanceOf[DependencyParserModel]
     val dependencyParserDataFrame = dependencyParserModel.transform(testDataSet)

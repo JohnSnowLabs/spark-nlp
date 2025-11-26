@@ -47,7 +47,7 @@ class Phi3VisionTestSetup(unittest.TestCase):
 
         self.model = self.pipeline.fit(self.test_df)
 
-@pytest.mark.slow
+@pytest.mark.local
 class Phi3VisionTest(Phi3VisionTestSetup, unittest.TestCase):
 
     def setUp(self):
@@ -60,7 +60,7 @@ class Phi3VisionTest(Phi3VisionTestSetup, unittest.TestCase):
             self.assertTrue(row["answer"] != "")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightPhi3VisionTest(Phi3VisionTestSetup, unittest.TestCase):
 
     def setUp(self):

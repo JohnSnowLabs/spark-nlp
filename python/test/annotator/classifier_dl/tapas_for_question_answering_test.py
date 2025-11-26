@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class TapasForQuestionAnsweringTestSpec(unittest.TestCase):
     def setUp(self):
         with open(os.getcwd() + "/../src/test/resources/tapas/rich_people.json", "rt") as F:

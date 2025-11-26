@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.ner.crf
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.SparkSession
@@ -30,7 +30,7 @@ class NerCrfCustomCase extends AnyFlatSpec {
 
   val spark: SparkSession = ResourceHelper.spark
 
-  "NerCRF" should "train CoNLL dataset" taggedAs SlowTest in {
+  "NerCRF" should "train CoNLL dataset" taggedAs LocalTest in {
 
     val conll = CoNLL()
     val test_data =
@@ -57,7 +57,7 @@ class NerCrfCustomCase extends AnyFlatSpec {
 
   }
 
-  "NerCRF" should "load saved model and predict" taggedAs SlowTest in {
+  "NerCRF" should "load saved model and predict" taggedAs LocalTest in {
 
     val conll = CoNLL()
     val test_data =

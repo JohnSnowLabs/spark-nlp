@@ -52,7 +52,7 @@ class PartitionTransformerTesSpec(unittest.TestCase):
         self.assertTrue(resultDf.select("partition").count() > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class PartitionTransformerURLsTesSpec(unittest.TestCase):
 
     def setUp(self):

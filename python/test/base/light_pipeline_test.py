@@ -125,7 +125,7 @@ class LightPipelineImageSetUp(unittest.TestCase):
         self.vit_model = pipeline.fit(self.data)
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 class LightPipelineImageInputTest(LightPipelineImageSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -151,7 +151,7 @@ class LightPipelineImageInputTest(LightPipelineImageSetUp, unittest.TestCase):
             self.assertTrue(len(result["class"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 class LightPipelineImagesInputTest(LightPipelineImageSetUp, unittest.TestCase):
 
     def setUp(self):
@@ -177,7 +177,7 @@ class LightPipelineImagesInputTest(LightPipelineImageSetUp, unittest.TestCase):
             self.assertTrue(len(result["class"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 class LightPipelineAudioInputTest(unittest.TestCase):
 
     def setUp(self):
@@ -224,7 +224,7 @@ class LightPipelineAudioInputTest(unittest.TestCase):
             self.assertTrue(len(result["text"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 class LightPipelineTapasInputTest(unittest.TestCase):
 
     def setUp(self):
@@ -288,7 +288,7 @@ class LightPipelineTapasInputTest(unittest.TestCase):
             self.assertTrue(len(result["answers"]) > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 class LightPipelineQAInputTest(unittest.TestCase):
 
     def setUp(self):
@@ -391,7 +391,7 @@ class LightPipelineWrongInputColsTest(unittest.TestCase):
             light_model.annotate(self.sample_text)
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 class LightPipelineWithEmbeddings(unittest.TestCase):
 
     def setUp(self):

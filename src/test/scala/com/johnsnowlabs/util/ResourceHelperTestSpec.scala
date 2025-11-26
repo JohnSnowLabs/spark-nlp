@@ -18,7 +18,7 @@ package com.johnsnowlabs.util
 
 import com.amazonaws.AmazonServiceException
 import com.johnsnowlabs.nlp.util.io.{ExternalResource, ReadAs, ResourceHelper}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io.{File, FileNotFoundException}
@@ -163,7 +163,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
   }
 
   // Local HDFS needs to be set up
-  ignore should "copyToLocal from hdfs" taggedAs SlowTest in {
+  ignore should "copyToLocal from hdfs" taggedAs LocalTest in {
 
     // Folder
     val hdfsFolderPath = "hdfs://localhost:9000/sparknlp/tf-hub-bert/model"
@@ -187,7 +187,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
   }
 
   // AWS keys need to be set up for this test
-  ignore should "copyToLocal from s3" taggedAs SlowTest in {
+  ignore should "copyToLocal from s3" taggedAs LocalTest in {
     val awsAccessKeyId = sys.env("AWS_ACCESS_KEY_ID")
     val awsSecretAccessKey = sys.env("AWS_SECRET_ACCESS_KEY")
     val awsSessionToken = sys.env("AWS_SESSION_TOKEN")
@@ -216,7 +216,7 @@ class ResourceHelperTestSpec extends AnyFlatSpec {
 
   }
 
-  ignore should "copyToLocal should catch s3 exception" taggedAs SlowTest in {
+  ignore should "copyToLocal should catch s3 exception" taggedAs LocalTest in {
     ResourceHelper.getSparkSessionWithS3("NONE", "NONE", awsSessionToken = Some("NONE"))
 
     val s3FolderPath = "s3://sparknlp-test/tf-hub-bert/model"

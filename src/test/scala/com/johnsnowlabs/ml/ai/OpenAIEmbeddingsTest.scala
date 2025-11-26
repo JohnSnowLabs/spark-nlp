@@ -1,6 +1,6 @@
 package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest.flatspec.AnyFlatSpec
@@ -25,7 +25,7 @@ class OpenAIEmbeddingsTest extends AnyFlatSpec {
   private val documentAssembler =
     new com.johnsnowlabs.nlp.DocumentAssembler().setInputCol("text").setOutputCol("document")
 
-  "OpenAIEmbeddings" should "generate a completion for prompts" taggedAs SlowTest in {
+  "OpenAIEmbeddings" should "generate a completion for prompts" taggedAs LocalTest in {
     // Set OPENAI_API_KEY env variable to make this work
     val promptDF = Seq("The food was delicious and the waiter...").toDS.toDF("text")
 
@@ -41,7 +41,7 @@ class OpenAIEmbeddingsTest extends AnyFlatSpec {
     completionDF.select("embeddings").show(false)
   }
 
-  "OpenAIEmbeddings" should "work with escape chars" taggedAs SlowTest in {
+  "OpenAIEmbeddings" should "work with escape chars" taggedAs LocalTest in {
     val data = Seq(
       (1, "Hello \"World\""),
       (2, "Hello \n World"),

@@ -18,7 +18,7 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.annotator.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.hadoop.mapreduce.lib.input.InvalidInputException
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.col
@@ -309,7 +309,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     }
   }
 
-  it should "ignore non-text data with images" taggedAs SlowTest in {
+  it should "ignore non-text data with images" taggedAs LocalTest in {
     val reader2Doc = new Reader2Doc()
       .setContentType("text/html")
       .setContentPath(s"$htmlFilesDirectory/example-images.html")
@@ -326,7 +326,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     }
   }
 
-  it should "validate invalid paths" taggedAs SlowTest in {
+  it should "validate invalid paths" taggedAs LocalTest in {
 
     val reader2Doc = new Reader2Doc()
       .setContentPath("src/test/resources/reader/uf2")
@@ -345,7 +345,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   // FIXME: Sometimes there are no exceptions
-  it should "process unsupported files and display an error in a row without stopping the whole batch" taggedAs SlowTest ignore {
+  it should "process unsupported files and display an error in a row without stopping the whole batch" taggedAs LocalTest ignore {
 
     val reader2Doc = new Reader2Doc()
       .setContentPath(unsupportedFiles)

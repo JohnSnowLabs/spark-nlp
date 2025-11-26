@@ -49,7 +49,7 @@ class Qwen2VLTransformerTestSetup(unittest.TestCase):
 
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class Qwen2VLTransformerTest(Qwen2VLTransformerTestSetup, unittest.TestCase):
 
    def setUp(self):
@@ -63,7 +63,7 @@ class Qwen2VLTransformerTest(Qwen2VLTransformerTestSetup, unittest.TestCase):
            print(row["answer"])
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightQwen2VLTransformerTest(Qwen2VLTransformerTestSetup, unittest.TestCase):
 
     def setUp(self):

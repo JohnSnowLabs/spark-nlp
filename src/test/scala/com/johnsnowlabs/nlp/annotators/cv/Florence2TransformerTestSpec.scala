@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, ImageAssembler}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.lit
@@ -31,7 +31,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
 
   lazy val model = getFlorence2TransformerPipelineModel
 
-  "Florence2Transformer" should "answer a question for a given image" taggedAs SlowTest in {
+  "Florence2Transformer" should "answer a question for a given image" taggedAs LocalTest in {
 
     val testDF = getTestDF
     val result = model.transform(testDF)
@@ -66,7 +66,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "work with light pipeline annotate" taggedAs SlowTest in {
+  it should "work with light pipeline annotate" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/image1.jpg"
     val resultAnnotate =
@@ -78,7 +78,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     assert(resultAnnotate("answer").head.contains("box"))
   }
 
-  it should "work with light pipeline full annotate" taggedAs SlowTest in {
+  it should "work with light pipeline full annotate" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/bluetick.jpg"
     val resultFullAnnotate =
@@ -92,7 +92,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     assert(answerAnnotation.result.nonEmpty)
   }
 
-  it should "fullAnnotate with empty Map when a text is empty" taggedAs SlowTest in {
+  it should "fullAnnotate with empty Map when a text is empty" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",
@@ -130,7 +130,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "annotate with empty Map when a text is empty" taggedAs SlowTest in {
+  it should "annotate with empty Map when a text is empty" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",
@@ -172,7 +172,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
 
   }
 
-  it should "run OCR task (<OCR>)" taggedAs SlowTest in {
+  it should "run OCR task (<OCR>)" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/ocr_sample.jpg"
     val result = lightPipeline.fullAnnotateImage(imagePath, "<OCR>")
@@ -193,7 +193,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     assert(answer.result.nonEmpty)
   }
 
-  it should "run OCR with region task (<OCR_WITH_REGION>)" taggedAs SlowTest in {
+  it should "run OCR with region task (<OCR_WITH_REGION>)" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/ocr_sample.jpg"
     val result = lightPipeline.fullAnnotateImage(imagePath, "<OCR_WITH_REGION>")
@@ -214,7 +214,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     assert(answer.result.nonEmpty)
   }
 
-  it should "run image captioning tasks (<CAPTION>, <DETAILED_CAPTION>, <MORE_DETAILED_CAPTION>)" taggedAs SlowTest in {
+  it should "run image captioning tasks (<CAPTION>, <DETAILED_CAPTION>, <MORE_DETAILED_CAPTION>)" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/car.jpg"
     val prompts = Seq("<CAPTION>", "<DETAILED_CAPTION>", "<MORE_DETAILED_CAPTION>")
@@ -239,7 +239,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "run object detection (<OD>) and dense region caption (<DENSE_REGION_CAPTION>)" taggedAs SlowTest in {
+  it should "run object detection (<OD>) and dense region caption (<DENSE_REGION_CAPTION>)" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/car.jpg"
     val prompts = Seq("<OD>", "<DENSE_REGION_CAPTION>")
@@ -264,7 +264,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "run region proposal (<REGION_PROPOSAL>)" taggedAs SlowTest in {
+  it should "run region proposal (<REGION_PROPOSAL>)" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/car.jpg"
     val result = lightPipeline.fullAnnotateImage(imagePath, "<REGION_PROPOSAL>")
@@ -285,7 +285,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     assert(answer.result.nonEmpty)
   }
 
-  it should "run phrase grounding (<CAPTION_TO_PHRASE_GROUNDING> car)" taggedAs SlowTest in {
+  it should "run phrase grounding (<CAPTION_TO_PHRASE_GROUNDING> car)" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/car.jpg"
     val result = lightPipeline.fullAnnotateImage(imagePath, "<CAPTION_TO_PHRASE_GROUNDING> car")
@@ -306,7 +306,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     assert(answer.result.nonEmpty)
   }
 
-  it should "run referring expression segmentation (<REFERRING_EXPRESSION_SEGMENTATION> car)" taggedAs SlowTest in {
+  it should "run referring expression segmentation (<REFERRING_EXPRESSION_SEGMENTATION> car)" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/car.jpg"
     val result =
@@ -328,7 +328,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     assert(answer.result.nonEmpty)
   }
 
-  it should "run region to segmentation (<REGION_TO_SEGMENTATION> region1)" taggedAs SlowTest in {
+  it should "run region to segmentation (<REGION_TO_SEGMENTATION> region1)" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/car.jpg"
     val result = lightPipeline.fullAnnotateImage(imagePath, "<REGION_TO_SEGMENTATION> region1")
@@ -349,7 +349,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     assert(answer.result.nonEmpty)
   }
 
-  it should "run open vocabulary detection (<OPEN_VOCABULARY_DETECTION> car)" taggedAs SlowTest in {
+  it should "run open vocabulary detection (<OPEN_VOCABULARY_DETECTION> car)" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/car.jpg"
     val result = lightPipeline.fullAnnotateImage(imagePath, "<OPEN_VOCABULARY_DETECTION> car")
@@ -370,7 +370,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     assert(answer.result.nonEmpty)
   }
 
-  it should "run region to category (<REGION_TO_CATEGORY> region1)" taggedAs SlowTest in {
+  it should "run region to category (<REGION_TO_CATEGORY> region1)" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/car.jpg"
     val result = lightPipeline.fullAnnotateImage(imagePath, "<REGION_TO_CATEGORY> region1")
@@ -391,7 +391,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     assert(answer.result.nonEmpty)
   }
 
-  it should "run region to description (<REGION_TO_DESCRIPTION> region1)" taggedAs SlowTest in {
+  it should "run region to description (<REGION_TO_DESCRIPTION> region1)" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/car.jpg"
     val result = lightPipeline.fullAnnotateImage(imagePath, "<REGION_TO_DESCRIPTION> region1")
@@ -412,7 +412,7 @@ class Florence2TransformerTestSpec extends AnyFlatSpec {
     assert(answer.result.nonEmpty)
   }
 
-  it should "run region to OCR (<REGION_TO_OCR> region1)" taggedAs SlowTest in {
+  it should "run region to OCR (<REGION_TO_OCR> region1)" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/images/ocr_sample.jpg"
     val result = lightPipeline.fullAnnotateImage(imagePath, "<REGION_TO_OCR> region1")

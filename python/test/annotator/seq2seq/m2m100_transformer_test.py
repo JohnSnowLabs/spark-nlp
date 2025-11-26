@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class M2M100TransformerTextTranslationTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -44,3 +44,25 @@ class M2M100TransformerTextTranslationTestSpec(unittest.TestCase):
         results = pipeline.fit(data).transform(data)
 
         results.select("generation.result").show(truncate=False)
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = self.spark.createDataFrame([
+            [1, """生活就像一盒巧克力。""".strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        m2m100 = M2M100Transformer.pretrained() \
+            .setInputCols(["documents"]) \
+            .setMaxOutputLength(50) \
+            .setOutputCol("generation") \
+            .setSrcLang("en") \
+            .setTgtLang("fr")
+
+        pipeline = Pipeline().setStages([document_assembler, m2m100])
+        results = pipeline.fit(data).transform(data)
+
+        results.show(truncate=False)
+

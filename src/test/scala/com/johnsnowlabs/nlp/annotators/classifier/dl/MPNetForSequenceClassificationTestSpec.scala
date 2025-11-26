@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.{DocumentAssembler, LightPipeline}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -38,7 +38,7 @@ class MPNetForSequenceClassificationTestSpec extends AnyFlatSpec {
 
   behavior of "MPNetForSequenceClassification"
 
-  it should "correctly classify" taggedAs SlowTest in {
+  it should "correctly classify" taggedAs LocalTest in {
     val pipelineModel = pipeline.fit(data)
     val pipelineDF = pipelineModel.transform(data)
 
@@ -51,7 +51,7 @@ class MPNetForSequenceClassificationTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "be serializable" taggedAs SlowTest in {
+  it should "be serializable" taggedAs LocalTest in {
 
     val pipelineModel = pipeline.fit(data)
     pipelineModel.stages.last
@@ -75,7 +75,7 @@ class MPNetForSequenceClassificationTestSpec extends AnyFlatSpec {
     }
   }
 
-  it should "be compatible with LightPipeline" taggedAs SlowTest in {
+  it should "be compatible with LightPipeline" taggedAs LocalTest in {
     val pipeline: Pipeline =
       new Pipeline().setStages(Array(document, tokenizer, sequenceClassifier))
 

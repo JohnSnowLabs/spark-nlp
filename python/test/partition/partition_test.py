@@ -101,7 +101,7 @@ class PartitionHtmlTesSpec(unittest.TestCase):
         self.assertTrue(html_file_df.select("html").count() > 0)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class PartitionUrlTesSpec(unittest.TestCase):
 
     def runTest(self):

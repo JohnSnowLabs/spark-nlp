@@ -13,7 +13,7 @@ import com.johnsnowlabs.nlp.embeddings.{
 }
 import com.johnsnowlabs.nlp.finisher.DocumentSimilarityRankerFinisher
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{col, element_at, size}
@@ -36,7 +36,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
         .map(Tuple1(_)))
     .toDF("text")
 
-  "DocumentSimilarityRanker" should "should use brp to rank document similarity" taggedAs SlowTest in {
+  "DocumentSimilarityRanker" should "should use brp to rank document similarity" taggedAs LocalTest in {
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -106,7 +106,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
     assert(!transformed.where(col("nearest_neighbor_distance") === 0.0).rdd.isEmpty() == true)
   }
 
-  "DocumentSimilarityRanker" should "should use min hash to rank document similarity" taggedAs SlowTest in {
+  "DocumentSimilarityRanker" should "should use min hash to rank document similarity" taggedAs LocalTest in {
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -174,7 +174,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
     assert(!transformed.where(col("nearest_neighbor_distance") === 0.0).rdd.isEmpty() == true)
   }
 
-  "Databricks pipeline" should "should use min hash to rank document similarity" taggedAs SlowTest in {
+  "Databricks pipeline" should "should use min hash to rank document similarity" taggedAs LocalTest in {
 
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
@@ -239,7 +239,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
       .show(10, false)
   }
 
-  "Pipeline" should "should use rank document similarity as retriever for nearest 3 docs" taggedAs SlowTest in {
+  "Pipeline" should "should use rank document similarity as retriever for nearest 3 docs" taggedAs LocalTest in {
     val nbOfNeighbors = 3
 
     val documentAssembler = new DocumentAssembler()
@@ -307,7 +307,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
     assert(transformed.columns.contains("nearest_neighbor_distance"))
   }
 
-  it should "work when setting aggregation method" taggedAs SlowTest in {
+  it should "work when setting aggregation method" taggedAs LocalTest in {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
@@ -358,7 +358,7 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
       .show(10, false)
   }
 
-  "Pipeline" should "should not fail if I use the outputCol and inputCols feature" taggedAs SlowTest in {
+  "Pipeline" should "should not fail if I use the outputCol and inputCols feature" taggedAs LocalTest in {
     val nbOfNeighbors = 3
 
     val documentAssembler = new DocumentAssembler()

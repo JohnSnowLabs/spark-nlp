@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 @pytest.mark.skip(reason="Needs to be Fixed.")
 class PipelineTestSpec(unittest.TestCase):
 

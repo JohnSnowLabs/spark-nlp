@@ -22,7 +22,7 @@ import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteApproach
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
@@ -48,7 +48,7 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
     AnnotatorBuilder.getTrainingDataSet("src/test/resources/spell/sherlockholmes.txt")
   val corpusDataSet = corpusDataSetInit.as[String].collect()
 
-  "Norvig pipeline" should "be fast" taggedAs SlowTest in {
+  "Norvig pipeline" should "be fast" taggedAs LocalTest in {
 
     val spell = NorvigSweetingModel
       .pretrained()
@@ -68,7 +68,7 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
 
   }
 
-  "Symm pipeline" should "be fast" taggedAs SlowTest in {
+  "Symm pipeline" should "be fast" taggedAs LocalTest in {
 
     val spell = new SymmetricDeleteApproach()
       .setInputCols("token")
@@ -86,7 +86,7 @@ class SpellCheckersPerfTest extends AnyFlatSpec {
 
   }
 
-  "Context pipeline" should "be fast" taggedAs SlowTest in {
+  "Context pipeline" should "be fast" taggedAs LocalTest in {
 
     val spell = ContextSpellCheckerModel
       .pretrained()

@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.{
@@ -35,7 +35,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
 
-  "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for a sentence" taggedAs SlowTest in {
+  "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for a sentence" taggedAs LocalTest in {
 
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")
@@ -65,7 +65,7 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
 
   }
 
-  "UniversalSentenceEncoder" should "integrate into Spark ML" taggedAs SlowTest in {
+  "UniversalSentenceEncoder" should "integrate into Spark ML" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -135,7 +135,7 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
       .show()
   }
 
-  "UniversalSentenceEncoder" should "not fail on empty inputs" taggedAs SlowTest in {
+  "UniversalSentenceEncoder" should "not fail on empty inputs" taggedAs LocalTest in {
 
     val testData = ResourceHelper.spark
       .createDataFrame(
@@ -168,7 +168,7 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
 
   }
 
-  "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for multi-lingual" taggedAs SlowTest in {
+  "UniversalSentenceEncoder" should "correctly calculate sentence embeddings for multi-lingual" taggedAs LocalTest in {
 
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")
@@ -204,7 +204,7 @@ class UniversalSentenceEncoderTestSpec extends AnyFlatSpec {
 
   }
 
-  "UniversalSentenceEncoder" should "benchmark test" taggedAs SlowTest in {
+  "UniversalSentenceEncoder" should "benchmark test" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 

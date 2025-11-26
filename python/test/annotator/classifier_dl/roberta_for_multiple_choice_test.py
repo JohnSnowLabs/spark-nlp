@@ -44,7 +44,7 @@ class RobertaForMultipleChoiceTestSetup(unittest.TestCase):
         self.pipeline_model = pipeline.fit(empty_df)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class RobertaForMultipleChoiceTest(RobertaForMultipleChoiceTestSetup, unittest.TestCase):
 
     def setUp(self):
@@ -59,7 +59,7 @@ class RobertaForMultipleChoiceTest(RobertaForMultipleChoiceTestSetup, unittest.T
             self.assertTrue(row["answer"][0].result != "")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightRobertaForMultipleChoiceTest(RobertaForMultipleChoiceTestSetup, unittest.TestCase):
 
     def setUp(self):

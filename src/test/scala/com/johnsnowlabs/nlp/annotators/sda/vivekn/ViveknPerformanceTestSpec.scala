@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.sda.vivekn
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.rand
@@ -27,7 +27,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class ViveknPerformanceTestSpec extends AnyFlatSpec {
 
-  "Vivekn pipeline" should "be fast" taggedAs SlowTest in {
+  "Vivekn pipeline" should "be fast" taggedAs LocalTest in {
 
     ResourceHelper.spark
     import ResourceHelper.spark.implicits._

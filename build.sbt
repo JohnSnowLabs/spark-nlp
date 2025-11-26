@@ -157,12 +157,16 @@ lazy val root = (project in file("."))
 lazy val FastTest = config("fast") extend Test
 // Command line slow:test
 lazy val SlowTest = config("slow") extend Test
+// Command line local:test
+lazy val LocalTest = config("local") extend Test
 
-configs(FastTest, SlowTest)
+configs(FastTest, SlowTest, LocalTest)
 
 (Test / parallelExecution) := false
 (Test / logBuffered) := false
 (Test / testOptions) := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
+(Test / testOptions) += Tests.Argument("-l", "com.johnsnowlabs.tags.LocalTest")
+
 
 inConfig(FastTest)(Defaults.testTasks)
 (FastTest / testOptions) := Seq(Tests.Argument("-l", "com.johnsnowlabs.tags.SlowTest")) // exclude
@@ -171,6 +175,11 @@ inConfig(FastTest)(Defaults.testTasks)
 inConfig(SlowTest)(Defaults.testTasks)
 (SlowTest / testOptions) := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.SlowTest")) // include
 (SlowTest / parallelExecution) := false
+
+// LOCAL TESTS
+inConfig(LocalTest)(Defaults.testTasks)
+(LocalTest / testOptions) := Seq(Tests.Argument("-n", "com.johnsnowlabs.tags.LocalTest"))
+(LocalTest / parallelExecution) := false
 
 /** Test tagging end */
 

@@ -19,7 +19,7 @@ from sparknlp.annotator import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 class ZeroShotNerTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark

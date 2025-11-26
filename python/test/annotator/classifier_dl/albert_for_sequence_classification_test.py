@@ -22,7 +22,7 @@ from test.annotator.common.has_max_sentence_length_test import HasMaxSentenceLen
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AlbertForSequenceClassificationTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
     def setUp(self):
         self.data = SparkContextForTest.spark.read.option("header", "true") \
@@ -51,5 +51,26 @@ class AlbertForSequenceClassificationTestSpec(unittest.TestCase, HasMaxSentenceL
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
 
-        print(self.classifier.getClasses())
-        print(self.classifier.getBatchSize())
+        print(self.tested_annotator.getClasses())
+        print(self.tested_annotator.getBatchSize())
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        albert = self.tested_annotator
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            albert
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+

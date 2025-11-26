@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ReadAs
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -32,7 +32,7 @@ class TextMatcherTestSpec extends AnyFlatSpec with TextMatcherBehaviors {
     assert(entityExtractor.outputAnnotatorType == CHUNK)
   }
 
-  "A TextMatcher" should "extract entities with and without sentences" taggedAs SlowTest in {
+  "A TextMatcher" should "extract entities with and without sentences" taggedAs LocalTest in {
     val dataset =
       DataBuilder.basicDataBuild("Hello dolore magna aliqua. Lorem ipsum dolor. sit in laborum")
     val result = AnnotatorBuilder.withFullTextMatcher(dataset)
@@ -97,7 +97,7 @@ class TextMatcherTestSpec extends AnyFlatSpec with TextMatcherBehaviors {
     assert(extractedNoSentenceNoCase == expectedNoSentenceNoCase)
   }
 
-  "An Entity Extractor" should "search inside sentences" taggedAs SlowTest in {
+  "An Entity Extractor" should "search inside sentences" taggedAs LocalTest in {
     val dataset = DataBuilder.basicDataBuild("Hello dolore magna. Aliqua")
     val result = AnnotatorBuilder.withFullTextMatcher(dataset, caseSensitive = false)
     val extracted = Annotation.collect(result, "entity").flatten.toSeq

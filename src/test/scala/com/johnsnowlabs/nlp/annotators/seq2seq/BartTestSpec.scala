@@ -20,14 +20,14 @@ import com.johnsnowlabs.nlp.annotator.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.embeddings.XlmRoBertaSentenceEmbeddings
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class BartTestSpec extends AnyFlatSpec {
 
-  "bart-large-cnn" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs SlowTest in {
+  "bart-large-cnn" should "should handle temperature=0 correctly and not crash when predicting more than 1 element with doSample=True" taggedAs LocalTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark
@@ -59,7 +59,7 @@ class BartTestSpec extends AnyFlatSpec {
 
   }
 
-  "distilbart_xsum_12_6" should "download, save, and load a model" taggedAs SlowTest in {
+  "distilbart_xsum_12_6" should "download, save, and load a model" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -91,7 +91,7 @@ class BartTestSpec extends AnyFlatSpec {
 
     pipelineModel.transform(ddd).show()
   }
-  "distilbart_xsum_12_6" should "handle text inputs longer than 512 and not crash" taggedAs SlowTest in {
+  "distilbart_xsum_12_6" should "handle text inputs longer than 512 and not crash" taggedAs LocalTest in {
     // text longer than 512
     val testData = ResourceHelper.spark
       .createDataFrame(
@@ -162,7 +162,7 @@ class BartTestSpec extends AnyFlatSpec {
       .show(truncate = false)
   }
 
-  "bart-large-cnn" should "run SparkNLP pipeline with maxLength=130 and doSample=true" taggedAs SlowTest in {
+  "bart-large-cnn" should "run SparkNLP pipeline with maxLength=130 and doSample=true" taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq((
@@ -210,7 +210,7 @@ class BartTestSpec extends AnyFlatSpec {
     //    assert(
     //      result == "a knob of dripping or 2 tablespoons of vegetable oil in a large large pan . cut the kidneys in half and snip out the white core . heat the pan for 1-2 minutes, turning once, until browned .")
   }
-  "bart-large-cnn" should "run SparkNLP pipeline with maxLength=100 " taggedAs SlowTest in {
+  "bart-large-cnn" should "run SparkNLP pipeline with maxLength=100 " taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(
@@ -252,7 +252,7 @@ class BartTestSpec extends AnyFlatSpec {
 //    assert(
 //      result == "a knob of dripping or 2 tablespoons of vegetable oil in a large large pan . cut the kidneys in half and snip out the white core . heat the pan for 1-2 minutes, turning once, until browned .")
   }
-  "bart-large-cnn" should "run SparkNLP pipeline with doSample=true " taggedAs SlowTest in {
+  "bart-large-cnn" should "run SparkNLP pipeline with doSample=true " taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(
@@ -310,7 +310,7 @@ class BartTestSpec extends AnyFlatSpec {
     assert(dataframe1.equals(dataframe2))
   }
 
-  "bart-large-cnn" should "run SparkNLP pipeline with doSample=false and later change to true " taggedAs SlowTest in {
+  "bart-large-cnn" should "run SparkNLP pipeline with doSample=false and later change to true " taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(

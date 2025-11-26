@@ -19,14 +19,14 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.explode
 import org.scalatest.flatspec.AnyFlatSpec
 
 class CamemBertForZeroShotClassificationTestSpec extends AnyFlatSpec {
 
-  "CamemBertForZeroShotClassification" should "correctly load custom ONNX model" taggedAs SlowTest in {
+  "CamemBertForZeroShotClassification" should "correctly load custom ONNX model" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
 
     val dataDf = Seq("L'équipe de France joue aujourd'hui au Parc des Princes").toDF("text")
@@ -61,7 +61,7 @@ class CamemBertForZeroShotClassificationTestSpec extends AnyFlatSpec {
     assert(totalDocs == totalLabels)
   }
 
-  it should "correctly load custom Tensorflow model" taggedAs SlowTest in {
+  it should "correctly load custom Tensorflow model" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
 
     val dataDf = Seq("L'équipe de France joue aujourd'hui au Parc des Princes").toDF("text")

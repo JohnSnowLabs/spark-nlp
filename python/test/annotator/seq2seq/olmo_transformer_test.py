@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class OLMoTransformerTextGenerationTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark

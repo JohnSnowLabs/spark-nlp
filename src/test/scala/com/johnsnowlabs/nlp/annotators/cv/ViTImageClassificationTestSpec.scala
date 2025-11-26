@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.ImageAssembler
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
@@ -51,7 +51,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
       pipeline
     }
 
-    it should "predict correct ImageNet classes" taggedAs SlowTest in {
+    it should "predict correct ImageNet classes" taggedAs LocalTest in {
 
       val pipeline = setUpImageClassifierPipeline()
       val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
@@ -60,7 +60,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
 
     }
 
-    it should "be serializable" taggedAs SlowTest in {
+    it should "be serializable" taggedAs LocalTest in {
 
       val pipeline = setUpImageClassifierPipeline()
       val pipelineModel = pipeline.fit(imageDF)
@@ -108,7 +108,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
 
     }
 
-    it should "benchmark" taggedAs SlowTest in {
+    it should "benchmark" taggedAs LocalTest in {
 
       val imageClassifier: ViTForImageClassification = vitClassifier
         .setInputCols("image_assembler")
@@ -134,7 +134,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
       })
     }
 
-    it should "work with LightPipeline" taggedAs SlowTest in {
+    it should "work with LightPipeline" taggedAs LocalTest in {
 
       val pipeline = setUpImageClassifierPipeline()
       val pipelineModel = pipeline.fit(imageDF)
@@ -146,7 +146,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
       assert(prediction("class").nonEmpty)
     }
 
-    it should "return empty result when image path is wrong with LightPipeline" taggedAs SlowTest in {
+    it should "return empty result when image path is wrong with LightPipeline" taggedAs LocalTest in {
 
       val pipeline = setUpImageClassifierPipeline()
       val pipelineModel = pipeline.fit(imageDF)
@@ -173,7 +173,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
       assert(predictionsFullAnnotate(1)("class").isEmpty)
     }
 
-    it should "work for mix inputs" taggedAs SlowTest in {
+    it should "work for mix inputs" taggedAs LocalTest in {
       val pipeline = setUpImageClassifierPipeline()
       val pipelineModel = pipeline.fit(imageDF)
       val lightPipeline = new LightPipeline(pipelineModel)

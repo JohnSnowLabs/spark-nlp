@@ -49,7 +49,7 @@ class InternVLForMultiModalTestSetup(unittest.TestCase):
 
         self.model = self.pipeline.fit(self.test_df)
 
-@pytest.mark.slow
+@pytest.mark.local
 class InternVLForMultiModalTest(InternVLForMultiModalTestSetup, unittest.TestCase):
 
     def setUp(self):
@@ -63,7 +63,7 @@ class InternVLForMultiModalTest(InternVLForMultiModalTestSetup, unittest.TestCas
             self.assertTrue(row["answer"] != "")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightInternVLForMultiModalTest(InternVLForMultiModalTestSetup, unittest.TestCase):
 
     def setUp(self):

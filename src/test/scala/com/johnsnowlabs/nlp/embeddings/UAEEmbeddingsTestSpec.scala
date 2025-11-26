@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, EmbeddingsFinisher}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 import com.johnsnowlabs.util.TestUtils.tolerantFloatEq
@@ -50,7 +50,7 @@ class UAEEmbeddingsTestSpec extends AnyFlatSpec {
       }
   }
 
-  it should "work with default (cls) pooling" taggedAs SlowTest in {
+  it should "work with default (cls) pooling" taggedAs LocalTest in {
     val expected: Array[Array[Float]] = Array(
       Array(0.50387836f, 0.5861595f, 0.35129607f, -0.76046336f, -0.32446113f, -0.11767582f,
         0.49193293f, 0.58396333f, 0.8440052f, 0.3409165f, 0.02228897f, 0.3270517f, -0.3040624f,
@@ -69,12 +69,12 @@ class UAEEmbeddingsTestSpec extends AnyFlatSpec {
       0.19575913f, 0.77637982f, 1.0544734f, 0.02276843f, 0.40709749f, 0.48178568f, -0.45722729f,
       -0.25922f, -0.75728685f, -0.2886759f))
 
-  it should "work with cls_avg pooling" taggedAs SlowTest in {
+  it should "work with cls_avg pooling" taggedAs LocalTest in {
     model.setPoolingStrategy("cls_avg")
     assertEmbeddings(expected_cls_avg)
   }
 
-  it should "work with last pooling" taggedAs SlowTest in {
+  it should "work with last pooling" taggedAs LocalTest in {
     model.setPoolingStrategy("last")
     val expected = Array(
       Array(0.32610807f, 0.40477207f, 0.5753994f, -1.0180508f, -0.15669955f, -0.26589864f,
@@ -86,7 +86,7 @@ class UAEEmbeddingsTestSpec extends AnyFlatSpec {
     assertEmbeddings(expected)
   }
 
-  it should "work with avg pooling" taggedAs SlowTest in {
+  it should "work with avg pooling" taggedAs LocalTest in {
     model.setPoolingStrategy("avg")
     val expected = Array(
       Array(0.33993506f, 0.38262373f, 0.40792847f, -1.0064504f, -0.47283337f, -0.091009863f,
@@ -97,7 +97,7 @@ class UAEEmbeddingsTestSpec extends AnyFlatSpec {
         -0.2933338f, -0.73838311f, -0.28445506f))
     assertEmbeddings(expected)
   }
-  it should "work with max pooling" taggedAs SlowTest in {
+  it should "work with max pooling" taggedAs LocalTest in {
     model.setPoolingStrategy("max")
     val expected = Array(
       Array(0.50387824f, 0.58615935f, 0.5753994f, -0.76046306f, -0.15669955f, 0.070831679f,
@@ -108,7 +108,7 @@ class UAEEmbeddingsTestSpec extends AnyFlatSpec {
         -0.21072304f, -0.46940672f, -0.10492325f))
     assertEmbeddings(expected)
   }
-  it should "work with integer pooling" taggedAs SlowTest in {
+  it should "work with integer pooling" taggedAs LocalTest in {
     model.setPoolingStrategy("2")
     val expected = Array(
       Array(0.13630758f, 0.26152137f, 0.13758762f, -1.2564588f, -0.8082003f, 0.070831679f,
@@ -120,7 +120,7 @@ class UAEEmbeddingsTestSpec extends AnyFlatSpec {
     assertEmbeddings(expected)
   }
 
-  it should "be compatible with LightPipeline" taggedAs SlowTest in {
+  it should "be compatible with LightPipeline" taggedAs LocalTest in {
     model.setPoolingStrategy("cls_avg")
     val pipelineModel = pipeline.fit(data)
     val lightPipeline = new LightPipeline(pipelineModel)
@@ -137,7 +137,7 @@ class UAEEmbeddingsTestSpec extends AnyFlatSpec {
       }
   }
 
-  it should "be serializable" taggedAs SlowTest in {
+  it should "be serializable" taggedAs LocalTest in {
     model.setPoolingStrategy("cls_avg")
     val pipelineModel = pipeline.fit(data)
     pipelineModel

@@ -22,7 +22,7 @@ import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{AnnotatorBuilder, EmbeddingsFinisher, Finisher}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.size
 import org.scalatest.flatspec.AnyFlatSpec
@@ -92,7 +92,7 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
   }
 
   // too large for Travis
-  "SentenceEmbeddings" should "correctly calculate sentence embeddings in BertEmbeddings" taggedAs SlowTest in {
+  "SentenceEmbeddings" should "correctly calculate sentence embeddings in BertEmbeddings" taggedAs LocalTest in {
 
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")
@@ -200,7 +200,7 @@ class SentenceEmbeddingsTestSpec extends AnyFlatSpec {
     pipelineDF.show(2)
   }
 
-  "SentenceEmbeddings" should "correctly pass storageRef down the pipeline" taggedAs SlowTest in {
+  "SentenceEmbeddings" should "correctly pass storageRef down the pipeline" taggedAs LocalTest in {
 
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")

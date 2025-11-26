@@ -52,7 +52,7 @@ class SmolVLMTransformerTestSetup(unittest.TestCase):
 
         self.model = self.pipeline.fit(self.test_df)
 
-@pytest.mark.slow
+@pytest.mark.local
 class SmolVLMTransformerTest(SmolVLMTransformerTestSetup, unittest.TestCase):
 
     def setUp(self):
@@ -65,7 +65,7 @@ class SmolVLMTransformerTest(SmolVLMTransformerTestSetup, unittest.TestCase):
             self.assertTrue(row["answer"] != "")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightSmolVLMTransformerTest(SmolVLMTransformerTestSetup, unittest.TestCase):
 
     def setUp(self):

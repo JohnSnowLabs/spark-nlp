@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.mllib.evaluation.{BinaryClassificationMetrics, MulticlassMetrics}
@@ -151,7 +151,7 @@ class Doc2VecTestSpec extends AnyFlatSpec with SparkSessionTest {
     assert(totalDocs == totalDocEmbeddings)
   }
 
-  "Doc2VecModel" should "Benchmark" taggedAs SlowTest in {
+  "Doc2VecModel" should "Benchmark" taggedAs LocalTest in {
 
     val conll = CoNLL()
     val training_data = conll
@@ -193,7 +193,7 @@ class Doc2VecTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   }
 
-  "Doc2VecModel" should "train classifierdl" taggedAs SlowTest in {
+  "Doc2VecModel" should "train classifierdl" taggedAs LocalTest in {
 
     val spark = ResourceHelper.spark
     import spark.implicits._
@@ -320,7 +320,7 @@ class Doc2VecTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   }
 
-  it should "get word vectors as spark dataframe" taggedAs SlowTest in {
+  it should "get word vectors as spark dataframe" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -342,7 +342,7 @@ class Doc2VecTestSpec extends AnyFlatSpec with SparkSessionTest {
     doc2Vec.getVectors.show()
   }
 
-  it should "raise an error when trying to retrieve empty word vectors" taggedAs SlowTest in {
+  it should "raise an error when trying to retrieve empty word vectors" taggedAs LocalTest in {
     val word2Vec = Doc2VecModel
       .pretrained()
       .setInputCols("token")

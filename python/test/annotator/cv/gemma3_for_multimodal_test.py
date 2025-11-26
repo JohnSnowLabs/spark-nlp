@@ -48,7 +48,7 @@ class Gemma3ForMultiModalTestSetup(unittest.TestCase):
 
         self.model = self.pipeline.fit(self.test_df)
 
-@pytest.mark.slow
+@pytest.mark.local
 class Gemma3ForMultiModalTest(Gemma3ForMultiModalTestSetup, unittest.TestCase):
 
     def setUp(self):
@@ -61,7 +61,7 @@ class Gemma3ForMultiModalTest(Gemma3ForMultiModalTestSetup, unittest.TestCase):
             self.assertTrue(row["answer"] != "")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightGemma3ForMultiModalTest(Gemma3ForMultiModalTestSetup, unittest.TestCase):
 
     def setUp(self):

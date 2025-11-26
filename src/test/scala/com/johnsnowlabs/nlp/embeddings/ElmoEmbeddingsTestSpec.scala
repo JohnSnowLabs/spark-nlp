@@ -20,14 +20,14 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ElmoEmbeddingsTestSpec extends AnyFlatSpec {
 
-  "Elmo Embeddings" should "generate annotations" taggedAs SlowTest in {
+  "Elmo Embeddings" should "generate annotations" taggedAs LocalTest in {
     System.out.println("Working Directory = " + System.getProperty("user.dir"))
     val data = Seq(
       "I like pancakes in the summer. I hate ice cream in winter.",

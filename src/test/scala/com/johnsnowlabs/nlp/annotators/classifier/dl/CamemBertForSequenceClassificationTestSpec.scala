@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -30,7 +30,7 @@ class CamemBertForSequenceClassificationTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 
-  "CamemBertForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs SlowTest in {
+  "CamemBertForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 
     val ddd = Seq(
       "Je t'apprécie beaucoup. Je t'aime.",
@@ -77,7 +77,7 @@ class CamemBertForSequenceClassificationTestSpec extends AnyFlatSpec {
     assert(totalDocs == totalLabels)
   }
 
-  "CamemBertForSequenceClassification" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "CamemBertForSequenceClassification" should "be saved and loaded correctly" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -128,7 +128,7 @@ class CamemBertForSequenceClassificationTestSpec extends AnyFlatSpec {
 
   }
 
-  "CamemBertForSequenceClassification" should "benchmark test" taggedAs SlowTest in {
+  "CamemBertForSequenceClassification" should "benchmark test" taggedAs LocalTest in {
 
     val conll = CoNLL()
     val training_data =

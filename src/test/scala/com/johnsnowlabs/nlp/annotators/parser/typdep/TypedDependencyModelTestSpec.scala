@@ -23,7 +23,7 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.{
   DependencyParserModel
 }
 import com.johnsnowlabs.nlp.{Finisher, SparkAccessor}
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
@@ -73,7 +73,7 @@ class TypedDependencyModelTestSpec extends AnyFlatSpec with SparkSessionTest {
   }
 
   "A typed dependency parser model (trained with CoNLL-U) with a sentence input" should
-    "predict a labeled relationship between words in sentences" taggedAs SlowTest in {
+    "predict a labeled relationship between words in sentences" taggedAs LocalTest in {
       import SparkAccessor.spark.implicits._
 
       val pipeline = new Pipeline()
@@ -100,7 +100,7 @@ class TypedDependencyModelTestSpec extends AnyFlatSpec with SparkSessionTest {
 
     }
 
-  "A typed dependency parser model" should "A typed dependency parser (trained with CoNLL-U) model with sentences in one row input" taggedAs SlowTest in {
+  "A typed dependency parser model" should "A typed dependency parser (trained with CoNLL-U) model with sentences in one row input" taggedAs LocalTest in {
     import SparkAccessor.spark.implicits._
     val pipeline = new Pipeline()
       .setStages(
@@ -123,7 +123,7 @@ class TypedDependencyModelTestSpec extends AnyFlatSpec with SparkSessionTest {
 
   }
 
-  "A typed dependency parser model" should "predict a labeled relationship between words in each sentence" taggedAs SlowTest in {
+  "A typed dependency parser model" should "predict a labeled relationship between words in each sentence" taggedAs LocalTest in {
     import SparkAccessor.spark.implicits._
 
     val finisher = new Finisher().setInputCols("labdep")

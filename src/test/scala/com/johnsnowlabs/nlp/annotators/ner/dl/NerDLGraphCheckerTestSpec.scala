@@ -6,7 +6,7 @@ import com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, AnnotatorModel}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, SparkSession}
 import org.scalatest.BeforeAndAfterEach
@@ -142,7 +142,7 @@ class NerDLGraphCheckerTestSpec extends AnyFlatSpec with BeforeAndAfterEach {
     }
   }
 
-  it should "determine graph size with batch process annotators" taggedAs SlowTest in {
+  it should "determine graph size with batch process annotators" taggedAs LocalTest in {
     class MockDistilBert(val embeddingsModel: DistilBertEmbeddings) extends DistilBertEmbeddings {
 
       setDimension(

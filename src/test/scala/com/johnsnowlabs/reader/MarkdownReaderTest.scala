@@ -17,7 +17,7 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.util.AssertReaders
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.sql.functions.{col, explode}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -112,7 +112,7 @@ class MarkdownReaderTest extends AnyFlatSpec {
     assert(elements.nonEmpty, "No elements found from text input")
   }
 
-  it should "parse markdown from a real GitHub raw URL" taggedAs SlowTest in {
+  it should "parse markdown from a real GitHub raw URL" taggedAs LocalTest in {
     val testUrl =
       "https://raw.githubusercontent.com/adamschwartz/github-markdown-kitchen-sink/master/README.md"
     val mdDf = mdReader.md(url = testUrl)
@@ -225,7 +225,7 @@ class MarkdownReaderTest extends AnyFlatSpec {
     assert(elements.head.content.contains("header"), "JSON content is missing 'header' key")
   }
 
-  it should "work for markdown with images" taggedAs SlowTest in {
+  it should "work for markdown with images" taggedAs LocalTest in {
     val mdDf = mdReader.md(s"$mdDirectory/example-images.md")
 
     val imagesDF = mdDf

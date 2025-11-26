@@ -22,7 +22,7 @@ import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach.getIteratorFunc
 import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import com.johnsnowlabs.util.{Benchmark, FileHelper}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset}
@@ -33,7 +33,7 @@ import scala.io.Source
 
 class NerDLSpec extends AnyFlatSpec {
 
-  "NER DL Approach" should "train and annotate with perf" taggedAs SlowTest in {
+  "NER DL Approach" should "train and annotate with perf" taggedAs LocalTest in {
 
     val smallCustomDataset = "src/test/resources/conll2003/eng.testa"
     SparkAccessor.spark.conf.getAll.foreach(println)
@@ -100,7 +100,7 @@ class NerDLSpec extends AnyFlatSpec {
     }
   }
 
-  "NerDLApproach" should "correctly annotate" taggedAs SlowTest in {
+  "NerDLApproach" should "correctly annotate" taggedAs LocalTest in {
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     //    System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
@@ -124,7 +124,7 @@ class NerDLSpec extends AnyFlatSpec {
     }
   }
 
-  "NerDLApproach" should "correctly tag sentences" taggedAs SlowTest in {
+  "NerDLApproach" should "correctly tag sentences" taggedAs LocalTest in {
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
@@ -141,7 +141,7 @@ class NerDLSpec extends AnyFlatSpec {
     assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
-  "NerDLModel" should "correctly train using dataset from file" taggedAs SlowTest in {
+  "NerDLModel" should "correctly train using dataset from file" taggedAs LocalTest in {
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
 
@@ -156,7 +156,7 @@ class NerDLSpec extends AnyFlatSpec {
     assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
   }
 
-  "NerDLApproach" should "be serializable and deserializable correctly" taggedAs SlowTest in {
+  "NerDLApproach" should "be serializable and deserializable correctly" taggedAs LocalTest in {
     def getTags(dataset: DataFrame, model: NerDLModel): Seq[String] = {
       val tokenized = AnnotatorBuilder.withTokenizer(dataset)
       val tagged = model.transform(tokenized)
@@ -259,7 +259,7 @@ class NerDLSpec extends AnyFlatSpec {
 
   }
 
-  "NerDLApproach" should "benchmark test" taggedAs SlowTest ignore {
+  "NerDLApproach" should "benchmark test" taggedAs LocalTest ignore {
 
     val conll = CoNLL(explodeSentences = false)
     val trainingData =
@@ -293,7 +293,7 @@ class NerDLSpec extends AnyFlatSpec {
     nerModel.write.overwrite() save ("./tmp_ner_dl_glove_conll03_100d")
   }
 
-  "NerDLModel" should "benchmark test" taggedAs SlowTest in {
+  "NerDLModel" should "benchmark test" taggedAs LocalTest in {
 
     val conll = CoNLL(explodeSentences = false)
     val training_data =
@@ -317,7 +317,7 @@ class NerDLSpec extends AnyFlatSpec {
     }
   }
 
-  "NerDLModel" should "work with confidence scores enabled" taggedAs SlowTest in {
+  "NerDLModel" should "work with confidence scores enabled" taggedAs LocalTest in {
 
     val conll = CoNLL(explodeSentences = false)
     val training_data =
@@ -339,7 +339,7 @@ class NerDLSpec extends AnyFlatSpec {
   }
 
   // AWS keys need to be set up for this test
-  ignore should "correct search for suitable graphs on S3" taggedAs SlowTest in {
+  ignore should "correct search for suitable graphs on S3" taggedAs LocalTest in {
     val awsAccessKeyId = sys.env("AWS_ACCESS_KEY_ID")
     val awsSecretAccessKey = sys.env("AWS_SECRET_ACCESS_KEY")
     val awsSessionToken = sys.env("AWS_SESSION_TOKEN")

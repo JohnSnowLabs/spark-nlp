@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.annotator.Tokenizer
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotationAudio, AnnotatorType, AudioAssembler}
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -62,7 +62,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
   val rawFloats: Array[Float]
 
   def correctTranscriber(model: => WhisperForCTC, engine: => String): Unit = {
-    it should s"correctly transform speech to text from already processed audio files ($engine)" taggedAs SlowTest in {
+    it should s"correctly transform speech to text from already processed audio files ($engine)" taggedAs LocalTest in {
       val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, model))
 
       processedAudioFloats.printSchema()
@@ -77,7 +77,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
       assert(transcribedAudio == expected)
     }
 
-    it should s"correctly transcribe batches ($engine)" taggedAs SlowTest in {
+    it should s"correctly transcribe batches ($engine)" taggedAs LocalTest in {
       val batchAudioAnnotations =
         Seq(
           Array(rawFloats, rawFloats).map(new AnnotationAudio(AnnotatorType.AUDIO, _, Map.empty)))
@@ -91,7 +91,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
 
     }
 
-    it should s"correctly work with Tokenizer ($engine)" taggedAs SlowTest in {
+    it should s"correctly work with Tokenizer ($engine)" taggedAs LocalTest in {
 
       val token = new Tokenizer()
         .setInputCols("document")
@@ -133,7 +133,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
 
     }
 
-    it should s"correctly transcribe speech to text from a different language ($engine)" taggedAs SlowTest in {
+    it should s"correctly transcribe speech to text from a different language ($engine)" taggedAs LocalTest in {
 
       val modelChangedLang: WhisperForCTC =
         model.setLanguage("<|de|>").setTask("<|transcribe|>")
@@ -153,7 +153,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
       assert(transcribedAudio == expectedText)
     }
 
-    it should s"correctly transcribe and translate speech to text from a different language ($engine)" taggedAs SlowTest in {
+    it should s"correctly transcribe and translate speech to text from a different language ($engine)" taggedAs LocalTest in {
 
       val modelChangedLangTask: WhisperForCTC =
         model.setLanguage("<|de|>").setTask("<|translate|>")
@@ -173,7 +173,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
       assert(transcribedAudio == expectedText)
     }
 
-    it should s"not generate on empty audio ($engine)" taggedAs SlowTest in {
+    it should s"not generate on empty audio ($engine)" taggedAs LocalTest in {
       val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, model))
 
       val data = ResourceHelper.spark.read
@@ -195,7 +195,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
 
   def compatibleWithLightPipeline(model: => WhisperForCTC, engine: => String): Unit = {
 
-    it should s"transform speech to text with LightPipeline ($engine)" taggedAs SlowTest in {
+    it should s"transform speech to text with LightPipeline ($engine)" taggedAs LocalTest in {
       val token = new Tokenizer()
         .setInputCols("document")
         .setOutputCol("token")
@@ -213,7 +213,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
       assert(result("token").nonEmpty)
     }
 
-    it should s"transform several speeches to text with LightPipeline ($engine)" taggedAs SlowTest in {
+    it should s"transform several speeches to text with LightPipeline ($engine)" taggedAs LocalTest in {
       val token = new Tokenizer()
         .setInputCols("document")
         .setOutputCol("token")
@@ -236,7 +236,7 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
     }
   }
   def serializableModel(model: => WhisperForCTC, engine: => String): Unit = {
-    it should s"be serializable ($engine)" taggedAs SlowTest in {
+    it should s"be serializable ($engine)" taggedAs LocalTest in {
 
       val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, model))
 

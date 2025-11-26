@@ -186,7 +186,7 @@ class NerDLGraphCheckerTest(unittest.TestCase):
         ), "Extracted dataset length should match the dataset length."
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 class NerDLGraphCheckerBatchAnnotateTest(unittest.TestCase):
     def setUp(self) -> None:
         data_path = "../src/test/resources/ner-corpus/test_ner_dataset.txt"

@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.col
@@ -27,7 +27,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class MarianTransformerTestSpec extends AnyFlatSpec {
 
-  "MarianTransformer" should "ignore bad token ids" taggedAs SlowTest in {
+  "MarianTransformer" should "ignore bad token ids" taggedAs LocalTest in {
 
     val smallCorpus = ResourceHelper.spark
       .createDataFrame(Seq(
@@ -101,7 +101,7 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
     }
   }
 
-  "MarianTransformer" should "correctly load pretrained model" taggedAs SlowTest in {
+  "MarianTransformer" should "correctly load pretrained model" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
 
     val smallCorpus = Seq(

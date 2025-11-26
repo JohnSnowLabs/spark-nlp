@@ -18,7 +18,7 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.AssertAnnotations
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.annotators.cv.Qwen2VLTransformer
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -93,7 +93,7 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     assert(actualImages.isEmpty)
   }
 
-  it should "integrate HTML files with VLM models" taggedAs SlowTest in {
+  it should "integrate HTML files with VLM models" taggedAs LocalTest in {
     val reader = new ReaderAssembler()
       .setContentType("text/html")
       .setContentPath(s"$htmlFilesDirectory/table-image.html")
@@ -116,7 +116,7 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
   }
 
-  it should "integrate Word files with VLM models" taggedAs SlowTest in {
+  it should "integrate Word files with VLM models" taggedAs LocalTest in {
     val reader = new ReaderAssembler()
       .setContentType("application/msword")
       .setContentPath(s"$docDirectory/doc-img-table.docx")
@@ -159,7 +159,7 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     assert(actualImages.nonEmpty)
   }
 
-  it should "integrate PDF files with VLM models" taggedAs SlowTest in {
+  it should "integrate PDF files with VLM models" taggedAs LocalTest in {
     val reader = new ReaderAssembler()
       .setContentType("application/pdf")
       .setContentPath(s"$pdfDirectory/pdf-with-2images.pdf")

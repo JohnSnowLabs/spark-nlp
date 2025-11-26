@@ -3,7 +3,7 @@ package com.johnsnowlabs.reader
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.johnsnowlabs.nlp.AssertAnnotations
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -397,7 +397,7 @@ class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
     assert(resultDf.count() > 1)
   }
 
-  it should "process unsupported files and display an error in a row without stopping the whole batch" taggedAs SlowTest in {
+  it should "process unsupported files and display an error in a row without stopping the whole batch" taggedAs LocalTest in {
     val reader2Table = new Reader2Table()
       .setContentPath(unsupportedFiles)
       .setOutputCol("table")

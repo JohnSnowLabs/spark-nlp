@@ -16,7 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.reader.util.AssertReaders
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.sql.functions.{col, explode}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -40,7 +40,7 @@ class HTMLReaderTest extends AnyFlatSpec {
     assert(!htmlDF.columns.contains("content"))
   }
 
-  it should "parse an html in real time" taggedAs SlowTest in {
+  it should "parse an html in real time" taggedAs LocalTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read("https://www.wikipedia.org")
 
@@ -48,7 +48,7 @@ class HTMLReaderTest extends AnyFlatSpec {
     assert(!htmlDF.columns.contains("content"))
   }
 
-  it should "parse URLS in real time" taggedAs SlowTest in {
+  it should "parse URLS in real time" taggedAs LocalTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read(Array("https://www.wikipedia.org", "https://example.com/"))
 
@@ -163,7 +163,7 @@ class HTMLReaderTest extends AnyFlatSpec {
     assert(titleDF.count() == 1)
   }
 
-  it should "read HTML files with images" taggedAs SlowTest in {
+  it should "read HTML files with images" taggedAs LocalTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-images.html")
 

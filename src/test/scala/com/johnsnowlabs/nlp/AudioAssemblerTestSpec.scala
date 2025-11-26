@@ -1,7 +1,7 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -59,6 +59,25 @@ class AudioAssemblerTestSpec extends AnyFlatSpec {
 
     audioAssembler.assemble(rawDoubles, Map("" -> ""))
     audioAssembler.transform(processedAudioDoubles).collect()
+
+  }
+
+  it should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val processedAudioDoubles: DataFrame =
+      spark.read
+        .option("inferSchema", value = true)
+        .json("src/test/resources/audio/json/audio_floats.json")
+        .select($"float_array")
+
+    processedAudioDoubles.printSchema()
+    processedAudioDoubles.show()
+
+    val audioAssembler = new AudioAssembler()
+      .setInputCol("float_array")
+      .setOutputCol("audio_assembler")
+
+    audioAssembler.transform(processedAudioDoubles).show()
 
   }
 

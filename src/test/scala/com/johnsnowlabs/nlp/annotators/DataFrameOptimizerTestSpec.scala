@@ -15,7 +15,7 @@
  */
 package com.johnsnowlabs.nlp.annotators
 
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -57,7 +57,7 @@ class DataFrameOptimizerTestSpec extends AnyFlatSpec with SparkSessionTest {
       "DataFrame should be partitioned for downstream tasks")
   }
 
-  it should "persist DataFrame to disk" taggedAs SlowTest in {
+  it should "persist DataFrame to disk" taggedAs LocalTest in {
     val testDf = spark.createDataFrame(Seq((1, "test"), (2, "example")))
     val persistPath = "./tmp_DataFrameOptimizer"
     val dataFrameOptimizer = new DataFrameOptimizer()

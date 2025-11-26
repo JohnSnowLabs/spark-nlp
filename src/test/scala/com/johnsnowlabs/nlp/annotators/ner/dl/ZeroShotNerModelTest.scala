@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForQuestionAnswering
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions._
 import org.scalatest.flatspec.AnyFlatSpec
@@ -28,13 +28,13 @@ import org.scalatest.flatspec.AnyFlatSpec
 class ZeroShotNerModelTest extends AnyFlatSpec {
   import ResourceHelper.spark.implicits._
 
-  "ZeroShotNerModel" should "load a RoBertaForQuestionAnswering instance via pretrained" taggedAs SlowTest in {
+  "ZeroShotNerModel" should "load a RoBertaForQuestionAnswering instance via pretrained" taggedAs LocalTest in {
     ZeroShotNerModel
       .pretrained("roberta_base_qa_squad2", "en", "public/models")
       .isInstanceOf[ZeroShotNerModel]
   }
 
-  "ZeroShotNer" should "download a RoBertaForQuestionAnswering and save it as a ZeroShotNerModel" taggedAs SlowTest in {
+  "ZeroShotNer" should "download a RoBertaForQuestionAnswering and save it as a ZeroShotNerModel" taggedAs LocalTest in {
 
     RoBertaForQuestionAnswering
       .pretrained()
@@ -52,7 +52,7 @@ class ZeroShotNerModelTest extends AnyFlatSpec {
 
   }
 
-  "ZeroShotRobertaNer" should "run zero shot NER and check the number of entities returned" taggedAs SlowTest in {
+  "ZeroShotRobertaNer" should "run zero shot NER and check the number of entities returned" taggedAs LocalTest in {
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")

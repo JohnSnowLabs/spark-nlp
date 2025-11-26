@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, ImageAssembler}
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.lit
@@ -29,7 +29,7 @@ class BLIPForQuestionAnsweringTest extends AnyFlatSpec {
 
   lazy val model = getBLIPForQuestionAnsweringPipelineModel
 
-  "BLIP" should "answer a question for a given image" taggedAs SlowTest in {
+  "BLIP" should "answer a question for a given image" taggedAs LocalTest in {
 
     val testDF = getTestDF
     val result = model.transform(testDF)
@@ -41,7 +41,7 @@ class BLIPForQuestionAnsweringTest extends AnyFlatSpec {
     }
   }
 
-  it should "work with light pipeline annotate" taggedAs SlowTest in {
+  it should "work with light pipeline annotate" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/image/egyptian_cat.jpeg"
     val resultAnnotate = lightPipeline.annotate(imagePath, "What's this picture about?")
@@ -50,7 +50,12 @@ class BLIPForQuestionAnsweringTest extends AnyFlatSpec {
     assert(resultAnnotate("answer").head.contains("cat"))
   }
 
-  it should "work with light pipeline full annotate" taggedAs SlowTest in {
+  it should "run end to end pipeline test" taggedAs SlowTest in {
+    val testDF = getTestDF
+    model.transform(testDF).show()
+  }
+
+  it should "work with light pipeline full annotate" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/image/bluetick.jpg"
     val resultFullAnnotate =
@@ -62,7 +67,7 @@ class BLIPForQuestionAnsweringTest extends AnyFlatSpec {
     assert(answerAnnotation.result.nonEmpty)
   }
 
-  it should "fullAnnotate with empty Map when a text is empty" taggedAs SlowTest in {
+  it should "fullAnnotate with empty Map when a text is empty" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",
@@ -99,7 +104,7 @@ class BLIPForQuestionAnsweringTest extends AnyFlatSpec {
     }
   }
 
-  it should "annotate with empty Map when a text is empty" taggedAs SlowTest in {
+  it should "annotate with empty Map when a text is empty" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagesPath = Array(
       "src/test/resources/image/bluetick.jpg",

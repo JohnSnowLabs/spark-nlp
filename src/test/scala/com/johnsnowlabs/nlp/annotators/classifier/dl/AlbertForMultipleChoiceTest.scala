@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, MultiDocumentAssembler}
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.base.LightPipeline
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -17,7 +17,7 @@ class AlbertForMultipleChoiceTest extends AnyFlatSpec with SparkSessionTest {
     Seq(("The Eiffel Tower is located in which country?", "Germany, France, Italy"))
       .toDF("question", "context")
 
-  "AlbertForMultipleChoice" should "answer a multiple choice question" taggedAs SlowTest in {
+  "AlbertForMultipleChoice" should "answer a multiple choice question" taggedAs LocalTest in {
     val resultDf = pipelineModel.transform(testDataframe)
     resultDf.show(truncate = false)
 
@@ -27,7 +27,14 @@ class AlbertForMultipleChoiceTest extends AnyFlatSpec with SparkSessionTest {
     }
   }
 
-  it should "work with light pipeline fullAnnotate" taggedAs SlowTest in {
+  "AlbertForMultipleChoice" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val resultDf = pipelineModel.transform(testDataframe)
+    resultDf.show(truncate = false)
+
+  }
+
+  it should "work with light pipeline fullAnnotate" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(pipelineModel)
     val resultFullAnnotate = lightPipeline.fullAnnotate(
       "The Eiffel Tower is located in which country?",
@@ -39,7 +46,7 @@ class AlbertForMultipleChoiceTest extends AnyFlatSpec with SparkSessionTest {
     assert(answerAnnotation.result.nonEmpty)
   }
 
-  it should "work with light pipeline annotate" taggedAs SlowTest in {
+  it should "work with light pipeline annotate" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(pipelineModel)
     val resultAnnotate = lightPipeline.annotate(
       "The Eiffel Tower is located in which country?",

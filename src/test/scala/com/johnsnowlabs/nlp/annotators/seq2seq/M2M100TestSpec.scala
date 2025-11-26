@@ -18,13 +18,13 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{SlowTest, FastTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class M2M100TestSpec extends AnyFlatSpec {
 
-  "m2m100" should "should translate chinese to english" taggedAs SlowTest in {
+  "m2m100" should "should translate chinese to english" taggedAs LocalTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark
@@ -56,7 +56,39 @@ class M2M100TestSpec extends AnyFlatSpec {
 
   }
 
-  "m2m100" should "should translate hindi to french" taggedAs SlowTest in {
+  "m2m100" should "run end to end pipeline test" taggedAs SlowTest in {
+    // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
+    // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
+    val testData = ResourceHelper.spark
+      .createDataFrame(Seq((1, "生活就像一盒巧克力。")))
+      .toDF("id", "text")
+      .repartition(1)
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val m2m100 = M2M100Transformer
+      .pretrained()
+      .setInputCols(Array("documents"))
+      .setSrcLang("zh")
+      .setTgtLang("en")
+      .setDoSample(false)
+      .setMaxOutputLength(50)
+      .setOutputCol("generation")
+      .setBeamSize(1)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, m2m100))
+
+    val pipelineModel = pipeline.fit(testData)
+
+    pipelineModel.transform(testData).show()
+
+
+  }
+
+
+  "m2m100" should "should translate hindi to french" taggedAs LocalTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark
@@ -85,7 +117,7 @@ class M2M100TestSpec extends AnyFlatSpec {
 
   }
 
-  "m2m100" should "should translate Sinhala to English" taggedAs SlowTest in {
+  "m2m100" should "should translate Sinhala to English" taggedAs LocalTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
     // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
     val testData = ResourceHelper.spark

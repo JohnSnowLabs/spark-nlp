@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -28,7 +28,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class XlnetEmbeddingsTestSpec extends AnyFlatSpec {
 
-  "XlnetEmbeddings" should "correctly load pretrained model" taggedAs SlowTest in {
+  "XlnetEmbeddings" should "correctly load pretrained model" taggedAs LocalTest in {
 
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")
@@ -69,7 +69,7 @@ class XlnetEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  "XlnetEmbeddings" should "benchmark test" taggedAs SlowTest in {
+  "XlnetEmbeddings" should "benchmark test" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._
 
     val conll = CoNLL()
@@ -128,7 +128,7 @@ class XlnetEmbeddingsTestSpec extends AnyFlatSpec {
     }
   }
 
-  "XlnetEmbeddings" should "be aligned with custom tokens from Tokenizer" taggedAs SlowTest in {
+  "XlnetEmbeddings" should "be aligned with custom tokens from Tokenizer" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 
@@ -178,7 +178,7 @@ class XlnetEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  "XlnetEmbeddings" should "be saved and loaded from disk" taggedAs SlowTest in {
+  "XlnetEmbeddings" should "be saved and loaded from disk" taggedAs LocalTest in {
 
     import ResourceHelper.spark.implicits._
 

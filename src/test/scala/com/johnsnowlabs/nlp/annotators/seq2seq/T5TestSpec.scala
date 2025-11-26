@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.col
@@ -27,7 +27,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 class T5TestSpec extends AnyFlatSpec {
 
-  "google/t5-small-ssm-nq " should "run SparkNLP pipeline" taggedAs SlowTest in {
+  "google/t5-small-ssm-nq " should "run SparkNLP pipeline" taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(
@@ -58,7 +58,7 @@ class T5TestSpec extends AnyFlatSpec {
     results.select("questions.result", "answers.result").show(truncate = false)
   }
 
-  "t5-small" should "run SparkNLP pipeline with maxLength=200 " taggedAs SlowTest in {
+  "t5-small" should "run SparkNLP pipeline with maxLength=200 " taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(
@@ -101,7 +101,7 @@ class T5TestSpec extends AnyFlatSpec {
       result == "the lamb fillet of fat and cut into slices the thickness of a chop . cut the kidneys in half and snip out the white core .")
   }
 
-  "t5-small" should "run SparkNLP pipeline with doSample=true " taggedAs SlowTest in {
+  "t5-small" should "run SparkNLP pipeline with doSample=true " taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(
@@ -157,7 +157,7 @@ class T5TestSpec extends AnyFlatSpec {
     assert(!dataframe1.equals(dataframe2))
   }
 
-  "t5-small" should "run SparkNLP pipeline with doSample=true and fixed random seed " taggedAs SlowTest in {
+  "t5-small" should "run SparkNLP pipeline with doSample=true and fixed random seed " taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(
@@ -215,7 +215,7 @@ class T5TestSpec extends AnyFlatSpec {
     assert(dataframe1.equals(dataframe2))
   }
 
-  "t5-small" should "run SparkNLP pipeline with doSample=true, fixed random seed deactivated topK" taggedAs SlowTest in {
+  "t5-small" should "run SparkNLP pipeline with doSample=true, fixed random seed deactivated topK" taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(
@@ -260,7 +260,7 @@ class T5TestSpec extends AnyFlatSpec {
 
   }
 
-  "t5-small" should "run SparkNLP pipeline with temperature to decrease the sensitivity to low probability candidates" taggedAs SlowTest in {
+  "t5-small" should "run SparkNLP pipeline with temperature to decrease the sensitivity to low probability candidates" taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(
@@ -307,7 +307,7 @@ class T5TestSpec extends AnyFlatSpec {
 
   }
 
-  "t5-small" should "run SparkNLP pipeline with doSample and TopP" taggedAs SlowTest in {
+  "t5-small" should "run SparkNLP pipeline with doSample and TopP" taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(
@@ -354,7 +354,7 @@ class T5TestSpec extends AnyFlatSpec {
 
   }
 
-  "t5-small" should "run SparkNLP pipeline with repetitionPenalty" taggedAs SlowTest in {
+  "t5-small" should "run SparkNLP pipeline with repetitionPenalty" taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(
         Seq(
@@ -400,7 +400,7 @@ class T5TestSpec extends AnyFlatSpec {
 
   }
 
-  "t5-small" should "run SparkNLP pipeline and ignore a token" taggedAs SlowTest in {
+  "t5-small" should "run SparkNLP pipeline and ignore a token" taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(Seq(
         (
@@ -464,7 +464,7 @@ class T5TestSpec extends AnyFlatSpec {
       "should not include ignored tokens")
   }
 
-  "t5-small" should "run SparkNLP pipeline for translation" taggedAs SlowTest in {
+  "t5-small" should "run SparkNLP pipeline for translation" taggedAs LocalTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(Seq(
         (
@@ -526,7 +526,7 @@ class T5TestSpec extends AnyFlatSpec {
       "should not include ignored tokens")
   }
 
-  "Pretrained models" should "able to change task" taggedAs SlowTest in {
+  "Pretrained models" should "able to change task" taggedAs LocalTest in {
     val testData =
       ResourceHelper.spark.createDataFrame(Seq((1, "That is good."))).toDF("id", "text")
 
@@ -553,7 +553,7 @@ class T5TestSpec extends AnyFlatSpec {
     assert(collected == expected, "translation should be correct")
   }
 
-  "Pretrained models" should "be saved and loaded correctly" taggedAs SlowTest in {
+  "Pretrained models" should "be saved and loaded correctly" taggedAs LocalTest in {
     val testData =
       ResourceHelper.spark.createDataFrame(Seq((1, "That is good."))).toDF("id", "text")
 

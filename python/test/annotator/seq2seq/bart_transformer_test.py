@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class BartTransformerQATestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -46,7 +46,7 @@ class BartTransformerQATestSpec(unittest.TestCase):
 
         results.select("documents.result", "answers.result").show(truncate=False)
 
-@pytest.mark.slow
+@pytest.mark.local
 class BartTransformerMaxLengthTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -122,7 +122,7 @@ class BartTransformerMaxLengthTestSpec(unittest.TestCase):
         results.select("summaries.result").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class BartTransformerSummaryTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -164,7 +164,7 @@ class BartTransformerSummaryTestSpec(unittest.TestCase):
         results.select("summaries.result").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class BartTransformerSummaryWithRepetitionPenaltyTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -201,7 +201,7 @@ class BartTransformerSummaryWithRepetitionPenaltyTestSpec(unittest.TestCase):
         results.select("summaries.result").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class BartTransformerSummaryWithSamplingAndDeactivatedTopKTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -239,7 +239,7 @@ class BartTransformerSummaryWithSamplingAndDeactivatedTopKTestSpec(unittest.Test
         results.select("summaries.result").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class BartTransformerSummaryWithSamplingAndTemperatureTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -278,7 +278,7 @@ class BartTransformerSummaryWithSamplingAndTemperatureTestSpec(unittest.TestCase
         results.select("summaries.result").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class BartTransformerSummaryWithSamplingAndTopPTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -317,7 +317,7 @@ class BartTransformerSummaryWithSamplingAndTopPTestSpec(unittest.TestCase):
         results.select("summaries.result").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class BartTransformerSummaryWithSamplingTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark

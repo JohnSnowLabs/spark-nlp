@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.embeddings
 
 import com.johnsnowlabs.nlp.{AssertAnnotations, ImageAssembler}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Encoder, Encoders}
 import org.apache.spark.sql.functions.{col, lit, size}
@@ -33,7 +33,7 @@ class E5VEmbeddingsTestSpec extends AnyFlatSpec {
   val imagePrompt =
     "<|start_header_id|>user<|end_header_id|>\n\n<image>\\nSummary above image in one word: <|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n \n"
 
-  "E5V Embeddings" should "correctly embed sentences" taggedAs SlowTest in {
+  "E5V Embeddings" should "correctly embed sentences" taggedAs LocalTest in {
     val testDF = getTestDF
     val result = model.transform(testDF)
 

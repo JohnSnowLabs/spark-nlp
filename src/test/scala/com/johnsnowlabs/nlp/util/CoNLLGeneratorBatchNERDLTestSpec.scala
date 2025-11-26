@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.util
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.nio.charset.StandardCharsets
@@ -44,7 +44,7 @@ class CoNLLGeneratorBatchNERDLTestSpec extends AnyFlatSpec {
        |""".stripMargin
   }
 
-  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right CoNLL file" taggedAs SlowTest in {
+  "The (dataframe, pipelinemodel, outputpath) generator" should "make the right CoNLL file" taggedAs LocalTest in {
 
     val firstnames = Array(
       "Liam",

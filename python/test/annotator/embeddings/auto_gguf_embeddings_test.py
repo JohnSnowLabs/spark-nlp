@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import *
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -61,8 +61,23 @@ class AutoGGUFModelTestSpec(unittest.TestCase):
                 sum(embds) > 0
             ), "Embeddings should not be zero. Was there an error on llama.cpp side?"
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        model = (
+            AutoGGUFEmbeddings.pretrained()
+            .setInputCols("document")
+            .setOutputCol("embeddings")
+            .setBatchSize(4)
+            .setNGpuLayers(99)
+            .setNCtx(4096)
+        )
 
-@pytest.mark.slow
+        pipeline = Pipeline().setStages([self.document_assembler, model])
+        results = pipeline.fit(self.data).transform(self.data)
+        results.select("embeddings.embeddings").show()
+
+
+@pytest.mark.local
 class AutoGGUFEmbeddingsPoolingTypeTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -104,7 +119,7 @@ class AutoGGUFEmbeddingsPoolingTypeTestSpec(unittest.TestCase):
             ), "Embeddings should not be zero. Was there an error on llama.cpp side?"
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFEmbeddingsErrorHandlingTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -140,7 +155,7 @@ class AutoGGUFEmbeddingsErrorHandlingTestSpec(unittest.TestCase):
             ), "llamacpp_exception should be present"
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFEmbeddingsLongTextTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -181,7 +196,7 @@ class AutoGGUFEmbeddingsLongTextTestSpec(unittest.TestCase):
             ), "Embeddings should not be zero. Was there an error on llama.cpp side?"
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFEmbeddingsSerializationTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -202,7 +217,7 @@ class AutoGGUFEmbeddingsSerializationTestSpec(unittest.TestCase):
         AutoGGUFEmbeddings.load(model_path)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFEmbeddingsCloseTest(unittest.TestCase):
     def setUp(self):
         self.spark = SparkSessionForTest.spark

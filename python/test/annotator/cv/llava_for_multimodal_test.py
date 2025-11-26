@@ -47,7 +47,7 @@ class LLAVAForMultiModalTestSetup(unittest.TestCase):
 
         self.model = self.pipeline.fit(self.test_df)
 
-@pytest.mark.slow
+@pytest.mark.local
 class LLAVAForMultiModalTest(LLAVAForMultiModalTestSetup, unittest.TestCase):
 
     def setUp(self):
@@ -60,7 +60,7 @@ class LLAVAForMultiModalTest(LLAVAForMultiModalTestSetup, unittest.TestCase):
             self.assertTrue(row["answer"] != "")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightLLAVAForMultiModalTest(LLAVAForMultiModalTestSetup, unittest.TestCase):
 
     def setUp(self):

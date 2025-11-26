@@ -20,7 +20,7 @@ from sparknlp.annotator import *
 from sparknlp.base import *
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 @pytest.mark.skip(reason="Needs to be Fixed.")
 class ParamsGettersTestSpec(unittest.TestCase):
     @staticmethod

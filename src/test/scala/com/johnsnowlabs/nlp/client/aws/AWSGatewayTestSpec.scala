@@ -18,12 +18,12 @@ package com.johnsnowlabs.nlp.client.aws
 
 import com.amazonaws.auth.{AnonymousAWSCredentials, BasicSessionCredentials}
 import com.johnsnowlabs.client.aws.{AWSTokenCredentials, CredentialParams}
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.LocalTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 class AWSGatewayTestSpec extends AnyFlatSpec {
 
-  "AWSGatewayTestSpec" should "build Basic Credentials" taggedAs SlowTest in {
+  "AWSGatewayTestSpec" should "build Basic Credentials" taggedAs LocalTest in {
     val accessKeyId = "myAccessKeyId"
     val secretAccessKey = "mySecretAccessKey"
     val region = "myRegion"
@@ -35,7 +35,7 @@ class AWSGatewayTestSpec extends AnyFlatSpec {
     assert(awsCredentials.get.getAWSSecretKey == secretAccessKey)
   }
 
-  it should "build Token Credentials" taggedAs SlowTest in {
+  it should "build Token Credentials" taggedAs LocalTest in {
     val accessKeyId = "myAccessKeyId"
     val secretAccessKey = "mySecretAccessKey"
     val sessionToken = "mySessionToken"
@@ -53,7 +53,7 @@ class AWSGatewayTestSpec extends AnyFlatSpec {
     assert(awsSessionCredentials.getSessionToken == sessionToken)
   }
 
-  it should "build provided credentials" taggedAs SlowTest in {
+  it should "build provided credentials" taggedAs LocalTest in {
     val secretAccessKey = "mySecretAccessKey"
     val sessionToken = "mySessionToken"
     val region = "myRegion"
@@ -64,7 +64,7 @@ class AWSGatewayTestSpec extends AnyFlatSpec {
     assert(awsCredentials.isDefined)
   }
 
-  it should "build anonymous credentials" taggedAs SlowTest in {
+  it should "build anonymous credentials" taggedAs LocalTest in {
     val accessKeyId = "anonymous"
     val region = "myRegion"
     val credentialParams = CredentialParams(accessKeyId, "", "", "", region)
@@ -78,7 +78,7 @@ class AWSGatewayTestSpec extends AnyFlatSpec {
     assert(awsSessionCredentials.getAWSSecretKey == null)
   }
 
-  it should "build Profile Credentials" taggedAs SlowTest in {
+  it should "build Profile Credentials" taggedAs LocalTest in {
     val profile = "myProfile"
     val region = "myRegion"
 

@@ -3,7 +3,7 @@ import com.johnsnowlabs.nlp.SparkAccessor.spark
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest.flatspec.AnyFlatSpec
@@ -13,7 +13,7 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
 
   import spark.implicits._
 
-  "SpanBertCoref" should "should be serialized" taggedAs SlowTest in {
+  "SpanBertCoref" should "should be serialized" taggedAs LocalTest in {
     SpanBertCorefModel
       .pretrained()
       .setMaxSegmentLength(384)
@@ -25,7 +25,7 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
     SpanBertCorefModel.load("./tmp_spanbertcoref")
   }
 
-  "SpanBertCoref" should "process some text" taggedAs SlowTest in {
+  "SpanBertCoref" should "process some text" taggedAs LocalTest in {
     val data = Seq("John told Mary he would like to borrow a book from her.")
       .toDF("text")
 

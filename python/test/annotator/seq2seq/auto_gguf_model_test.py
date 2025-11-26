@@ -20,7 +20,7 @@ from sparknlp.base import *
 from test.util import *
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -61,8 +61,38 @@ class AutoGGUFModelTestSpec(unittest.TestCase):
 
         results.select("completions").show(truncate=False)
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = (
+            self.spark.createDataFrame(
+                [
+                    ["The sun is "]]
+            )
+            .toDF("text")
+        )
 
-@pytest.mark.slow
+        document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+        model = (
+            AutoGGUFModel.pretrained()
+            .setInputCols("document")
+            .setOutputCol("completions")
+            .setBatchSize(4)
+            .setNPredict(20)
+            .setNGpuLayers(99)
+            .setTemperature(0.4)
+            .setTopK(40)
+            .setTopP(0.9)
+            .setPenalizeNl(True)
+        )
+
+        pipeline = Pipeline().setStages([document_assembler, model])
+        pipeline.fit(data).transform(data).show()
+
+
+@pytest.mark.local
 class AutoGGUFModelParametersTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -176,7 +206,7 @@ class AutoGGUFModelParametersTestSpec(unittest.TestCase):
         results.select("completions").show(truncate=False)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelMetadataTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -193,7 +223,7 @@ class AutoGGUFModelMetadataTestSpec(unittest.TestCase):
         print(eval(metadata))
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelErrorMessagesTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -240,7 +270,7 @@ class AutoGGUFModelErrorMessagesTestSpec(unittest.TestCase):
             )
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelSerializationTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -261,7 +291,7 @@ class AutoGGUFModelSerializationTestSpec(unittest.TestCase):
         AutoGGUFModel.load(model_path)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelCloseTest(unittest.TestCase):
     def setUp(self):
         self.spark = SparkSessionForTest.spark
@@ -295,7 +325,7 @@ class AutoGGUFModelCloseTest(unittest.TestCase):
         assert ramChange < -100, "Freed RAM should be greater than 100 MB"
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class AutoGGUFModelThinkingTagTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark

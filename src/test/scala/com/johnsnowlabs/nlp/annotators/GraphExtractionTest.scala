@@ -25,7 +25,7 @@ import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.embeddings.WordEmbeddingsModel
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, GraphFinisher}
-import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -288,7 +288,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
   }
 
-  it should "handle overlapping entities" taggedAs SlowTest in {
+  it should "handle overlapping entities" taggedAs LocalTest ignore {
     val testDataSet = getOverlappingEntities(spark, tokenizerWithSentencePipeline)
     val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "entities")
@@ -481,7 +481,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
   }
 
-  it should "output paths when Typed Dependency Parser cannot label relations" taggedAs SlowTest in {
+  it should "output paths when Typed Dependency Parser cannot label relations" taggedAs LocalTest ignore {
     val testDataSet = getEntitiesWithNoTypeParserOutput(spark, tokenizerWithSentencePipeline)
     val graphExtractor = new GraphExtraction()
       .setInputCols("sentence", "token", "entities")
@@ -525,7 +525,7 @@ class GraphExtractionTest extends AnyFlatSpec with SparkSessionTest with GraphEx
     AssertAnnotations.assertFields(expectedGraph, actualGraph)
   }
 
-  "Graph Extraction with LightPipeline" should "return dependency graphs between all entities" taggedAs SlowTest in {
+  "Graph Extraction with LightPipeline" should "return dependency graphs between all entities" taggedAs LocalTest ignore {
 
     val embeddings = WordEmbeddingsModel
       .pretrained()

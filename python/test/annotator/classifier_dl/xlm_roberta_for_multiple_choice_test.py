@@ -43,7 +43,7 @@ class XlmRoBertaForMultipleChoiceTestSetup(unittest.TestCase):
         self.pipeline_model = pipeline.fit(empty_df)
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class XlmRoBertaForMultipleChoiceTest(XlmRoBertaForMultipleChoiceTestSetup, unittest.TestCase):
 
     def setUp(self):
@@ -58,7 +58,7 @@ class XlmRoBertaForMultipleChoiceTest(XlmRoBertaForMultipleChoiceTestSetup, unit
             self.assertTrue(row["answer"][0].result != "")
 
 
-@pytest.mark.slow
+@pytest.mark.local
 class LightXlmRoBertaForMultipleChoiceTest(XlmRoBertaForMultipleChoiceTestSetup, unittest.TestCase):
 
     def setUp(self):
