@@ -173,7 +173,7 @@ class E5Embeddings(AnnotatorModel,
         return E5Embeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="e5_small", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="e5_small", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -192,4 +192,4 @@ class E5Embeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(E5Embeddings, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(E5Embeddings, name, lang, remote_loc)

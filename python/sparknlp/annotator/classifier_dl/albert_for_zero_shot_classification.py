@@ -188,7 +188,7 @@ class AlbertForZeroShotClassification(AnnotatorModel,
         return AlbertForZeroShotClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="albert_zero_shot_classifier_onnx", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="albert_zero_shot_classifier_onnx", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -208,4 +208,4 @@ class AlbertForZeroShotClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AlbertForZeroShotClassification, name, lang, remote_loc,engine )
+        return ResourceDownloader.downloadModel(AlbertForZeroShotClassification, name, lang, remote_loc)

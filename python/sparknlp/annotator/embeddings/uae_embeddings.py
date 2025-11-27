@@ -189,7 +189,7 @@ class UAEEmbeddings(AnnotatorModel,
         return UAEEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="uae_large_v1", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="uae_large_v1", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -208,4 +208,4 @@ class UAEEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(UAEEmbeddings, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(UAEEmbeddings, name, lang, remote_loc)

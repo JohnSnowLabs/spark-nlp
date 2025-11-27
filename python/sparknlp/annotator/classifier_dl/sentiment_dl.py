@@ -356,7 +356,7 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef, HasEngine):
         return self._set(thresholdLabel=p)
 
     @staticmethod
-    def pretrained(name="sentimentdl_use_imdb", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="sentimentdl_use_imdb", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -375,4 +375,4 @@ class SentimentDLModel(AnnotatorModel, HasStorageRef, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(SentimentDLModel, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(SentimentDLModel, name, lang, remote_loc)

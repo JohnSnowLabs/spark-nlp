@@ -145,7 +145,7 @@ class RoBertaForQuestionAnswering(AnnotatorModel,
         return RoBertaForQuestionAnswering(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="roberta_base_qa_squad2", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="roberta_base_qa_squad2", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -165,4 +165,4 @@ class RoBertaForQuestionAnswering(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(RoBertaForQuestionAnswering, name, lang, remote_loc, engine)
+        return ResourceDownloader.downloadModel(RoBertaForQuestionAnswering, name, lang, remote_loc)

@@ -403,7 +403,7 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return T5Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="t5_small", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="t5_small", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -422,4 +422,4 @@ class T5Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(T5Transformer, name, lang, remote_loc)

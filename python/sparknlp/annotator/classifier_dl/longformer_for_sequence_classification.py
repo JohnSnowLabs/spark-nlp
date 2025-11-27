@@ -178,7 +178,7 @@ class LongformerForSequenceClassification(AnnotatorModel,
         return LongformerForSequenceClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="longformer_base_sequence_classifier_imdb", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="longformer_base_sequence_classifier_imdb", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -198,4 +198,4 @@ class LongformerForSequenceClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(LongformerForSequenceClassification, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(LongformerForSequenceClassification, name, lang, remote_loc)

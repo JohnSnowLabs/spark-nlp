@@ -321,7 +321,7 @@ class LLAMA2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return LLAMA2Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="llama_2_7b_chat_hf_int4", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="llama_2_7b_chat_hf_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -340,4 +340,4 @@ class LLAMA2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(LLAMA2Transformer, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(LLAMA2Transformer, name, lang, remote_loc)

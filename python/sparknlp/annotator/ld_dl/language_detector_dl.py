@@ -177,7 +177,7 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
         return self._set(coalesceSentences=value)
 
     @staticmethod
-    def pretrained(name="ld_wiki_tatoeba_cnn_21", lang="xx", remote_loc=None,engine="onnx"):
+    def pretrained(name="ld_wiki_tatoeba_cnn_21", lang="xx", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -196,4 +196,4 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(LanguageDetectorDL, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(LanguageDetectorDL, name, lang, remote_loc)

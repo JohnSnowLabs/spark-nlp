@@ -178,7 +178,7 @@ class XlmRoBertaForSequenceClassification(AnnotatorModel,
         return XlmRoBertaForSequenceClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="xlm_roberta_base_token_classifier_conll03", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="xlm_roberta_base_token_classifier_conll03", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -198,4 +198,4 @@ class XlmRoBertaForSequenceClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(XlmRoBertaForSequenceClassification, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(XlmRoBertaForSequenceClassification, name, lang, remote_loc)

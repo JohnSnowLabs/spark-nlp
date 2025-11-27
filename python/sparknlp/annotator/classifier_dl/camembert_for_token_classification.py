@@ -150,7 +150,7 @@ class CamemBertForTokenClassification(AnnotatorModel,
         return CamemBertForTokenClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="camembert_base_token_classifier_wikiner", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="camembert_base_token_classifier_wikiner", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -170,4 +170,4 @@ class CamemBertForTokenClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(CamemBertForTokenClassification, name, lang, remote_loc,engine )
+        return ResourceDownloader.downloadModel(CamemBertForTokenClassification, name, lang, remote_loc)

@@ -398,7 +398,7 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return BartTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="distilbart_xsum_12_6", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="distilbart_xsum_12_6", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -417,4 +417,4 @@ class BartTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BartTransformer, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(BartTransformer, name, lang, remote_loc)

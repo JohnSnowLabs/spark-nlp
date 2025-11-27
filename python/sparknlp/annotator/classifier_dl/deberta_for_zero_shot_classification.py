@@ -172,7 +172,7 @@ class DeBertaForZeroShotClassification(AnnotatorModel,
         return DeBertaForZeroShotClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="deberta_base_zero_shot_classifier_mnli_anli_v3", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="deberta_base_zero_shot_classifier_mnli_anli_v3", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
         Parameters
         ----------
@@ -190,4 +190,4 @@ class DeBertaForZeroShotClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(DeBertaForZeroShotClassification, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(DeBertaForZeroShotClassification, name, lang, remote_loc)

@@ -199,7 +199,7 @@ class DistilBertEmbeddings(AnnotatorModel,
         return DistilBertEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="distilbert_base_cased", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="distilbert_base_cased", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -218,4 +218,4 @@ class DistilBertEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(DistilBertEmbeddings, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(DistilBertEmbeddings, name, lang, remote_loc)

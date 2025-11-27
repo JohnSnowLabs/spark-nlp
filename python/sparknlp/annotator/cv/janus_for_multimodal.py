@@ -330,7 +330,7 @@ class JanusForMultiModal(AnnotatorModel,
         return JanusForMultiModal(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="janus_1_3b_int4", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="janus_1_3b_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
         Parameters
         ----------
@@ -348,4 +348,4 @@ class JanusForMultiModal(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(JanusForMultiModal, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(JanusForMultiModal, name, lang, remote_loc)

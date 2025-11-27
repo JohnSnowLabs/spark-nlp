@@ -145,7 +145,7 @@ class BertForQuestionAnswering(AnnotatorModel,
         return BertForQuestionAnswering(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bert_base_cased_qa_squad2", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="bert_base_cased_qa_squad2", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -165,4 +165,4 @@ class BertForQuestionAnswering(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertForQuestionAnswering, name, lang, remote_loc,engine )
+        return ResourceDownloader.downloadModel(BertForQuestionAnswering, name, lang, remote_loc)

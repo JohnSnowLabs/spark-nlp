@@ -170,7 +170,7 @@ class CLIPForZeroShotClassification(AnnotatorModel,
         return CLIPForZeroShotClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="zero_shot_classifier_clip_vit_base_patch32", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="zero_shot_classifier_clip_vit_base_patch32", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -190,4 +190,4 @@ class CLIPForZeroShotClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(CLIPForZeroShotClassification, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(CLIPForZeroShotClassification, name, lang, remote_loc)

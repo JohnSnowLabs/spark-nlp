@@ -150,7 +150,7 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
         return XlmRoBertaForTokenClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="mpnet_base_token_classifier", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="mpnet_base_token_classifier", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -170,4 +170,4 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(XlmRoBertaForTokenClassification, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(XlmRoBertaForTokenClassification, name, lang, remote_loc)

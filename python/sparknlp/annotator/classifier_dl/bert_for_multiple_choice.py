@@ -138,7 +138,7 @@ class BertForMultipleChoice(AnnotatorModel,
         return BertForMultipleChoice(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bert_base_uncased_multiple_choice", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="bert_base_uncased_multiple_choice", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -158,4 +158,4 @@ class BertForMultipleChoice(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertForMultipleChoice, name, lang, remote_loc,engine )
+        return ResourceDownloader.downloadModel(BertForMultipleChoice, name, lang, remote_loc)

@@ -323,7 +323,7 @@ class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
         )
 
     @staticmethod
-    def pretrained(name="doc2vec_gigaword_300", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="doc2vec_gigaword_300", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -342,7 +342,7 @@ class Doc2VecModel(AnnotatorModel, HasStorageRef, HasEmbeddingsProperties):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(Doc2VecModel, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(Doc2VecModel, name, lang, remote_loc)
 
     def getVectors(self):
         """

@@ -245,7 +245,7 @@ class ConvNextForImageClassification(AnnotatorModel,
 
     @staticmethod
     def pretrained(name="image_classifier_convnext_tiny_224_local", lang="en",
-                   remote_loc=None,engine ="onnx"):
+                   remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -266,4 +266,4 @@ class ConvNextForImageClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(ConvNextForImageClassification, name, lang,
-                                                remote_loc,engine)
+                                                remote_loc)

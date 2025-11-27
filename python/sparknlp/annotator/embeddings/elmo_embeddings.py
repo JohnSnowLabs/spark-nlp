@@ -229,7 +229,7 @@ class ElmoEmbeddings(AnnotatorModel,
         return ElmoEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="elmo", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="elmo", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -248,4 +248,4 @@ class ElmoEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(ElmoEmbeddings, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(ElmoEmbeddings, name, lang, remote_loc)

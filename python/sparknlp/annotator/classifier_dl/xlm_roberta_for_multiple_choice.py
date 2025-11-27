@@ -126,7 +126,7 @@ class XlmRoBertaForMultipleChoice(AnnotatorModel,
         return XlmRoBertaForMultipleChoice(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="xlm_roberta_base_mc", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="xlm_roberta_base_mc", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -146,4 +146,4 @@ class XlmRoBertaForMultipleChoice(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(XlmRoBertaForMultipleChoice, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(XlmRoBertaForMultipleChoice, name, lang, remote_loc)

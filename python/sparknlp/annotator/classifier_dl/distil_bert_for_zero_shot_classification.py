@@ -188,7 +188,7 @@ class DistilBertForZeroShotClassification(AnnotatorModel,
         return DistilBertForZeroShotClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="distilbert_base_zero_shot_classifier_uncased_mnli", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="distilbert_base_zero_shot_classifier_uncased_mnli", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -208,4 +208,4 @@ class DistilBertForZeroShotClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(DistilBertForZeroShotClassification, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(DistilBertForZeroShotClassification, name, lang, remote_loc)

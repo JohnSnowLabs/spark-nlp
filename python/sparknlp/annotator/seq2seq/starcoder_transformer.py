@@ -313,7 +313,7 @@ class StarCoderTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return StarCoderTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="starcoder", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="starcoder", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -332,4 +332,4 @@ class StarCoderTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(StarCoderTransformer, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(StarCoderTransformer, name, lang, remote_loc)

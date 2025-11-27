@@ -182,7 +182,7 @@ class InstructorEmbeddings(AnnotatorModel,
         return InstructorEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="instructor_base", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="instructor_base", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -201,4 +201,4 @@ class InstructorEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(InstructorEmbeddings, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(InstructorEmbeddings, name, lang, remote_loc)

@@ -202,7 +202,7 @@ class XlmRoBertaForZeroShotClassification(AnnotatorModel,
         return XlmRoBertaForZeroShotClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="xlm_roberta_large_zero_shot_classifier_xnli_anli", lang="xx", remote_loc=None,engine ="onnx"):
+    def pretrained(name="xlm_roberta_large_zero_shot_classifier_xnli_anli", lang="xx", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -222,4 +222,4 @@ class XlmRoBertaForZeroShotClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(XlmRoBertaForZeroShotClassification, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(XlmRoBertaForZeroShotClassification, name, lang, remote_loc)

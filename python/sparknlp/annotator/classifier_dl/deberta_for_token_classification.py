@@ -152,7 +152,7 @@ class DeBertaForTokenClassification(AnnotatorModel,
         return DeBertaForTokenClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="deberta_v3_xsmall_token_classifier_conll03", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="deberta_v3_xsmall_token_classifier_conll03", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -172,4 +172,4 @@ class DeBertaForTokenClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(DeBertaForTokenClassification, name, lang, remote_loc,engine )
+        return ResourceDownloader.downloadModel(DeBertaForTokenClassification, name, lang, remote_loc)

@@ -539,7 +539,7 @@ class TokenizerModel(AnnotatorModel):
         return self._set(splitChars=split_chars)
 
     @staticmethod
-    def pretrained(name="token_rules", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="token_rules", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -558,4 +558,4 @@ class TokenizerModel(AnnotatorModel):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(TokenizerModel, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(TokenizerModel, name, lang, remote_loc)

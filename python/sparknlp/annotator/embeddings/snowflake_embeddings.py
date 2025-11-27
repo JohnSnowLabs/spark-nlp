@@ -180,7 +180,7 @@ class SnowFlakeEmbeddings(AnnotatorModel,
 		return SnowFlakeEmbeddings(java_model=jModel)
 
 	@staticmethod
-	def pretrained(name="snowflake_artic_m", lang="en", remote_loc=None,engine="onnx"):
+	def pretrained(name="snowflake_artic_m", lang="en", remote_loc=None):
 		"""Downloads and loads a pretrained model.
 
 		Parameters
@@ -199,4 +199,4 @@ class SnowFlakeEmbeddings(AnnotatorModel,
 			The restored model
 		"""
 		from sparknlp.pretrained import ResourceDownloader
-		return ResourceDownloader.downloadModel(SnowFlakeEmbeddings, name, lang, remote_loc,engine)
+		return ResourceDownloader.downloadModel(SnowFlakeEmbeddings, name, lang, remote_loc)

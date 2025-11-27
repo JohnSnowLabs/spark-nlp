@@ -145,7 +145,7 @@ class DistilBertForQuestionAnswering(AnnotatorModel,
         return DistilBertForQuestionAnswering(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="distilbert_base_cased_qa_squad2", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="distilbert_base_cased_qa_squad2", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -165,4 +165,4 @@ class DistilBertForQuestionAnswering(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(DistilBertForQuestionAnswering, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(DistilBertForQuestionAnswering, name, lang, remote_loc)

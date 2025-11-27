@@ -152,7 +152,7 @@ class DistilBertForTokenClassification(AnnotatorModel,
         return DistilBertForTokenClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="distilbert_base_token_classifier_conll03", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="distilbert_base_token_classifier_conll03", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -172,4 +172,4 @@ class DistilBertForTokenClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(DistilBertForTokenClassification, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(DistilBertForTokenClassification, name, lang, remote_loc)

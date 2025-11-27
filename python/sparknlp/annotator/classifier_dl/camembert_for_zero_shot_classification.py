@@ -179,7 +179,7 @@ class CamemBertForZeroShotClassification(AnnotatorModel,
         return CamemBertForZeroShotClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="camembert_zero_shot_classifier_xnli_onnx", lang="fr", remote_loc=None,engine ="onnx"):
+    def pretrained(name="camembert_zero_shot_classifier_xnli_onnx", lang="fr", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -199,4 +199,4 @@ class CamemBertForZeroShotClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(CamemBertForZeroShotClassification, name, lang, remote_loc,engine )
+        return ResourceDownloader.downloadModel(CamemBertForZeroShotClassification, name, lang, remote_loc)

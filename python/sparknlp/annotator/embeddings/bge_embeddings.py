@@ -177,7 +177,7 @@ class BGEEmbeddings(AnnotatorModel,
         return BGEEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bge_small_en_v1.5", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="bge_small_en_v1.5", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -196,4 +196,4 @@ class BGEEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BGEEmbeddings, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(BGEEmbeddings, name, lang, remote_loc)

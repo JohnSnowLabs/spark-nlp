@@ -324,7 +324,7 @@ class Gemma3ForMultiModal(AnnotatorModel,
         return Gemma3ForMultiModal(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="gemma_3_4b_it_int4", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="gemma_3_4b_it_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -343,4 +343,4 @@ class Gemma3ForMultiModal(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(Gemma3ForMultiModal, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(Gemma3ForMultiModal, name, lang, remote_loc) 

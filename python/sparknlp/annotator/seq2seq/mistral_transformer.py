@@ -326,7 +326,7 @@ class MistralTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return MistralTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="mistral_7b", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="mistral_7b", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -345,4 +345,4 @@ class MistralTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(MistralTransformer, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(MistralTransformer, name, lang, remote_loc)

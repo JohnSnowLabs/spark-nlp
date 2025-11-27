@@ -218,7 +218,7 @@ class SwinForImageClassification(AnnotatorModel,
 
     @staticmethod
     def pretrained(name="image_classifier_swin_base_patch4_window7_224", lang="en",
-                   remote_loc=None,engine ="onnx"):
+                   remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -239,4 +239,4 @@ class SwinForImageClassification(AnnotatorModel,
         """
         from sparknlp.pretrained import ResourceDownloader
         return ResourceDownloader.downloadModel(SwinForImageClassification, name, lang,
-                                                remote_loc,engine)
+                                                remote_loc)

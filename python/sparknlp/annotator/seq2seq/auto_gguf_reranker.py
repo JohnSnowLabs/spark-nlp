@@ -307,7 +307,7 @@ class AutoGGUFReranker(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties
         return AutoGGUFReranker(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bge_reranker_v2_m3_Q4_K_M", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="bge_reranker_v2_m3_Q4_K_M", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -326,7 +326,7 @@ class AutoGGUFReranker(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AutoGGUFReranker, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(AutoGGUFReranker, name, lang, remote_loc)
 
     def close(self):
         """Closes the llama.cpp model backend freeing resources. The model is reloaded when used again.

@@ -186,7 +186,7 @@ class DeBertaEmbeddings(AnnotatorModel,
         return DeBertaEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="deberta_v3_base", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="deberta_v3_base", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -205,4 +205,4 @@ class DeBertaEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(DeBertaEmbeddings, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(DeBertaEmbeddings, name, lang, remote_loc)

@@ -174,7 +174,7 @@ class Florence2Transformer(AnnotatorModel,
         return Florence2Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="florence_2_base_ft_int4", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="florence_2_base_ft_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model."""
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(Florence2Transformer, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(Florence2Transformer, name, lang, remote_loc) 

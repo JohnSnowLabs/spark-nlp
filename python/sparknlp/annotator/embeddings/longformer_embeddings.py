@@ -189,7 +189,7 @@ class LongformerEmbeddings(AnnotatorModel,
         return LongformerEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="longformer_base_4096", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="longformer_base_4096", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -208,4 +208,4 @@ class LongformerEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(LongformerEmbeddings, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(LongformerEmbeddings, name, lang, remote_loc)

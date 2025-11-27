@@ -220,7 +220,7 @@ class ViveknSentimentModel(AnnotatorModel):
         )
 
     @staticmethod
-    def pretrained(name="sentiment_vivekn", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="sentiment_vivekn", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -239,4 +239,4 @@ class ViveknSentimentModel(AnnotatorModel):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(ViveknSentimentModel, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(ViveknSentimentModel, name, lang, remote_loc)

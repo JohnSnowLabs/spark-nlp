@@ -284,7 +284,7 @@ class PaliGemmaForMultiModal(AnnotatorModel,
         return PaliGemmaForMultiModal(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="paligemma_3b_pt_224_int4", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="paligemma_3b_pt_224_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -304,5 +304,5 @@ class PaliGemmaForMultiModal(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(PaliGemmaForMultiModal, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(PaliGemmaForMultiModal, name, lang, remote_loc)
 

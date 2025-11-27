@@ -188,7 +188,7 @@ class CamemBertEmbeddings(AnnotatorModel,
         return CamemBertEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="camembert_base", lang="fr", remote_loc=None,engine="onnx"):
+    def pretrained(name="camembert_base", lang="fr", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -207,4 +207,4 @@ class CamemBertEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(CamemBertEmbeddings, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(CamemBertEmbeddings, name, lang, remote_loc)

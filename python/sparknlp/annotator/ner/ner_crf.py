@@ -375,7 +375,7 @@ class NerCrfModel(AnnotatorModel):
         return self._set(includeConfidence=b)
 
     @staticmethod
-    def pretrained(name="ner_crf", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="ner_crf", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -394,4 +394,4 @@ class NerCrfModel(AnnotatorModel):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(NerCrfModel, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(NerCrfModel, name, lang, remote_loc)

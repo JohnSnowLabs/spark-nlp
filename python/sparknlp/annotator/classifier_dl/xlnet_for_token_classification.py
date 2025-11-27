@@ -153,7 +153,7 @@ class XlnetForTokenClassification(AnnotatorModel,
         return XlnetForTokenClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="xlnet_base_token_classifier_conll03", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="xlnet_base_token_classifier_conll03", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -173,4 +173,4 @@ class XlnetForTokenClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(XlnetForTokenClassification, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(XlnetForTokenClassification, name, lang, remote_loc)

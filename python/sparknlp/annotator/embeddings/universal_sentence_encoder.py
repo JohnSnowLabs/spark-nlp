@@ -189,7 +189,7 @@ class UniversalSentenceEncoder(AnnotatorModel,
         return UniversalSentenceEncoder(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="tfhub_use", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="tfhub_use", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -208,4 +208,4 @@ class UniversalSentenceEncoder(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(UniversalSentenceEncoder, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(UniversalSentenceEncoder, name, lang, remote_loc)

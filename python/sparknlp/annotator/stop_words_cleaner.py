@@ -168,7 +168,7 @@ class StopWordsCleaner(AnnotatorModel):
         return list(stopWordsObj.loadDefaultStopWords(language))
 
     @staticmethod
-    def pretrained(name="stopwords_en", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="stopwords_en", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -187,4 +187,4 @@ class StopWordsCleaner(AnnotatorModel):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(StopWordsCleaner, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(StopWordsCleaner, name, lang, remote_loc)

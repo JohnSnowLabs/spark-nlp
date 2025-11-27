@@ -202,7 +202,7 @@ class BertSentenceEmbeddings(AnnotatorModel,
         return BertSentenceEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="sent_small_bert_L2_768", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="sent_small_bert_L2_768", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -221,4 +221,4 @@ class BertSentenceEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(BertSentenceEmbeddings, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(BertSentenceEmbeddings, name, lang, remote_loc)

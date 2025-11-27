@@ -169,7 +169,7 @@ class RoBertaSentenceEmbeddings(AnnotatorModel,
         return RoBertaSentenceEmbeddings(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="sent_roberta_base", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="sent_roberta_base", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -188,4 +188,4 @@ class RoBertaSentenceEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(RoBertaSentenceEmbeddings, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(RoBertaSentenceEmbeddings, name, lang, remote_loc)

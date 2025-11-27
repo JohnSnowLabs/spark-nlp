@@ -166,7 +166,7 @@ class RoBertaForTokenClassification(AnnotatorModel,
         return RoBertaForTokenClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="roberta_base_token_classifier_conll03", lang="en", remote_loc=None,engine ="onnx"):
+    def pretrained(name="roberta_base_token_classifier_conll03", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -186,4 +186,4 @@ class RoBertaForTokenClassification(AnnotatorModel,
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(RoBertaForTokenClassification, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(RoBertaForTokenClassification, name, lang, remote_loc)

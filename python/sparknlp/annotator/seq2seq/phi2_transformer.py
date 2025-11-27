@@ -304,7 +304,7 @@ class Phi2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return Phi2Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="phi2", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="phi2", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -323,4 +323,4 @@ class Phi2Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(Phi2Transformer, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(Phi2Transformer, name, lang, remote_loc)

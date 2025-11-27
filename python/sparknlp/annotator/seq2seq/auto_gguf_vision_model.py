@@ -309,7 +309,7 @@ class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppPropert
         return AutoGGUFVisionModel(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf", lang="en", remote_loc=None,engine="onnx"):
+    def pretrained(name="Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
@@ -328,7 +328,7 @@ class AutoGGUFVisionModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppPropert
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(AutoGGUFVisionModel, name, lang, remote_loc,engine)
+        return ResourceDownloader.downloadModel(AutoGGUFVisionModel, name, lang, remote_loc)
 
     def close(self):
         """Closes the llama.cpp model backend freeing resources. The model is reloaded when used again.
