@@ -19,12 +19,13 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, AssertAnnotations, ImageAssembler}
-import com.johnsnowlabs.tags.{FastTest, LocalTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.lit
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers._
+
 import java.nio.file.{Files, Paths}
 import java.nio.charset.StandardCharsets
 import java.io.{File, FileOutputStream}
@@ -72,8 +73,15 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     answerAnnotation.foreach { annotation =>
       annotation.foreach(a => println(a.result))
     }
-
   }
+
+
+    "JanusForMultiModal" should "run end to end pipeline test" taggedAs SlowTest in {
+
+      val testDF = getTestDF
+       model.transform(testDF).show()
+
+    }
   "reshape2D" should "reshape a 1D array into a 2D array" taggedAs LocalTest in {
     val data = Array(1f, 2f, 3f, 4f, 5f, 6f)
     val rows = 2

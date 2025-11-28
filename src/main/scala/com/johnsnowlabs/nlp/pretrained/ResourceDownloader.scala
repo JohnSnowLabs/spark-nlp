@@ -715,7 +715,8 @@ object PythonResourceDownloader {
     "Phi4Transformer" -> Phi4Transformer,
     "AutoGGUFReranker" -> AutoGGUFReranker,
     "AlbertForMultipleChoice" -> AlbertForMultipleChoice,
-    "BLIPForQuestionAnswering" -> BLIPForQuestionAnswering)
+    "BLIPForQuestionAnswering" -> BLIPForQuestionAnswering,
+    "Phi2Transformer" -> Phi2Transformer)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")

@@ -33,11 +33,9 @@ class BartForZeroShotClassificationTestSpec extends AnyFlatSpec {
   val candidateLabels =
     Array("urgent", "mobile", "travel", "movie", "music", "sport", "weather", "technology")
 
-
   "BartForZeroShotClassification" should "run end to end pipeline test" taggedAs SlowTest in {
 
-    val ddd = Seq(
-      "I have a problem with my iphone that needs to be resolved asap!!")
+    val ddd = Seq("I have a problem with my iphone that needs to be resolved asap!!")
       .toDF("text")
 
     val document = new DocumentAssembler()
@@ -62,7 +60,6 @@ class BartForZeroShotClassificationTestSpec extends AnyFlatSpec {
     pipelineModel.transform(ddd).show()
 
   }
-
 
   "BartForZeroShotClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 

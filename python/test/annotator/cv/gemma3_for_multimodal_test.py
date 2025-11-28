@@ -35,7 +35,7 @@ class Gemma3ForMultiModalTestSetup(unittest.TestCase):
         image_assembler = ImageAssembler().setInputCol("image").setOutputCol("image_assembler")
 
         imageClassifier = Gemma3ForMultiModal\
-            .pretrained() \
+            .pretrained("gemma_3_4b_it_int4") \
             .setInputCols("image_assembler") \
             .setOutputCol("answer")
 
@@ -59,6 +59,9 @@ class Gemma3ForMultiModalTest(Gemma3ForMultiModalTestSetup, unittest.TestCase):
 
         for row in result:
             self.assertTrue(row["answer"] != "")
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        self.model.transform(self.test_df).show()
 
 
 @pytest.mark.local

@@ -46,13 +46,12 @@ class MLLamaForMultimodalTestSpec extends AnyFlatSpec {
 
   }
 
-  "MLLamaForMultiModal"  should "run end to end pipeline test" taggedAs SlowTest in {
+  "MLLamaForMultiModal" should "run end to end pipeline test" taggedAs SlowTest in {
 
     val testDF = getTestDF
     model.transform(testDF).show()
 
   }
-
 
   it should "work with light pipeline annotate" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
