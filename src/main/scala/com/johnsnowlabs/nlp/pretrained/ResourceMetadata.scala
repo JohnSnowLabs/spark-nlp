@@ -109,17 +109,19 @@ object ResourceMetadata {
       candidates: List[ResourceMetadata],
       request: ResourceRequest): Option[ResourceMetadata] = {
 
-    val compatibleCandidates = candidates.filter(item =>
-      item.readyToUse &&
-        item.libVersion.isDefined &&
-        item.sparkVersion.isDefined &&
-        item.name == request.name &&
-        (request.annotator.isEmpty || item.annotator.isEmpty ||
-          request.annotator.get.equalsIgnoreCase(item.annotator.get)) &&
-        (request.language.isEmpty || item.language.isEmpty ||
-          request.language.get == item.language.get) &&
-        Version.isCompatible(request.libVersion, item.libVersion) &&
-        Version.isCompatible(request.sparkVersion, item.sparkVersion))
+      val excludedAnnotators = Array("AutoGGUFModel","AutoGGUFVisionModel")
+
+      val compatibleCandidates = candidates.filter(item =>
+        item.readyToUse &&
+          item.libVersion.isDefined &&
+          item.sparkVersion.isDefined &&
+          item.name == request.name &
+          (request.annotator.isEmpty || item.annotator.isEmpty || excludedAnnotators.contains(item.annotator.get) ||
+            request.annotator.get.equalsIgnoreCase(item.annotator.get)) &&
+          (request.language.isEmpty || item.language.isEmpty ||
+            request.language.get == item.language.get) &&
+          Version.isCompatible(request.libVersion, item.libVersion) &&
+          Version.isCompatible(request.sparkVersion, item.sparkVersion))
 
     val defaultPriority = Seq("onnx", "tensorflow", "openvino", "unk")
 

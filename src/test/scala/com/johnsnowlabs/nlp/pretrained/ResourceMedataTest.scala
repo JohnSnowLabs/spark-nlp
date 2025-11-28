@@ -198,6 +198,65 @@ class ResourceMedataTest extends AnyFlatSpec {
     assert(versions.get.time == expectedTimestamp)
   }
 
+  it should "get correct model if two models have same name but belong to different annotators" in {
+    val resourcePath = "src/test/resources/resource-downloader/test_engine_metadata.json"
+    val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
+    val resourceMetadata = mockResourceDownloader.resources
+    val resourceRequest = ResourceRequest(
+      "bert_base_uncased",
+      libVersion = Version(List(6, 0, 0)),
+      sparkVersion = Version(List(3, 0)),
+      annotator = Some("BertEmbeddings"))
+
+    val expectedAnnotator = "BertEmbeddings"
+
+    val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
+
+    assert(versions.get.annotator.get == expectedAnnotator)
+  }
+
+  it should "get correct preferred engine in case model has preferred engine available" in {
+    val resourcePath = "src/test/resources/resource-downloader/test_engine_metadata.json"
+    val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
+    val resourceMetadata = mockResourceDownloader.resources
+    val resourceRequest = ResourceRequest(
+      "bert_base_uncased",
+      libVersion = Version(List(6, 0, 0)),
+      sparkVersion = Version(List(3, 0)),
+      annotator = Some("BertEmbeddings"),
+      engine = Some("tensorflow"))
+
+    val expectedAnnotator = "BertEmbeddings"
+    val expectedEngine = "tensorflow"
+
+    val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
+
+    assert(versions.get.annotator.get == expectedAnnotator)
+    assert(versions.get.engine.get == expectedEngine)
+  }
+
+
+  it should "fall back to other model variant if preferred engine does not exist" in {
+    val resourcePath = "src/test/resources/resource-downloader/test_engine_metadata.json"
+    val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
+    val resourceMetadata = mockResourceDownloader.resources
+    val resourceRequest = ResourceRequest(
+      "testannotator",
+      libVersion = Version(List(6, 2, 0)),
+      sparkVersion = Version(List(3, 0)),
+      annotator = Some("BertSentenceEmbeddings"),
+      engine = Some("tensorflow"))
+
+    val expectedAnnotator = "BertSentenceEmbeddings"
+    val expectedEngine = "unk"
+
+    val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
+
+    assert(versions.get.annotator.get == expectedAnnotator)
+    assert(versions.get.engine.get == expectedEngine)
+  }
+
+
   private def getTimestamp(date: String): Timestamp = {
     val UTC = TimeZone.getTimeZone("UTC")
     val dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
