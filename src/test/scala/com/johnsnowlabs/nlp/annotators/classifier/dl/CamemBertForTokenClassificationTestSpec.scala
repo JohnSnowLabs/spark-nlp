@@ -157,4 +157,37 @@ class CamemBertForTokenClassificationTestSpec extends AnyFlatSpec {
 
     assert(totalTokens == totalTags)
   }
+
+
+  "CamemBertForTokenClassification" should "work with tensorflow models" taggedAs SlowTest in {
+
+    val tokenClassifier: CamemBertForTokenClassification = CamemBertForTokenClassification
+      .pretrained("camembert_classifier_base_wikipedia_4gb_finetuned_job_ner")
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("ner")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, tokenClassifier))
+
+    val pipelineModel = pipeline.fit(ddd)
+    val pipelineDF = pipelineModel.transform(ddd)
+
+    pipelineDF.select("token.result").show(false)
+    pipelineDF.select("ner.result").show(false)
+    pipelineDF
+      .withColumn("token_size", size(col("token")))
+      .withColumn("ner_size", size(col("ner")))
+      .where(col("token_size") =!= col("ner_size"))
+      .select("token_size", "ner_size", "token.result", "ner.result")
+      .show(false)
+
+    val totalTokens = pipelineDF.select(explode($"token.result")).count.toInt
+    val totalEmbeddings = pipelineDF.select(explode($"ner.result")).count.toInt
+
+    println(s"total tokens: $totalTokens")
+    println(s"total embeddings: $totalEmbeddings")
+
+  }
+
 }
