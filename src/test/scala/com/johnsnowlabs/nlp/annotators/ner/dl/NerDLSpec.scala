@@ -415,4 +415,54 @@ class NerDLSpec extends AnyFlatSpec {
       "Embedding dim from metadata does not match expected dim")
     assert(dsLen == expectedDsLen, "Dataset length from metadata does not match expected length")
   }
+
+  def trainRun(ner: NerDLApproach): Unit = {
+    val conll = CoNLL()
+    val training_data = conll.readDataset(
+      ResourceHelper.spark,
+      "src/test/resources/ner-corpus/test_ner_dataset.txt")
+
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(training_data.toDF())
+    val trainData = embeddings.transform(training_data)
+
+    ner.fit(trainData)
+  }
+
+  "NerDLApproach" should "train with memory optimizer and prefetchBatches enabled" taggedAs SlowTest in {
+    val ner = new NerDLApproach()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+      .setLabelColumn("label")
+      .setLr(1e-1f)
+      .setPo(5e-3f)
+      .setDropout(5e-1f)
+      .setMaxEpochs(2)
+      .setRandomSeed(0)
+      .setVerbose(0)
+      .setBatchSize(8)
+      .setEnableMemoryOptimizer(true)
+      .setPrefetchBatches(10)
+      .setGraphFolder("src/test/resources/graph/")
+
+    trainRun(ner)
+  }
+
+  "NerDLApproach" should "train with memory optimizer and optimizePartitioning disabled" taggedAs SlowTest in {
+    val ner = new NerDLApproach()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+      .setLabelColumn("label")
+      .setLr(1e-1f)
+      .setPo(5e-3f)
+      .setDropout(5e-1f)
+      .setMaxEpochs(2)
+      .setRandomSeed(0)
+      .setVerbose(0)
+      .setBatchSize(8)
+      .setEnableMemoryOptimizer(true)
+      .setOptimizePartitioning(false)
+      .setGraphFolder("src/test/resources/graph/")
+
+    trainRun(ner)
+  }
 }

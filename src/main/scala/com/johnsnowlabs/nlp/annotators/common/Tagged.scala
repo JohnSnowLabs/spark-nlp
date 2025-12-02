@@ -118,7 +118,11 @@ trait Tagged[T >: TaggedSentence <: TaggedSentence] extends Annotated[T] {
     row.getAs[Seq[Row]](colNum).map(obj => Annotation(obj))
   }
 
-  protected def getLabelsFromSentences(
+  def getAnnotations(row: Row, col: String): Seq[Annotation] = {
+    row.getAs[Seq[Row]](col).map(obj => Annotation(obj))
+  }
+
+  def getLabelsFromSentences(
       sentences: Seq[WordpieceEmbeddingsSentence],
       labelAnnotations: Seq[Annotation]): Seq[TextSentenceLabels] = {
     val sortedLabels = labelAnnotations.sortBy(a => a.begin).toArray
@@ -203,16 +207,25 @@ object NerTagged extends Tagged[NerTaggedSentence] {
       dataset: Dataset[Row],
       sentenceCols: Seq[String],
       labelColumn: String,
-      batchSize: Int): Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
+      batchSize: Int,
+      shuffleInPartition: Boolean = true)
+      : Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] = {
 
     new Iterator[Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)]] {
       import com.johnsnowlabs.nlp.annotators.common.DatasetHelpers._
 
       // Send batches, don't collect(), only keeping a single batch in memory anytime
-      val it: util.Iterator[Row] = dataset
-        .select(labelColumn, sentenceCols: _*)
-        .randomize // to improve training
-        .toLocalIterator() // Uses as much memory as the largest partition, potentially all data if not careful
+      val it: util.Iterator[Row] = {
+        val selected = dataset
+          .select(labelColumn, sentenceCols: _*)
+        (
+          // to improve training
+          // NOTE: This might have implications on model performance, partitions are not shuffled
+          if (shuffleInPartition) selected.randomize
+          else
+            selected
+        ).toLocalIterator() // Uses as much memory as the largest partition, potentially all data if not careful
+      }
 
       // create a batch
       override def next(): Array[(TextSentenceLabels, WordpieceEmbeddingsSentence)] = {

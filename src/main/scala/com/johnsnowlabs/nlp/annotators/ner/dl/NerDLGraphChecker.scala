@@ -167,6 +167,9 @@ class NerDLGraphChecker(override val uid: String)
   /** @group getParam */
   protected def getGraphFolder: Option[String] = get(graphFolder)
 
+  /** @group setParam */
+  protected def setGraphFolder(graphFolder: String): this.type = set(graphFolder, graphFolder)
+
   /** Extracts the graph hyperparameters from the training data (dataset).
     *
     * * @param dataset the training dataset
