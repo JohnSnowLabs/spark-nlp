@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, ImageAssembler}
-import com.johnsnowlabs.tags.{FastTest, LocalTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.lit
@@ -29,6 +29,12 @@ class InternVLForMultiModalTestSpec extends AnyFlatSpec {
 
   lazy val model = getInternVLForMultiModalPipelineModel
 
+
+  "InternVLForMultiModal" should "run end to end pipeline test" taggedAs SlowTest in {
+    val testDF = getTestDF
+    model.transform(testDF).show()
+
+  }
   "InternVLForMultiModal" should "answer a question for a given image" taggedAs LocalTest in {
 
     val testDF = getTestDF

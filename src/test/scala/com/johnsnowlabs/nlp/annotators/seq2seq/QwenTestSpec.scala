@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, LocalTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -50,4 +50,31 @@ class QwenTestSpec extends AnyFlatSpec {
       .show(truncate = false)
 
   }
+
+
+"qwen" should "run end to end pipeline test" taggedAs SlowTest in {
+  // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
+  // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
+  val testData = ResourceHelper.spark
+    .createDataFrame(Seq(
+      (1, "system\\nYou are a helpful assistant.\\nuser\\nGive me a short introduction to large language model.\\nassistant\\n")))
+    .toDF("id", "text")
+  val documentAssembler = new DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("documents")
+
+  val qwen = QwenTransformer
+    .pretrained()
+    .setInputCols(Array("documents"))
+    .setDoSample(false)
+    .setMaxOutputLength(50)
+    .setOutputCol("generation")
+    .setBeamSize(1)
+  new Pipeline()
+    .setStages(Array(documentAssembler, qwen))
+    .fit(testData)
+    .transform(testData)
+    .show(truncate = false)
+
+}
 }

@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -49,4 +49,29 @@ class Phi3TestSpec extends AnyFlatSpec {
       .show(truncate = false)
 
   }
+  "phi3" should "run end to end pipeline test" taggedAs SlowTest in {
+    // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
+    // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
+    val testData = ResourceHelper.spark
+      .createDataFrame(Seq((1, "<|user|>\nCount from 1 to 10.<|end|>\n<|assistant|>")))
+      .toDF("id", "text")
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val bart = Phi3Transformer
+      .pretrained()
+      .setInputCols(Array("documents"))
+      .setDoSample(false)
+      .setMaxOutputLength(200)
+      .setOutputCol("generation")
+      .setBeamSize(1)
+    new Pipeline()
+      .setStages(Array(documentAssembler, bart))
+      .fit(testData)
+      .transform(testData)
+      .show(truncate = false)
+
+  }
+
 }

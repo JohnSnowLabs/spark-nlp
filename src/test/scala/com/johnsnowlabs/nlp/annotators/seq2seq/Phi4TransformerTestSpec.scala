@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, LocalTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -86,4 +86,50 @@ class Phi4TransformerTestSpec extends AnyFlatSpec {
       .show(truncate = false)
 
   }
+
+  "phi4" should "run end to end pipeline test" taggedAs SlowTest in {
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq(
+          (
+            1,
+            """<|start_header_id|>system<|end_header_id|>
+
+          You are a minion chatbot who always responds in minion speak!
+
+          <|start_header_id|>user<|end_header_id|>
+
+          Who are you?
+
+          <|start_header_id|>assistant<|end_header_id|>
+          """.stripMargin)))
+      .toDF("id", "text")
+      .repartition(1)
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val phi4 = Phi4Transformer
+      .pretrained()
+      .setInputCols(Array("documents"))
+      .setDoSample(true)
+      .setMaxOutputLength(50)
+      .setOutputCol("generation")
+      .setBeamSize(4)
+      .setStopTokenIds(Array(128001))
+      .setTemperature(0.6)
+      .setTopP(0.9)
+      .setTopK(-1)
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, phi4))
+
+    val pipelineModel = pipeline.fit(testData)
+
+    pipelineModel
+      .transform(testData)
+      .show(truncate = false)
+
+
+  }
+
 }

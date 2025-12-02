@@ -33,7 +33,7 @@ class Florence2TransformerTestSetup(unittest.TestCase):
         test_df = image_df.withColumn("text", lit(prompt))
         image_assembler = ImageAssembler().setInputCol("image").setOutputCol("image_assembler")
         florence2 = Florence2Transformer \
-            .pretrained() \
+            .pretrained("florence_2_large_int4") \
             .setInputCols(["image_assembler"]) \
             .setOutputCol("answer")
         pipeline = Pipeline(stages=[image_assembler, florence2])
@@ -52,6 +52,13 @@ class Florence2TransformerTest(Florence2TransformerTestSetup, unittest.TestCase)
             self.assertTrue(row["answer"] != "")
             if "florence2_postprocessed_raw" in row["answer"][0].metadata:
                 print("florence2_postprocessed_raw:", row["answer"][0].metadata["florence2_postprocessed_raw"])
+
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        model, test_df = self.build_pipeline(self.ocr_image, "<OCR>")
+        model.transform(test_df).show()
+
 
     def test_ocr(self):
         self.run_task(self.ocr_image, "<OCR>")

@@ -84,9 +84,7 @@ class M2M100TestSpec extends AnyFlatSpec {
 
     pipelineModel.transform(testData).show()
 
-
   }
-
 
   "m2m100" should "should translate hindi to french" taggedAs LocalTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.

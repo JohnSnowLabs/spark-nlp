@@ -55,4 +55,35 @@ class Phi4TransformerTextGenerationTestSpec(unittest.TestCase):
         pipeline = Pipeline().setStages([document_assembler, phi4])
         results = (pipeline.fit(data).transform(data))
 
-        results.select("generation.result").show(truncate=False) 
+        results.select("generation.result").show(truncate=False)
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = self.spark.createDataFrame([
+            (
+                1,
+                "<|start_header_id|>system<|end_header_id|> \\n" + \
+                "You are a minion chatbot who always responds in minion speak! \\n" + \
+                "<|start_header_id|>user<|end_header_id|> \\n" + \
+                "Who are you? \\n" + \
+                "<|start_header_id|>assistant<|end_header_id|> \\n"
+            )
+        ]).toDF("id", "text")
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        phi4 = Phi4Transformer \
+            .pretrained("phi_4_mini_instruct_int8_openvino") \
+            .setMaxOutputLength(50) \
+            .setDoSample(True) \
+            .setBeamSize(4) \
+            .setTemperature(0.6) \
+            .setTopK(-1) \
+            .setTopP(0.9) \
+            .setStopTokenIds([128001]) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("generation")
+
+        pipeline = Pipeline().setStages([document_assembler, phi4])
+        pipeline.fit(data).transform(data).show()
