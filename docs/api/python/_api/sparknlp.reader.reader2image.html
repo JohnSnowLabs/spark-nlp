@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.reader.reader2image module &#8212; Spark NLP 6.2.1 documentation</title>
+    <title>sparknlp.reader.reader2image module &#8212; Spark NLP 6.2.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=773d47ca"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=e4bd49b9"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.3 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -691,8 +691,119 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="sparknlp-reader-reader2image-module">
-<h1>sparknlp.reader.reader2image module<a class="headerlink" href="#sparknlp-reader-reader2image-module" title="Permalink to this heading">#</a></h1>
+  <section id="module-sparknlp.reader.reader2image">
+<span id="sparknlp-reader-reader2image-module"></span><h1>sparknlp.reader.reader2image module<a class="headerlink" href="#module-sparknlp.reader.reader2image" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Reader2Image</span></span><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/internal/annotator_transformer/index.html#sparknlp.internal.annotator_transformer.AnnotatorTransformer" title="sparknlp.internal.annotator_transformer.AnnotatorTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorTransformer</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties" title="sparknlp.partition.partition_properties.HasReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties" title="sparknlp.partition.partition_properties.HasHTMLReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasHTMLReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPdfProperties" title="sparknlp.partition.partition_properties.HasPdfProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasPdfProperties</span></code></a></p>
+<p>The Reader2Image annotator allows you to use the reading files with images more smoothly within existing
+Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Image can be used for
+extracting structured image content from various document types using Spark NLP readers. It supports
+reading from many file types and returns parsed output as a structured Spark DataFrame.</p>
+<p>Supported formats include HTML and Markdown.</p>
+<p>== Example ==
+This example demonstrates how to load HTML files with images and process them into a structured
+Spark DataFrame using Reader2Image.</p>
+<p>Expected output:
++——————-+——————–+
+|           fileName|               image|
++——————-+——————–+
+<a href="#id29"><span class="problematic" id="id30">|example-images.html|[{image, example-...|</span></a>
+<a href="#id31"><span class="problematic" id="id32">|example-images.html|[{image, example-...|</span></a>
++——————-+——————–+</p>
+<p>Schema:
+root</p>
+<blockquote>
+<div><p><a href="#id1"><span class="problematic" id="id2">|</span></a>– fileName: string (nullable = true)
+<a href="#id3"><span class="problematic" id="id4">|</span></a>– image: array (nullable = false)
+|    <a href="#id5"><span class="problematic" id="id6">|</span></a>– element: struct (containsNull = true)
+|    |    <a href="#id7"><span class="problematic" id="id8">|</span></a>– annotatorType: string (nullable = true)
+|    |    <a href="#id9"><span class="problematic" id="id10">|</span></a>– origin: string (nullable = true)
+|    |    <a href="#id11"><span class="problematic" id="id12">|</span></a>– height: integer (nullable = false)
+|    |    <a href="#id13"><span class="problematic" id="id14">|</span></a>– width: integer (nullable = false)
+|    |    <a href="#id15"><span class="problematic" id="id16">|</span></a>– nChannels: integer (nullable = false)
+|    |    <a href="#id17"><span class="problematic" id="id18">|</span></a>– mode: integer (nullable = false)
+|    |    <a href="#id19"><span class="problematic" id="id20">|</span></a>– result: binary (nullable = true)
+|    |    <a href="#id21"><span class="problematic" id="id22">|</span></a>– metadata: map (nullable = true)
+|    |    |    <a href="#id23"><span class="problematic" id="id24">|</span></a>– key: string
+|    |    |    <a href="#id25"><span class="problematic" id="id26">|</span></a>– value: string (valueContainsNull = true)
+|    |    <a href="#id27"><span class="problematic" id="id28">|</span></a>– text: string (nullable = true)</p>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.customPromptTemplate">
+<span class="sig-name descname"><span class="pre">customPromptTemplate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='customPromptTemplate',</span> <span class="pre">doc='Custom</span> <span class="pre">prompt</span> <span class="pre">template</span> <span class="pre">for</span> <span class="pre">image</span> <span class="pre">models.')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.customPromptTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.customPromptTemplate" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Reader2Image'</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.outputAnnotatorType">
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'image'</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.promptTemplate">
+<span class="sig-name descname"><span class="pre">promptTemplate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='promptTemplate',</span> <span class="pre">doc='Format</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">output</span> <span class="pre">prompt.')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.promptTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.promptTemplate" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.setCustomPromptTemplate">
+<span class="sig-name descname"><span class="pre">setCustomPromptTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.setCustomPromptTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.setCustomPromptTemplate" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets custom prompt template for image models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Custom prompt template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.setParams">
+<span class="sig-name descname"><span class="pre">setParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.setParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.setParams" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.setPromptTemplate">
+<span class="sig-name descname"><span class="pre">setPromptTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.setPromptTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.setPromptTemplate" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets format of the output prompt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Prompt template format.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.setUserMessage">
+<span class="sig-name descname"><span class="pre">setUserMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.setUserMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.setUserMessage" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets custom user message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Custom user message to include.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.userMessage">
+<span class="sig-name descname"><span class="pre">userMessage</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='userMessage',</span> <span class="pre">doc='Custom</span> <span class="pre">user</span> <span class="pre">message.')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.userMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.userMessage" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -713,6 +824,28 @@ document.write(`
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image"><code class="docutils literal notranslate"><span class="pre">Reader2Image</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.customPromptTemplate"><code class="docutils literal notranslate"><span class="pre">Reader2Image.customPromptTemplate</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.name"><code class="docutils literal notranslate"><span class="pre">Reader2Image.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">Reader2Image.outputAnnotatorType</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.promptTemplate"><code class="docutils literal notranslate"><span class="pre">Reader2Image.promptTemplate</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.setCustomPromptTemplate"><code class="docutils literal notranslate"><span class="pre">Reader2Image.setCustomPromptTemplate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.setParams"><code class="docutils literal notranslate"><span class="pre">Reader2Image.setParams()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.setPromptTemplate"><code class="docutils literal notranslate"><span class="pre">Reader2Image.setPromptTemplate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.setUserMessage"><code class="docutils literal notranslate"><span class="pre">Reader2Image.setUserMessage()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.userMessage"><code class="docutils literal notranslate"><span class="pre">Reader2Image.userMessage</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
 

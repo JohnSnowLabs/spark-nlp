@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.reader.reader2doc module &#8212; Spark NLP 6.2.1 documentation</title>
+    <title>sparknlp.reader.reader2doc module &#8212; Spark NLP 6.2.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=773d47ca"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=e4bd49b9"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.3 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -691,8 +691,98 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="sparknlp-reader-reader2doc-module">
-<h1>sparknlp.reader.reader2doc module<a class="headerlink" href="#sparknlp-reader-reader2doc-module" title="Permalink to this heading">#</a></h1>
+  <section id="module-sparknlp.reader.reader2doc">
+<span id="sparknlp-reader-reader2doc-module"></span><h1>sparknlp.reader.reader2doc module<a class="headerlink" href="#module-sparknlp.reader.reader2doc" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Reader2Doc</span></span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/internal/annotator_transformer/index.html#sparknlp.internal.annotator_transformer.AnnotatorTransformer" title="sparknlp.internal.annotator_transformer.AnnotatorTransformer"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorTransformer</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties" title="sparknlp.partition.partition_properties.HasReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties" title="sparknlp.partition.partition_properties.HasHTMLReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasHTMLReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasEmailReaderProperties" title="sparknlp.partition.partition_properties.HasEmailReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasEmailReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasExcelReaderProperties" title="sparknlp.partition.partition_properties.HasExcelReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasExcelReaderProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPowerPointProperties" title="sparknlp.partition.partition_properties.HasPowerPointProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasPowerPointProperties</span></code></a>, <a class="reference internal" href="../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTextReaderProperties" title="sparknlp.partition.partition_properties.HasTextReaderProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">HasTextReaderProperties</span></code></a></p>
+<p>The Reader2Doc annotator allows you to use reading files more smoothly within existing
+Spark NLP workflows, enabling seamless reuse of your pipelines.</p>
+<p>Reader2Doc can be used for extracting structured content from various document types
+using Spark NLP readers. It supports reading from many file types and returns parsed
+output as a structured Spark DataFrame.</p>
+<p>Supported formats include:</p>
+<ul class="simple">
+<li><p>Plain text</p></li>
+<li><p>HTML</p></li>
+<li><p>Word (.doc/.docx)</p></li>
+<li><p>Excel (.xls/.xlsx)</p></li>
+<li><p>PowerPoint (.ppt/.pptx)</p></li>
+<li><p>Email files (.eml, .msg)</p></li>
+<li><p>PDFs</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">johnsnowlabs.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reader2Doc</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">johnsnowlabs.nlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocumentAssembler</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Initialize Reader2Doc for PDF files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reader2doc</span> <span class="o">=</span> <span class="n">Reader2Doc</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setContentType</span><span class="p">(</span><span class="s2">&quot;application/pdf&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setContentPath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pdf_directory</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Build the pipeline with the Reader2Doc stage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">reader2doc</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Fit the pipeline to an empty DataFrame</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_data_set</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_df</span> <span class="o">=</span> <span class="n">pipeline_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">empty_data_set</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Show the resulting DataFrame</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result_df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="go">+------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|document                                                                                                                            |</span>
+<span class="go">+------------------------------------------------------------------------------------------------------------------------------------+</span>
+<span class="go">|[{&#39;document&#39;, 0, 14, &#39;This is a Title&#39;, {&#39;pageNumber&#39;: 1, &#39;elementType&#39;: &#39;Title&#39;, &#39;fileName&#39;: &#39;pdf-title.pdf&#39;}, []}]               |</span>
+<span class="go">|[{&#39;document&#39;, 15, 38, &#39;This is a narrative text&#39;, {&#39;pageNumber&#39;: 1, &#39;elementType&#39;: &#39;NarrativeText&#39;, &#39;fileName&#39;: &#39;pdf-title.pdf&#39;}, []}]|</span>
+<span class="go">|[{&#39;document&#39;, 39, 68, &#39;This is another narrative text&#39;, {&#39;pageNumber&#39;: 1, &#39;elementType&#39;: &#39;NarrativeText&#39;, &#39;fileName&#39;: &#39;pdf-title.pdf&#39;}, []}]|</span>
+<span class="go">+------------------------------------------------------------------------------------------------------------------------------------+</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.excludeNonText">
+<span class="sig-name descname"><span class="pre">excludeNonText</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='excludeNonText',</span> <span class="pre">doc='Whether</span> <span class="pre">to</span> <span class="pre">exclude</span> <span class="pre">non-text</span> <span class="pre">content</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">output.</span> <span class="pre">Default</span> <span class="pre">is</span> <span class="pre">False.')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.excludeNonText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.excludeNonText" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.joinString">
+<span class="sig-name descname"><span class="pre">joinString</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='joinString',</span> <span class="pre">doc='If</span> <span class="pre">outputAsDocument</span> <span class="pre">is</span> <span class="pre">true,</span> <span class="pre">specifies</span> <span class="pre">the</span> <span class="pre">string</span> <span class="pre">used</span> <span class="pre">to</span> <span class="pre">join</span> <span class="pre">elements</span> <span class="pre">into</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">document.')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.joinString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.joinString" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Reader2Doc'</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.outputAnnotatorType">
+<span class="sig-name descname"><span class="pre">outputAnnotatorType</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'document'</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.outputAnnotatorType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.outputAnnotatorType" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setExcludeNonText">
+<span class="sig-name descname"><span class="pre">setExcludeNonText</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setExcludeNonText"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setExcludeNonText" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to exclude non-text content from the output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to exclude non-text content from the output. Default is False.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setJoinString">
+<span class="sig-name descname"><span class="pre">setJoinString</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setJoinString"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setJoinString" title="Permalink to this definition">#</a></dt>
+<dd><p>If outputAsDocument is true, specifies the string used to join elements into a single</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2doc.Reader2Doc.setParams">
+<span class="sig-name descname"><span class="pre">setParams</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2doc.html#Reader2Doc.setParams"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2doc.Reader2Doc.setParams" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 
 
@@ -713,6 +803,26 @@ document.write(`
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc"><code class="docutils literal notranslate"><span class="pre">Reader2Doc</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.excludeNonText"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.excludeNonText</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.joinString"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.joinString</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.name"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.outputAnnotatorType</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setExcludeNonText"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setExcludeNonText()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setJoinString"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setJoinString()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2doc.Reader2Doc.setParams"><code class="docutils literal notranslate"><span class="pre">Reader2Doc.setParams()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
 

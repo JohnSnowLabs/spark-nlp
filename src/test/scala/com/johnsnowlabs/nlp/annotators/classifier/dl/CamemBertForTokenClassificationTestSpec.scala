@@ -158,7 +158,6 @@ class CamemBertForTokenClassificationTestSpec extends AnyFlatSpec {
     assert(totalTokens == totalTags)
   }
 
-
   "CamemBertForTokenClassification" should "work with tensorflow models" taggedAs SlowTest in {
 
     val tokenClassifier: CamemBertForTokenClassification = CamemBertForTokenClassification

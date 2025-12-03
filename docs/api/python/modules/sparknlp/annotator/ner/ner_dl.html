@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.ner.ner_dl &#8212; Spark NLP 6.2.1 documentation</title>
+    <title>sparknlp.annotator.ner.ner_dl &#8212; Spark NLP 6.2.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=773d47ca"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=e4bd49b9"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.1 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -604,6 +604,14 @@ document.write(`
                             <span class="s2">&quot;Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model.&quot;</span><span class="p">,</span>
                             <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="NerDLApproach.prefetchBatches"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach.prefetchBatches">[docs]</a>    <span class="n">prefetchBatches</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;prefetchBatches&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;Number of batches to prefetch while training using memory optimizer. Has no effect if memory optimizer is disabled.&quot;</span><span class="p">,</span>
+                            <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDLApproach.optimizePartitioning"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach.optimizePartitioning">[docs]</a>    <span class="n">optimizePartitioning</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;optimizePartitioning&quot;</span><span class="p">,</span>
+                                 <span class="s2">&quot;Whether to repartition the dataset before training for optimal performance. Has no effect if memory optimizer is disabled.&quot;</span><span class="p">,</span>
+                                 <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="NerDLApproach.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
 
@@ -743,6 +751,28 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">bestModelMetric</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="NerDLApproach.setPrefetchBatches"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach.setPrefetchBatches">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setPrefetchBatches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets number of batches to prefetch while training using memory optimizer.</span>
+<span class="sd">        Has no effect if memory optimizer is disabled.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Number of batches to prefetch</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">prefetchBatches</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NerDLApproach.setOptimizePartitioning"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ner/ner_dl/index.html#sparknlp.annotator.ner.ner_dl.NerDLApproach.setOptimizePartitioning">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOptimizePartitioning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to repartition the dataset before training for optimal performance.</span>
+<span class="sd">        Has no effect if memory optimizer is disabled.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value: bool</span>
+<span class="sd">            Whether to optimize partitioning</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">optimizePartitioning</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">NerDLModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
 
@@ -766,7 +796,9 @@ document.write(`
             <span class="n">enableOutputLogs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">enableMemoryOptimizer</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="n">useBestModel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">bestModelMetric</span><span class="o">=</span><span class="s2">&quot;f1_micro&quot;</span>
+            <span class="n">bestModelMetric</span><span class="o">=</span><span class="s2">&quot;f1_micro&quot;</span><span class="p">,</span>
+            <span class="n">prefetchBatches</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">optimizePartitioning</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span></div>
 
 

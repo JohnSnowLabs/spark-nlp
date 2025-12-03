@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.ner.ner_dl &#8212; Spark NLP 6.2.1 documentation</title>
+    <title>sparknlp.annotator.ner.ner_dl &#8212; Spark NLP 6.2.3 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js?v=773d47ca"></script>
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js?v=e4bd49b9"></script>
     <script src="../../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.1 documentation - Home"/>`);</script>
+    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -874,6 +874,16 @@ these need to be defined with for example:</p>
 <span class="sig-name descname"><span class="pre">bestModelMetric</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ner/ner_dl.html#NerDLApproach.bestModelMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.bestModelMetric" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_dl.NerDLApproach.prefetchBatches">
+<span class="sig-name descname"><span class="pre">prefetchBatches</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ner/ner_dl.html#NerDLApproach.prefetchBatches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.prefetchBatches" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_dl.NerDLApproach.optimizePartitioning">
+<span class="sig-name descname"><span class="pre">optimizePartitioning</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ner/ner_dl.html#NerDLApproach.optimizePartitioning"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.optimizePartitioning" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_dl.NerDLApproach.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ner/ner_dl.html#NerDLApproach.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.setConfigProtoBytes" title="Permalink to this definition">#</a></dt>
@@ -1049,6 +1059,36 @@ The metric that is being monitored is F1 for testDataset and if it’s not set i
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_dl.NerDLApproach.setPrefetchBatches">
+<span class="sig-name descname"><span class="pre">setPrefetchBatches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ner/ner_dl.html#NerDLApproach.setPrefetchBatches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.setPrefetchBatches" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets number of batches to prefetch while training using memory optimizer.
+Has no effect if memory optimizer is disabled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of batches to prefetch</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ner.ner_dl.NerDLApproach.setOptimizePartitioning">
+<span class="sig-name descname"><span class="pre">setOptimizePartitioning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ner/ner_dl.html#NerDLApproach.setOptimizePartitioning"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.setOptimizePartitioning" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to repartition the dataset before training for optimal performance.
+Has no effect if memory optimizer is disabled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value: bool</strong></dt><dd><p>Whether to optimize partitioning</p>
 </dd>
 </dl>
 </dd>
@@ -1317,6 +1357,8 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.enableMemoryOptimizer"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.enableMemoryOptimizer</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.useBestModel"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.useBestModel</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.bestModelMetric"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.bestModelMetric</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.prefetchBatches"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.prefetchBatches</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.optimizePartitioning"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.optimizePartitioning</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.setConfigProtoBytes"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.setConfigProtoBytes()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.setGraphFolder"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.setGraphFolder()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.setUseContrib"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.setUseContrib()</span></code></a></li>
@@ -1329,6 +1371,8 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.setEnableMemoryOptimizer"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.setEnableMemoryOptimizer()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.setUseBestModel"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.setUseBestModel()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.setBestModelMetric"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.setBestModelMetric()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.setPrefetchBatches"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.setPrefetchBatches()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLApproach.setOptimizePartitioning"><code class="docutils literal notranslate"><span class="pre">NerDLApproach.setOptimizePartitioning()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ner.ner_dl.NerDLModel"><code class="docutils literal notranslate"><span class="pre">NerDLModel</span></code></a><ul class="nav section-nav flex-column">
