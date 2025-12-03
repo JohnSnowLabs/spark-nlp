@@ -1,4 +1,20 @@
 =======
+6.2.3
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1317] Further NerDL Optimizations (#14699)
+* [SPARKNLP-1315] Fix input data type for CamemBertForTokenClassification
+
+---------
+Bug Fixes
+---------
+
+None
+
+=======
 6.2.2
 =======
 ---------------------------
