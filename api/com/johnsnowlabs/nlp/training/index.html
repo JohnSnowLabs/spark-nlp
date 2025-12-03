@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.2.1 ScalaDoc  - com.johnsnowlabs.nlp.training</title>
-          <meta name="description" content="Spark NLP 6.2.1 ScalaDoc - com.johnsnowlabs.nlp.training" />
-          <meta name="keywords" content="Spark NLP 6.2.1 ScalaDoc com.johnsnowlabs.nlp.training" />
+          <title>Spark NLP 6.2.3 ScalaDoc  - com.johnsnowlabs.nlp.training</title>
+          <meta name="description" content="Spark NLP 6.2.3 ScalaDoc - com.johnsnowlabs.nlp.training" />
+          <meta name="keywords" content="Spark NLP 6.2.3 ScalaDoc com.johnsnowlabs.nlp.training" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.2.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.2.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -257,6 +257,14 @@
                         <span class="separator"></span>
                         <a class="class" href="CoNLLUDocument.html" title=""></a>
                         <a href="CoNLLUDocument.html" title="">CoNLLUDocument</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="DataLoaderConfig.html" title="Configuration for the NerDLDataLoader."></a>
+                        <a href="DataLoaderConfig.html" title="Configuration for the NerDLDataLoader.">DataLoaderConfig</a>
+                      </li><li class="current-entities indented4">
+                        <a class="object" href="NerDLDataLoader$.html" title="Companion object providing factory methods for NerDLDataLoader."></a>
+                        <a class="class" href="NerDLDataLoader.html" title="DataLoader for NerDLApproach with threaded prefetching."></a>
+                        <a href="NerDLDataLoader.html" title="DataLoader for NerDLApproach with threaded prefetching.">NerDLDataLoader</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="POS.html" title="Helper class for creating DataFrames for training a part-of-speech tagger."></a>
@@ -529,6 +537,46 @@ conllDataSet.selectExpr(<span class="lit">"text"</span>, <span class="lit">"form
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.training.DataLoaderConfig" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DataLoaderConfigextendsProductwithSerializable"></a><a id="DataLoaderConfig:DataLoaderConfig"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/DataLoaderConfig.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a title="Configuration for the NerDLDataLoader." href="DataLoaderConfig.html"><span class="name">DataLoaderConfig</span></a><span class="params">(<span name="batchSize">batchSize: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">16</span></span>, <span name="prefetchBatches">prefetchBatches: <span class="extype" name="scala.Int">Int</span> = <span class="symbol">20</span></span>, <span name="shuffleInPartition">shuffleInPartition: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>, <span name="timeoutMillis">timeoutMillis: <span class="extype" name="scala.Long">Long</span> = <span class="symbol">10000</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Configuration for the NerDLDataLoader.</p><div class="fullcomment"><div class="comment cmt"><p>Configuration for the NerDLDataLoader.
+</p></div><dl class="paramcmts block"><dt class="param">batchSize</dt><dd class="cmt"><p>
+  Number of sentences per batch (default: 16)</p></dd><dt class="param">prefetchBatches</dt><dd class="cmt"><p>
+  Number of batches to prefetch per worker (default: 2). Total prefetch buffer size will be
+  numWorkers * prefetchFactor</p></dd><dt class="param">shuffleInPartition</dt><dd class="cmt"><p>
+  Whether to shuffle the data (default: true). Improves training convergence.</p></dd><dt class="param">timeoutMillis</dt><dd class="cmt"><p>
+  Timeout in milliseconds for fetching a batch (default: 10000). Prevents hanging on slow
+  operations.</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.training.NerDLDataLoader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="NerDLDataLoaderextendsAnyRef"></a><a id="NerDLDataLoader:NerDLDataLoader"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/NerDLDataLoader.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="DataLoader for NerDLApproach with threaded prefetching." href="NerDLDataLoader.html"><span class="name">NerDLDataLoader</span></a><span class="result"> extends <a href="../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">DataLoader for NerDLApproach with threaded prefetching.</p><div class="fullcomment"><div class="comment cmt"><p>DataLoader for NerDLApproach with threaded prefetching.</p><p>This class provides an efficient way to load training data for NER models by:</p><ul><li>Prefetching batches in background threads to overlap I/O with computation</li><li>Using a bounded queue to prevent excessive memory usage
+</li></ul></div></div>
     </li><li name="com.johnsnowlabs.nlp.training.POS" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="POSextendsProductwithSerializable"></a><a id="POS:POS"></a>
       <span class="permalink">
@@ -658,6 +706,22 @@ pubTatorDataSet.show(<span class="num">1</span>)
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.training.NerDLDataLoader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NerDLDataLoader"></a><a id="NerDLDataLoader:NerDLDataLoader"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/training/NerDLDataLoader$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="Companion object providing factory methods for NerDLDataLoader." href="NerDLDataLoader$.html"><span class="name">NerDLDataLoader</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Companion object providing factory methods for NerDLDataLoader.</p>
     </li>
               </ol>
             </div>
