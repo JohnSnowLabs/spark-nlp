@@ -186,7 +186,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
     * @return
     *   RDD representing deserialized data from the file(s)
     */
-  protected def deserializeLegacyObject[ObjectType: ClassTag](
+  protected def deserializeWithFallback[ObjectType: ClassTag](
       spark: SparkSession,
       path: String): RDD[ObjectType] = {
     spark.sparkContext
@@ -196,9 +196,23 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
         classOf[BytesWritable],
         spark.sparkContext.defaultMinPartitions)
       .flatMap((x: (NullWritable, BytesWritable)) =>
-        LegacyObjectInputStream.deserializeArray[ObjectType](
-          x._2.getBytes,
-          resolveCustomDescriptor = resolveCustomLegacyClasses))
+        try {
+          // Original code: SparkContext.objectFile
+          // Utils.deserialize[Array[ObjectType]](x._2.getBytes, Utils.getContextOrSparkClassLoader)
+          // Use reflection to access internal Utils methods
+          val utilsClass = Class.forName("org.apache.spark.util.Utils")
+          val getLoader = utilsClass.getMethod("getContextOrSparkClassLoader")
+          val loader = getLoader.invoke(null).asInstanceOf[ClassLoader]
+          val deserializeMethod =
+            utilsClass.getMethod("deserialize", classOf[Array[Byte]], classOf[ClassLoader])
+          deserializeMethod.invoke(null, x._2.getBytes, loader).asInstanceOf[Array[ObjectType]]
+        } catch {
+          case e: java.lang.reflect.InvocationTargetException
+              if e.getCause.isInstanceOf[java.io.InvalidClassException] =>
+            LegacyObjectInputStream.deserializeArray[ObjectType](
+              x._2.getBytes,
+              resolveCustomDescriptor = resolveCustomLegacyClasses)
+        })
   }
 }
 
@@ -224,17 +238,7 @@ class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: Str
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      try {
-        Some(spark.sparkContext.objectFile[TValue](dataPath.toString).first)
-      } catch {
-        case e: org.apache.spark.SparkException
-            if e.getCause.isInstanceOf[java.io.InvalidClassException] =>
-          println(
-            "WARNING: Detected InvalidClassException during deserialization, attempting to load as legacy object.")
-          Some(deserializeLegacyObject[TValue](spark, dataPath.toString).first)
-        case e: Exception =>
-          throw e
-      }
+      Some(deserializeWithFallback[TValue](spark, dataPath.toString).first)
     } else {
       None
     }
@@ -288,17 +292,7 @@ class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override 
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      try {
-        Some(spark.sparkContext.objectFile[(TKey, TValue)](dataPath.toString).collect.toMap)
-      } catch {
-        case e: org.apache.spark.SparkException
-            if e.getCause.isInstanceOf[java.io.InvalidClassException] =>
-          println(
-            "WARNING: Detected InvalidClassException during deserialization, attempting to load as legacy object.")
-          Some(deserializeLegacyObject[(TKey, TValue)](spark, dataPath.toString).collect.toMap)
-        case e: Exception =>
-          throw e
-      }
+      Some(deserializeWithFallback[(TKey, TValue)](spark, dataPath.toString).collect.toMap)
     } else {
       None
     }
@@ -352,17 +346,7 @@ class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: Stri
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      try {
-        Some(spark.sparkContext.objectFile[TValue](dataPath.toString).collect())
-      } catch {
-        case e: org.apache.spark.SparkException
-            if e.getCause.isInstanceOf[java.io.InvalidClassException] =>
-          println(
-            "WARNING: Detected InvalidClassException during deserialization, attempting to load as legacy object.")
-          Some(deserializeLegacyObject[TValue](spark, dataPath.toString).collect())
-        case e: Exception =>
-          throw e
-      }
+      Some(deserializeWithFallback[TValue](spark, dataPath.toString).collect())
     } else {
       None
     }
@@ -415,17 +399,7 @@ class SetFeature[TValue: ClassTag](model: HasFeatures, override val name: String
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      try {
-        Some(spark.sparkContext.objectFile[TValue](dataPath.toString).collect.toSet)
-      } catch {
-        case e: org.apache.spark.SparkException
-            if e.getCause.isInstanceOf[java.io.InvalidClassException] =>
-          println(
-            "WARNING: Detected InvalidClassException during deserialization, attempting to load as legacy object.")
-          Some(deserializeLegacyObject[TValue](spark, dataPath.toString).collect.toSet)
-        case e: Exception =>
-          throw e
-      }
+      Some(deserializeWithFallback[TValue](spark, dataPath.toString).collect.toSet)
     } else {
       None
     }
@@ -478,17 +452,7 @@ class TransducerFeature(model: HasFeatures, override val name: String)
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      try {
-        Some(spark.sparkContext.objectFile[VocabParser](dataPath.toString).collect().head)
-      } catch {
-        case e: org.apache.spark.SparkException
-            if e.getCause.isInstanceOf[java.io.InvalidClassException] =>
-          println(
-            "WARNING: Detected InvalidClassException during deserialization, attempting to load as legacy object.")
-          Some(deserializeLegacyObject[VocabParser](spark, dataPath.toString).collect().head)
-        case e: Exception =>
-          throw e
-      }
+      Some(deserializeWithFallback[VocabParser](spark, dataPath.toString).collect().head)
     } else {
       None
     }
