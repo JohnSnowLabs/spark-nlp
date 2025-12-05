@@ -42,14 +42,15 @@ document_assembler = MultiDocumentAssembler() \
     .setInputCols(["question", "choices"]) \
     .setOutputCols(["document_question", "document_choices"])
 
-albert_for_multiple_choice = RoBertaForMultipleChoice()     .pretrained(f"roberta_base_uncased_multiple_choice", "en") \
+roberta_for_multiple_choice = RoBertaForMultipleChoice() \
+    .pretrained(f"roberta_base_uncased_multiple_choice", "en") \
     .setInputCols(["document_question", "document_choices"]) \
     .setOutputCol("answer") \
     .setBatchSize(4)
 
 pipeline = Pipeline(stages=[
     document_assembler,
-    albert_for_multiple_choice
+    roberta_for_multiple_choice
 ])
 
 data = spark.createDataFrame([
