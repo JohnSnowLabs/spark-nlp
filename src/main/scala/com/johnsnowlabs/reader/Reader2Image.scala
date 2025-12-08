@@ -18,16 +18,12 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.AnnotatorType.IMAGE
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{AnnotationImage, HasOutputAnnotationCol, HasOutputAnnotatorType}
-import com.johnsnowlabs.partition.util.PartitionHelper.{
-  datasetWithBinaryFile,
-  datasetWithTextFile,
-  isStringContent
-}
+import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, AnnotatorType, HasOutputAnnotationCol, HasOutputAnnotatorType}
+import com.johnsnowlabs.partition.util.PartitionHelper.{datasetWithBinaryFile, datasetWithTextFile, isStringContent}
 import com.johnsnowlabs.partition.{HasBinaryReaderProperties, Partition}
 import com.johnsnowlabs.reader.util.{ImageParser, ImagePromptTemplate}
 import org.apache.spark.ml.Transformer
-import org.apache.spark.ml.param.{Param, ParamMap}
+import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
@@ -113,6 +109,21 @@ class Reader2Image(override val uid: String)
 
   def setCustomPromptTemplate(value: String): this.type = set(promptTemplate, value)
 
+  val useEncodedImageBytes: Param[Boolean] =
+    new Param[Boolean](
+      this,
+      "useEncodedImageBytes",
+      "If true, use the original encoded image bytes (e.g. JPEG, PNG). " +
+        "If false, decode the image into pixel data.")
+
+  def setUseEncodedImageBytes(value: Boolean): this.type = set(useEncodedImageBytes, value)
+
+  val outputPromptColumn: BooleanParam =
+    new BooleanParam(this, "outputPromptColumn",
+      "If true, outputs an additional 'prompt' column containing the text prompt as a Spark NLP Annotation.")
+
+  def setOutputPromptColumn(value: Boolean): this.type = set(outputPromptColumn, value)
+
   setDefault(
     contentType -> "",
     outputFormat -> "image",
@@ -121,7 +132,10 @@ class Reader2Image(override val uid: String)
     promptTemplate -> "qwen2vl-chat",
     readAsImage -> true,
     customPromptTemplate -> "",
-    ignoreExceptions -> true)
+    ignoreExceptions -> true,
+    useEncodedImageBytes -> false,
+    outputPromptColumn -> false
+  )
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
@@ -133,7 +147,8 @@ class Reader2Image(override val uid: String)
     } else {
       partitionContent(partition, $(contentPath), isStringContent($(contentType)), dataset)
     }
-    if (!structuredDf.isEmpty) {
+
+    val resultDf = if (!structuredDf.isEmpty) {
       val annotatedDf = structuredDf
         .withColumn(
           getOutputCol,
@@ -143,6 +158,14 @@ class Reader2Image(override val uid: String)
     } else {
       structuredDf
     }
+
+    if ($(outputPromptColumn)) {
+      resultDf.withColumn(
+        "prompt",
+        wrapPromptColumnMetadata(buildPromptAnnotationUdf(element_at(col(getOutputCol), 1)("text")))
+      )
+    } else resultDf
+
   }
 
   override def partitionContent(
@@ -293,6 +316,12 @@ class Reader2Image(override val uid: String)
     val imageFields = ImageIOUtils.bufferedImageToImageFields(decodedContent, origin)
 
     if (imageFields.isDefined) {
+      val resultBytes: Array[Byte] = if ($(useEncodedImageBytes)) {
+        binaryContentOpt.getOrElse(Array.emptyByteArray)
+      } else {
+        imageFields.get.data
+      }
+
       Some(
         AnnotationImage(
           IMAGE,
@@ -301,7 +330,7 @@ class Reader2Image(override val uid: String)
           imageFields.get.width,
           imageFields.get.nChannels,
           imageFields.get.mode,
-          imageFields.get.data,
+          resultBytes,
           metadata,
           buildPrompt))
     } else {
@@ -332,6 +361,18 @@ class Reader2Image(override val uid: String)
     }
   }
 
+  private val buildPromptAnnotationUdf = udf((text: String) => {
+    if (text == null) Seq.empty[Annotation]
+    else Seq(Annotation(
+      annotatorType = "document",
+      begin = 0,
+      end = text.length - 1,
+      result = text,
+      metadata = Map("source" -> "Reader2Image"),
+      embeddings = Array.emptyFloatArray
+    ))
+  })
+
   def afterAnnotate(dataset: DataFrame): DataFrame = {
     if ($(explodeDocs)) {
       dataset
@@ -348,15 +389,30 @@ class Reader2Image(override val uid: String)
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
 
   override def transformSchema(schema: StructType): StructType = {
-    val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-    metadataBuilder.putString("annotatorType", outputAnnotatorType)
-    val outputFields = schema.fields :+
+    val imageMetadataBuilder: MetadataBuilder = new MetadataBuilder()
+    imageMetadataBuilder.putString("annotatorType", outputAnnotatorType)
+
+    val baseStruct = schema.add(
       StructField(
         getOutputCol,
         ArrayType(AnnotationImage.dataType),
         nullable = false,
-        metadataBuilder.build)
-    StructType(outputFields)
+        imageMetadataBuilder.build)
+    )
+
+    if ($(outputPromptColumn)) {
+      val promptMetadataBuilder = new MetadataBuilder()
+      promptMetadataBuilder.putString("annotatorType", AnnotatorType.DOCUMENT)
+
+      baseStruct.add(
+        StructField(
+          "prompt",
+          ArrayType(Annotation.dataType),
+          nullable = true,
+          promptMetadataBuilder.build
+        )
+      )
+    } else baseStruct
   }
 
   override val outputAnnotatorType: AnnotatorType = IMAGE
@@ -369,6 +425,16 @@ class Reader2Image(override val uid: String)
 
   private def wrapColumnMetadata(col: Column): Column = {
     col.as(getOutputCol, columnMetadata)
+  }
+
+  private lazy val promptColumnMetadata: Metadata = {
+    val metadataBuilder = new MetadataBuilder()
+    metadataBuilder.putString("annotatorType", AnnotatorType.DOCUMENT)
+    metadataBuilder.build
+  }
+
+  private def wrapPromptColumnMetadata(col: Column): Column = {
+    col.as("prompt", promptColumnMetadata)
   }
 
   protected def validateRequiredParameters(): Unit = {
