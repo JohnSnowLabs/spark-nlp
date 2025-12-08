@@ -78,7 +78,8 @@ def start(gpu=False,
           cluster_tmp_dir="",
           params=None,
           real_time_output=False,
-          output_level=1):
+          output_level=1,
+          scala213=False):
     """Starts a PySpark instance with default parameters for Spark NLP.
 
     The default parameters would result in the equivalent of:
@@ -122,6 +123,8 @@ def start(gpu=False,
         Whether to read and print JVM output in real time, by default False
     output_level : int, optional
         Output level for logs, by default 1
+    scala213 : bool, optional
+        Whether to use Scala 2.13 build of Spark NLP, by default False (Scala 2.12)
 
     Notes
     -----
@@ -159,12 +162,13 @@ def start(gpu=False,
             self.serializer, self.serializer_max_buffer = "org.apache.spark.serializer.KryoSerializer", "2000M"
             self.driver_max_result_size = "0"
             # Spark NLP on CPU or GPU
-            self.maven_spark3 = "com.johnsnowlabs.nlp:spark-nlp_2.12:{}".format(current_version)
-            self.maven_gpu_spark3 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:{}".format(current_version)
+            scala_version = "2.13" if scala213 else "2.12"
+            self.maven_spark3 = f"com.johnsnowlabs.nlp:spark-nlp_{scala_version}:{current_version}"
+            self.maven_gpu_spark3 = f"com.johnsnowlabs.nlp:spark-nlp-gpu_{scala_version}:{current_version}"
             # Spark NLP on Apple Silicon
-            self.maven_silicon = "com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:{}".format(current_version)
+            self.maven_silicon = f"com.johnsnowlabs.nlp:spark-nlp-silicon_{scala_version}:{current_version}"
             # Spark NLP on Linux Aarch64
-            self.maven_aarch64 = "com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:{}".format(current_version)
+            self.maven_aarch64 = f"com.johnsnowlabs.nlp:spark-nlp-aarch64_{scala_version}:{current_version}"
 
     def start_without_realtime_output():
         builder = SparkSession.builder \
@@ -318,4 +322,5 @@ def version():
     str
         The current Spark NLP version.
     """
+
     return __version__
