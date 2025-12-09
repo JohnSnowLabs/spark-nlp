@@ -18,4 +18,5 @@ package com.johnsnowlabs.util
 
 object Build {
   val version: String = "6.2.2-dev2"
+  val scalaVersion: String = "2.13"
 }

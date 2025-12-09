@@ -25,10 +25,11 @@ import scala.collection.JavaConverters._
 object SparkNLP {
 
   val currentVersion: String = Build.version
-  val MavenSpark3 = s"com.johnsnowlabs.nlp:spark-nlp_2.12:$currentVersion"
-  val MavenGpuSpark3 = s"com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:$currentVersion"
-  val MavenSparkSilicon = s"com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:$currentVersion"
-  val MavenSparkAarch64 = s"com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:$currentVersion"
+  val scalaVersion: String = Build.scalaVersion
+  val MavenSpark3 = s"com.johnsnowlabs.nlp:spark-nlp_$scalaVersion:$currentVersion"
+  val MavenGpuSpark3 = s"com.johnsnowlabs.nlp:spark-nlp-gpu_$scalaVersion:$currentVersion"
+  val MavenSparkSilicon = s"com.johnsnowlabs.nlp:spark-nlp-silicon_$scalaVersion:$currentVersion"
+  val MavenSparkAarch64 = s"com.johnsnowlabs.nlp:spark-nlp-aarch64_$scalaVersion:$currentVersion"
 
   /** Start SparkSession with Spark NLP
     *
