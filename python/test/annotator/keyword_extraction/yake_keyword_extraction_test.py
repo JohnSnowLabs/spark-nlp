@@ -73,3 +73,35 @@ class YakeKeywordExtractionTestSpec(unittest.TestCase):
         result = pipeline.fit(self.data).transform(self.data)
         result.select("keywords").show(truncate=False)
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        token = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token") \
+            .setContextChars(["(", ")", "?", "!", ".", ","])
+
+        keywords = YakeKeywordExtraction() \
+            .setInputCols(["token"]) \
+            .setOutputCol("keywords") \
+            .setThreshold(0.6) \
+            .setMinNGrams(1) \
+            .setMaxNGrams(3) \
+            .setNKeywords(10)
+
+        pipeline = Pipeline(stages=[document, sentence, token, keywords])
+
+        pipeline_model = pipeline.fit(self.data)
+        transformed = pipeline_model.transform(self.data)
+
+        transformed.select("text", "keywords.result").show(truncate=False)
+        transformed.selectExpr("id", "explode(keywords) as keyword") \
+            .select("id", "keyword.result", "keyword.metadata.score") \
+            .show(truncate=False)

@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.catalyst.expressions.GenericRowWithSchema
@@ -31,6 +31,36 @@ import org.scalatest.flatspec.AnyFlatSpec
 import scala.collection.mutable
 
 class XlmRoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
+
+  "XlmRoBertaSentenceEmbeddings" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq((1, "John loves apples."), (2, "Mary loves oranges. John loves Mary.")))
+      .toDF("id", "text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = SentenceDetectorDLModel
+      .pretrained()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val embeddings = XlmRoBertaSentenceEmbeddings
+      .pretrained()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("embeddings")
+      .setMaxSentenceLength(32)
+
+    val pipeline = new Pipeline().setStages(Array(document, sentence, embeddings))
+
+    val model = pipeline.fit(testData)
+    val results = model.transform(testData)
+
+    results.select("embeddings.embeddings").show()
+  }
 
   "XlmRoBertaSentenceEmbeddings" should "produce consistent embeddings" taggedAs LocalTest in {
 

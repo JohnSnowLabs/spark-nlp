@@ -15,9 +15,9 @@ import unittest
 
 import pytest
 
+from sparknlp.base import *
 from sparknlp.annotator import *
 from sparknlp.annotator.similarity.document_similarity_ranker import *
-from sparknlp.base import *
 from test.util import SparkSessionForTest
 
 
@@ -41,14 +41,17 @@ class DocumentSimilarityRankerTestSpec(unittest.TestCase):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
+
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
+
         tokenizer = Tokenizer() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
 
-        sentence_embeddings = RoBertaSentenceEmbeddings.pretrained() \
+        sentence_embeddings = RoBertaSentenceEmbeddings \
+            .pretrained() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence_embeddings")
 
@@ -88,3 +91,81 @@ class DocumentSimilarityRankerTestSpec(unittest.TestCase):
                     "finished_doc_similarity_rankings_neighbors")
             .show(10, False)
         )
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+
+        embeddings = AlbertEmbeddings.pretrained("albert_base_uncased_opt") \
+            .setInputCols(["sentence", "token"]) \
+            .setOutputCol("embeddings")
+
+        embeddings_sentence = SentenceEmbeddings() \
+            .setInputCols(["document", "embeddings"]) \
+            .setOutputCol("sentence_embeddings") \
+            .setPoolingStrategy("AVERAGE")
+
+        doc_similarity_ranker = DocumentSimilarityRankerApproach() \
+            .setInputCols(["sentence_embeddings"]) \
+            .setOutputCol("doc_similarity_rankings") \
+            .setSimilarityMethod("brp") \
+            .setNumberOfNeighbours(3) \
+            .setVisibleDistances(True) \
+            .setIdentityRanking(True)
+
+        document_similarity_finisher = DocumentSimilarityRankerFinisher() \
+            .setInputCols(["doc_similarity_rankings"]) \
+            .setOutputCols([
+            "finished_doc_similarity_rankings_id",
+            "finished_doc_similarity_rankings_neighbors"
+        ]) \
+            .setExtractNearestNeighbor(True)
+
+        pipeline = Pipeline().setStages([
+            document_assembler,
+            sentence,
+            tokenizer,
+            embeddings,
+            embeddings_sentence,
+            doc_similarity_ranker,
+            document_similarity_finisher
+        ])
+
+        transformed = pipeline.fit(self.data).transform(self.data)
+        transformed.select(
+            "text",
+            "finished_doc_similarity_rankings_id",
+            "finished_doc_similarity_rankings_neighbors",
+            "nearest_neighbor_id",
+            "nearest_neighbor_distance"
+        ).show(truncate=False)
+
+        self.assertIn("finished_doc_similarity_rankings_id", transformed.columns,
+                      "Pipeline should output finished_doc_similarity_rankings_id column")
+
+        self.assertIn("finished_doc_similarity_rankings_neighbors", transformed.columns,
+                      "Pipeline should output finished_doc_similarity_rankings_neighbors column")
+
+        self.assertIn("nearest_neighbor_id", transformed.columns,
+                      "Pipeline should output nearest_neighbor_id when extractNearestNeighbor is true")
+
+        self.assertIn("nearest_neighbor_distance", transformed.columns,
+                      "Pipeline should output nearest_neighbor_distance when extractNearestNeighbor is true")
+
+        zero_distance_count = transformed.filter(transformed.nearest_neighbor_distance == 0.0).count()
+        self.assertGreater(zero_distance_count, 0,
+                           "Documents should have distance 0.0 from themselves when identityRanking is true")
+
+        self.assertEqual(transformed.count(), self.data.count(),
+                         f"Output should have same number of rows as input: "
+                         f"result was {transformed.count()}, expected is {self.data.count()}")

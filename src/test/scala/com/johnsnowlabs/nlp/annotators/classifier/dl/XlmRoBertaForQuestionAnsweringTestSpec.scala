@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -27,6 +27,36 @@ import org.scalatest.flatspec.AnyFlatSpec
 class XlmRoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
+
+  "XlmRoBertaForQuestionAnswering" should "run end to end pipeline test" taggedAs SlowTest in {
+    val beyonceContext =
+      """Beyoncé Giselle Knowles-Carter (/biːˈjɒnseɪ/ bee-YON-say) (born September 4, 1981) is an American singer, songwriter, record producer and actress. Born and raised in Houston, Texas, she performed in various singing and dancing competitions as a child, and rose to fame in the late 1990s as lead singer of R&B girl-group Destiny's Child. Managed by her father, Mathew Knowles, the group became one of the world's best-selling girl groups of all time. Their hiatus saw the release of Beyoncé's debut album, Dangerously in Love (2003), which established her as a solo artist worldwide, earned five Grammy Awards and featured the Billboard Hot 100 number-one singles "Crazy in Love" and "Baby Boy"."""
+
+    val data = Seq(
+      ("When did Beyonce start becoming popular?", beyonceContext),
+      ("What areas did Beyonce compete in when she was growing up?", beyonceContext),
+      ("When did Beyonce leave Destiny's Child and become a solo singer?", beyonceContext))
+      .toDF("question", "context")
+      .repartition(1)
+
+    val document = new MultiDocumentAssembler()
+      .setInputCols("question", "context")
+      .setOutputCols("document_question", "document_context")
+
+    val qaModel = XlmRoBertaForQuestionAnswering
+      .pretrained()
+      .setInputCols("document_question", "document_context")
+      .setOutputCol("answer")
+      .setCaseSensitive(false)
+      .setMaxSentenceLength(512)
+
+    val pipeline = new Pipeline().setStages(Array(document, qaModel))
+
+    val model = pipeline.fit(data)
+    val result = model.transform(data)
+
+    result.select("answer.result").show(false)
+  }
 
   "XlmRoBertaForQuestionAnswering" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 

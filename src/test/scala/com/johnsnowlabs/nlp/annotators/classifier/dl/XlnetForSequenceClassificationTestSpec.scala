@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -29,6 +29,41 @@ import org.scalatest.flatspec.AnyFlatSpec
 class XlnetForSequenceClassificationTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
+
+  "XlnetForSequenceClassification" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val testData = Seq(
+      "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London.",
+      "Rare Hendrix song draft sells for almost $17,000.",
+      "EU rejects German call to boycott British lamb.").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val classifier = XlnetForSequenceClassification
+      .pretrained()
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("label")
+      .setCaseSensitive(false)
+      .setCoalesceSentences(false)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, classifier))
+
+    val pipelineModel = pipeline.fit(testData)
+    val transformed = pipelineModel.transform(testData)
+
+    transformed.select("document.result", "label.result").show(truncate = false)
+
+    val totalLabels = transformed.select(explode($"label.result")).count.toInt
+    assert(totalLabels > 0, "because sequence classification should produce labels")
+  }
 
   "XlnetForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 

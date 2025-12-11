@@ -20,13 +20,66 @@ import com.johnsnowlabs.nlp.DocumentAssembler
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.classifier.dl.RoBertaForQuestionAnswering
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions._
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ZeroShotNerModelTest extends AnyFlatSpec {
   import ResourceHelper.spark.implicits._
+
+  "ZeroShotNerModel" should "run end to end pipeline test" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
+
+    val testData = Seq(
+      "John Smith works at Microsoft in Seattle.",
+      "Sarah Johnson lives in Paris, France.",
+      "The company Apple is located in Cupertino, California.").toDF("text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = SentenceDetectorDLModel
+      .pretrained()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val zeroShotNer = ZeroShotNerModel
+      .pretrained("roberta_qa_avioo1_base_squad2_finetuned_squad")
+      .setEntityDefinitions(Map(
+        "PERSON" -> Array("What is the person's name?", "Who is it?"),
+        "ORGANIZATION" -> Array("What is the organization?", "What company?"),
+        "LOCATION" -> Array("Where is the location?", "What is the place?")))
+      .setInputCols(Array("sentence", "token"))
+      .setOutputCol("zero_shot_ner")
+
+    val nerConverter = new NerConverter()
+      .setInputCols(Array("sentence", "token", "zero_shot_ner"))
+      .setOutputCol("ner_chunks")
+
+    val pipeline = new Pipeline().setStages(
+      Array(documentAssembler, sentenceDetector, tokenizer, zeroShotNer, nerConverter))
+
+    val pipelineModel = pipeline.fit(testData)
+    val transformed = pipelineModel.transform(testData)
+
+    transformed
+      .selectExpr("text", "explode(zero_shot_ner) AS entity")
+      .select(
+        col("text"),
+        col("entity.result"),
+        col("entity.metadata.word"),
+        col("entity.metadata.confidence"),
+        col("entity.metadata.question"))
+      .show(truncate = false)
+
+    transformed.select("ner_chunks.result").show(truncate = false)
+  }
 
   "ZeroShotNerModel" should "load a RoBertaForQuestionAnswering instance via pretrained" taggedAs LocalTest in {
     ZeroShotNerModel

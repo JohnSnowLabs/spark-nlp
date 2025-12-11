@@ -20,13 +20,48 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class XlnetEmbeddingsTestSpec extends AnyFlatSpec {
+
+  "XlnetEmbeddings" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val testData = Seq(
+      "Rare Hendrix song draft sells for almost $17,000.",
+      "EU rejects German call to boycott British lamb.",
+      "John Lenon was born in London and lived in Paris.").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = XlnetEmbeddings
+      .pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setMaxSentenceLength(512)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
+
+    val pipelineModel = pipeline.fit(testData)
+    val transformed = pipelineModel.transform(testData)
+
+    transformed.select("token.result", "embeddings.result").show()
+    transformed.select(size(transformed("embeddings.embeddings")).as("embeddings_size")).show()
+
+    val totalEmbeddings = transformed.select(explode($"embeddings.embeddings")).count.toInt
+    assert(totalEmbeddings > 0, "because XlnetEmbeddings should produce embeddings")
+  }
 
   "XlnetEmbeddings" should "correctly load pretrained model" taggedAs LocalTest in {
 

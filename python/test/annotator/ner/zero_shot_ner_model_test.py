@@ -71,3 +71,62 @@ class ZeroShotNerTestSpec(unittest.TestCase):
             .selectExpr("explode(zero_shot_ner) AS entity")
             .filter("entity.result <> \"O\"")
             .count(), 5)
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        self.spark = SparkContextForTest.spark
+        self.test_data = self.spark.createDataFrame([
+            ("John Smith works at Microsoft in Seattle.",),
+            ("Sarah Johnson lives in Paris, France.",),
+            ("The company Apple is located in Cupertino, California.",)
+        ]).toDF("text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetectorDLModel \
+            .pretrained() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+
+        zero_shot_ner = ZeroShotNerModel \
+            .pretrained("roberta_base_qa_squad2") \
+            .setEntityDefinitions({
+            "PERSON": ["What is the person's name?", "Who is it?"],
+            "ORGANIZATION": ["What is the organization?", "What company?"],
+            "LOCATION": ["Where is the location?", "What is the place?"]
+        }) \
+            .setInputCols(["sentence", "token"]) \
+            .setOutputCol("zero_shot_ner")
+
+        ner_converter = NerConverter() \
+            .setInputCols(["sentence", "token", "zero_shot_ner"]) \
+            .setOutputCol("ner_chunks")
+
+        pipeline = Pipeline().setStages([
+            document_assembler,
+            sentence_detector,
+            tokenizer,
+            zero_shot_ner,
+            ner_converter
+        ])
+
+        pipeline_model = pipeline.fit(self.test_data)
+        transformed = pipeline_model.transform(self.test_data)
+
+        transformed \
+            .selectExpr("text", "explode(zero_shot_ner) AS entity") \
+            .select(
+            "text",
+            "entity.result",
+            "entity.metadata.word",
+            "entity.metadata.confidence",
+            "entity.metadata.question") \
+            .show(truncate=False)
+
+        transformed.select("ner_chunks.result").show(truncate=False)

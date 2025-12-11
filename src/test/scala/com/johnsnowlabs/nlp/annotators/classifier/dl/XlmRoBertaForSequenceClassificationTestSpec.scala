@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -29,6 +29,33 @@ import org.scalatest.flatspec.AnyFlatSpec
 class XlmRoBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
+
+  "XlmRoBertaForSequenceClassification" should "run end to end pipeline test" taggedAs SlowTest in {
+    val ddd = Seq(
+      "This is a simple test sentence.",
+      "I love Spark NLP!",
+      "XLM-RoBERTa models work really well for multilingual tasks.").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+
+    val classifier = XlmRoBertaForSequenceClassification
+      .pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("label")
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, classifier))
+
+    val pipelineModel = pipeline.fit(ddd)
+    val result = pipelineModel.transform(ddd)
+
+    result.select("document.result", "label.result").show(false)
+  }
 
   "XlmRoBertaForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 

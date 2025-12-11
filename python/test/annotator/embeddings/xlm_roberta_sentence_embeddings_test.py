@@ -23,13 +23,16 @@ from test.util import SparkContextForTest
 
 
 @pytest.mark.local
-class XlmRoBertaEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
+class XlmRoBertaSentenceEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
     def setUp(self):
-        self.data = SparkContextForTest.spark.read.option("header", "true") \
-            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
-        self.tested_annotator = XlmRoBertaEmbeddings.pretrained() \
-            .setInputCols(["token", "document"]) \
-            .setOutputCol("XlmRoBerta_embeddings")
+        self.data = SparkContextForTest.spark.createDataFrame([
+            ["John loves apples."],
+            ["Mary loves oranges. John loves Mary."],
+        ]).toDF("text")
+
+        self.tested_annotator = XlmRoBertaSentenceEmbeddings.pretrained() \
+                .setInputCols(["sentence"]) \
+                .setOutputCol("embeddings")
 
     @pytest.mark.slow
     def test_run(self):
@@ -37,15 +40,16 @@ class XlmRoBertaEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests)
             .setInputCol("text") \
             .setOutputCol("document")
 
-        tokenizer = Tokenizer() \
+        sentence_detector = SentenceDetectorDLModel \
+            .pretrained() \
             .setInputCols("document") \
-            .setOutputCol("token")
+            .setOutputCol("sentence")
 
         embeddings = self.tested_annotator
 
         pipeline = Pipeline(stages=[
             document_assembler,
-            tokenizer,
+            sentence_detector,
             embeddings
         ])
 

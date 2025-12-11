@@ -20,13 +20,50 @@ import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
+import ResourceHelper.spark.implicits._
 
 class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
+
+  "XlmRoBertaEmbeddings" should "run end to end pipeline test" taggedAs SlowTest in {
+    val data = Seq(
+      "John Snow Labs builds NLP for healthcare.",
+      "XLM-RoBERTa embeddings support many languages.",
+      "This is an end-to-end pipeline test.").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+
+    val embeddings = XlmRoBertaEmbeddings
+      .pretrained()
+      .setInputCols("document", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(false)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(document, tokenizer, embeddings))
+
+    val model = pipeline.fit(data)
+    val result = model.transform(data)
+
+    result.select("token.result", "embeddings.embeddings").show()
+
+    val totalTokens =
+      result.select(org.apache.spark.sql.functions.explode($"token.result")).count()
+    val totalEmbeddings =
+      result.select(org.apache.spark.sql.functions.explode($"embeddings.embeddings")).count()
+
+    assert(totalTokens == totalEmbeddings)
+  }
 
   "XlmRoBertaEmbeddings" should "correctly work with empty tokens" taggedAs LocalTest in {
 

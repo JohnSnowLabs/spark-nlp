@@ -25,8 +25,12 @@ from test.util import SparkContextForTest
 @pytest.mark.local
 class XlmRoBertaForSequenceClassificationTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
     def setUp(self):
-        self.data = SparkContextForTest.spark.read.option("header", "true") \
-            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+        self.spark = SparkContextForTest.spark
+        self.data = self.spark.createDataFrame([
+            ("This is a simple test sentence.",),
+            ("I love Spark NLP!",),
+            ("XLM-RoBERTa models work really well for multilingual tasks.",)
+        ]).toDF("text")
 
         self.tested_annotator = XlmRoBertaForSequenceClassification \
             .pretrained() \
@@ -34,6 +38,25 @@ class XlmRoBertaForSequenceClassificationTestSpec(unittest.TestCase, HasMaxSente
             .setOutputCol("class")
 
     def test_run(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        doc_classifier = self.tested_annotator
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            doc_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
