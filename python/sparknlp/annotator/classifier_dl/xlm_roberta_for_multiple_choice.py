@@ -126,7 +126,7 @@ class XlmRoBertaForMultipleChoice(AnnotatorModel,
         return XlmRoBertaForMultipleChoice(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="xlm_roberta_base_mc", lang="en", remote_loc=None):
+    def pretrained(name="xlmroberta_base_uncased_multiple_choice", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters

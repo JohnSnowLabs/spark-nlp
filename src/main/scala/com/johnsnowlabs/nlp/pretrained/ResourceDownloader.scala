@@ -722,7 +722,8 @@ object PythonResourceDownloader {
     "DistilBertForMultipleChoice" -> DistilBertForMultipleChoice,
     "RobertaForMultipleChoice" -> RoBertaForMultipleChoice,
     "MPNetForTokenClassification" -> MPNetForTokenClassification,
-    "MiniLMEmbeddings" -> MiniLMEmbeddings)
+    "MiniLMEmbeddings" -> MiniLMEmbeddings,
+    "XlmRoBertaForMultipleChoice" -> XlmRoBertaForMultipleChoice)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")
