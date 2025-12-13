@@ -19,11 +19,60 @@ package com.johnsnowlabs.nlp.annotators.keyword.yake
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class YakeTestSpec extends AnyFlatSpec {
+  "Yake Keyword Extractor" should "run end to end pipeline test" taggedAs SlowTest in {
+    val testData = ResourceHelper.spark
+      .createDataFrame(Seq(
+        (1, "Sources tell us that Google is acquiring Kaggle, a platform that hosts data science and machine learning competitions. Details about the transaction remain somewhat vague, but given that Google is hosting its Cloud Next conference in San Francisco this week, the official announcement could come as early as tomorrow."),
+        (2, "Kaggle, which has about half a million data scientists on its platform, was founded by Goldbloom and Ben Hamner in 2010. The service got an early start and even though it has a few competitors like DrivenData, TopCoder and HackerRank, it has managed to stay well ahead of them by focusing on its specific niche."),
+        (3, "With Kaggle, Google is buying one of the largest and most active communities for data scientists - and with that, it will get increased mindshare in this community, too. Earlier this month, Google and Kaggle teamed up to host a machine learning competition around classifying YouTube videos.")))
+      .toDF("id", "text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val token = new Tokenizer()
+      .setInputCols("sentence")
+      .setOutputCol("token")
+      .setContextChars(Array("(", ")", "?", "!", ".", ","))
+
+    val keywords = new YakeKeywordExtraction()
+      .setInputCols("token")
+      .setOutputCol("keywords")
+      .setThreshold(0.6f)
+      .setMinNGrams(1)
+      .setMaxNGrams(3)
+      .setNKeywords(10)
+
+    val pipeline = new Pipeline().setStages(Array(document, sentenceDetector, token, keywords))
+
+    val pipelineModel = pipeline.fit(testData)
+    val transformed = pipelineModel.transform(testData)
+
+    transformed.select("text", "keywords.result").show(truncate = false)
+    transformed
+      .selectExpr("id", "explode(keywords) as keyword")
+      .select("id", "keyword.result", "keyword.metadata.score")
+      .show(truncate = false)
+
+    val keywordsData = transformed.select("keywords").collect()
+    val hasKeywords = keywordsData.exists(row => {
+      val keywords = row.getSeq(0)
+      keywords.nonEmpty
+    })
+
+    assert(hasKeywords, "because Yake should extract keywords from the text")
+  }
+
   "Yake Keyword Extractor" should "work under a pipeline framework" taggedAs FastTest in {
     val testData = ResourceHelper.spark
       .createDataFrame(Seq(

@@ -260,7 +260,7 @@ class XlmRoBertaForMultipleChoice(override val uid: String)
 trait ReadablePretrainedXmlRoBertaForMultipleChoiceModel
     extends ParamsAndFeaturesReadable[XlmRoBertaForMultipleChoice]
     with HasPretrained[XlmRoBertaForMultipleChoice] {
-  override val defaultModelName: Some[String] = Some("bert_base_uncased_multiple_choice")
+  override val defaultModelName: Some[String] = Some("xlmroberta_base_uncased_multiple_choice")
 
   /** Java compliant-overrides */
   override def pretrained(): XlmRoBertaForMultipleChoice = super.pretrained()

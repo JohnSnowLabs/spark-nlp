@@ -32,9 +32,12 @@ class XlmRoBertaForTokenClassificationTestSpec extends AnyFlatSpec {
 
   "XlmRoBertaForTokenClassification" should "run end to end pipeline test" taggedAs SlowTest in {
 
+    import ResourceHelper.spark.implicits._
+
     val ddd = Seq(
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London")
       .toDF("text")
+
 
     val document = new DocumentAssembler()
       .setInputCol("text")

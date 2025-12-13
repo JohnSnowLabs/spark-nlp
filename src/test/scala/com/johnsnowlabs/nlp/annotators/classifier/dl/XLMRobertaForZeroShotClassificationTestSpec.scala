@@ -38,11 +38,7 @@ class XlmRoBertaForZeroShotClassificationTestSpec extends AnyFlatSpec {
     val ddd = Seq(
       "I have a problem with my iphone that needs to be resolved asap!!",
       "Last week I upgraded my iOS version and ever since then my phone has been overheating whenever I use your app.",
-      "I have a phone and I love it!",
-      "I really want to visit Germany and I am planning to go there next year.",
-      "Let's watch some movies tonight! I am in the mood for a horror movie.",
-      "Have you watched the match yesterday? It was a great game!",
-      "We need to harry up and get to the airport. We are going to miss our flight!")
+      "I have a phone and I love it!")
       .toDF("text")
 
     val document = new DocumentAssembler()

@@ -51,11 +51,13 @@ class XlmRoBertaSentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .pretrained()
       .setInputCols(Array("sentence"))
       .setOutputCol("sentence_embeddings")
+      .setOutputCol("embeddings")
       .setMaxSentenceLength(32)
 
     val pipeline = new Pipeline().setStages(Array(document, sentence, embeddings))
 
     pipeline.fit(testData).transform(testData).show()
+
   }
 
   "XlmRoBertaSentenceEmbeddings" should "produce consistent embeddings" taggedAs LocalTest in {

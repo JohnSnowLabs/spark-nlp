@@ -44,7 +44,6 @@ class XlnetEmbeddingsTestSpec extends AnyFlatSpec {
 
     val tokenizer = new Tokenizer()
       .setInputCols(Array("sentence"))
-      .setOutputCol("token")
 
     val embeddings = XlnetEmbeddings
       .pretrained()

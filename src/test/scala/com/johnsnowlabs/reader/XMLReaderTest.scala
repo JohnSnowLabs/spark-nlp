@@ -1,12 +1,46 @@
 package com.johnsnowlabs.reader
 
-import com.johnsnowlabs.tags.FastTest
-import org.apache.spark.sql.functions.{array_contains, col, explode, map_keys}
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.scalatest.flatspec.AnyFlatSpec
+import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
+import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.annotator.Tokenizer
+import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions._
 
 class XMLReaderTest extends AnyFlatSpec {
 
   val xmlFilesDirectory = "./src/test/resources/reader/xml/"
+
+  "XMLReader" should "run end to end pipeline test" taggedAs SlowTest in {
+    val reader = new XMLReader()
+    val xmlDF = reader.read(s"$xmlFilesDirectory/test.xml")
+
+    val flatDf = xmlDF
+      .withColumn("text", expr("concat_ws('\n', xml.content)"))
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols("document")
+      .setOutputCol("token")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer))
+
+    val result = pipeline.fit(flatDf).transform(flatDf)
+    result.show(false)
+
+    assert(result.columns.contains("document"))
+    assert(result.columns.contains("token"))
+    assert(result.select("document").count() > 0)
+    assert(result.select("token").count() > 0)
+    assert(!result.select("token.result").isEmpty)
+
+    val tokens = result.select("token.result").as[Seq[String]].head
+    assert(tokens.nonEmpty)
+  }
 
   "XMLReader" should "read xml as dataframe" taggedAs FastTest in {
     val XMLReader = new XMLReader()

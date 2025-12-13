@@ -58,7 +58,9 @@ class XlmRoBertaForZeroShotClassificationTestSpec(unittest.TestCase):
             .setInputCol("text") \
             .setOutputCol("document")
 
-        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+        tokenizer = Tokenizer() \
+            .setInputCols("document") \
+            .setOutputCol("token")
 
         zero_shot_classifier = XlmRoBertaForZeroShotClassification \
             .pretrained() \

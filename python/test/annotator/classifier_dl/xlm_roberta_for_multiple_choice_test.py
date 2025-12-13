@@ -57,6 +57,10 @@ class XlmRoBertaForMultipleChoiceTest(XlmRoBertaForMultipleChoiceTestSetup, unit
         for row in result_df.collect():
             self.assertTrue(row["answer"][0].result != "")
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        result_df = self.pipeline_model.transform(self.data)
+        result_df.show(truncate=False)
 
 @pytest.mark.local
 class LightXlmRoBertaForMultipleChoiceTest(XlmRoBertaForMultipleChoiceTestSetup, unittest.TestCase):

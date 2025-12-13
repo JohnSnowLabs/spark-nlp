@@ -35,6 +35,7 @@ class XlnetForSequenceClassificationTestSpec extends AnyFlatSpec {
     val ddd = Seq(
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London.")
       .toDF("text")
+    import ResourceHelper.spark.implicits._
 
     val document = new DocumentAssembler()
       .setInputCol("text")
@@ -55,6 +56,7 @@ class XlnetForSequenceClassificationTestSpec extends AnyFlatSpec {
 
     pipeline.fit(ddd).transform(ddd).show()
   }
+
   "XlnetForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 
     val ddd = Seq(

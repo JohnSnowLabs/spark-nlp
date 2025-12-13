@@ -53,6 +53,7 @@ class XlnetForTokenClassificationTestSpec extends AnyFlatSpec {
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, tokenClassifier))
     pipeline.fit(ddd).transform(ddd).show()
   }
+
   "XlnetForTokenClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 
     val ddd = Seq(

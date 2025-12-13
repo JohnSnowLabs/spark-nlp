@@ -13,7 +13,7 @@ import com.johnsnowlabs.nlp.embeddings.{
 }
 import com.johnsnowlabs.nlp.finisher.DocumentSimilarityRankerFinisher
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{col, element_at, size}
@@ -35,6 +35,99 @@ class DocumentSimilarityRankerTestSpec extends AnyFlatSpec {
         "Eighth document, the warmest place in France is the French Riviera coast in Southern France.")
         .map(Tuple1(_)))
     .toDF("text")
+
+  "DocumentSimilarityRankerFinisher" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val embeddings = AlbertEmbeddings
+      .pretrained("albert_base_uncased_opt")
+      .setInputCols("sentence", "token")
+      .setOutputCol("embeddings")
+
+    val embeddingsSentence = new SentenceEmbeddings()
+      .setInputCols(Array("document", "embeddings"))
+      .setOutputCol("sentence_embeddings")
+      .setPoolingStrategy("AVERAGE")
+
+    val docSimilarityRanker = new DocumentSimilarityRankerApproach()
+      .setInputCols("sentence_embeddings")
+      .setOutputCol(DOC_SIMILARITY_RANKINGS)
+      .setSimilarityMethod("brp")
+      .setNumberOfNeighbours(3)
+      .setVisibleDistances(true)
+      .setIdentityRanking(true)
+
+    val documentSimilarityFinisher = new DocumentSimilarityRankerFinisher()
+      .setInputCols("doc_similarity_rankings")
+      .setOutputCols(
+        "finished_doc_similarity_rankings_id",
+        "finished_doc_similarity_rankings_neighbors")
+      .setExtractNearestNeighbor(true)
+
+    val pipeline = new Pipeline()
+      .setStages(
+        Array(
+          documentAssembler,
+          sentence,
+          tokenizer,
+          embeddings,
+          embeddingsSentence,
+          docSimilarityRanker,
+          documentSimilarityFinisher))
+
+    val trainedPipelineModel = pipeline.fit(smallCorpus)
+
+    val pipelineModelLoc = "./tmp_doc_sim_ranker_finisher_e2e_pipeline"
+    trainedPipelineModel.write.overwrite().save(pipelineModelLoc)
+    val pipelineModel = PipelineModel.load(pipelineModelLoc)
+
+    val transformed = pipelineModel.transform(smallCorpus)
+
+    transformed
+      .select(
+        "text",
+        "finished_doc_similarity_rankings_id",
+        "finished_doc_similarity_rankings_neighbors",
+        "nearest_neighbor_id",
+        "nearest_neighbor_distance")
+      .show(truncate = false)
+
+    assert(
+      transformed.columns.contains("finished_doc_similarity_rankings_id"),
+      "because pipeline should output finished_doc_similarity_rankings_id column")
+
+    assert(
+      transformed.columns.contains("finished_doc_similarity_rankings_neighbors"),
+      "because pipeline should output finished_doc_similarity_rankings_neighbors column")
+
+    assert(
+      transformed.columns.contains("nearest_neighbor_id"),
+      "because pipeline should output nearest_neighbor_id when extractNearestNeighbor is true")
+
+    assert(
+      transformed.columns.contains("nearest_neighbor_distance"),
+      "because pipeline should output nearest_neighbor_distance when extractNearestNeighbor is true")
+
+    assert(
+      !transformed.where(col("nearest_neighbor_distance") === 0.0).rdd.isEmpty(),
+      "because documents should have distance 0.0 from themselves when identityRanking is true")
+
+    assert(
+      transformed.count() === smallCorpus.count(),
+      s"because output should have same number of rows as input: " +
+        s"\nresult was ${transformed.count()} \nexpected is: ${smallCorpus.count()}")
+  }
 
   "DocumentSimilarityRanker" should "should use brp to rank document similarity" taggedAs LocalTest in {
 

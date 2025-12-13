@@ -25,6 +25,7 @@ import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
+import ResourceHelper.spark.implicits._
 
 class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
 
@@ -35,6 +36,12 @@ class XlmRoBertaEmbeddingsTestSpec extends AnyFlatSpec {
       .csv("src/test/resources/embeddings/sentence_embeddings.csv")
 
     val documentAssembler = new DocumentAssembler()
+    val data = Seq(
+      "John Snow Labs builds NLP for healthcare.",
+      "XLM-RoBERTa embeddings support many languages.",
+      "This is an end-to-end pipeline test.").toDF("text")
+
+    val document = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("document")
 

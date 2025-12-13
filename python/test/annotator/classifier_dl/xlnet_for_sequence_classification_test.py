@@ -57,6 +57,13 @@ class XlnetForSequenceClassificationTestSpec(unittest.TestCase, HasMaxSentenceLe
 
     @pytest.mark.slow
     def test_end_to_end_pipeline(self):
+        self.spark = SparkContextForTest.spark
+        self.test_data = self.spark.createDataFrame([
+            ("John Lenon was born in London and lived in Paris. My name is Sarah and I live in London.",),
+            ("Rare Hendrix song draft sells for almost $17,000.",),
+            ("EU rejects German call to boycott British lamb.",)
+        ]).toDF("text")
+
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
