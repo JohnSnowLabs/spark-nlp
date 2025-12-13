@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -32,6 +32,33 @@ class BertForZeroShotClassificationTestSpec extends AnyFlatSpec {
 
   val candidateLabels =
     Array("urgent", "mobile", "travel", "movie", "music", "sport", "weather", "technology")
+
+  "BertForZeroShotClassification" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val ddd = Seq("I have a problem with my iphone that needs to be resolved asap!!")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val tokenClassifier = BertForZeroShotClassification
+      .pretrained()
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("multi_class")
+      .setCaseSensitive(true)
+      .setCoalesceSentences(true)
+      .setCandidateLabels(candidateLabels)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, tokenClassifier))
+
+    val pipelineModel = pipeline.fit(ddd)
+    pipelineModel.transform(ddd).show()
+  }
 
   "BertForZeroShotClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 

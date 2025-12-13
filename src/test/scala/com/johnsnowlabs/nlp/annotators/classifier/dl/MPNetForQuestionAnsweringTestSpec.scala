@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.{LightPipeline, MultiDocumentAssembler}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalactic.TolerantNumerics
 import org.scalatest.flatspec.AnyFlatSpec
@@ -88,6 +88,10 @@ class MPNetForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
     val tokenized = model.encodeSequence(questionTokenized, contextTokenized, maxLength).head
     assert(tokenized sameElements expectedTokens)
+  }
+
+  it should "run end to end pipeline test" taggedAs SlowTest in {
+    pipeline.fit(data).transform(data).show()
   }
 
   it should "predict correctly" taggedAs LocalTest in {

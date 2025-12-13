@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.DataFrame
@@ -49,6 +49,21 @@ class CamemBertForTokenClassificationTestSpec extends AnyFlatSpec {
   val tokenizer: Tokenizer = new Tokenizer()
     .setInputCols(Array("document"))
     .setOutputCol("token")
+
+  "CamemBertForTokenClassification" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val tokenClassifier: CamemBertForTokenClassification = CamemBertForTokenClassification
+      .pretrained()
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("ner")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, tokenClassifier))
+
+    val pipelineModel = pipeline.fit(ddd)
+    pipelineModel.transform(ddd).show()
+  }
 
   "CamemBertForTokenClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 

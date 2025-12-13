@@ -72,6 +72,9 @@ class VisionEncoderDecoderForImageCaptioningTestSpec(VisionEncoderDecoderForImag
             print(row["origin"], row["result"][0])
             self.assertGreater(len(row["result"][0]), 0)
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        self.model.transform(self.data).show()
 
 @pytest.mark.local
 class LightVisionEncoderDecoderForImageCaptioningOneImageTestSpec(VisionEncoderDecoderForImageCaptioningTestSetUp,

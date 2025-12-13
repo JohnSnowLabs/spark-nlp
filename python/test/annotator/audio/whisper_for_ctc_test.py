@@ -34,9 +34,8 @@ class WhisperTestSetUp(unittest.TestCase):
             .setOutputCol("audio_assembler")
 
         # Edit Manually
-        model_path = "exported_onnx/openai/whisper-tiny"
         self.speech_to_text = WhisperForCTC \
-            .loadSavedModel(model_path, SparkSessionForTest.spark) \
+            .pretrained() \
             .setInputCols("audio_assembler") \
             .setOutputCol("text")
 
@@ -58,6 +57,10 @@ class WhisperForCTCTestSpec(WhisperTestSetUp, unittest.TestCase):
         result_df.select("text.result").show(truncate=False)
         assert result_df.select("text").count() > 0
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        self.data.show()
+        self.model.transform(self.data).show()
 
 @pytest.mark.local
 class LightWhisperForCTCOneAudioTestSpec(WhisperTestSetUp, unittest.TestCase):

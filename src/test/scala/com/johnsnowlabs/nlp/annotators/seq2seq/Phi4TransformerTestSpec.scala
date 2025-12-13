@@ -129,7 +129,6 @@ class Phi4TransformerTestSpec extends AnyFlatSpec {
       .transform(testData)
       .show(truncate = false)
 
-
   }
 
 }

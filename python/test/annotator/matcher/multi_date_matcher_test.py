@@ -48,3 +48,18 @@ class MultiDateMatcherTestSpec(unittest.TestCase):
 
         actual_dates = result.select(size("date.result")).collect()[0][0]
         self.assertEqual(actual_dates, 4)
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+                    .setInputCol("text") \
+                    .setOutputCol("document")
+        date_matcher = MultiDateMatcher() \
+            .setInputCols(["document"]) \
+            .setOutputCol("date") \
+            .setOutputFormat("yyyy/MM/dd") \
+            .setRelaxedFactoryStrategy(MatchStrategy.MATCH_ALL)
+
+        pipeline = Pipeline(stages=[document_assembler, date_matcher])
+        pipeline.fit(self.data).transform(self.data).show()
+

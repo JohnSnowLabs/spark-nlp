@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{col, size}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -54,6 +54,36 @@ class E5EmbeddingsTestSpec extends AnyFlatSpec {
 
     val pipelineDF = pipeline.fit(ddd).transform(ddd)
     pipelineDF.select("e5.embeddings").show(truncate = false)
+
+  }
+
+  "E5 Embeddings" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "query: how much protein should a female eat",
+      "query: summit define",
+      "passage: As a general guideline, the CDC's average requirement of protein for women ages 19 to 70 is 46 " +
+        "grams per day. But, as you can see from this chart, you'll need to increase that if you're expecting or" +
+        " training for a marathon. Check out the chart below to see how much protein you should be eating each day.",
+      "passage: Definition of summit for English Language Learners. : 1  the highest point of a mountain : the top of" +
+        " a mountain. : 2  the highest level. : 3  a meeting or series of meetings between the leaders of two or more" +
+        " governments.")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val embeddings = E5Embeddings
+      .pretrained()
+      .setInputCols(Array("document"))
+      .setOutputCol("e5")
+
+    val pipeline = new Pipeline().setStages(Array(document, embeddings))
+
+    pipeline.fit(ddd).transform(ddd).show()
 
   }
 

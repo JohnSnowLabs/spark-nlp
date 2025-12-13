@@ -23,27 +23,24 @@ from test.util import SparkContextForTest
 
 
 @pytest.mark.local
-class CamemBertEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
+class XlmRoBertaSentenceEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
     def setUp(self):
         self.data = SparkContextForTest.spark.read.option("header", "true") \
             .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
-        self.tested_annotator = CamemBertEmbeddings.pretrained() \
-            .setInputCols(["token", "document"]) \
-            .setOutputCol("camembert_embeddings")
+        self.tested_annotator = XlmRoBertaSentenceEmbeddings.pretrained() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence_embeddings")
 
     def test_run(self):
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
 
-        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
-
-        embeddings = self.tested_annotator
+        sentence_embeddings = self.tested_annotator
 
         pipeline = Pipeline(stages=[
             document_assembler,
-            tokenizer,
-            embeddings
+            sentence_embeddings
         ])
 
         model = pipeline.fit(self.data)
@@ -51,18 +48,19 @@ class CamemBertEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
 
     @pytest.mark.slow
     def test_end_to_end_pipeline(self):
+
+        data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv").limit(10)
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
 
-        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
-
-        embeddings = self.tested_annotator
+        sentence_embeddings = self.tested_annotator
 
         pipeline = Pipeline(stages=[
             document_assembler,
-            tokenizer,
-            embeddings
+            sentence_embeddings
         ])
 
-        pipeline.fit(self.data).transform(self.data).show()
+        model = pipeline.fit(data)
+        model.transform(data).show()

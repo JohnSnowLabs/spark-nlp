@@ -69,6 +69,11 @@ class SwinForImageClassificationTestSpec(SwinForImageClassificationTestSetUp, un
             self.assertEqual(self.gold_standards[file_name], row["result"][0])
 
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        self.model.transform(self.data).show()
+
+
 @pytest.mark.local
 class LightSwinForImageClassificationOneImageTestSpec(SwinForImageClassificationTestSetUp, unittest.TestCase):
 

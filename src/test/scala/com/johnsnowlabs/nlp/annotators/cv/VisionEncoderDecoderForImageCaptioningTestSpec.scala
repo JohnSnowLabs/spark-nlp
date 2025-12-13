@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, ImageAssembler}
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Row}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -48,6 +48,13 @@ class VisionEncoderDecoderForImageCaptioningTestSpec extends AnyFlatSpec {
       result.selectExpr("image.origin", "caption.result[0]").collect().map {
         case Row(_: String, caption: String) => assert(caption.nonEmpty)
       }
+    }
+
+    it should "run end to end pipeline test" taggedAs SlowTest in {
+      val pipeline = new Pipeline().setStages(Array(imageAssembler, model))
+
+      pipeline.fit(imageDF).transform(imageDF).show()
+
     }
 
     it should s"correctly work with Tokenizer ($engine)" taggedAs LocalTest in {

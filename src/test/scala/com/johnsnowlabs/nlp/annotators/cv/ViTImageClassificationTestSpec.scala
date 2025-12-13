@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.ImageAssembler
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
@@ -49,6 +49,13 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
 
       val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
       pipeline
+    }
+
+    it should "run end to end pipeline test" taggedAs SlowTest in {
+
+      val pipeline = setUpImageClassifierPipeline()
+      pipeline.fit(imageDF).transform(imageDF)
+
     }
 
     it should "predict correct ImageNet classes" taggedAs LocalTest in {

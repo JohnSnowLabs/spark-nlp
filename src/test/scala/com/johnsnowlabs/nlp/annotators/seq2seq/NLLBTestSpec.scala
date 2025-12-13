@@ -18,11 +18,39 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, LocalTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class NLLBTestSpec extends AnyFlatSpec {
+
+  "nllb" should "run end to end pipeline test" taggedAs SlowTest in {
+    // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
+    // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
+    val testData = ResourceHelper.spark
+      .createDataFrame(Seq((1, "生活就像一盒巧克力。")))
+      .toDF("id", "text")
+      .repartition(1)
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val nllb = NLLBTransformer
+      .pretrained()
+      .setInputCols(Array("documents"))
+      .setSrcLang("zho_Hans")
+      .setTgtLang("eng_Latn")
+      .setDoSample(false)
+      .setMaxOutputLength(50)
+      .setOutputCol("generation")
+      .setBeamSize(1)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, nllb))
+
+    pipeline.fit(testData).transform(testData)
+
+  }
 
   "nllb" should "should translate chinese to english" taggedAs LocalTest in {
     // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.

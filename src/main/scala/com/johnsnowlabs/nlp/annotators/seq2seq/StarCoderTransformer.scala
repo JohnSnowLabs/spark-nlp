@@ -330,7 +330,7 @@ class StarCoderTransformer(override val uid: String)
 trait ReadablePretrainedStarCoderTransformerModel
     extends ParamsAndFeaturesReadable[StarCoderTransformer]
     with HasPretrained[StarCoderTransformer] {
-  override val defaultModelName: Some[String] = Some("starcoder")
+  override val defaultModelName: Some[String] = Some("starcoder2_3b_int8")
 
   /** Java compliant-overrides */
   override def pretrained(): StarCoderTransformer = super.pretrained()

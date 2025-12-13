@@ -27,6 +27,23 @@ class E5VEmbeddingsTestSpec(unittest.TestCase):
         self.spark = SparkContextForTest.spark
         self.images_path = "file://"+os.getcwd() + "/../src/test/resources/image/"
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        # Simulate image+text embedding (requires actual image files for full test)
+        image_folder = os.environ.get("E5V_IMAGE_TEST_FOLDER", self.images_path)
+        imagePrompt = "<|start_header_id|>user<|end_header_id|>\n\n<image>\\nSummary above image in one word: <|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n \n"
+        image_df = self.spark.read.format("image").option("dropInvalid", True).load(image_folder)
+        test_df = image_df.withColumn("text", lit(imagePrompt))
+
+        imageAssembler = ImageAssembler() \
+            .setInputCol("image") \
+            .setOutputCol("image_assembler")
+        e5v = E5VEmbeddings.pretrained() \
+            .setInputCols(["image_assembler"]) \
+            .setOutputCol("e5v")
+        pipeline = Pipeline().setStages([imageAssembler, e5v])
+        pipeline.fit(test_df).transform(test_df).show()
+
     def test_image_and_text_embedding(self):
         # Simulate image+text embedding (requires actual image files for full test)
         image_folder = os.environ.get("E5V_IMAGE_TEST_FOLDER", self.images_path)

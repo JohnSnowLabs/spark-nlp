@@ -19,12 +19,40 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class InstructorEmbeddingsTestSpec extends AnyFlatSpec {
+
+  "Instructor Embeddings" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "Capitalism has been dominant in the Western world since the end of feudalism, but most feel[who?]" +
+        " that the term \"mixed economies\" more precisely describes most contemporary economies, due to their " +
+        "containing both private-owned and state-owned enterprises. In capitalism, prices determine the " +
+        "demand-supply scale. For example, higher demand for certain goods and services lead to higher prices " +
+        "and lower demand for certain goods lead to lower prices.")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val embeddings = InstructorEmbeddings
+      .pretrained()
+      .setInstruction("Represent the Wikipedia document for retrieval: ")
+      .setInputCols(Array("document"))
+      .setOutputCol("instructor")
+
+    val pipeline = new Pipeline().setStages(Array(document, embeddings))
+
+    pipeline.fit(ddd).transform(ddd).show()
+
+  }
 
   "Instructor Embeddings" should "correctly embed multiple sentences" taggedAs LocalTest in {
 

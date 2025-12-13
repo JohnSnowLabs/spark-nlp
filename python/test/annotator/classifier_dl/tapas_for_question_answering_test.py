@@ -69,3 +69,32 @@ class TapasForQuestionAnsweringTestSpec(unittest.TestCase):
             .selectExpr("explode(answers) AS answer")\
             .select("answer")\
             .show(truncate=False)
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = MultiDocumentAssembler() \
+            .setInputCols("table_json", "questions") \
+            .setOutputCols("document_table", "document_questions")
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document_questions"]) \
+            .setOutputCol("questions")
+
+        table_assembler = TableAssembler() \
+            .setInputCols(["document_table"]) \
+            .setOutputCol("table")
+
+        tapas = TapasForQuestionAnswering() \
+            .pretrained() \
+            .setMaxSentenceLength(512) \
+            .setInputCols(["questions", "table"]) \
+            .setOutputCol("answers")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            table_assembler,
+            tapas
+        ])
+
+        pipeline.fit(self.data).transform(self.data).show()

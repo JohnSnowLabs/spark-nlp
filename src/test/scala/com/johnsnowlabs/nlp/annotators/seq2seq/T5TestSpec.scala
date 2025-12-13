@@ -19,13 +19,40 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.col
 import org.scalatest.flatspec.AnyFlatSpec
 
 class T5TestSpec extends AnyFlatSpec {
+
+  "T5" should "run end to end pipeline test" taggedAs SlowTest in {
+    val testData = ResourceHelper.spark
+      .createDataFrame(
+        Seq((1, "Which is the capital of France? Who was the first president of USA?")))
+      .toDF("id", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val sentenceDetector = SentenceDetectorDLModel
+      .pretrained()
+      .setInputCols(Array("documents"))
+      .setOutputCol("questions")
+
+    val t5 = T5Transformer
+      .pretrained()
+      .setInputCols(Array("questions"))
+      .setOutputCol("answers")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, t5))
+
+    val model = pipeline.fit(testData)
+    model.transform(testData).show()
+
+  }
 
   "google/t5-small-ssm-nq " should "run SparkNLP pipeline" taggedAs LocalTest in {
     val testData = ResourceHelper.spark

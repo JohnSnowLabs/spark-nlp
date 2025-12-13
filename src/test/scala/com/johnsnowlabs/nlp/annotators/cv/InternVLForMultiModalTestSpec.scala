@@ -29,7 +29,6 @@ class InternVLForMultiModalTestSpec extends AnyFlatSpec {
 
   lazy val model = getInternVLForMultiModalPipelineModel
 
-
   "InternVLForMultiModal" should "run end to end pipeline test" taggedAs SlowTest in {
     val testDF = getTestDF
     model.transform(testDF).show()

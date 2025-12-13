@@ -53,3 +53,31 @@ class CoHereTransformerTextGenerationTestSpec(unittest.TestCase):
 
         results.select("generation.result").show(truncate=False)
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = self.spark.createDataFrame([
+            (
+                1,
+                "<BOS_TOKEN><|START_OF_TURN_TOKEN|><|USER_TOKEN|>Hello, how are you?<|END_OF_TURN_TOKEN|><|START_OF_TURN_TOKEN|><|CHATBOT_TOKEN|>"
+            )
+        ]).toDF("id", "text")
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        CoHere = CoHereTransformer \
+            .pretrained() \
+            .setMaxOutputLength(50) \
+            .setDoSample(False) \
+            .setBeamSize(1) \
+            .setTemperature(0.6) \
+            .setTopK(-1) \
+            .setTopP(0.9) \
+            .setStopTokenIds([255001]) \
+            .setInputCols(["documents"]) \
+            .setOutputCol("generation")
+
+        pipeline = Pipeline().setStages([document_assembler, CoHere])
+        pipeline.fit(data).transform(data).show()
+
+

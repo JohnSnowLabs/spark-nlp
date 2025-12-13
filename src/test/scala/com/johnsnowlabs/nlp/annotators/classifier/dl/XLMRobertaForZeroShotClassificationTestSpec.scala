@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -32,6 +32,40 @@ class XlmRoBertaForZeroShotClassificationTestSpec extends AnyFlatSpec {
 
   val candidateLabels =
     Array("urgent", "mobile", "travel", "movie", "music", "sport", "weather", "technology")
+
+  "XlmRoBertaForZeroShotClassification" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val ddd = Seq(
+      "I have a problem with my iphone that needs to be resolved asap!!",
+      "Last week I upgraded my iOS version and ever since then my phone has been overheating whenever I use your app.",
+      "I have a phone and I love it!",
+      "I really want to visit Germany and I am planning to go there next year.",
+      "Let's watch some movies tonight! I am in the mood for a horror movie.",
+      "Have you watched the match yesterday? It was a great game!",
+      "We need to harry up and get to the airport. We are going to miss our flight!")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val tokenClassifier = XlmRoBertaForZeroShotClassification
+      .pretrained()
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("multi_class")
+      .setCaseSensitive(true)
+      .setCoalesceSentences(true)
+      .setCandidateLabels(candidateLabels)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, tokenClassifier))
+
+    pipeline.fit(ddd).transform(ddd).show()
+
+  }
 
   "XlmRoBertaForZeroShotClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 

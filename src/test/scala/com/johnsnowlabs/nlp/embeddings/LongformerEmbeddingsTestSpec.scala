@@ -20,13 +20,34 @@ import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class LongformerEmbeddingsTestSpec extends AnyFlatSpec {
+
+  "LongformerEmbeddings" should "run end to end pipeline test" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
+
+    val conll = CoNLL()
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train").limit(10)
+
+    val embeddings = LongformerEmbeddings
+      .pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
+      .setBatchSize(12)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(embeddings))
+
+    pipeline.fit(training_data).transform(training_data).show()
+  }
 
   "LongformerEmbeddings" should "correctly work with empty tokens" taggedAs LocalTest in {
 

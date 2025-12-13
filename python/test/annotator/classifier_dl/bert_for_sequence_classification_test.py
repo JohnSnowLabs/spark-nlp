@@ -54,6 +54,26 @@ class BertForSequenceClassificationTestSpec(unittest.TestCase, HasMaxSentenceLen
         print(self.classifier.getClasses())
         print(self.classifier.getBatchSize())
 
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        doc_classifier = self.tested_annotator
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            doc_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+
     def test_maxSentenceLength(self):
         with pytest.raises(ValueError):
             self.classifier.setMaxSentenceLength(5000)

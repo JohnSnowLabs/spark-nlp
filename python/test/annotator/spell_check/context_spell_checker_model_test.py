@@ -54,3 +54,25 @@ class ContextSpellCheckerModelTestSpec(unittest.TestCase):
         checked = model.transform(self.prediction_data)
         checked.show()
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+
+        spell_checker = ContextSpellCheckerModel \
+            .pretrained('spellcheck_dl', 'en') \
+            .setInputCols("token") \
+            .setOutputCol("checked")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            spell_checker
+        ])
+
+        pipeline.fit(self.train_data).transform(self.prediction_data).show()

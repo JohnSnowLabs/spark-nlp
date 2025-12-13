@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -29,6 +29,32 @@ import org.scalatest.flatspec.AnyFlatSpec
 class CamemBertForSequenceClassificationTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
+
+  "CamemBertForSequenceClassification" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val ddd = Seq("Je t'apprécie beaucoup. Je t'aime.")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val classifier = CamemBertForSequenceClassification
+      .pretrained()
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("label")
+      .setCaseSensitive(false)
+      .setCoalesceSentences(false)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, classifier))
+
+    val pipelineModel = pipeline.fit(ddd)
+    pipelineModel.transform(ddd).show()
+  }
 
   "CamemBertForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 

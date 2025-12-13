@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, LocalTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -31,6 +31,28 @@ class MistralTestSpec extends AnyFlatSpec {
       .createDataFrame(Seq((1, "Leonardo Da Vinci invented the microscope?")))
       .toDF("id", "text")
       .repartition(1)
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val bart = MistralTransformer
+      .pretrained()
+      .setInputCols(Array("documents"))
+      .setDoSample(false)
+      .setMaxOutputLength(50)
+      .setOutputCol("generation")
+      .setBeamSize(1)
+    new Pipeline()
+      .setStages(Array(documentAssembler, bart))
+      .fit(testData)
+      .transform(testData)
+      .show(truncate = false)
+  }
+
+  "mistral_7b" should "run end to end pipeline test" taggedAs SlowTest in {
+    val testData = ResourceHelper.spark
+      .createDataFrame(Seq((1, "Leonardo Da Vinci invented the microscope?")))
+      .toDF("id", "text")
     val documentAssembler = new DocumentAssembler()
       .setInputCol("text")
       .setOutputCol("documents")

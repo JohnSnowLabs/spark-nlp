@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.{Annotation, DataBuilder}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.joda.time.LocalDateTime
@@ -30,6 +30,22 @@ import java.time.format.DateTimeFormatter
 class DateMatcherMultiLanguageTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
 
   /** ITALIAN * */
+
+  "a DateMatcher" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val data: Dataset[Row] = DataBuilder.basicDataBuild("Sono arrivato in Italia il 15/9/2012.")
+
+    val dateMatcher = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setOutputFormat("MM/dd/yyyy")
+      .setSourceLanguage("it")
+
+    val pipeline = new Pipeline().setStages(Array(dateMatcher))
+
+    pipeline.fit(data).transform(data).show()
+
+  }
 
   "a DateMatcher" should "be catching formatted italian dates" taggedAs FastTest in {
 

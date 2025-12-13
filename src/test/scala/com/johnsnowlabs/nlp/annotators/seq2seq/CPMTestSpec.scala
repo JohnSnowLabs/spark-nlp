@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{FastTest, LocalTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 import org.sparkproject.dmg.pmml.True
@@ -61,5 +61,36 @@ class CPMTestSpec extends AnyFlatSpec {
       .write
       .overwrite()
       .save("/tmp/minicpm-model")
+  }
+  "minicpm" should "run end to end pipeline test" taggedAs SlowTest in {
+    // Even tough the Paper states temperature in interval [0,1), using temperature=0 will result in division by 0 error.
+    // Also DoSample=True may result in infinities being generated and distFiltered.length==0 which results in exception if we don't return 0 instead internally.
+    val testData = ResourceHelper.spark
+      .createDataFrame(Seq((1, "My name is Leonardo.")))
+      .toDF("id", "text")
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("documents")
+
+    val bart = CPMTransformer
+      .pretrained()
+      .setInputCols(Array("documents"))
+      .setDoSample(true)
+      .setTopP(0.8)
+      .setTopK(100)
+      .setTemperature(0.8)
+      .setMaxOutputLength(50)
+      .setOutputCol("generation")
+      .setBeamSize(2)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, bart))
+
+    val pipelineModel = pipeline.fit(testData)
+
+    pipelineModel
+      .transform(testData)
+      .show(truncate = false)
+
   }
 }

@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -29,6 +29,33 @@ import org.scalatest.flatspec.AnyFlatSpec
 class DeBertaForSequenceClassificationTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
+
+  "DeBertaForSequenceClassification" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val ddd = Seq(
+      "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London.")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val classifier = DeBertaForSequenceClassification
+      .pretrained()
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("label")
+      .setCaseSensitive(false)
+      .setCoalesceSentences(false)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, classifier))
+
+    val pipelineModel = pipeline.fit(ddd)
+    pipelineModel.transform(ddd).show()
+  }
 
   "DeBertaForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 

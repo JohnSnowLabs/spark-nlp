@@ -23,55 +23,46 @@ from test.util import SparkContextForTest
 
 
 @pytest.mark.local
-class XlnetEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
-    def setUp(self):
-        self.data = SparkContextForTest.spark.read.option("header", "true") \
-            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
-        self.tested_annotator = XlnetEmbeddings.pretrained() \
-            .setInputCols(["sentence", "token"]) \
-            .setOutputCol("embeddings")
-
-    def runTest(self):
-        document_assembler = DocumentAssembler() \
-            .setInputCol("text") \
-            .setOutputCol("document")
-        sentence_detector = SentenceDetector() \
-            .setInputCols(["document"]) \
-            .setOutputCol("sentence")
-        tokenizer = Tokenizer() \
-            .setInputCols(["sentence"]) \
-            .setOutputCol("token")
-        xlnet = self.tested_annotator
-
-        pipeline = Pipeline(stages=[
-            document_assembler,
-            sentence_detector,
-            tokenizer,
-            xlnet
-        ])
-
-        model = pipeline.fit(self.data)
-        model.transform(self.data).show()
+class BigTextMatcherTestSpec(unittest.TestCase):
 
     @pytest.mark.slow
     def test_end_to_end_pipeline(self):
+        self.spark = SparkContextForTest.spark
+        data =  self.spark.read.parquet(  os.getcwd() + "/../src/test/resources/sentiment.parquet").limit(10)
+
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
+
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
             .setOutputCol("sentence")
+
         tokenizer = Tokenizer() \
             .setInputCols(["sentence"]) \
             .setOutputCol("token")
-        xlnet = self.tested_annotator
 
-        pipeline = Pipeline(stages=[
+        entity_extractor = BigTextMatcher() \
+            .setInputCols("sentence", "token") \
+            .setStoragePath(
+            os.getcwd() +  "/../src/test/resources/entity-extractor/test-phrases.txt",
+            ReadAs.TEXT
+        ) \
+            .setOutputCol("entity")
+
+        finisher = Finisher() \
+            .setInputCols(["entity"]) \
+            .setOutputAsArray(False) \
+            .setAnnotationSplitSymbol("@") \
+            .setValueSplitSymbol("#")
+
+        recursive_pipeline = Pipeline(stages=[
             document_assembler,
             sentence_detector,
             tokenizer,
-            xlnet
+            entity_extractor,
+            finisher
         ])
 
-        model = pipeline.fit(self.data)
-        model.transform(self.data).show()
+        result = recursive_pipeline.fit(data).transform(data)
+        result.show(truncate=False)

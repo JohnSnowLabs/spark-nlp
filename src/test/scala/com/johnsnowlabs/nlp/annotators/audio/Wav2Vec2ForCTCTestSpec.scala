@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotator.Tokenizer
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
@@ -72,6 +72,29 @@ class Wav2Vec2ForCTCTestSpec extends AnyFlatSpec {
     Benchmark.measure(iterations = 1, forcePrint = true, description = "Time to show result") {
       pipelineDF.select("text").show(10, false)
     }
+
+  }
+
+  "Wav2Vec2ForCTC" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val speechToText: Wav2Vec2ForCTC = Wav2Vec2ForCTC
+      .pretrained()
+      .setInputCols("audio_assembler")
+      .setOutputCol("text")
+
+    val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, speechToText))
+
+    val bufferedSource =
+      scala.io.Source.fromFile(pathToFileWithFloats)
+
+    val rawFloats = bufferedSource
+      .getLines()
+      .map(_.split(",").head.trim.toFloat)
+      .toArray
+    bufferedSource.close
+
+    val processedAudioFloats = Seq(rawFloats).toDF("audio_content")
+    pipeline.fit(processedAudioFloats).transform(processedAudioFloats).show()
 
   }
 

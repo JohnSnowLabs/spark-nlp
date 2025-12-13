@@ -57,6 +57,9 @@ class BertForMultipleChoiceTest(BertForMultipleChoiceTestSetup, unittest.TestCas
         for row in result_df.collect():
             self.assertTrue(row["answer"][0].result != "")
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        self.pipeline_model.transform(self.data).show()
 
 @pytest.mark.local
 class LightBertForMultipleChoiceTest(BertForMultipleChoiceTestSetup, unittest.TestCase):

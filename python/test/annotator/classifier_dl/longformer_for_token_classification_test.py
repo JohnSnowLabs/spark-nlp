@@ -52,3 +52,22 @@ class LongformerForTokenClassificationTestSpec(unittest.TestCase, HasMaxSentence
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        token_classifier = self.tested_annotator
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            token_classifier
+        ])
+
+        pipeline.fit(self.data).transform(self.data).show()
+
+

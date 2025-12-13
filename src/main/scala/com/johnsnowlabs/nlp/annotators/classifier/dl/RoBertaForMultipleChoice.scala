@@ -207,7 +207,7 @@ class RoBertaForMultipleChoice(override val uid: String)
 trait ReadablePretrainedRoBertaForMCModel
     extends ParamsAndFeaturesReadable[RoBertaForMultipleChoice]
     with HasPretrained[RoBertaForMultipleChoice] {
-  override val defaultModelName: Some[String] = Some("roberta_base_qa_squad2")
+  override val defaultModelName: Some[String] = Some("roberta_base_uncased_multiple_choice")
 
   /** Java compliant-overrides */
   override def pretrained(): RoBertaForMultipleChoice = super.pretrained()

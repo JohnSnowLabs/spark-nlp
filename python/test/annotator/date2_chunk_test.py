@@ -51,3 +51,29 @@ class Date2ChunkTestSpec(unittest.TestCase):
         model = pipeline.fit(self.data)
         model.write().overwrite().save("./tmp_date2chunk_model")
         PipelineModel.load("./tmp_date2chunk_model").transform(self.data)
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        date_matcher = DateMatcher() \
+            .setInputCols(['document']) \
+            .setOutputCol("date") \
+            .setOutputFormat("yyyyMM") \
+            .setSourceLanguage("en")
+
+        date_to_chunk = Date2Chunk() \
+            .setInputCols(['date']) \
+            .setOutputCol("date_chunk") \
+            .setEntityName("DATUM")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            date_matcher,
+            date_to_chunk
+        ])
+
+        pipeline.fit(self.data).transform(self.data).show()
+

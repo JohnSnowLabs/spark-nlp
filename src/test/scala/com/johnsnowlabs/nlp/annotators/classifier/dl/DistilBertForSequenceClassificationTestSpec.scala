@@ -34,6 +34,33 @@ class DistilBertForSequenceClassificationTestSpec extends AnyFlatSpec {
   "DistilBertForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 
     val ddd = Seq(
+      "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London.")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val tokenClassifier = DistilBertForSequenceClassification
+      .pretrained()
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("label")
+      .setCaseSensitive(false)
+      .setCoalesceSentences(false)
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, tokenClassifier))
+
+    pipeline.fit(ddd).transform(ddd).show()
+
+  }
+
+  "DistilBertForSequenceClassification" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
+
+    val ddd = Seq(
       "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London.",
       "Rare Hendrix song draft sells for almost $17,000.",
       "EU rejects German call to boycott British lamb .",

@@ -19,13 +19,47 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest.flatspec.AnyFlatSpec
 
 class SentimentDLTestSpec extends AnyFlatSpec {
   val spark: SparkSession = ResourceHelper.spark
+
+
+  "SentimentDL" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/classifier/sentiment.csv")
+
+    smallCorpus.show
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceEmbeddings = BertSentenceEmbeddings
+      .pretrained("sent_small_bert_L2_128")
+      .setInputCols("document")
+      .setOutputCol("sentence_embeddings")
+
+    val docClassifier = new SentimentDLApproach()
+      .setInputCols("sentence_embeddings")
+      .setOutputCol("sentiment")
+      .setLabelColumn("label")
+      .setBatchSize(32)
+      .setMaxEpochs(1)
+      .setLr(5e-3f)
+      .setDropout(0.5f)
+      .setRandomSeed(44)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentenceEmbeddings, docClassifier))
+
+    pipeline.fit(smallCorpus).transform(smallCorpus).show()
+  }
+
 
   "SentimentDL" should "correctly train on a test dataset" taggedAs LocalTest in {
 

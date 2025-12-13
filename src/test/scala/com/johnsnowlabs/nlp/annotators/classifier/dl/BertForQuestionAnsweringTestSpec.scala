@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -67,6 +67,33 @@ class BertForQuestionAnsweringTestSpec extends AnyFlatSpec {
     pipelineDF.show(false)
     pipelineDF.select("answer").show(false)
     pipelineDF.select("answer.result").show(false)
+
+  }
+
+  "BertForQuestionAnswering" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val ddd = Seq((
+      "Where was John Lenon born?",
+      "John Lenon was born in London and lived in Paris. My name is Sarah and I live in London."))
+      .toDF("question", "context")
+
+    val document = new MultiDocumentAssembler()
+      .setInputCols("question", "context")
+      .setOutputCols("document_question", "document_context")
+
+    val questionAnswering = BertForQuestionAnswering
+      .pretrained()
+      .setInputCols(Array("document_question", "document_context"))
+      .setOutputCol("answer")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
+
+    val pipeline = new Pipeline().setStages(Array(document, questionAnswering))
+
+    val pipelineModel = pipeline.fit(ddd)
+    val pipelineDF = pipelineModel.transform(ddd)
+
+    pipelineDF.show(false)
 
   }
 

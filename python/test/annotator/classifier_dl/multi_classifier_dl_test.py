@@ -25,9 +25,12 @@ from test.util import SparkSessionForTest
 @pytest.mark.local
 class MultiClassifierDLTestSpec(unittest.TestCase):
     def setUp(self):
-        self.data = SparkSessionForTest.spark.read.option("header", "true") \
+        self.data = SparkSessionForTest.spark.read \
+            .option("header",  "true") \
+            .option("inferSchema",  "true") \
+            .option("mode", "DROPMALFORMED") \
             .csv(path="file:///" + os.getcwd() + "/../src/test/resources/classifier/e2e.csv") \
-            .withColumn("labels", split("mr", ", ")) \
+            .withColumn("labels", split("mr", ", ").cast("array<string>")) \
             .drop("mr")
 
     def runTest(self):
@@ -63,4 +66,34 @@ class MultiClassifierDLTestSpec(unittest.TestCase):
             .setOutputCol("class")
 
         print(multi_classsifierdl_model.getClasses())
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("ref") \
+            .setOutputCol("document")
+
+        sentence_embeddings = BertSentenceEmbeddings.pretrained() \
+            .setInputCols("document") \
+            .setOutputCol("sentence_embeddings")
+
+        multi_classifier = MultiClassifierDLApproach() \
+            .setInputCols("sentence_embeddings") \
+            .setOutputCol("category") \
+            .setLabelColumn("labels") \
+            .setBatchSize(64) \
+            .setMaxEpochs(20) \
+            .setLr(0.001) \
+            .setThreshold(0.5) \
+            .setRandomSeed(44)
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_embeddings,
+            multi_classifier
+        ])
+
+        pipeline.fit(self.data).transform(self.data).show()
+
+
 

@@ -54,3 +54,27 @@ class E5EmbeddingsTestSpec(unittest.TestCase):
         results = pipeline.fit(data).transform(data)
 
         results.select("e5.embeddings").show(truncate=False)
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = self.spark.createDataFrame([
+            [1, "query: how much protein should a female eat"],
+            [2, "query: summit define"],
+            [3, "passage: As a general guideline, the CDC's average requirement of protein for women ages 19 to 70 "
+                "is 46 grams per day. But, as you can see from this chart, you'll need to increase that if you're "
+                "expecting or training for a marathon. Check out the chart below to see how much protein you should "
+                "be eating each day.", ],
+            [4, "passage: Definition of summit for English Language Learners. : 1  the highest point of a mountain :"
+                " the top of a mountain. : 2  the highest level. : 3  a meeting or series of meetings between the "
+                "leaders of two or more governments."]
+        ]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        e5 = self.tested_annotator
+
+        pipeline = Pipeline().setStages([document_assembler, e5])
+        pipeline.fit(data).transform(data).show()
+

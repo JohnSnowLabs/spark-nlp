@@ -4,7 +4,7 @@ import com.johnsnowlabs.nlp.annotator.Tokenizer
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotationAudio, AnnotatorType, AudioAssembler}
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -75,6 +75,12 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
         " Mr. Quilter is the apostle of the middle classes and we are glad to welcome his gospel."
 
       assert(transcribedAudio == expected)
+    }
+
+    it should "run end to end pipeline test" taggedAs SlowTest in {
+      val pipeline: Pipeline = new Pipeline().setStages(Array(audioAssembler, model))
+      pipeline.fit(processedAudioFloats).transform(processedAudioFloats).show()
+
     }
 
     it should s"correctly transcribe batches ($engine)" taggedAs LocalTest in {

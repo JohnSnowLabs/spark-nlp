@@ -34,8 +34,7 @@ class RobertaForMultipleChoiceTestSetup(unittest.TestCase):
             .setInputCols(["question", "context"]) \
             .setOutputCols(["document_question", "document_context"])
 
-        model_path = "/media/danilo/Data/Danilo/JSL/models/transformers/spark-nlp/onnx/roberta_multiple_choice"
-        roberta_for_multiple_choice = RoBertaForMultipleChoice.load(model_path) \
+        roberta_for_multiple_choice = RoBertaForMultipleChoice.pretrained() \
             .setInputCols(["document_question", "document_context"]) \
             .setOutputCol("answer")
 
@@ -51,6 +50,11 @@ class RobertaForMultipleChoiceTest(RobertaForMultipleChoiceTestSetup, unittest.T
         super().setUp()
         self.data = self.spark.createDataFrame([[self.question, self.choices]]).toDF("question","context")
         self.data.show(truncate=False)
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        self.pipeline_model.transform(self.data).show(truncate=False)
+
 
     def test_run(self):
         result_df = self.pipeline_model.transform(self.data)

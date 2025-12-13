@@ -45,3 +45,23 @@ class OLMoTransformerTextGenerationTestSpec(unittest.TestCase):
 
         results.select("generation.result").show(truncate=False)
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = self.spark.createDataFrame([
+            [1, """Leonardo Da Vinci invented the microscope?""".strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        olmo = OLMoTransformer \
+            .pretrained() \
+            .setMaxOutputLength(50) \
+            .setDoSample(False) \
+            .setInputCols(["documentsz"]) \
+            .setOutputCol("generation")
+
+        pipeline = Pipeline().setStages([document_assembler, olmo])
+        pipeline.fit(data).transform(data).show()
+
+

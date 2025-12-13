@@ -351,9 +351,9 @@ trait ReadablePretrainedPhi2TransformerModel
 trait ReadPhi2TransformerDLModel extends ReadOnnxModel with ReadOpenvinoModel {
   this: ParamsAndFeaturesReadable[Phi2Transformer] =>
 
-  override val onnxFile: String = "phi2_onnx"
+  override val onnxFile: String = "llama2_onnx"
   val suffix: String = "_phi2"
-  override val openvinoFile: String = "phi2_openvino"
+  override val openvinoFile: String = "llama2_openvino"
 
   def readModel(instance: Phi2Transformer, path: String, spark: SparkSession): Unit = {
     instance.getEngine match {
@@ -365,7 +365,7 @@ trait ReadPhi2TransformerDLModel extends ReadOnnxModel with ReadOpenvinoModel {
         instance.setModelIfNotSet(spark, Some(onnxWrappers), None)
       case Openvino.name =>
         val ovWrapper =
-          readOpenvinoModel(path, spark, "_phi2_ov")
+          readOpenvinoModel(path, spark, openvinoFile)
         instance.setModelIfNotSet(spark, None, Some(ovWrapper))
       case _ =>
         throw new Exception(notSupportedEngineError)

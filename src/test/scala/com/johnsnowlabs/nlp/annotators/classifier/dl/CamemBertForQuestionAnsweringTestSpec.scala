@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -26,6 +26,29 @@ import org.scalatest.flatspec.AnyFlatSpec
 class CamemBertForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
+
+  "CamemBertForQuestionAnswering" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val ddd = Seq(("Où est-ce que je vis?", "Mon nom est Wolfgang et je vis à Berlin"))
+      .toDF("question", "context")
+      .repartition(1)
+
+    val document = new MultiDocumentAssembler()
+      .setInputCols("question", "context")
+      .setOutputCols("document_question", "document_context")
+
+    val questionAnswering = CamemBertForQuestionAnswering
+      .pretrained()
+      .setInputCols(Array("document_question", "document_context"))
+      .setOutputCol("answer")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(512)
+
+    val pipeline = new Pipeline().setStages(Array(document, questionAnswering))
+
+    pipeline.fit(ddd).transform(ddd).show()
+
+  }
 
   "CamemBertForQuestionAnswering" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 

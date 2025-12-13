@@ -23,7 +23,7 @@ import com.johnsnowlabs.nlp.annotators.common.{PrefixedToken, SuffixedToken}
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.annotators.spell.context.parser._
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline, SparkAccessor}
-import com.johnsnowlabs.tags.{FastTest, LocalTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest, SlowTest}
 import org.apache.commons.io.FileUtils
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.DataFrame
@@ -42,6 +42,28 @@ class ContextSpellCheckerTestSpec extends AnyFlatSpec {
 
   trait distFile extends WeightedLevenshtein {
     val weights: Map[String, Map[String, Float]] = loadWeights("src/test/resources/dist.psv")
+  }
+
+  "Spell Checker" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val data = Seq("This is a correct sentence .", "This is a correct bananas .").toDF("text")
+
+    val documentAssembler =
+      new DocumentAssembler().setInputCol("text").setOutputCol("doc")
+
+    val tokenizer: Tokenizer = new Tokenizer()
+      .setInputCols(Array("doc"))
+      .setOutputCol("token")
+
+    val spellChecker = ContextSpellCheckerModel
+      .pretrained()
+      .setTradeOff(12.0f)
+      .setInputCols("token")
+      .setOutputCol("checked")
+
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, tokenizer, spellChecker)).fit(data)
+    pipeline.transform(data).show()
   }
   // This test fails in GitHub Actions
   "Spell Checker" should "provide appropriate scores - sentence level" taggedAs LocalTest in {

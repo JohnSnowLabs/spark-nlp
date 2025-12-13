@@ -57,6 +57,14 @@ class Wav2Vec2ForCTCTestSpec(Wav2Vec2TestSetUp, unittest.TestCase):
         assert result_df.select("text").count() > 0
 
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        self.data.show()
+
+        result_df = self.model.transform(self.data)
+        assert result_df.select("text").count() > 0
+
+
 @pytest.mark.local
 class LightWav2Vec2ForCTCOneAudioTestSpec(Wav2Vec2TestSetUp, unittest.TestCase):
     def setUp(self):

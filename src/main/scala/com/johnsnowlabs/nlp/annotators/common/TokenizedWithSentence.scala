@@ -26,6 +26,7 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
     val tokens = annotations
       .filter(_.annotatorType == annotatorType)
       .toArray
+
     val sentences = SentenceSplit.unpack(annotations)
 
     /** // Evaluate whether to enable this validation to check proper usage of DOCUMENT and
@@ -36,10 +37,7 @@ object TokenizedWithSentence extends Annotated[TokenizedSentence] {
     sentences
       .map(sentence => {
         val sentenceTokens = tokens
-          .filter(token =>
-            token.begin >= sentence.start &&
-              token.end <= sentence.end &&
-              token.metadata.getOrElse("sentence", "0").toInt == sentence.index)
+          .filter(token => token.begin >= sentence.start & token.end <= sentence.end)
           .map(token => IndexedToken(token.result, token.begin, token.end))
         sentenceTokens
       })

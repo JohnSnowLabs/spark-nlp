@@ -39,3 +39,20 @@ class DateMatcherTestSpec(unittest.TestCase):
         assembled = document_assembler.transform(self.data)
         date_matcher.transform(assembled).show()
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        date_matcher = DateMatcher() \
+            .setInputCols(['document']) \
+            .setOutputCol("date") \
+            .setOutputFormat("yyyyMM") \
+            .setSourceLanguage("en")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            date_matcher,
+        ])
+
+        pipeline.fit(self.data).transform(self.data).show()

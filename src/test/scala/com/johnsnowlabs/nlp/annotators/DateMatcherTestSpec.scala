@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators
 
 import com.johnsnowlabs.nlp.AnnotatorType.DATE
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DataBuilder}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -239,6 +239,27 @@ class DateMatcherTestSpec extends AnyFlatSpec with DateMatcherBehaviors {
         Map("sentence" -> "0")))
 
     assert(results == expectedDates)
+  }
+
+  "a DateMatcher" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
+      Array(
+        "Neighbouring Austria has already locked down its population this week for at until 2021/10/12, " +
+          "affecting individual freedoms runs high in the next 01-22."))
+
+    val inputFormats = Array("yyyy/dd/MM")
+    val outputFormat = "yyyy/MM/dd"
+
+    new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setAnchorDateYear(1900)
+      .setInputFormats(inputFormats)
+      .setOutputFormat(outputFormat)
+      .transform(data)
+      .show()
+
   }
 
   "a DateMatcher" should "correctly search for input formats to output format" taggedAs FastTest in {

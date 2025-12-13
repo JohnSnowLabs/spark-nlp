@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.annotators.{Date2Chunk, MultiDateMatcher}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -26,6 +26,43 @@ import org.scalatest.flatspec.AnyFlatSpec
 class Date2ChunkTestSpec extends AnyFlatSpec {
 
   behavior of "Date2Chunk"
+
+  it should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val data: Dataset[Row] = DataBuilder.multipleDataBuild(
+      Array(
+        """Omicron is a new variant of COVID-19, which the World Health Organization designated a variant of concern on Nov. 26, 2021/26/11.""",
+        """Neighbouring Austria has already locked down its population this week for at until 2021/10/12, becoming the first to reimpose such restrictions."""))
+
+    val inputFormats = Array("yyyy", "yyyy/dd/MM", "MM/yyyy", "yyyy")
+    val outputFormat = "yyyy/MM/dd"
+
+    val date = new DateMatcher()
+      .setInputCols("document")
+      .setOutputCol("date")
+      .setAnchorDateYear(1900)
+      .setInputFormats(inputFormats)
+      .setOutputFormat(outputFormat)
+
+    val multiDate = new MultiDateMatcher()
+      .setInputCols("document")
+      .setOutputCol("multi_date")
+      .setAnchorDateYear(1900)
+      .setInputFormats(inputFormats)
+      .setOutputFormat(outputFormat)
+
+    val date2Chunk = new Date2Chunk()
+      .setInputCols("date")
+      .setOutputCol("date_chunk")
+
+    val multiDate2Chunk = new Date2Chunk()
+      .setInputCols("multi_date")
+      .setOutputCol("multi_date_chunk")
+
+    val pipeline = new Pipeline().setStages(Array(date, multiDate, date2Chunk, multiDate2Chunk))
+
+    pipeline.fit(data).transform(data).show()
+  }
 
   it should "correctly converts DATE to CHUNK type" taggedAs FastTest in {
 

@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.col
@@ -99,6 +99,40 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
       assert(results.count() > 0, "Should return non-empty translations")
       results.show(truncate = false)
     }
+  }
+
+  "MarianTransformer" should "run end to end pipeline test" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
+
+    val smallCorpus = Seq(
+      "What is the capital of France?",
+      "This should go to French",
+      "This is a sentence in English that we want to translate to French",
+      "Despite a Democratic majority in the General Assembly, Nunn was able to enact most of his priorities, including tax increases that funded improvements to the state park system and the construction of a statewide network of mental health centers.",
+      "",
+      " ").toDF("text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = SentenceDetectorDLModel
+      .pretrained("sentence_detector_dl", "xx")
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val marian = MarianTransformer
+      .pretrained()
+      .setInputCols("document")
+      .setOutputCol("translation")
+      .setMaxInputLength(512)
+      .setMaxOutputLength(50)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentence, marian))
+
+    pipeline.fit(smallCorpus).transform(smallCorpus)
+
   }
 
   "MarianTransformer" should "correctly load pretrained model" taggedAs LocalTest in {

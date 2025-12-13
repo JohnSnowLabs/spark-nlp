@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
@@ -26,6 +26,29 @@ import org.scalatest.flatspec.AnyFlatSpec
 class LongformerForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
+
+  "LongformerForQuestionAnswering" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val ddd = Seq(("What's my name?", "My name is Clara and I live in Berkeley."))
+      .toDF("question", "context")
+
+    val document = new MultiDocumentAssembler()
+      .setInputCols("question", "context")
+      .setOutputCols("document_question", "document_context")
+
+    val questionAnswering = LongformerForQuestionAnswering
+      .pretrained()
+      .setInputCols(Array("document_question", "document_context"))
+      .setOutputCol("answer")
+      .setCaseSensitive(true)
+      .setMaxSentenceLength(4096)
+
+    val pipeline = new Pipeline().setStages(Array(document, questionAnswering))
+
+    val pipelineModel = pipeline.fit(ddd)
+    pipelineModel.transform(ddd).show()
+
+  }
 
   "LongformerForQuestionAnswering" should "correctly load custom model with extracted signatures" taggedAs LocalTest in {
 

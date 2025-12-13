@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.{Annotation, AssertAnnotations, MultiDocumentAssembler}
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.base.LightPipeline
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -32,6 +32,10 @@ class DistilBertForMultipleChoiceTestSpec extends AnyFlatSpec with SparkSessionT
   val testDataframe =
     Seq(("The Eiffel Tower is located in which country?", "Germany, France, Italy"))
       .toDF("question", "context")
+
+  "DistilBertForMultipleChoiceTestSpec" should "run end to end pipeline test" taggedAs SlowTest in {
+    pipelineModel.transform(testDataframe).show()
+  }
 
   "DistilBertForMultipleChoiceTestSpec" should "answer a multiple choice question" taggedAs LocalTest in {
     val resultDf = pipelineModel.transform(testDataframe)

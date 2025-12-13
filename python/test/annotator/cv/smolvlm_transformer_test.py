@@ -64,6 +64,11 @@ class SmolVLMTransformerTest(SmolVLMTransformerTestSetup, unittest.TestCase):
         for row in result:
             self.assertTrue(row["answer"] != "")
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        self.model.transform(self.test_df).show()
+
+
 
 @pytest.mark.local
 class LightSmolVLMTransformerTest(SmolVLMTransformerTestSetup, unittest.TestCase):

@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.parser.dep
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotator.PerceptronModel
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.util.MLWriter
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
@@ -105,6 +105,13 @@ class DependencyParserModelTestSpec extends AnyFlatSpec with SparkSessionTest {
     "Book me the morning flight",
     "I solved the problem with statistics. I saw a girl with a telescope")
   private val testDataSet = text.toDS.toDF("text")
+
+  "DependencyParser" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val dependencyParserModel = pipelineTreeBank.fit(emptyDataSet)
+    dependencyParserModel.transform(testDataSet).show()
+
+  }
 
   "DependencyParser" should "A dependency parser (trained through TreeBank format file) with an input text of of several rows" taggedAs LocalTest in {
 

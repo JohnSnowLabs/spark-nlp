@@ -25,6 +25,7 @@ from test.util import SparkContextForTest
 @pytest.mark.local
 class BertSentenceEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
     def setUp(self):
+        self.spark = SparkContextForTest.spark
         self.data = SparkContextForTest.spark.read.option("header", "true") \
             .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
 
@@ -46,3 +47,19 @@ class BertSentenceEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTest
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = self.spark.createDataFrame([["hello world"], ["hello moon"]]).toDF("text")
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_embeddings = self.tested_annotator
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_embeddings
+        ])
+
+        pipeline.fit(data).transform(data).show()

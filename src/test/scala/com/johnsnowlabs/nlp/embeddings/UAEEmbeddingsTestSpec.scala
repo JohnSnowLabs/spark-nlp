@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, EmbeddingsFinisher}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 import com.johnsnowlabs.util.TestUtils.tolerantFloatEq
@@ -48,6 +48,10 @@ class UAEEmbeddingsTestSpec extends AnyFlatSpec {
           assert(e === exp, "Embedding value not within tolerance")
         }
       }
+  }
+
+  it should "run end to end pipeline test" taggedAs SlowTest in {
+    pipeline.fit(data).transform(data).show
   }
 
   it should "work with default (cls) pooling" taggedAs LocalTest in {

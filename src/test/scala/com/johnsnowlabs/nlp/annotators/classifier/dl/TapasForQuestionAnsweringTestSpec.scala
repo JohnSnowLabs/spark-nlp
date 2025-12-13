@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators.common.TableData
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.MultiDocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -64,6 +64,46 @@ class TapasForQuestionAnsweringTestSpec extends AnyFlatSpec {
       assert(tableData.header.length == 2, s"parsed $delimiter table must have two columns")
       assert(tableData.rows.length == 7, s"parsed $delimiter table must have 6 rows")
     }
+  }
+
+  "TapasForQuestionAnswering" should "run end to end pipeline test" taggedAs SlowTest in {
+    val sourceFile = Source.fromFile("src/test/resources/tapas/rich_people.json")
+    val jsonTableData = sourceFile.getLines().mkString("\n")
+    sourceFile.close()
+
+    val questions =
+      "Who earns 100,000,000? Who has more money? How much they all earn? How old are they?"
+    val data =
+      Seq((jsonTableData, questions), (jsonTableData, " "), (jsonTableData, ""), ("", ""))
+        .toDF("table_source", "questions")
+        .repartition(1)
+
+    val docAssembler = new MultiDocumentAssembler()
+      .setInputCols("table_source", "questions")
+      .setOutputCols("document_table", "document_questions")
+
+    val sentenceDetector = SentenceDetectorDLModel
+      .pretrained()
+      .setInputCols(Array("document_questions"))
+      .setOutputCol("question")
+
+    val tableAssembler = new TableAssembler()
+      .setInputFormat("json")
+      .setInputCols(Array("document_table"))
+      .setOutputCol("table")
+
+    val tapas = TapasForQuestionAnswering
+      .pretrained()
+      .setInputCols(Array("question", "table"))
+      .setOutputCol("answer")
+
+    val pipeline =
+      new Pipeline().setStages(Array(docAssembler, sentenceDetector, tableAssembler, tapas))
+    val pipelineModel = pipeline.fit(data)
+
+    pipelineModel
+      .transform(data)
+      .show()
   }
 
   "TapasForQuestionAnswering" should "answer questions" taggedAs LocalTest in {

@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.util.io.ReadAs
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -69,6 +69,38 @@ class BigTextMatcherTestSpec extends AnyFlatSpec with BigTextMatcherBehaviors {
     val extracted = Annotation.collect(result, "entity").flatten.toSeq
 
     assert(extracted == Seq.empty[Annotation])
+  }
+
+  "A Recursive Pipeline BigTextMatcher" should "run end to end pipeline test" taggedAs SlowTest in {
+    val data = ContentProvider.parquetData.limit(10)
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val entityExtractor = new BigTextMatcher()
+      .setInputCols("sentence", "token")
+      .setStoragePath("src/test/resources/entity-extractor/test-phrases.txt", ReadAs.TEXT)
+      .setOutputCol("entity")
+
+    val finisher = new Finisher()
+      .setInputCols("entity")
+      .setOutputAsArray(false)
+      .setAnnotationSplitSymbol("@")
+      .setValueSplitSymbol("#")
+
+    val recursivePipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentenceDetector, tokenizer, entityExtractor, finisher))
+
+    recursivePipeline.fit(data).transform(data).show()
   }
 
   "A Recursive Pipeline BigTextMatcher" should "extract entities from dataset" taggedAs FastTest in {

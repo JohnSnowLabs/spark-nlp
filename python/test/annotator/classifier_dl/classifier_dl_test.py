@@ -57,3 +57,27 @@ class ClassifierDLTestSpec(unittest.TestCase):
 
         print(classsifierdlModel.getClasses())
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_embeddings = UniversalSentenceEncoder.pretrained() \
+            .setInputCols("document") \
+            .setOutputCol("sentence_embeddings")
+
+        classifier = ClassifierDLApproach() \
+            .setInputCols("sentence_embeddings") \
+            .setOutputCol("category") \
+            .setLabelColumn("label") \
+            .setRandomSeed(44)
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_embeddings,
+            classifier
+        ])
+
+        pipeline.fit(self.data).transform(self.data).show()
+

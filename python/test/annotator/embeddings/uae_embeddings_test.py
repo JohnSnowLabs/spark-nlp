@@ -45,3 +45,20 @@ class UAEEmbeddingsTestSpec(unittest.TestCase):
         results = pipeline.fit(data).transform(data)
 
         results.selectExpr("explode(embeddings) as result").show(truncate=False)
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = self.spark.createDataFrame([["hello world"], ["hello moon"]]).toDF("text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        embeddings_finisher = EmbeddingsFinisher().setInputCols("embeddings").setOutputCols("embeddings")
+
+        uae = self.tested_annotator
+
+        pipeline = Pipeline().setStages([document_assembler, uae, embeddings_finisher])
+        pipeline.fit(data).transform(data).show()
+
+

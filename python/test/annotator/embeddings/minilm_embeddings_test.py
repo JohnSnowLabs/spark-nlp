@@ -49,3 +49,22 @@ class MiniLMEmbeddingsTestSpec(unittest.TestCase):
         results = pipeline.fit(data).transform(data)
 
         results.select("minilm.embeddings").show(truncate=False)
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = self.spark.createDataFrame([
+            [1, "This is a sample sentence for embedding generation."],
+            [2, "Another example sentence to demonstrate MiniLM embeddings."],
+            [3, "MiniLM is a lightweight and efficient sentence embedding model that can generate text embeddings for various NLP tasks."],
+            [4, "The model achieves comparable results with BERT-base while being much smaller and faster."]
+        ]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        minilm = self.tested_annotator
+
+        pipeline = Pipeline().setStages([document_assembler, minilm])
+        pipeline.fit(data).transform(data).show()
+

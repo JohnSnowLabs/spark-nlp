@@ -45,3 +45,25 @@ class NLLBTransformerTextTranslationTestSpec(unittest.TestCase):
         results = pipeline.fit(data).transform(data)
 
         results.select("generation.result").show(truncate=False)
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = self.spark.createDataFrame([
+            [1, """生活就像一盒巧克力。""".strip().replace("\n", " ")]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        nllb = (NLLBTransformer
+                .pretrained()
+                .setInputCols(["documents"])
+                .setMaxOutputLength(50)
+                .setOutputCol("generation")
+                .setSrcLang("zho_Hans")
+                .setTgtLang("eng_Latn"))
+
+        pipeline = Pipeline().setStages([document_assembler, nllb])
+        pipeline.fit(data).transform(data).show()
+
+

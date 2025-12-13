@@ -67,6 +67,43 @@ class DependencyParserConllUTestSpec(unittest.TestCase):
         dependency_parsed = dependency_parser.fit(pos_tagged).transform(pos_tagged)
         dependency_parsed.show()
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+
+        pos_tagger = PerceptronApproach() \
+            .setInputCols(["token", "sentence"]) \
+            .setOutputCol("pos") \
+            .setIterations(1) \
+            .fit(self.train_pos)
+
+        dependency_parser = DependencyParserApproach() \
+            .setInputCols(["sentence", "pos", "token"]) \
+            .setOutputCol("dependency") \
+            .setConllU(self.conllu) \
+            .setNumberOfIterations(10)
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            tokenizer,
+            pos_tagger,
+            dependency_parser
+        ])
+
+        pipeline.fit(self.data).transform(self.data).show()
+
+
 
 @pytest.mark.fast
 class DependencyParserTreeBankTestSpec(unittest.TestCase):

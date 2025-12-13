@@ -54,3 +54,17 @@ class MPNetForSequenceClassificationTestSpec(unittest.TestCase):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).select("label.result").show()
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        MPNet = self.tested_annotator
+
+        pipeline = Pipeline(stages=[document_assembler, tokenizer, MPNet])
+
+        pipeline.fit(self.data).transform(self.data).show()

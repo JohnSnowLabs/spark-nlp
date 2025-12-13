@@ -19,13 +19,35 @@ package com.johnsnowlabs.nlp.embeddings
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.apache.spark.sql.functions.{col, size}
 
 class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
+
+  "Mpnet Embeddings" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq("This is an example sentence", "Each sentence is converted")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val embeddings = MPNetEmbeddings
+      .pretrained()
+      .setInputCols(Array("document"))
+      .setOutputCol("mpnet")
+
+    val pipeline = new Pipeline().setStages(Array(document, embeddings))
+
+    pipeline.fit(ddd).transform(ddd).show()
+
+  }
 
   "Mpnet Embeddings" should "correctly embed multiple sentences" taggedAs LocalTest in {
 

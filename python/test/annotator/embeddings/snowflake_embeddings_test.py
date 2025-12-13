@@ -23,28 +23,45 @@ from test.util import SparkContextForTest
 
 @pytest.mark.local
 class SnowFlakeEmbeddingsTestSpec(unittest.TestCase):
-	def setUp(self):
-		self.spark = SparkContextForTest.spark
-		self.tested_annotator = SnowFlakeEmbeddings \
-			.loadSavedModel("1",
-							SparkContextForTest.spark) \
-			.setInputCols(["documents"]) \
-			.setOutputCol("embeddings") \
-			.setPoolingStrategy("cls_avg")
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+        self.tested_annotator = SnowFlakeEmbeddings \
+            .pretrained() \
+            .setInputCols(["documents"]) \
+            .setOutputCol("embeddings") \
+            .setPoolingStrategy("cls_avg")
 
-	def test_run(self):
-		data = SparkContextForTest.spark.read.option("header", "true") \
-			.csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+    def test_run(self):
+        data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
 
-		document_assembler = DocumentAssembler() \
-			.setInputCol("text") \
-			.setOutputCol("documents")
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
 
-		embeddings_finisher = EmbeddingsFinisher().setInputCols("embeddings").setOutputCols("embeddings")
+        embeddings_finisher = EmbeddingsFinisher().setInputCols("embeddings").setOutputCols("embeddings")
 
-		snowflake = self.tested_annotator
+        snowflake = self.tested_annotator
 
-		pipeline = Pipeline().setStages([document_assembler, snowflake, embeddings_finisher])
-		results = pipeline.fit(data).transform(data)
+        pipeline = Pipeline().setStages([document_assembler, snowflake, embeddings_finisher])
+        results = pipeline.fit(data).transform(data)
 
-		results.selectExpr("explode(embeddings) as result").show(truncate=False)
+        results.selectExpr("explode(embeddings) as result").show(truncate=False)
+
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        embeddings_finisher = EmbeddingsFinisher().setInputCols("embeddings").setOutputCols("embeddings")
+
+        snowflake = self.tested_annotator
+
+        pipeline = Pipeline().setStages([document_assembler, snowflake, embeddings_finisher])
+        pipeline.fit(data).transform(data).show()
+

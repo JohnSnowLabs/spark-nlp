@@ -34,7 +34,7 @@ class StarCoderTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     ...     .setInputCols(["document"]) \\
     ...     .setOutputCol("generation")
 
-    The default model is ``"starcoder2-13b"``, if no name is provided. For available
+    The default model is ``"starcoder2_3b_int8"``, if no name is provided. For available
     pretrained models please see the `Models Hub
     <https://sparknlp.org/models?q=starcoder2>`__.
 
@@ -313,13 +313,13 @@ class StarCoderTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return StarCoderTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="starcoder", lang="en", remote_loc=None):
+    def pretrained(name="starcoder2_3b_int8", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "starcoder"
+            Name of the pretrained model, by default "starcoder2_3b_int8"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

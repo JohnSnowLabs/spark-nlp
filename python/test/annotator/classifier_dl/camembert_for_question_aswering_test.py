@@ -51,3 +51,21 @@ class CamemBertForQuestionAnsweringTestSpec(unittest.TestCase, HasMaxSentenceLen
         model.transform(self.inputDataset).show()
         light_pipeline = LightPipeline(model)
         annotations_result = light_pipeline.fullAnnotate(self.question, self.context)
+
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = MultiDocumentAssembler() \
+            .setInputCols("question", "context") \
+            .setOutputCols("document_question", "document_context")
+
+        qa_classifier = self.tested_annotator
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            qa_classifier
+        ])
+
+        model = pipeline.fit(self.inputDataset)
+        model.transform(self.inputDataset).show()
+

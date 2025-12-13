@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.annotator.BertSentenceEmbeddings
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{col, udf}
@@ -29,6 +29,53 @@ class MultiClassifierDLTestSpec extends AnyFlatSpec {
 
   val spark: SparkSession = ResourceHelper.getActiveSparkSession
   import spark.implicits._
+
+  "MultiClassifierDL" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    def splitAndTrim = udf { labels: String =>
+      labels.split(", ").map(x => x.trim)
+    }
+
+    val smallCorpus = spark.read
+      .option("header", value = true)
+      .option("inferSchema", value = true)
+      .option("mode", "DROPMALFORMED")
+      .csv("src/test/resources/classifier/e2e.csv")
+      .withColumn("labels", splitAndTrim(col("mr")))
+      .drop("mr")
+
+    println("count of training dataset: ", smallCorpus.count)
+    smallCorpus.select("labels").show(1)
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("ref")
+      .setOutputCol("document")
+      .setCleanupMode("shrink")
+
+    val sentenceEmbeddings = BertSentenceEmbeddings
+      .pretrained()
+      .setInputCols("document")
+      .setOutputCol("embeddings")
+
+    val docClassifier = new MultiClassifierDLApproach()
+      .setInputCols("embeddings")
+      .setOutputCol("category")
+      .setLabelColumn("labels")
+      .setBatchSize(8)
+      .setMaxEpochs(1)
+      .setLr(1e-3f)
+      .setThreshold(0.5f)
+      .setValidationSplit(0.1f)
+      .setRandomSeed(44)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, sentenceEmbeddings, docClassifier))
+
+    pipeline.fit(smallCorpus).transform(smallCorpus).show(1)
+
+  }
+
+
 
   "MultiClassifierDL" should "correctly train E2E Challenge" taggedAs LocalTest in {
     def splitAndTrim = udf { labels: String =>

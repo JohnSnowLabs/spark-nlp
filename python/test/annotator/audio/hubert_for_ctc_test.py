@@ -56,6 +56,11 @@ class HubertForCTCTestSpec(HubertTestSetUp, unittest.TestCase):
         result_df = self.model.transform(self.data)
         assert result_df.select("text").count() > 0
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        self.model.transform(self.data).show()
+
+
 
 @pytest.mark.local
 class LightHubertForCTCOneAudioTestSpec(HubertTestSetUp, unittest.TestCase):

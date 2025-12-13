@@ -20,12 +20,42 @@ import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ElmoEmbeddingsTestSpec extends AnyFlatSpec {
+
+  "Elmo Embeddings" should "run end to end pipeline test" taggedAs SlowTest in {
+    System.out.println("Working Directory = " + System.getProperty("user.dir"))
+    val data = Seq(
+      "I like pancakes in the summer. I hate ice cream in winter.",
+      "If I had asked people what they wanted, they would have said faster horses").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val elmoSavedModel = ElmoEmbeddings
+      .pretrained()
+      .setPoolingLayer("word_emb")
+      .setInputCols(Array("token", "document"))
+      .setOutputCol("embeddings")
+
+    val pipeline = new Pipeline().setStages(Array(document, sentence, tokenizer, elmoSavedModel))
+
+    pipeline.fit(data).transform(data).show()
+
+  }
 
   "Elmo Embeddings" should "generate annotations" taggedAs LocalTest in {
     System.out.println("Working Directory = " + System.getProperty("user.dir"))

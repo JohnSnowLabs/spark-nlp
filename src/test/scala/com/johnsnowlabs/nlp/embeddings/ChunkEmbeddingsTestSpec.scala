@@ -23,12 +23,67 @@ import com.johnsnowlabs.nlp.annotators.{NGramGenerator, StopWordsCleaner, Tokeni
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, EmbeddingsFinisher, Finisher}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.Row
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ChunkEmbeddingsTestSpec extends AnyFlatSpec {
+
+  "ChunkEmbeddings" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
+      .limit(50)
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentence"))
+      .setOutputCol("token")
+
+    val posTagger = PerceptronModel
+      .pretrained()
+      .setInputCols("sentence", "token")
+      .setOutputCol("pos")
+
+    val chunker = new Chunker()
+      .setInputCols(Array("sentence", "pos"))
+      .setOutputCol("chunk")
+      .setRegexParsers(Array("<DT>?<JJ>*<NN>+"))
+
+    val embeddings = AnnotatorBuilder
+      .getGLoveEmbeddings(smallCorpus)
+      .setInputCols("sentence", "token")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(false)
+
+    val chunkEmbeddings = new ChunkEmbeddings()
+      .setInputCols(Array("chunk", "embeddings"))
+      .setOutputCol("chunk_embeddings")
+      .setPoolingStrategy("AVERAGE")
+
+    val pipeline = new Pipeline()
+      .setStages(
+        Array(
+          documentAssembler,
+          sentence,
+          tokenizer,
+          posTagger,
+          chunker,
+          embeddings,
+          chunkEmbeddings))
+
+    pipeline.fit(smallCorpus).transform(smallCorpus).show()
+
+  }
 
   "ChunkEmbeddings" should "correctly calculate chunk embeddings from Chunker" taggedAs FastTest in {
 

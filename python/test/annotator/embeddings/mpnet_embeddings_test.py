@@ -47,3 +47,21 @@ class MPNetEmbeddingsTestSpec(unittest.TestCase):
         results = pipeline.fit(data).transform(data)
 
         results.select("mpnet_embeddings.embeddings").show(truncate=False)
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = self.spark.createDataFrame([
+            [1, "This is an example sentence"],
+            [2,  "Each sentence is converted"],
+        ]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        e5 = self.tested_annotator
+
+        pipeline = Pipeline().setStages([document_assembler, e5])
+        pipeline.fit(data).transform(data).show()
+
+

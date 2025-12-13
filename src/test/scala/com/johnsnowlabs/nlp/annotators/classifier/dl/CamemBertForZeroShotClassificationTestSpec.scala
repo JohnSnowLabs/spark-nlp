@@ -19,12 +19,39 @@ package com.johnsnowlabs.nlp.annotators.classifier.dl
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.explode
 import org.scalatest.flatspec.AnyFlatSpec
 
 class CamemBertForZeroShotClassificationTestSpec extends AnyFlatSpec {
+
+  "CamemBertForZeroShotClassification" should "run end to end pipeline test" taggedAs SlowTest in {
+    import ResourceHelper.spark.implicits._
+
+    val dataDf = Seq("L'équipe de France joue aujourd'hui au Parc des Princes").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val zeroShotClassifier = CamemBertForZeroShotClassification
+      .pretrained()
+      .setOutputCol("multi_class")
+      .setCaseSensitive(true)
+      .setCoalesceSentences(true)
+      .setCandidateLabels(Array("sport", "politique", "science"))
+
+    val pipeline = new Pipeline().setStages(Array(document, tokenizer, zeroShotClassifier))
+
+    val pipelineModel = pipeline.fit(dataDf)
+    pipelineModel.transform(dataDf).show()
+
+  }
 
   "CamemBertForZeroShotClassification" should "correctly load custom ONNX model" taggedAs LocalTest in {
     import ResourceHelper.spark.implicits._

@@ -45,3 +45,22 @@ class RoBertaSentenceEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthT
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+
+        data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv").limit(10)
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        sentence_embeddings = self.tested_annotator
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_embeddings
+        ])
+
+        model = pipeline.fit(data)
+        model.transform(data).show()

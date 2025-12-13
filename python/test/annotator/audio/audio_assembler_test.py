@@ -28,6 +28,7 @@ class Wav2Vec2TestSetUp(unittest.TestCase):
     @pytest.mark.slow
     def test_end_to_end_pipeline(self):
         audio_path = os.getcwd() + "/../src/test/resources/audio/json/audio_floats.json"
+        print(audio_path)
         self.data = SparkSessionForTest.spark.read.option("inferSchema", value=True).json(audio_path) \
             .select(col("float_array").cast("array<float>").alias("audio_content"))
 

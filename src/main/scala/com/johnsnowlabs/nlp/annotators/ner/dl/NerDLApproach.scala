@@ -531,29 +531,17 @@ class NerDLApproach(override val uid: String)
       labels: mutable.Set[AnnotatorType],
       chars: mutable.Set[Char],
       embeddingsDim: Int,
-      trainDsLen: Long,
-      valDsLen: Long) = {
+      dsLen: Long) = {
       NerDLApproach.getDataSetParamsFromMetadata(trainSplit, $(labelColumn)) match {
-        // metadata contains the length of the entire dataset
-        case Some(
-              (
-                labels: mutable.Set[AnnotatorType],
-                chars: mutable.Set[Char],
-                embeddingsDim: Int,
-                dsLen: Long)) =>
-          val trainDsLen = math.round(dsLen * (1.0f - $(validationSplit)))
-          val valDsLen = dsLen - trainDsLen
-          (labels, chars, embeddingsDim, trainDsLen.toLong, valDsLen)
+        case Some(value) => value
         case None => // Legacy way of getting dataset params
-          val (
-            labels: mutable.Set[AnnotatorType],
-            chars: mutable.Set[Char],
-            embeddingsDim: Int,
-            trainDsLen: Long) = NerDLApproach.getDataSetParams(trainIteratorFunc())
-          val valDsLen: Long =
-            math.round(trainDsLen / (1 - $(validationSplit)) * $(validationSplit))
-          (labels, chars, embeddingsDim, trainDsLen, valDsLen)
+          NerDLApproach.getDataSetParams(trainIteratorFunc())
       }
+    }
+    val (trainDsLen: Long, valDsLen: Long) = {
+      val valLen = (dsLen * $(validationSplit)).toLong
+      val trainLen = dsLen - valLen
+      (trainLen, valLen)
     }
 
     val settings = DatasetEncoderParams(

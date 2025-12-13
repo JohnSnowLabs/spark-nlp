@@ -50,7 +50,6 @@ class MPNetForQuestionAnsweringTestSpec(unittest.TestCase):
             MPNetForQuestionAnswering.pretrained()
             .setInputCols("document_question", "document_context")
             .setOutputCol("answer")
-            .se
         )
 
     def test_run(self):
@@ -80,3 +79,17 @@ class MPNetForQuestionAnsweringTestSpec(unittest.TestCase):
         assert start == expectedStart, "Wrong start"
         assert end == expectedEnd, "Wrong end"
         assert round(score, ndigits=3) == round(expectedScore, ndigits=3), "Wrong score"
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = (
+            MultiDocumentAssembler()
+            .setInputCols("question", "context")
+            .setOutputCols("document_question", "document_context")
+        )
+
+        questionAnswering = self.tested_annotator
+
+        pipeline = Pipeline(stages=[document_assembler, questionAnswering])
+
+        pipeline.fit(self.data).transform(self.data).show()

@@ -3,7 +3,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 import com.johnsnowlabs.nlp.base.LightPipeline
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, IAnnotation, ImageAssembler}
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.DataFrame
 import org.scalatest.flatspec.AnyFlatSpec
@@ -62,6 +62,11 @@ class CLIPForZeroShotClassificationTestSpec extends AnyFlatSpec {
       print(imageFile, result)
       assert(expected(imageFile) == result)
     }
+  }
+
+  it should "run end to end pipeline test" taggedAs SlowTest in {
+    pipeline.fit(imageDF).transform(imageDF).show()
+
   }
 
   it should "predict gold standards" taggedAs LocalTest in {

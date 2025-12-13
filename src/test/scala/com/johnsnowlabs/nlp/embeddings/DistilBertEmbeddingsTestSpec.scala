@@ -20,13 +20,46 @@ import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.LocalTest
+import com.johnsnowlabs.tags.{LocalTest, SlowTest}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class DistilBertEmbeddingsTestSpec extends AnyFlatSpec {
+
+  "DistilBertEmbeddings" should "run end to end pipeline test" taggedAs SlowTest in {
+
+    val smallCorpus = ResourceHelper.spark.read
+      .option("header", "true")
+      .csv("src/test/resources/embeddings/sentence_embeddings.csv")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("document"))
+      .setOutputCol("token")
+
+    val stopWordsCleaner = new StopWordsCleaner()
+      .setInputCols("token")
+      .setOutputCol("cleanTokens")
+      .setStopWords(
+        Array("this", "is", "my", "document", "sentence", "second", "first", ",", "."))
+      .setCaseSensitive(false)
+
+    val embeddings = DistilBertEmbeddings
+      .pretrained()
+      .setInputCols("document", "cleanTokens")
+      .setOutputCol("embeddings")
+      .setCaseSensitive(true)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, tokenizer, stopWordsCleaner, embeddings))
+
+    pipeline.fit(smallCorpus).transform(smallCorpus).show()
+  }
 
   "DistilBertEmbeddings" should "correctly work with empty tokens" taggedAs LocalTest in {
 

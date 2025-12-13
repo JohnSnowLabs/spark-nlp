@@ -150,7 +150,7 @@ class XlmRoBertaForTokenClassification(AnnotatorModel,
         return XlmRoBertaForTokenClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="mpnet_base_token_classifier", lang="en", remote_loc=None):
+    def pretrained(name="xlm_roberta_base_token_classifier_conll03", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters

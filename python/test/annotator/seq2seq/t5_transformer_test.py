@@ -49,6 +49,31 @@ class T5TransformerQATestSpec(unittest.TestCase):
 
         results.select("questions.result", "answers.result").show(truncate=False)
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = self.spark.createDataFrame([
+            [1, "Which is the capital of France? Who was the first president of USA?"],
+            [1, "Which is the capital of Bulgaria ?"],
+            [2, "Who is Donald Trump?"]]).toDF("id", "text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        sentence_detector = SentenceDetectorDLModel \
+            .pretrained() \
+            .setInputCols(["documents"]) \
+            .setOutputCol("questions")
+
+        t5 = T5Transformer.pretrained() \
+            .setInputCols(["questions"]) \
+            .setOutputCol("answers")
+
+        pipeline = Pipeline().setStages([document_assembler, sentence_detector, t5])
+        pipeline.fit(data).transform(data).show()
+
+
+
 
 @pytest.mark.local
 class T5TransformerSummaryTestSpec(unittest.TestCase):

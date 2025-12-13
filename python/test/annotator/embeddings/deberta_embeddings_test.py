@@ -24,21 +24,21 @@ from test.util import SparkContextForTest
 
 @pytest.mark.local
 class DeBertaEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
-    def setUp(self):
-        self.data = SparkContextForTest.spark.read.option("header", "true") \
-            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
-        self.tested_annotator = DeBertaEmbeddings.pretrained() \
-            .setInputCols(["token", "document"]) \
-            .setOutputCol("camembert_embeddings")
+
 
     def test_run(self):
+        data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv")
+
         document_assembler = DocumentAssembler() \
             .setInputCol("text") \
             .setOutputCol("document")
 
         tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
 
-        embeddings = self.tested_annotator
+        embeddings = DeBertaEmbeddings.pretrained() \
+            .setInputCols(["token", "document"]) \
+            .setOutputCol("camembert_embeddings")
 
         pipeline = Pipeline(stages=[
             document_assembler,
@@ -46,5 +46,31 @@ class DeBertaEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
             embeddings
         ])
 
-        model = pipeline.fit(self.data)
-        model.transform(self.data).show()
+        model = pipeline.fit(data)
+        model.transform(data).show()
+
+
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        data = SparkContextForTest.spark.read.option("header", "true") \
+            .csv(path="file:///" + os.getcwd() + "/../src/test/resources/embeddings/sentence_embeddings.csv") \
+            .limit(10)
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        embeddings =  DeBertaEmbeddings.pretrained("deberta_embeddings_erlangshen_v2_chinese_sentencepiece","zh") \
+                                                               .setInputCols(["token", "document"]) \
+            .setOutputCol("camembert_embeddings")
+
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            embeddings
+        ])
+
+        pipeline.fit(data).transform(data).show()
+

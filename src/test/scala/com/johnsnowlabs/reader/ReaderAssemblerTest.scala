@@ -156,6 +156,7 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
     assert(actualText.nonEmpty)
     assert(actualTable.isEmpty)
+    assert(actualTable.nonEmpty)
     assert(actualImages.nonEmpty)
   }
 

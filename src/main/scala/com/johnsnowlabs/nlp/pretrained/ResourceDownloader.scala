@@ -716,7 +716,13 @@ object PythonResourceDownloader {
     "AutoGGUFReranker" -> AutoGGUFReranker,
     "AlbertForMultipleChoice" -> AlbertForMultipleChoice,
     "BLIPForQuestionAnswering" -> BLIPForQuestionAnswering,
-    "Phi2Transformer" -> Phi2Transformer)
+    "Phi2Transformer" -> Phi2Transformer,
+    "MistralTransformer" -> MistralTransformer,
+    "StarCoderTransformer" -> StarCoderTransformer,
+    "DistilBertForMultipleChoice" -> DistilBertForMultipleChoice,
+    "RobertaForMultipleChoice" -> RoBertaForMultipleChoice,
+    "MPNetForTokenClassification" -> MPNetForTokenClassification,
+    "MiniLMEmbeddings" -> MiniLMEmbeddings)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")

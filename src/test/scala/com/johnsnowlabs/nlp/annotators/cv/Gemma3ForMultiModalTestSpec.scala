@@ -51,7 +51,6 @@ class Gemma3ForMultiModalTestSpec extends AnyFlatSpec {
 
   }
 
-
   it should "work with light pipeline annotate" taggedAs LocalTest in {
     val lightPipeline = new LightPipeline(model)
     val imagePath = "src/test/resources/image/egyptian_cat.jpeg"

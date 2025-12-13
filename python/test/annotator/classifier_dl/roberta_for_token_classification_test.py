@@ -47,3 +47,24 @@ class RoBertaForTokenClassificationTestSpec(unittest.TestCase):
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
 
+    @pytest.mark.slow
+    def test_end_to_end_pipeline(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        token_classifier = RoBertaForTokenClassification.pretrained() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("ner")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            tokenizer,
+            token_classifier
+        ])
+
+        model = pipeline.fit(self.data)
+        model.transform(self.data).show()
+

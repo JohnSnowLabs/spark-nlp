@@ -75,13 +75,12 @@ class JanusForMultiModalTestSpec extends AnyFlatSpec {
     }
   }
 
+  "JanusForMultiModal" should "run end to end pipeline test" taggedAs SlowTest in {
 
-    "JanusForMultiModal" should "run end to end pipeline test" taggedAs SlowTest in {
+    val testDF = getTestDF
+    model.transform(testDF).show()
 
-      val testDF = getTestDF
-       model.transform(testDF).show()
-
-    }
+  }
   "reshape2D" should "reshape a 1D array into a 2D array" taggedAs LocalTest in {
     val data = Array(1f, 2f, 3f, 4f, 5f, 6f)
     val rows = 2

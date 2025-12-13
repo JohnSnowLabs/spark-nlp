@@ -3,7 +3,7 @@ import com.johnsnowlabs.nlp.SparkAccessor.spark
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.annotators.Tokenizer
 import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.tags.{FastTest, LocalTest}
+import com.johnsnowlabs.tags.{FastTest, LocalTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.SparkSession
 import org.scalatest.flatspec.AnyFlatSpec
@@ -25,6 +25,32 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
     SpanBertCorefModel.load("./tmp_spanbertcoref")
   }
 
+  "SpanBertCoref" should "run end to end pipeline test" taggedAs SlowTest in {
+    val data = Seq("John told Mary he would like to borrow a book from her.")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = SentenceDetectorDLModel
+      .pretrained()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentences")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentences"))
+      .setOutputCol("tokens")
+
+    val corefs = SpanBertCorefModel
+      .pretrained()
+      .setInputCols(Array("sentences", "tokens"))
+      .setOutputCol("corefs")
+
+    val pipeline = new Pipeline().setStages(Array(document, sentence, tokenizer, corefs))
+
+    pipeline.fit(data).transform(data).show()
+  }
   "SpanBertCoref" should "process some text" taggedAs LocalTest in {
     val data = Seq("John told Mary he would like to borrow a book from her.")
       .toDF("text")
