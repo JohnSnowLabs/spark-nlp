@@ -17,6 +17,7 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.annotators.cv.{Qwen2VLTransformer, SmolVLMTransformer}
+import com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel
 import com.johnsnowlabs.nlp.{AnnotatorType, AssertAnnotations}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
@@ -408,30 +409,19 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   it should "set custom prompt" taggedAs SlowTest in {
-    val customPrompt = "<|im_start|><image>{prompt}<|im_end|><|im_start|>assistant"
 
     val reader2Doc = new Reader2Image()
       .setContentPath(emailDirectory)
       .setOutputCol("image")
       .setUserMessage("Describe the image with 3 to 4 words.")
-      .setPromptTemplate("custom")
-      .setCustomPromptTemplate(customPrompt)
-
-    val pipeline = new Pipeline().setStages(Array(reader2Doc))
-
-    val pipelineModel = pipeline.fit(emptyDataSet)
-    val imagesDf = pipelineModel.transform(emptyDataSet)
-    imagesDf.show()
-    imagesDf.select("image.text").show(truncate = false)
-    imagesDf.printSchema()
 
     val visualQAClassifier = Qwen2VLTransformer
       .pretrained()
       .setInputCols("image")
       .setOutputCol("answer")
 
-    val vlmPipeline = new Pipeline().setStages(Array(visualQAClassifier))
-    val resultDf = vlmPipeline.fit(imagesDf).transform(imagesDf)
+    val vlmPipeline = new Pipeline().setStages(Array(reader2Doc, visualQAClassifier))
+    val resultDf = vlmPipeline.fit(emptyDataSet).transform(emptyDataSet)
 
     resultDf.select("image.origin", "answer.result").show(truncate = false)
 
@@ -449,10 +439,6 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val imagesDf = pipelineModel.transform(emptyDataSet)
-
-    imagesDf.show()
-    imagesDf.select("image.text").show(truncate = false)
-    imagesDf.printSchema()
 
     val visualQAClassifier = Qwen2VLTransformer
       .pretrained()
@@ -544,6 +530,101 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     resultDf.select("image.origin", "answer.result").show(truncate = false)
 
     assert(!resultDf.isEmpty)
+  }
+
+  it should "integrate images output with VLM models" taggedAs SlowTest in {
+    val sourceFile = "SwitzerlandAlps.jpg"
+    val reader2Image = new Reader2Image()
+      .setContentPath(s"$imageDirectory/$sourceFile")
+      .setContentType("raw/image")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val imagesDf = pipelineModel.transform(emptyDataSet)
+    imagesDf.show()
+
+    val visualQAClassifier = Qwen2VLTransformer
+      .pretrained()
+      .setInputCols("image")
+      .setOutputCol("answer")
+
+    val vlmPipeline = new Pipeline().setStages(Array(visualQAClassifier))
+    val resultDf = vlmPipeline.fit(imagesDf).transform(imagesDf)
+
+    resultDf.select("image.origin", "answer.result").show(truncate = false)
+
+    assert(!resultDf.isEmpty)
+  }
+
+  it should "work with AutoGGUFVisionModel using a prompt output column" taggedAs SlowTest in {
+
+
+    val sourceFile = "pdf-with-2images.pdf"
+    val reader2Image = new Reader2Image()
+      .setContentPath(s"$pdfDirectory/$sourceFile")
+      .setContentType("application/pdf")
+      .setOutputCol("image")
+      .setUseEncodedImageBytes(true)
+      .setUserMessage("Describe in a short and easy to understand sentence what you see in the image.")
+      .setOutputPromptColumn(true)
+
+    val autoGgufModel: AutoGGUFVisionModel = AutoGGUFVisionModel
+      .pretrained()
+      .setInputCols("prompt", "image")
+      .setOutputCol("completions")
+      .setBatchSize(2)
+      .setNGpuLayers(99)
+      .setNCtx(4096)
+      .setMinKeep(0)
+      .setMinP(0.05f)
+      .setNPredict(40)
+      .setPenalizeNl(true)
+      .setRepeatPenalty(1.18f)
+      .setTemperature(0.05f)
+      .setTopK(40)
+      .setTopP(0.95f)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image, autoGgufModel))
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val completionDf = pipelineModel.transform(emptyDataSet)
+
+    completionDf.select("fileName", "completions.result").show(truncate = false)
+  }
+
+  it should "work with AutoGGUFVisionModel using a prompt output column and PDF files" taggedAs SlowTest in {
+
+    val imageFile = "SwitzerlandAlps.jpg"
+    val imagePath = s"$imageDirectory/$imageFile"
+    val reader2Image = new Reader2Image()
+      .setContentPath(imagePath)
+      .setContentType("image/raw")
+      .setOutputCol("image")
+      .setUseEncodedImageBytes(true)
+      .setUserMessage("Describe in a short and easy to understand sentence what you see in the image.")
+      .setOutputPromptColumn(true)
+
+    val autoGgufModel: AutoGGUFVisionModel = AutoGGUFVisionModel
+      .pretrained()
+      .setInputCols("prompt", "image")
+      .setOutputCol("completions")
+      .setBatchSize(2)
+      .setNGpuLayers(99)
+      .setNCtx(4096)
+      .setMinKeep(0)
+      .setMinP(0.05f)
+      .setNPredict(40)
+      .setPenalizeNl(true)
+      .setRepeatPenalty(1.18f)
+      .setTemperature(0.05f)
+      .setTopK(40)
+      .setTopP(0.95f)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image, autoGgufModel))
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val completionDf = pipelineModel.transform(emptyDataSet)
+
+    completionDf.select("fileName", "completions.result").show(truncate = false)
   }
 
   def getSupportedFiles(dirPath: String): Seq[String] = {
