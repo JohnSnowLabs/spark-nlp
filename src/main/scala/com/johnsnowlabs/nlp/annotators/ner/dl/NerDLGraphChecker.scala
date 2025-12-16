@@ -32,6 +32,9 @@ import scala.util.{Failure, Success, Try}
   * specialized graphs might not be available and we want to check before embeddings are
   * evaluated.
   *
+  * This annotator will fill graph hyperparameters as metadata in the label column, which will be
+  * available for NerDLApproach, saving computations.
+  *
   * Important: This annotator should be used or positioned before any embedding or NerDLApproach
   * annotators in the pipeline and will process the whole dataset to extract the required graph
   * parameters.
@@ -164,6 +167,9 @@ class NerDLGraphChecker(override val uid: String)
   /** @group getParam */
   protected def getGraphFolder: Option[String] = get(graphFolder)
 
+  /** @group setParam */
+  protected def setGraphFolder(graphFolder: String): this.type = set(graphFolder, graphFolder)
+
   /** Extracts the graph hyperparameters from the training data (dataset).
     *
     * * @param dataset the training dataset
@@ -180,51 +186,54 @@ class NerDLGraphChecker(override val uid: String)
   protected def getGraphParamsDs(
       dataset: Dataset[_],
       inputCols: Array[String],
-      labelsCol: String): (Int, Int, Int) = {
+      labelsCol: String): (Array[String], Array[String], Int, Long) = {
     def getCol(annoType: String) = {
       dataset.schema.fields.find { field =>
         inputCols.contains(field.name) && field.metadata.getString("annotatorType") == annoType
       } match {
         case Some(value) => col(value.name)
         case None =>
-          new IllegalArgumentException(s"Token input column not found in the dataset schema.")
-          col("")
+          throw new IllegalArgumentException(
+            s"$annoType type column not found in the dataset schema.")
       }
     }
 
     val tokenCol: String = getCol(AnnotatorType.TOKEN).toString
 
-    val nLabels = dataset
+    val labels: Array[String] = dataset
       .select(labelsCol)
       .map(r => Annotation.getAnnotations(r, labelsCol))
       .flatMap { annotations: Seq[Annotation] =>
         annotations.map(_.result)
       }
       .distinct()
-      .count()
-      .toInt
+      .collect()
 
-    val nChars: Int = dataset
+    val chars: Array[String] = dataset
       .select(tokenCol)
       .map(r => Annotation.getAnnotations(r, tokenCol))
       .flatMap { annotations: Seq[Annotation] =>
         annotations.flatMap(_.result.toArray.map(_.toString))
       }
       .distinct()
-      .count()
-      .toInt
+      .collect()
 
     val embeddingsDim = getEmbeddingsDim
 
-    (nLabels, nChars, embeddingsDim)
+    val sentenceCol = getCol(AnnotatorType.DOCUMENT).toString()
+    val dsLen = dataset.selectExpr(s"explode($sentenceCol)").count()
+
+    (labels, chars, embeddingsDim, dsLen)
   }
 
   protected def searchForSuitableGraph(nLabels: Int, nChars: Int, embeddingsDim: Int): String =
     NerDLApproach.searchForSuitableGraph(nLabels, embeddingsDim, nChars + 1, getGraphFolder)
 
   override def fit(dataset: Dataset[_]): NerDLGraphCheckerModel = {
-    val (nLabels, nChars, embeddingsDim) =
+    val (labels, chars, embeddingsDim, dsLen) =
       getGraphParamsDs(dataset, $(inputCols), $(labelColumn))
+    val nLabels = labels.length
+    val nChars = chars.length
 
     // Throws exception if no suitable graph found
     Try {
@@ -247,6 +256,9 @@ class NerDLGraphChecker(override val uid: String)
       .setInputCols(getInputCols)
       .setLabelColumn(getLabelColumn)
       .setEmbeddingsDim(embeddingsDim)
+      .setLabels(labels)
+      .setDsLen(dsLen)
+      .setChars(chars)
   }
 
   override def transformSchema(schema: StructType): StructType = schema

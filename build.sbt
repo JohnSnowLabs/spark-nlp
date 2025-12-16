@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "6.2.2-dev2"
+version := "6.2.3"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -189,16 +189,16 @@ Test / javaOptions ++= Seq(
   "--add-opens=java.base/java.lang.invoke=ALL-UNNAMED",
   "--add-opens=java.base/java.util=ALL-UNNAMED",
   "--add-opens=java.base/java.io=ALL-UNNAMED",
-  "--add-opens=java.base/sun.security=ALL-UNNAMED",
-  "--add-opens=java.base/sun.security.action=ALL-UNNAMED"
+  "--add-opens=java.base/sun.security=ALL-UNNAMED", // gives warning: might not be needed
+  "--add-opens=java.base/sun.security.action=ALL-UNNAMED" // gives warning: might not be needed
 )
+Test / fork := true // enable to apply javaOptions for tests
 
 /** Disables tests in assembly */
 (assembly / test) := {}
 
 /** Publish test artifact * */
 (Test / publishArtifact) := true
-Test / fork := true
 
 /** Copies the assembled jar to the pyspark/lib dir * */
 lazy val copyAssembledJar = taskKey[Unit]("Copy assembled jar to python/lib")

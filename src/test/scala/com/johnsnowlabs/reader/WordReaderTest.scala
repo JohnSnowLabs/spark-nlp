@@ -16,6 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.reader.util.AssertReaders
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.functions.{array_contains, col, explode, map_keys}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -106,6 +107,13 @@ class WordReaderTest extends AnyFlatSpec {
       .filter(col("doc_exploded.elementType") === ElementType.IMAGE)
 
     assert(htmlDf.count() > 1)
+  }
+
+  it should "output hierarchy metadata" taggedAs FastTest in {
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/hierarchy_test.docx")
+
+    AssertReaders.assertHierarchy(wordDf, "doc")
   }
 
 }

@@ -86,6 +86,22 @@ class Reader2Image(
         typeConverter=TypeConverters.toString
     )
 
+    useEncodedImageBytes = Param(
+        Params._dummy(),
+        "useEncodedImageBytes",
+        "If true, use the original encoded image bytes (e.g., JPEG, PNG). "
+        "If false, decode the image into raw pixel data.",
+        typeConverter=TypeConverters.toBoolean
+    )
+
+    outputPromptColumn = Param(
+        Params._dummy(),
+        "outputPromptColumn",
+        "If true, outputs an additional 'prompt' column containing "
+        "the text prompt as a Spark NLP Annotation.",
+        typeConverter=TypeConverters.toBoolean
+    )
+
     @keyword_only
     def __init__(self):
         super(Reader2Image, self).__init__(classname="com.johnsnowlabs.reader.Reader2Image")
@@ -97,7 +113,9 @@ class Reader2Image(
             promptTemplate="qwen2vl-chat",
             readAsImage=True,
             customPromptTemplate="",
-            ignoreExceptions=True
+            ignoreExceptions=True,
+            useEncodedImageBytes=False,
+            outputPromptColumn=False
         )
 
     @keyword_only
@@ -134,3 +152,26 @@ class Reader2Image(
             Custom prompt template string.
         """
         return self._set(customPromptTemplate=value)
+
+    def setUseEncodedImageBytes(self, value: bool):
+        """Sets whether to use encoded image bytes or decoded pixels.
+
+        Parameters
+        ----------
+        value : bool
+            If True, keeps the image bytes in their encoded (compressed) form.
+            If False, decodes the image into a pixel matrix representation.
+        """
+        return self._set(useEncodedImageBytes=value)
+
+
+    def setOutputPromptColumn(self, value: bool):
+        """Enables or disables creation of a prompt column.
+
+        Parameters
+        ----------
+        value : bool
+            If True, adds an additional 'prompt' column to the output DataFrame
+            containing the text prompt as a Spark NLP Annotation.
+        """
+        return self._set(outputPromptColumn=value)

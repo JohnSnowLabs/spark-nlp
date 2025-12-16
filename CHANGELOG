@@ -1,4 +1,51 @@
 =======
+6.2.3
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1317] Further NerDL Optimizations (#14699)
+* [SPARKNLP-1315] Fix input data type for CamemBertForTokenClassification
+
+---------
+Bug Fixes
+---------
+
+None
+
+=======
+6.2.2
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+None
+
+---------
+Bug Fixes
+---------
+* Fixes WordEmbeddings creating duplicate results
+* Minor fixes to NerDLApproach logging
+
+=======
+6.2.1
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1306] Adding hierarchical support for Readers
+* [SPARKNLP-1297] NerDLApproach Optimizations
+* XML Reader and Reader2Doc Improvements
+
+---------
+Bug Fixes
+---------
+* Add Java installation to Colab setup script
+
+=======
 6.2.0
 =======
 ---------------------------

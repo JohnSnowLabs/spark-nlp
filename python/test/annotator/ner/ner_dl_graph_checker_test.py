@@ -11,24 +11,15 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-import os
 import unittest
 
 import pytest
 
-from sparknlp.base import *
 from sparknlp.annotator import *
-from pyspark.ml import Pipeline
+from sparknlp.base import *
 from sparknlp.training import CoNLL
 from test.util import SparkSessionForTest
 
-try:
-    # PySpark >= 3.4
-    from pyspark.errors.exceptions.captured import IllegalArgumentException
-except ImportError:
-    # PySpark < 3.4
-    from py4j.protocol import Py4JJavaError
-    IllegalArgumentException = Py4JJavaError
 
 def setup_annotators(dataset, embeddingDim: int = 100):
     # Get GloVe embeddings
@@ -87,15 +78,14 @@ class NerDLGraphCheckerTest(unittest.TestCase):
         # Should fit without error if graph matches
         pipeline.fit(self.dataset)
 
-    # TODO: try to solve for next release (only fails in python with spark 3.3)
-    # def test_throw_exception_if_graph_not_found(self):
-    #     embeddings_invalid, ner_graph_checker, _ = setup_annotators(
-    #         self.dataset, embeddingDim=101
-    #     )
-    #     pipeline = Pipeline(stages=[embeddings_invalid, ner_graph_checker])
-    #     with pytest.raises(IllegalArgumentException) as exc_info:
-    #         pipeline.fit(self.dataset)
-    #     assert "Could not find a suitable tensorflow graph" in str(exc_info.value)
+    def test_throw_exception_if_graph_not_found(self):
+        embeddings_invalid, ner_graph_checker, _ = setup_annotators(
+            self.dataset, embeddingDim=101
+        )
+        pipeline = Pipeline(stages=[embeddings_invalid, ner_graph_checker])
+        with pytest.raises(Exception) as exc_info:
+            pipeline.fit(self.dataset)
+        assert "Could not find a suitable tensorflow graph" in str(exc_info.value)
 
     def test_serializable_in_pipeline(self):
         embeddings, ner_graph_checker, _ = setup_annotators(self.dataset)
@@ -105,22 +95,95 @@ class NerDLGraphCheckerTest(unittest.TestCase):
         loaded_pipeline = Pipeline.load("tmp_nerdlgraphchecker_pipeline")
 
         pipeline_model = loaded_pipeline.fit(self.dataset)
+        ner_graph_checker_model = pipeline_model.stages[0]
+        ngc_model_params = ner_graph_checker_model.params
+
         pipeline_model.write().overwrite().save("tmp_nerdlgraphchecker_pipeline_model")
 
         loaded_pipeline_model = PipelineModel.load(
             "tmp_nerdlgraphchecker_pipeline_model"
         )
+
+        ngc_loaded = loaded_pipeline_model.stages[0]
+        ngc_loaded_params = ngc_loaded.params
+
+        assert (
+            ngc_model_params == ngc_loaded_params
+        ), "Parameters do not match after serialization."
+
         loaded_pipeline_model.transform(self.dataset).show()
 
-    # TODO: try to solve for next release (only fails in python with spark 3.3)
-    # def test_determine_suitable_graph_before_training(self):
-    #     embeddings_invalid, ner_graph_checker, ner = setup_annotators(
-    #         self.dataset, embeddingDim=101
-    #     )
-    #     pipeline = Pipeline(stages=[embeddings_invalid, ner_graph_checker, ner])
-    #     with pytest.raises(Exception) as exc_info:
-    #         pipeline.fit(self.dataset)
-    #     assert "Could not find a suitable tensorflow graph" in str(exc_info.value)
+    def test_determine_suitable_graph_before_training(self):
+        embeddings_invalid, ner_graph_checker, ner = setup_annotators(
+            self.dataset, embeddingDim=101
+        )
+        pipeline = Pipeline(stages=[embeddings_invalid, ner_graph_checker, ner])
+        with pytest.raises(Exception) as exc_info:
+            pipeline.fit(self.dataset)
+        assert "Could not find a suitable tensorflow graph" in str(exc_info.value)
+
+    def test_fill_column_metadata_with_extracted_params(self):
+        """Test that column metadata is filled with extracted params"""
+
+        # Reference implementation with spark
+        def get_expected_params(dataset: DataFrame, tokenCol: str, labelsCol: str):
+            # extract distinct labels
+            labels = (
+                dataset.selectExpr(f"explode({labelsCol}.result)").distinct().collect()
+            )
+
+            # extract distinct characters
+            chars = (
+                dataset.selectExpr(f"explode({tokenCol}.result)")
+                .rdd.flatMap(lambda tokens: [c for tok in tokens for c in tok])
+                .distinct()
+                .collect()
+            )
+
+            dsLen = dataset.count()
+
+            return set(r[0] for r in labels), set(r[0] for r in chars), dsLen
+
+        embeddings, ner_dl_graph_checker, _ = setup_annotators(self.dataset)
+        pipeline = Pipeline(stages=[embeddings, ner_dl_graph_checker])
+        fitted = pipeline.fit(self.dataset)
+        result = fitted.transform(self.dataset)
+
+        label_col = ner_dl_graph_checker.getLabelColumn()
+        label_field = result.schema[label_col]
+
+        assert (
+            NerDLGraphCheckerModel.graphParamsMetadataKey in label_field.metadata
+        ), "Label column metadata should contain graph params."
+
+        graph_params_meta = label_field.metadata[
+            NerDLGraphCheckerModel.graphParamsMetadataKey
+        ]
+
+        embeddings_dim = graph_params_meta[NerDLGraphCheckerModel.embeddingsDimKey]
+        labels = set(graph_params_meta[NerDLGraphCheckerModel.labelsKey])
+        chars = set("".join(graph_params_meta[NerDLGraphCheckerModel.charsKey]))
+        ds_len = graph_params_meta[NerDLGraphCheckerModel.dsLenKey]
+
+        expected_embedding_dim = embeddings.getDimension()
+        (
+            expected_labels,
+            expected_chars,
+            expected_dsLen,
+        ) = get_expected_params(result, "token", "label")
+
+        assert (
+            embeddings_dim == expected_embedding_dim
+        ), "Extracted embeddings dim should match the embeddings model dimension."
+        assert (
+            labels == expected_labels
+        ), "Extracted labels should match the dataset labels."
+        assert (
+            chars == expected_chars
+        ), "Extracted chars should match the dataset chars."
+        assert (
+            ds_len == expected_dsLen
+        ), "Extracted dataset length should match the dataset length."
 
 
 @pytest.mark.slow
@@ -143,6 +206,6 @@ class NerDLGraphCheckerBatchAnnotateTest(unittest.TestCase):
         )
         distilbert.setDimension(distilbert.getDimension() + 3)  # Wrong dimension
         pipeline = Pipeline(stages=[ner_graph_checker, distilbert, ner])
-        with pytest.raises(IllegalArgumentException) as exc_info:
+        with pytest.raises(Exception) as exc_info:
             pipeline.fit(self.dataset)
         assert "Could not find a suitable tensorflow graph" in str(exc_info.value)

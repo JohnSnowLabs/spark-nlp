@@ -91,6 +91,19 @@ class Reader2Doc(
         """
         return self._set(excludeNonText=value)
 
+    joinString = Param(
+        Params._dummy(),
+        "joinString",
+        "If outputAsDocument is true, specifies the string used to join elements into a single document.",
+        typeConverter=TypeConverters.toString
+    )
+
+    def setJoinString(self, value):
+        """
+        If outputAsDocument is true, specifies the string used to join elements into a single
+        """
+        return self._set(joinString=value)
+
     @keyword_only
     def __init__(self):
         super(Reader2Doc, self).__init__(classname="com.johnsnowlabs.reader.Reader2Doc")
@@ -99,8 +112,12 @@ class Reader2Doc(
             explodeDocs=False,
             contentType="",
             flattenOutput=False,
-            titleThreshold=18
+            outputAsDocument=True,
+            outputFormat="plain-text",
+            excludeNonText=False,
+            joinString="\n"
         )
+
     @keyword_only
     def setParams(self):
         kwargs = self._input_kwargs

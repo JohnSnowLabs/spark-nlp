@@ -257,7 +257,6 @@ class AutoGGUFModelSerializationTestSpec(unittest.TestCase):
         model_writer.save(model_path)
         AutoGGUFModel.load(model_path)
 
-
         model_path = "file:///tmp/autogguf_spark_nlp"
         AutoGGUFModel.load(model_path)
 
@@ -293,7 +292,7 @@ class AutoGGUFModelCloseTest(unittest.TestCase):
         ramChange = measureRAMChange(lambda: model.close())
 
         print(f"Freed RAM after closing the model: {ramChange} MB")
-        assert (ramChange < -100, "Freed RAM should be greater than 100 MB")
+        assert ramChange < -100, "Freed RAM should be greater than 100 MB"
 
 
 @pytest.mark.slow
@@ -318,8 +317,7 @@ class AutoGGUFModelThinkingTagTestSpec(unittest.TestCase):
         )
 
         data = self.spark.createDataFrame(
-            [("What is the meaning of life? Think shortly step by step.",)],
-            ["text"]
+            [("What is the meaning of life? Think shortly step by step.",)], ["text"]
         )
 
         pipeline = Pipeline(stages=[document_assembler, model])

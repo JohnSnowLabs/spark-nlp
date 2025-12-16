@@ -1,24 +1,26 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.nlp.annotator.{DistilBertEmbeddings, WordEmbeddings, WordEmbeddingsModel}
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach.{getDataSetParams, getIteratorFunc}
 import com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, AnnotatorModel}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.flatspec.AnyFlatSpec
 import com.johnsnowlabs.util.TestUtils.captureOutput
 
+import scala.collection.mutable
 import scala.util.{Failure, Success, Try}
 
 class NerDLGraphCheckerTestSpec extends AnyFlatSpec with BeforeAndAfterEach {
 
   lazy private val conll = CoNLL(explodeSentences = false)
   lazy private val testingData =
-    conll.readDataset(ResourceHelper.spark, "src/test/resources/ner-corpus/test_ner_dataset.txt")
+    conll.readDataset(ResourceHelper.spark, "src/test/resources/conll/test_conll_docid.txt")
 
   private def getGraphChecker(embeddings: AnnotatorModel[_] with HasEmbeddingsProperties) = {
     val nerDLGraphChecker = new NerDLGraphChecker()
@@ -175,5 +177,57 @@ class NerDLGraphCheckerTestSpec extends AnyFlatSpec with BeforeAndAfterEach {
       case Success(_) =>
         fail("Should not be able to fit the model with non-existing graph params.")
     }
+  }
+
+  def getExpectedParams(
+      dataset: Dataset[_],
+      inputColumns: Array[String],
+      labelColumn: String): (mutable.Set[String], mutable.Set[Char], Int, Long) = {
+    val trainIteratorFunc =
+      getIteratorFunc(
+        dataset = dataset.toDF(),
+        inputColumns = inputColumns,
+        labelColumn = labelColumn,
+        batchSize = 8,
+        enableMemoryOptimizer = false)
+
+    getDataSetParams(trainIteratorFunc())
+  }
+
+  it should "fill column metadata with extracted params" taggedAs FastTest in {
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(testingData.toDF())
+    val nerDLGraphChecker = getGraphChecker(embeddings)
+    val pipeline = new Pipeline().setStages(Array(embeddings, nerDLGraphChecker))
+    val fitted = pipeline.fit(testingData)
+    val result = fitted.transform(testingData)
+
+    val labelCol = nerDLGraphChecker.getLabelColumn
+    val labelField = result.schema(labelCol)
+
+    assert(
+      labelField.metadata.contains(NerDLGraphCheckerModel.graphParamsMetadataKey),
+      "Label column metadata should contain graph params.")
+
+    val graphParamsMeta =
+      labelField.metadata.getMetadata(NerDLGraphCheckerModel.graphParamsMetadataKey)
+
+    val embeddingsDim = graphParamsMeta.getLong(NerDLGraphCheckerModel.embeddingsDimKey)
+    val labels: Set[String] =
+      graphParamsMeta.getStringArray(NerDLGraphCheckerModel.labelsKey).toSet
+    val chars: Set[Char] =
+      graphParamsMeta.getStringArray(NerDLGraphCheckerModel.charsKey).flatMap(_.toCharArray).toSet
+    val dsLen: Long = graphParamsMeta.getLong(NerDLGraphCheckerModel.dsLenKey)
+
+    val (expectedLabels, expectedChars, expectedEmbeddingDim, expectedDsLen) =
+      getExpectedParams(result, mockNer.getInputCols, nerDLGraphChecker.getLabelColumn)
+
+    println(s"Metadata: $embeddingsDim, labels: $labels, chars: $chars, dsLen: $dsLen")
+
+    assert(
+      embeddingsDim == expectedEmbeddingDim,
+      "Extracted embeddings dim should match the embeddings model dimension.")
+    assert(labels == expectedLabels, "Extracted labels should match the dataset labels.")
+    assert(chars == expectedChars, "Extracted chars should match the dataset chars.")
+    assert(dsLen == expectedDsLen, "Extracted dataset length should match the dataset count.")
   }
 }

@@ -15,6 +15,7 @@
  */
 package com.johnsnowlabs.reader
 
+import com.johnsnowlabs.reader.util.AssertReaders
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 import org.apache.spark.sql.functions.{col, explode}
@@ -60,6 +61,13 @@ class PdfReaderTest extends AnyFlatSpec {
       .filter(col("exploded_pdf.elementType") === ElementType.ERROR)
 
     assert(resultDF.count() == 1)
+  }
+
+  it should "output hierarchy metadata" in {
+    val pdfReader = new PdfReader()
+    val pdfDf = pdfReader.pdf(s"$pdfDirectory/hierarchy_test.pdf")
+
+    AssertReaders.assertHierarchy(pdfDf, "pdf")
   }
 
 }

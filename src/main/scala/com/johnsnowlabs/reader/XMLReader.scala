@@ -79,12 +79,14 @@ import scala.xml.{Elem, Node, XML}
 class XMLReader(
     storeContent: Boolean = false,
     xmlKeepTags: Boolean = false,
-    onlyLeafNodes: Boolean = true)
+    onlyLeafNodes: Boolean = true,
+    extractTagAttributes: Set[String] = Set.empty)
     extends Serializable {
 
   private lazy val spark = ResourceHelper.spark
 
   private var outputColumn = "xml"
+  private val _extractTagAttributes = extractTagAttributes.map(_.toLowerCase)
 
   def setOutputColumn(value: String): this.type = {
     require(value.nonEmpty, "Output column name cannot be empty.")
@@ -105,6 +107,8 @@ class XMLReader(
     parseXml(xml)
   })
 
+  private val attributeJoinChar = "\n"
+
   def parseXml(xmlString: String): List[HTMLElement] = {
     val parser = new SAXFactoryImpl().newSAXParser()
     val adapter = new NoBindingFactoryAdapter
@@ -114,34 +118,48 @@ class XMLReader(
     def traverse(node: Node, parentId: Option[String]): Unit = {
       node match {
         case elem: Elem =>
-          val tagName = elem.label.toLowerCase
+          val tagName = elem.label
           val textContent = elem.text.trim
           val elementId = hash(tagName + textContent)
 
           val isLeaf = !elem.child.exists(_.isInstanceOf[Elem])
+          val isEmptyElement = elem.minimizeEmpty // self-closing tag, only metadata
+          val includeNode = !onlyLeafNodes || isLeaf
 
-          if (!onlyLeafNodes || isLeaf) {
-            val elementType = tagName match {
-              case "title" | "author" => ElementType.TITLE
-              case _ => ElementType.UNCATEGORIZED_TEXT
+          // Collect attributes and metadata
+          val metadata = mutable.Map[String, String]("elementId" -> elementId)
+          println(elem.attributes.asAttrMap.keys.mkString("|"))
+          val extractAttributesValues = elem.attributes.asAttrMap
+            .flatMap { case (k, v) =>
+              // attr keys are always lower case
+              if (_extractTagAttributes.contains(k.toLowerCase)) Seq(v)
+              else {
+                metadata += (k -> v)
+                Seq.empty
+              }
             }
+          val attributeContent =
+            if (extractAttributesValues.nonEmpty) {
+              val sep =
+                if (includeNode && textContent.nonEmpty)
+                  attributeJoinChar // attribute text will pre prepended to text content
+                else ""
+              extractAttributesValues.mkString(attributeJoinChar) + sep
+            } else ""
 
-            val metadata = mutable.Map[String, String]("elementId" -> elementId)
-            if (xmlKeepTags) metadata += ("tag" -> tagName)
-            parentId.foreach(id => metadata += ("parentId" -> id))
-
-            val content = if (isLeaf) textContent else ""
-            elements += HTMLElement(elementType, content, metadata)
+          val elementType = tagName match {
+            case "title" | "author" => ElementType.TITLE
+            case _ => ElementType.NARRATIVE_TEXT
           }
 
-          elem.attributes.asAttrMap.foreach { case (attrName, attrValue) =>
-            val attrId = hash(tagName + attrName + attrValue)
-            val metadata =
-              mutable.Map("elementId" -> attrId, "parentId" -> elementId, "attribute" -> attrName)
-            if (xmlKeepTags) metadata += ("tag" -> tagName)
+          if (xmlKeepTags) metadata += ("tag" -> tagName)
+          parentId.foreach(id => metadata += ("parentId" -> id))
 
-            elements += HTMLElement(ElementType.NARRATIVE_TEXT, attrValue, metadata)
-          }
+          if (includeNode && !isEmptyElement) {
+            val content = attributeContent + (if (isLeaf) textContent else "")
+            if (content.nonEmpty) elements += HTMLElement(elementType, content, metadata)
+          } else if (attributeContent.nonEmpty) // Only attributes as NARRATIVE_TEXT
+            elements += HTMLElement(elementType, attributeContent, metadata)
 
           // Traverse children
           elem.child.foreach(traverse(_, Some(elementId)))

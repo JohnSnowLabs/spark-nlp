@@ -13,10 +13,10 @@
 #  limitations under the License.
 """Contains classes for NerDL."""
 
-from sparknlp.common import *
+from pyspark.ml.util import JavaMLReadable
+
 import sparknlp.internal as _internal
-from pyspark.ml.util import JavaMLWritable
-from pyspark.ml.wrapper import JavaEstimator
+from sparknlp.common import *
 
 
 class NerDLGraphChecker(
@@ -27,6 +27,9 @@ class NerDLGraphChecker(
     """Checks whether a suitable NerDL graph is available for the given training dataset, before any
     computations/training is done. This annotator is useful for custom training cases, where
     specialized graphs are needed.
+
+    This annotator will fill graph hyperparameters as metadata in the label column, which will be
+    available for NerDLApproach, saving computations.
 
     Important: This annotator should be used or positioned before any embedding or NerDLApproach
     annotators in the pipeline and will process the whole dataset to extract the required graph parameters.
@@ -202,17 +205,18 @@ class NerDLGraphChecker(
         # self._setDefault()
 
     def _create_model(self, java_model):
-        return NerDLGraphCheckerModel()
+        return NerDLGraphCheckerModel(java_model=java_model)
 
 
 class NerDLGraphCheckerModel(
     JavaModel,
     JavaMLWritable,
+    JavaMLReadable,
     _internal.ParamsGettersSetters,
 ):
-    """
-    Resulting model from NerDLGraphChecker, that does not perform any transformations, as the
-    checks are done during the ``fit`` phase. It acts as the identity.
+    """Resulting model from `NerDLGraphChecker`, that updates dataframe metadata (label column)
+    with NerDLGraph parameters. It does not perform any actual data transformations, as the
+    checks/computations are done during the `fit` phase.
 
     This annotator should never be used directly.
     """
@@ -224,14 +228,66 @@ class NerDLGraphCheckerModel(
 
     @keyword_only
     def __init__(
-        self,
-        classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphCheckerModel",
-        java_model=None,
+            self,
+            classname="com.johnsnowlabs.nlp.annotators.ner.dl.NerDLGraphCheckerModel",
+            java_model=None,
     ):
-        super(NerDLGraphCheckerModel, self).__init__(java_model=java_model)
-        if classname and not java_model:
-            self.__class__._java_class_name = classname
-            self._java_obj = self._new_java_obj(classname, self.uid)
+        # Custom init, different from AnnotatorModel
+        # We don't have a output annotation column, so we inherit directly from JavaModel
         if java_model is not None:
+            super(NerDLGraphCheckerModel, self).__init__(java_model=java_model)
+            self._java_obj = java_model
             self._transfer_params_from_java()
-        # self._setDefault(lazyAnnotator=False)
+        elif classname:
+            super(NerDLGraphCheckerModel, self).__init__()
+            self.__class__._java_class_name = classname
+            self._java_obj = self._new_java_obj(classname)
+
+    # Metadata keys for graph parameters
+    graphParamsMetadataKey = "NerDLGraphCheckerParams"
+    embeddingsDimKey = "embeddingsDim"
+    labelsKey = "labels"
+    charsKey = "chars"
+    dsLenKey = "dsLen"
+
+    labelColumn = Param(
+        Params._dummy(),
+        "labelColumn",
+        "Column with label per each token",
+        typeConverter=TypeConverters.toString,
+    )
+
+    embeddingsDim = Param(
+        Params._dummy(),
+        "embeddingsDim",
+        "Dimensionality of embeddings",
+        typeConverter=TypeConverters.toInt,
+    )
+
+    labels = Param(
+        Params._dummy(),
+        "labels",
+        "Labels in the dataset",
+        typeConverter=TypeConverters.toListString,
+    )
+
+    chars = Param(
+        Params._dummy(),
+        "chars",
+        "Set of characters in the dataset",
+        typeConverter=TypeConverters.toListString,
+    )
+
+    graphFolder = Param(
+        Params._dummy(),
+        "graphFolder",
+        "Folder path that contain external graph files",
+        typeConverter=TypeConverters.toString,
+    )
+
+    dsLen = Param(
+        Params._dummy(),
+        "dsLen",
+        "Length of the training dataset.",
+        typeConverter=TypeConverters.toInt,
+    )

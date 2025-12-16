@@ -453,4 +453,4 @@ class AutoGGUFRerankerCloseTest(unittest.TestCase):
         ramChange = measureRAMChange(lambda: model.close())
 
         print(f"Freed RAM after closing the model: {ramChange} MB")
-        assert (ramChange < -100, "Freed RAM should be greater than 100 MB")
+        assert ramChange < -100, "Freed RAM should be greater than 100 MB"

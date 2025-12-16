@@ -1,4 +1,3 @@
-
 #  Copyright 2017-2024 John Snow Labs
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +17,6 @@ import unittest
 
 import pytest
 from pyspark.ml import Pipeline
-from pyspark.sql.functions import explode
 
 from sparknlp.annotator import *
 from sparknlp.reader.reader2doc import Reader2Doc
@@ -93,6 +91,7 @@ class Reader2DocPdfTest(unittest.TestCase):
 
         self.assertTrue(result_df.select("document").count() > 0)
 
+
 @pytest.mark.fast
 class Reader2DocTestOutputAsDoc(unittest.TestCase):
 
@@ -114,6 +113,7 @@ class Reader2DocTestOutputAsDoc(unittest.TestCase):
 
         self.assertTrue(result_df.select("document").count() > 0)
 
+
 @pytest.mark.fast
 class Reader2DocTestInputColumn(unittest.TestCase):
 
@@ -134,8 +134,9 @@ class Reader2DocTestInputColumn(unittest.TestCase):
 
         self.assertTrue(result_df.select("document").count() > 0)
 
+
 @pytest.mark.fast
-class Reader2DocTestHierarchy(unittest.TestCase):
+class Reader2DocTestHTMLHierarchy(unittest.TestCase):
 
     def setUp(self):
         spark = SparkContextForTest.spark
@@ -145,7 +146,8 @@ class Reader2DocTestHierarchy(unittest.TestCase):
         reader2doc = Reader2Doc() \
             .setContentType("text/html") \
             .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/html/simple-book.html") \
-            .setOutputCol("document")
+            .setOutputCol("document") \
+            .setOutputAsDocument(False)
 
         sentence_detector = SentenceDetector() \
             .setInputCols(["document"]) \
@@ -165,3 +167,98 @@ class Reader2DocTestHierarchy(unittest.TestCase):
             assert (
                     "element_id" in metadata or "parent_id" in metadata
             ), f"❌ Missing 'element_id' or 'parent_id' in metadata: {metadata}"
+
+
+@pytest.mark.fast
+class Reader2DocTestPDFHierarchy(unittest.TestCase):
+
+    def setUp(self):
+        spark = SparkContextForTest.spark
+        self.empty_df = spark.createDataFrame([], "string").toDF("text")
+
+    def runTest(self):
+        reader2doc: Reader2Doc = Reader2Doc() \
+            .setContentType("application/pdf") \
+            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/pdf/hierarchy_test.pdf") \
+            .setOutputCol("document") \
+            .setOutputAsDocument(False)
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        pipeline = Pipeline(stages=[reader2doc, sentence_detector])
+        model = pipeline.fit(self.empty_df)
+
+        result_df = model.transform(self.empty_df)
+        rows = result_df.select("sentence").collect()
+
+        all_sentences = [elem for row in rows for elem in row.sentence]
+
+        # Check for required metadata keys
+        for s in all_sentences:
+            metadata = s.metadata
+            assert (
+                    "element_id" in metadata or "parent_id" in metadata
+            ), f"❌ Missing 'element_id' or 'parent_id' in metadata: {metadata}"
+
+
+@pytest.mark.fast
+class Reader2DocXmlTest(unittest.TestCase):
+
+    def setUp(self):
+        spark = SparkContextForTest.spark
+        self.empty_df = spark.createDataFrame([], "string").toDF("text")
+
+    def test_xml(self):
+        reader2doc = Reader2Doc() \
+            .setContentType("application/xml") \
+            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/xml/test.xml") \
+            .setOutputCol("document")
+
+        pipeline = Pipeline(stages=[reader2doc])
+        model = pipeline.fit(self.empty_df)
+
+        result_df = model.transform(self.empty_df)
+        collected = result_df.select("document.result").collect()
+
+        text = collected[0][0][0]
+        expected_text = """Harry Potter
+J K. Rowling
+2005
+29.99
+Learning XML
+Erik T. Ray
+2003
+39.95"""
+
+        self.assertEqual(text, expected_text)
+
+    def test_xml_extract_attribute(self):
+        reader2doc = Reader2Doc() \
+            .setContentType("application/xml") \
+            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/xml/test.xml") \
+            .setOutputCol("document") \
+            .setExtractTagAttributes(["category", "lang"])
+
+        pipeline = Pipeline(stages=[reader2doc])
+        model = pipeline.fit(self.empty_df)
+
+        result_df = model.transform(self.empty_df)
+        collected = result_df.select("document.result").collect()
+
+        text = collected[0][0][0]
+        expected_text = """children
+en
+Harry Potter
+J K. Rowling
+2005
+29.99
+web
+en
+Learning XML
+Erik T. Ray
+2003
+39.95"""
+
+        self.assertEqual(text, expected_text)

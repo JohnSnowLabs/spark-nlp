@@ -113,9 +113,13 @@ class AutoGGUFEmbeddingsErrorHandlingTestSpec(unittest.TestCase):
         )
         self.long_data_copies = 16
         self.long_text = "All work and no play makes Jack a dull boy" * 100
-        self.long_data = self.spark.createDataFrame(
+        self.long_data = (
+            self.spark.createDataFrame(
                 [self.long_text] * self.long_data_copies, schema="string"
-        ).toDF("text").repartition(4)
+            )
+            .toDF("text")
+            .repartition(4)
+        )
 
     def runTest(self):
         model = (
@@ -131,7 +135,9 @@ class AutoGGUFEmbeddingsErrorHandlingTestSpec(unittest.TestCase):
         assert len(collected) == self.long_data_copies
         for row in collected:
             metadata = row[0][0]["metadata"]
-            assert "llamacpp_exception" in metadata, "llamacpp_exception should be present"
+            assert (
+                "llamacpp_exception" in metadata
+            ), "llamacpp_exception should be present"
 
 
 @pytest.mark.slow
@@ -143,9 +149,13 @@ class AutoGGUFEmbeddingsLongTextTestSpec(unittest.TestCase):
         )
         self.long_data_copies = 16
         self.long_text = "All work and no play makes Jack a dull boy" * 100
-        self.long_data = self.spark.createDataFrame(
+        self.long_data = (
+            self.spark.createDataFrame(
                 [self.long_text] * self.long_data_copies, schema="string"
-        ).toDF("text").repartition(4)
+            )
+            .toDF("text")
+            .repartition(4)
+        )
 
     def runTest(self):
         model = (
@@ -160,7 +170,9 @@ class AutoGGUFEmbeddingsLongTextTestSpec(unittest.TestCase):
         results = pipeline.fit(self.long_data).transform(self.long_data)
         collected = results.select("embeddings").collect()
 
-        assert len(collected) == self.long_data_copies, "Should return the same number of rows"
+        assert (
+            len(collected) == self.long_data_copies
+        ), "Should return the same number of rows"
         for row in collected:
             embds = row[0][0]["embeddings"]
             assert embds is not None
@@ -218,4 +230,4 @@ class AutoGGUFEmbeddingsCloseTest(unittest.TestCase):
         ramChange = measureRAMChange(lambda: model.close())
 
         print(f"Freed RAM after closing the model: {ramChange} MB")
-        assert (ramChange < -100, "Freed RAM should be greater than 100 MB")
+        assert ramChange < -100, "Freed RAM should be greater than 100 MB"

@@ -61,4 +61,15 @@ object PartitionOptions {
       .getOrElse(default)
   }
 
+  def getDefaultArray[T](
+      params: Map[String, String],
+      options: Seq[String],
+      default: Array[T]): Array[T] = {
+    options
+      .flatMap(params.get)
+      .map(_.split(",").map(_.trim).asInstanceOf[Array[T]])
+      .headOption
+      .getOrElse(default)
+  }
+
 }
