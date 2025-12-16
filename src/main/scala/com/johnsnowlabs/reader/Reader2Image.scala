@@ -18,8 +18,18 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.AnnotatorType.IMAGE
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, AnnotatorType, HasOutputAnnotationCol, HasOutputAnnotatorType}
-import com.johnsnowlabs.partition.util.PartitionHelper.{datasetWithBinaryFile, datasetWithTextFile, isStringContent}
+import com.johnsnowlabs.nlp.{
+  Annotation,
+  AnnotationImage,
+  AnnotatorType,
+  HasOutputAnnotationCol,
+  HasOutputAnnotatorType
+}
+import com.johnsnowlabs.partition.util.PartitionHelper.{
+  datasetWithBinaryFile,
+  datasetWithTextFile,
+  isStringContent
+}
 import com.johnsnowlabs.partition.{HasBinaryReaderProperties, Partition}
 import com.johnsnowlabs.reader.util.{ImageParser, ImagePromptTemplate}
 import org.apache.spark.ml.Transformer
@@ -119,7 +129,9 @@ class Reader2Image(override val uid: String)
   def setUseEncodedImageBytes(value: Boolean): this.type = set(useEncodedImageBytes, value)
 
   val outputPromptColumn: BooleanParam =
-    new BooleanParam(this, "outputPromptColumn",
+    new BooleanParam(
+      this,
+      "outputPromptColumn",
       "If true, outputs an additional 'prompt' column containing the text prompt as a Spark NLP Annotation.")
 
   def setOutputPromptColumn(value: Boolean): this.type = set(outputPromptColumn, value)
@@ -134,8 +146,7 @@ class Reader2Image(override val uid: String)
     customPromptTemplate -> "",
     ignoreExceptions -> true,
     useEncodedImageBytes -> false,
-    outputPromptColumn -> false
-  )
+    outputPromptColumn -> false)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
@@ -162,8 +173,8 @@ class Reader2Image(override val uid: String)
     if ($(outputPromptColumn)) {
       resultDf.withColumn(
         "prompt",
-        wrapPromptColumnMetadata(buildPromptAnnotationUdf(element_at(col(getOutputCol), 1)("text")))
-      )
+        wrapPromptColumnMetadata(
+          buildPromptAnnotationUdf(element_at(col(getOutputCol), 1)("text"))))
     } else resultDf
 
   }
@@ -363,14 +374,15 @@ class Reader2Image(override val uid: String)
 
   private val buildPromptAnnotationUdf = udf((text: String) => {
     if (text == null) Seq.empty[Annotation]
-    else Seq(Annotation(
-      annotatorType = "document",
-      begin = 0,
-      end = text.length - 1,
-      result = text,
-      metadata = Map("source" -> "Reader2Image"),
-      embeddings = Array.emptyFloatArray
-    ))
+    else
+      Seq(
+        Annotation(
+          annotatorType = "document",
+          begin = 0,
+          end = text.length - 1,
+          result = text,
+          metadata = Map("source" -> "Reader2Image"),
+          embeddings = Array.emptyFloatArray))
   })
 
   def afterAnnotate(dataset: DataFrame): DataFrame = {
@@ -397,8 +409,7 @@ class Reader2Image(override val uid: String)
         getOutputCol,
         ArrayType(AnnotationImage.dataType),
         nullable = false,
-        imageMetadataBuilder.build)
-    )
+        imageMetadataBuilder.build))
 
     if ($(outputPromptColumn)) {
       val promptMetadataBuilder = new MetadataBuilder()
@@ -409,9 +420,7 @@ class Reader2Image(override val uid: String)
           "prompt",
           ArrayType(Annotation.dataType),
           nullable = true,
-          promptMetadataBuilder.build
-        )
-      )
+          promptMetadataBuilder.build))
     } else baseStruct
   }
 

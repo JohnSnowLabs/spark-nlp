@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.reader.reader2image module &#8212; Spark NLP 6.2.3 documentation</title>
+    <title>sparknlp.reader.reader2image module &#8212; Spark NLP 6.3.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=e4bd49b9"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a290898a"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.2.3 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.2.3 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -746,6 +746,11 @@ root</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.outputPromptColumn">
+<span class="sig-name descname"><span class="pre">outputPromptColumn</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='outputPromptColumn',</span> <span class="pre">doc=&quot;If</span> <span class="pre">true,</span> <span class="pre">outputs</span> <span class="pre">an</span> <span class="pre">additional</span> <span class="pre">'prompt'</span> <span class="pre">column</span> <span class="pre">containing</span> <span class="pre">the</span> <span class="pre">text</span> <span class="pre">prompt</span> <span class="pre">as</span> <span class="pre">a</span> <span class="pre">Spark</span> <span class="pre">NLP</span> <span class="pre">Annotation.&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.outputPromptColumn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.outputPromptColumn" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.promptTemplate">
 <span class="sig-name descname"><span class="pre">promptTemplate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='promptTemplate',</span> <span class="pre">doc='Format</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">output</span> <span class="pre">prompt.')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.promptTemplate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.promptTemplate" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -758,6 +763,21 @@ root</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>Custom prompt template string.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.setOutputPromptColumn">
+<span class="sig-name descname"><span class="pre">setOutputPromptColumn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.setOutputPromptColumn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.setOutputPromptColumn" title="Permalink to this definition">#</a></dt>
+<dd><p>Enables or disables creation of a prompt column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>If True, adds an additional ‘prompt’ column to the output DataFrame
+containing the text prompt as a Spark NLP Annotation.</p>
 </dd>
 </dl>
 </dd>
@@ -784,6 +804,21 @@ root</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.setUseEncodedImageBytes">
+<span class="sig-name descname"><span class="pre">setUseEncodedImageBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.setUseEncodedImageBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.setUseEncodedImageBytes" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether to use encoded image bytes or decoded pixels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>If True, keeps the image bytes in their encoded (compressed) form.
+If False, decodes the image into a pixel matrix representation.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.setUserMessage">
 <span class="sig-name descname"><span class="pre">setUserMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.setUserMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.setUserMessage" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets custom user message.</p>
@@ -796,6 +831,11 @@ root</p>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.useEncodedImageBytes">
+<span class="sig-name descname"><span class="pre">useEncodedImageBytes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='useEncodedImageBytes',</span> <span class="pre">doc='If</span> <span class="pre">true,</span> <span class="pre">use</span> <span class="pre">the</span> <span class="pre">original</span> <span class="pre">encoded</span> <span class="pre">image</span> <span class="pre">bytes</span> <span class="pre">(e.g.,</span> <span class="pre">JPEG,</span> <span class="pre">PNG).</span> <span class="pre">If</span> <span class="pre">false,</span> <span class="pre">decode</span> <span class="pre">the</span> <span class="pre">image</span> <span class="pre">into</span> <span class="pre">raw</span> <span class="pre">pixel</span> <span class="pre">data.')</span></em><a class="reference internal" href="../modules/sparknlp/reader/reader2image.html#Reader2Image.useEncodedImageBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.reader.reader2image.Reader2Image.useEncodedImageBytes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.reader.reader2image.Reader2Image.userMessage">
@@ -836,11 +876,15 @@ root</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.customPromptTemplate"><code class="docutils literal notranslate"><span class="pre">Reader2Image.customPromptTemplate</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.name"><code class="docutils literal notranslate"><span class="pre">Reader2Image.name</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">Reader2Image.outputAnnotatorType</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.outputPromptColumn"><code class="docutils literal notranslate"><span class="pre">Reader2Image.outputPromptColumn</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.promptTemplate"><code class="docutils literal notranslate"><span class="pre">Reader2Image.promptTemplate</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.setCustomPromptTemplate"><code class="docutils literal notranslate"><span class="pre">Reader2Image.setCustomPromptTemplate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.setOutputPromptColumn"><code class="docutils literal notranslate"><span class="pre">Reader2Image.setOutputPromptColumn()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.setParams"><code class="docutils literal notranslate"><span class="pre">Reader2Image.setParams()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.setPromptTemplate"><code class="docutils literal notranslate"><span class="pre">Reader2Image.setPromptTemplate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.setUseEncodedImageBytes"><code class="docutils literal notranslate"><span class="pre">Reader2Image.setUseEncodedImageBytes()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.setUserMessage"><code class="docutils literal notranslate"><span class="pre">Reader2Image.setUserMessage()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.useEncodedImageBytes"><code class="docutils literal notranslate"><span class="pre">Reader2Image.useEncodedImageBytes</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.reader.reader2image.Reader2Image.userMessage"><code class="docutils literal notranslate"><span class="pre">Reader2Image.userMessage</span></code></a></li>
 </ul>
 </li>

@@ -559,14 +559,14 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
 
   it should "work with AutoGGUFVisionModel using a prompt output column" taggedAs SlowTest in {
 
-
     val sourceFile = "pdf-with-2images.pdf"
     val reader2Image = new Reader2Image()
       .setContentPath(s"$pdfDirectory/$sourceFile")
       .setContentType("application/pdf")
       .setOutputCol("image")
       .setUseEncodedImageBytes(true)
-      .setUserMessage("Describe in a short and easy to understand sentence what you see in the image.")
+      .setUserMessage(
+        "Describe in a short and easy to understand sentence what you see in the image.")
       .setOutputPromptColumn(true)
 
     val autoGgufModel: AutoGGUFVisionModel = AutoGGUFVisionModel
@@ -601,7 +601,8 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
       .setContentType("image/raw")
       .setOutputCol("image")
       .setUseEncodedImageBytes(true)
-      .setUserMessage("Describe in a short and easy to understand sentence what you see in the image.")
+      .setUserMessage(
+        "Describe in a short and easy to understand sentence what you see in the image.")
       .setOutputPromptColumn(true)
 
     val autoGgufModel: AutoGGUFVisionModel = AutoGGUFVisionModel
