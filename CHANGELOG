@@ -1,4 +1,19 @@
 =======
+6.3.0
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1318] Reader2Image Integration with AutoGGUFVisionModel #14705
+
+---------
+Bug Fixes
+---------
+
+None
+
+=======
 6.2.3
 =======
 ---------------------------
