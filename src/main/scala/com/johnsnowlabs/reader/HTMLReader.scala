@@ -223,6 +223,35 @@ class HTMLReader(
       }
     }
 
+    case class DomPosition(path: String, localIndex: Int)
+
+    def getXPathWithIndex(elem: Element): DomPosition = {
+      if (elem == null) return DomPosition("", 0)
+
+      val tagName = elem.tagName()
+
+      if (tagName == "#root") return DomPosition("", 0)
+
+      if (elem.parent() == null || elem.parent().tagName() == "#root") {
+        return DomPosition("/" + tagName + "[1]", 1)
+      }
+
+      val sameTagSiblings = elem.parent().children().asScala.filter(_.tagName() == tagName)
+      val index = sameTagSiblings.indexOf(elem) + 1
+      val parentPos = getXPathWithIndex(elem.parent())
+
+      DomPosition(parentPos.path + "/" + tagName + s"[$index]", index)
+    }
+
+    def findNearestHeader(elem: Element): Option[String] = {
+      val validHeaderTagPattern = "h[1-6]"
+      Iterator
+        .iterate(elem.previousElementSibling())(_.previousElementSibling())
+        .takeWhile(_ != null)
+        .find(_.tagName().matches(validHeaderTagPattern))
+        .map(_.text().trim)
+    }
+
     def collectTextFromNodes(nodes: List[Node]): String = {
       val textBuffer = ArrayBuffer[String]()
 
@@ -307,6 +336,13 @@ class HTMLReader(
                 trackingNodes(element).visited = true
                 pageMetadata("element_id") = newUUID()
                 currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
+
+                val domPos = getXPathWithIndex(element)
+                pageMetadata("domPath") = domPos.path
+                pageMetadata("orderTableIndex") = domPos.localIndex.toString
+
+                findNearestHeader(element).foreach(h => pageMetadata("nearestHeader") = h)
+
                 elements += HTMLElement(
                   ElementType.TABLE,
                   content = tableContent,
@@ -445,6 +481,13 @@ class HTMLReader(
                 if (height.nonEmpty) imgMetadata("height") = height
                 imgMetadata("element_id") = newUUID()
                 currentParentId.foreach(pid => imgMetadata("parent_id") = pid)
+
+                val domPos = getXPathWithIndex(element)
+                imgMetadata("domPath") = domPos.path
+                imgMetadata("orderImageIndex") = domPos.localIndex.toString
+
+                findNearestHeader(element).foreach(h => imgMetadata("nearestHeader") = h)
+
                 elements += HTMLElement(
                   ElementType.IMAGE,
                   content = contentValue,

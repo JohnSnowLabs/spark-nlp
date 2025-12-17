@@ -129,4 +129,11 @@ class XMLReaderTest extends AnyFlatSpec {
     val text: String = collected.head.mkString("\n")
     assert(text == expectedText)
   }
+
+  it should "add metadata for tables" in {
+    val XMLReader = new XMLReader()
+    val xmlDF = XMLReader.read(s"$xmlFilesDirectory/test.xml")
+    xmlDF.select(explode(col("xml"))).show(truncate = false)
+  }
+
 }

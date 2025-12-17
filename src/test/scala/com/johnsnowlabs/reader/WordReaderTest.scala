@@ -116,4 +116,45 @@ class WordReaderTest extends AnyFlatSpec {
     AssertReaders.assertHierarchy(wordDf, "doc")
   }
 
+  it should "read with pom path" in {
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/doc-img-table.docx")
+    wordDf.select(explode(col("doc.metadata"))).show(truncate = false)
+  }
+
+  it should "include domPath, orderTableIndex and orderImageIndex metadata fields" taggedAs FastTest in {
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/doc-img-table.docx")
+
+    val explodedDf = wordDf.withColumn("doc_exploded", explode(col("doc")))
+
+    val tablesDf = explodedDf.filter(col("doc_exploded.elementType") === ElementType.TABLE)
+    assert(tablesDf.count() > 0, "No TABLE elements found in WordReader output")
+
+    val tableMetaDf = tablesDf.selectExpr(
+      "doc_exploded.metadata.domPath as domPath",
+      "doc_exploded.metadata.orderTableIndex as orderTableIndex")
+
+    assert(
+      tableMetaDf.filter(col("domPath").isNotNull).count() == tableMetaDf.count(),
+      "Missing domPath in TABLE metadata")
+    assert(
+      tableMetaDf.filter(col("orderTableIndex").isNotNull).count() == tableMetaDf.count(),
+      "Missing orderTableIndex in TABLE metadata")
+
+    val imagesDf = explodedDf.filter(col("doc_exploded.elementType") === ElementType.IMAGE)
+    assert(imagesDf.count() > 0, "No IMAGE elements found in WordReader output")
+
+    val imageMetaDf = imagesDf.selectExpr(
+      "doc_exploded.metadata.domPath as domPath",
+      "doc_exploded.metadata.orderImageIndex as orderImageIndex")
+
+    assert(
+      imageMetaDf.filter(col("domPath").isNotNull).count() == imageMetaDf.count(),
+      "Missing domPath in IMAGE metadata")
+    assert(
+      imageMetaDf.filter(col("orderImageIndex").isNotNull).count() == imageMetaDf.count(),
+      "Missing orderImageIndex in IMAGE metadata")
+  }
+
 }

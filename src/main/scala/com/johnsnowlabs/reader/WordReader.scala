@@ -29,7 +29,7 @@ import org.apache.poi.xwpf.usermodel.{XWPFDocument, XWPFParagraph, XWPFTable}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
 
-import java.io.{ByteArrayInputStream, IOException}
+import java.io.ByteArrayInputStream
 import java.util.UUID
 import scala.collection.JavaConverters._
 import scala.collection.mutable
@@ -131,6 +131,8 @@ class WordReader(
   private var currentParentId: Option[String] = None
   private def newUUID(): String = UUID.randomUUID().toString
 
+  private case class DocState(var tableCounter: Int = 0, var lastHeader: Option[String] = None)
+
   private def isDocxFile(content: Array[Byte]): Boolean = {
     content.length > 1 && content(0) == ZipMagicNumberFirstByte && content(
       1) == ZipMagicNumberSecondByte
@@ -141,6 +143,9 @@ class WordReader(
   }
 
   private def parseDoc(content: Array[Byte]): Seq[HTMLElement] = {
+    // Track element order and structure across the document
+    val state = DocState()
+
     pageBreak = 0
     val docInputStream = new ByteArrayInputStream(content)
     try {
@@ -152,13 +157,13 @@ class WordReader(
         val footers = document.extractFooters.map { footer =>
           HTMLElement(ElementType.FOOTER, footer, mutable.Map())
         }
-        val docElements = parseDocxToElements(document)
-        val images = extractImages(document)
+        val docElements = parseDocxToElements(document, state)
+        val images = extractImagesDocx(document, state)
         headers ++ docElements ++ footers ++ images
       } else if (isDocFile(content)) {
         val document = new HWPFDocument(docInputStream)
-        val docElements = parseDocToElements(document)
-        val images = extractImages(document)
+        val docElements = parseDocToElements(document, state)
+        val images = extractImages(document, state)
         docElements ++ images
       } else {
         Seq(HTMLElement(ElementType.UNCATEGORIZED_TEXT, "Unknown file format", mutable.Map()))
@@ -172,53 +177,18 @@ class WordReader(
     }
   }
 
-  private def parseDocxToElements(document: XWPFDocument): Seq[HTMLElement] = {
-
+  private def parseDocxToElements(document: XWPFDocument, state: DocState): Seq[HTMLElement] = {
     val elements = document.getBodyElements.asScala.flatMap {
       case paragraph: XWPFParagraph =>
         processParagraph(paragraph, "paragraph")
 
       case table: XWPFTable =>
-        processTable(table)
+        processTable(table, state)
 
       case _ => None
     }
 
     elements
-  }
-
-  private def processParagraphOld(
-      paragraph: XWPFParagraph,
-      source: String,
-      tableLocation: mutable.Map[String, String] = mutable.Map()): Option[HTMLElement] = {
-    val text = paragraph.getText.trim
-    if (text.isEmpty) None
-    else {
-      val metadata = mutable.Map[String, String]()
-      val elementId = newUUID()
-      metadata("element_id") = elementId
-
-      if (includePageBreaks) {
-        val isBreak = paragraph.isCustomPageBreak || paragraph.isSectionBreak
-        if (isBreak) {
-          pageBreak += 1
-          metadata += ("pageBreak" -> pageBreak.toString)
-        }
-      }
-
-      if (tableLocation.nonEmpty) {
-        metadata ++= tableLocation
-      }
-
-      val elementType = paragraph match {
-        case p if p.isTitle =>
-          currentParentId = Some(elementId)
-          ElementType.TITLE
-        case p if p.isListItem => ElementType.LIST_ITEM
-        case _ => if (source == "table") ElementType.TABLE else ElementType.NARRATIVE_TEXT
-      }
-      Some(HTMLElement(elementType, text, metadata))
-    }
   }
 
   private def processParagraph(
@@ -265,24 +235,17 @@ class WordReader(
     }
   }
 
-  private def processTable(table: XWPFTable): Seq[HTMLElement] = {
+  private def processTable(table: XWPFTable, state: DocState): Seq[HTMLElement] = {
+    state.tableCounter += 1
+
     val tableHtml = if (inferTableStructure) Some(table.processAsHtml) else None
     val tableId = newUUID()
-    val tableElements: Seq[HTMLElement] = table.getRows.asScala.zipWithIndex.flatMap {
-      case (row, rowIndex) =>
-        row.getTableCells.asScala.zipWithIndex.flatMap { case (cell, cellIndex) =>
-          val tableLocation = mutable.Map(
-            "tableLocation" -> s"($rowIndex, $cellIndex)",
-            "element_id" -> newUUID(),
-            "parent_id" -> tableId)
-          cell.getParagraphs.asScala.flatMap { paragraph =>
-            processParagraph(paragraph, "table", tableLocation)
-          }
-        }
-    }
 
-    val tableMetadata = mutable.Map[String, String]("element_id" -> tableId)
-    currentParentId.foreach(pid => tableMetadata("parent_id") = pid)
+    val tableMetadata = mutable.Map[String, String](
+      "domPath" -> s"/table[${state.tableCounter}]",
+      "orderTableIndex" -> state.tableCounter.toString,
+      "element_id" -> tableId)
+    state.lastHeader.foreach(h => tableMetadata("nearestHeader") = h)
 
     val tableElement: Option[HTMLElement] = tableHtml.map { html =>
       outputFormat match {
@@ -297,61 +260,107 @@ class WordReader(
       }
     }
 
+    val tableElements: Seq[HTMLElement] = table.getRows.asScala.zipWithIndex.flatMap {
+      case (row, rowIndex) =>
+        row.getTableCells.asScala.zipWithIndex.flatMap { case (cell, cellIndex) =>
+          val tableLocation = mutable.Map(
+            "element_id" -> newUUID(),
+            "parent_id" -> tableId,
+            "domPath" -> s"/table[${state.tableCounter}]/row[${rowIndex + 1}]/cell[${cellIndex + 1}]",
+            "orderTableIndex" -> state.tableCounter.toString)
+          state.lastHeader.foreach(h => tableLocation("nearestHeader") = h)
+          cell.getParagraphs.asScala.flatMap { paragraph =>
+            processParagraph(paragraph, "table", tableLocation)
+          }
+        }
+    }
+
     tableElements ++ tableElement.toSeq
   }
 
-  private def parseDocToElements(document: HWPFDocument): Seq[HTMLElement] = {
+  private def parseDocToElements(document: HWPFDocument, state: DocState): Seq[HTMLElement] = {
+    val range = document.getRange
+    var tableCounter = 0
+    val elements = mutable.ArrayBuffer[HTMLElement]()
 
-    val paragraphs = document.getRange
-    val elements = (0 until paragraphs.numParagraphs).flatMap { i =>
-      val paragraph = paragraphs.getParagraph(i)
+    for (i <- 0 until range.numParagraphs) {
+      val paragraph = range.getParagraph(i)
       val text = paragraph.text.trim
-      if (text.isEmpty) None
-      else {
-        val metadata = mutable.Map[String, String]()
-        val elementId = newUUID()
-        metadata("element_id") = elementId
-        currentParentId.foreach(pid => metadata("parent_id") = pid)
+      if (text.nonEmpty) {
+        val metadata = mutable.Map[String, String](
+          "element_id" -> newUUID()
+        )
 
-        paragraph match {
-          case p if p.isInTable(paragraphs) =>
-            val tableText = p.tableText(paragraphs).getOrElse("")
-            Some(HTMLElement(ElementType.TABLE, tableText, metadata))
-          case p if p.isTitle => Some(HTMLElement(ElementType.TITLE, text, metadata))
-          case p if p.isListItem => Some(HTMLElement(ElementType.LIST_ITEM, text, metadata))
-          case _ => Some(HTMLElement(ElementType.NARRATIVE_TEXT, text, metadata))
+        if (paragraph.isInTable(range)) {
+          tableCounter += 1
+          val tableText = paragraph.tableText(range).getOrElse("")
+          metadata("domPath") = s"/table[$tableCounter]"
+          metadata("orderTableIndex") = tableCounter.toString
+          state.lastHeader.foreach(h => metadata("nearestHeader") = h)
+          elements += HTMLElement(ElementType.TABLE, tableText, metadata)
+        } else {
+          val elementType =
+            if (paragraph.isTitle) ElementType.TITLE
+            else if (paragraph.isListItem) ElementType.LIST_ITEM
+            else ElementType.NARRATIVE_TEXT
+
+          elements += HTMLElement(elementType, text, metadata)
         }
-
       }
     }
 
     elements
   }
 
-  private def extractImages(document: XWPFDocument): Seq[HTMLElement] = {
+
+  private def extractImagesDocx(document: XWPFDocument, state: DocState): Seq[HTMLElement] = {
+    var imageIndex = 0
+
     document.getAllPictures.asScala.map { pic =>
-      val metadata = mutable.Map(
+      imageIndex += 1
+
+      val metadata = mutable.Map[String, String](
+        "domPath" -> s"/img[$imageIndex]",
+        "orderImageIndex" -> imageIndex.toString,
+        "element_id" -> newUUID(),
         "format" -> pic.suggestFileExtension,
-        "imageType" -> pic.getPictureType.toString,
-        "element_id" -> newUUID())
+        "imageType" -> pic.getPictureType.toString)
+      state.lastHeader.foreach(h => metadata("nearestHeader") = h)
+
+      val imageName = Option(pic.getFileName).getOrElse(s"image_$imageIndex")
+
       HTMLElement(
         elementType = ElementType.IMAGE,
-        content = "", // leave textual content empty
+        content = imageName,
         metadata = metadata,
         binaryContent = Some(pic.getData))
     }
   }
 
-  private def extractImages(document: HWPFDocument): Seq[HTMLElement] = {
+  private def extractImages(document: HWPFDocument, state: DocState): Seq[HTMLElement] = {
+    var imageIndex = 0
+
     document.getPicturesTable.getAllPictures.asScala.map { pic =>
-      val metadata = mutable.Map("format" -> pic.suggestFileExtension, "element_id" -> newUUID())
-      currentParentId.foreach(pid => metadata("parent_id") = pid)
+      imageIndex += 1
+      val metadata = mutable.Map[String, String](
+        "domPath" -> s"/img[$imageIndex]",
+        "orderImageIndex" -> imageIndex.toString,
+        "element_id" -> newUUID(),
+        "format" -> pic.suggestFileExtension,
+        "imageType" -> Option(pic.getMimeType).getOrElse("unknown")
+      )
+
+      state.lastHeader.foreach(h => metadata("nearestHeader") = h)
+
+      val imageName = s"image_$imageIndex"
+
       HTMLElement(
         elementType = ElementType.IMAGE,
-        content = "",
+        content = imageName,
         metadata = metadata,
         binaryContent = Some(pic.getContent))
     }
   }
+
 
 }

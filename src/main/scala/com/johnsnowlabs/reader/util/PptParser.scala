@@ -59,15 +59,19 @@ object PptParser {
           }
 
         case table: HSLFTable =>
+          val tableIndex = slide.getShapes.asScala.count(_.isInstanceOf[HSLFTable])
+
           val cellElements = (0 until table.getNumberOfRows).flatMap { rowIndex =>
             (0 until table.getNumberOfColumns).map { colIndex =>
               val cellContent =
                 Option(table.getCell(rowIndex, colIndex)).map(_.getText).getOrElse("").trim
-              HTMLElement(
-                elementType = ElementType.TABLE,
-                content = cellContent,
-                metadata =
-                  mutable.Map("tableLocation" -> s"(${rowIndex.toString}, ${colIndex.toString})"))
+
+              val metadata = mutable.Map[String, String](
+                "domPath" ->
+                  s"/slide[${slide.getSlideNumber}]/table[$tableIndex]/row[${rowIndex + 1}]/cell[${colIndex + 1}]",
+                "orderTableIndex" -> tableIndex.toString)
+
+              HTMLElement(ElementType.TABLE, cellContent, metadata)
             }
           }
 
@@ -113,16 +117,20 @@ object PptParser {
             }
           }
         case table: XSLFTable =>
+          val tableIndex =
+            slide.getShapes.asScala.count(_.isInstanceOf[XSLFTable]) // crude per-slide index
+
           val cellElements = table.getRows.asScala.zipWithIndex.flatMap { case (row, rowIndex) =>
             row.getCells.asScala.zipWithIndex.map { case (cell, colIndex) =>
-              val cellContent = Option(cell.getText).getOrElse("").trim // Extract cell content
-              HTMLElement(
-                elementType = ElementType.TABLE,
-                content = cellContent,
-                metadata =
-                  mutable.Map("tableLocation" -> s"(${rowIndex.toString}, ${colIndex.toString})"))
+              val cellContent = Option(cell.getText).getOrElse("").trim
+              val metadata = mutable.Map[String, String](
+                "domPath" ->
+                  s"/slide[${slide.getSlideNumber}]/table[$tableIndex]/row[${rowIndex + 1}]/cell[${colIndex + 1}]",
+                "orderTableIndex" -> tableIndex.toString)
+              HTMLElement(ElementType.TABLE, cellContent, metadata)
             }
           }
+
           if (inferTableStructure) {
             val tableHtml = buildTableHtml(table)
             val htmlElement = if (outputFormat == "html-table") {

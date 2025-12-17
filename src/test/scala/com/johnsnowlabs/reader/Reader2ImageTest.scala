@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel
 import com.johnsnowlabs.nlp.{AnnotatorType, AssertAnnotations}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.{col, explode}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io.File
@@ -409,19 +409,36 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
   }
 
   it should "set custom prompt" taggedAs SlowTest in {
+    val customPrompt =
+      """
+        |<|im_start|>system
+        |You are a helpful assistant.<|im_end|>
+        |<|im_start|>user
+        |<|vision_start|><|image_pad|><|vision_end|>{prompt}<|im_end|>
+        |<|im_start|>assistant
+        |
+        |""".stripMargin
 
     val reader2Doc = new Reader2Image()
       .setContentPath(emailDirectory)
       .setOutputCol("image")
       .setUserMessage("Describe the image with 3 to 4 words.")
+      .setPromptTemplate("custom")
+      .setCustomPromptTemplate(customPrompt)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val imagesDf = pipelineModel.transform(emptyDataSet)
+    imagesDf.select("image.text").show(truncate = false)
 
     val visualQAClassifier = Qwen2VLTransformer
       .pretrained()
       .setInputCols("image")
       .setOutputCol("answer")
 
-    val vlmPipeline = new Pipeline().setStages(Array(reader2Doc, visualQAClassifier))
-    val resultDf = vlmPipeline.fit(emptyDataSet).transform(emptyDataSet)
+    val vlmPipeline = new Pipeline().setStages(Array(visualQAClassifier))
+    val resultDf = vlmPipeline.fit(imagesDf).transform(imagesDf)
 
     resultDf.select("image.origin", "answer.result").show(truncate = false)
 

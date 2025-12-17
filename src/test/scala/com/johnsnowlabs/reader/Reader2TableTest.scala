@@ -5,10 +5,10 @@ import com.johnsnowlabs.nlp.AssertAnnotations
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions.{col, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.util.matching.Regex
-import org.apache.spark.sql.functions.{col, size}
 
 class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
 
@@ -476,8 +476,22 @@ class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
-    resultDf.show(truncate = false)
-    //    assert(resultDf.count() == 1)
+
+    assert(resultDf.count() == 1)
+  }
+
+  it should "have DOM metadata for tables" in {
+    val reader2Table = new Reader2Table()
+      .setContentType("text/html")
+      .setContentPath(s"$htmlFilesDirectory/sample_mixed.html")
+      .setOutputCol("document")
+      .setExplodeDocs(true)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Table))
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    resultDf.select("document.metadata").show(truncate = false)
   }
 
 }
