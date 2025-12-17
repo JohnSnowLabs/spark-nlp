@@ -192,4 +192,91 @@ class HTMLReaderTest extends AnyFlatSpec {
     AssertReaders.assertHierarchy(htmlDF, "html")
   }
 
+  it should "include domPath and orderTableIndex metadata fields for tables" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/sample_tables.html")
+
+    val explodedDf = htmlDF.withColumn("html_exploded", explode(col("html")))
+    val tablesDf = explodedDf.filter(col("html_exploded.elementType") === ElementType.TABLE)
+
+    assert(tablesDf.count() > 0, "No TABLE elements found in HTMLReader output")
+
+    val tableMetaDf = tablesDf.selectExpr(
+      "html_exploded.metadata.domPath as domPath",
+      "html_exploded.metadata.orderTableIndex as orderTableIndex"
+    )
+
+    assert(
+      tableMetaDf.filter(col("domPath").isNotNull).count() == tableMetaDf.count(),
+      "Missing domPath in TABLE metadata"
+    )
+    assert(
+      tableMetaDf.filter(col("orderTableIndex").isNotNull).count() == tableMetaDf.count(),
+      "Missing orderTableIndex in TABLE metadata"
+    )
+  }
+
+  it should "include domPath and orderImageIndex metadata fields for images" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/sample_images.html")
+
+    val explodedDf = htmlDF.withColumn("html_exploded", explode(col("html")))
+    val imagesDf = explodedDf.filter(col("html_exploded.elementType") === ElementType.IMAGE)
+
+    assert(imagesDf.count() > 0, "No IMAGE elements found in HTMLReader output")
+
+    val imageMetaDf = imagesDf.selectExpr(
+      "html_exploded.metadata.domPath as domPath",
+      "html_exploded.metadata.orderImageIndex as orderImageIndex"
+    )
+
+    assert(
+      imageMetaDf.filter(col("domPath").isNotNull).count() == imageMetaDf.count(),
+      "Missing domPath in IMAGE metadata"
+    )
+    assert(
+      imageMetaDf.filter(col("orderImageIndex").isNotNull).count() == imageMetaDf.count(),
+      "Missing orderImageIndex in IMAGE metadata"
+    )
+  }
+
+  it should "include domPath, orderTableIndex and orderImageIndex metadata fields for tables and images" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/sample_mixed.html")
+
+    val explodedDf = htmlDF.withColumn("html_exploded", explode(col("html")))
+
+    val tablesDf = explodedDf.filter(col("html_exploded.elementType") === ElementType.TABLE)
+    assert(tablesDf.count() > 0, "No TABLE elements found in mixed HTML output")
+
+    val tableMetaDf = tablesDf.selectExpr(
+      "html_exploded.metadata.domPath as domPath",
+      "html_exploded.metadata.orderTableIndex as orderTableIndex"
+    )
+    assert(
+      tableMetaDf.filter(col("domPath").isNotNull).count() == tableMetaDf.count(),
+      "Missing domPath in TABLE metadata"
+    )
+    assert(
+      tableMetaDf.filter(col("orderTableIndex").isNotNull).count() == tableMetaDf.count(),
+      "Missing orderTableIndex in TABLE metadata"
+    )
+
+    val imagesDf = explodedDf.filter(col("html_exploded.elementType") === ElementType.IMAGE)
+    assert(imagesDf.count() > 0, "No IMAGE elements found in mixed HTML output")
+
+    val imageMetaDf = imagesDf.selectExpr(
+      "html_exploded.metadata.domPath as domPath",
+      "html_exploded.metadata.orderImageIndex as orderImageIndex"
+    )
+    assert(
+      imageMetaDf.filter(col("domPath").isNotNull).count() == imageMetaDf.count(),
+      "Missing domPath in IMAGE metadata"
+    )
+    assert(
+      imageMetaDf.filter(col("orderImageIndex").isNotNull).count() == imageMetaDf.count(),
+      "Missing orderImageIndex in IMAGE metadata"
+    )
+  }
+
 }

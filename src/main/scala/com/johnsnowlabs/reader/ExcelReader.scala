@@ -145,8 +145,11 @@ class ExcelReader(
     content.length >= 4 && content.slice(0, 4).sameElements(OleMagicNumber)
   }
 
+  private case class ExcelState(var tableCounter: Int = 0, var imageCounter: Int = 0)
+
   private def parseExcel(content: Array[Byte]): Seq[HTMLElement] = {
     val workbookInputStream = new ByteArrayInputStream(content)
+    val state = ExcelState()
     try {
       val workbook: Workbook =
         if (isXlsxFile(content)) new XSSFWorkbook(workbookInputStream)
@@ -163,12 +166,12 @@ class ExcelReader(
 
       for (sheetIndex <- 0 until workbook.getNumberOfSheets) {
         if (includePageBreaks)
-          buildSheetContentWithPageBreaks(workbook, sheetIndex, elementsBuffer)
+          buildSheetContentWithPageBreaks(workbook, sheetIndex, elementsBuffer, state)
         else
-          buildSheetContent(workbook, sheetIndex, elementsBuffer)
+          buildSheetContent(workbook, sheetIndex, elementsBuffer, state)
       }
 
-      val images = extractImages(workbook)
+      val images = extractImages(workbook, state)
       elementsBuffer ++= images
 
       workbook.close()
@@ -183,13 +186,13 @@ class ExcelReader(
     } finally {
       workbookInputStream.close()
     }
-
   }
 
   private def buildSheetContent(
       workbook: Workbook,
       sheetIndex: Int,
-      elementsBuffer: mutable.ArrayBuffer[HTMLElement]): Unit = {
+      elementsBuffer: mutable.ArrayBuffer[HTMLElement],
+      state: ExcelState): Unit = {
 
     val sheet = workbook.getSheetAt(sheetIndex)
     val sheetName = sheet.getSheetName
@@ -213,9 +216,13 @@ class ExcelReader(
           val cellIndex = cell.getColumnIndex
           val cellValue = cell.getCellValue.trim
 
+          val domPath =
+            s"/sheet[${sheetIndex + 1}]/table[${state.tableCounter + 1}]/row[${rowIndex + 1}]/cell[${cellIndex + 1}]"
+
           val cellMetadata = mutable.Map(
             "SheetName" -> sheetName,
-            "location" -> s"(${rowIndex.toString}, ${cellIndex.toString})")
+            "domPath" -> domPath,
+            "orderTableIndex" -> (state.tableCounter + 1).toString)
 
           (cellValue, cellMetadata)
         }
@@ -254,7 +261,8 @@ class ExcelReader(
   private def buildSheetContentWithPageBreaks(
       workbook: Workbook,
       sheetIndex: Int,
-      elementsBuffer: mutable.ArrayBuffer[HTMLElement]): Unit = {
+      elementsBuffer: mutable.ArrayBuffer[HTMLElement],
+      state: ExcelState): Unit = {
     val sheet = workbook.getSheetAt(sheetIndex)
     val sheetName = sheet.getSheetName
 
@@ -288,7 +296,11 @@ class ExcelReader(
           val cellIndex = cell.getColumnIndex
           val cellValue = cell.getCellValue.trim
           val cellMetadata =
-            mutable.Map("location" -> s"($rowIndex, $cellIndex)", "SheetName" -> sheetName)
+            mutable.Map(
+              "SheetName" -> sheetName,
+              "domPath" -> s"/sheet[${sheetIndex + 1}]/table[${state.tableCounter + 1}]/row[${rowIndex + 1}]/cell[${cellIndex + 1}]",
+              "orderTableIndex" -> (state.tableCounter + 1).toString,
+              "pageBreak" -> page.toString)
           (cellValue, cellMetadata)
         }
         val content = cellValuesWithMetadata.map(_._1).mkString(cellSeparator).trim
@@ -310,34 +322,33 @@ class ExcelReader(
     breaks.count(break => cellIndex > break) + 1
   }
 
-  private def extractImages(workbook: Workbook): Seq[HTMLElement] = {
+  private def extractImages(workbook: Workbook, state: ExcelState): Seq[HTMLElement] = {
     workbook match {
       case xssf: XSSFWorkbook =>
         xssf.getAllPictures.asScala.map { pic =>
+          state.imageCounter += 1
           val metadata = mutable.Map(
             "format" -> pic.suggestFileExtension(),
-            "imageType" -> pic.getPictureType.toString)
-          HTMLElement(
-            elementType = ElementType.IMAGE,
-            content = "",
-            metadata = metadata,
-            binaryContent = Some(pic.getData))
+            "imageType" -> pic.getPictureType.toString,
+            "orderImageIndex" -> state.imageCounter.toString,
+            "domPath" -> s"/image[${state.imageCounter}]")
+          HTMLElement(ElementType.IMAGE, "", metadata, Some(pic.getData))
         }
 
       case hssf: HSSFWorkbook =>
         hssf.getAllPictures.asScala.map { pic =>
+          state.imageCounter += 1
           val metadata = mutable.Map(
             "format" -> pic.suggestFileExtension(),
-            "imageType" -> pic.getFormat.toString)
-          HTMLElement(
-            elementType = ElementType.IMAGE,
-            content = "",
-            metadata = metadata,
-            binaryContent = Some(pic.getData))
+            "imageType" -> pic.getFormat.toString,
+            "orderImageIndex" -> state.imageCounter.toString,
+            "domPath" -> s"/image[${state.imageCounter}]")
+          HTMLElement(ElementType.IMAGE, "", metadata, Some(pic.getData))
         }
 
       case _ => Seq.empty
     }
+
   }
 
 }

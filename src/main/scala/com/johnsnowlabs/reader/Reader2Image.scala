@@ -117,7 +117,7 @@ class Reader2Image(override val uid: String)
   val customPromptTemplate: Param[String] =
     new Param[String](this, "customPromptTemplate", "custom prompt template for image models")
 
-  def setCustomPromptTemplate(value: String): this.type = set(promptTemplate, value)
+  def setCustomPromptTemplate(value: String): this.type = set(customPromptTemplate, value)
 
   val useEncodedImageBytes: Param[Boolean] =
     new Param[Boolean](
