@@ -207,8 +207,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
             utilsClass.getMethod("deserialize", classOf[Array[Byte]], classOf[ClassLoader])
           deserializeMethod.invoke(null, x._2.getBytes, loader).asInstanceOf[Array[ObjectType]]
         } catch {
-          case e: java.lang.reflect.InvocationTargetException
-              if e.getCause.isInstanceOf[java.io.InvalidClassException] =>
+          case _: java.lang.reflect.InvocationTargetException =>
             LegacyObjectInputStream.deserializeArray[ObjectType](
               x._2.getBytes,
               resolveCustomDescriptor = resolveCustomLegacyClasses)
