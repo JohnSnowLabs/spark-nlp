@@ -294,6 +294,7 @@ class HTMLReader(
           NodeMetadata(tagName = tagName, hidden = isNodeHidden(childNode), visited = false))
       }
 
+      if (trackingNodes(node).visited) return
       if (trackingNodes(node).hidden) return
 
       node match {
@@ -512,14 +513,51 @@ class HTMLReader(
   private def isParagraphLikeElement(elem: Element): Boolean = {
     val tag = elem.tagName().toLowerCase
     val style = elem.attr("style").toLowerCase
-    (tag == "p") ||
-    (tag == "div" && (
-      style.contains("font-size") ||
-        style.contains("line-height") ||
-        style.contains("margin") ||
-        elem.getElementsByTag("b").size() > 0 ||
-        elem.getElementsByTag("strong").size() > 0
-    ))
+    val classAttr = elem.className().toLowerCase
+
+    if (tag == "div") {
+      //Heuristic 1: Detect visual formatting like a paragraph
+      val looksLikeParagraph =
+        style.contains("font-size") ||
+          style.contains("line-height") ||
+          style.contains("margin") ||
+          elem.getElementsByTag("b").size() > 0 ||
+          elem.getElementsByTag("strong").size() > 0
+
+      //Heuristic 2: Exclude containers that contain multiple block-level children
+      val blockChildren = elem
+        .children()
+        .asScala
+        .count(child =>
+          Set(
+            "div",
+            "p",
+            "table",
+            "ul",
+            "ol",
+            "li",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "section",
+            "article",
+            "nav").contains(child.tagName().toLowerCase))
+
+      val hasMultipleBlocks = blockChildren > 0 || elem.childrenSize() > 1
+
+      //Heuristic 3: Exclude layout-looking classes (generic keywords)
+      val layoutLike =
+        classAttr.matches(
+          ".*(section|content|container|wrapper|grid|row|col|card|block|item|panel|box).*")
+
+      //Paragraph-like only if visually looks like text, not a layout container, and no block-level children
+      looksLikeParagraph && !hasMultipleBlocks && !layoutLike
+    } else {
+      tag == "p"
+    }
   }
 
   private def getTagName(node: Node): Option[String] = {
