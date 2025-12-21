@@ -113,6 +113,14 @@ val openVinoDependencies: Seq[sbt.ModuleID] = Seq(openVinoCPU)
 
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
+lazy val vectorStoreDependencies = Seq(
+  pineconeScalaClient
+    exclude ("com.fasterxml.jackson.core", "jackson-annotations")
+    exclude ("com.fasterxml.jackson.core", "jackson-databind")
+    exclude ("com.fasterxml.jackson.core", "jackson-core")
+)
+
+
 lazy val root = (project in file("."))
   .settings(
     crossScalaVersions := supportedScalaVersions,
@@ -123,6 +131,7 @@ lazy val root = (project in file("."))
         tensorflowDependencies ++
         onnxDependencies ++
         llamaCppDependencies ++
+        vectorStoreDependencies ++
         openVinoDependencies ++
         typedDependencyParserDependencies,
     // TODO potentially improve this?

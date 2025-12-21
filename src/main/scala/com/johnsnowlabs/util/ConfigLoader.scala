@@ -55,6 +55,9 @@ object ConfigLoader {
       getConfigInfo(ConfigHelper.awsExternalRegion, "") ++
       getConfigInfo(ConfigHelper.gcpProjectId, "") ++
       getConfigInfo(ConfigHelper.openAIAPIKey, sys.env.getOrElse("OPENAI_API_KEY", "")) ++
+      getConfigInfo(ConfigHelper.pineconeAPIKey, sys.env.getOrElse("PINECONE_API_KEY", "")) ++
+      getConfigInfo(ConfigHelper.pineconeEnvironment, sys.env.getOrElse("PINECONE_ENVIRONMENT", "")) ++
+      getConfigInfo(ConfigHelper.pineconeIndexName, sys.env.getOrElse("PINECONE_INDEX_NAME", "")) ++
       getConfigInfo(ConfigHelper.onnxGpuDeviceId, "0") ++
       getConfigInfo(ConfigHelper.onnxIntraOpNumThreads, "6") ++
       getConfigInfo(ConfigHelper.onnxOptimizationLevel, "ALL_OPT") ++
