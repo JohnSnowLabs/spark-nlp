@@ -116,12 +116,6 @@ class WordReaderTest extends AnyFlatSpec {
     AssertReaders.assertHierarchy(wordDf, "doc")
   }
 
-  it should "read with pom path" in {
-    val wordReader = new WordReader()
-    val wordDf = wordReader.doc(s"$docDirectory/doc-img-table.docx")
-    wordDf.select(explode(col("doc.metadata"))).show(truncate = false)
-  }
-
   it should "include domPath, orderTableIndex and orderImageIndex metadata fields" taggedAs FastTest in {
     val wordReader = new WordReader()
     val wordDf = wordReader.doc(s"$docDirectory/doc-img-table.docx")

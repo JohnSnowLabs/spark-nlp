@@ -130,10 +130,27 @@ class XMLReaderTest extends AnyFlatSpec {
     assert(text == expectedText)
   }
 
-  it should "add metadata for tables" in {
+  it should "include domPath and orderTableIndex metadata fields for tables" taggedAs FastTest in {
     val XMLReader = new XMLReader()
     val xmlDF = XMLReader.read(s"$xmlFilesDirectory/test.xml")
-    xmlDF.select(explode(col("xml"))).show(truncate = false)
+
+    val explodedDf = xmlDF.withColumn("xml_exploded", explode(col("xml")))
+
+    assert(explodedDf.count() > 0, "No TABLE elements found in XMLReader output")
+
+    val tableMetaDf = explodedDf.selectExpr(
+      "xml_exploded.metadata.domPath as domPath",
+      "xml_exploded.metadata.orderTableIndex as orderTableIndex"
+    )
+
+    assert(
+      tableMetaDf.filter(col("domPath").isNotNull).count() == tableMetaDf.count(),
+      "Missing domPath in metadata"
+    )
+    assert(
+      tableMetaDf.filter(col("orderTableIndex").isNotNull).count() == tableMetaDf.count(),
+      "Missing orderTableIndex in metadata"
+    )
   }
 
 }
