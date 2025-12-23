@@ -20,8 +20,10 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.serialization.StructFeature
 import com.johnsnowlabs.nlp.util.regex.RuleFactory
+import org.apache.log4j.Logger
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
-import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.ml.util.{Identifiable, MLReader}
+import org.apache.spark.sql.SparkSession
 
 import scala.collection.mutable
 import scala.util.matching.Regex
@@ -411,7 +413,7 @@ class TokenizerModel(override val uid: String)
 }
 
 trait ReadablePretrainedTokenizer
-    extends ParamsAndFeaturesReadable[TokenizerModel]
+    extends ParamsAndFeaturesFallbackReadable[TokenizerModel]
     with HasPretrained[TokenizerModel] {
   override val defaultModelName: Option[String] = Some("token_rules")
 
@@ -425,6 +427,101 @@ trait ReadablePretrainedTokenizer
 
   override def pretrained(name: String, lang: String, remoteLoc: String): TokenizerModel =
     super.pretrained(name, lang, remoteLoc)
+
+  /** Fallback load method for loading a TokenizerModel with default parameters in case of
+    * deserialization issues.
+    *
+    * @param folder
+    *   the folder where the model is stored
+    * @param spark
+    *   the Spark session
+    * @return
+    *   an instance of the model with default parameters and features loaded
+    */
+  override def fallbackLoad(folder: String, spark: SparkSession): TokenizerModel = {
+    import com.johnsnowlabs.nlp.util.io.ResourceHelper
+    import org.json4s._
+    import org.json4s.jackson.JsonMethods._
+    import scala.io.Source
+    import com.johnsnowlabs.util.JsonParser._
+
+    val logger = Logger.getLogger(this.getClass)
+
+    // Resolve remote/local path and copy to local tmp folder
+    val actualFolderPath: String = ResourceHelper.resolvePath(folder)
+    val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
+
+    // get metadata file
+    val metadataFile = new java.io.File(s"$localFolder/metadata/part-00000")
+    val metadataValid = metadataFile.exists() && metadataFile.isFile
+
+    if (!metadataValid) {
+      // No metadata found: return a default TokenizerModel
+      logger.info("Fallback: No metadata found for TokenizerModel, returning default model.")
+      new Tokenizer().train(null, None)
+    } else {
+      val src = Source.fromFile(metadataFile)
+      try {
+        val jsonStr = src.getLines().mkString("\n")
+        val jsonObj: JValue = parse(jsonStr)
+
+        // paramMap is the main place where saved params live; fallback to defaultParamMap
+        val params = jsonObj \ "paramMap" match {
+          case JNothing =>
+            jsonObj \ "defaultParamMap" match {
+              case JNothing => JNothing
+              case v => v
+            }
+          case v => v
+        }
+
+        if (params == JNothing) {
+          logger.info(
+            "Fallback: No parameters found in metadata for TokenizerModel, returning default model.")
+          new Tokenizer().train(null, None)
+        } else {
+          val model = new Tokenizer()
+          logger.info(
+            "Loading TokenizerModel with fallback params. Some params may not be set correctly.")
+
+          // Try to read known params and set them on the TokenizerModel
+          params \ "minLength" match {
+            case JNothing => ; case v => asInt(v).foreach(model.setMinLength)
+          }
+          params \ "maxLength" match {
+            case JNothing => ; case v => asInt(v).foreach(model.setMaxLength)
+          }
+          params \ "caseSensitiveExceptions" match {
+            case JNothing => ; case v => asBoolean(v).foreach(model.setCaseSensitiveExceptions)
+          }
+          params \ "targetPattern" match {
+            case JNothing => ; case v => asString(v).foreach(model.setTargetPattern)
+          }
+          params \ "splitPattern" match {
+            case JNothing => ; case v => asString(v).foreach(model.setSplitPattern)
+          }
+          params \ "splitChars" match {
+            case JNothing => ; case v => asStringArray(v).foreach(model.setSplitChars)
+          }
+          params \ "exceptions" match {
+            case JNothing => ; case v => asStringArray(v).foreach(model.setExceptions)
+          }
+
+          // inputCols/outputCol
+          params \ "outputCol" match {
+            case JNothing => ; case v => asString(v).foreach(model.setOutputCol)
+          }
+          params \ "inputCols" match {
+            case JNothing => ;
+            case v => asStringArray(v).foreach(cols => model.setInputCols(cols: _*))
+          }
+
+          model.train(null, None)
+        }
+
+      } finally src.close()
+    }
+  }
 }
 
 /** This is the companion object of [[TokenizerModel]]. Please refer to that class for the

@@ -92,17 +92,10 @@ class FeaturesFallbackReader[T <: HasFeatures](
       baseReader.load(path)
     } match {
       case Success(value) => value
-      case Failure(_: java.util.NoSuchElementException) =>
+      case Failure(e: Throwable) =>
         println(
-          s"Failed to load all parameters from $path, attempting fallback loader. " +
-            s"Parameters will be set to default values.")
+          s"Failed to load all parameters from $path: ${e.toString}. Attempting fallback loader.")
         fallbackLoad(path, sparkSession)
-      case Failure(_: java.lang.ClassCastException) =>
-        println(
-          s"Failed to cast to class of $path, attempting fallback loader. " +
-            s"Parameters will be set to default values.")
-        fallbackLoad(path, sparkSession)
-      case Failure(exception) => throw exception
     }
   }
 
