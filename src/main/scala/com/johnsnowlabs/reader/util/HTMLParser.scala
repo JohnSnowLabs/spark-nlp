@@ -78,7 +78,7 @@ object HTMLParser {
   def isTitleElement(tag: String, style: String, role: String, titleFontSize: Int): Boolean = {
     // Recognize titles from common title-related tags or formatted <p> elements
     tag match {
-      case "title" | "h1" | "h2" | "h3" | "header" => true
+      case "title" | "h1" | "h2" | "h3" | "h4" | "header" => true
       case "p" | "div" => isFormattedAsTitle(style, titleFontSize)
       case _ => role == "heading" // ARIA role="heading"
     }

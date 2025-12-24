@@ -315,7 +315,7 @@ class HTMLReader(
                 currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
                 elements += HTMLElement(
                   ElementType.LINK,
-                  content = s"[$linkText]($href)",
+                  content = linkText,
                   metadata = pageMetadata)
               }
 
@@ -449,6 +449,28 @@ class HTMLReader(
                   content = titleText,
                   metadata = pageMetadata)
                 currentParentId = Some(titleId)
+              }
+
+            case "div"
+                if element.className().nonEmpty &&
+                  element.text().trim.nonEmpty &&
+                  !element
+                    .className()
+                    .toLowerCase
+                    .matches(
+                      ".*(container|content|section|wrapper|grid|row|col|panel|box|card|layout).*") &&
+                  !visitedNode =>
+              val divText = element.text().trim
+              if (divText.nonEmpty) {
+                pageMetadata("sentence") = sentenceIndex.toString
+                sentenceIndex += 1
+                trackingNodes(element).visited = true
+                pageMetadata("element_id") = newUUID()
+                currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
+                elements += HTMLElement(
+                  ElementType.NARRATIVE_TEXT, // or UNCATEGORIZED_TEXT if you prefer
+                  content = divText,
+                  metadata = pageMetadata)
               }
 
             case "hr" =>
