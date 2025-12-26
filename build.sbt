@@ -156,6 +156,9 @@ lazy val root = (project in file("."))
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.first
   case PathList("org", "tensorflow", _ @_*) => MergeStrategy.first
+  case PathList("META-INF", "mailcap.default") => MergeStrategy.first
+  case PathList("META-INF", "mimetypes.default") => MergeStrategy.first
+  case PathList("google", "protobuf", _*) => MergeStrategy.first
   case x =>
     val oldStrategy = (assembly / assemblyMergeStrategy).value
     oldStrategy(x)

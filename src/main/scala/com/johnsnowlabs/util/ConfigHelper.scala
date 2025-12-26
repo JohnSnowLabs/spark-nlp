@@ -69,9 +69,7 @@ object ConfigHelper {
 
   val openAIAPIKey = "spark.jsl.settings.openai.api.key"
 
-  val pineconeAPIKey = "spark.jsl.settings.pinecone.api.key"
-  val pineconeEnvironment = "spark.jsl.settings.pinecone.environment"
-  val pineconeIndexName = "spark.jsl.settings.pinecone.index_name"
+  val vectorDBAPIKey = "spark.jsl.settings.vectordb.api.key"
 
   // Configs for ONNX session
   val onnxGpuDeviceId = "spark.jsl.settings.onnx.gpuDeviceId" // The GPU device ID to execute on
