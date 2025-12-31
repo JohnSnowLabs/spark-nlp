@@ -138,7 +138,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
       annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
     annotations.updated(
       documentAssembler.getOutputCol,
-      documentAssembler.assemble(target, Map.empty[String, String]))
+      documentAssembler.assemble(target, Map("sentence" -> "0")))
   }
 
   private def processMultipleDocumentAssembler(
@@ -154,7 +154,7 @@ class LightPipeline(val pipelineModel: PipelineModel, parseEmbeddings: Boolean =
       val input = outputTuple._2
       multiDocumentAnnotations = multiDocumentAnnotations ++ annotations.updated(
         outputCol,
-        multiDocumentAssembler.assemble(input, Map.empty[String, String]))
+        multiDocumentAssembler.assemble(input, Map("sentence" -> "0")))
     }
 
     annotations ++ multiDocumentAnnotations
