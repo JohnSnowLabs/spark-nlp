@@ -33,7 +33,7 @@ on:
 jobs:
   spark34:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: macos-13
+    runs-on: macos-15
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
@@ -72,7 +72,7 @@ jobs:
           python3.8 -m pytest -v -m fast
   spark35:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: macos-13
+    runs-on: macos-15
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
@@ -107,7 +107,7 @@ jobs:
 
   spark33:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: macos-13
+    runs-on: macos-15
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
