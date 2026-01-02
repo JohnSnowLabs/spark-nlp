@@ -538,7 +538,7 @@ class HTMLReader(
     val classAttr = elem.className().toLowerCase
 
     if (tag == "div") {
-      //Heuristic 1: Detect visual formatting like a paragraph
+      // Heuristic 1: Detect visual formatting like a paragraph
       val looksLikeParagraph =
         style.contains("font-size") ||
           style.contains("line-height") ||
@@ -546,7 +546,7 @@ class HTMLReader(
           elem.getElementsByTag("b").size() > 0 ||
           elem.getElementsByTag("strong").size() > 0
 
-      //Heuristic 2: Exclude containers that contain multiple block-level children
+      // Heuristic 2: Exclude containers that contain multiple block-level children
       val blockChildren = elem
         .children()
         .asScala
@@ -570,12 +570,12 @@ class HTMLReader(
 
       val hasMultipleBlocks = blockChildren > 0 || elem.childrenSize() > 1
 
-      //Heuristic 3: Exclude layout-looking classes (generic keywords)
+      // Heuristic 3: Exclude layout-looking classes (generic keywords)
       val layoutLike =
         classAttr.matches(
           ".*(section|content|container|wrapper|grid|row|col|card|block|item|panel|box).*")
 
-      //Paragraph-like only if visually looks like text, not a layout container, and no block-level children
+      // Paragraph-like only if visually looks like text, not a layout container, and no block-level children
       looksLikeParagraph && !hasMultipleBlocks && !layoutLike
     } else {
       tag == "p"

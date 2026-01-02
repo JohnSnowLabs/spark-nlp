@@ -287,9 +287,7 @@ class WordReader(
       val paragraph = range.getParagraph(i)
       val text = paragraph.text.trim
       if (text.nonEmpty) {
-        val metadata = mutable.Map[String, String](
-          "element_id" -> newUUID()
-        )
+        val metadata = mutable.Map[String, String]("element_id" -> newUUID())
 
         if (paragraph.isInTable(range)) {
           tableCounter += 1
@@ -311,7 +309,6 @@ class WordReader(
 
     elements
   }
-
 
   private def extractImagesDocx(document: XWPFDocument, state: DocState): Seq[HTMLElement] = {
     var imageIndex = 0
@@ -347,8 +344,7 @@ class WordReader(
         "orderImageIndex" -> imageIndex.toString,
         "element_id" -> newUUID(),
         "format" -> pic.suggestFileExtension,
-        "imageType" -> Option(pic.getMimeType).getOrElse("unknown")
-      )
+        "imageType" -> Option(pic.getMimeType).getOrElse("unknown"))
 
       state.lastHeader.foreach(h => metadata("nearestHeader") = h)
 
@@ -361,6 +357,5 @@ class WordReader(
         binaryContent = Some(pic.getContent))
     }
   }
-
 
 }

@@ -140,17 +140,14 @@ class XMLReaderTest extends AnyFlatSpec {
 
     val tableMetaDf = explodedDf.selectExpr(
       "xml_exploded.metadata.domPath as domPath",
-      "xml_exploded.metadata.orderTableIndex as orderTableIndex"
-    )
+      "xml_exploded.metadata.orderTableIndex as orderTableIndex")
 
     assert(
       tableMetaDf.filter(col("domPath").isNotNull).count() == tableMetaDf.count(),
-      "Missing domPath in metadata"
-    )
+      "Missing domPath in metadata")
     assert(
       tableMetaDf.filter(col("orderTableIndex").isNotNull).count() == tableMetaDf.count(),
-      "Missing orderTableIndex in metadata"
-    )
+      "Missing orderTableIndex in metadata")
   }
 
 }
