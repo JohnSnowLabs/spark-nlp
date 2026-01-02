@@ -18,8 +18,18 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.AnnotatorType.IMAGE
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, AnnotatorType, HasOutputAnnotationCol, HasOutputAnnotatorType}
-import com.johnsnowlabs.partition.util.PartitionHelper.{datasetWithBinaryFile, datasetWithTextFile, isStringContent}
+import com.johnsnowlabs.nlp.{
+  Annotation,
+  AnnotationImage,
+  AnnotatorType,
+  HasOutputAnnotationCol,
+  HasOutputAnnotatorType
+}
+import com.johnsnowlabs.partition.util.PartitionHelper.{
+  datasetWithBinaryFile,
+  datasetWithTextFile,
+  isStringContent
+}
 import com.johnsnowlabs.partition.{HasBinaryReaderProperties, Partition}
 import com.johnsnowlabs.reader.util.{ImageParser, ImagePromptTemplate}
 import org.apache.spark.ml.Transformer

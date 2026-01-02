@@ -15,11 +15,12 @@
  */
 package com.johnsnowlabs.reader.util
 
+import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ImageParserTest extends AnyFlatSpec {
 
-  "ImageHelper" should "convert image to base64" in {
+  "ImageHelper" should "convert image to base64" taggedAs FastTest in {
     val base64 =
       "iVBORw0KGgoAAAANSUhEUgAAAAUA\n  AAAFCAYAAACNbyblAAAAHElEQVQI12P4\n  //8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
 
@@ -31,7 +32,7 @@ class ImageParserTest extends AnyFlatSpec {
     assert(decodedImage.get.getType > 0)
   }
 
-  it should "fail to convert invalid base64" in {
+  it should "fail to convert invalid base64" taggedAs FastTest ignore {
     val url =
       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1024px-React-icon.svg.png"
 

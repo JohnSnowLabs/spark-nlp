@@ -65,8 +65,10 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
     val expectedResult =
       Map(
-        "output1" -> List(Annotation(DOCUMENT, 0, input1.length - 1, input1, Map())),
-        "output2" -> List(Annotation(DOCUMENT, 0, input2.length - 1, input2, Map())),
+        "output1" -> List(
+          Annotation(DOCUMENT, 0, input1.length - 1, input1, Map("sentence" -> "0"))),
+        "output2" -> List(
+          Annotation(DOCUMENT, 0, input2.length - 1, input2, Map("sentence" -> "0"))),
         "token" -> List(
           Annotation(TOKEN, 0, 3, "This", Map("sentence" -> "0")),
           Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
@@ -100,8 +102,10 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
     val expectedResults = Array(
       Map(
-        "output1" -> List(Annotation(DOCUMENT, 0, input1.length - 1, input1, Map())),
-        "output2" -> List(Annotation(DOCUMENT, 0, input2.length - 1, input2, Map())),
+        "output1" -> List(
+          Annotation(DOCUMENT, 0, input1.length - 1, input1, Map("sentence" -> "0"))),
+        "output2" -> List(
+          Annotation(DOCUMENT, 0, input2.length - 1, input2, Map("sentence" -> "0"))),
         "token" -> List(
           Annotation(TOKEN, 0, 3, "This", Map("sentence" -> "0")),
           Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
@@ -109,8 +113,10 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
           Annotation(TOKEN, 12, 17, "second", Map("sentence" -> "0")),
           Annotation(TOKEN, 19, 23, "input", Map("sentence" -> "0")))),
       Map(
-        "output1" -> List(Annotation(DOCUMENT, 0, input1.length - 1, input1, Map())),
-        "output2" -> List(Annotation(DOCUMENT, 0, input2.length - 1, input2, Map())),
+        "output1" -> List(
+          Annotation(DOCUMENT, 0, input1.length - 1, input1, Map("sentence" -> "0"))),
+        "output2" -> List(
+          Annotation(DOCUMENT, 0, input2.length - 1, input2, Map("sentence" -> "0"))),
         "token" -> List(
           Annotation(TOKEN, 0, 3, "This", Map("sentence" -> "0")),
           Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
@@ -263,7 +269,8 @@ class MultiDocumentAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
     val expectedResult =
       Map(
-        "output" -> List(Annotation(DOCUMENT, 0, input1.length - 1, input1, Map())),
+        "output" -> List(
+          Annotation(DOCUMENT, 0, input1.length - 1, input1, Map("sentence" -> "0"))),
         "token" -> List(
           Annotation(TOKEN, 0, 3, "This", Map("sentence" -> "0")),
           Annotation(TOKEN, 5, 6, "is", Map("sentence" -> "0")),
