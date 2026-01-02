@@ -18,23 +18,13 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.AnnotatorType.IMAGE
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.nlp.{
-  Annotation,
-  AnnotationImage,
-  AnnotatorType,
-  HasOutputAnnotationCol,
-  HasOutputAnnotatorType
-}
-import com.johnsnowlabs.partition.util.PartitionHelper.{
-  datasetWithBinaryFile,
-  datasetWithTextFile,
-  isStringContent
-}
+import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, AnnotatorType, HasOutputAnnotationCol, HasOutputAnnotatorType}
+import com.johnsnowlabs.partition.util.PartitionHelper.{datasetWithBinaryFile, datasetWithTextFile, isStringContent}
 import com.johnsnowlabs.partition.{HasBinaryReaderProperties, Partition}
 import com.johnsnowlabs.reader.util.{ImageParser, ImagePromptTemplate}
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
-import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
+import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
@@ -456,3 +446,5 @@ class Reader2Image(override val uid: String)
   }
 
 }
+
+object Reader2Image extends DefaultParamsReadable[Reader2Image]
