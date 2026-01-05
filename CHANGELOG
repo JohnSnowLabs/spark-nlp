@@ -1,4 +1,23 @@
 =======
+6.3.1
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1304] Upgrade jsl-llamacpp to llama.cpp b7247 #14719
+* [SPARKNLP-1322] Store Structural Position for Tables and Images #14713
+* [SPARKNLP-1323] Adding instructions to setup MS Frabric on spark-nlp #14710
+
+---------
+Bug Fixes
+---------
+
+* [SPARKNLP-1324] handle nonstandard output tensor names better when loading onnx bert models #14711
+* Bugfix when resetting cache in ResourceDownloader #14712
+* Addition sentence info into DocumentAssembler output in LightPipeline #14714
+
+=======
 6.3.0
 =======
 ---------------------------
