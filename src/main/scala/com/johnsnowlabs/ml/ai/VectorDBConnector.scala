@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.nlp.annotators
+package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate}
