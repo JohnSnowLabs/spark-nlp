@@ -24,7 +24,7 @@ import com.johnsnowlabs.nlp.annotators.common.{
   PosTagged
 }
 import com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition._
-import com.johnsnowlabs.nlp.serialization.StructFeature
+import com.johnsnowlabs.nlp.serialization.StructJSONFeature
 import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.util.Identifiable
 
@@ -153,8 +153,13 @@ class DependencyParserModel(override val uid: String)
     *
     * @group param
     */
-  val perceptron: StructFeature[DependencyMaker] =
-    new StructFeature[DependencyMaker](this, "perceptron")
+  val perceptron: StructJSONFeature[DependencyMaker] =
+    new StructJSONFeature[DependencyMaker](this, "perceptron")(
+      DependencyMaker.jsonSerialize,
+      DependencyMaker.jsonDeserialize)
+
+  /** @group getParam */
+  def getPerceptron: DependencyMaker = $$(perceptron)
 
   /** @group setParam */
   def setPerceptron(value: DependencyMaker): this.type = set(perceptron, value)

@@ -74,7 +74,8 @@ lazy val utilDependencies = Seq(
     exclude ("org.apache.logging.log4j", "log4j-api"),
   pdfBox,
   flexmark,
-  tagSoup)
+  tagSoup,
+  json4sNative)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 
