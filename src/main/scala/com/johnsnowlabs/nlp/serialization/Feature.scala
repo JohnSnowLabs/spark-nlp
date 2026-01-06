@@ -30,6 +30,7 @@ import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.ObjectStreamClass
 import scala.reflect.ClassTag
+import scala.util.{Failure, Success, Using}
 
 abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
     model: HasFeatures,
@@ -484,4 +485,67 @@ class TransducerFeature(model: HasFeatures, override val name: String)
     }
   }
 
+}
+
+/** Struct Feature for JSON serialization/deserialization.
+  *
+  * @param model
+  *   The parent HasFeatures model
+  * @param name
+  *   The name of the feature
+  * @param jsonSerializer
+  *   Function to serialize an instance of TValue to JSON string
+  * @param jsonDeserializer
+  *   Function to deserialize the value from JSON string and return an instance of TValue
+  * @tparam TValue
+  *   The type of the value to be serialized/deserialized
+  */
+class StructJSONFeature[TValue: ClassTag](model: HasFeatures, override val name: String)(
+    jsonSerializer: TValue => String,
+    jsonDeserializer: String => TValue)
+    extends StructFeature[TValue](model, name) {
+
+  def getFieldJSONPath(path: String, field: String): Path =
+    getFieldPath(path, field).suffix("/data.json")
+
+  override def serializeObject(
+      spark: SparkSession,
+      path: String,
+      field: String,
+      value: TValue): Unit = {
+    val dataPath = getFieldJSONPath(path, field)
+    val jsonString = jsonSerializer(value)
+    val uri = new java.net.URI(ResourceHelper.resolvePath(path))
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    // ensure parent directories exist
+    fs.mkdirs(dataPath.getParent)
+    // write JSON to HDFS (overwrite)
+    Using(fs.create(dataPath, true)) { out =>
+      out.write(jsonString.getBytes("UTF-8"))
+      out.flush()
+    }
+  }
+  override def deserializeObject(
+      spark: SparkSession,
+      path: String,
+      field: String): Option[TValue] = {
+    val uri = new java.net.URI(ResourceHelper.resolvePath(path))
+    val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
+    val dataPath = getFieldJSONPath(path, field)
+    if (fs.exists(dataPath)) {
+      // Load the JSON string from the dataPath (read whole file as UTF-8)
+      Using(scala.io.Source.fromInputStream(fs.open(dataPath), "UTF-8")) { source =>
+        source.mkString
+      } match {
+        case Success(jsonString) => Some(jsonDeserializer(jsonString))
+        case Failure(exception) =>
+          logger.error(
+            s"Failed to deserialize JSON for field $field at path $dataPath: ${exception.getMessage}")
+          None
+      }
+    } else {
+      // Old model: Java serialization
+      super.deserializeObject(spark, path, field)
+    }
+  }
 }
