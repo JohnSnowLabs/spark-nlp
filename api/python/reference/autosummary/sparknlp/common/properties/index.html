@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.common.properties &#8212; Spark NLP 6.3.0 documentation</title>
+    <title>sparknlp.common.properties &#8212; Spark NLP 6.3.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=a290898a"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=06e80d93"></script>
     <script src="../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.0 documentation - Home"/>`);</script>
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -1623,6 +1623,11 @@ Generation</a> for more details.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.reasoningBudget">
+<span class="sig-name descname"><span class="pre">reasoningBudget</span></span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#HasLlamaCppProperties.reasoningBudget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.reasoningBudget" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.inputPrefix">
 <span class="sig-name descname"><span class="pre">inputPrefix</span></span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#HasLlamaCppProperties.inputPrefix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.inputPrefix" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -2171,6 +2176,13 @@ Generation</a> for more details.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setReasoningBudget">
+<span class="sig-name descname"><span class="pre">setReasoningBudget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reasoningBudget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setReasoningBudget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setReasoningBudget" title="Permalink to this definition">#</a></dt>
+<dd><p>Controls the amount of thinking allowed; currently only one of: -1 for unrestricted thinking
+budget, or 0 to disable thinking (default: -1)</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setDisableLog">
 <span class="sig-name descname"><span class="pre">setDisableLog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">disableLog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setDisableLog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setDisableLog" title="Permalink to this definition">#</a></dt>
 <dd><p>Whether to disable logging</p>
@@ -2403,6 +2415,7 @@ Generation</a> for more details.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.chatTemplate"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.chatTemplate</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.logVerbosity"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.logVerbosity</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.disableLog"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.disableLog</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.reasoningBudget"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.reasoningBudget</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.inputPrefix"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.inputPrefix</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.inputSuffix"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.inputSuffix</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.cachePrompt"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.cachePrompt</span></code></a></li>
@@ -2496,6 +2509,7 @@ Generation</a> for more details.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setUseChatTemplate"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setUseChatTemplate()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setNParallel"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setNParallel()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setLogVerbosity"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setLogVerbosity()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setReasoningBudget"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setReasoningBudget()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setDisableLog"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setDisableLog()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setTokenIdBias"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setTokenIdBias()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setTokenBias"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setTokenBias()</span></code></a></li>
@@ -2543,7 +2557,7 @@ Generation</a> for more details.</p>
 
   <p class="copyright">
     
-      © Copyright 2025 John Snow Labs.
+      © Copyright 2026 John Snow Labs.
       <br/>
     
   </p>
