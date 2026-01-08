@@ -223,6 +223,35 @@ class HTMLReader(
       }
     }
 
+    case class DomPosition(path: String, localIndex: Int)
+
+    def getXPathWithIndex(elem: Element): DomPosition = {
+      if (elem == null) return DomPosition("", 0)
+
+      val tagName = elem.tagName()
+
+      if (tagName == "#root") return DomPosition("", 0)
+
+      if (elem.parent() == null || elem.parent().tagName() == "#root") {
+        return DomPosition("/" + tagName + "[1]", 1)
+      }
+
+      val sameTagSiblings = elem.parent().children().asScala.filter(_.tagName() == tagName)
+      val index = sameTagSiblings.indexOf(elem) + 1
+      val parentPos = getXPathWithIndex(elem.parent())
+
+      DomPosition(parentPos.path + "/" + tagName + s"[$index]", index)
+    }
+
+    def findNearestHeader(elem: Element): Option[String] = {
+      val validHeaderTagPattern = "h[1-6]"
+      Iterator
+        .iterate(elem.previousElementSibling())(_.previousElementSibling())
+        .takeWhile(_ != null)
+        .find(_.tagName().matches(validHeaderTagPattern))
+        .map(_.text().trim)
+    }
+
     def collectTextFromNodes(nodes: List[Node]): String = {
       val textBuffer = ArrayBuffer[String]()
 
@@ -265,6 +294,7 @@ class HTMLReader(
           NodeMetadata(tagName = tagName, hidden = isNodeHidden(childNode), visited = false))
       }
 
+      if (trackingNodes(node).visited) return
       if (trackingNodes(node).hidden) return
 
       node match {
@@ -285,7 +315,7 @@ class HTMLReader(
                 currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
                 elements += HTMLElement(
                   ElementType.LINK,
-                  content = s"[$linkText]($href)",
+                  content = linkText,
                   metadata = pageMetadata)
               }
 
@@ -307,6 +337,13 @@ class HTMLReader(
                 trackingNodes(element).visited = true
                 pageMetadata("element_id") = newUUID()
                 currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
+
+                val domPos = getXPathWithIndex(element)
+                pageMetadata("domPath") = domPos.path
+                pageMetadata("orderTableIndex") = domPos.localIndex.toString
+
+                findNearestHeader(element).foreach(h => pageMetadata("nearestHeader") = h)
+
                 elements += HTMLElement(
                   ElementType.TABLE,
                   content = tableContent,
@@ -414,6 +451,28 @@ class HTMLReader(
                 currentParentId = Some(titleId)
               }
 
+            case "div"
+                if element.className().nonEmpty &&
+                  element.text().trim.nonEmpty &&
+                  !element
+                    .className()
+                    .toLowerCase
+                    .matches(
+                      ".*(container|content|section|wrapper|grid|row|col|panel|box|card|layout).*") &&
+                  !visitedNode =>
+              val divText = element.text().trim
+              if (divText.nonEmpty) {
+                pageMetadata("sentence") = sentenceIndex.toString
+                sentenceIndex += 1
+                trackingNodes(element).visited = true
+                pageMetadata("element_id") = newUUID()
+                currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
+                elements += HTMLElement(
+                  ElementType.NARRATIVE_TEXT, // or UNCATEGORIZED_TEXT if you prefer
+                  content = divText,
+                  metadata = pageMetadata)
+              }
+
             case "hr" =>
               if (element.attr("style").toLowerCase.contains("page-break")) {
                 pageNumber = pageNumber + 1
@@ -445,6 +504,13 @@ class HTMLReader(
                 if (height.nonEmpty) imgMetadata("height") = height
                 imgMetadata("element_id") = newUUID()
                 currentParentId.foreach(pid => imgMetadata("parent_id") = pid)
+
+                val domPos = getXPathWithIndex(element)
+                imgMetadata("domPath") = domPos.path
+                imgMetadata("orderImageIndex") = domPos.localIndex.toString
+
+                findNearestHeader(element).foreach(h => imgMetadata("nearestHeader") = h)
+
                 elements += HTMLElement(
                   ElementType.IMAGE,
                   content = contentValue,
@@ -469,14 +535,51 @@ class HTMLReader(
   private def isParagraphLikeElement(elem: Element): Boolean = {
     val tag = elem.tagName().toLowerCase
     val style = elem.attr("style").toLowerCase
-    (tag == "p") ||
-    (tag == "div" && (
-      style.contains("font-size") ||
-        style.contains("line-height") ||
-        style.contains("margin") ||
-        elem.getElementsByTag("b").size() > 0 ||
-        elem.getElementsByTag("strong").size() > 0
-    ))
+    val classAttr = elem.className().toLowerCase
+
+    if (tag == "div") {
+      // Heuristic 1: Detect visual formatting like a paragraph
+      val looksLikeParagraph =
+        style.contains("font-size") ||
+          style.contains("line-height") ||
+          style.contains("margin") ||
+          elem.getElementsByTag("b").size() > 0 ||
+          elem.getElementsByTag("strong").size() > 0
+
+      // Heuristic 2: Exclude containers that contain multiple block-level children
+      val blockChildren = elem
+        .children()
+        .asScala
+        .count(child =>
+          Set(
+            "div",
+            "p",
+            "table",
+            "ul",
+            "ol",
+            "li",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "section",
+            "article",
+            "nav").contains(child.tagName().toLowerCase))
+
+      val hasMultipleBlocks = blockChildren > 0 || elem.childrenSize() > 1
+
+      // Heuristic 3: Exclude layout-looking classes (generic keywords)
+      val layoutLike =
+        classAttr.matches(
+          ".*(section|content|container|wrapper|grid|row|col|card|block|item|panel|box).*")
+
+      // Paragraph-like only if visually looks like text, not a layout container, and no block-level children
+      looksLikeParagraph && !hasMultipleBlocks && !layoutLike
+    } else {
+      tag == "p"
+    }
   }
 
   private def getTagName(node: Node): Option[String] = {

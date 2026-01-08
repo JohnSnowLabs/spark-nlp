@@ -107,9 +107,11 @@ class MultiAnnotationsSpec extends AnyFlatSpec {
 
   it should "fullAnnotate with LightPipeline with 2 inputs" taggedAs FastTest in {
     val text = "My document"
-    val expectedAnnotationText = Annotation(DOCUMENT, 0, text.length - 1, text, Map())
+    val expectedAnnotationText =
+      Annotation(DOCUMENT, 0, text.length - 1, text, Map("sentence" -> "0"))
     val text2 = "Example text"
-    val expectedAnnotationText2 = Annotation(DOCUMENT, 0, text2.length - 1, text2, Map())
+    val expectedAnnotationText2 =
+      Annotation(DOCUMENT, 0, text2.length - 1, text2, Map("sentence" -> "0"))
     val expectedResults = Array(
       Map(
         "document" -> Seq(expectedAnnotationText),

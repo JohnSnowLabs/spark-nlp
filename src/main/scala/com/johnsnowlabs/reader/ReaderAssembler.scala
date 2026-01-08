@@ -31,7 +31,7 @@ import com.johnsnowlabs.partition.util.PartitionHelper.{
 import com.johnsnowlabs.partition.{HasBinaryReaderProperties, HasTextReaderProperties, Partition}
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
-import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
+import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Column, DataFrame, Dataset}
@@ -684,3 +684,5 @@ class ReaderAssembler(override val uid: String)
     .setOutputCol(reader2ImageOutputCol)
 
 }
+
+object ReaderAssembler extends DefaultParamsReadable[ReaderAssembler]

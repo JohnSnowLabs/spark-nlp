@@ -837,4 +837,20 @@ package object annotator {
   object AutoGGUFVisionModel
       extends ReadablePretrainedAutoGGUFVisionModel
       with ReadAutoGGUFVisionModel
+
+  type Reader2Doc = com.johnsnowlabs.reader.Reader2Doc
+
+  object Reader2Doc extends DefaultParamsReadable[Reader2Doc]
+
+  type Reader2Table = com.johnsnowlabs.reader.Reader2Table
+
+  object Reader2Table extends DefaultParamsReadable[Reader2Table]
+
+  type Reader2Image = com.johnsnowlabs.reader.Reader2Image
+
+  object Reader2Image extends DefaultParamsReadable[Reader2Image]
+
+  type ReaderAssembler = com.johnsnowlabs.reader.ReaderAssembler
+
+  object ReaderAssembler extends DefaultParamsReadable[ReaderAssembler]
 }

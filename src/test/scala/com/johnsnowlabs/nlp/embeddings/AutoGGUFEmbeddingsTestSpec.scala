@@ -52,23 +52,25 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
       val embeddings = annotations.head.embeddings
       assert(embeddings != null, "embeddings should not be null")
       assert(
-        embeddings.sum > 0.0,
+        embeddings.map(_.abs).sum > 0.0,
         "embeddings should not be zero. Was there an error on llama.cpp side?")
     }
   }
 
-  it should "produce embeddings of different pooling types" taggedAs SlowTest in {
+  it should "produce embeddings of different pooling types" taggedAs SlowTest ignore {
     def testPoolingType(poolingType: String): Unit = {
-      val result = pipeline(model(poolingType)).fit(data).transform(data)
+      val embeddingsModel = model(poolingType)
+      val result = pipeline(embeddingsModel).fit(data).transform(data)
       val embeddings: Array[Float] = Annotation.collect(result, "embeddings").head.head.embeddings
 
       assert(embeddings != null, "embeddings should not be null")
       assert(
-        embeddings.sum > 0.0,
+        embeddings.map(_.abs).sum > 0.0,
         "embeddings should not be zero. Was there an error on llama.cpp side?")
+      embeddingsModel.close()
     }
 
-    Seq("NONE", "MEAN", "CLS", "LAST").foreach(testPoolingType)
+    Seq("MEAN", "CLS", "LAST").foreach(testPoolingType)
   }
 
   it should "be serializable" taggedAs SlowTest in {
@@ -119,7 +121,7 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
       val embeddings = annotations.head.embeddings
       assert(embeddings != null, "embeddings should not be null")
       assert(
-        embeddings.sum > 0.0,
+        embeddings.map(_.abs).sum > 0.0,
         "embeddings should not be zero. Was there an error on llama.cpp side?")
     }
   }

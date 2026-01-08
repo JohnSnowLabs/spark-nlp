@@ -34,7 +34,7 @@ import com.johnsnowlabs.partition.{HasBinaryReaderProperties, Partition}
 import com.johnsnowlabs.reader.util.{ImageParser, ImagePromptTemplate}
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
-import org.apache.spark.ml.util.{DefaultParamsWritable, Identifiable}
+import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
@@ -117,7 +117,7 @@ class Reader2Image(override val uid: String)
   val customPromptTemplate: Param[String] =
     new Param[String](this, "customPromptTemplate", "custom prompt template for image models")
 
-  def setCustomPromptTemplate(value: String): this.type = set(promptTemplate, value)
+  def setCustomPromptTemplate(value: String): this.type = set(customPromptTemplate, value)
 
   val useEncodedImageBytes: Param[Boolean] =
     new Param[Boolean](
@@ -456,3 +456,5 @@ class Reader2Image(override val uid: String)
   }
 
 }
+
+object Reader2Image extends DefaultParamsReadable[Reader2Image]

@@ -223,7 +223,7 @@ class AutoGGUFReranker(override val uid: String)
       val (completedTexts: Array[String], metadata: Array[Map[String, String]]) =
         try {
           val results: Array[Pair[String, java.lang.Float]] =
-            model.rerank(true, getQuery, annotationsText: _*).asScala.toArray
+            LlamaExtensions.rerank(model, true, getQuery, annotationsText: _*).asScala.toArray
 
           val (rerankedTexts: Array[String], metadata: Array[Map[String, String]]) =
             results.zipWithIndex.map { case (text, index) =>

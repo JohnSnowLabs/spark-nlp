@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.common.properties module &#8212; Spark NLP 6.3.0 documentation</title>
+    <title>sparknlp.common.properties module &#8212; Spark NLP 6.3.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=a290898a"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=06e80d93"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.1 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -1837,6 +1837,11 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.reasoningBudget">
+<span class="sig-name descname"><span class="pre">reasoningBudget</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='reasoningBudget',</span> <span class="pre">doc='Controls</span> <span class="pre">the</span> <span class="pre">amount</span> <span class="pre">of</span> <span class="pre">thinking</span> <span class="pre">allowed;</span> <span class="pre">currently</span> <span class="pre">only</span> <span class="pre">one</span> <span class="pre">of:</span> <span class="pre">-1</span> <span class="pre">for</span> <span class="pre">unrestricted</span> <span class="pre">thinking</span> <span class="pre">budget,</span> <span class="pre">or</span> <span class="pre">0</span> <span class="pre">to</span> <span class="pre">disable</span> <span class="pre">thinking</span> <span class="pre">(default:</span> <span class="pre">-1)')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.reasoningBudget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.reasoningBudget" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.repeatLastN">
 <span class="sig-name descname"><span class="pre">repeatLastN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='repeatLastN',</span> <span class="pre">doc='Set</span> <span class="pre">the</span> <span class="pre">last</span> <span class="pre">n</span> <span class="pre">tokens</span> <span class="pre">to</span> <span class="pre">consider</span> <span class="pre">for</span> <span class="pre">penalties')</span></em><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.repeatLastN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.repeatLastN" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -2130,6 +2135,13 @@ that add up to <code class="docutils literal notranslate"><span class="pre">topP
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setPresencePenalty">
 <span class="sig-name descname"><span class="pre">setPresencePenalty</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">presencePenalty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setPresencePenalty"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setPresencePenalty" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the repetition alpha presence penalty</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.common.properties.HasLlamaCppProperties.setReasoningBudget">
+<span class="sig-name descname"><span class="pre">setReasoningBudget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reasoningBudget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/common/properties.html#HasLlamaCppProperties.setReasoningBudget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasLlamaCppProperties.setReasoningBudget" title="Permalink to this definition">#</a></dt>
+<dd><p>Controls the amount of thinking allowed; currently only one of: -1 for unrestricted thinking
+budget, or 0 to disable thinking (default: -1)</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2655,6 +2667,7 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.penaltyPrompt"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.penaltyPrompt</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.poolingType"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.poolingType</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.presencePenalty"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.presencePenalty</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.reasoningBudget"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.reasoningBudget</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.repeatLastN"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.repeatLastN</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.repeatPenalty"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.repeatPenalty</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.ropeFreqBase"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.ropeFreqBase</span></code></a></li>
@@ -2703,6 +2716,7 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setPenaltyPrompt"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setPenaltyPrompt()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setPoolingType"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setPoolingType()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setPresencePenalty"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setPresencePenalty()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setReasoningBudget"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setReasoningBudget()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setRepeatLastN"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setRepeatLastN()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setRepeatPenalty"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setRepeatPenalty()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasLlamaCppProperties.setRopeFreqBase"><code class="docutils literal notranslate"><span class="pre">HasLlamaCppProperties.setRopeFreqBase()</span></code></a></li>
@@ -2799,7 +2813,7 @@ sequences, consider splitting up the input first with another annotator e.g. Sen
 
   <p class="copyright">
     
-      © Copyright 2025 John Snow Labs.
+      © Copyright 2026 John Snow Labs.
       <br/>
     
   </p>

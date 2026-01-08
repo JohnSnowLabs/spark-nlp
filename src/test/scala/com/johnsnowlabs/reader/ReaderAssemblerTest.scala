@@ -181,7 +181,8 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     resultDf.select("document_image.origin", "answer.result").show(truncate = false)
   }
 
-  it should "read from a directory" taggedAs FastTest in {
+  // TODO: FIXME this should not rely on online resources
+  it should "read from a directory" taggedAs FastTest ignore {
     val reader = new ReaderAssembler()
       .setContentPath(s"$filesDirectory")
       .setOutputCol("document")

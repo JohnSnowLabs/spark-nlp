@@ -633,6 +633,30 @@ Note: You can import these notebooks by using their URLs.
 
 </div><div class="h3-box" markdown="1">
 
+## Microsoft Fabric
+
+Microsoft Fabric notebooks run on managed Spark 3.4 clusters, so you need to provide the Spark NLP fat JARs through OneLake/ABFSS and wire them into the runtime via Spark properties.
+
+### Spark NLP on Microsoft Fabric
+1. Inside Fabric go to a workspace and click on `+New Item` button, type `lake` on the search bar and chose `Lakehouse` and type a name for it.
+   <img class="image image--xl" src="/assets/images/installation/ms-fabric-lake-house-item.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+   <img class="image image--xl" src="/assets/images/installation/ms-fabric-lake-house.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/> 
+2. Inside Fabric go to a workspace and click on `+New Item` button, type `env` on the search bar and chose `Environment` and type a name for it.
+  <img class="image image--xl" src="/assets/images/installation/ms-fabric-spark-env.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+3. Choose **Fabric Runtime 1.2** (Spark 3.4 + Delta 2.4) then go to `Spark properties` and set `spark.jars`
+4. Upload `spark-nlp-assembly-{{ site.sparknlp_version }}.jar` to an ABFSS folder that both driver and executors can see, for example `abfss://workspace@storage.dfs.core.windows.net/jars/`.
+   <img class="image image--xl" src="/assets/images/installation/ms-fabric-spark-properties.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+5. Create a Notebook and attach it to the environment you created before.
+
+### Spark NLP ONNX compatibility on Microsoft Fabric
+Follow the steps above to set up Spark NLP, then add the following additional steps to enable ONNX inference support:
+1. On `Spark properties` point `spark.executor.extraClassPath` and `spark.driver.extraClassPath` to the ABFSS jar directory to ensure ONNX classes are visible `abfss://workspace@storage.dfs.core.windows.net/jars/spark-nlp-assembly-{{ site.sparknlp_version }}.jar`.
+2. On `Spark properties` enable `spark.executor.userClassPathFirst=true` and `spark.driver.userClassPathFirst=true` so the Spark NLP/ONNX classes take precedence over the Fabric runtime defaults.
+
+These settings let Fabric distribute the Spark NLP binaries without manual copy steps and ensure ONNX inference components remain compatible with the managed runtime.
+
+</div><div class="h3-box" markdown="1">
+
 ## EMR Cluster
 
 To launch EMR clusters with Apache Spark/PySpark and Spark NLP correctly you need to have bootstrap and software
