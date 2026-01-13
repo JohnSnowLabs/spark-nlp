@@ -112,6 +112,14 @@ val openVinoDependencies: Seq[sbt.ModuleID] = Seq(openVinoCPU)
 
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 
+lazy val vectorStoreDependencies = Seq(
+  pineconeScalaClient
+    exclude ("com.fasterxml.jackson.core", "jackson-annotations")
+    exclude ("com.fasterxml.jackson.core", "jackson-databind")
+    exclude ("com.fasterxml.jackson.core", "jackson-core")
+)
+
+
 lazy val root = (project in file("."))
   .settings(
     crossScalaVersions := supportedScalaVersions,
@@ -122,6 +130,7 @@ lazy val root = (project in file("."))
         tensorflowDependencies ++
         onnxDependencies ++
         llamaCppDependencies ++
+        vectorStoreDependencies ++
         openVinoDependencies ++
         typedDependencyParserDependencies,
     // TODO potentially improve this?
@@ -146,6 +155,9 @@ lazy val root = (project in file("."))
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.first
   case PathList("org", "tensorflow", _ @_*) => MergeStrategy.first
+  case PathList("META-INF", "mailcap.default") => MergeStrategy.first
+  case PathList("META-INF", "mimetypes.default") => MergeStrategy.first
+  case PathList("google", "protobuf", _*) => MergeStrategy.first
   case x =>
     val oldStrategy = (assembly / assemblyMergeStrategy).value
     oldStrategy(x)
