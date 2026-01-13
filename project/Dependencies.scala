@@ -155,5 +155,8 @@ object Dependencies {
 
   val tagSoupVersion = "1.2.1"
   val tagSoup = "org.ccil.cowan.tagsoup" % "tagsoup" % tagSoupVersion
+
+  val json4sVersion = "3.7.0-M11"
+  val json4sNative = "org.json4s" %% "json4s-native" % json4sVersion
   /** ------- Dependencies end  ------- */
 }

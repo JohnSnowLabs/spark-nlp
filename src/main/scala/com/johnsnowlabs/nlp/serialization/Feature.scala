@@ -22,10 +22,15 @@ import com.johnsnowlabs.nlp.annotators.spell.context.parser.VocabParser
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.hadoop.fs.{FileSystem, Path}
+import org.apache.hadoop.io.{BytesWritable, NullWritable}
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
+import org.slf4j.{Logger, LoggerFactory}
 
+import java.io.ObjectStreamClass
 import scala.reflect.ClassTag
+import scala.util.{Failure, Success, Using}
 
 abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
     model: HasFeatures,
@@ -34,9 +39,11 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   model.features.append(this)
 
   private val spark: SparkSession = ResourceHelper.spark
+  protected lazy val logger: Logger = LoggerFactory.getLogger(s"${this.getClass.getName}-$name")
 
   val serializationMode: String =
     ConfigLoader.getConfigStringValue(ConfigHelper.serializationMode)
+
   val useBroadcast: Boolean = ConfigLoader.getConfigBooleanValue(ConfigHelper.useBroadcast)
   final protected var broadcastValue: Option[Broadcast[TComplete]] = None
 
@@ -46,6 +53,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   final protected var fallbackLazyValue: Option[() => TComplete] = None
   final protected var isProtected: Boolean = false
 
+  // TODO: This should be kryo?
   final def serialize(
       spark: SparkSession,
       path: String,
@@ -120,10 +128,10 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   final def setValue(value: Option[Any]): HasFeatures = {
     if (isProtected && isSet) {
       val warnString =
-        s"Warning: The parameter ${this.name} is protected and can only be set once." +
+        s"The parameter ${this.name} is protected and can only be set once." +
           " For a pretrained model, this was done during the initialization process." +
           " If you are trying to train your own model, please check the documentation."
-      println(warnString)
+      logger.warn(warnString)
     } else {
       if (useBroadcast) {
         if (isSet) broadcastValue.get.destroy()
@@ -155,6 +163,57 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
     this
   }
 
+  /** Method to provide additional legacy class descriptor mappings for custom classes. If none
+    * are found, should return null.
+    *
+    * @param osc
+    *   The ObjectStreamClass to resolve
+    * @return
+    *   The resolved ObjectStreamClass, or null if not found
+    */
+  protected def resolveCustomLegacyClasses(osc: ObjectStreamClass): ObjectStreamClass = null
+
+  /** Loads an object from a SequenceFile containing serialized objects. It tries to load the
+    * tuple across Scala version, handling serialVersionUID mismatches.
+    *
+    * Adapted from sparkContext.objectFile:
+    *
+    * "Load an RDD saved as a SequenceFile containing serialized objects, with NullWritable keys
+    * and BytesWritable values that contain a serialized partition."
+    *
+    * @param path
+    *   directory to the input data files, the path can be comma separated paths as a list of
+    *   inputs
+    * @return
+    *   RDD representing deserialized data from the file(s)
+    */
+  protected def deserializeWithFallback[ObjectType: ClassTag](
+      spark: SparkSession,
+      path: String): RDD[ObjectType] = {
+    spark.sparkContext
+      .sequenceFile(
+        path,
+        classOf[NullWritable],
+        classOf[BytesWritable],
+        spark.sparkContext.defaultMinPartitions)
+      .flatMap((x: (NullWritable, BytesWritable)) =>
+        try {
+          // Original code: SparkContext.objectFile
+          // Utils.deserialize[Array[ObjectType]](x._2.getBytes, Utils.getContextOrSparkClassLoader)
+          // Use reflection to access internal Utils methods
+          val utilsClass = Class.forName("org.apache.spark.util.Utils")
+          val getLoader = utilsClass.getMethod("getContextOrSparkClassLoader")
+          val loader = getLoader.invoke(null).asInstanceOf[ClassLoader]
+          val deserializeMethod =
+            utilsClass.getMethod("deserialize", classOf[Array[Byte]], classOf[ClassLoader])
+          deserializeMethod.invoke(null, x._2.getBytes, loader).asInstanceOf[Array[ObjectType]]
+        } catch {
+          case _: java.lang.reflect.InvocationTargetException =>
+            LegacyObjectInputStream.deserializeArray[ObjectType](
+              x._2.getBytes,
+              resolveCustomDescriptor = resolveCustomLegacyClasses)
+        })
+  }
 }
 
 class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: String)
@@ -175,11 +234,11 @@ class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: Str
       spark: SparkSession,
       path: String,
       field: String): Option[TValue] = {
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new java.net.URI(path.replace("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      Some(spark.sparkContext.objectFile[TValue](dataPath.toString).first)
+      Some(deserializeWithFallback[TValue](spark, dataPath.toString).first)
     } else {
       None
     }
@@ -198,7 +257,7 @@ class StructFeature[TValue: ClassTag](model: HasFeatures, override val name: Str
       spark: SparkSession,
       path: String,
       field: String): Option[TValue] = {
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new java.net.URI(path.replace("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
@@ -221,6 +280,7 @@ class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override 
       field: String,
       value: Map[TKey, TValue]): Unit = {
     val dataPath = getFieldPath(path, field)
+    // TODO: Change this to kryo or some better serializer
     spark.sparkContext.parallelize(value.toSeq).saveAsObjectFile(dataPath.toString)
   }
 
@@ -228,11 +288,11 @@ class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override 
       spark: SparkSession,
       path: String,
       field: String): Option[Map[TKey, TValue]] = {
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new java.net.URI(path.replace("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      Some(spark.sparkContext.objectFile[(TKey, TValue)](dataPath.toString).collect.toMap)
+      Some(deserializeWithFallback[(TKey, TValue)](spark, dataPath.toString).collect.toMap)
     } else {
       None
     }
@@ -252,7 +312,7 @@ class MapFeature[TKey: ClassTag, TValue: ClassTag](model: HasFeatures, override 
       spark: SparkSession,
       path: String,
       field: String): Option[Map[TKey, TValue]] = {
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new java.net.URI(path.replace("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
@@ -282,11 +342,11 @@ class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: Stri
       spark: SparkSession,
       path: String,
       field: String): Option[Array[TValue]] = {
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new java.net.URI(path.replace("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      Some(spark.sparkContext.objectFile[TValue](dataPath.toString).collect())
+      Some(deserializeWithFallback[TValue](spark, dataPath.toString).collect())
     } else {
       None
     }
@@ -305,7 +365,7 @@ class ArrayFeature[TValue: ClassTag](model: HasFeatures, override val name: Stri
       spark: SparkSession,
       path: String,
       field: String): Option[Array[TValue]] = {
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new java.net.URI(path.replace("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
@@ -335,11 +395,11 @@ class SetFeature[TValue: ClassTag](model: HasFeatures, override val name: String
       spark: SparkSession,
       path: String,
       field: String): Option[Set[TValue]] = {
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new java.net.URI(path.replace("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      Some(spark.sparkContext.objectFile[TValue](dataPath.toString).collect().toSet)
+      Some(deserializeWithFallback[TValue](spark, dataPath.toString).collect.toSet)
     } else {
       None
     }
@@ -358,7 +418,7 @@ class SetFeature[TValue: ClassTag](model: HasFeatures, override val name: String
       spark: SparkSession,
       path: String,
       field: String): Option[Set[TValue]] = {
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new java.net.URI(path.replace("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
@@ -388,12 +448,11 @@ class TransducerFeature(model: HasFeatures, override val name: String)
       path: String,
       field: String): Option[VocabParser] = {
     val serializer = new PlainTextSerializer
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new java.net.URI(path.replace("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
-      val sc = spark.sparkContext.objectFile[VocabParser](dataPath.toString).collect().head
-      Some(sc)
+      Some(deserializeWithFallback[VocabParser](spark, dataPath.toString).collect().head)
     } else {
       None
     }
@@ -415,7 +474,7 @@ class TransducerFeature(model: HasFeatures, override val name: String)
       path: String,
       field: String): Option[VocabParser] = {
     implicit val encoder: Encoder[VocabParser] = Encoders.kryo[VocabParser]
-    val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
+    val uri = new java.net.URI(path.replace("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)
     if (fs.exists(dataPath)) {
