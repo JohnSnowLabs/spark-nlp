@@ -21,13 +21,11 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.llama.LlamaExtensions
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import de.kherud.llama.args.PoolingType
-import de.kherud.llama.{InferenceParameters, LlamaException, LlamaModel, ModelParameters}
+import de.kherud.llama.{LlamaException, LlamaModel, ModelParameters}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-import org.json4s._
-import org.json4s.jackson.JsonMethods._
 
 /** Annotator that uses the llama.cpp library to generate text embeddings with large language
   * models.
@@ -204,13 +202,6 @@ class AutoGGUFEmbeddings(override val uid: String)
     getModelIfNotSet.saveToFile(path)
   }
 
-  private def parseEmbeddingJson(json: String): Array[Float] = {
-    implicit val formats: Formats = org.json4s.DefaultFormats
-    val embedding = (parse(json) \ "embedding").extract[Array[Array[Float]]]
-    require(embedding.length == 1, "Only a single embedding is expected (pooled).")
-    embedding.head // NOTE: This should be changed if we ever support no pooling (i.e. one embedding per token).
-  }
-
   private def getEmbeddingModelParameters: ModelParameters = {
     val modelParams = getModelParameters
       .setParallel(getBatchSize) // set parallel decoding to batch size
@@ -238,10 +229,7 @@ class AutoGGUFEmbeddings(override val uid: String)
       val (embeddings: Array[Array[Float]], metadata: Map[String, String]) =
         try {
           val result: Array[Array[Float]] =
-            // infparams (mostly) don't matter for embeddings
-            LlamaExtensions
-              .multiEmbed(model, new InferenceParameters(""), annotationsText)
-              .map(parseEmbeddingJson)
+            LlamaExtensions.multiEmbed(model, annotationsText)
           (result, Map.empty)
         } catch {
           case e: LlamaException =>

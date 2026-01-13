@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "6.2.3"
+version := "6.3.1"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -74,8 +74,7 @@ lazy val utilDependencies = Seq(
     exclude ("org.apache.logging.log4j", "log4j-api"),
   pdfBox,
   flexmark,
-  tagSoup
-)
+  tagSoup)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 

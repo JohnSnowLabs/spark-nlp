@@ -874,6 +874,10 @@ class HasLlamaCppProperties:
                          typeConverter=TypeConverters.toInt)
     disableLog = Param(Params._dummy(), "disableLog", "Whether to disable logging",
                        typeConverter=TypeConverters.toBoolean)
+    reasoningBudget = Param(Params._dummy(), "reasoningBudget",
+                            ("Controls the amount of thinking allowed; currently only one of: -1 for unrestricted "
+                            "thinking budget, or 0 to disable thinking (default: -1)"),
+                            typeConverter=TypeConverters.toInt)
 
     # -------- INFERENCE PARAMETERS --------
     inputPrefix = Param(Params._dummy(), "inputPrefix", "Set the prompt to start generation with",
@@ -1275,6 +1279,11 @@ class HasLlamaCppProperties:
     def setLogVerbosity(self, logVerbosity: int):
         """Set the log verbosity level"""
         return self._set(logVerbosity=logVerbosity)
+
+    def setReasoningBudget(self, reasoningBudget: int):
+        """Controls the amount of thinking allowed; currently only one of: -1 for unrestricted thinking
+        budget, or 0 to disable thinking (default: -1)"""
+        return self._set(reasoningBudget=reasoningBudget)
 
     def setDisableLog(self, disableLog: bool):
         """Whether to disable logging"""

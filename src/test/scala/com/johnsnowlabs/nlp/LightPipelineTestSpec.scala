@@ -140,6 +140,14 @@ class LightPipelineTestSpec extends AnyFlatSpec {
         }
       }
     }
+    // Check that DocumentAssembler output contains sentences info
+    annotations.foreach { mapAnnotations =>
+      mapAnnotations.get("document").foreach { annotations =>
+        annotations.map(_.asInstanceOf[Annotation]).foreach { annotation =>
+          assert(annotation.metadata("sentence").toInt == 0)
+        }
+      }
+    }
   }
 
   it should "annotate for each string in the text array" taggedAs FastTest in {

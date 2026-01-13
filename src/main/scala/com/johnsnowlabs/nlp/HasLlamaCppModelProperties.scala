@@ -241,6 +241,13 @@ trait HasLlamaCppModelProperties {
   val disableLog =
     new BooleanParam(this, "disableLog", "Whether to completely disable logging.")
 
+  /** @group param */
+  val reasoningBudget =
+    new IntParam(
+      this,
+      "reasoningBudget",
+      "Controls the amount of thinking allowed; currently only one of: -1 for unrestricted thinking budget, or 0 to disable thinking (default: -1)")
+
   /** Set the number of threads to use during generation
     *
     * @group setParam
@@ -610,6 +617,15 @@ trait HasLlamaCppModelProperties {
     set(this.disableLog, disableLog)
   }
 
+  /** Controls the amount of thinking allowed; currently only one of: -1 for unrestricted thinking
+    * budget, or 0 to disable thinking (default: -1)
+    *
+    * @group setParam
+    */
+  def setReasoningBudget(reasoningBudget: Int): this.type = {
+    set(this.reasoningBudget, reasoningBudget)
+  }
+
   /** @group getParam */
   def getDisableLog: Boolean = $(disableLog)
 
@@ -731,6 +747,9 @@ trait HasLlamaCppModelProperties {
   /** @group getParam */
   def getChatTemplate: String = $(chatTemplate)
 
+  /** @group getParam */
+  def getReasoningBudget: Int = $(reasoningBudget)
+
   // ---------------- METADATA ----------------
   val metadata: ProtectedParam[String] =
     new Param[String](this, "metadata", "Set the metadata for the model").setProtected()
@@ -804,6 +823,7 @@ trait HasLlamaCppModelProperties {
     if (isDefined(yarnBetaSlow)) modelParameters.setYarnBetaSlow(getYarnBetaSlow)
     if (isDefined(yarnExtFactor)) modelParameters.setYarnExtFactor(getYarnExtFactor)
     if (isDefined(yarnOrigCtx)) modelParameters.setYarnOrigCtx(getYarnOrigCtx)
+    if (isDefined(reasoningBudget)) modelParameters.setReasoningBudget(getReasoningBudget)
 //    if (loraAdapters.isSet) {
 //      val loraAdaptersMap: mutable.Map[String, java.lang.Float] =
 //        mutable.Map(getLoraAdapters.map { case (key, value) =>

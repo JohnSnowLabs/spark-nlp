@@ -107,4 +107,46 @@ class PowerPointTest extends AnyFlatSpec {
     assert(imageDf.count() > 0, "Expected at least one row with IMAGE element type")
   }
 
+  it should "include domPath and orderTableIndex metadata fields for tables" taggedAs FastTest in {
+    val powerPointReader = new PowerPointReader()
+    val pptDf = powerPointReader.ppt(s"$docDirectory/fake-power-point-table.pptx")
+
+    val explodedDf = pptDf.withColumn("ppt_exploded", explode(col("ppt")))
+    val tablesDf = explodedDf.filter(col("ppt_exploded.elementType") === ElementType.TABLE)
+
+    assert(tablesDf.count() > 0, "No TABLE elements found in PowerPointReader output")
+
+    val tableMetaDf = tablesDf.selectExpr(
+      "ppt_exploded.metadata.domPath as domPath",
+      "ppt_exploded.metadata.orderTableIndex as orderTableIndex")
+
+    assert(
+      tableMetaDf.filter(col("domPath").isNotNull).count() == tableMetaDf.count(),
+      "Missing domPath in TABLE metadata")
+    assert(
+      tableMetaDf.filter(col("orderTableIndex").isNotNull).count() == tableMetaDf.count(),
+      "Missing orderTableIndex in TABLE metadata")
+  }
+
+  it should "include domPath and orderImageIndex metadata fields for images" taggedAs FastTest in {
+    val powerPointReader = new PowerPointReader()
+    val pptDf = powerPointReader.ppt(s"$docDirectory/power-point-images.pptx")
+
+    val explodedDf = pptDf.withColumn("ppt_exploded", explode(col("ppt")))
+    val imagesDf = explodedDf.filter(col("ppt_exploded.elementType") === ElementType.IMAGE)
+
+    assert(imagesDf.count() > 0, "No IMAGE elements found in PowerPointReader output")
+
+    val imageMetaDf = imagesDf.selectExpr(
+      "ppt_exploded.metadata.domPath as domPath",
+      "ppt_exploded.metadata.orderImageIndex as orderImageIndex")
+
+    assert(
+      imageMetaDf.filter(col("domPath").isNotNull).count() == imageMetaDf.count(),
+      "Missing domPath in IMAGE metadata")
+    assert(
+      imageMetaDf.filter(col("orderImageIndex").isNotNull).count() == imageMetaDf.count(),
+      "Missing orderImageIndex in IMAGE metadata")
+  }
+
 }

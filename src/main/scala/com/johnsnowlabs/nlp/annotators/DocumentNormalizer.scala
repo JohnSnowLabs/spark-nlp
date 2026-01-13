@@ -461,7 +461,8 @@ class DocumentNormalizer(override val uid: String)
     "CLEAN_EXTRA_WHITESPACE" -> CleanerHelper.cleanExtraWhitespace,
     "REMOVE_PUNCTUATION" -> CleanerHelper.removePunctuation,
     "CLEAN_NON_ASCII" -> CleanerHelper.cleanNonAsciiChars,
-    "REPLACE_UNICODE" -> CleanerHelper.replaceUnicodeCharacters)
+    "REPLACE_UNICODE" -> CleanerHelper.replaceUnicodeCharacters,
+    "DECODE_HTML_ENTITIES" -> CleanerHelper.decodeHtmlEntities)
 
   private lazy val AUTO_MODE_FUNCTIONS: Map[String, Seq[String => String]] = Map(
     "light_clean" -> Seq(

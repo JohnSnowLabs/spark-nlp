@@ -115,60 +115,86 @@ class XMLReader(
     val xml = adapter.loadXML(new InputSource(new StringReader(xmlString)), parser)
     val elements = ListBuffer[HTMLElement]()
 
-    def traverse(node: Node, parentId: Option[String]): Unit = {
+    case class DomPosition(path: String, localIndex: Int)
+
+    /** Builds an XPath-like structural path by computing sibling index within parent's children.
+      * Works even though scala.xml.Node doesn't have a parent field.
+      */
+    def getXPathWithIndex(node: Node, parentPath: String, siblings: Seq[Node]): DomPosition = {
+      val tagName = node.label
+      val sameTagSiblings = siblings.collect { case el: Elem if el.label == tagName => el }
+      val index = sameTagSiblings.indexOf(node) + 1
+      val path = s"$parentPath/$tagName[$index]"
+      DomPosition(path, index)
+    }
+
+    var elementCounter = 0
+
+    def traverse(
+        node: Node,
+        parentPath: String,
+        siblings: Seq[Node],
+        currentGroup: Option[String] = None): Unit = {
       node match {
         case elem: Elem =>
           val tagName = elem.label
           val textContent = elem.text.trim
           val elementId = hash(tagName + textContent)
-
           val isLeaf = !elem.child.exists(_.isInstanceOf[Elem])
-          val isEmptyElement = elem.minimizeEmpty // self-closing tag, only metadata
           val includeNode = !onlyLeafNodes || isLeaf
 
-          // Collect attributes and metadata
           val metadata = mutable.Map[String, String]("elementId" -> elementId)
-          println(elem.attributes.asAttrMap.keys.mkString("|"))
-          val extractAttributesValues = elem.attributes.asAttrMap
-            .flatMap { case (k, v) =>
-              // attr keys are always lower case
-              if (_extractTagAttributes.contains(k.toLowerCase)) Seq(v)
-              else {
-                metadata += (k -> v)
-                Seq.empty
-              }
-            }
-          val attributeContent =
-            if (extractAttributesValues.nonEmpty) {
-              val sep =
-                if (includeNode && textContent.nonEmpty)
-                  attributeJoinChar // attribute text will pre prepended to text content
-                else ""
-              extractAttributesValues.mkString(attributeJoinChar) + sep
-            } else ""
+          val attrMap = elem.attributes.asAttrMap
 
-          val elementType = tagName match {
-            case "title" | "author" => ElementType.TITLE
-            case _ => ElementType.NARRATIVE_TEXT
+          val extractedAttributeValues = attrMap.flatMap { case (k, v) =>
+            if (_extractTagAttributes.contains(k.toLowerCase)) Seq(v)
+            else {
+              metadata += (k -> v)
+              Seq.empty
+            }
           }
 
-          if (xmlKeepTags) metadata += ("tag" -> tagName)
-          parentId.foreach(id => metadata += ("parentId" -> id))
+          val attributeContent =
+            if (extractedAttributeValues.nonEmpty) {
+              val sep = if (includeNode && textContent.nonEmpty) attributeJoinChar else ""
+              extractedAttributeValues.mkString(attributeJoinChar) + sep
+            } else ""
 
-          if (includeNode && !isEmptyElement) {
-            val content = attributeContent + (if (isLeaf) textContent else "")
-            if (content.nonEmpty) elements += HTMLElement(elementType, content, metadata)
-          } else if (attributeContent.nonEmpty) // Only attributes as NARRATIVE_TEXT
-            elements += HTMLElement(elementType, attributeContent, metadata)
+          val domPos = getXPathWithIndex(elem, parentPath, siblings)
+          metadata("domPath") = domPos.path
+          elementCounter += 1
 
-          // Traverse children
-          elem.child.foreach(traverse(_, Some(elementId)))
+          // Detect repeated siblings (table-like groups)
+          val siblingElems = siblings.collect { case e: Elem => e }
+          val sameTagSiblings = siblingElems.filter(_.label == tagName)
+
+          // Determine group context for this node
+          val newGroupContext =
+            if (sameTagSiblings.size > 1) {
+              val rowIndex = domPos.localIndex.toString
+              metadata("orderTableIndex") = rowIndex
+              Some(rowIndex)
+            } else currentGroup
+
+          // If inside a table, propagate inherited group info to children
+          currentGroup.foreach { rowIndex =>
+            if (!metadata.contains("orderTableIndex")) metadata("orderTableIndex") = rowIndex
+          }
+
+          val content = attributeContent + (if (isLeaf) textContent else "")
+          val hasAttributeContent = attributeContent.nonEmpty
+
+          if ((includeNode && content.nonEmpty) || hasAttributeContent) {
+            elements += HTMLElement(ElementType.NARRATIVE_TEXT, content, metadata)
+          }
+
+          elem.child.foreach(traverse(_, domPos.path, elem.child, newGroupContext))
 
         case _ => // ignore
       }
     }
 
-    traverse(xml, None)
+    traverse(xml, "", Seq(xml), None)
     elements.toList
   }
 
