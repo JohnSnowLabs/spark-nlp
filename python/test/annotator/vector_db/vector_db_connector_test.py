@@ -21,7 +21,7 @@ from pyspark.ml import Pipeline
 from pyspark.sql import SparkSession
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class VectorDBConnectorTestSpec(unittest.TestCase):
     """Test VectorDBConnector with Pinecone integration using metadata columns and large batch."""
     def setUp(self):
