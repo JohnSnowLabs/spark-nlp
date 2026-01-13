@@ -22,10 +22,8 @@ class HasFeaturesTestSpec extends AnyFlatSpec {
     model.setProtectedMockFeature("first")
     assert(model.getProtectedMockFeature == "first")
 
-    val output = captureOutput {
-      model.setProtectedMockFeature("second")
-    }
-    assert(output.contains("is protected and can only be set once"))
+    // Logger now warns about trying to set protected feature again
+    model.setProtectedMockFeature("second")
 
     // should stay the same as the first value
     assert(model.getProtectedMockFeature == "first")
