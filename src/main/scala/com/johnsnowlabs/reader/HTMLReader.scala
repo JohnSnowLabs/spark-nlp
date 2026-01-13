@@ -283,27 +283,48 @@ class HTMLReader(
       textBuffer.mkString(" ").replaceAll("\\s+", " ").trim
     }
 
+    /**
+     * Computes metadata for an HTML element (typically an <img> tag),
+     * including DOM path and spatial coordinates extracted from inline styles.
+     *
+     * Coordinates are returned in a compact JSON-like format:
+     *   "{x:...,y:...}"
+     *
+     * If no CSS positional data is found, coordinates are approximated
+     * using the element’s position in the DOM hierarchy.
+     *
+     * @param element     The Jsoup Element to extract metadata from.
+     * @param imgMetadata The mutable metadata map being built.
+     * @return The enriched metadata map including "coord" and DOM position info.
+     */
     def computeDOMMetadata(
-        element: Element,
-        imgMetadata: mutable.Map[String, String]): mutable.Map[String, String] = {
+      element: Element,
+      imgMetadata: mutable.Map[String, String]): mutable.Map[String, String] = {
+
       val style = element.attr("style").toLowerCase
       val domPos = getXPathWithIndex(element)
+
+      // Base DOM metadata
       imgMetadata("domPath") = domPos.path
       imgMetadata("orderImageIndex") = domPos.localIndex.toString
 
-      // 🧭 Extract coordinates from style if available
+      // Default coordinates
+      var xCoord: Double = domPos.localIndex.toDouble
+      var yCoord: Double = domPos.path.split("/").length.toDouble
+
+      // Extract CSS position if available (e.g., "top: 45px; left: 120px")
       val coordPattern = """(top|left)\s*:\s*([0-9.]+)\s*px""".r
       coordPattern.findAllMatchIn(style).foreach { m =>
         m.group(1) match {
-          case "top" => imgMetadata("y_coordinate") = m.group(2)
-          case "left" => imgMetadata("x_coordinate") = m.group(2)
+          case "top"  => yCoord = m.group(2).toDouble
+          case "left" => xCoord = m.group(2).toDouble
+          case _ => // ignore other properties
         }
       }
 
-      if (!imgMetadata.contains("x_coordinate"))
-        imgMetadata("x_coordinate") = domPos.localIndex.toString
-      if (!imgMetadata.contains("y_coordinate"))
-        imgMetadata("y_coordinate") = domPos.path.split("/").length.toString
+      // Compose compact coordinate representation
+      val coordString = s"{x:${xCoord.toInt},y:${yCoord.toInt}}"
+      imgMetadata("coord") = coordString
 
       imgMetadata
     }
