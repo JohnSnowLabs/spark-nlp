@@ -20,13 +20,11 @@ import com.johnsnowlabs.nlp.HasFeatures
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SparkSession
-import org.json4s.{DefaultFormats, JValue}
+import org.json4s.JValue
+import org.json4s.native.JsonMethods.parse
 
 import java.net.URI
 import scala.reflect.ClassTag
-import scala.util.{Failure, Success, Using}
-import org.json4s.native.JsonMethods.parse
-import org.json4s.native.Serialization.write
 
 trait JSONFeature {
   this: Feature[_, _, _] =>
@@ -41,10 +39,14 @@ trait JSONFeature {
     val (fs, dataPath) = getFieldJSONPath(spark, path, field)
     // ensure parent directories exist
     fs.mkdirs(dataPath.getParent)
+
     // write JSON to HDFS (overwrite)
-    Using(fs.create(dataPath, true)) { out =>
-      out.write(jsonSerialized.getBytes("UTF-8"))
-      out.flush()
+    val stream = fs.create(dataPath, true)
+    try {
+      stream.write(jsonSerialized.getBytes("UTF-8"))
+      stream.flush()
+    } finally {
+      stream.close()
     }
   }
 
@@ -55,14 +57,18 @@ trait JSONFeature {
     val (fs, dataPath) = getFieldJSONPath(spark, path, field)
     if (fs.exists(dataPath)) {
       // Load the JSON string from the dataPath (read whole file as UTF-8)
-      Using(scala.io.Source.fromInputStream(fs.open(dataPath), "UTF-8")) { source =>
-        source.mkString
-      } match {
-        case Success(jsonString) => Some(jsonString)
-        case Failure(exception) =>
+      val stream = fs.open(dataPath)
+      val source = scala.io.Source.fromInputStream(stream, "UTF-8")
+      try {
+        Some(source.mkString)
+      } catch {
+        case exception: Exception =>
           logger.error(
             s"Failed to read JSON for field $field at path $dataPath: ${exception.getMessage}")
           None
+      } finally {
+        source.close()
+        stream.close()
       }
     } else None
   }
@@ -81,11 +87,12 @@ trait JSONFeature {
     val (fs, dataPath) = getFieldJSONPath(spark, path, field)
     if (fs.exists(dataPath)) {
       // Load the JSON string from the dataPath (read whole file as UTF-8)
-      Using(scala.io.Source.fromInputStream(fs.open(dataPath), "UTF-8")) { source =>
-        parse(source.mkString)
-      } match {
-        case Success(jValue) => Some(jValue)
-        case Failure(exception) =>
+      val stream = fs.open(dataPath)
+      val source = scala.io.Source.fromInputStream(stream, "UTF-8")
+      try {
+        Some(parse(source.mkString))
+      } catch {
+        case exception: Exception =>
           logger.error(
             s"Failed to parse JSON for field $field at path $dataPath: ${exception.getMessage}")
           None
