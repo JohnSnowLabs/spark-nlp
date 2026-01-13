@@ -41,10 +41,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-java@v4
-        with:
-          distribution: "temurin"
-          java-version: "8"
+      - name: Setup openjdk Java
+        run: |
+          apt-get update
+          apt-get install -y openjdk-8-jdk
       - name: Install Python 3.8
         uses: actions/setup-python@v2
         with:
@@ -80,10 +80,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-java@v4
-        with:
-          distribution: "temurin"
-          java-version: "8"
+      - name: Setup openjdk Java
+        run: |
+          apt-get update
+          apt-get install -y openjdk-8-jdk
       - name: Install Python 3.10
         uses: actions/setup-python@v2
         with:
@@ -115,10 +115,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-java@v4
-        with:
-          distribution: "temurin"
-          java-version: "8"
+      - name: Setup openjdk Java
+        run: |
+          apt-get update
+          apt-get install -y openjdk-8-jdk
       - name: Install Python 3.8
         uses: actions/setup-python@v2
         with:

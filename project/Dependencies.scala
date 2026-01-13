@@ -159,5 +159,6 @@ object Dependencies {
   val json4sVersion = "3.7.0-M11"
   val json4sNative = "org.json4s" %% "json4s-native" % json4sVersion
 
+  val pineconeScalaClient = "io.cequence" %% "pinecone-scala-client" % "1.3.2"
   /** ------- Dependencies end  ------- */
 }
