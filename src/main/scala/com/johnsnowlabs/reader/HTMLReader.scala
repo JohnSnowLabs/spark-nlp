@@ -283,6 +283,31 @@ class HTMLReader(
       textBuffer.mkString(" ").replaceAll("\\s+", " ").trim
     }
 
+    def computeDOMMetadata(
+        element: Element,
+        imgMetadata: mutable.Map[String, String]): mutable.Map[String, String] = {
+      val style = element.attr("style").toLowerCase
+      val domPos = getXPathWithIndex(element)
+      imgMetadata("domPath") = domPos.path
+      imgMetadata("orderImageIndex") = domPos.localIndex.toString
+
+      // 🧭 Extract coordinates from style if available
+      val coordPattern = """(top|left)\s*:\s*([0-9.]+)\s*px""".r
+      coordPattern.findAllMatchIn(style).foreach { m =>
+        m.group(1) match {
+          case "top" => imgMetadata("y_coordinate") = m.group(2)
+          case "left" => imgMetadata("x_coordinate") = m.group(2)
+        }
+      }
+
+      if (!imgMetadata.contains("x_coordinate"))
+        imgMetadata("x_coordinate") = domPos.localIndex.toString
+      if (!imgMetadata.contains("y_coordinate"))
+        imgMetadata("y_coordinate") = domPos.path.split("/").length.toString
+
+      imgMetadata
+    }
+
     def traverse(node: Node, tagName: Option[String]): Unit = {
       trackingNodes.getOrElseUpdate(
         node,
@@ -505,10 +530,10 @@ class HTMLReader(
                 imgMetadata("element_id") = newUUID()
                 currentParentId.foreach(pid => imgMetadata("parent_id") = pid)
 
-                val domPos = getXPathWithIndex(element)
-                imgMetadata("domPath") = domPos.path
-                imgMetadata("orderImageIndex") = domPos.localIndex.toString
+                val domMetadata = computeDOMMetadata(element, imgMetadata)
+                imgMetadata ++= domMetadata
 
+                // Preserve nearest header if any
                 findNearestHeader(element).foreach(h => imgMetadata("nearestHeader") = h)
 
                 elements += HTMLElement(

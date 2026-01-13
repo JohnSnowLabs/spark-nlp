@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithBinaryFile
 import com.johnsnowlabs.reader.util.PptParser.{RichHSLFSlide, RichXSLFSlide}
 import org.apache.poi.hslf.usermodel.HSLFSlideShow
-import org.apache.poi.xslf.usermodel.XMLSlideShow
+import org.apache.poi.xslf.usermodel.{XMLSlideShow, XSLFPictureShape}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
 
@@ -202,37 +202,50 @@ class PowerPointReader(
   }
 
   private def extractImages(pptx: XMLSlideShow, state: PptxState): Seq[HTMLElement] = {
-    pptx.getPictureData.asScala.map { pic =>
-      state.imageCounter += 1
+    pptx.getSlides.asScala.flatMap { slide =>
+      slide.getShapes.asScala.collect { case picture: XSLFPictureShape =>
+        state.imageCounter += 1
+        val anchor = picture.getAnchor
 
-      val metadata = mutable.Map(
-        "format" -> pic.suggestFileExtension,
-        "imageType" -> pic.getType.toString,
-        "orderImageIndex" -> state.imageCounter.toString,
-        "domPath" -> s"/presentation[1]/image[${state.imageCounter}]")
+        // Coordinates are in points (1 point = 1/72 inch)
+        val coordString = s"{x:${anchor.getX.toInt},y:${anchor.getY.toInt}}"
 
-      HTMLElement(
-        elementType = ElementType.IMAGE,
-        content = Option(pic.getFileName).getOrElse(s"image_${state.imageCounter}"),
-        metadata = metadata,
-        binaryContent = Some(pic.getData))
+        val metadata = mutable.Map(
+          "coord" -> coordString,
+          "format" -> picture.getPictureData.suggestFileExtension,
+          "orderImageIndex" -> state.imageCounter.toString,
+          "domPath" -> s"/presentation[1]/slide[${slide.getSlideNumber}]/image[${state.imageCounter}]")
+
+        HTMLElement(
+          elementType = ElementType.IMAGE,
+          content = Option(picture.getPictureData.getFileName)
+            .getOrElse(s"image_${state.imageCounter}"),
+          metadata = metadata,
+          binaryContent = Some(picture.getPictureData.getData))
+      }
     }
   }
 
   private def extractImages(ppt: HSLFSlideShow, state: PptxState): Seq[HTMLElement] = {
-    ppt.getPictureData.asScala.map { pic =>
-      state.imageCounter += 1
+    ppt.getSlides.asScala.flatMap { slide =>
+      slide.getShapes.asScala.collect {
+        case picture: org.apache.poi.hslf.usermodel.HSLFPictureShape =>
+          state.imageCounter += 1
+          val anchor = picture.getAnchor
+          val coordString = s"{x:${anchor.getX.toInt},y:${anchor.getY.toInt}}"
 
-      val metadata = mutable.Map(
-        "format" -> pic.getType.toString,
-        "orderImageIndex" -> state.imageCounter.toString,
-        "domPath" -> s"/presentation[1]/image[${state.imageCounter}]")
+          val metadata = mutable.Map(
+            "coord" -> coordString,
+            "format" -> picture.getPictureData.getType.toString,
+            "orderImageIndex" -> state.imageCounter.toString,
+            "domPath" -> s"/presentation[1]/slide[${slide.getSlideNumber}]/image[${state.imageCounter}]")
 
-      HTMLElement(
-        elementType = ElementType.IMAGE,
-        content = s"image_${state.imageCounter}",
-        metadata = metadata,
-        binaryContent = Some(pic.getData))
+          HTMLElement(
+            elementType = ElementType.IMAGE,
+            content = s"image_${state.imageCounter}",
+            metadata = metadata,
+            binaryContent = Some(picture.getPictureData.getData))
+      }
     }
   }
 

@@ -267,4 +267,30 @@ class HTMLReaderTest extends AnyFlatSpec {
       "Missing orderImageIndex in IMAGE metadata")
   }
 
+  it should "include x_coordinate and y_coordinate metadata fields for images" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-image-coordinates.html")
+
+    val explodedDf = htmlDF.withColumn("html_exploded", explode(col("html")))
+    val imagesDf = explodedDf.filter(col("html_exploded.elementType") === ElementType.IMAGE)
+
+    assert(imagesDf.count() == 2, "Expected exactly two images in test HTML")
+
+    val imageMetaDf = imagesDf.selectExpr(
+      "html_exploded.metadata.x_coordinate as x_coordinate",
+      "html_exploded.metadata.y_coordinate as y_coordinate")
+
+    // Both coordinates should exist, either from CSS or from fallback heuristic
+    assert(
+      imageMetaDf.filter(col("x_coordinate").isNotNull).count() == imageMetaDf.count(),
+      "Missing x_coordinate in IMAGE metadata")
+    assert(
+      imageMetaDf.filter(col("y_coordinate").isNotNull).count() == imageMetaDf.count(),
+      "Missing y_coordinate in IMAGE metadata")
+
+    assert(
+      imageMetaDf.filter(col("x_coordinate").rlike("^[0-9]+$")).count() == imageMetaDf.count())
+
+  }
+
 }
