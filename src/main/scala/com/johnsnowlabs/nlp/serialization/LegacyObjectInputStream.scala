@@ -90,6 +90,27 @@ class LegacyObjectInputStream(
 
     resultClassDescriptor
   }
+
+  /** Resolves a class after [[readClassDescriptor]] during deserialization, trying first with the
+    * thread context classloader (Spark separates loaders), then falling back to default behavior.
+    *
+    * @param desc
+    *   The class descriptor read from the deserialization stream
+    * @return
+    *   The resolved class
+    */
+  @throws[IOException]
+  @throws[ClassNotFoundException]
+  override protected def resolveClass(desc: ObjectStreamClass): Class[_] = {
+    try {
+      // Try with thread context classloader first (Spark workaround)
+      Class.forName(desc.getName, false, Thread.currentThread().getContextClassLoader)
+    } catch {
+      case _: ClassNotFoundException =>
+        // Fallback to default behavior
+        super.resolveClass(desc)
+    }
+  }
 }
 
 object LegacyObjectInputStream {

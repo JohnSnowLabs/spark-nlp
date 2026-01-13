@@ -30,6 +30,7 @@ import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.ObjectStreamClass
 import scala.reflect.ClassTag
+import scala.util.{Failure, Success, Using}
 
 abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
     model: HasFeatures,

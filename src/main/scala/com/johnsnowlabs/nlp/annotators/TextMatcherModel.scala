@@ -19,7 +19,7 @@ package com.johnsnowlabs.nlp.annotators
 import com.johnsnowlabs.collections.SearchTrie
 import com.johnsnowlabs.nlp.AnnotatorType._
 import com.johnsnowlabs.nlp._
-import com.johnsnowlabs.nlp.serialization.StructFeature
+import com.johnsnowlabs.nlp.serialization.StructJSONFeature
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.Identifiable
 
@@ -68,7 +68,9 @@ class TextMatcherModel(override val uid: String)
     *
     * @group param
     */
-  val searchTrie = new StructFeature[SearchTrie](this, "searchTrie")
+  val searchTrie = new StructJSONFeature[SearchTrie](this, "searchTrie")(
+    SearchTrie.jsonSerialize,
+    SearchTrie.jsonDeserialize)
 
   /** whether to merge overlapping matched chunks. Defaults false
     *

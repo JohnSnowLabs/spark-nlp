@@ -78,8 +78,8 @@ class LightFullAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
 
         actual_result = light_pipeline.fullAnnotate(self.input1, self.input2)
         expected_result = [{
-            "output1": [Annotation("document", 0, len(self.input1) - 1, self.input1, {}, [])],
-            "output2": [Annotation("document", 0, len(self.input2) - 1, self.input2, {}, [])],
+            "output1": [Annotation("document", 0, len(self.input1) - 1, self.input1, {"sentence": "0"}, [])],
+            "output2": [Annotation("document", 0, len(self.input2) - 1, self.input2, {"sentence": "0"}, [])],
             "token": [
                 Annotation("token", 0, 3, "This", {"sentence": "0"}, []),
                 Annotation("token", 5, 6, "is", {"sentence": "0"}, []),
@@ -93,8 +93,8 @@ class LightFullAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
 
         actual_result2 = light_pipeline.fullAnnotate([self.input1, self.input1], [self.input2, self.input2])
         expected_result2 = [{
-            "output1": [Annotation("document", 0, len(self.input1) - 1, self.input1, {}, [])],
-            "output2": [Annotation("document", 0, len(self.input2) - 1, self.input2, {}, [])],
+            "output1": [Annotation("document", 0, len(self.input1) - 1, self.input1, {"sentence": "0"}, [])],
+            "output2": [Annotation("document", 0, len(self.input2) - 1, self.input2, {"sentence": "0"}, [])],
             "token": [
                 Annotation("token", 0, 3, "This", {"sentence": "0"}, []),
                 Annotation("token", 5, 6, "is", {"sentence": "0"}, []),
@@ -104,8 +104,8 @@ class LightFullAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
             ]
             },
             {
-                "output1": [Annotation("document", 0, len(self.input1) - 1, self.input1, {}, [])],
-                "output2": [Annotation("document", 0, len(self.input2) - 1, self.input2, {}, [])],
+                "output1": [Annotation("document", 0, len(self.input1) - 1, self.input1, {"sentence": "0"}, [])],
+                "output2": [Annotation("document", 0, len(self.input2) - 1, self.input2, {"sentence": "0"}, [])],
                 "token": [
                     Annotation("token", 0, 3, "This", {"sentence": "0"}, []),
                     Annotation("token", 5, 6, "is", {"sentence": "0"}, []),
