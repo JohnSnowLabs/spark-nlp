@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "6.3.2-rc1"
+version := "6.3.2-rc2"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -74,7 +74,8 @@ lazy val utilDependencies = Seq(
   jsoup,
   jakartaMail,
   angusMail,
-  poiDocx
+  poiDocx,
+  poiSchemas
     exclude ("org.apache.logging.log4j", "log4j-api"),
   scratchpad
     exclude ("org.apache.logging.log4j", "log4j-api"),
@@ -153,6 +154,7 @@ lazy val root = (project in file("."))
   case PathList("com.fasterxml.jackson") => MergeStrategy.first
   case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.first
   case PathList("org", "tensorflow", _ @_*) => MergeStrategy.first
+  case PathList("schemaorg_apache_xmlbeans", xs @ _*) => MergeStrategy.first
   case x =>
     val oldStrategy = (assembly / assemblyMergeStrategy).value
     oldStrategy(x)

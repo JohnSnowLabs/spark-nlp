@@ -267,4 +267,29 @@ class HTMLReaderTest extends AnyFlatSpec {
       "Missing orderImageIndex in IMAGE metadata")
   }
 
+  it should "include coord metadata field in {x:...,y:...} format for images" taggedAs FastTest in {
+    val htmlReader = new HTMLReader()
+    val htmlDF = htmlReader.read(s"$htmlFilesDirectory/example-image-coordinates.html")
+
+    val explodedDf = htmlDF.withColumn("html_exploded", explode(col("html")))
+    val imagesDf = explodedDf.filter(col("html_exploded.elementType") === ElementType.IMAGE)
+
+    assert(imagesDf.count() == 2, "Expected exactly two images in test HTML")
+
+    // Extract coord metadata
+    val coordDf = imagesDf.selectExpr("html_exploded.metadata.coord as coord")
+
+    // Ensure every image has a coord field
+    assert(
+      coordDf.filter(col("coord").isNotNull).count() == coordDf.count(),
+      "Missing coord field in IMAGE metadata")
+
+    // Validate format: {x:123,y:456}
+    val coordPattern = """\{x:\d+,y:\d+\}"""
+    val allMatch =
+      coordDf.collect().forall(row => row.getAs[String]("coord").matches(coordPattern))
+
+    assert(allMatch, "Some IMAGE coord fields do not match the expected {x:...,y:...} format")
+  }
+
 }

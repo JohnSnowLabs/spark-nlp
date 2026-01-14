@@ -147,6 +147,9 @@ object Dependencies {
   val poiDocx = "org.apache.poi" % "poi-ooxml" % poiVersion
   val scratchpad = "org.apache.poi" % "poi-scratchpad" % poiVersion
 
+  val poiSchemasVersion = "1.4"
+  val poiSchemas = "org.apache.poi" % "ooxml-schemas" % poiSchemasVersion
+
   val pdfBoxVersion = "2.0.28"
   val pdfBox = "org.apache.pdfbox" % "pdfbox" % pdfBoxVersion
 
