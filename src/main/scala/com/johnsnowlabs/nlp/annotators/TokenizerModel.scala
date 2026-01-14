@@ -516,7 +516,10 @@ trait ReadablePretrainedTokenizer
             case v => asStringArray(v).foreach(cols => model.setInputCols(cols: _*))
           }
 
-          model.train(null, None)
+          model
+            .train(null, None)
+            .setInputCols(model.getInputCols)
+            .setOutputCol(model.getOutputCol)
         }
 
       } finally src.close()
