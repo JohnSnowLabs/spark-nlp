@@ -21,8 +21,9 @@ import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
-import com.johnsnowlabs.util.Benchmark
+import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.when
 import org.apache.spark.sql.{Dataset, Row}
@@ -240,6 +241,139 @@ class LightPipelineTestSpec extends AnyFlatSpec {
     val embeddingsAnnotation = fullResult("embeddings").map(_.asInstanceOf[Annotation]).head
 
     assert(embeddingsAnnotation.embeddings.nonEmpty)
+  }
+
+  it should "include colId in LightPipeline results and respect outputCols filtering" taggedAs FastTest in {
+    val spark = ResourceHelper.spark
+    import spark.implicits._
+    val emptyDataSet: Dataset[_] = PipelineModels.dummyDataset
+
+    val text1 = "This is the first document. This is a second sentence within the first document."
+    val text2 = "This is the second document."
+    val testDataset = Seq((1, text1), (2, text2)).toDF("colId", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+      .setIdCol("colId")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+      .setExplodeSentences(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector))
+    val model = pipeline.fit(emptyDataSet)
+
+    val lightPipeline = new LightPipeline(model)
+
+    // Test DataFrame-based transform()
+    val dfResult = lightPipeline.transform(testDataset)
+    assert(
+      dfResult.columns.contains("colId"),
+      "colId column should exist in the DataFrame output")
+    assert(
+      dfResult.columns.contains("sentence"),
+      "sentence column should exist in the DataFrame output")
+
+    // Test fullAnnotate() with colId propagation
+    val fullAnnotations = lightPipeline.fullAnnotate(Array(1, 2), Array(text1, text2))
+    assert(fullAnnotations.length == 2)
+
+    fullAnnotations.zip(Array(1, 2)).foreach { case (annotationMap, id) =>
+      val colIdAnnots = annotationMap.get("colId")
+      assert(colIdAnnots.isDefined, s"colId annotation should exist for ID $id")
+      val colIdValue = colIdAnnots.get.head.asInstanceOf[Annotation].result
+      assert(
+        colIdValue == id.toString,
+        s"colId should match input ID: expected $id, got $colIdValue")
+    }
+
+    // Test annotate() with colId propagation
+    val annotatedResults = lightPipeline.annotate(Array(1, 2), Array(text1, text2))
+    assert(annotatedResults.length == 2)
+    annotatedResults.zip(Array(1, 2)).foreach { case (resultMap, id) =>
+      assert(resultMap.contains("colId"), s"annotate() result should include colId for ID $id")
+      assert(resultMap("colId").contains(id.toString), s"colId should match input ID $id")
+    }
+
+    // Test LightPipeline with outputCols filtering
+    val filteredPipeline = new LightPipeline(model, outputCols = Array("sentence"))
+    val filteredResult = filteredPipeline.transform(testDataset)
+    val expectedCols = Seq("colId", "text", "sentence")
+    assert(
+      filteredResult.columns.sorted.sameElements(expectedCols.sorted),
+      s"Filtered DataFrame should only contain ${expectedCols.mkString(", ")}")
+
+    val filteredAnnotations = filteredPipeline.fullAnnotate(Array(1, 2), Array(text1, text2))
+    filteredAnnotations.foreach { annotationMap =>
+      assert(
+        annotationMap.keySet == Set("sentence"),
+        s"Only 'sentence' should appear in fullAnnotate output when outputCols=['sentence']")
+    }
+  }
+
+  it should "filter columns when outputCols is defined" taggedAs FastTest in {
+    val spark = ResourceHelper.spark
+    import spark.implicits._
+    val emptyDataSet: Dataset[_] = PipelineModels.dummyDataset
+
+    val text1 = "This is the first document. This is a second sentence within the first document."
+    val text2 = "This is the second document."
+    val testDataset = Seq((1, text1), (2, text2)).toDF("colId", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+      .setIdCol("colId")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+      .setExplodeSentences(true)
+
+    val basePipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector))
+    val model = basePipeline.fit(emptyDataSet)
+
+    val lightPipeline = new LightPipeline(model, outputCols = Array("sentence"))
+
+    // Test DataFrame transform filtering
+    val dfResult = lightPipeline.transform(testDataset)
+    val expectedCols = Set("colId", "text", "sentence")
+    val actualCols = dfResult.columns.toSet
+    assert(
+      actualCols == expectedCols,
+      s"Expected DataFrame columns: ${expectedCols.mkString(", ")}, but got: ${actualCols.mkString(", ")}")
+
+    // Test fullAnnotate filtering
+    val fullAnnotations = lightPipeline.fullAnnotate(Array(1, 2), Array(text1, text2))
+    assert(fullAnnotations.length == 2, "Expected 2 documents in fullAnnotate output")
+
+    fullAnnotations.foreach { annotationMap =>
+      val keys = annotationMap.keySet
+      assert(
+        keys == Set("sentence"),
+        s"Only 'sentence' should be in fullAnnotate output, found: $keys")
+      val sentences = annotationMap("sentence").map(_.asInstanceOf[Annotation].result)
+      assert(sentences.nonEmpty, "Sentence results should not be empty")
+      assert(
+        sentences.exists(_.contains("document")),
+        "Sentence results should include input text content")
+    }
+
+    // Test annotate() filtering
+    val annotatedResults = lightPipeline.annotate(Array(1, 2), Array(text1, text2))
+    assert(annotatedResults.length == 2, "Expected 2 annotated outputs")
+
+    annotatedResults.foreach { resultMap =>
+      val keys = resultMap.keySet
+      assert(
+        keys == Set("sentence"),
+        s"Only 'sentence' should be returned in annotate() output, found: $keys")
+      val sentences = resultMap("sentence")
+      assert(sentences.nonEmpty, "Sentence list should not be empty in annotate() output")
+    }
+
   }
 
 }
