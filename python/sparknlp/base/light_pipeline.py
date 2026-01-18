@@ -378,8 +378,20 @@ class LightPipeline:
 
         if input_type == "qa":
             question, context = args
-            results = self._lightPipeline.annotateJava(question, context)
-            return [dict((k, list(v)) for k, v in r.items()) for r in results]
+            if isinstance(question, list) and isinstance(context, list):
+                results = self._lightPipeline.annotateJava(question, context)
+            else:
+                results = self._lightPipeline.annotateJava([question], [context])
+
+            if isinstance(results, dict):
+                results = [results]
+
+            results = [dict((k, list(v)) for k, v in r.items()) for r in results]
+
+            if len(results) == 1:
+                return results[0]
+            return results
+
 
         if input_type == "text":
             target = args[0]

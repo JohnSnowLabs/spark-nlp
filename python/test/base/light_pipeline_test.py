@@ -16,13 +16,10 @@ import unittest
 
 import pytest
 
-from pyspark.sql.functions import col
-
-from sparknlp.pretrained import PretrainedPipeline
-from test.util import SparkSessionForTest, SparkContextForTest
-
 from sparknlp.annotator import *
 from sparknlp.base import *
+from sparknlp.pretrained import PretrainedPipeline
+from test.util import SparkSessionForTest, SparkContextForTest
 
 
 class LightPipelineTextSetUp(unittest.TestCase):

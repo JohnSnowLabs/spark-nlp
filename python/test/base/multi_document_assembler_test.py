@@ -76,10 +76,15 @@ class LightFullAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
         model = pipeline.fit(self.twoInputDataSet)
         light_pipeline = LightPipeline(model)
 
+        # ---- Test single-pair input ----
         actual_result = light_pipeline.fullAnnotate(self.input1, self.input2)
         expected_result = [{
-            "output1": [Annotation("document", 0, len(self.input1) - 1, self.input1, {}, [])],
-            "output2": [Annotation("document", 0, len(self.input2) - 1, self.input2, {}, [])],
+            "output1": [
+                Annotation("document", 0, len(self.input1) - 1, self.input1, {"sentence": "0"}, [])
+            ],
+            "output2": [
+                Annotation("document", 0, len(self.input2) - 1, self.input2, {"sentence": "0"}, [])
+            ],
             "token": [
                 Annotation("token", 0, 3, "This", {"sentence": "0"}, []),
                 Annotation("token", 5, 6, "is", {"sentence": "0"}, []),
@@ -91,21 +96,35 @@ class LightFullAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
 
         self.assertEqual(actual_result, expected_result)
 
-        actual_result2 = light_pipeline.fullAnnotate([self.input1, self.input1], [self.input2, self.input2])
-        expected_result2 = [{
-            "output1": [Annotation("document", 0, len(self.input1) - 1, self.input1, {}, [])],
-            "output2": [Annotation("document", 0, len(self.input2) - 1, self.input2, {}, [])],
-            "token": [
-                Annotation("token", 0, 3, "This", {"sentence": "0"}, []),
-                Annotation("token", 5, 6, "is", {"sentence": "0"}, []),
-                Annotation("token", 8, 10, "the", {"sentence": "0"}, []),
-                Annotation("token", 12, 17, "second", {"sentence": "0"}, []),
-                Annotation("token", 19, 23, "input", {"sentence": "0"}, [])
-            ]
+        # ---- Test multiple pairs input ----
+        actual_result2 = light_pipeline.fullAnnotate(
+            [self.input1, self.input1],
+            [self.input2, self.input2]
+        )
+
+        expected_result2 = [
+            {
+                "output1": [
+                    Annotation("document", 0, len(self.input1) - 1, self.input1, {"sentence": "0"}, [])
+                ],
+                "output2": [
+                    Annotation("document", 0, len(self.input2) - 1, self.input2, {"sentence": "0"}, [])
+                ],
+                "token": [
+                    Annotation("token", 0, 3, "This", {"sentence": "0"}, []),
+                    Annotation("token", 5, 6, "is", {"sentence": "0"}, []),
+                    Annotation("token", 8, 10, "the", {"sentence": "0"}, []),
+                    Annotation("token", 12, 17, "second", {"sentence": "0"}, []),
+                    Annotation("token", 19, 23, "input", {"sentence": "0"}, [])
+                ]
             },
             {
-                "output1": [Annotation("document", 0, len(self.input1) - 1, self.input1, {}, [])],
-                "output2": [Annotation("document", 0, len(self.input2) - 1, self.input2, {}, [])],
+                "output1": [
+                    Annotation("document", 0, len(self.input1) - 1, self.input1, {"sentence": "0"}, [])
+                ],
+                "output2": [
+                    Annotation("document", 0, len(self.input2) - 1, self.input2, {"sentence": "0"}, [])
+                ],
                 "token": [
                     Annotation("token", 0, 3, "This", {"sentence": "0"}, []),
                     Annotation("token", 5, 6, "is", {"sentence": "0"}, []),
