@@ -282,14 +282,12 @@ class HTMLReaderTest extends AnyFlatSpec {
     // Ensure every image has a coord field
     assert(
       coordDf.filter(col("coord").isNotNull).count() == coordDf.count(),
-      "Missing coord field in IMAGE metadata"
-    )
+      "Missing coord field in IMAGE metadata")
 
     // Validate format: {x:123,y:456}
     val coordPattern = """\{x:\d+,y:\d+\}"""
-    val allMatch = coordDf.collect().forall(row =>
-      row.getAs[String]("coord").matches(coordPattern)
-    )
+    val allMatch =
+      coordDf.collect().forall(row => row.getAs[String]("coord").matches(coordPattern))
 
     assert(allMatch, "Some IMAGE coord fields do not match the expected {x:...,y:...} format")
   }

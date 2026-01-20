@@ -76,6 +76,7 @@ class LightFullAnnotateMultiDocumentAssemblerTest(unittest.TestCase):
         model = pipeline.fit(self.twoInputDataSet)
         light_pipeline = LightPipeline(model)
 
+        # ---- Test single-pair input ----
         actual_result = light_pipeline.fullAnnotate(self.input1, self.input2)
         expected_result = [{
             "output1": [Annotation("document", 0, len(self.input1) - 1, self.input1, {"sentence": "0"}, [])],

@@ -21,8 +21,9 @@ import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentApproach
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingApproach
 import com.johnsnowlabs.nlp.annotators.{Normalizer, Tokenizer}
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
-import com.johnsnowlabs.util.Benchmark
+import com.johnsnowlabs.util.{Benchmark, PipelineModels}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.when
 import org.apache.spark.sql.{Dataset, Row}
@@ -240,6 +241,228 @@ class LightPipelineTestSpec extends AnyFlatSpec {
     val embeddingsAnnotation = fullResult("embeddings").map(_.asInstanceOf[Annotation]).head
 
     assert(embeddingsAnnotation.embeddings.nonEmpty)
+  }
+
+  it should "include custom idCol in LightPipeline results" taggedAs FastTest in {
+    val spark = ResourceHelper.spark
+    import spark.implicits._
+    val emptyDataSet: Dataset[_] = PipelineModels.dummyDataset
+
+    val text1 = "This is the first document. This is a second sentence within the first document."
+    val text2 = "This is the second document."
+    val testDataset = Seq((1, text1), (2, text2)).toDF("colId", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+      .setIdCol("colId")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+      .setExplodeSentences(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector))
+    val model = pipeline.fit(emptyDataSet)
+
+    val lightPipeline = new LightPipeline(model)
+
+    val dfResult = lightPipeline.transform(testDataset)
+    assert(
+      dfResult.columns.contains("colId"),
+      "Expected custom idCol ('colId') to exist in the DataFrame output")
+
+    val fullAnnotations = lightPipeline.fullAnnotate(Array(1, 2), Array(text1, text2))
+    assert(fullAnnotations.length == 2, "Expected 2 annotated documents from fullAnnotate")
+
+    fullAnnotations.zip(Array(1, 2)).foreach { case (annotationMap, id) =>
+      val idAnnots = annotationMap.get("colId")
+      assert(idAnnots.isDefined, s"'colId' annotation should exist for ID $id")
+      val idValue = idAnnots.get.head.asInstanceOf[Annotation].result
+      assert(idValue == id.toString, s"'colId' should match the input ID ($id)")
+    }
+
+    val annotatedResults = lightPipeline.annotate(Array(1, 2), Array(text1, text2))
+    assert(annotatedResults.length == 2, "Expected 2 annotated results from annotate()")
+
+    annotatedResults.zip(Array(1, 2)).foreach { case (resultMap, id) =>
+      assert(resultMap.contains("colId"), s"Expected 'colId' in annotate() result for ID $id")
+      assert(resultMap("colId").contains(id.toString), s"'colId' value should match input ID $id")
+    }
+  }
+
+  it should "include default doc_id in LightPipeline results when no idCol is set" taggedAs FastTest in {
+    val spark = ResourceHelper.spark
+    import spark.implicits._
+    val emptyDataSet: Dataset[_] = PipelineModels.dummyDataset
+
+    val text1 = "Hello world. This is Spark NLP."
+    val text2 = "This is another test document."
+    val testDataset = Seq((1, text1), (2, text2)).toDF("idx", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+      .setExplodeSentences(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector))
+    val model = pipeline.fit(emptyDataSet)
+
+    val lightPipeline = new LightPipeline(model)
+
+    val dfResult = lightPipeline.transform(testDataset)
+    assert(
+      !dfResult.columns.exists(_.equalsIgnoreCase("doc_id")),
+      "transform() output should not include doc_id when no idCol is set and no IDs are provided")
+
+    val fullAnnotations = lightPipeline.fullAnnotate(Array(1, 2), Array(text1, text2))
+    assert(fullAnnotations.length == 2, "Expected 2 documents from fullAnnotate")
+
+    fullAnnotations.zip(Array(1, 2)).foreach { case (annotationMap, id) =>
+      val idAnnots = annotationMap.get("doc_id")
+      assert(idAnnots.isDefined, s"'doc_id' annotation should exist for ID $id")
+      val idValue = idAnnots.get.head.asInstanceOf[Annotation].result
+      assert(
+        idValue == id.toString,
+        s"'doc_id' should match the provided ID: expected $id, got $idValue")
+    }
+
+    val annotatedResults = lightPipeline.annotate(Array(1, 2), Array(text1, text2))
+    assert(annotatedResults.length == 2, "Expected 2 annotated results")
+
+    annotatedResults.zip(Array(1, 2)).foreach { case (resultMap, id) =>
+      assert(
+        resultMap.contains("doc_id"),
+        s"annotate() output should include default 'doc_id' for ID $id")
+      assert(
+        resultMap("doc_id").contains(id.toString),
+        s"'doc_id' value should match input ID $id")
+    }
+  }
+
+  it should "include custom idCol and correctly filter out non-requested columns" taggedAs FastTest in {
+    val spark = ResourceHelper.spark
+    import spark.implicits._
+
+    val text1 = "This is the first document. This is a second sentence within the first document."
+    val text2 = "This is the second document."
+    val testDataset = Seq((1, text1), (2, text2)).toDF("colId", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+      .setIdCol("colId")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+      .setExplodeSentences(true)
+
+    val tokenizer = new Tokenizer()
+      .setInputCols("sentence")
+      .setOutputCol("token")
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector, tokenizer))
+    val model = pipeline.fit(testDataset)
+
+    val lightPipeline = new LightPipeline(model, outputCols = Array("sentence"))
+    val dfResult = lightPipeline.transform(testDataset)
+
+    assert(dfResult.columns.contains("colId"), "colId should exist in the DataFrame output")
+    assert(dfResult.columns.contains("document"), "document should exist in the DataFrame output")
+    assert(dfResult.columns.contains("sentence"), "sentence should exist in the DataFrame output")
+
+    val filteredPipeline = new LightPipeline(model, outputCols = Array("sentence"))
+    val filteredResult = filteredPipeline.transform(testDataset)
+
+    val expectedCols = Seq("colId", "document", "sentence")
+    val actualCols = filteredResult.columns.toSeq
+
+    assert(
+      actualCols.sorted.sameElements(expectedCols.sorted),
+      s"Expected filtered columns: ${expectedCols.mkString(", ")}, got: ${actualCols.mkString(", ")}")
+
+    val annotations = filteredPipeline.fullAnnotate(Array(1, 2), Array(text1, text2))
+    annotations.foreach { annotationMap =>
+      val keys = annotationMap.keySet
+      assert(
+        keys == Set("colId", "document", "sentence"),
+        s"Expected only 'colId', 'document', and 'sentence' in fullAnnotate output, got: $keys")
+    }
+  }
+
+  it should "include id in document metadata and retain colId annotation" taggedAs FastTest in {
+    val spark = ResourceHelper.spark
+    import spark.implicits._
+
+    val text1 = "This is the first document. This is a second sentence within the first document."
+    val text2 = "This is the second document."
+    val testDataset = Seq((1, text1), (2, text2)).toDF("colId", "text")
+
+    val documentAssembler = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+      .setIdCol("colId")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols("document")
+      .setOutputCol("sentence")
+      .setExplodeSentences(true)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, sentenceDetector))
+    val model = pipeline.fit(testDataset)
+
+    val lightPipeline = new LightPipeline(model)
+
+    val annotations = lightPipeline.fullAnnotate(Array(1, 2), Array(text1, text2))
+
+    assert(annotations.length == 2, "Expected two annotated documents")
+
+    annotations.zip(Seq(1, 2)).foreach { case (annotationMap, expectedId) =>
+      assert(
+        annotationMap.contains("colId"),
+        s"'colId' field missing in LightPipeline result for ID=$expectedId")
+
+      val colIdAnnotation = annotationMap("colId").head
+        .asInstanceOf[Annotation]
+
+      assert(
+        colIdAnnotation.result == expectedId.toString,
+        s"Expected colId result=${expectedId}, got ${colIdAnnotation.result}")
+
+      val documentAnnots = annotationMap("document")
+        .map(_.asInstanceOf[Annotation])
+
+      assert(documentAnnots.nonEmpty, "Document annotations should not be empty")
+
+      documentAnnots.foreach { doc =>
+        assert(
+          doc.metadata.contains("id"),
+          s"Document annotation missing 'id' metadata for ID=$expectedId")
+        val metaId = doc.metadata("id")
+        assert(
+          metaId == expectedId.toString,
+          s"Metadata id mismatch: expected $expectedId, got $metaId")
+      }
+
+      val sentenceAnnots = annotationMap("sentence")
+        .map(_.asInstanceOf[Annotation])
+
+      assert(sentenceAnnots.nonEmpty, "Sentence annotations should not be empty")
+
+      sentenceAnnots.foreach { sent =>
+        assert(
+          sent.metadata.contains("id"),
+          s"Sentence annotation missing 'id' metadata for ID=$expectedId")
+        assert(
+          sent.metadata("id") == expectedId.toString,
+          s"Sentence id metadata mismatch for ID=$expectedId")
+      }
+    }
   }
 
 }

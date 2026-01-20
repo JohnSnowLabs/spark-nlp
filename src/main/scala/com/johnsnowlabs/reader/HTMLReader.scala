@@ -283,23 +283,24 @@ class HTMLReader(
       textBuffer.mkString(" ").replaceAll("\\s+", " ").trim
     }
 
-    /**
-     * Computes metadata for an HTML element (typically an <img> tag),
-     * including DOM path and spatial coordinates extracted from inline styles.
-     *
-     * Coordinates are returned in a compact JSON-like format:
-     *   "{x:...,y:...}"
-     *
-     * If no CSS positional data is found, coordinates are approximated
-     * using the element’s position in the DOM hierarchy.
-     *
-     * @param element     The Jsoup Element to extract metadata from.
-     * @param imgMetadata The mutable metadata map being built.
-     * @return The enriched metadata map including "coord" and DOM position info.
-     */
+    /** Computes metadata for an HTML element (typically an <img> tag), including DOM path and
+      * spatial coordinates extracted from inline styles.
+      *
+      * Coordinates are returned in a compact JSON-like format: "{x:...,y:...}"
+      *
+      * If no CSS positional data is found, coordinates are approximated using the element’s
+      * position in the DOM hierarchy.
+      *
+      * @param element
+      *   The Jsoup Element to extract metadata from.
+      * @param imgMetadata
+      *   The mutable metadata map being built.
+      * @return
+      *   The enriched metadata map including "coord" and DOM position info.
+      */
     def computeDOMMetadata(
-      element: Element,
-      imgMetadata: mutable.Map[String, String]): mutable.Map[String, String] = {
+        element: Element,
+        imgMetadata: mutable.Map[String, String]): mutable.Map[String, String] = {
 
       val style = element.attr("style").toLowerCase
       val domPos = getXPathWithIndex(element)
@@ -316,7 +317,7 @@ class HTMLReader(
       val coordPattern = """(top|left)\s*:\s*([0-9.]+)\s*px""".r
       coordPattern.findAllMatchIn(style).foreach { m =>
         m.group(1) match {
-          case "top"  => yCoord = m.group(2).toDouble
+          case "top" => yCoord = m.group(2).toDouble
           case "left" => xCoord = m.group(2).toDouble
           case _ => // ignore other properties
         }
