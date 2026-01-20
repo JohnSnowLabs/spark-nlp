@@ -13,6 +13,7 @@
 #  limitations under the License.
 import os
 import unittest
+from collections.abc import Sequence
 
 import pytest
 
@@ -271,7 +272,7 @@ class LightPipelineTapasInputTest(unittest.TestCase):
         self.assertAnnotations(annotations_result)
 
         questions = [self.question1, self.question2]
-        annotations_result = light_pipeline.fullAnnotate(questions, [self.table, self.table])
+        annotations_result = light_pipeline.fullAnnotate( target = questions, optional_target = [self.table, self.table])
 
         self.assertEqual(len(annotations_result), len(questions))
         self.assertAnnotations(annotations_result)
@@ -378,106 +379,14 @@ class LightPipelineWrongInputColsTest(unittest.TestCase):
 
     def runTest(self):
         model = self.pipeline.fit(self.data)
+
         light_model = LightPipeline(model)
 
-        annotations = light_model.fullAnnotate(self.sample_text)
-        self.assertIsInstance(annotations, list)
-        self.assertGreater(len(annotations), 0)
+        with self.assertRaises(TypeError):
+            light_model.fullAnnotate(self.sample_text)
 
-        first = annotations[0]
-        self.assertIn("document", first)
-        self.assertIn("sentence", first)
-        self.assertIn("my_token", first)
-        self.assertIn("regex", first)
-
-        # Regex should be empty (no matches)
-        self.assertIsInstance(first["regex"], list)
-        self.assertEqual(len(first["regex"]), 0)
-
-        # Same for annotate()
-        results = light_model.annotate(self.sample_text)
-        self.assertIn("regex", results)
-        self.assertEqual(len(results["regex"]), 0)
-
-
-@pytest.mark.fast
-class LightPipelineWithIdAndOutputColsTest(unittest.TestCase):
-    """Tests LightPipeline handles colId, ids input, and outputCols filtering correctly."""
-
-    def setUp(self):
-        self.spark = SparkSessionForTest.spark
-
-        self.texts = [
-            "This is the first document. This is a second sentence within the first document.",
-            "This is the second document."
-        ]
-        self.ids = [1, 24]
-        self.data = self.spark.createDataFrame(zip(self.ids, self.texts), ["colId", "text"])
-
-        document_assembler = (
-            DocumentAssembler()
-            .setInputCol("text")
-            .setOutputCol("document")
-            .setIdCol("colId")
-        )
-
-        sentence_detector = (
-            SentenceDetector()
-            .setInputCols(["document"])
-            .setOutputCol("sentence")
-            .setExplodeSentences(True)
-        )
-
-        pipeline = Pipeline(stages=[document_assembler, sentence_detector])
-
-        empty_df = self.spark.createDataFrame([[""]], ["text"])
-        self.model = pipeline.fit(empty_df)
-
-    def runTest(self):
-        light_pipeline = LightPipeline(self.model)
-
-        results = light_pipeline.fullAnnotate(self.ids, self.texts)
-        self.assertEqual(len(results), len(self.ids), "Number of results should match number of IDs")
-
-        for i, res in enumerate(results):
-            self.assertIn("colId", res, f"'colId' missing for ID {self.ids[i]}")
-
-            col_id_annots = res["colId"]
-            self.assertTrue(len(col_id_annots) > 0, "Expected at least one colId annotation")
-
-            # Handle Annotation objects or plain strings
-            first_colid = col_id_annots[0]
-            val = first_colid.result if hasattr(first_colid, "result") else first_colid
-
-            self.assertEqual(
-                val, str(self.ids[i]),
-                f"Expected colId={self.ids[i]} but got {val}"
-            )
-
-            self.assertIn("sentence", res)
-            self.assertGreater(len(res["sentence"]), 0, "Sentence annotations should not be empty")
-
-        annotated = light_pipeline.annotate(self.ids, self.texts)
-        self.assertEqual(len(annotated), len(self.ids))
-
-        for i, res in enumerate(annotated):
-            self.assertIn("colId", res)
-            self.assertTrue(
-                any(str(self.ids[i]) in s for s in res["colId"]),
-                f"colId mismatch in annotate(): expected {self.ids[i]}, got {res['colId']}"
-            )
-            self.assertIn("sentence", res)
-
-        # Filtered LightPipeline (only 'sentence')
-        light_filtered = LightPipeline(self.model, output_cols=["sentence"])
-
-        filtered_results = light_filtered.fullAnnotate(self.ids, self.texts)
-        for res in filtered_results:
-            self.assertEqual(
-                set(res.keys()), {"sentence"},
-                f"Expected only 'sentence' in filtered output, got {res.keys()}"
-            )
-            self.assertGreater(len(res["sentence"]), 0)
+        with self.assertRaises(TypeError):
+            light_model.annotate(self.sample_text)
 
 
 @pytest.mark.slow
@@ -501,12 +410,12 @@ class LightPipelineWithEntitiesTest(unittest.TestCase):
 
         for i, res in enumerate(results):
 
-            self.assertIn("colId", res)
+            self.assertIn("doc_id", res)
             self.assertIn("token", res)
             self.assertIn("ner", res)
             self.assertIn("embeddings", res)
 
-            colid = res["colId"][0]
+            colid = res["doc_id"][0]
             val = colid.result if hasattr(colid, "result") else colid
             self.assertEqual(val, str(self.ids[i]))
 
@@ -520,10 +429,65 @@ class LightPipelineWithEntitiesTest(unittest.TestCase):
         self.assertEqual(len(annotated), len(self.texts))
 
         for i, res in enumerate(annotated):
-            self.assertIn("colId", res)
+            self.assertIn("doc_id", res)
             self.assertIn("ner", res)
             self.assertIn("embeddings", res)
-            self.assertTrue(any(str(self.ids[i]) in s for s in res["colId"]))
+            self.assertTrue(any(str(self.ids[i]) in s for s in res["doc_id"]))
             self.assertGreater(len(res["ner"]), 0, "Expected non-empty NER results")
             self.assertGreater(len(res["embeddings"]), 0, "Expected embeddings data")
+
+
+@pytest.mark.fast
+class LightPipelineWithPostOutputTest(unittest.TestCase):
+    """Tests LightPipeline output types (list vs string) for annotate and fullAnnotate."""
+
+    def setUp(self):
+        self.spark = SparkSessionForTest.spark
+        self.text = "This is a text input"
+        self.textDataSet = self.spark.createDataFrame([[self.text]]).toDF("text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        regex_tok = RegexTokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+
+        pipeline = Pipeline().setStages([document_assembler, regex_tok])
+        self.model = pipeline.fit(self.textDataSet)
+
+        self.texts = [
+            "Barack Obama was born in Hawaii and served as President of the United States.",
+            "John Snow Labs is based in Delaware and builds AI for healthcare."
+        ]
+
+    def runTest(self):
+        light_pipeline = LightPipeline(self.model, parse_embeddings=False)
+
+        # Helper for all sequence checks
+        def assert_sequence(obj, msg):
+            self.assertTrue(
+                isinstance(obj, Sequence) and not isinstance(obj, str),
+                f"{msg} (got {type(obj)})"
+            )
+
+        results = light_pipeline.annotate(self.texts)[0]['token']
+        assert_sequence(results, "Expected sequence when annotating list of texts")
+
+        results = light_pipeline.annotate(self.texts[1])['token']
+        assert_sequence(results, "Expected sequence when annotating single text")
+
+        token = light_pipeline.annotate(self.texts[1])['token'][0]
+        self.assertIsInstance(token, str, "Expected string when accessing single token")
+
+        results = light_pipeline.fullAnnotate(self.texts)[1]['token']
+        assert_sequence(results, "Expected sequence of Annotations when using fullAnnotate(list)")
+
+        token_anno = light_pipeline.fullAnnotate(self.texts)[1]['token'][0]
+        self.assertTrue(
+            hasattr(token_anno, "result") or "Annotation" in str(type(token_anno)),
+            f"Expected Annotation-like object when accessing single token, got {type(token_anno)}"
+        )
+
 

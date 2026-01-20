@@ -172,7 +172,7 @@ class LightPipeline:
 
         return result
 
-    def fullAnnotate(self, *args):
+    def fullAnnotate(self, *args, **kwargs):
         """
         Annotate and return full Annotation objects.
 
@@ -198,6 +198,15 @@ class LightPipeline:
         Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),
         Annotation(named_entity, 37, 37, O, {'word': '.'})]
         """
+        if "target" in kwargs:
+            args = (kwargs["target"],) + args
+        if "optional_target" in kwargs:
+            args = args + (kwargs["optional_target"],)
+
+        stages = self.pipeline_model.stages
+        if not self._skipPipelineValidation(stages):
+            self._validateStagesInputCols(stages)
+
         input_type = self.__detectInputType(args)
 
         if input_type == "ids_texts":
@@ -346,7 +355,7 @@ class LightPipeline:
         return stages
 
 
-    def annotate(self, *args):
+    def annotate(self, *args, **kwargs):
         """
         Annotate text(s) or text(s) with IDs using the LightPipeline.
 
@@ -369,6 +378,15 @@ class LightPipeline:
         >>> result["ner"]
         ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']
         """
+        if "target" in kwargs:
+            args = (kwargs["target"],) + args
+        if "optional_target" in kwargs:
+            args = args + (kwargs["optional_target"],)
+
+        stages = self.pipeline_model.stages
+        if not self._skipPipelineValidation(stages):
+            self._validateStagesInputCols(stages)
+
         input_type = self.__detectInputType(args)
 
         if input_type == "ids_texts":

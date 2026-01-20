@@ -51,9 +51,23 @@ class LightPipeline(
     val transformedDf = pipelineModel.transform(dataFrame)
 
     if (outputCols.nonEmpty) {
-      val originalCols = dataFrame.columns
-      val filteredCols = (originalCols ++ outputCols).distinct
-      transformedDf.select(filteredCols.head, filteredCols.tail: _*)
+
+      val documentAssemblers = pipelineModel.stages.toList
+        .filter(s => s.isInstanceOf[DocumentAssembler])
+        .map(s => s.asInstanceOf[DocumentAssembler])
+
+      val idColName = documentAssemblers.headOption match {
+        case Some(docAssembler) if docAssembler.isDefined(docAssembler.idCol) =>
+          docAssembler.getIdCol
+        case _ =>
+          "doc_id"
+      }
+      val mandatoryCols = Seq(idColName, "document") ++ outputCols
+
+      val allCols = (dataFrame.columns ++ transformedDf.columns).distinct
+      val existingCols = allCols.filter(c => mandatoryCols.contains(c))
+
+      transformedDf.select(existingCols.head, existingCols.tail: _*)
     } else {
       transformedDf
     }
@@ -167,10 +181,27 @@ class LightPipeline(
     })
 
     if (outputCols.nonEmpty) {
-      annotations.filter { case (colName, _) => outputCols.contains(colName) }
+      val documentAssemblers = pipelineModel.stages.toList
+        .filter(s => s.isInstanceOf[DocumentAssembler])
+        .map(s => s.asInstanceOf[DocumentAssembler])
+
+      val idColName = documentAssemblers.headOption match {
+        case Some(docAssembler) if docAssembler.isDefined(docAssembler.idCol) =>
+          docAssembler.getIdCol
+        case _ =>
+          "doc_id"
+      }
+
+      val filteredAnnotations = annotations.filter { case (colName, _) =>
+        outputCols.contains(colName) ||
+        colName.equalsIgnoreCase("document") ||
+        colName.equalsIgnoreCase(idColName)
+      }
+      filteredAnnotations
     } else {
       annotations
     }
+
   }
 
   private def processDocumentAssembler(
@@ -181,17 +212,36 @@ class LightPipeline(
 
     val documentAnnots = documentAssembler.assemble(target, Map("sentence" -> "0"))
 
-    var result = annotations.updated(documentAssembler.getOutputCol, documentAnnots)
+    val updatedDocumentAnnots = id match {
+      case Some(docId) =>
+        val idStr = docId.toString
+        documentAnnots.map { ann =>
+          ann.copy(metadata = ann.metadata + ("id" -> idStr))
+        }
+      case None =>
+        documentAnnots
+    }
+
+    var result = annotations.updated(documentAssembler.getOutputCol, updatedDocumentAnnots)
 
     id.foreach { docId =>
+      val idStr = docId.toString
+      val idLength = idStr.length
+
       val idAnnotation = Annotation(
         annotatorType = AnnotatorType.DUMMY,
         begin = 0,
-        end = docId.toString.length,
-        result = docId.toString,
-        metadata = Map.empty[String, String])
+        end = idLength,
+        result = idStr,
+        metadata = Map("id" -> idStr))
 
-      result = result + ("colId" -> Seq(idAnnotation))
+      val idColName =
+        if (documentAssembler.isDefined(documentAssembler.idCol))
+          documentAssembler.getIdCol
+        else
+          "doc_id"
+
+      result = result + (idColName -> Seq(idAnnotation))
     }
 
     result
