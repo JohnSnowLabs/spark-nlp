@@ -283,6 +283,52 @@ class HTMLReader(
       textBuffer.mkString(" ").replaceAll("\\s+", " ").trim
     }
 
+    /**
+     * Computes metadata for an HTML element (typically an <img> tag),
+     * including DOM path and spatial coordinates extracted from inline styles.
+     *
+     * Coordinates are returned in a compact JSON-like format:
+     *   "{x:...,y:...}"
+     *
+     * If no CSS positional data is found, coordinates are approximated
+     * using the element’s position in the DOM hierarchy.
+     *
+     * @param element     The Jsoup Element to extract metadata from.
+     * @param imgMetadata The mutable metadata map being built.
+     * @return The enriched metadata map including "coord" and DOM position info.
+     */
+    def computeDOMMetadata(
+      element: Element,
+      imgMetadata: mutable.Map[String, String]): mutable.Map[String, String] = {
+
+      val style = element.attr("style").toLowerCase
+      val domPos = getXPathWithIndex(element)
+
+      // Base DOM metadata
+      imgMetadata("domPath") = domPos.path
+      imgMetadata("orderImageIndex") = domPos.localIndex.toString
+
+      // Default coordinates
+      var xCoord: Double = domPos.localIndex.toDouble
+      var yCoord: Double = domPos.path.split("/").length.toDouble
+
+      // Extract CSS position if available (e.g., "top: 45px; left: 120px")
+      val coordPattern = """(top|left)\s*:\s*([0-9.]+)\s*px""".r
+      coordPattern.findAllMatchIn(style).foreach { m =>
+        m.group(1) match {
+          case "top"  => yCoord = m.group(2).toDouble
+          case "left" => xCoord = m.group(2).toDouble
+          case _ => // ignore other properties
+        }
+      }
+
+      // Compose compact coordinate representation
+      val coordString = s"{x:${xCoord.toInt},y:${yCoord.toInt}}"
+      imgMetadata("coord") = coordString
+
+      imgMetadata
+    }
+
     def traverse(node: Node, tagName: Option[String]): Unit = {
       trackingNodes.getOrElseUpdate(
         node,
@@ -505,10 +551,10 @@ class HTMLReader(
                 imgMetadata("element_id") = newUUID()
                 currentParentId.foreach(pid => imgMetadata("parent_id") = pid)
 
-                val domPos = getXPathWithIndex(element)
-                imgMetadata("domPath") = domPos.path
-                imgMetadata("orderImageIndex") = domPos.localIndex.toString
+                val domMetadata = computeDOMMetadata(element, imgMetadata)
+                imgMetadata ++= domMetadata
 
+                // Preserve nearest header if any
                 findNearestHeader(element).foreach(h => imgMetadata("nearestHeader") = h)
 
                 elements += HTMLElement(

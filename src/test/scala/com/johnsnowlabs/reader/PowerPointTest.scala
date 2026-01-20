@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.reader
 
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.functions.{col, explode}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -147,6 +148,59 @@ class PowerPointTest extends AnyFlatSpec {
     assert(
       imageMetaDf.filter(col("orderImageIndex").isNotNull).count() == imageMetaDf.count(),
       "Missing orderImageIndex in IMAGE metadata")
+  }
+
+  it should "include coord field in IMAGE metadata with {x:...,y:...} format" taggedAs FastTest in {
+    val powerPointReader = new PowerPointReader()
+    val pptDf = powerPointReader.ppt(s"$docDirectory/power-point-images.pptx")
+
+    val explodedDf = pptDf.withColumn("ppt_exploded", explode(col("ppt")))
+    val imageDf = explodedDf.filter(col("ppt_exploded.elementType") === ElementType.IMAGE)
+
+    assert(imageDf.count() > 0, "No IMAGE elements found in PowerPointReader output")
+
+    val coordDf = imageDf.selectExpr("ppt_exploded.metadata.coord as coord")
+
+    assert(coordDf.count() > 0, "Expected coord metadata field for IMAGE elements")
+
+    val pattern = """\{x:\d+,y:\d+\}"""
+    val allMatch = coordDf.collect().forall(row => row.getAs[String]("coord").matches(pattern))
+    assert(allMatch, "Some IMAGE coord fields do not match the expected {x:...,y:...} format")
+  }
+
+  it should "assign distinct coord values to images across slides" taggedAs FastTest in {
+    val spark = ResourceHelper.spark
+    import spark.implicits._
+
+    val powerPointReader = new PowerPointReader()
+    val pptDf = powerPointReader.ppt(s"$docDirectory/power-point-images.pptx")
+
+    val explodedDf = pptDf.withColumn("ppt_exploded", explode(col("ppt")))
+    val imageDf = explodedDf.filter(col("ppt_exploded.elementType") === ElementType.IMAGE)
+
+    val coords = imageDf.selectExpr("ppt_exploded.metadata.coord as coord").as[String].collect()
+
+    assert(coords.nonEmpty, "No IMAGE coord metadata found")
+    assert(
+      coords.distinct.length == coords.length,
+      "Duplicate IMAGE coordinates detected across slides")
+  }
+
+  it should "include slide and image indices in domPath for images" taggedAs FastTest in {
+    val spark = ResourceHelper.spark
+    import spark.implicits._
+
+    val powerPointReader = new PowerPointReader()
+    val pptDf = powerPointReader.ppt(s"$docDirectory/power-point-images.pptx")
+
+    val explodedDf = pptDf.withColumn("ppt_exploded", explode(col("ppt")))
+    val imagesDf = explodedDf.filter(col("ppt_exploded.elementType") === ElementType.IMAGE)
+
+    val domPaths =
+      imagesDf.selectExpr("ppt_exploded.metadata.domPath as domPath").as[String].collect()
+    assert(
+      domPaths.forall(_.matches(".*/slide\\[\\d+\\]/image\\[\\d+\\]")),
+      "Invalid domPath structure in IMAGE metadata")
   }
 
 }

@@ -15,6 +15,9 @@
  */
 
 package com.johnsnowlabs.collections
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization.write
+
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
@@ -201,5 +204,40 @@ object SearchTrie {
       .toVector
 
     SearchTrie(vocab.toMap, edges.toMap, nodes, caseSensitive)
+  }
+
+  def jsonSerialize(trie: SearchTrie): String = {
+    implicit val formats: DefaultFormats = org.json4s.DefaultFormats
+
+    val json: Map[String, Any] =
+      Map(
+        "vocabulary" -> trie.vocabulary,
+        "edges" -> trie.edges.map { case ((k1, k2), v) => List(k1, k2, v) },
+        "nodes" -> trie.nodes.map { case (a, b, c, d) => List(a, b, c, d) },
+        "caseSensitive" -> trie.caseSensitive)
+
+    write(json)
+  }
+
+  def jsonDeserialize(jsonStr: String): SearchTrie = {
+    import org.json4s.native.JsonMethods._
+    implicit val formats: DefaultFormats = org.json4s.DefaultFormats
+
+    val json = parse(jsonStr)
+
+    val vocabulary = (json \ "vocabulary").extract[Map[String, Int]]
+    val edgesRaw = (json \ "edges").extract[List[List[BigInt]]]
+    val edges = edgesRaw.map { case List(k1, k2, v) =>
+      ((k1.toInt, k2.toInt), v.toInt)
+    }.toMap
+    val nodes = (json \ "nodes")
+      .extract[List[List[Any]]]
+      .map { case List(a: BigInt, b: Boolean, c: BigInt, d: BigInt) =>
+        (a.toInt, b, c.toInt, d.toInt)
+      }
+      .toVector
+    val caseSensitive = (json \ "caseSensitive").extract[Boolean]
+
+    SearchTrie(vocabulary, edges, nodes, caseSensitive)
   }
 }

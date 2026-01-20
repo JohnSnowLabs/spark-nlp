@@ -28,6 +28,7 @@ import org.apache.poi.hwpf.HWPFDocument
 import org.apache.poi.xwpf.usermodel.{XWPFDocument, XWPFParagraph, XWPFTable}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
+import org.openxmlformats.schemas.drawingml.x2006.wordprocessingDrawing.{CTAnchor, CTInline}
 
 import java.io.ByteArrayInputStream
 import java.util.UUID
@@ -81,7 +82,6 @@ class WordReader(
     inferTableStructure: Boolean = false,
     outputFormat: String = "json-table")
     extends Serializable {
-
   private lazy val spark = ResourceHelper.spark
 
   private var outputColumn = "doc"
@@ -310,28 +310,210 @@ class WordReader(
     elements
   }
 
+  /** Extracts images and computed coordinates (x, y, width, height) from a Word (.docx) document
+    * using Apache POI.
+    *
+    * This function handles both <wp:anchor> (floating) and <wp:inline> (embedded) images. If
+    * multiple anchors share identical (x, y) positions in the XML, a vertical offset (+20px) is
+    * automatically applied to preserve spatial uniqueness for each image.
+    *
+    * @param document
+    *   The XWPFDocument to process.
+    * @param state
+    *   Parsing state for headers, ordering, etc.
+    * @return
+    *   A sequence of HTMLElement objects with coordinate metadata.
+    */
   private def extractImagesDocx(document: XWPFDocument, state: DocState): Seq[HTMLElement] = {
+    val allPictures = document.getAllPictures.asScala
     var imageIndex = 0
 
-    document.getAllPictures.asScala.map { pic =>
+    // Track previously seen coordinates to stagger duplicates
+    val previousCoords = mutable.Map[(Int, Int), Int]()
+
+    allPictures.flatMap { pic =>
       imageIndex += 1
+      val picName = Option(pic.getFileName).getOrElse(s"image_$imageIndex")
+
+      // Collect all anchor + inline coordinates (anchors have priority)
+      val allCoords = document.getParagraphs.asScala.zipWithIndex.flatMap {
+        case (paragraph, paragraphIndex) =>
+          paragraph.getRuns.asScala.zipWithIndex.flatMap { case (run, runIndex) =>
+            Option(run.getCTR).toSeq
+              .flatMap(_.getDrawingList.asScala)
+              .flatMap { drawing =>
+                val anchors = Option(drawing.getAnchorList).map(_.asScala).getOrElse(Seq.empty)
+                val inlines = Option(drawing.getInlineList).map(_.asScala).getOrElse(Seq.empty)
+
+                val anchorCoords =
+                  anchors.map(a => ("anchor", extractAnchorCoords(a, paragraphIndex)))
+                val inlineCoords =
+                  inlines.map(i => ("inline", extractInlineCoords(i, paragraphIndex, runIndex)))
+
+                anchorCoords ++ inlineCoords
+              }
+          }
+      }
+
+      // Prefer anchors > inlines
+      val coordsOpt = allCoords
+        .sortBy {
+          case ("anchor", _) => 0
+          case ("inline", _) => 1
+        }
+        .map(_._2)
+        .headOption
 
       val metadata = mutable.Map[String, String](
         "domPath" -> s"/img[$imageIndex]",
         "orderImageIndex" -> imageIndex.toString,
         "element_id" -> newUUID(),
-        "format" -> pic.suggestFileExtension,
-        "imageType" -> pic.getPictureType.toString)
+        "format" -> pic.suggestFileExtension)
+
       state.lastHeader.foreach(h => metadata("nearestHeader") = h)
 
-      val imageName = Option(pic.getFileName).getOrElse(s"image_$imageIndex")
+      // Merge coordinates and apply duplicate offset
+      coordsOpt.foreach { coords =>
+        val coordString = coords.getOrElse("coord", "{x:0,y:0}")
 
-      HTMLElement(
-        elementType = ElementType.IMAGE,
-        content = imageName,
-        metadata = metadata,
-        binaryContent = Some(pic.getData))
+        // Parse x and y values from the compact coord string
+        val coordPattern = """\{x:(\d+),y:(\d+)\}""".r
+        val (x, y) = coordPattern
+          .findFirstMatchIn(coordString)
+          .map(m => (m.group(1).toInt, m.group(2).toInt))
+          .getOrElse((0, 0))
+
+        // Count how many times this coordinate has appeared
+        val duplicateCount = previousCoords.getOrElse((x, y), 0)
+        val adjustedY = y + (duplicateCount * 20)
+
+        // Update duplicate tracker
+        previousCoords.update((x, y), duplicateCount + 1)
+
+        val adjustedCoord = s"{x:$x,y:$adjustedY}"
+        metadata("coord") = adjustedCoord
+      }
+
+      Some(
+        HTMLElement(
+          elementType = ElementType.IMAGE,
+          content = picName,
+          metadata = metadata,
+          binaryContent = Some(pic.getData)))
     }
+  }
+
+  /** Extracts approximate coordinates for floating (anchored) images in DOCX files.
+    *
+    * Word (OOXML) stores all positional data in **EMUs** (English Metric Units). EMU is a very
+    * fine-grained unit — 1 inch = 914,400 EMUs, 1 cm = 360,000 EMUs.
+    *
+    * To convert EMUs to screen-like pixel coordinates, we use: 1 pixel = 9,525 EMUs (based on 96
+    * DPI display standard)
+    *
+    * This function:
+    *   - Converts EMU offsets (if available) into approximate pixels.
+    *   - Falls back to alignment or paragraph-based heuristics if no explicit offsets are stored
+    *     (common in "Move with text" or auto-anchored images).
+    *
+    * Returns coordinates as a compact JSON-like string: "{x:...,y:...}"
+    *
+    * @param anchor
+    *   The CTAnchor element containing image positioning data.
+    * @param paragraphIndex
+    *   The paragraph index used for vertical approximation.
+    * @return
+    *   A map with one entry: "coord" -> "{x:...,y:...}".
+    */
+  private def extractAnchorCoords(anchor: CTAnchor, paragraphIndex: Int): Map[String, String] = {
+
+    // Conversion constant: EMUs → pixels (1 inch = 914,400 EMUs; 1 px ≈ 9,525 EMUs)
+    val EmusPerPixel = 9525
+    val emuToPx = (v: Long) => (v / EmusPerPixel).toInt
+
+    val posHOpt = Option(anchor.getPositionH)
+    val posVOpt = Option(anchor.getPositionV)
+    val simplePosOpt = Option(anchor.getSimplePos)
+
+    // Extract numeric offsets (in EMUs)
+    val xOffsetEmu = posHOpt.flatMap(ph => Option(ph.getPosOffset)).map(_.toLong).getOrElse(0L)
+    val yOffsetEmu = posVOpt.flatMap(pv => Option(pv.getPosOffset)).map(_.toLong).getOrElse(0L)
+    val xSimpleEmu = simplePosOpt.map(_.getX).getOrElse(0L)
+    val ySimpleEmu = simplePosOpt.map(_.getY).getOrElse(0L)
+
+    val hasPosOffset = xOffsetEmu != 0L || yOffsetEmu != 0L
+
+    // Convert EMU → pixel (approx.)
+    val xPx = emuToPx(if (hasPosOffset) xOffsetEmu else xSimpleEmu)
+    val yPx = emuToPx(if (hasPosOffset) yOffsetEmu else ySimpleEmu)
+
+    // Alignment and positioning hints
+    val alignH =
+      posHOpt.flatMap(ph => Option(ph.getAlign)).map(_.toString.toLowerCase).getOrElse("none")
+    val relativeFromH =
+      posHOpt.flatMap(ph => Option(ph.getRelativeFrom)).map(_.toString).getOrElse("unknown")
+
+    // Fallback heuristics for missing offsets
+    val paragraphSpacingY = 25 // px vertical increment per paragraph
+    val alignmentCenterX = 300 // px for horizontally centered image
+    val alignmentRightX = 600 // px for right-aligned image
+    val pageRelativeX = 100 // px for "page" relative anchors
+    val marginRelativeX = 50 // px for "margin" relative anchors
+    val columnRelativeX = 25 // px for "column" relative anchors
+    val paragraphRelativeX = 15 // px per paragraph index fallback
+
+    // Decision hierarchy
+    val finalX =
+      if (hasPosOffset) xPx
+      else if (alignH == "center") alignmentCenterX
+      else if (alignH == "right") alignmentRightX
+      else
+        relativeFromH match {
+          case "page" => pageRelativeX
+          case "margin" => marginRelativeX
+          case "column" => columnRelativeX
+          case _ => paragraphIndex * paragraphRelativeX
+        }
+
+    val finalY =
+      if (hasPosOffset) yPx
+      else paragraphIndex * paragraphSpacingY
+
+    val coordString = s"{x:$finalX,y:$finalY}"
+    Map("coord" -> coordString)
+  }
+
+  /** Approximates coordinates for inline images (CTInline) when Word does not explicitly store
+    * positional data (common for embedded images).
+    *
+    * The approximation assumes:
+    *   - ~20px vertical spacing per paragraph (line height)
+    *   - ~8px horizontal spacing per run (average word spacing)
+    *
+    * These heuristics are used only for inline elements that flow with text. The result is
+    * returned as a compact string in JSON-like form: "{x:approxX,y:approxY}"
+    *
+    * @param inline
+    *   The CTInline image object.
+    * @param paragraphIndex
+    *   The paragraph index (used for Y approximation).
+    * @param runIndex
+    *   The run index (used for X approximation).
+    * @return
+    *   A map with a single entry: "coord" -> "{x:...,y:...}".
+    */
+  private def extractInlineCoords(
+      inline: CTInline,
+      paragraphIndex: Int,
+      runIndex: Int): Map[String, String] = {
+    val lineHeightPx = 20 // estimated vertical line height per paragraph
+    val avgRunWidthPx = 8 // estimated horizontal width per run (word spacing)
+
+    val approxY = paragraphIndex * lineHeightPx
+    val approxX = runIndex * avgRunWidthPx
+
+    val coordString = s"{x:$approxX,y:$approxY}"
+    Map("coord" -> coordString)
   }
 
   private def extractImages(document: HWPFDocument, state: DocState): Seq[HTMLElement] = {
@@ -343,8 +525,7 @@ class WordReader(
         "domPath" -> s"/img[$imageIndex]",
         "orderImageIndex" -> imageIndex.toString,
         "element_id" -> newUUID(),
-        "format" -> pic.suggestFileExtension,
-        "imageType" -> Option(pic.getMimeType).getOrElse("unknown"))
+        "format" -> pic.suggestFileExtension)
 
       state.lastHeader.foreach(h => metadata("nearestHeader") = h)
 

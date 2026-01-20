@@ -17,6 +17,8 @@
 package com.johnsnowlabs.nlp.annotators.parser.dep.GreedyTransition
 
 import com.johnsnowlabs.nlp.annotators.parser.dep.{Perceptron, Tagger}
+import org.json4s.DefaultFormats
+import org.json4s.native.Serialization.{read, write}
 
 /** Inspired on https://github.com/mdda/ConciseGreedyDependencyParser-in-Scala */
 class DependencyMaker(tagger: Tagger) extends Serializable {
@@ -382,7 +384,11 @@ class DependencyMaker(tagger: Tagger) extends Serializable {
   }
 
   def getDependencyAsArray: Iterator[String] = {
-    this.toString().split(System.lineSeparator()).toIterator
+    this.toString().split(System.lineSeparator()).iterator
+  }
+
+  def getTagger: Tagger = {
+    this.tagger
   }
 
 }
@@ -392,6 +398,34 @@ object DependencyMaker {
     val dm = new DependencyMaker(tagger)
     dm.perceptron.load(lines)
     dm
+  }
+
+  def jsonSerialize(dm: DependencyMaker): String = {
+    implicit val formats: DefaultFormats = org.json4s.DefaultFormats
+
+    val perceptronSerialized = dm.perceptron.toString
+    val taggerSerialized = dm.getTagger.toString
+    val jsonSerialized: String = write(
+      Map("perceptron" -> perceptronSerialized, "tagger" -> taggerSerialized))
+
+    jsonSerialized
+  }
+
+  def jsonDeserialize(jsonSerialized: String): DependencyMaker = {
+    implicit val formats: DefaultFormats = org.json4s.DefaultFormats
+
+    val data = read[Map[String, String]](jsonSerialized)
+
+    // Load the perceptron lines
+    val perceptronData: Iterator[String] =
+      data("perceptron").split(System.lineSeparator()).iterator
+
+    // Load Tagger
+    val taggerData: Iterator[String] =
+      data("tagger").split(System.lineSeparator()).iterator
+    val loadedTagger: Tagger = Tagger.load(taggerData)
+
+    DependencyMaker.load(perceptronData, loadedTagger)
   }
 
 }
