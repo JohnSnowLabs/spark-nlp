@@ -63,10 +63,25 @@ class LightPipeline:
     }
     """
 
-    def __init__(self, pipelineModel, parse_embeddings=False):
+    def __init__(self, pipelineModel, parse_embeddings=False, output_cols=None):
+        """
+        Parameters
+        ----------
+        pipelineModel : PipelineModel
+            The fitted Spark NLP pipeline model.
+        parse_embeddings : bool, optional
+            Whether to parse embeddings.
+        output_cols : list[str], optional
+            List of output columns to return in results (optional).
+        """
+        if output_cols is None:
+            output_cols = []
+
         self.pipeline_model = pipelineModel
         self.parse_embeddings = parse_embeddings
-        self._lightPipeline = _internal._LightPipeline(pipelineModel, parse_embeddings).apply()
+        self.output_cols = output_cols
+
+        self._lightPipeline = _internal._LightPipeline(pipelineModel, parse_embeddings, output_cols).apply()
 
     def _validateStagesInputCols(self, stages):
         annotator_types = self._getAnnotatorTypes(stages)
@@ -157,22 +172,14 @@ class LightPipeline:
 
         return result
 
-    def fullAnnotate(self, target, optional_target=""):
-        """Annotates the data provided into `Annotation` type results.
+    def fullAnnotate(self, *args, **kwargs):
+        """
+        Annotate and return full Annotation objects.
 
-        The data should be either a list or a str.
-
-        Parameters
-        ----------
-        target : list or str or float
-            The data to be annotated
-        optional_target: list or str
-            Optional data to be annotated (currently used for Question Answering)
-
-        Returns
-        -------
-        List[Annotation]
-            The result of the annotation
+        Supports both:
+          - fullAnnotate(text: str)
+          - fullAnnotate(texts: list[str])
+          - fullAnnotate(ids: list[int], texts: list[str])
 
         Examples
         --------
@@ -191,25 +198,46 @@ class LightPipeline:
         Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),
         Annotation(named_entity, 37, 37, O, {'word': '.'})]
         """
+        if "target" in kwargs:
+            args = (kwargs["target"],) + args
+        if "optional_target" in kwargs:
+            args = args + (kwargs["optional_target"],)
+
         stages = self.pipeline_model.stages
         if not self._skipPipelineValidation(stages):
             self._validateStagesInputCols(stages)
 
-        if optional_target == "":
-            if self.__isTextInput(target):
-                result = self.__fullAnnotateText(target)
-            elif self.__isAudioInput(target):
-                result = self.__fullAnnotateAudio(target)
-            else:
-                raise TypeError(
-                    "argument for annotation must be 'str' or list[str] or list[float] or list[list[float]]")
-        else:
-            if self.__isTextInput(target) and self.__isTextInput(optional_target):
-                result = self.__fullAnnotateQuestionAnswering(target, optional_target)
-            else:
-                raise TypeError("arguments for annotation must be 'str' or list[str]")
+        input_type = self.__detectInputType(args)
 
-        return result
+        if input_type == "ids_texts":
+            ids, texts = args
+            results = self._lightPipeline.fullAnnotateWithIdsJava(ids, texts)
+            return [self.__buildStages(r) for r in results]
+
+        if input_type == "qa":
+            question, context = args
+            return self.__fullAnnotateQuestionAnswering(question, context)
+
+        if input_type == "text":
+            target = args[0]
+            return self.__fullAnnotateText(target)
+
+        if input_type == "audio":
+            audios = args[0]
+            return self.__fullAnnotateAudio(audios)
+
+        if input_type == "image":
+            images = args[0]
+            return self.fullAnnotateImage(images)
+
+        raise TypeError(
+            "Unsupported input for fullAnnotate(). Expected: "
+            "(text: str | list[str]), "
+            "(ids: list[int], texts: list[str]), "
+            "(question: str, context: str), "
+            "(audio: list[float] | list[list[float]]), or "
+            "(image_path: str | list[str])."
+        )
 
     @staticmethod
     def __isTextInput(target):
@@ -326,22 +354,19 @@ class LightPipeline:
             stages[annotator_type] = self._annotationFromJava(annotations)
         return stages
 
-    def annotate(self, target, optional_target=""):
-        """Annotates the data provided, extracting the results.
 
-        The data should be either a list or a str.
+    def annotate(self, *args, **kwargs):
+        """
+        Annotate text(s) or text(s) with IDs using the LightPipeline.
 
-        Parameters
-        ----------
-        target : list or str
-            The data to be annotated
-        optional_target: list or str
-            Optional data to be annotated (currently used for Question Answering)
+        Supports both:
+          - annotate(text: str)
+          - annotate(texts: list[str])
+          - annotate(ids: list[int], texts: list[str])
 
         Returns
         -------
-        List[dict] or dict
-            The result of the annotation
+        list[dict[str, list[str]]]
 
         Examples
         --------
@@ -353,39 +378,125 @@ class LightPipeline:
         >>> result["ner"]
         ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']
         """
-
-        def reformat(annotations):
-            return {k: list(v) for k, v in annotations.items()}
+        if "target" in kwargs:
+            args = (kwargs["target"],) + args
+        if "optional_target" in kwargs:
+            args = args + (kwargs["optional_target"],)
 
         stages = self.pipeline_model.stages
         if not self._skipPipelineValidation(stages):
             self._validateStagesInputCols(stages)
 
-        if optional_target == "":
-            if type(target) is str:
-                annotations = self._lightPipeline.annotateJava(target)
-                result = reformat(annotations)
-            elif type(target) is list:
-                if type(target[0]) is list:
-                    raise TypeError("target is a 1D list")
-                annotations = self._lightPipeline.annotateJava(target)
-                result = list(map(lambda a: reformat(a), list(annotations)))
-            else:
-                raise TypeError("target for annotation must be 'str' or list")
+        input_type = self.__detectInputType(args)
 
-        else:
-            if type(target) is str and type(optional_target) is str:
-                annotations = self._lightPipeline.annotateJava(target, optional_target)
-                result = reformat(annotations)
-            elif type(target) is list and type(optional_target) is list:
-                if type(target[0]) is list or type(optional_target[0]) is list:
-                    raise TypeError("target and optional_target is a 1D list")
-                annotations = self._lightPipeline.annotateJava(target, optional_target)
-                result = list(map(lambda a: reformat(a), list(annotations)))
-            else:
-                raise TypeError("target and optional_target for annotation must be both 'str' or both lists")
+        if input_type == "ids_texts":
+            ids, texts = args
+            results = self._lightPipeline.annotateWithIdsJava(ids, texts)
+            return [dict((k, list(v)) for k, v in r.items()) for r in results]
 
-        return result
+        if input_type == "qa":
+            question, context = args
+            if isinstance(question, list) and isinstance(context, list):
+                results = self._lightPipeline.annotateJava(question, context)
+            else:
+                results = self._lightPipeline.annotateJava([question], [context])
+
+            if isinstance(results, dict):
+                results = [results]
+
+            results = [dict((k, list(v)) for k, v in r.items()) for r in results]
+
+            if len(results) == 1:
+                return results[0]
+            return results
+
+
+        if input_type == "text":
+            target = args[0]
+            if isinstance(target, str):
+                return self._lightPipeline.annotateJava(target)
+            else:
+                results = self._lightPipeline.annotateJava(target)
+                return [dict((k, list(v)) for k, v in r.items()) for r in results]
+
+        raise TypeError(
+            "Unsupported input for annotate(). Expected: "
+            "(text: str | list[str]), "
+            "(ids: list[int], texts: list[str]), "
+            "or (question: str, context: str)."
+        )
+
+    def __detectInputType(self, args):
+        """
+        Determine the input type pattern for fullAnnotate().
+        Returns one of: 'ids_texts', 'qa', 'text', 'audio', 'image', or 'unknown'.
+        """
+        if len(args) == 2:
+            a1, a2 = args
+
+            # (ids, texts)
+            if (
+                    isinstance(a1, list)
+                    and all(isinstance(i, int) for i in a1)
+                    and isinstance(a2, list)
+                    and all(isinstance(t, str) for t in a2)
+            ):
+                return "ids_texts"
+
+            # (question, context)
+            if isinstance(a1, str) and isinstance(a2, str):
+                return "qa"
+
+            # (questions[], contexts[])
+            if (
+                    isinstance(a1, list)
+                    and all(isinstance(q, str) for q in a1)
+                    and isinstance(a2, list)
+                    and all(isinstance(c, str) for c in a2)
+            ):
+                return "qa"
+
+        elif len(args) == 1:
+            a1 = args[0]
+
+            # 🚧 Guard: ignore anything that’s not str or list
+            if not isinstance(a1, (str, list)):
+                return "unknown"
+
+            # 🧩 Case 1: plain string
+            if isinstance(a1, str):
+                if self.__isPath(a1):
+                    return "image"
+                if self.__isTextInput(a1):
+                    return "text"
+                return "unknown"
+
+            # 🧩 Case 2: list — ensure homogeneous types
+            if isinstance(a1, list) and len(a1) > 0:
+                first_elem = a1[0]
+
+                # Guard clause — mixed or invalid types
+                if not all(isinstance(x, (str, float, list)) for x in a1):
+                    return "unknown"
+
+                # Text list
+                if all(isinstance(x, str) for x in a1) and self.__isTextInput(a1):
+                    return "text"
+
+                # Audio list
+                if all(isinstance(x, float) for x in a1) or (
+                        all(isinstance(x, list) for x in a1) and all(isinstance(i, float) for sub in a1 for i in sub)
+                ):
+                    return "audio"
+
+                # Image list (only strings allowed)
+                if all(isinstance(x, str) for x in a1) and all("/" in x for x in a1):
+                    return "image"
+
+            return "unknown"
+
+        return "unknown"
+
 
     def transform(self, dataframe):
         """Transforms a dataframe provided with the stages of the LightPipeline.
@@ -400,7 +511,14 @@ class LightPipeline:
         :class:`pyspark.sql.DataFrame`
             The transformed DataFrame
         """
-        return self.pipeline_model.transform(dataframe)
+        transformed_df = self.pipeline_model.transform(dataframe)
+
+        if self.output_cols:
+            original_cols = dataframe.columns
+            filtered_cols = list(dict.fromkeys(original_cols + self.output_cols))
+            transformed_df = transformed_df.select(*filtered_cols)
+
+        return transformed_df
 
     def setIgnoreUnsupported(self, value):
         """Sets whether to ignore unsupported AnnotatorModels.

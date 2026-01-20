@@ -13,16 +13,14 @@
 #  limitations under the License.
 import os
 import unittest
+from collections.abc import Sequence
 
 import pytest
 
-from pyspark.sql.functions import col
-
-from sparknlp.pretrained import PretrainedPipeline
-from test.util import SparkSessionForTest, SparkContextForTest
-
 from sparknlp.annotator import *
 from sparknlp.base import *
+from sparknlp.pretrained import PretrainedPipeline
+from test.util import SparkSessionForTest, SparkContextForTest
 
 
 class LightPipelineTextSetUp(unittest.TestCase):
@@ -274,7 +272,7 @@ class LightPipelineTapasInputTest(unittest.TestCase):
         self.assertAnnotations(annotations_result)
 
         questions = [self.question1, self.question2]
-        annotations_result = light_pipeline.fullAnnotate(questions, [self.table, self.table])
+        annotations_result = light_pipeline.fullAnnotate( target = questions, optional_target = [self.table, self.table])
 
         self.assertEqual(len(annotations_result), len(questions))
         self.assertAnnotations(annotations_result)
@@ -392,17 +390,104 @@ class LightPipelineWrongInputColsTest(unittest.TestCase):
 
 
 @pytest.mark.slow
-class LightPipelineWithEmbeddings(unittest.TestCase):
+class LightPipelineWithEntitiesTest(unittest.TestCase):
+    """Tests LightPipeline with embeddings parsing enabled, ID input, and entity recognition."""
 
     def setUp(self):
-        self.pipeline = PretrainedPipeline('onto_recognize_entities_bert_tiny', lang='en')
+        self.pipeline = PretrainedPipeline("onto_recognize_entities_bert_tiny", lang="en")
+
+        self.texts = [
+            "Barack Obama was born in Hawaii and served as President of the United States.",
+            "John Snow Labs is based in Delaware and builds AI for healthcare."
+        ]
+        self.ids = [1001, 1002]
 
     def runTest(self):
         light_pipeline = LightPipeline(self.pipeline.model, parse_embeddings=True)
-        result = light_pipeline.annotate("Hello from John Snow Labs ! ")
 
-        self.assertTrue(len(result["embeddings"]) > 0)
+        results = light_pipeline.fullAnnotate(self.ids, self.texts)
+        self.assertEqual(len(results), len(self.texts))
 
-        full_result = light_pipeline.fullAnnotate("Hello from John Snow Labs ! ")[0]
-        self.assertTrue(len(full_result["embeddings"]) > 0)
+        for i, res in enumerate(results):
+
+            self.assertIn("doc_id", res)
+            self.assertIn("token", res)
+            self.assertIn("ner", res)
+            self.assertIn("embeddings", res)
+
+            colid = res["doc_id"][0]
+            val = colid.result if hasattr(colid, "result") else colid
+            self.assertEqual(val, str(self.ids[i]))
+
+            ner_tags = [a.result for a in res["ner"] if hasattr(a, "result")]
+            self.assertGreater(len(ner_tags), 0, "Expected at least one entity label")
+
+            emb_anns = [a for a in res["embeddings"] if hasattr(a, "embeddings")]
+            self.assertGreater(len(emb_anns), 0, "Expected embeddings annotations to be present")
+
+        annotated = light_pipeline.annotate(self.ids, self.texts)
+        self.assertEqual(len(annotated), len(self.texts))
+
+        for i, res in enumerate(annotated):
+            self.assertIn("doc_id", res)
+            self.assertIn("ner", res)
+            self.assertIn("embeddings", res)
+            self.assertTrue(any(str(self.ids[i]) in s for s in res["doc_id"]))
+            self.assertGreater(len(res["ner"]), 0, "Expected non-empty NER results")
+            self.assertGreater(len(res["embeddings"]), 0, "Expected embeddings data")
+
+
+@pytest.mark.fast
+class LightPipelineWithPostOutputTest(unittest.TestCase):
+    """Tests LightPipeline output types (list vs string) for annotate and fullAnnotate."""
+
+    def setUp(self):
+        self.spark = SparkSessionForTest.spark
+        self.text = "This is a text input"
+        self.textDataSet = self.spark.createDataFrame([[self.text]]).toDF("text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+        regex_tok = RegexTokenizer() \
+            .setInputCols(["document"]) \
+            .setOutputCol("token")
+
+        pipeline = Pipeline().setStages([document_assembler, regex_tok])
+        self.model = pipeline.fit(self.textDataSet)
+
+        self.texts = [
+            "Barack Obama was born in Hawaii and served as President of the United States.",
+            "John Snow Labs is based in Delaware and builds AI for healthcare."
+        ]
+
+    def runTest(self):
+        light_pipeline = LightPipeline(self.model, parse_embeddings=False)
+
+        # Helper for all sequence checks
+        def assert_sequence(obj, msg):
+            self.assertTrue(
+                isinstance(obj, Sequence) and not isinstance(obj, str),
+                f"{msg} (got {type(obj)})"
+            )
+
+        results = light_pipeline.annotate(self.texts)[0]['token']
+        assert_sequence(results, "Expected sequence when annotating list of texts")
+
+        results = light_pipeline.annotate(self.texts[1])['token']
+        assert_sequence(results, "Expected sequence when annotating single text")
+
+        token = light_pipeline.annotate(self.texts[1])['token'][0]
+        self.assertIsInstance(token, str, "Expected string when accessing single token")
+
+        results = light_pipeline.fullAnnotate(self.texts)[1]['token']
+        assert_sequence(results, "Expected sequence of Annotations when using fullAnnotate(list)")
+
+        token_anno = light_pipeline.fullAnnotate(self.texts)[1]['token'][0]
+        self.assertTrue(
+            hasattr(token_anno, "result") or "Annotation" in str(type(token_anno)),
+            f"Expected Annotation-like object when accessing single token, got {type(token_anno)}"
+        )
+
 

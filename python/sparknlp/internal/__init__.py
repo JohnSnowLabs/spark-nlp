@@ -785,11 +785,27 @@ class _GetResourceSize(ExtendedJavaWrapper):
 
 
 class _LightPipeline(ExtendedJavaWrapper):
-    def __init__(self, pipelineModel, parse_embeddings):
+    def __init__(self, pipelineModel, parse_embeddings=False, output_cols=None):
+        """
+        Internal wrapper around the JVM LightPipeline class.
+
+        Parameters
+        ----------
+        pipelineModel : PipelineModel
+            A fitted Spark NLP pipeline model.
+        parse_embeddings : bool, optional
+            Whether to parse embeddings from embeddings annotators.
+        output_cols : list[str], optional
+            List of output columns to include in the result. If not provided, returns all.
+        """
+        if output_cols is None:
+            output_cols = []
+
         super(_LightPipeline, self).__init__(
             "com.johnsnowlabs.nlp.LightPipeline",
             pipelineModel._to_java(),
-            parse_embeddings,
+            bool(parse_embeddings),
+            output_cols,
         )
 
 
