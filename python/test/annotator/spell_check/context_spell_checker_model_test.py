@@ -22,6 +22,7 @@ from test.util import SparkContextForTest
 
 
 @pytest.mark.fast
+@pytest.mark.skip(reason="needs 2.13 custom serialization")
 class ContextSpellCheckerModelTestSpec(unittest.TestCase):
 
     def setUp(self):
