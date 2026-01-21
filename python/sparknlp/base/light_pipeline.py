@@ -378,6 +378,9 @@ class LightPipeline:
         >>> result["ner"]
         ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']
         """
+        def reformat(annotations):
+            return {k: list(v) for k, v in annotations.items()}
+
         if "target" in kwargs:
             args = (kwargs["target"],) + args
         if "optional_target" in kwargs:
@@ -391,33 +394,31 @@ class LightPipeline:
 
         if input_type == "ids_texts":
             ids, texts = args
-            results = self._lightPipeline.annotateWithIdsJava(ids, texts)
-            return [dict((k, list(v)) for k, v in r.items()) for r in results]
+            annotations = self._lightPipeline.annotateWithIdsJava(ids, texts)
+            results = list(map(lambda a: reformat(a), list(annotations)))
+            return results
 
         if input_type == "qa":
             question, context = args
             if isinstance(question, list) and isinstance(context, list):
-                results = self._lightPipeline.annotateJava(question, context)
+                annotations = self._lightPipeline.annotateJava(question, context)
+                results = list(map(lambda a: reformat(a), list(annotations)))
+                return results
             else:
-                results = self._lightPipeline.annotateJava([question], [context])
-
-            if isinstance(results, dict):
-                results = [results]
-
-            results = [dict((k, list(v)) for k, v in r.items()) for r in results]
-
-            if len(results) == 1:
-                return results[0]
-            return results
-
+                annotations = self._lightPipeline.annotateJava(question, context)
+                results = reformat(annotations)
+                return results
 
         if input_type == "text":
             target = args[0]
             if isinstance(target, str):
-                return self._lightPipeline.annotateJava(target)
+                annotations = self._lightPipeline.annotateJava(target)
+                results = reformat(annotations)
+                return results
             else:
-                results = self._lightPipeline.annotateJava(target)
-                return [dict((k, list(v)) for k, v in r.items()) for r in results]
+                annotations = self._lightPipeline.annotateJava(target)
+                results = list(map(lambda a: reformat(a), list(annotations)))
+                return results
 
         raise TypeError(
             "Unsupported input for annotate(). Expected: "
@@ -459,7 +460,6 @@ class LightPipeline:
         elif len(args) == 1:
             a1 = args[0]
 
-            # 🚧 Guard: ignore anything that’s not str or list
             if not isinstance(a1, (str, list)):
                 return "unknown"
 
@@ -473,7 +473,6 @@ class LightPipeline:
 
             # 🧩 Case 2: list — ensure homogeneous types
             if isinstance(a1, list) and len(a1) > 0:
-                first_elem = a1[0]
 
                 # Guard clause — mixed or invalid types
                 if not all(isinstance(x, (str, float, list)) for x in a1):
