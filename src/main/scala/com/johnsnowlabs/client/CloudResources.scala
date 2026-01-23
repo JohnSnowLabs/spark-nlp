@@ -160,9 +160,6 @@ object CloudResources {
 
     while (zipEntry != null) {
       if (!zipEntry.isDirectory) {
-        val outputStream = new ByteArrayOutputStream()
-        IOUtils.copy(zipInputStream, outputStream)
-        val inputStream = new ByteArrayInputStream(outputStream.toByteArray)
 
         cloudClient match {
           case awsClient: AWSClient => {
@@ -174,7 +171,7 @@ object CloudResources {
             awsGatewayDestination.copyFileToBucket(
               destinationBucketName,
               destinationS3Path,
-              inputStream)
+              zipInputStream)
           }
           case gcpClient: GCPClient => {
             val (destinationBucketName, destinationStoragePath) =
@@ -186,14 +183,14 @@ object CloudResources {
             gcpClient.copyFileToBucket(
               destinationBucketName,
               destinationGCPStoragePath,
-              inputStream)
+              zipInputStream)
           }
           case azureClient: AzureClient => {
             if (CloudHelper.isFabricAbfss(destinationStorageURI)) {
               val fabricUri = (if (destinationStorageURI.endsWith("/")) destinationStorageURI
                                else destinationStorageURI + "/") +
                 s"$modelName/${zipEntry.getName}"
-              azureClient.copyFileToBucket(fabricUri, "", inputStream)
+              azureClient.copyFileToBucket(fabricUri, "", zipInputStream)
             } else {
               val (destinationBucketName, destinationStoragePath) =
                 CloudHelper.parseAzureBlobURI(destinationStorageURI)
@@ -204,7 +201,7 @@ object CloudResources {
               azureClient.copyFileToBucket(
                 destinationBucketName,
                 destinationAzureStoragePath,
-                inputStream)
+                zipInputStream)
             }
           }
         }
