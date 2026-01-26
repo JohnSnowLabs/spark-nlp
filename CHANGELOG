@@ -1,4 +1,21 @@
 =======
+6.3.2
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1136] JSON Serialization for Features #14722
+* [SPARKNLP-1329] Adding image coordinates to metadata for Reader2Image #14725
+* [SPARKNLP-1333] Adding ids input for LightPipeline #14726
+
+---------
+Bug Fixes
+---------
+
+* Fix out of memory error when copying big models to a cloud storage
+
+=======
 6.3.1
 =======
 ---------------------------
