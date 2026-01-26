@@ -531,8 +531,8 @@ class LightPipeline(
     val scalaIds = ids.asScala.map(_.toInt).toArray
     val scalaTexts = texts.asScala.toArray
     fullAnnotate(scalaIds, scalaTexts)
-      .map { annotations =>
-        annotations.view.mapValues(_.asJava).toMap.asJava
+      .map { annotations: Map[String, Seq[IAnnotation]] =>
+        annotations.view.mapValues(_.map(castToJavaAnnotation).asJava).toMap.asJava
       }
       .toList
       .asJava
