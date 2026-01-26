@@ -45,6 +45,24 @@ Spark NLP {{ site.sparknlp_version }} is built with ONNX 1.17.0 and TensorFlow 2
 
 </div><div class="h3-box" markdown="1">
 
+### Scala 2.13
+
+Note that Spark NLP from PyPI can not start a PySpark Scala 2.13 session. Please use the instructions above.
+
+```bash
+# Load Spark NLP with Spark Shell
+spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}
+
+# Load Spark NLP with PySpark
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}
+
+# Load Spark NLP with Spark Submit
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}
+
+# Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`
+spark-shell --jars spark-nlp-assembly-{{ site.sparknlp_version }}.jar
+```
+
 ## Python
 
 Spark NLP supports Python 3.7.x and above depending on your major PySpark version.
@@ -249,6 +267,77 @@ libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-aarch64" % "{{ site.
 Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp)
 
 If you are interested, there is a simple SBT project for Spark NLP to guide you on how to use it in your projects [Spark NLP SBT Starter](https://github.com/maziyarpanahi/spark-nlp-starter)
+
+#### Scala 2.13 Support
+
+**NOTE**: PyPi installed Pyspark only runs on Scala 2.12, so the following section will not apply for it. If you need to start a Scala 2.13 instance, you can set the `SPARK_HOME` environment variable to a Spark Scala 2.13 installation.
+
+The `spark-nlp` with Scala 2.13 support has been published to
+the [Maven Central](https://central.sonatype.com/artifact/com.johnsnowlabs.nlp/spark-nlp_2.13).
+
+For Scala 2.13 support, change the `2.12` string in our dependencies to `2.13`.
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp_2.13</artifactId>
+    <version>{{ site.sparknlp_version }}</version>
+</dependency>
+```
+
+**spark-nlp-gpu:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-gpu_2.13</artifactId>
+    <version>{{ site.sparknlp_version }}</version>
+</dependency>
+```
+
+**spark-nlp-silicon:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-silicon_2.13</artifactId>
+    <version>{{ site.sparknlp_version }}</version>
+</dependency>
+```
+
+**spark-nlp-aarch64:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-aarch64_2.13</artifactId>
+    <version>{{ site.sparknlp_version }}</version>
+</dependency>
+```
+
+If you are running an sbt project in Scala 2.13, then you you don't require any changes, as the sbt syntax handles it automatically:
+
+```scala
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "{{ site.sparknlp_version }}"
+```
+
+**spark-nlp-gpu:**
+
+```scala
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "{{ site.sparknlp_version }}"
+```
+
+**spark-nlp-silicon:**
+
+```scala
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-silicon" % "{{ site.sparknlp_version }}"
+```
+
+**spark-nlp-aarch64:**
+
+```scala
+libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-aarch64" % "{{ site.sparknlp_version }}"
+```
 
 </div><div class="h3-box" markdown="1">
 
