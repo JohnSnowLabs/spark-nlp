@@ -446,6 +446,7 @@ class LightPipelineTextBase(unittest.TestCase):
         self.spark = SparkSessionForTest.spark
         self.text = "This is a text input"
         self.texts = ["This is text one", "This is text two"]
+        self.ids = [1, 2]
         self.textDataSet = self.spark.createDataFrame([[self.text]]).toDF("text")
 
         document_assembler = DocumentAssembler() \
@@ -458,6 +459,25 @@ class LightPipelineTextBase(unittest.TestCase):
 
         pipeline = Pipeline().setStages([document_assembler, regex_tok])
         self.model = pipeline.fit(self.textDataSet)
+        self.light_pipeline = LightPipeline(self.model)
+
+
+@pytest.mark.fast
+class LightPipelineFullAnnotateMetadataTest(LightPipelineTextBase):
+    """Tests LightPipeline metadata for fullAnnotate."""
+
+    def runTest(self):
+        light_pipeline = LightPipeline(self.model, parse_embeddings=False)
+        result = light_pipeline.fullAnnotate(self.texts)
+        expected_metadata = {"sentence": "0"}
+
+        doc_metadata = result[0]["document"][0].metadata
+        self.assertEqual(dict(doc_metadata), expected_metadata)
+
+        result_id = light_pipeline.fullAnnotate(self.ids, self.texts)
+        expected_metadata_id = {"sentence": "0", "id": "1"}
+        doc_metadata = result_id[0]["document"][0].metadata
+        self.assertEqual(dict(doc_metadata), expected_metadata_id)
 
 
 @pytest.mark.fast
