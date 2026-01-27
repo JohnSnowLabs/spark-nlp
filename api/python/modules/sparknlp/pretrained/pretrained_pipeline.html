@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.pretrained.pretrained_pipeline &#8212; Spark NLP 6.3.1 documentation</title>
+    <title>sparknlp.pretrained.pretrained_pipeline &#8212; Spark NLP 6.3.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=06e80d93"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=311087f9"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -421,7 +421,7 @@ document.write(`
 <div class="viewcode-block" id="PretrainedPipeline.from_disk"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.from_disk">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">from_disk</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PretrainedPipeline.annotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.annotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="PretrainedPipeline.annotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.annotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided, extracting the results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
@@ -446,11 +446,15 @@ document.write(`
 <span class="sd">        &gt;&gt;&gt; result[&quot;ner&quot;]</span>
 <span class="sd">        [&#39;B-ORG&#39;, &#39;O&#39;, &#39;O&#39;, &#39;B-PER&#39;, &#39;O&#39;, &#39;O&#39;, &#39;B-LOC&#39;, &#39;O&#39;]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">],)</span> <span class="o">+</span> <span class="n">args</span>
+        <span class="k">if</span> <span class="s2">&quot;optional_target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optional_target&quot;</span><span class="p">],)</span>
 
-        <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">light_model</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">light_model</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">annotations</span></div>
 
-<div class="viewcode-block" id="PretrainedPipeline.fullAnnotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="PretrainedPipeline.fullAnnotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
@@ -482,7 +486,12 @@ document.write(`
 <span class="sd">        Annotation(named_entity, 30, 36, B-LOC, {&#39;word&#39;: &#39;Baghdad&#39;}),</span>
 <span class="sd">        Annotation(named_entity, 37, 37, O, {&#39;word&#39;: &#39;.&#39;})]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">light_model</span><span class="o">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">],)</span> <span class="o">+</span> <span class="n">args</span>
+        <span class="k">if</span> <span class="s2">&quot;optional_target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optional_target&quot;</span><span class="p">],)</span>
+
+        <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">light_model</span><span class="o">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">annotations</span></div>
 
 <div class="viewcode-block" id="PretrainedPipeline.fullAnnotateImage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotateImage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotateImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_to_image</span><span class="p">):</span>
