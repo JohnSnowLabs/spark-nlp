@@ -10,6 +10,7 @@ on:
       - "**.md"
       - "**.yaml"
       - "**.yml"
+      - "**.ipynb"
     branches:
       - "master"
       - "*release*"
@@ -24,6 +25,7 @@ on:
       - "**.md"
       - "**.yaml"
       - "**.yml"
+      - "**.ipynb"
     branches:
       - "master"
       - "*release*"
