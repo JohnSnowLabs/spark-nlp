@@ -47,7 +47,7 @@ Spark NLP {{ site.sparknlp_version }} is built with ONNX 1.17.0 and TensorFlow 2
 
 ### Scala 2.13
 
-Note that Spark NLP from PyPI can not start a PySpark Scala 2.13 session. Please use the instructions above.
+**NOTE**: PySpark from PyPI is based on Scala 2.12 by default, and you can use our Scala 2.12 version. If you need to start a Scala 2.13 instance, you can set the `SPARK_HOME` environment variable to a Spark Scala 2.13 installation, or install PySpark from the official Spark archives.
 
 ```bash
 # Load Spark NLP with Spark Shell
@@ -121,6 +121,7 @@ spark = SparkSession.builder \
     .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}") \
     .getOrCreate()
 ```
+
 If using local jars, you can use `spark.jars` instead for comma-delimited jar files. For cluster setups, of course,
 you'll have to put the jars in a reachable location for all driver and executor nodes.
 
@@ -268,14 +269,24 @@ Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https:/
 
 If you are interested, there is a simple SBT project for Spark NLP to guide you on how to use it in your projects [Spark NLP SBT Starter](https://github.com/maziyarpanahi/spark-nlp-starter)
 
-#### Scala 2.13 Support
+### Scala 2.13 Support
 
-**NOTE**: PyPi installed Pyspark only runs on Scala 2.12, so the following section will not apply for it. If you need to start a Scala 2.13 instance, you can set the `SPARK_HOME` environment variable to a Spark Scala 2.13 installation.
+**NOTE**: PyPi installed Pyspark only runs on Scala 2.12, so the following section will not apply for it. If you need to start a Scala 2.13 instance, you can set the `SPARK_HOME` environment variable to a Spark Scala 2.13 installation, or install PySpark from the official Spark archives.
 
-The `spark-nlp` with Scala 2.13 support has been published to
-the [Maven Central](https://central.sonatype.com/artifact/com.johnsnowlabs.nlp/spark-nlp_2.13).
+If you are using `DependencyParserModel` or `TextMatcherModel` in your pipelines and wish to import from the Scala 2.12 version to 2.13, then you will need to export them manually. For this, please see the example notebook [Converting Spark NLP Scala 2.12 models to Scala 2.13](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/scala213/converting_models_from_212.ipynb).
 
-For Scala 2.13 support, change the `2.12` string in our dependencies to `2.13`.
+`spark-nlp` with Scala 2.13 support has been published to [Maven Central](https://central.sonatype.com/artifact/com.johnsnowlabs.nlp/spark-nlp_2.13). You can use these coordinates to set up your Spark instance with config `--packages` or download the jar directly. For example:
+
+```sh
+# Load Spark NLP with Spark Submit
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:6.3.2
+```
+
+See our [cheat sheet](#spark-nlp-cheatsheet) for more examples.
+
+To use spark-nlp Scala 2.13 as a dependency, change the `2.12` string in our dependencies to `2.13`.
+
+**spark-nlp:**
 
 ```xml
 <dependency>
@@ -316,6 +327,8 @@ For Scala 2.13 support, change the `2.12` string in our dependencies to `2.13`.
 ```
 
 If you are running an sbt project in Scala 2.13, then you you don't require any changes, as the sbt syntax handles it automatically:
+
+**spark-nlp:**
 
 ```scala
 libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "{{ site.sparknlp_version }}"
@@ -727,9 +740,10 @@ Note: You can import these notebooks by using their URLs.
 Microsoft Fabric notebooks run on managed Spark 3.4 clusters, so you need to provide the Spark NLP fat JARs through OneLake/ABFSS and wire them into the runtime via Spark properties.
 
 ### Spark NLP on Microsoft Fabric
+
 1. Inside Fabric go to a workspace and click on `+New Item` button, type `lake` on the search bar and chose `Lakehouse` and type a name for it.
    <img class="image image--xl" src="/assets/images/installation/ms-fabric-lake-house-item.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-   <img class="image image--xl" src="/assets/images/installation/ms-fabric-lake-house.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/> 
+   <img class="image image--xl" src="/assets/images/installation/ms-fabric-lake-house.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 2. Inside Fabric go to a workspace and click on `+New Item` button, type `env` on the search bar and chose `Environment` and type a name for it.
   <img class="image image--xl" src="/assets/images/installation/ms-fabric-spark-env.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 3. Choose **Fabric Runtime 1.2** (Spark 3.4 + Delta 2.4) then go to `Spark properties` and set `spark.jars`
@@ -738,7 +752,9 @@ Microsoft Fabric notebooks run on managed Spark 3.4 clusters, so you need to pro
 5. Create a Notebook and attach it to the environment you created before.
 
 ### Spark NLP ONNX compatibility on Microsoft Fabric
+
 Follow the steps above to set up Spark NLP, then add the following additional steps to enable ONNX inference support:
+
 1. On `Spark properties` point `spark.executor.extraClassPath` and `spark.driver.extraClassPath` to the ABFSS jar directory to ensure ONNX classes are visible `abfss://workspace@storage.dfs.core.windows.net/jars/spark-nlp-assembly-{{ site.sparknlp_version }}.jar`.
 2. On `Spark properties` enable `spark.executor.userClassPathFirst=true` and `spark.driver.userClassPathFirst=true` so the Spark NLP/ONNX classes take precedence over the Fabric runtime defaults.
 
@@ -867,16 +883,16 @@ gcloud dataproc clusters create ${CLUSTER_NAME} \
   --properties spark:spark.serializer=org.apache.spark.serializer.KryoSerializer,spark:spark.driver.maxResultSize=0,spark:spark.kryoserializer.buffer.max=2000M,spark:spark.jars.packages=com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}
 ```
 
-2. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
+1. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
 
-3. Now, you can attach your notebook to the cluster and use the Spark NLP!
-
+2. Now, you can attach your notebook to the cluster and use the Spark NLP!
 
 ## Apache Spark Support
 
 Spark NLP *{{ site.sparknlp_version }}* has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
 
 {:.table-model-big}
+
 | Spark NLP | Apache Spark 3.5.x | Apache Spark 3.4.x | Apache Spark 3.3.x | Apache Spark 3.2.x | Apache Spark 3.1.x | Apache Spark 3.0.x | Apache Spark 2.4.x | Apache Spark 2.3.x |
 | --------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | 5.4.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
@@ -895,6 +911,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 ## Scala and Python Support
 
 {:.table-model-big}
+
 | Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10 | Scala 2.11 | Scala 2.12 |
 | --------- | ---------- | ---------- | ---------- | ---------- | ----------- | ---------- | ---------- |
 | 5.3.x     | NO         | YES        | YES        | YES        | YES         | NO         | YES        |
@@ -907,12 +924,12 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 | 4.1.x     | YES        | YES        | YES        | YES        | NO          | NO         | YES        |
 | 4.0.x     | YES        | YES        | YES        | YES        | NO          | NO         | YES        |
 
-
 ## Databricks Support
 
 Spark NLP {{ site.sparknlp_version }} has been tested and is compatible with the following runtimes:
 
 {:.table-model-big}
+
 |   CPU              |   GPU              |
 |--------------------|--------------------|
 | 9.1 / 9.1 ML       | 9.1 ML & GPU       |
@@ -1081,9 +1098,9 @@ gcloud dataproc clusters create ${CLUSTER_NAME} \
   --initialization-actions gs://goog-dataproc-initialization-actions-${REGION}/python/pip-install.sh
 ```
 
-2. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
+1. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
 
-3. Now, you can attach your notebook to the cluster and use the Spark NLP!
+2. Now, you can attach your notebook to the cluster and use the Spark NLP!
 
 </div><div class="h3-box" markdown="1">
 
@@ -1113,7 +1130,6 @@ sudo alternatives --config java
 You can pick the index number (I am using java-8 as default - index 2):
 
 <img class="image image--xl" src="/assets/images/installation/amazon-linux.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-
 
 If you dont have java-11 or java-8 in you system, you can easily install via:
 
@@ -1252,6 +1268,7 @@ Follow the below steps to set up Spark NLP with Spark 3.2.3:
   7. Create folders `C:\tmp` and `C:\tmp\hive`
      - If you encounter issues with permissions to these folders, you might need
        to change the permissions by running the following commands:
+
        ```
        %HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/hive
        %HADOOP_HOME%\bin\winutils.exe chmod 777 /tmp/
