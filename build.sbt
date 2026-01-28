@@ -68,7 +68,8 @@ lazy val utilDependencies = Seq(
   jsoup,
   jakartaMail,
   angusMail,
-  poiDocx,
+  poiDocx
+    exclude ("org.apache.logging.log4j", "log4j-api"),
   poiSchemas
     exclude ("org.apache.logging.log4j", "log4j-api"),
   scratchpad
