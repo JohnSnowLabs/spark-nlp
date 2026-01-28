@@ -229,6 +229,27 @@ class EntityRulerModel(AnnotatorModel, HasStorageModel):
         typeConverter=TypeConverters.toListString
     )
 
+    regexEntities = Param(
+        Params._dummy(),
+        "regexEntities",
+        "Entities defined in regex patterns",
+        typeConverter=TypeConverters.toListString
+    )
+
+    useStorage = Param(
+        Params._dummy(),
+        "useStorage",
+        "Whether to use RocksDB storage to serialize patterns",
+        typeConverter=TypeConverters.toBoolean
+    )
+
+    sentenceMatch = Param(
+        Params._dummy(),
+        "sentenceMatch",
+        "Whether to find match at sentence level (regex only)",
+        typeConverter=TypeConverters.toBoolean
+    )
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.er.EntityRulerModel", java_model=None):
         super(EntityRulerModel, self).__init__(
             classname=classname,
@@ -265,3 +286,34 @@ class EntityRulerModel(AnnotatorModel, HasStorageModel):
             List of entity names to extract, e.g., ['EMAIL_ADDRESS_PATTERN', 'IPV4_PATTERN'].
         """
         return self._set(extractEntities=value)
+
+    def setRegexEntities(self, value):
+        """
+        Sets the list of regex entity names to activate.
+
+        Parameters
+        ----------
+        value : list[str]
+            List of entity names defined in regex patterns.
+        """
+        return self._set(regexEntities=value)
+
+    def setUseStorage(self, value):
+        """
+        Sets whether to use RocksDB storage.
+
+        Parameters
+        ----------
+        value : bool
+        """
+        return self._set(useStorage=value)
+
+    def setSentenceMatch(self, value):
+        """
+        Enables sentence-level regex matching.
+
+        Parameters
+        ----------
+        value : bool
+        """
+        return self._set(sentenceMatch=value)
