@@ -143,12 +143,10 @@ object Dependencies {
   val angusMailVersion = "2.0.3"
   val angusMail = "org.eclipse.angus" % "angus-mail" % angusMailVersion
 
-  val poiVersion = "4.1.2"
-  val poiDocx = "org.apache.poi" % "poi-ooxml" % poiVersion
-  val scratchpad = "org.apache.poi" % "poi-scratchpad" % poiVersion
-
-  val poiSchemasVersion = "1.4"
-  val poiSchemas = "org.apache.poi" % "ooxml-schemas" % poiSchemasVersion
+  val poiFullVersion = "5.5.1"
+  val poiSchemas = "org.apache.poi" % "poi-ooxml-full" % poiFullVersion
+  val poiDocx = "org.apache.poi" % "poi-ooxml" % poiFullVersion
+  val scratchpad = "org.apache.poi" % "poi-scratchpad" % poiFullVersion
 
   val pdfBoxVersion = "2.0.28"
   val pdfBox = "org.apache.pdfbox" % "pdfbox" % pdfBoxVersion
