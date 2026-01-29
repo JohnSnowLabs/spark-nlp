@@ -27,11 +27,9 @@ class SparkNLPTestHTMLRealTimeSpec(unittest.TestCase):
 
     def runTest(self):
         html_df = sparknlp.read().html("https://www.wikipedia.org")
-        html_df.show()
         assert html_df.select("html").count() > 0
         params = {"titleFontSize": "12"}
         html_params_df = sparknlp.read(params).html("https://www.wikipedia.org")
-        html_params_df.show()
 
         self.assertTrue(html_params_df.select("html").count() > 0)
 
@@ -45,7 +43,6 @@ class SparkNLPTestHTMLFilesSpec(unittest.TestCase):
 
     def runTest(self):
         html_df = sparknlp.read().html(self.html_file)
-        html_df.show()
 
         self.assertTrue(html_df.select("html").count() > 0)
 
@@ -70,7 +67,6 @@ class SparkNLPTestEmailFilesSpec(unittest.TestCase):
 
     def runTest(self):
         email_df = sparknlp.read().email(self.email_file)
-        email_df.show()
 
         self.assertTrue(email_df.select("email").count() > 0)
 
@@ -83,7 +79,6 @@ class SparkNLPTestWordFilesSpec(unittest.TestCase):
 
     def runTest(self):
         word_df = sparknlp.read().doc(self.word_file)
-        word_df.show()
 
         self.assertTrue(word_df.select("doc").count() > 0)
 
@@ -96,7 +91,6 @@ class SparkNLPTestExcelFilesSpec(unittest.TestCase):
 
     def runTest(self):
         excel_df = sparknlp.read().xls(self.excel_file)
-        excel_df.show()
 
         self.assertTrue(excel_df.select("xls").count() > 0)
 
@@ -109,7 +103,6 @@ class SparkNLPTestPowerPointFilesSpec(unittest.TestCase):
 
     def runTest(self):
         ppt_df = sparknlp.read().ppt(self.ppt_file)
-        ppt_df.show()
 
         self.assertTrue(ppt_df.select("ppt").count() > 0)
 
@@ -122,7 +115,6 @@ class SparkNLPTestTXTFilesSpec(unittest.TestCase):
 
     def runTest(self):
         txt_df = sparknlp.read().txt(self.txt_file)
-        txt_df.show()
 
         self.assertTrue(txt_df.select("txt").count() > 0)
 
@@ -136,7 +128,6 @@ class SparkNLPTestXMLFilesSpec(unittest.TestCase):
 
     def runTest(self):
         xml_df = sparknlp.read().xml(self.xml_files)
-        xml_df.show()
 
         self.assertTrue(xml_df.select("xml").count() > 0)
 
@@ -149,7 +140,6 @@ class SparkNLPTestMdFilesSpec(unittest.TestCase):
 
     def runTest(self):
         md_df = sparknlp.read().md(self.md_file)
-        md_df.show()
 
         self.assertTrue(md_df.select("md").count() > 0)
 
@@ -163,7 +153,6 @@ class SparkNLPTestCSVFilesSpec(unittest.TestCase):
 
     def runTest(self):
         csv_df = sparknlp.read().csv(self.csv_files)
-        csv_df.show()
 
         self.assertTrue(csv_df.select("csv").count() > 0)
 
@@ -176,6 +165,5 @@ class SparkNLPTestPDFFilesSpec(unittest.TestCase):
 
     def runTest(self):
         csv_df = sparknlp.read().pdf(self.pdf_file)
-        csv_df.show()
 
         self.assertTrue(csv_df.select("pdf").count() > 0)
