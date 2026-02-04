@@ -17,7 +17,7 @@
 package com.johnsnowlabs.ml.ai
 
 import com.johnsnowlabs.nlp.annotator.Tokenizer
-import com.johnsnowlabs.nlp.annotators.VectorDBConnector
+import com.johnsnowlabs.ml.ai.VectorDBConnector
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.embeddings.{AlbertEmbeddings, SentenceEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.tags.SlowTest
@@ -37,7 +37,7 @@ class VectorDBConnectorTest extends AnyFlatSpec {
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .config(
       "spark.jsl.settings.vectordb.api.key",
-      "" // Set your VectorDB API key here (e.g., Pinecone API key)
+      "pcsk_6hPiJc_6jKrVSo45CsYzEXA6q6aJxQjEKHkWLiG1UEqq4LKj1QTK1dwU2EcwLQ8feo99DK" // Set your VectorDB API key here (e.g., Pinecone API key)
     )
     .getOrCreate()
 
@@ -72,7 +72,7 @@ class VectorDBConnectorTest extends AnyFlatSpec {
       .setInputCols("document", "sentence_embeddings")
       .setOutputCol("vectordb_result")
       .setProvider("pinecone")
-      .setIndexName("test111234")
+      .setIndexName("final-index")
       .setNamespace("integration-test")
       .setIdColumn("id")
       .setMetadataColumns(Array("text", "category"))
@@ -98,7 +98,7 @@ class VectorDBConnectorTest extends AnyFlatSpec {
       .setInputCols("document", "sentence_embeddings")
       .setOutputCol("vectordb_result")
       .setProvider("pinecone")
-      .setIndexName("test1234")
+      .setIndexName("final-index")
       .setNamespace("batch-test")
       .setIdColumn("id")
       .setMetadataColumns(Array("category"))
@@ -125,7 +125,7 @@ class VectorDBConnectorTest extends AnyFlatSpec {
       .setInputCols("document", "sentence_embeddings")
       .setOutputCol("vectordb_result")
       .setProvider("pinecone")
-      .setIndexName("test1234")
+      .setIndexName("final-index")
       .setNamespace("no-metadata-test")
       .setIdColumn("id")
       .setBatchSize(10)
@@ -146,7 +146,7 @@ class VectorDBConnectorTest extends AnyFlatSpec {
       .setInputCols("document", "sentence_embeddings")
       .setOutputCol("vectordb_result")
       .setProvider("pinecone")
-      .setIndexName("test1234")
+      .setIndexName("final-index")
       .setNamespace("uuid-test")
       .setBatchSize(10)
 
@@ -166,7 +166,7 @@ class VectorDBConnectorTest extends AnyFlatSpec {
       .setInputCols("document", "sentence_embeddings")
       .setOutputCol("vectordb_result")
       .setProvider("pinecone")
-      .setIndexName("test1234")
+      .setIndexName("final-index")
       .setNamespace("namespace-1")
       .setIdColumn("id")
       .setBatchSize(10)
@@ -175,7 +175,7 @@ class VectorDBConnectorTest extends AnyFlatSpec {
       .setInputCols("document", "sentence_embeddings")
       .setOutputCol("vectordb_result")
       .setProvider("pinecone")
-      .setIndexName("test1234")
+      .setIndexName("final-index")
       .setNamespace("namespace-2")
       .setIdColumn("id")
       .setBatchSize(10)
@@ -203,7 +203,7 @@ class VectorDBConnectorTest extends AnyFlatSpec {
       .setInputCols("document", "sentence_embeddings")
       .setOutputCol("vectordb_result")
       .setProvider("pinecone")
-      .setIndexName("test1234")
+      .setIndexName("final-index")
       .setNamespace("escape-test")
       .setIdColumn("id")
       .setMetadataColumns(Array("text", "category"))
@@ -227,7 +227,7 @@ class VectorDBConnectorTest extends AnyFlatSpec {
       .setInputCols("document", "sentence_embeddings")
       .setOutputCol("vectordb_result")
       .setProvider("pinecone")
-      .setIndexName("test1234")
+      .setIndexName("final-index")
       .setNamespace("multi-metadata-test")
       .setIdColumn("id")
       .setMetadataColumns(Array("text", "category", "date", "author", "status"))

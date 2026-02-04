@@ -117,6 +117,8 @@ lazy val vectorStoreDependencies = Seq(
     exclude ("com.fasterxml.jackson.core", "jackson-annotations")
     exclude ("com.fasterxml.jackson.core", "jackson-databind")
     exclude ("com.fasterxml.jackson.core", "jackson-core")
+    exclude ("ch.qos.logback", "logback-classic")
+    exclude ("ch.qos.logback", "logback-core")
 )
 
 

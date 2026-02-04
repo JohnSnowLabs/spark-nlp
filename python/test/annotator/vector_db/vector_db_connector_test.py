@@ -72,7 +72,7 @@ class VectorDBConnectorTestSpec(unittest.TestCase):
             .setInputCols(["document", "sentence_embeddings"]) \
             .setOutputCol("vectordb_result") \
             .setProvider("pinecone") \
-            .setIndexName("this") \
+            .setIndexName("final-index") \
             .setNamespace("python-integration-test") \
             .setIdColumn("id") \
             .setMetadataColumns(["text", "category", "date", "author", "status"]) \
