@@ -37,7 +37,7 @@ class VectorDBConnectorTest extends AnyFlatSpec {
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .config(
       "spark.jsl.settings.vectordb.api.key",
-      "pcsk_6hPiJc_6jKrVSo45CsYzEXA6q6aJxQjEKHkWLiG1UEqq4LKj1QTK1dwU2EcwLQ8feo99DK" // Set your VectorDB API key here (e.g., Pinecone API key)
+      "" // Set your VectorDB API key here (e.g., Pinecone API key)
     )
     .getOrCreate()
 
