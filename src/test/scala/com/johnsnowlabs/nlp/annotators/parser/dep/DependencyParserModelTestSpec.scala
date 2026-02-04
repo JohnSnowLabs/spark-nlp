@@ -149,4 +149,16 @@ class DependencyParserModelTestSpec extends AnyFlatSpec with SparkSessionTest {
           r.getMap[String, String](4))
       }
   }
+  it should "load an old model correctly and save as JSON" taggedAs SlowTest in {
+    val modelPath =
+      "explain_clinical_doc_oncology_en_5.5.0_3.4_1728890654708/stages/30_dependency_e7755462ba78"
+    val loadedModel = DependencyParserModel.load(modelPath)
+    assert(loadedModel.uid == loadedModel.uid)
+
+    val jsonModelPath = "models_serialization/dependency_parser_model_2.12_json"
+    saveModel(loadedModel.write, jsonModelPath)
+
+    val loadedJSONModel = DependencyParserModel.load(jsonModelPath)
+    assert(loadedModel.uid == loadedJSONModel.uid)
+  }
 }

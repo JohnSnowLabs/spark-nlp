@@ -98,7 +98,6 @@ class S3ResourceDownloader(
     val link = resolveLink(request)
     link.flatMap { resource =>
       val s3FilePath = awsGateway.getS3File(s3Path, request.folder, resource.fileName)
-      logger.info(s"In S3ResourceDownloader.download: $s3FilePath")
       if (!awsGateway.doesS3ObjectExist(bucket, s3FilePath)) {
         logger.info("Resource not found in S3")
         None
@@ -108,10 +107,9 @@ class S3ResourceDownloader(
         val zipFile = sourceS3URI.split("/").last
         val modelName = zipFile.substring(0, zipFile.indexOf(".zip"))
 
-        logger.info("Before cachePath.toString: " + cachePath.toString)
         cachePath.toString match {
           case path if CloudHelper.isCloudPath(path) => {
-            logger.info(s"In S3ResourceDownloader.cachePath is cloud path: $path")
+            logger.info(s"Downloading from cloud path: $path")
             CloudResources.downloadModelFromCloud(
               awsGateway,
               cachePath.toString,
@@ -119,7 +117,6 @@ class S3ResourceDownloader(
               sourceS3URI)
           }
           case _ => {
-            logger.info(s"In S3ResourceDownloader before downloadAndUnzipFile")
             val destinationFile = new Path(cachePath.toString, resource.fileName)
             downloadAndUnzipFile(destinationFile, resource, s3FilePath)
           }

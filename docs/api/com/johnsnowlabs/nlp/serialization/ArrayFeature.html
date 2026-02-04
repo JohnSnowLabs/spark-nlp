@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.3.1 ScalaDoc  - com.johnsnowlabs.nlp.serialization.ArrayFeature</title>
-          <meta name="description" content="Spark NLP 6.3.1 ScalaDoc - com.johnsnowlabs.nlp.serialization.ArrayFeature" />
-          <meta name="keywords" content="Spark NLP 6.3.1 ScalaDoc com.johnsnowlabs.nlp.serialization.ArrayFeature" />
+          <title>Spark NLP 6.3.2 ScalaDoc  - com.johnsnowlabs.nlp.serialization.ArrayFeature</title>
+          <meta name="description" content="Spark NLP 6.3.2 ScalaDoc - com.johnsnowlabs.nlp.serialization.ArrayFeature" />
+          <meta name="keywords" content="Spark NLP 6.3.2 ScalaDoc com.johnsnowlabs.nlp.serialization.ArrayFeature" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.3.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.3.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -143,8 +143,20 @@
                         <a href="Feature.html" title="">Feature</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
+                        <a class="trait" href="JSONFeature.html" title=""></a>
+                        <a href="JSONFeature.html" title="">JSONFeature</a>
+                      </li><li class="current-entities indented4">
+                        <a class="object" href="LegacyObjectInputStream$.html" title=""></a>
+                        <a class="class" href="LegacyObjectInputStream.html" title="Custom ObjectInputStream that ignores the serialVersionUID check for a provided class during deserialization."></a>
+                        <a href="LegacyObjectInputStream.html" title="Custom ObjectInputStream that ignores the serialVersionUID check for a provided class during deserialization.">LegacyObjectInputStream</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
                         <a class="class" href="MapFeature.html" title=""></a>
                         <a href="MapFeature.html" title="">MapFeature</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="MapJSONFeature.html" title=""></a>
+                        <a href="MapJSONFeature.html" title="">MapJSONFeature</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="SerializedExternalResource.html" title=""></a>
@@ -157,6 +169,10 @@
                         <span class="separator"></span>
                         <a class="class" href="StructFeature.html" title=""></a>
                         <a href="StructFeature.html" title="">StructFeature</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="class" href="StructJSONFeature.html" title="Struct Feature for JSON serialization/deserialization."></a>
+                        <a href="StructJSONFeature.html" title="Struct Feature for JSON serialization/deserialization.">StructJSONFeature</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="class" href="TransducerFeature.html" title=""></a>
@@ -240,9 +256,9 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="com.johnsnowlabs.nlp.serialization.ArrayFeature#&lt;init&gt;" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(model:com.johnsnowlabs.nlp.HasFeatures,name:String)(implicitevidence$5:scala.reflect.ClassTag[TValue]):com.johnsnowlabs.nlp.serialization.ArrayFeature[TValue]"></a><a id="&lt;init&gt;:ArrayFeature[TValue]"></a>
+      <a id="&lt;init&gt;(model:com.johnsnowlabs.nlp.HasFeatures,name:String)(implicitevidence$6:scala.reflect.ClassTag[TValue]):com.johnsnowlabs.nlp.serialization.ArrayFeature[TValue]"></a><a id="&lt;init&gt;:ArrayFeature[TValue]"></a>
       <span class="permalink">
-      <a href="../../../../com/johnsnowlabs/nlp/serialization/ArrayFeature.html#&lt;init&gt;(model:com.johnsnowlabs.nlp.HasFeatures,name:String)(implicitevidence$5:scala.reflect.ClassTag[TValue]):com.johnsnowlabs.nlp.serialization.ArrayFeature[TValue]" title="Permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/serialization/ArrayFeature.html#&lt;init&gt;(model:com.johnsnowlabs.nlp.HasFeatures,name:String)(implicitevidence$6:scala.reflect.ClassTag[TValue]):com.johnsnowlabs.nlp.serialization.ArrayFeature[TValue]" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span>
@@ -417,6 +433,28 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.serialization.ArrayFeature">ArrayFeature</a> → <a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.serialization.Feature#deserializeWithFallback" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="deserializeWithFallback[ObjectType](spark:org.apache.spark.sql.SparkSession,path:String)(implicitevidence$2:scala.reflect.ClassTag[ObjectType]):org.apache.spark.rdd.RDD[ObjectType]"></a><a id="deserializeWithFallback[ObjectType](SparkSession,String)(ClassTag[ObjectType]):RDD[ObjectType]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/serialization/ArrayFeature.html#deserializeWithFallback[ObjectType](spark:org.apache.spark.sql.SparkSession,path:String)(implicitevidence$2:scala.reflect.ClassTag[ObjectType]):org.apache.spark.rdd.RDD[ObjectType]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">deserializeWithFallback</span><span class="tparams">[<span name="ObjectType">ObjectType</span>]</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="arg0">arg0: <span class="extype" name="scala.reflect.ClassTag">ClassTag</span>[<span class="extype" name="com.johnsnowlabs.nlp.serialization.Feature.deserializeWithFallback.ObjectType">ObjectType</span>]</span>)</span><span class="result">: <span class="extype" name="org.apache.spark.rdd.RDD">RDD</span>[<span class="extype" name="com.johnsnowlabs.nlp.serialization.Feature.deserializeWithFallback.ObjectType">ObjectType</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Loads an object from a SequenceFile containing serialized objects.</p><div class="fullcomment"><div class="comment cmt"><p>Loads an object from a SequenceFile containing serialized objects. It tries to load the
+tuple across Scala version, handling serialVersionUID mismatches.</p><p>Adapted from sparkContext.objectFile:</p><p>&quot;Load an RDD saved as a SequenceFile containing serialized objects, with NullWritable keys
+and BytesWritable values that contain a serialized partition.&quot;
+</p></div><dl class="paramcmts block"><dt class="param">path</dt><dd class="cmt"><p>
+  directory to the input data files, the path can be comma separated paths as a list of
+  inputs</p></dd><dt>returns</dt><dd class="cmt"><p>
+  RDD representing deserialized data from the file(s)</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.ArrayFeature#encoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="encoder:org.apache.spark.sql.Encoder[TValue]"></a><a id="encoder:Encoder[TValue]"></a>
       <span class="permalink">
@@ -653,6 +691,22 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.serialization.Feature#logger" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="logger:org.slf4j.Logger"></a><a id="logger:Logger"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/serialization/ArrayFeature.html#logger:org.slf4j.Logger" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">logger</span><span class="result">: <span class="extype" name="org.slf4j.Logger">Logger</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.ArrayFeature#name" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="name:String"></a>
       <span class="permalink">
@@ -755,6 +809,26 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.serialization.Feature#resolveCustomLegacyClasses" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="resolveCustomLegacyClasses(osc:java.io.ObjectStreamClass):java.io.ObjectStreamClass"></a><a id="resolveCustomLegacyClasses(ObjectStreamClass):ObjectStreamClass"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/serialization/ArrayFeature.html#resolveCustomLegacyClasses(osc:java.io.ObjectStreamClass):java.io.ObjectStreamClass" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">resolveCustomLegacyClasses</span><span class="params">(<span name="osc">osc: <span class="extype" name="java.io.ObjectStreamClass">ObjectStreamClass</span></span>)</span><span class="result">: <span class="extype" name="java.io.ObjectStreamClass">ObjectStreamClass</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Method to provide additional legacy class descriptor mappings for custom classes.</p><div class="fullcomment"><div class="comment cmt"><p>Method to provide additional legacy class descriptor mappings for custom classes. If none
+are found, should return null.
+</p></div><dl class="paramcmts block"><dt class="param">osc</dt><dd class="cmt"><p>
+  The ObjectStreamClass to resolve</p></dd><dt>returns</dt><dd class="cmt"><p>
+  The resolved ObjectStreamClass, or null if not found</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="Feature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.Feature">Feature</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.serialization.Feature#serializationMode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="serializationMode:String"></a>
       <span class="permalink">

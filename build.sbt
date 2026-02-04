@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "6.3.1"
+version := "6.3.2"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -68,13 +68,15 @@ lazy val utilDependencies = Seq(
   jsoup,
   jakartaMail,
   angusMail,
-  poiDocx
+  poiDocx,
+  poiSchemas
     exclude ("org.apache.logging.log4j", "log4j-api"),
   scratchpad
     exclude ("org.apache.logging.log4j", "log4j-api"),
   pdfBox,
   flexmark,
-  tagSoup)
+  tagSoup,
+  json4sNative)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 
@@ -160,6 +162,7 @@ lazy val root = (project in file("."))
   case PathList("META-INF", "mailcap.default") => MergeStrategy.first
   case PathList("META-INF", "mimetypes.default") => MergeStrategy.first
   case PathList("google", "protobuf", _*) => MergeStrategy.first
+  case PathList("schemaorg_apache_xmlbeans", xs @ _*) => MergeStrategy.first
   case x =>
     val oldStrategy = (assembly / assemblyMergeStrategy).value
     oldStrategy(x)

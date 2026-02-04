@@ -151,4 +151,32 @@ class WordReaderTest extends AnyFlatSpec {
       "Missing orderImageIndex in IMAGE metadata")
   }
 
+  it should "include coord field in IMAGE metadata with {x:...,y:...} format" taggedAs FastTest in {
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/contains-pictures.docx")
+
+    val explodedDf = wordDf.withColumn("doc_exploded", explode(col("doc")))
+    val imagesDf = explodedDf.filter(col("doc_exploded.elementType") === ElementType.IMAGE)
+
+    val coordDf = imagesDf.selectExpr("doc_exploded.metadata.coord as coord")
+
+    assert(coordDf.count() > 0, "No coord field found in IMAGE metadata")
+
+    val pattern = """\{x:\d+,y:\d+\}"""
+    val allMatch = coordDf.collect().forall(row => row.getAs[String]("coord").matches(pattern))
+    assert(allMatch, "Some IMAGE coord fields do not match expected {x:...,y:...} format")
+  }
+
+  it should "assign distinct coord values to each image" taggedAs FastTest in {
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/contains-pictures.docx")
+
+    val explodedDf = wordDf.withColumn("doc_exploded", explode(col("doc")))
+    val imagesDf = explodedDf.filter(col("doc_exploded.elementType") === ElementType.IMAGE)
+    val coords = imagesDf.selectExpr("doc_exploded.metadata.coord as coord").as[String].collect()
+
+    assert(coords.nonEmpty, "No IMAGE coord metadata found")
+    assert(coords.distinct.length == coords.length, "Duplicate IMAGE coordinates detected")
+  }
+
 }

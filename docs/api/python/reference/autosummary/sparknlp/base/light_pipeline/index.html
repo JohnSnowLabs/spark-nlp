@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 6.3.1 documentation</title>
+    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 6.3.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=06e80d93"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=311087f9"></script>
     <script src="../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.1 documentation - Home"/>`);</script>
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -400,7 +400,7 @@ document.write(`
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.base.light_pipeline.LightPipeline">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LightPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipelineModel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parse_embeddings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/light_pipeline.html#LightPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.light_pipeline.LightPipeline" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LightPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipelineModel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parse_embeddings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/light_pipeline.html#LightPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.light_pipeline.LightPipeline" title="Permalink to this definition">#</a></dt>
 <dd><p>Creates a LightPipeline from a Spark PipelineModel.</p>
 <p>LightPipeline is a Spark NLP specific Pipeline class equivalent to Spark
 ML Pipeline. The difference is that it’s execution does not hold to
@@ -449,25 +449,21 @@ directly outputs the results.</p>
 <span class="sig-name descname"><span class="pre">parse_embeddings</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">False</span></em><a class="reference internal" href="../../../../../modules/sparknlp/base/light_pipeline.html#LightPipeline.parse_embeddings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.light_pipeline.LightPipeline.parse_embeddings" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.base.light_pipeline.LightPipeline.output_cols">
+<span class="sig-name descname"><span class="pre">output_cols</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">None</span></em><a class="reference internal" href="../../../../../modules/sparknlp/base/light_pipeline.html#LightPipeline.output_cols"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.light_pipeline.LightPipeline.output_cols" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.light_pipeline.LightPipeline.fullAnnotate">
-<span class="sig-name descname"><span class="pre">fullAnnotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optional_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/light_pipeline.html#LightPipeline.fullAnnotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.light_pipeline.LightPipeline.fullAnnotate" title="Permalink to this definition">#</a></dt>
-<dd><p>Annotates the data provided into <cite>Annotation</cite> type results.</p>
-<p>The data should be either a list or a str.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>target</strong><span class="classifier">list or str or float</span></dt><dd><p>The data to be annotated</p>
-</dd>
-<dt><strong>optional_target: list or str</strong></dt><dd><p>Optional data to be annotated (currently used for Question Answering)</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>List[Annotation]</dt><dd><p>The result of the annotation</p>
-</dd>
-</dl>
+<span class="sig-name descname"><span class="pre">fullAnnotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/light_pipeline.html#LightPipeline.fullAnnotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.light_pipeline.LightPipeline.fullAnnotate" title="Permalink to this definition">#</a></dt>
+<dd><p>Annotate and return full Annotation objects.</p>
+<dl class="simple">
+<dt>Supports both:</dt><dd><ul class="simple">
+<li><p>fullAnnotate(text: str)</p></li>
+<li><p>fullAnnotate(texts: list[str])</p></li>
+<li><p>fullAnnotate(ids: list[int], texts: list[str])</p></li>
+</ul>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -514,22 +510,20 @@ directly outputs the results.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.base.light_pipeline.LightPipeline.annotate">
-<span class="sig-name descname"><span class="pre">annotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optional_target</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/light_pipeline.html#LightPipeline.annotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.light_pipeline.LightPipeline.annotate" title="Permalink to this definition">#</a></dt>
-<dd><p>Annotates the data provided, extracting the results.</p>
-<p>The data should be either a list or a str.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>target</strong><span class="classifier">list or str</span></dt><dd><p>The data to be annotated</p>
-</dd>
-<dt><strong>optional_target: list or str</strong></dt><dd><p>Optional data to be annotated (currently used for Question Answering)</p>
+<span class="sig-name descname"><span class="pre">annotate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/base/light_pipeline.html#LightPipeline.annotate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.base.light_pipeline.LightPipeline.annotate" title="Permalink to this definition">#</a></dt>
+<dd><p>Annotate text(s) or text(s) with IDs using the LightPipeline.</p>
+<dl class="simple">
+<dt>Supports both:</dt><dd><ul class="simple">
+<li><p>annotate(text: str)</p></li>
+<li><p>annotate(texts: list[str])</p></li>
+<li><p>annotate(ids: list[int], texts: list[str])</p></li>
+</ul>
 </dd>
 </dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt>List[dict] or dict</dt><dd><p>The result of the annotation</p>
-</dd>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>list[dict[str, list[str]]]</dt><dd></dd>
 </dl>
 </dd>
 </dl>
@@ -636,6 +630,7 @@ directly outputs the results.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.light_pipeline.LightPipeline"><code class="docutils literal notranslate"><span class="pre">LightPipeline</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.light_pipeline.LightPipeline.pipeline_model"><code class="docutils literal notranslate"><span class="pre">LightPipeline.pipeline_model</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.light_pipeline.LightPipeline.parse_embeddings"><code class="docutils literal notranslate"><span class="pre">LightPipeline.parse_embeddings</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.light_pipeline.LightPipeline.output_cols"><code class="docutils literal notranslate"><span class="pre">LightPipeline.output_cols</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.light_pipeline.LightPipeline.fullAnnotate"><code class="docutils literal notranslate"><span class="pre">LightPipeline.fullAnnotate()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.light_pipeline.LightPipeline.fullAnnotateImage"><code class="docutils literal notranslate"><span class="pre">LightPipeline.fullAnnotateImage()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.base.light_pipeline.LightPipeline.annotate"><code class="docutils literal notranslate"><span class="pre">LightPipeline.annotate()</span></code></a></li>

@@ -147,6 +147,9 @@ object Dependencies {
   val poiDocx = "org.apache.poi" % "poi-ooxml" % poiVersion
   val scratchpad = "org.apache.poi" % "poi-scratchpad" % poiVersion
 
+  val poiSchemasVersion = "1.4"
+  val poiSchemas = "org.apache.poi" % "ooxml-schemas" % poiSchemasVersion
+
   val pdfBoxVersion = "2.0.28"
   val pdfBox = "org.apache.pdfbox" % "pdfbox" % pdfBoxVersion
 
@@ -159,5 +162,7 @@ object Dependencies {
   val pineconeScalaClient = "io.cequence" %% "pinecone-scala-client" % "1.3.2"
 
 
+  val json4sVersion = "3.7.0-M11"
+  val json4sNative = "org.json4s" %% "json4s-native" % json4sVersion
   /** ------- Dependencies end  ------- */
 }

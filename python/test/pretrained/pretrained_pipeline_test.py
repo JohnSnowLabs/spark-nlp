@@ -23,19 +23,19 @@ from sparknlp.pretrained import PretrainedPipeline
 class PretrainedPipelineTextInputTest(unittest.TestCase):
 
     def setUp(self):
-        self.pipeline = PretrainedPipeline("clean_slang", "en")
+        self.pipeline = PretrainedPipeline("onto_recognize_entities_bert_tiny", "en")
 
     def runTest(self):
-        slang_text = "yo, what is wrong with ya?"
-        annotations_result = self.pipeline.fullAnnotate(slang_text)
+        text = "John Snow Labs is based in Delaware and builds AI for healthcare"
+        annotations_result = self.pipeline.fullAnnotate(text)
 
         self.assertEqual(len(annotations_result), 1)
         for result in annotations_result:
             self.assertTrue(len(result) > 0)
 
-        slang_texts = [slang_text, slang_text]
-        annotations_result = self.pipeline.fullAnnotate(slang_texts)
-        self.assertEqual(len(annotations_result), len(slang_texts))
+        batch_texts = [text, text]
+        annotations_result = self.pipeline.fullAnnotate(batch_texts)
+        self.assertEqual(len(annotations_result), len(batch_texts))
         for result in annotations_result:
             self.assertTrue(len(result) > 0)
 

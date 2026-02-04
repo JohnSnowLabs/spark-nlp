@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 6.3.1 documentation</title>
+    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 6.3.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=06e80d93"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=311087f9"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -424,10 +424,25 @@ document.write(`
 <span class="sd">    }</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipelineModel</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pipelineModel</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">output_cols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        pipelineModel : PipelineModel</span>
+<span class="sd">            The fitted Spark NLP pipeline model.</span>
+<span class="sd">        parse_embeddings : bool, optional</span>
+<span class="sd">            Whether to parse embeddings.</span>
+<span class="sd">        output_cols : list[str], optional</span>
+<span class="sd">            List of output columns to return in results (optional).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">output_cols</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">output_cols</span> <span class="o">=</span> <span class="p">[]</span>
+
 <div class="viewcode-block" id="LightPipeline.pipeline_model"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.pipeline_model">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span> <span class="o">=</span> <span class="n">pipelineModel</span></div>
 <div class="viewcode-block" id="LightPipeline.parse_embeddings"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.parse_embeddings">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">parse_embeddings</span> <span class="o">=</span> <span class="n">parse_embeddings</span></div>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
+<div class="viewcode-block" id="LightPipeline.output_cols"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.output_cols">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">output_cols</span> <span class="o">=</span> <span class="n">output_cols</span></div>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_LightPipeline</span><span class="p">(</span><span class="n">pipelineModel</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="p">,</span> <span class="n">output_cols</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_validateStagesInputCols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stages</span><span class="p">):</span>
         <span class="n">annotator_types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getAnnotatorTypes</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span>
@@ -518,22 +533,14 @@ document.write(`
 
         <span class="k">return</span> <span class="n">result</span>
 
-<div class="viewcode-block" id="LightPipeline.fullAnnotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.fullAnnotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
+<div class="viewcode-block" id="LightPipeline.fullAnnotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.fullAnnotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Annotate and return full Annotation objects.</span>
 
-<span class="sd">        The data should be either a list or a str.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        target : list or str or float</span>
-<span class="sd">            The data to be annotated</span>
-<span class="sd">        optional_target: list or str</span>
-<span class="sd">            Optional data to be annotated (currently used for Question Answering)</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        List[Annotation]</span>
-<span class="sd">            The result of the annotation</span>
+<span class="sd">        Supports both:</span>
+<span class="sd">          - fullAnnotate(text: str)</span>
+<span class="sd">          - fullAnnotate(texts: list[str])</span>
+<span class="sd">          - fullAnnotate(ids: list[int], texts: list[str])</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -552,25 +559,46 @@ document.write(`
 <span class="sd">        Annotation(named_entity, 30, 36, B-LOC, {&#39;word&#39;: &#39;Baghdad&#39;}),</span>
 <span class="sd">        Annotation(named_entity, 37, 37, O, {&#39;word&#39;: &#39;.&#39;})]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">],)</span> <span class="o">+</span> <span class="n">args</span>
+        <span class="k">if</span> <span class="s2">&quot;optional_target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optional_target&quot;</span><span class="p">],)</span>
+
         <span class="n">stages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skipPipelineValidation</span><span class="p">(</span><span class="n">stages</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">optional_target</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isTextInput</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateText</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isAudioInput</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateAudio</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                    <span class="s2">&quot;argument for annotation must be &#39;str&#39; or list[str] or list[float] or list[list[float]]&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isTextInput</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isTextInput</span><span class="p">(</span><span class="n">optional_target</span><span class="p">):</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateQuestionAnswering</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;arguments for annotation must be &#39;str&#39; or list[str]&quot;</span><span class="p">)</span>
+        <span class="n">input_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__detectInputType</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">result</span></div>
+        <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;ids_texts&quot;</span><span class="p">:</span>
+            <span class="n">ids</span><span class="p">,</span> <span class="n">texts</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateWithIdsJava</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">texts</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;qa&quot;</span><span class="p">:</span>
+            <span class="n">question</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateQuestionAnswering</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateText</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;audio&quot;</span><span class="p">:</span>
+            <span class="n">audios</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateAudio</span><span class="p">(</span><span class="n">audios</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;image&quot;</span><span class="p">:</span>
+            <span class="n">images</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fullAnnotateImage</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;Unsupported input for fullAnnotate(). Expected: &quot;</span>
+            <span class="s2">&quot;(text: str | list[str]), &quot;</span>
+            <span class="s2">&quot;(ids: list[int], texts: list[str]), &quot;</span>
+            <span class="s2">&quot;(question: str, context: str), &quot;</span>
+            <span class="s2">&quot;(audio: list[float] | list[list[float]]), or &quot;</span>
+            <span class="s2">&quot;(image_path: str | list[str]).&quot;</span>
+        <span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__isTextInput</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
@@ -687,22 +715,19 @@ document.write(`
             <span class="n">stages</span><span class="p">[</span><span class="n">annotator_type</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_annotationFromJava</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stages</span>
 
-<div class="viewcode-block" id="LightPipeline.annotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.annotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided, extracting the results.</span>
 
-<span class="sd">        The data should be either a list or a str.</span>
+<div class="viewcode-block" id="LightPipeline.annotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.annotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Annotate text(s) or text(s) with IDs using the LightPipeline.</span>
 
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        target : list or str</span>
-<span class="sd">            The data to be annotated</span>
-<span class="sd">        optional_target: list or str</span>
-<span class="sd">            Optional data to be annotated (currently used for Question Answering)</span>
+<span class="sd">        Supports both:</span>
+<span class="sd">          - annotate(text: str)</span>
+<span class="sd">          - annotate(texts: list[str])</span>
+<span class="sd">          - annotate(ids: list[int], texts: list[str])</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        List[dict] or dict</span>
-<span class="sd">            The result of the annotation</span>
+<span class="sd">        list[dict[str, list[str]]]</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -714,39 +739,124 @@ document.write(`
 <span class="sd">        &gt;&gt;&gt; result[&quot;ner&quot;]</span>
 <span class="sd">        [&#39;B-ORG&#39;, &#39;O&#39;, &#39;O&#39;, &#39;B-PER&#39;, &#39;O&#39;, &#39;O&#39;, &#39;B-LOC&#39;, &#39;O&#39;]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">def</span><span class="w"> </span><span class="nf">reformat</span><span class="p">(</span><span class="n">annotations</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">annotations</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="k">if</span> <span class="s2">&quot;target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">],)</span> <span class="o">+</span> <span class="n">args</span>
+        <span class="k">if</span> <span class="s2">&quot;optional_target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optional_target&quot;</span><span class="p">],)</span>
 
         <span class="n">stages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skipPipelineValidation</span><span class="p">(</span><span class="n">stages</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_validateStagesInputCols</span><span class="p">(</span><span class="n">stages</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">optional_target</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
-                <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">reformat</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;target is a 1D list&quot;</span><span class="p">)</span>
-                <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">reformat</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">annotations</span><span class="p">)))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;target for annotation must be &#39;str&#39; or list&quot;</span><span class="p">)</span>
+        <span class="n">input_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__detectInputType</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">optional_target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
-                <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="p">)</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">reformat</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">optional_target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
-                <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">list</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">optional_target</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">is</span> <span class="nb">list</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;target and optional_target is a 1D list&quot;</span><span class="p">)</span>
-                <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">optional_target</span><span class="p">)</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">reformat</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">annotations</span><span class="p">)))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;target and optional_target for annotation must be both &#39;str&#39; or both lists&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;ids_texts&quot;</span><span class="p">:</span>
+            <span class="n">ids</span><span class="p">,</span> <span class="n">texts</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateWithIdsJava</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">texts</span><span class="p">)</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">reformat</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">annotations</span><span class="p">)))</span>
+            <span class="k">return</span> <span class="n">results</span>
 
-        <span class="k">return</span> <span class="n">result</span></div>
+        <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;qa&quot;</span><span class="p">:</span>
+            <span class="n">question</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">reformat</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">annotations</span><span class="p">)))</span>
+                <span class="k">return</span> <span class="n">results</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="n">reformat</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">results</span>
+
+        <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="n">reformat</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">results</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">reformat</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">annotations</span><span class="p">)))</span>
+                <span class="k">return</span> <span class="n">results</span>
+
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;Unsupported input for annotate(). Expected: &quot;</span>
+            <span class="s2">&quot;(text: str | list[str]), &quot;</span>
+            <span class="s2">&quot;(ids: list[int], texts: list[str]), &quot;</span>
+            <span class="s2">&quot;or (question: str, context: str).&quot;</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__detectInputType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine the input type pattern for fullAnnotate().</span>
+<span class="sd">        Returns one of: &#39;ids_texts&#39;, &#39;qa&#39;, &#39;text&#39;, &#39;audio&#39;, &#39;image&#39;, or &#39;unknown&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span> <span class="o">=</span> <span class="n">args</span>
+
+            <span class="c1"># (ids, texts)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                    <span class="nb">isinstance</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">a1</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a2</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">a2</span><span class="p">)</span>
+            <span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;ids_texts&quot;</span>
+
+            <span class="c1"># (question, context)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a2</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;qa&quot;</span>
+
+            <span class="c1"># (questions[], contexts[])</span>
+            <span class="k">if</span> <span class="p">(</span>
+                    <span class="nb">isinstance</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">a1</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a2</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">a2</span><span class="p">)</span>
+            <span class="p">):</span>
+                <span class="k">return</span> <span class="s2">&quot;qa&quot;</span>
+
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">a1</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span>
+
+            <span class="c1"># 🧩 Case 1: plain string</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isPath</span><span class="p">(</span><span class="n">a1</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="s2">&quot;image&quot;</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isTextInput</span><span class="p">(</span><span class="n">a1</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="s2">&quot;text&quot;</span>
+                <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span>
+
+            <span class="c1"># 🧩 Case 2: list — ensure homogeneous types</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+                <span class="c1"># Guard clause — mixed or invalid types</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a1</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span>
+
+                <span class="c1"># Text list</span>
+                <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a1</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isTextInput</span><span class="p">(</span><span class="n">a1</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="s2">&quot;text&quot;</span>
+
+                <span class="c1"># Audio list</span>
+                <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span>
+                        <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a1</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">float</span><span class="p">)</span> <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">a1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sub</span><span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="k">return</span> <span class="s2">&quot;audio&quot;</span>
+
+                <span class="c1"># Image list (only strings allowed)</span>
+                <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a1</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">a1</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="s2">&quot;image&quot;</span>
+
+            <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span>
+
+        <span class="k">return</span> <span class="s2">&quot;unknown&quot;</span>
+
 
 <div class="viewcode-block" id="LightPipeline.transform"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.transform">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Transforms a dataframe provided with the stages of the LightPipeline.</span>
@@ -761,7 +871,14 @@ document.write(`
 <span class="sd">        :class:`pyspark.sql.DataFrame`</span>
 <span class="sd">            The transformed DataFrame</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span></div>
+        <span class="n">transformed_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_cols</span><span class="p">:</span>
+            <span class="n">original_cols</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">columns</span>
+            <span class="n">filtered_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">original_cols</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_cols</span><span class="p">))</span>
+            <span class="n">transformed_df</span> <span class="o">=</span> <span class="n">transformed_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">*</span><span class="n">filtered_cols</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">transformed_df</span></div>
 
 <div class="viewcode-block" id="LightPipeline.setIgnoreUnsupported"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.setIgnoreUnsupported">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIgnoreUnsupported</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to ignore unsupported AnnotatorModels.</span>

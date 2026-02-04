@@ -10,6 +10,7 @@ on:
       - "**.md"
       - "**.yaml"
       - "**.yml"
+      - "**.ipynb"
     branches:
       - "master"
       - "*release*"
@@ -24,11 +25,16 @@ on:
       - "**.md"
       - "**.yaml"
       - "**.yml"
+      - "**.ipynb"
     branches:
       - "master"
       - "*release*"
       - "release/**"
       - "main"
+
+concurrency:
+  group: ${{ github. workflow }}-${{ github.event. pull_request.number || github. ref }}
+  cancel-in-progress: true
 
 jobs:
   spark34:
@@ -43,8 +49,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup openjdk Java
         run: |
-          apt-get update
-          apt-get install -y openjdk-8-jdk
+          sudo apt-get update
+          sudo apt-get install -y openjdk-8-jdk
+          echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
+          echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
+          java -version
       - name: Install Python 3.8
         uses: actions/setup-python@v2
         with:
@@ -82,8 +91,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup openjdk Java
         run: |
-          apt-get update
-          apt-get install -y openjdk-8-jdk
+          sudo apt-get update
+          sudo apt-get install -y openjdk-8-jdk
+          echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
+          echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
+          java -version
       - name: Install Python 3.10
         uses: actions/setup-python@v2
         with:
@@ -117,8 +129,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup openjdk Java
         run: |
-          apt-get update
-          apt-get install -y openjdk-8-jdk
+          sudo apt-get update
+          sudo apt-get install -y openjdk-8-jdk
+          echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
+          echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
+          java -version
       - name: Install Python 3.8
         uses: actions/setup-python@v2
         with:
