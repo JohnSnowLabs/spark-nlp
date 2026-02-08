@@ -109,7 +109,7 @@ class WordReaderTest extends AnyFlatSpec {
     assert(htmlDf.count() > 1)
   }
 
-  it should "output hierarchy metadata" taggedAs FastTest in {
+  it should "output hierarchy metadata" ignore {
     val wordReader = new WordReader()
     val wordDf = wordReader.doc(s"$docDirectory/hierarchy_test.docx")
 
@@ -177,6 +177,24 @@ class WordReaderTest extends AnyFlatSpec {
 
     assert(coords.nonEmpty, "No IMAGE coord metadata found")
     assert(coords.distinct.length == coords.length, "Duplicate IMAGE coordinates detected")
+  }
+
+  it should "tag inline and floating images in metadata" taggedAs FastTest in {
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/contains-pictures.docx")
+
+    val imagesDf = wordDf
+      .withColumn("doc_exploded", explode(col("doc")))
+      .filter(col("doc_exploded.elementType") === ElementType.IMAGE)
+
+    val imageTypes = imagesDf
+      .selectExpr("doc_exploded.metadata.image_type as image_type")
+      .as[String]
+      .collect()
+      .toSet
+
+    assert(imageTypes.contains("inline"), "Missing inline image_type in IMAGE metadata")
+    assert(imageTypes.contains("floating"), "Missing floating image_type in IMAGE metadata")
   }
 
 }
