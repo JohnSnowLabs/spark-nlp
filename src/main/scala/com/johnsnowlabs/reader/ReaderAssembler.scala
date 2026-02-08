@@ -113,13 +113,27 @@ class ReaderAssembler(override val uid: String)
 
   def setCustomPromptTemplate(value: String): this.type = set(promptTemplate, value)
 
+  /** Whether to return all sentences joined into a single document
+   *
+   * @group param
+   */
+  val outputAsDocument = new BooleanParam(
+    this,
+    "outputAsDocument",
+    "Whether to return all sentences joined into a single document")
+
+  /** Whether to return all sentences joined into a single document */
+  def setOutputAsDocument(value: Boolean): this.type = set(outputAsDocument, value)
+
   setDefault(
     this.explodeDocs -> false,
     contentType -> "",
     outputFormat -> "json-table",
     inferTableStructure -> true,
     flattenOutput -> false,
-    excludeNonText -> false)
+    excludeNonText -> false,
+    outputAsDocument -> true
+  )
 
   private lazy val reader2DocOutputCol: String = s"${getOutputCol}_text"
   private lazy val reader2TableOutputCol: String = s"${getOutputCol}_table"
@@ -655,6 +669,8 @@ class ReaderAssembler(override val uid: String)
     .setMaxLineCount($(maxLineCount))
     .setThreshold($(threshold))
     .setOutputCol(reader2DocOutputCol)
+    .setFlattenOutput($(flattenOutput))
+    .setOutputAsDocument($(outputAsDocument))
 
   private lazy val reader2Table: Reader2Table = new Reader2Table()
     .setContentType($(contentType))
