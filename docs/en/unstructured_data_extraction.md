@@ -541,7 +541,7 @@ splitter = DocumentTokenSplitter() \
 
 </div><div class="h3-box" markdown="1">
 
-#### Key Differences
+#### Spark NLP vs Unstructured.io: Practical Trade-offs
 
 {:.table-model-big}
 | Aspect | Spark NLP | Unstructured.io |
@@ -554,6 +554,8 @@ splitter = DocumentTokenSplitter() \
 | **API Complexity** | More configuration | Simpler API |
 | **Pipeline Integration** | Native Spark integration | Requires external orchestration |
 | **Use Case** | Enterprise scale, compliance | Prototyping, small datasets |
+
+Check the full comparison in this blog post: [Evaluating Document AI Frameworks: Spark NLP vs Unstructured for Large-Scale Text Processing](https://medium.com/spark-nlp/evaluating-document-ai-frameworks-spark-nlp-vs-unstructured-for-large-scale-text-processing-0d50874982cd)
 
 </div><div class="h3-box" markdown="1">
 
