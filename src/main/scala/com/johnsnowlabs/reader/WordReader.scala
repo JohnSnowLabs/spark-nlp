@@ -31,6 +31,7 @@ import org.apache.spark.sql.functions.{col, udf}
 import org.openxmlformats.schemas.drawingml.x2006.wordprocessingDrawing.{CTAnchor, CTInline}
 
 import java.io.ByteArrayInputStream
+import java.util.UUID
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
@@ -127,7 +128,9 @@ class WordReader(
     Array(0xd0.toByte, 0xcf.toByte, 0x11.toByte, 0xe0.toByte) // Bytes indicating .doc
 
   private var pageBreak = 0
-  //TODO: Make paragraphSpacingY a parameter?
+  private var currentParentId: Option[String] = None
+  private def newUUID(): String = UUID.randomUUID().toString
+  // TODO: Make paragraphSpacingY a parameter?
   private val paragraphSpacingY = 25 // heuristics px vertical increment per paragraph
 
   private case class DocState(var tableCounter: Int = 0, var lastHeader: Option[String] = None)
@@ -198,8 +201,10 @@ class WordReader(
     if (text.isEmpty) None
     else {
       val metadata = mutable.Map[String, String]()
-      val paragraphSpacingY = 25  // SAME heuristic used for images
-      metadata("paragraph_index") = paragraphIndex.toString //TODO: Could be used as page number or to approximate it
+      val elementId = newUUID()
+      metadata("element_id") = elementId
+      metadata("paragraph_index") =
+        paragraphIndex.toString // TODO: Could be used as page number or to approximate it
       metadata("paragraph_y") = (paragraphIndex * paragraphSpacingY).toString
 
       val style = Option(paragraph.getStyleID).getOrElse("").toLowerCase
@@ -211,6 +216,7 @@ class WordReader(
         if (isBreak) {
           pageBreak += 1
           metadata += ("pageBreak" -> pageBreak.toString)
+          currentParentId = None
         }
       }
 
@@ -218,10 +224,14 @@ class WordReader(
 
       val elementType = paragraph match {
         case _ if isHeading =>
+          // Titles have no parent
+          currentParentId = Some(elementId)
           ElementType.TITLE
         case p if p.isListItem =>
+          currentParentId.foreach(pid => metadata("parent_id") = pid)
           ElementType.LIST_ITEM
         case _ =>
+          currentParentId.foreach(pid => metadata("parent_id") = pid)
           if (source == "table") ElementType.TABLE else ElementType.NARRATIVE_TEXT
       }
 
@@ -229,15 +239,19 @@ class WordReader(
     }
   }
 
-  private def processTable(table: XWPFTable, state: DocState, paragraphIndex: Int): Seq[HTMLElement] = {
+  private def processTable(
+      table: XWPFTable,
+      state: DocState,
+      paragraphIndex: Int): Seq[HTMLElement] = {
     state.tableCounter += 1
 
     val tableHtml = if (inferTableStructure) Some(table.processAsHtml) else None
+    val tableId = newUUID()
 
     val tableMetadata = mutable.Map[String, String](
       "domPath" -> s"/table[${state.tableCounter}]",
-      "orderTableIndex" -> state.tableCounter.toString
-    )
+      "orderTableIndex" -> state.tableCounter.toString,
+      "element_id" -> tableId)
     state.lastHeader.foreach(h => tableMetadata("nearestHeader") = h)
 
     val tableElement: Option[HTMLElement] = tableHtml.map { html =>
@@ -257,6 +271,8 @@ class WordReader(
       case (row, rowIndex) =>
         row.getTableCells.asScala.zipWithIndex.flatMap { case (cell, cellIndex) =>
           val tableLocation = mutable.Map(
+            "element_id" -> newUUID(),
+            "parent_id" -> tableId,
             "domPath" -> s"/table[${state.tableCounter}]/row[${rowIndex + 1}]/cell[${cellIndex + 1}]",
             "orderTableIndex" -> state.tableCounter.toString)
           state.lastHeader.foreach(h => tableLocation("nearestHeader") = h)
@@ -278,7 +294,7 @@ class WordReader(
       val paragraph = range.getParagraph(i)
       val text = paragraph.text.trim
       if (text.nonEmpty) {
-        val metadata = mutable.Map[String, String]()
+        val metadata = mutable.Map[String, String]("element_id" -> newUUID())
 
         if (paragraph.isInTable(range)) {
           tableCounter += 1
@@ -315,86 +331,77 @@ class WordReader(
     * @return
     *   A sequence of HTMLElement objects with coordinate metadata.
     */
-  private def extractImagesDocx(
-                                 document: XWPFDocument,
-                                 state: DocState
-                               ): Seq[HTMLElement] = {
+  private def extractImagesDocx(document: XWPFDocument, state: DocState): Seq[HTMLElement] = {
 
     val images = mutable.ArrayBuffer[HTMLElement]()
     var imageIndex = 0
     val previousCoords = mutable.Map[(Int, Int), Int]()
 
-    document.getParagraphs.asScala.zipWithIndex.foreach {
-      case (paragraph, paragraphIndex) =>
-        paragraph.getRuns.asScala.zipWithIndex.foreach {
-          case (run, runIndex) =>
-            val ctrOpt = Option(run.getCTR)
-            val drawings = ctrOpt.toSeq.flatMap(_.getDrawingList.asScala)
+    document.getParagraphs.asScala.zipWithIndex.foreach { case (paragraph, paragraphIndex) =>
+      paragraph.getRuns.asScala.zipWithIndex.foreach { case (run, runIndex) =>
+        val ctrOpt = Option(run.getCTR)
+        val drawings = ctrOpt.toSeq.flatMap(_.getDrawingList.asScala)
 
-            drawings.foreach { drawing =>
-              val anchors = drawing.getAnchorList.asScala
-              val inlines = drawing.getInlineList.asScala
+        drawings.foreach { drawing =>
+          val anchors = drawing.getAnchorList.asScala
+          val inlines = drawing.getInlineList.asScala
 
-              // Handle floating images
-              anchors.foreach { anchor =>
-                run.getEmbeddedPictures.asScala.foreach { pic =>
-                  imageIndex += 1
+          // Handle floating images
+          anchors.foreach { anchor =>
+            run.getEmbeddedPictures.asScala.foreach { pic =>
+              imageIndex += 1
 
-                  val coords = extractAnchorCoords(anchor, paragraphIndex)
-                  val (x, y) = parseXY(coords("coord"), previousCoords)
+              val coords = extractAnchorCoords(anchor, paragraphIndex)
+              val (x, y) = parseXY(coords("coord"), previousCoords)
 
-                  val metadata = mutable.Map(
-                    "domPath" -> s"/img[$imageIndex]",
-                    "orderImageIndex" -> imageIndex.toString,
-                    "format" -> pic.getPictureData.suggestFileExtension,
-                    "coord" -> s"{x:$x,y:$y}",
-                    "image_type" -> "floating"
-                  )
+              val metadata = mutable.Map(
+                "domPath" -> s"/img[$imageIndex]",
+                "orderImageIndex" -> imageIndex.toString,
+                "format" -> pic.getPictureData.suggestFileExtension,
+                "coord" -> s"{x:$x,y:$y}",
+                "image_type" -> "floating")
 
-                  images += HTMLElement(
-                    ElementType.IMAGE,
-                    pic.getPictureData.getFileName,
-                    metadata,
-                    Some(pic.getPictureData.getData)
-                  )
-                }
-              }
-
-              // Handle inline images
-              inlines.foreach { inline =>
-                run.getEmbeddedPictures.asScala.foreach { pic =>
-                  imageIndex += 1
-
-                  val coords = extractInlineCoords(inline, paragraphIndex, runIndex)
-                  val (x, y) = parseXY(coords("coord"), previousCoords)
-
-                  val metadata = mutable.Map(
-                    "domPath" -> s"/img[$imageIndex]",
-                    "orderImageIndex" -> imageIndex.toString,
-                    "format" -> pic.getPictureData.suggestFileExtension,
-                    "coord" -> s"{x:$x,y:$y}",
-                    "image_type" -> "inline"
-                  )
-
-                  images += HTMLElement(
-                    ElementType.IMAGE,
-                    pic.getPictureData.getFileName,
-                    metadata,
-                    Some(pic.getPictureData.getData)
-                  )
-                }
-              }
+              images += HTMLElement(
+                ElementType.IMAGE,
+                pic.getPictureData.getFileName,
+                metadata,
+                Some(pic.getPictureData.getData))
             }
+          }
+
+          // Handle inline images
+          inlines.foreach { inline =>
+            run.getEmbeddedPictures.asScala.foreach { pic =>
+              imageIndex += 1
+
+              val coords = extractInlineCoords(inline, paragraphIndex, runIndex)
+              val (x, y) = parseXY(coords("coord"), previousCoords)
+
+              val metadata = mutable.Map(
+                "domPath" -> s"/img[$imageIndex]",
+                "orderImageIndex" -> imageIndex.toString,
+                "element_id" -> newUUID(),
+                "format" -> pic.getPictureData.suggestFileExtension,
+                "coord" -> s"{x:$x,y:$y}",
+                "image_type" -> "inline")
+
+              images += HTMLElement(
+                ElementType.IMAGE,
+                pic.getPictureData.getFileName,
+                metadata,
+                Some(pic.getPictureData.getData))
+            }
+          }
         }
+      }
     }
 
     images
   }
 
   private def parseXY(
-                       coordString: String,
-                       previousCoords: mutable.Map[(Int, Int), Int]
-                     ): (Int, Int) = {
+      coordString: String,
+      previousCoords: mutable.Map[(Int, Int), Int]): (Int, Int) = {
 
     val coordPattern = """\{x:(\d+),y:(\d+)\}""".r
 
@@ -410,8 +417,6 @@ class WordReader(
 
     (x, adjustedY)
   }
-
-
 
   /** Extracts approximate coordinates for floating (anchored) images in DOCX files.
     *
@@ -532,6 +537,7 @@ class WordReader(
       val metadata = mutable.Map[String, String](
         "domPath" -> s"/img[$imageIndex]",
         "orderImageIndex" -> imageIndex.toString,
+        "element_id" -> newUUID(),
         "format" -> pic.suggestFileExtension)
 
       state.lastHeader.foreach(h => metadata("nearestHeader") = h)

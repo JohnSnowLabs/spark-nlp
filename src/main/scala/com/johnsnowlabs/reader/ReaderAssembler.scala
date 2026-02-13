@@ -114,9 +114,9 @@ class ReaderAssembler(override val uid: String)
   def setCustomPromptTemplate(value: String): this.type = set(promptTemplate, value)
 
   /** Whether to return all sentences joined into a single document
-   *
-   * @group param
-   */
+    *
+    * @group param
+    */
   val outputAsDocument = new BooleanParam(
     this,
     "outputAsDocument",
@@ -125,6 +125,15 @@ class ReaderAssembler(override val uid: String)
   /** Whether to return all sentences joined into a single document */
   def setOutputAsDocument(value: Boolean): this.type = set(outputAsDocument, value)
 
+  val useEncodedImageBytes: Param[Boolean] =
+    new Param[Boolean](
+      this,
+      "useEncodedImageBytes",
+      "If true, use the original encoded image bytes (e.g. JPEG, PNG). " +
+        "If false, decode the image into pixel data.")
+
+    def setUseEncodedImageBytes(value: Boolean): this.type = set(useEncodedImageBytes, value)
+
   setDefault(
     this.explodeDocs -> false,
     contentType -> "",
@@ -132,8 +141,8 @@ class ReaderAssembler(override val uid: String)
     inferTableStructure -> true,
     flattenOutput -> false,
     excludeNonText -> false,
-    outputAsDocument -> true
-  )
+    outputAsDocument -> true,
+    useEncodedImageBytes -> false)
 
   private lazy val reader2DocOutputCol: String = s"${getOutputCol}_text"
   private lazy val reader2TableOutputCol: String = s"${getOutputCol}_table"
@@ -698,6 +707,7 @@ class ReaderAssembler(override val uid: String)
     .setAppendCells($(appendCells))
     .setTitleThreshold($(titleThreshold))
     .setOutputCol(reader2ImageOutputCol)
+    .setUseEncodedImageBytes($(useEncodedImageBytes))
 
 }
 

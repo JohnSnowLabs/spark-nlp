@@ -109,7 +109,7 @@ class WordReaderTest extends AnyFlatSpec {
     assert(htmlDf.count() > 1)
   }
 
-  it should "output hierarchy metadata" ignore {
+  it should "output hierarchy metadata" taggedAs FastTest in {
     val wordReader = new WordReader()
     val wordDf = wordReader.doc(s"$docDirectory/hierarchy_test.docx")
 
