@@ -132,7 +132,7 @@ class ReaderAssembler(override val uid: String)
       "If true, use the original encoded image bytes (e.g. JPEG, PNG). " +
         "If false, decode the image into pixel data.")
 
-    def setUseEncodedImageBytes(value: Boolean): this.type = set(useEncodedImageBytes, value)
+  def setUseEncodedImageBytes(value: Boolean): this.type = set(useEncodedImageBytes, value)
 
   setDefault(
     this.explodeDocs -> false,

@@ -201,6 +201,54 @@ class PowerPointTest extends AnyFlatSpec {
     assert(
       domPaths.forall(_.matches(".*/slide\\[\\d+\\]/image\\[\\d+\\]")),
       "Invalid domPath structure in IMAGE metadata")
+
+    val slideIndexDf = imagesDf.selectExpr(
+      "cast(ppt_exploded.metadata.slide_index as int) as slideIndex",
+      "cast(regexp_extract(ppt_exploded.metadata.domPath, 'slide\\\\[(\\\\d+)\\\\]', 1) as int) as domPathSlideIndex")
+    assert(
+      slideIndexDf.filter(col("slideIndex").isNotNull).count() == slideIndexDf.count(),
+      "Missing slide_index in IMAGE metadata")
+    assert(
+      slideIndexDf.filter(col("slideIndex") === col("domPathSlideIndex")).count() == slideIndexDf
+        .count(),
+      "slide_index in IMAGE metadata should match domPath slide index")
+  }
+
+  it should "include paragraph_index and paragraph_y metadata fields for text elements" taggedAs FastTest in {
+    val powerPointReader = new PowerPointReader()
+    val pptDf = powerPointReader.ppt(s"$docDirectory/fake-power-point.pptx")
+    pptDf.select("ppt.content").show(truncate = false)
+
+    val explodedDf = pptDf.withColumn("ppt_exploded", explode(col("ppt")))
+    val textDf = explodedDf.filter(
+      col("ppt_exploded.elementType")
+        .isin(
+          ElementType.TITLE,
+          ElementType.NARRATIVE_TEXT,
+          ElementType.LIST_ITEM,
+          ElementType.TABLE))
+
+    assert(textDf.count() > 0, "No text elements found in PowerPointReader output")
+
+    val paragraphMetaDf = textDf.selectExpr(
+      "cast(ppt_exploded.metadata.paragraph_index as int) as paragraphIndex",
+      "cast(ppt_exploded.metadata.paragraph_y as int) as paragraphY",
+      "cast(ppt_exploded.metadata.slide_index as int) as slideIndex")
+
+    assert(
+      paragraphMetaDf.filter(col("paragraphIndex").isNotNull).count() == paragraphMetaDf.count(),
+      "Missing paragraph_index in text metadata")
+    assert(
+      paragraphMetaDf.filter(col("paragraphY").isNotNull).count() == paragraphMetaDf.count(),
+      "Missing paragraph_y in text metadata")
+    assert(
+      paragraphMetaDf
+        .filter(col("paragraphY") === col("paragraphIndex") * 25)
+        .count() == paragraphMetaDf.count(),
+      "paragraph_y should be derived from paragraph_index")
+    assert(
+      paragraphMetaDf.filter(col("slideIndex").isNotNull).count() == paragraphMetaDf.count(),
+      "Missing slide_index in text metadata")
   }
 
 }

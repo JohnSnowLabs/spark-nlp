@@ -14,7 +14,7 @@ import org.json4s.jackson.Serialization
 import scala.collection.Map
 
 /** LayoutAlignerForVision aligns document chunks with nearby images and emits paired outputs: one
-  * document annotation column and one image annotation column.
+  * document annotation column, one image annotation column, and one prompt annotation column.
   */
 class LayoutAlignerForVision(override val uid: String)
     extends Transformer
@@ -53,8 +53,14 @@ class LayoutAlignerForVision(override val uid: String)
     "mergeImagesPerChunk",
     "When true, keep one primary image output per paragraph and store all image matches in doc metadata")
 
+  val addNeighborText: BooleanParam = new BooleanParam(
+    this,
+    "addNeighborText",
+    "When true, prompt output includes the aligned text chunk as additional context")
+
   def setExplodeDocs(value: Boolean): this.type = set(explodeDocs, value)
   def setMergeImagesPerChunk(value: Boolean): this.type = set(mergeImagesPerChunk, value)
+  def setAddNeighborText(value: Boolean): this.type = set(addNeighborText, value)
 
   setDefault(
     maxDistance -> 40,
@@ -62,14 +68,24 @@ class LayoutAlignerForVision(override val uid: String)
     includeContextWindow -> true,
     confidenceThreshold -> 0.0,
     explodeDocs -> true,
-    mergeImagesPerChunk -> false)
+    mergeImagesPerChunk -> false,
+    addNeighborText -> false)
 
   private val outputDocTypeMetadata: Metadata =
     new MetadataBuilder().putString("annotatorType", AnnotatorType.DOCUMENT).build()
   private val outputImageTypeMetadata: Metadata =
     new MetadataBuilder().putString("annotatorType", AnnotatorType.IMAGE).build()
+  private val outputPromptTypeMetadata: Metadata =
+    new MetadataBuilder().putString("annotatorType", AnnotatorType.DOCUMENT).build()
 
-  private case class ParagraphLayout(annotation: Annotation, y: Int, index: Int)
+  private val baseImagePrompt =
+    "Describe in a short and easy to understand sentence what you see in the image"
+
+  private case class ParagraphLayout(
+      annotation: Annotation,
+      y: Int,
+      index: Int,
+      slideIndex: Option[Int])
   private case class ParagraphKey(begin: Int, end: Int, index: Option[Int])
   private case class ImageKey(imageId: String, coord: String, imageType: String)
   private case class ImageLayout(
@@ -77,7 +93,8 @@ class LayoutAlignerForVision(override val uid: String)
       y: Int,
       imageType: String,
       sourceFile: String,
-      coord: String)
+      coord: String,
+      slideIndex: Option[Int])
   private case class AlignedPair(
       doc: Annotation,
       image: AnnotationImage,
@@ -87,10 +104,15 @@ class LayoutAlignerForVision(override val uid: String)
       confidence: Double,
       coord: String,
       imageType: String,
-      sourceFile: String)
+      sourceFile: String,
+      matchStrategy: String,
+      slideIndex: Option[Int])
+
+  private val sameSlideFallbackConfidence = 0.25
 
   private def getOutputDocCol: String = s"${getOutputCol}_doc"
   private def getOutputImageCol: String = s"${getOutputCol}_image"
+  private def getOutputPromptCol: String = s"${getOutputCol}_prompt"
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     require(
@@ -105,10 +127,12 @@ class LayoutAlignerForVision(override val uid: String)
 
     val outputDocCol = getOutputDocCol
     val outputImageCol = getOutputImageCol
+    val outputPromptCol = getOutputPromptCol
     val baseColumnNames =
       outputSchema.fields
         .map(_.name)
-        .filterNot(name => name == outputDocCol || name == outputImageCol)
+        .filterNot(name =>
+          name == outputDocCol || name == outputImageCol || name == outputPromptCol)
     val baseColumnIndexes = baseColumnNames.map(inputDataFrame.schema.fieldIndex)
     val docInputIndex = inputDataFrame.schema.fieldIndex(docInputCol)
     val imageInputIndex = inputDataFrame.schema.fieldIndex(imageInputCol)
@@ -125,13 +149,20 @@ class LayoutAlignerForVision(override val uid: String)
 
         if ($(explodeDocs)) {
           pairs.iterator.map { case (doc, image) =>
+            val prompt = buildPromptAnnotation(doc)
             Row.fromSeq(
-              baseValues ++ Seq(Seq(annotationToRow(doc)), Seq(annotationImageToRow(image))))
+              baseValues ++ Seq(
+                Seq(annotationToRow(doc)),
+                Seq(annotationImageToRow(image)),
+                Seq(annotationToRow(prompt))))
           }
         } else {
           val docValues = pairs.map { case (doc, _) => annotationToRow(doc) }
           val imageValues = pairs.map { case (_, image) => annotationImageToRow(image) }
-          Iterator.single(Row.fromSeq(baseValues ++ Seq(docValues, imageValues)))
+          val promptValues = pairs.map { case (doc, _) =>
+            annotationToRow(buildPromptAnnotation(doc))
+          }
+          Iterator.single(Row.fromSeq(baseValues ++ Seq(docValues, imageValues, promptValues)))
         }
       }
     }
@@ -145,6 +176,9 @@ class LayoutAlignerForVision(override val uid: String)
     withInputMetadata
       .withColumn(outputDocCol, col(outputDocCol).as(outputDocCol, outputDocTypeMetadata))
       .withColumn(outputImageCol, col(outputImageCol).as(outputImageCol, outputImageTypeMetadata))
+      .withColumn(
+        outputPromptCol,
+        col(outputPromptCol).as(outputPromptCol, outputPromptTypeMetadata))
   }
 
   override def transformSchema(schema: StructType): StructType = {
@@ -162,10 +196,18 @@ class LayoutAlignerForVision(override val uid: String)
         AnnotationImage.arrayType,
         nullable = false,
         outputImageTypeMetadata)
+    val outPrompt =
+      StructField(
+        getOutputPromptCol,
+        Annotation.arrayType,
+        nullable = false,
+        outputPromptTypeMetadata)
 
     val baseFields =
-      schema.fields.filterNot(f => f.name == getOutputDocCol || f.name == getOutputImageCol)
-    StructType(baseFields ++ Array(outDoc, outImage))
+      schema.fields
+        .filterNot(f =>
+          f.name == getOutputDocCol || f.name == getOutputImageCol || f.name == getOutputPromptCol)
+    StructType(baseFields ++ Array(outDoc, outImage, outPrompt))
   }
 
   override def copy(extra: ParamMap): Transformer = defaultCopy(extra)
@@ -199,13 +241,38 @@ class LayoutAlignerForVision(override val uid: String)
     val imageLayout = imageAnnotations.flatMap(extractImageLayout)
     if (imageLayout.isEmpty) return Seq.empty
 
-    val paragraphByIndex = paragraphLayout.map(p => p.index -> p).toMap
     val candidateAlignments = imageLayout.flatMap { image =>
-      val closest = findClosestParagraph(image.y, paragraphLayout)
+      val sameSlideParagraphs = image.slideIndex
+        .map(slideIndex => paragraphLayout.filter(_.slideIndex.contains(slideIndex)))
+        .getOrElse(Seq.empty)
+      val candidateParagraphs =
+        if (sameSlideParagraphs.nonEmpty) sameSlideParagraphs else paragraphLayout
+      val paragraphByIndex = candidateParagraphs.map(p => p.index -> p).toMap
+      val primaryMatchStrategy =
+        if (sameSlideParagraphs.nonEmpty) "same_slide_distance" else "distance"
+
+      val closest = findClosestParagraph(image.y, candidateParagraphs)
       closest.toSeq.flatMap { closestLayout =>
         val candidates = buildCandidates(closestLayout, image.imageType, paragraphByIndex)
-        candidates.flatMap { paragraph =>
-          buildAlignedPair(image, paragraph)
+        val strictAlignments = candidates.flatMap { paragraph =>
+          buildAlignedPair(
+            image = image,
+            paragraph = paragraph,
+            matchStrategy = primaryMatchStrategy)
+        }
+        if (strictAlignments.nonEmpty) {
+          strictAlignments
+        } else if (sameSlideParagraphs.nonEmpty && candidates.nonEmpty) {
+          val closestSameSlide =
+            findClosestParagraph(image.y, candidates).getOrElse(candidates.head)
+          buildAlignedPair(
+            image = image,
+            paragraph = closestSameSlide,
+            matchStrategy = "same_slide_fallback",
+            skipMaxDistance = true,
+            forcedConfidence = Some(sameSlideFallbackConfidence)).toSeq
+        } else {
+          Seq.empty
         }
       }
     }
@@ -217,17 +284,19 @@ class LayoutAlignerForVision(override val uid: String)
       .toSeq
       .sortBy(alignmentSortKey)
 
-    if (uniqueAlignments.isEmpty) Seq.empty
-    else if (! $(mergeImagesPerChunk)) uniqueAlignments.map(toOutputPair)
-    else {
-      uniqueAlignments
-        .groupBy(_.paragraphKey)
-        .values
-        .map(mergeParagraphAlignments)
-        .toSeq
-        .sortBy(alignmentSortKey)
-        .map(toOutputPair)
-    }
+    val outputAlignments =
+      if (uniqueAlignments.isEmpty) Seq.empty
+      else if (! $(mergeImagesPerChunk)) uniqueAlignments
+      else {
+        uniqueAlignments
+          .groupBy(_.paragraphKey)
+          .values
+          .map(mergeParagraphAlignments)
+          .toSeq
+          .sortBy(alignmentSortKey)
+      }
+
+    outputAlignments.map(toOutputPair)
   }
 
   private def toOutputPair(alignment: AlignedPair): (Annotation, AnnotationImage) =
@@ -251,19 +320,30 @@ class LayoutAlignerForVision(override val uid: String)
     val uniqueByImage =
       sorted.groupBy(_.imageKey).values.map(_.head).toSeq.sortBy(alignmentSortKey)
     val imageMatches = uniqueByImage.map { alignment =>
+      val slideIndex = alignment.slideIndex.map(_.toString).getOrElse("")
       Map(
         "image_id" -> alignment.sourceFile,
         "source_file" -> alignment.sourceFile,
         "coord" -> alignment.coord,
         "image_type" -> alignment.imageType,
         "distance" -> alignment.distance.toString,
-        "confidence" -> alignment.confidence.toString)
+        "confidence" -> alignment.confidence.toString,
+        "match_strategy" -> alignment.matchStrategy,
+        "slide_index" -> slideIndex)
     }
 
     implicit val formats = Serialization.formats(NoTypeHints)
     val imageMatchesJson = Serialization.write(imageMatches)
     val imageMetadataKeys =
-      Set("image_id", "source_file", "coord", "image_type", "distance", "confidence")
+      Set(
+        "image_id",
+        "source_file",
+        "coord",
+        "image_type",
+        "distance",
+        "confidence",
+        "match_strategy",
+        "slide_index")
     val baseMetadata = primary.doc.metadata.filterNot { case (key, _) =>
       imageMetadataKeys.contains(key)
     }
@@ -273,10 +353,11 @@ class LayoutAlignerForVision(override val uid: String)
   }
 
   private def extractParagraphLayout(annotation: Annotation): Option[ParagraphLayout] = {
+    val metadata: Map[String, String] = Option(annotation.metadata).getOrElse(Map.empty)
     for {
-      y <- annotation.metadata.get("paragraph_y").flatMap(parseInt)
-      idx <- annotation.metadata.get("paragraph_index").flatMap(parseInt)
-    } yield ParagraphLayout(annotation, y, idx)
+      y <- metadata.get("paragraph_y").flatMap(parseInt)
+      idx <- metadata.get("paragraph_index").flatMap(parseInt)
+    } yield ParagraphLayout(annotation, y, idx, extractSlideIndex(metadata))
   }
 
   private def extractImageLayout(annotation: AnnotationImage): Option[ImageLayout] = {
@@ -288,8 +369,9 @@ class LayoutAlignerForVision(override val uid: String)
       .orElse(metadata.get("origin"))
       .getOrElse("")
     val imageType = metadata.getOrElse("image_type", "unknown")
+    val slideIndex = extractSlideIndex(metadata)
 
-    extractY(coord).map(y => ImageLayout(annotation, y, imageType, sourceFile, coord))
+    extractY(coord).map(y => ImageLayout(annotation, y, imageType, sourceFile, coord, slideIndex))
   }
 
   private def parseInt(value: String): Option[Int] = {
@@ -303,6 +385,18 @@ class LayoutAlignerForVision(override val uid: String)
   private def extractY(coord: String): Option[Int] = {
     val pattern = """y\s*:\s*([0-9]+)""".r
     pattern.findFirstMatchIn(coord).map(_.group(1)).flatMap(parseInt)
+  }
+
+  private def extractSlideIndex(metadata: Map[String, String]): Option[Int] = {
+    metadata
+      .get("slide_index")
+      .flatMap(parseInt)
+      .orElse(metadata.get("domPath").flatMap(extractSlideIndexFromDomPath))
+  }
+
+  private def extractSlideIndexFromDomPath(domPath: String): Option[Int] = {
+    val pattern = """slide\[(\d+)\]""".r
+    pattern.findFirstMatchIn(domPath).map(_.group(1)).flatMap(parseInt)
   }
 
   private def findClosestParagraph(
@@ -328,22 +422,23 @@ class LayoutAlignerForVision(override val uid: String)
 
   private def buildAlignedPair(
       image: ImageLayout,
-      paragraph: ParagraphLayout): Option[AlignedPair] = {
+      paragraph: ParagraphLayout,
+      matchStrategy: String,
+      skipMaxDistance: Boolean = false,
+      forcedConfidence: Option[Double] = None): Option[AlignedPair] = {
     val distance = math.abs(image.y - paragraph.y)
-    if (distance > $(maxDistance)) return None
+    if (!skipMaxDistance && distance > $(maxDistance)) return None
 
-    val confidence = computeConfidence(distance)
+    val confidence = forcedConfidence.getOrElse(computeConfidence(distance))
     if (confidence < $(confidenceThreshold)) return None
 
-    val docMetadata = paragraph.annotation.metadata ++ Map(
-      "image_id" -> image.sourceFile,
-      "source_file" -> image.sourceFile,
-      "coord" -> image.coord,
-      "image_type" -> image.imageType,
-      "distance" -> distance.toString,
-      "confidence" -> confidence.toString,
-      "paragraph_index" -> paragraph.index.toString,
-      "paragraph_y" -> paragraph.y.toString)
+    val slideIndex = paragraph.slideIndex.orElse(image.slideIndex)
+    val slideMetadata =
+      slideIndex
+        .map(idx => Map("slide_index" -> idx.toString))
+        .getOrElse(Map.empty[String, String])
+
+    val docMetadata = paragraph.annotation.metadata ++ slideMetadata
     val doc = Annotation(
       annotatorType = AnnotatorType.DOCUMENT,
       begin = paragraph.annotation.begin,
@@ -355,8 +450,9 @@ class LayoutAlignerForVision(override val uid: String)
       "source_file" -> image.sourceFile,
       "distance" -> distance.toString,
       "confidence" -> confidence.toString,
+      "match_strategy" -> matchStrategy,
       "paragraph_index" -> paragraph.index.toString,
-      "paragraph_y" -> paragraph.y.toString)
+      "paragraph_y" -> paragraph.y.toString) ++ slideMetadata
     val pairedImage = image.annotation.copy(metadata = imageMetadata)
 
     val paragraphKey = ParagraphKey(doc.begin, doc.end, Some(paragraph.index))
@@ -372,13 +468,32 @@ class LayoutAlignerForVision(override val uid: String)
         confidence = confidence,
         coord = image.coord,
         imageType = image.imageType,
-        sourceFile = image.sourceFile))
+        sourceFile = image.sourceFile,
+        matchStrategy = matchStrategy,
+        slideIndex = slideIndex))
   }
 
   private def computeConfidence(distance: Int): Double = {
     if (distance <= 10) 0.95
     else if (distance <= $(paragraphSpacingY)) 0.75
     else 0.4
+  }
+
+  private def buildPromptAnnotation(doc: Annotation): Annotation = {
+    val neighborText = Option(doc.result).getOrElse("")
+    val promptText =
+      if ($(addNeighborText) && neighborText.nonEmpty) {
+        s"$baseImagePrompt and then summarize it along with this text: $neighborText"
+      } else {
+        baseImagePrompt
+      }
+
+    Annotation(
+      annotatorType = AnnotatorType.DOCUMENT,
+      begin = 0,
+      end = promptText.length - 1,
+      result = promptText,
+      metadata = Map("prompt_source" -> "LayoutAlignerForVision"))
   }
 
   private def toTextAnnotations(rows: Seq[Row]): Seq[Annotation] =
