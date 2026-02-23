@@ -15,28 +15,32 @@
  */
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
+import com.johnsnowlabs.ml.gguf.GGUFWrapper
+import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.llama.LlamaExtensions
 import com.johnsnowlabs.nlp.serialization.MapFeature
-import org.apache.spark.ml.param.{DoubleParam, Param, StringArrayParam}
+import de.kherud.llama.{InferenceParameters, LlamaException, LlamaModel}
+import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
-import scala.collection.immutable.Map
+import scala.util.matching.Regex
 
-/** LLM-based Named Entity Recognition using few-shot prompting.
+/** End-to-end LLM-based Named Entity Recognition using AutoGGUF with BNF grammars.
   *
-  * LLMNerModel performs entity extraction from text using Large Language Models (LLMs) with
-  * few-shot examples. The annotator expects JSON-formatted responses from an LLM (e.g., from
-  * [[com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel AutoGGUFModel]]) and parses them to
-  * extract named entities.
+  * LLMNerModel is an end-to-end annotator that performs entity extraction from text using Large
+  * Language Models (LLMs) with structured JSON output via BNF grammars. It embeds AutoGGUFModel
+  * directly and uses simple string matching to compute character indices for extracted entities.
   *
-  * This annotator follows the LangExtract pattern from Google Research, where the LLM extracts
-  * entity text (without character positions), and post-processing can optionally add character
-  * indices later through fuzzy matching.
+  * This annotator follows the LangExtract pattern from Google Research, combining few-shot
+  * prompting with constrained generation through llama.cpp BNF grammars to ensure valid JSON
+  * output.
   *
-  * The expected LLM response format is:
+  * The LLM generates responses in this format (enforced by grammar):
   * {{{
   * {
   *   "extractions": [
@@ -46,34 +50,16 @@ import scala.collection.immutable.Map
   * }
   * }}}
   *
-  * Alternative formats are also supported:
-  * {{{
-  * {
-  *   "extractions": [
-  *     {"extraction_class": "MEDICATION", "extraction_text": "amoxicillin"}
-  *   ]
-  * }
-  * }}}
+  * The annotator then performs string matching to find the character positions of each entity in
+  * the original text, outputting CHUNK annotations with accurate begin/end indices.
   *
-  * ==Note==
-  * This version does not compute character indices (begin/end positions). All entities are
-  * returned with `begin = -1` and `end = -1`. Character indexing will be added in a future
-  * version using fuzzy string matching (similar to Google's LangExtract library).
-  *
-  * Pretrained models can be loaded with `pretrained` of the companion object:
-  * {{{
-  * val llmNer = LLMNerModel.pretrained()
-  *   .setInputCols("document")
-  *   .setOutputCol("entities")
-  * }}}
-  *
-  * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
+  * Batch processing is used for performance - all documents are processed together in a single
+  * LLM call via multiComplete for maximum throughput.
   *
   * ==Example==
   * {{{
   * import spark.implicits._
   * import com.johnsnowlabs.nlp.base._
-  * import com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
   * import com.johnsnowlabs.nlp.annotators.ner.dl.LLMNerModel
   * import org.apache.spark.ml.Pipeline
   *
@@ -81,24 +67,16 @@ import scala.collection.immutable.Map
   *   .setInputCol("text")
   *   .setOutputCol("document")
   *
-  * // LLM with few-shot prompt for medical NER
-  * val llm = AutoGGUFModel.pretrained()
-  *   .setInputCols("document")
-  *   .setOutputCol("llm_response")
-  *   .setNPredict(500)
-  *
-  * // Parse LLM response and extract entities
   * val llmNer = new LLMNerModel()
-  *   .setInputCols("llm_response")
+  *   .setInputCols("document")
   *   .setOutputCol("entities")
-  *   .setEntityTypes(Array("MEDICATION", "DOSAGE"))
+  *   .setModelName("qwen3_4b_bf16_gguf")
+  *   .setEntityTypes(Array("MEDICATION", "DOSAGE", "ROUTE", "FREQUENCY"))
   *   .setMinConfidence(0.7)
+  *   .setNPredict(500)
+  *   .setTemperature(0.1f)
   *
-  * val pipeline = new Pipeline().setStages(Array(
-  *   documentAssembler,
-  *   llm,
-  *   llmNer
-  * ))
+  * val pipeline = new Pipeline().setStages(Array(documentAssembler, llmNer))
   *
   * val data = Seq("Patient prescribed 500mg amoxicillin PO TID").toDF("text")
   * val result = pipeline.fit(data).transform(data)
@@ -111,11 +89,6 @@ import scala.collection.immutable.Map
   * +------------------------------+--------------------------------+
   * }}}
   *
-  * @see
-  *   [[https://github.com/google/langextract LangExtract]] for the pattern this follows
-  * @see
-  *   [[https://sparknlp.org/docs/en/annotators Annotators Main Page]] for a list of NER
-  *   annotators
   * @param uid
   *   required uid for storing annotator to disk
   * @groupname anno Annotator types
@@ -137,8 +110,11 @@ import scala.collection.immutable.Map
   */
 class LLMNerModel(override val uid: String)
     extends AnnotatorModel[LLMNerModel]
-    with HasSimpleAnnotate[LLMNerModel]
-    with HasProtectedParams {
+    with HasBatchedAnnotate[LLMNerModel]
+    with HasLlamaCppModelProperties
+    with HasLlamaCppInferenceProperties
+    with HasProtectedParams
+    with HasEngine {
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -151,23 +127,101 @@ class LLMNerModel(override val uid: String)
     */
   override val inputAnnotatorTypes: Array[String] = Array(AnnotatorType.DOCUMENT)
 
-  /** Output Annotator Type: NAMED_ENTITY
+  /** Output Annotator Type: CHUNK
     *
     * @group anno
     */
-  override val outputAnnotatorType: AnnotatorType = AnnotatorType.NAMED_ENTITY
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.CHUNK
 
-  /** Labels mapping entity names to IDs (optional, for compatibility)
+  private var _model: Option[Broadcast[GGUFWrapper]] = None
+
+  val defaultGrammar =
+    """root   ::= object
+value  ::= object | array | string | number | ("true" | "false" | "null") ws
+
+object ::=
+  "{" ws (
+            string ":" ws value
+    ("," ws string ":" ws value)*
+  )? "}" ws
+
+array  ::=
+  "[" ws (
+            value
+    ("," ws value)*
+  )? "]" ws
+
+string ::=
+  "\"" (
+    [^"\\\x7F\x00-\x1F] |
+    "\\" (["\\bfnrt] | "u" [0-9a-fA-F]{4})
+  )* "\"" ws
+
+number ::= ("-"? ([0-9] | [1-9] [0-9]{0,15})) ("." [0-9]+)? ([eE] [-+]? [0-9] [1-9]{0,15})? ws
+
+ws ::= ([ \t\n\r])*"""
+
+  val defaultPrompt =
+    """You are an expert entity extraction assistant. Extract entities from the following text.
+
+Entity types to extract: {entityTypes}
+
+IMPORTANT: Extract the EXACT text as it appears in the input. Output ONLY valid JSON.
+
+Output format:
+{
+  "extractions": [
+    {"entity": "<type>", "text": "<exact_text>", "confidence": <0.0-1.0>}
+  ]
+}
+{examples}
+Text to analyze:
+
+Output:"""
+
+  /** @group getParam */
+  def getModelIfNotSet: GGUFWrapper = _model.get.value
+
+  /** @group setParam */
+  def setModelIfNotSet(spark: SparkSession, wrapper: GGUFWrapper): this.type = {
+    if (_model.isEmpty) {
+      _model = Some(spark.sparkContext.broadcast(wrapper))
+    }
+    this
+  }
+
+  /** Custom prompt template for NER extraction (Default: medical NER prompt)
+    *
+    * The prompt should include instructions for the LLM to extract entities in JSON format. Use
+    * {entityTypes} as a placeholder for the entity types list.
     *
     * @group param
     */
-  val labels: MapFeature[String, Int] = new MapFeature(this, "labels").setProtected()
+  val promptTemplate = new Param[String](
+    this,
+    "promptTemplate",
+    "Custom prompt template for NER extraction. Use {entityTypes} placeholder.")
 
   /** @group setParam */
-  def setLabels(value: Map[String, Int]): this.type = set(labels, value)
+  def setPromptTemplate(value: String): this.type = set(promptTemplate, value)
 
   /** @group getParam */
-  def getLabels: Map[String, Int] = $$(labels)
+  def getPromptTemplate: String = $(promptTemplate)
+
+  /** List of entity types to extract (Default: general types)
+    *
+    * These entity types are used in the prompt to guide the LLM's extraction.
+    *
+    * @group param
+    */
+  val entityTypes =
+    new StringArrayParam(this, "entityTypes", "List of entity types to extract (used in prompt)")
+
+  /** @group setParam */
+  def setEntityTypes(value: Array[String]): this.type = set(entityTypes, value)
+
+  /** @group getParam */
+  def getEntityTypes: Array[String] = $(entityTypes)
 
   /** Minimum confidence threshold for including entities (Default: `0.0`)
     *
@@ -184,73 +238,196 @@ class LLMNerModel(override val uid: String)
   /** @group getParam */
   def getMinConfidence: Double = $(minConfidence)
 
-  /** List of entity types to extract (optional filter) (Default: empty = extract all)
+  /** Case sensitivity for entity matching (Default: `false`)
     *
-    * If set, only entities with types in this list will be returned.
-    *
-    * @group param
-    */
-  val entityTypes =
-    new StringArrayParam(this, "entityTypes", "List of entity types to extract (optional filter)")
-
-  /** @group setParam */
-  def setEntityTypes(value: Array[String]): this.type = set(entityTypes, value)
-
-  /** @group getParam */
-  def getEntityTypes: Array[String] = $(entityTypes)
-
-  /** JSON response format (Default: `"extractions"`)
-    *
-    * Specifies the key name in the JSON response that contains the entity array. Common values:
-    *   - `"extractions"` (default, LangExtract format)
-    *   - `"entities"`
-    *   - `"results"`
+    * When false, entity matching is case-insensitive.
     *
     * @group param
     */
-  val jsonArrayKey =
-    new Param[String](this, "jsonArrayKey", "JSON response format key for entity array")
+  val caseSensitive =
+    new BooleanParam(this, "caseSensitive", "Whether entity matching is case-sensitive")
 
   /** @group setParam */
-  def setJsonArrayKey(value: String): this.type = set(jsonArrayKey, value)
+  def setCaseSensitive(value: Boolean): this.type = set(caseSensitive, value)
 
   /** @group getParam */
-  def getJsonArrayKey: String = $(jsonArrayKey)
+  def getCaseSensitive: Boolean = $(caseSensitive)
 
+  /** Name of the AutoGGUF model to load (Default: `"qwen3_4b_bf16_gguf"`)
+    *
+    * When set, the model will be automatically loaded from pretrained models.
+    *
+    * @group param
+    */
+  val modelName =
+    new Param[String](this, "modelName", "Name of the AutoGGUF model to load for NER extraction")
+
+  /** @group setParam */
+  def setModelName(value: String): this.type = set(modelName, value)
+
+  /** @group getParam */
+  def getModelName: String = $(modelName)
+
+  /** Few-shot examples for the prompt (Default: empty array)
+    *
+    * Each example should be a tuple of (input_text, json_output). These examples will be inserted
+    * into the prompt to help the LLM understand the expected output format.
+    *
+    * @group param
+    */
+  val fewShotExamples = new Param[Array[(String, String)]](
+    this,
+    "fewShotExamples",
+    "Few-shot examples as array of (input, output_json) tuples")
+
+  /** @group setParam */
+  def setFewShotExamples(value: Array[(String, String)]): this.type = set(fewShotExamples, value)
+
+  /** @group getParam */
+  def getFewShotExamples: Array[(String, String)] = $(fewShotExamples)
+
+  private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
+
+  // Default values
   setDefault(
     minConfidence -> 0.0,
-    entityTypes -> Array.empty[String],
-    jsonArrayKey -> "extractions")
+    entityTypes -> Array("PERSON", "ORGANIZATION", "LOCATION", "DATE", "TIME"),
+    caseSensitive -> false,
+    promptTemplate -> defaultPrompt,
+    modelName -> "qwen3_4b_bf16_gguf",
+    fewShotExamples -> Array.empty[(String, String)],
+    engine -> LlamaCPP.name,
+    useChatTemplate -> true,
+    nCtx -> 4096,
+    nBatch -> 512,
+    nPredict -> 500,
+    nGpuLayers -> 99,
+    temperature -> 0.1f,
+    batchSize -> 4,
+    grammar -> defaultGrammar)
 
-  /** Main annotation method - processes documents containing LLM JSON responses
+  /** Load the AutoGGUF model if not already set - runs on driver before Spark tasks */
+  override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    if (_model.isEmpty && isSet(modelName)) {
+      val autoGGUFModel = com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
+        .pretrained($(modelName), "en")
+      setModelIfNotSet(dataset.sparkSession, autoGGUFModel.getModelIfNotSet)
+    }
+
+    // Build the system prompt with NER instructions ONCE per pipeline execution
+    if (!isSet(systemPrompt) || $(systemPrompt).isEmpty) {
+      set(systemPrompt, buildSystemPrompt())
+    }
+
+    dataset
+  }
+
+  /** Build the system prompt with NER instructions and few-shot examples */
+  private def buildSystemPrompt(): String = {
+    val entityTypesStr = $(entityTypes).mkString(", ")
+
+    val examples = getFewShotExamplesSafe
+    val examplesSection = if (examples.nonEmpty) {
+      val exampleTexts = examples
+        .map { case (input, output) =>
+          s"""Example:
+Input: "$input"
+Output: ```json
+$output
+```"""
+        }
+        .mkString("\n\n")
+      s"\n\n$exampleTexts"
+    } else {
+      ""
+    }
+
+    val baseInstructions = $(promptTemplate)
+      .replace("{entityTypes}", entityTypesStr)
+      .replace("{examples}", examplesSection)
+      .trim
+    baseInstructions
+  }
+
+  /** Batch annotation method - processes all documents through AutoGGUF in efficient batches
     *
-    * @param annotations
-    *   Annotations (LLM responses) to process
+    * This method follows the same pattern as AutoGGUFModel.batchAnnotate for maximum throughput.
+    * All prompts are built first, then sent to the LLM in one multiComplete call.
+    *
+    * @param batchedAnnotations
+    *   Batched annotations (documents) to process
     * @return
-    *   Extracted entity annotations
+    *   Extracted entity annotations with character indices for each document
     */
-  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-    annotations.flatMap { annotation =>
-      val llmResponse = annotation.result
-      // Convert metadata to immutable Map
-      val immutableMetadata: Map[String, String] = annotation.metadata.toMap
-      // Parse entities from the LLM JSON response
-      parseEntitiesFromResponse(llmResponse, immutableMetadata)
+  override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
+    val annotations: Seq[Annotation] = batchedAnnotations.flatten
+
+    if (annotations.isEmpty) {
+      return batchedAnnotations.map(_ => Seq.empty[Annotation])
+    }
+
+    val text = annotations.map(annotation => annotation.result).toArray
+
+    val modelParams = getModelParameters.setParallel(getBatchSize)
+    val inferenceParams: InferenceParameters = getInferenceParameters
+    val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
+
+    val llmResponses: Array[String] =
+      try {
+        LlamaExtensions.multiComplete(model, inferenceParams, $(systemPrompt), text)
+      } catch {
+        case e: LlamaException =>
+          logger.error("Error in llama.cpp batch completion", e)
+          Array.fill(text.length)("""{"extractions": []}""")
+      }
+
+    val allResults: Seq[Seq[Annotation]] =
+      annotations.zip(llmResponses).map { case (annotation, llmResponse) =>
+        val documentText = annotation.result
+        val documentBegin = annotation.begin
+        val entities = parseEntitiesFromResponse(llmResponse)
+
+        matchEntitiesToText(entities, documentText, documentBegin, annotation.metadata.toMap)
+      }
+
+    var resultIndex = 0
+    batchedAnnotations.map { batch =>
+      val batchResults = allResults.slice(resultIndex, resultIndex + batch.length).flatten
+      resultIndex += batch.length
+      batchResults
     }
   }
 
-  /** Parse entity annotations from LLM JSON response
-    *
-    * @param llmResponse
-    *   Raw LLM output text
-    * @param sourceMetadata
-    *   Metadata from the source annotation
-    * @return
-    *   Sequence of entity annotations
+  /** Build the NER prompt with just the input text (instructions are in systemPrompt) */
+  private def buildPrompt(text: String): String = {
+    // The system prompt already contains all instructions, entity types, and examples
+    // Just send the text to analyze
+    s"Text to analyze:\n$text"
+  }
+
+  /** Safely retrieve fewShotExamples, handling both native Scala Array[(String, String)] and
+    * java.util.ArrayList (when set from PySpark).
     */
-  private def parseEntitiesFromResponse(
-      llmResponse: String,
-      sourceMetadata: Map[String, String]): Seq[Annotation] = {
+  private def getFewShotExamplesSafe: Array[(String, String)] = {
+    try {
+      val raw = getOrDefault(fewShotExamples).asInstanceOf[Any]
+      raw match {
+        case arr: Array[_] =>
+          arr.flatMap {
+            case (a: String, b: String) => Some((a, b))
+            case tuple: Product if tuple.productArity == 2 =>
+              Some((tuple.productElement(0).toString, tuple.productElement(1).toString))
+            case _ => None
+          }
+        case _ => Array.empty[(String, String)]
+      }
+    } catch {
+      case _: Exception => Array.empty[(String, String)]
+    }
+  }
+
+  /** Parse entity annotations from LLM JSON response */
+  private def parseEntitiesFromResponse(llmResponse: String): Seq[EntityExtraction] = {
     try {
       // Step 1: Extract JSON (handles fenced code blocks like ```json ... ```)
       val jsonText = extractJsonFromResponse(llmResponse)
@@ -259,180 +436,184 @@ class LLMNerModel(override val uid: String)
       implicit val formats: DefaultFormats.type = DefaultFormats
       val parsed = parse(jsonText)
 
-      // Step 3: Extract the entity array using the configured key
-      val extractions = (parsed \ $(jsonArrayKey)).extract[List[Map[String, Any]]]
+      // Step 3: Extract the entity array
+      val extractions =
+        (parsed \ "extractions").extract[List[scala.collection.immutable.Map[String, Any]]]
 
-      // Step 4: Convert to Annotations
-      val annotations = extractions.zipWithIndex.flatMap { case (extraction, idx) =>
-        createAnnotationFromExtraction(extraction, idx, sourceMetadata)
-      }
-
-      // Step 5: Filter by entity types if specified
-      val filteredByType = if ($(entityTypes).nonEmpty) {
-        annotations.filter { ann =>
-          $(entityTypes).contains(ann.metadata.getOrElse("entity", ""))
+      // Step 4: Convert to EntityExtraction case class
+      val allExtractions = extractions.flatMap { extraction =>
+        val entityType = extraction.get("entity").map(_.toString)
+        val entityText = extraction.get("text").map(_.toString)
+        val confidence = extraction.get("confidence") match {
+          case Some(conf: Double) => conf
+          case Some(conf: Int) => conf.toDouble
+          case Some(conf: String) =>
+            try {
+              conf.toDouble
+            } catch {
+              case _: NumberFormatException => 1.0
+            }
+          case _ => 1.0
         }
-      } else {
-        annotations
-      }
 
-      // Step 6: Filter by confidence threshold
-      if ($(minConfidence) > 0.0) {
-        filteredByType.filter { ann =>
-          ann.metadata.get("confidence").exists(_.toDouble >= $(minConfidence))
-        }
-      } else {
-        filteredByType
-      }
-
-    } catch {
-      case e: Exception =>
-        // Log the error but don't fail the entire pipeline
-        System.err.println(s"[LLMNerModel] Failed to parse LLM response: ${e.getMessage}")
-        Seq.empty[Annotation]
-    }
-  }
-
-  /** Create an Annotation from a single extraction
-    *
-    * @param extraction
-    *   Map containing extraction data
-    * @param index
-    *   Position in the extractions array
-    * @param sourceMetadata
-    *   Metadata from source annotation
-    * @return
-    *   Optional Annotation
-    */
-  private def createAnnotationFromExtraction(
-      extraction: Map[String, Any],
-      index: Int,
-      sourceMetadata: Map[String, String]): Option[Annotation] = {
-
-    // Support both "entity" and "extraction_class" keys
-    val entityType = extraction
-      .get("entity")
-      .orElse(extraction.get("extraction_class"))
-      .map(_.toString)
-
-    // Support both "text" and "extraction_text" keys
-    val entityText = extraction
-      .get("text")
-      .orElse(extraction.get("extraction_text"))
-      .map(_.toString)
-
-    // Both entity type and text are required
-    (entityType, entityText) match {
-      case (Some(entity), Some(text)) if text.nonEmpty =>
-        // Get optional attributes (e.g., "route", "frequency" for medical entities)
-        val attributes = extraction.get("attributes") match {
-          case Some(attrs: Map[_, _] @unchecked) =>
-            attrs.map { case (k, v) => k.toString -> v.toString }
+        // Extract additional attributes if present
+        val additionalAttributes = extraction.get("attributes") match {
+          case Some(attrs: scala.collection.immutable.Map[_, _]) =>
+            attrs.map { case (k, v) => (k.toString, v.toString) }.toMap
           case _ => Map.empty[String, String]
         }
 
-        // Get optional confidence (default to 1.0)
-        val confidence = extraction.get("confidence") match {
-          case Some(conf: Double) => conf.toString
-          case Some(conf: Int) => conf.toDouble.toString
-          case Some(conf: String) => conf
-          case _ => "1.0"
+        (entityType, entityText) match {
+          case (Some(entity), Some(text)) if text.nonEmpty =>
+            Some(EntityExtraction(entity, text, confidence, additionalAttributes))
+          case _ => None
         }
+      }
 
-        // Create metadata
-        val metadata = Map(
-          "entity" -> entity,
-          "confidence" -> confidence,
-          "index" -> index.toString) ++ attributes ++ sourceMetadata
+      // Step 5: Filter by confidence and entity types
+      val entityTypeSet = $(entityTypes).toSet
+      allExtractions
+        .filter(e => e.confidence >= $(minConfidence))
+        .filter(e => entityTypeSet.isEmpty || entityTypeSet.contains(e.entityType))
+    } catch {
+      case e: Exception =>
+        val errorMsg = if (e != null && e.getMessage != null) e.getMessage else "Unknown error"
+        val stackTrace = if (e != null) e.getStackTrace.take(3).mkString("; ") else ""
+        if (logger != null) {
+          logger.error(s"Failed to parse LLM response: $errorMsg. Stack: $stackTrace")
+        } else {
+          System.err.println(s"Failed to parse LLM response: $errorMsg. Stack: $stackTrace")
+        }
+        Seq.empty[EntityExtraction]
+    }
+  }
 
-        // Create annotation without character positions (begin/end = -1)
-        // This will be updated in a future version with fuzzy string matching
+  /** Match entities to their positions in the original text with chunk indexing
+    *
+    * This method creates CHUNK annotations with proper begin/end indices and metadata similar to
+    * other Spark NLP annotators like Chunker and NerConverter.
+    */
+  private def matchEntitiesToText(
+      entities: Seq[EntityExtraction],
+      documentText: String,
+      documentBegin: Int,
+      sourceMetadata: scala.collection.immutable.Map[String, String]): Seq[Annotation] = {
+
+    val searchText = if ($(caseSensitive)) documentText else documentText.toLowerCase
+    var lastSearchPosition = 0
+    var chunkIndex = 0
+
+    entities.flatMap { entity =>
+      val entityTextToSearch = if ($(caseSensitive)) entity.text else entity.text.toLowerCase
+
+      val startIdx = searchText.indexOf(entityTextToSearch, lastSearchPosition)
+
+      if (startIdx >= 0) {
+        val endIdx = startIdx + entity.text.length - 1
+        val actualText = documentText.substring(startIdx, endIdx + 1)
+
+        val metadata = scala.collection.immutable.Map(
+          "entity" -> entity.entityType,
+          "confidence" -> entity.confidence.toString,
+          "chunk" -> chunkIndex.toString) ++ entity.attributes ++ sourceMetadata
+
+        lastSearchPosition = endIdx + 1
+        chunkIndex += 1
+
         Some(
           Annotation(
-            annotatorType = AnnotatorType.NAMED_ENTITY,
-            begin = -1, // No character indexing yet
-            end = -1, // Will be added later with fuzzy matching
-            result = text,
+            annotatorType = AnnotatorType.CHUNK,
+            begin = documentBegin + startIdx,
+            end = documentBegin + endIdx,
+            result = actualText,
             metadata = metadata))
+      } else {
+        val fallbackIdx = searchText.indexOf(entityTextToSearch)
+        if (fallbackIdx >= 0) {
+          val endIdx = fallbackIdx + entity.text.length - 1
+          val actualText = documentText.substring(fallbackIdx, endIdx + 1)
 
-      case _ =>
-        System.err.println(
-          s"[LLMNerModel] Extraction missing required fields (entity/text): $extraction")
-        None
+          val metadata = scala.collection.immutable.Map(
+            "entity" -> entity.entityType,
+            "confidence" -> entity.confidence.toString,
+            "chunk" -> chunkIndex.toString) ++ entity.attributes ++ sourceMetadata
+
+          chunkIndex += 1
+
+          Some(
+            Annotation(
+              annotatorType = AnnotatorType.CHUNK,
+              begin = documentBegin + fallbackIdx,
+              end = documentBegin + endIdx,
+              result = actualText,
+              metadata = metadata))
+        } else {
+
+          None
+        }
+      }
     }
   }
 
-  /** Extract JSON from LLM response (handles fenced code blocks)
-    *
-    * Many LLMs wrap their JSON output in markdown code fences like:
-    * {{{
-    * ```json
-    * { "extractions": [...] }
-    * ```
-    * }}}
-    *
-    * This method handles both fenced and raw JSON.
-    *
-    * @param response
-    *   Raw LLM response
-    * @return
-    *   Cleaned JSON string
-    */
+  /** Extract JSON from LLM response (handles fenced code blocks and escape sequences) */
   private def extractJsonFromResponse(response: String): String = {
-    // Pattern for fenced JSON blocks: ```json ... ```
-    val fencePattern = """```json\s*(.*?)\s*```""".r
+    // Pattern for fenced JSON blocks: ```json ... ``` (using (?s) DOTALL mode for multiline)
+    val fencePattern: Regex = """(?s)```json\s*(.*?)\s*```""".r
 
-    fencePattern.findFirstMatchIn(response) match {
+    val rawJson = fencePattern.findFirstMatchIn(response) match {
       case Some(m) => m.group(1).trim
       case None =>
-        // No fence found, try to find raw JSON
-        val startIdx = response.indexOf("{")
-        val endIdx = response.lastIndexOf("}")
+        // Try simpler fence pattern: ``` ... ```
+        val simpleFencePattern: Regex = """(?s)```\s*(.*?)\s*```""".r
+        simpleFencePattern.findFirstMatchIn(response) match {
+          case Some(m) => m.group(1).trim
+          case None =>
+            // No fence found, try to find raw JSON by matching balanced braces
+            val startIdx = response.indexOf("{")
+            val endIdx = response.lastIndexOf("}")
 
-        if (startIdx != -1 && endIdx != -1 && endIdx > startIdx) {
-          response.substring(startIdx, endIdx + 1)
-        } else {
-          // Return as-is and let JSON parser handle the error
-          response.trim
+            if (startIdx != -1 && endIdx != -1 && endIdx > startIdx) {
+              response.substring(startIdx, endIdx + 1)
+            } else {
+              response.trim
+            }
         }
     }
+
+    cleanJsonString(rawJson)
   }
 
-  override def onWrite(path: String, spark: SparkSession): Unit = {
-    super.onWrite(path, spark)
-    // No model weights to save - this is just a JSON parser
+  /** Clean JSON string to handle various escape sequence issues from LLM output */
+  private def cleanJsonString(json: String): String = {
+    // Step 1: Remove ALL literal backslash-quote sequences (\") outside of proper JSON strings
+    val step1 = json
+      .replace("\\\"", "\"")
+      .replace("\\r\\n", " ")
+      .replace("\\n", " ")
+      .replace("\\r", " ")
+      .replace("\\t", " ")
+
+    // Step 2: Normalize actual whitespace characters (the real bytes)
+    val normalized = step1
+      .replace("\r\n", " ")
+      .replace("\r", " ")
+      .replace("\n", " ")
+      .replace("\t", " ")
+      .replaceAll("\\s+", " ")
+      .trim
+
+    normalized
   }
 }
 
-trait ReadablePretrainedLLMNerModel
-    extends ParamsAndFeaturesReadable[LLMNerModel]
-    with HasPretrained[LLMNerModel] {
-  override val defaultModelName: Some[String] = Some("llm_ner_base")
-  override val defaultLang: String = "en"
-
-  /** Java compliant-overrides */
-  override def pretrained(): LLMNerModel = super.pretrained()
-
-  override def pretrained(name: String): LLMNerModel = super.pretrained(name)
-
-  override def pretrained(name: String, lang: String): LLMNerModel =
-    super.pretrained(name, lang)
-
-  override def pretrained(name: String, lang: String, remoteLoc: String): LLMNerModel =
-    super.pretrained(name, lang, remoteLoc)
-}
-
-trait ReadLLMNerModel { this: ParamsAndFeaturesReadable[LLMNerModel] =>
-
-  def readModel(instance: LLMNerModel, path: String, spark: SparkSession): Unit = {
-    // No model weights to read - this is just a JSON parser
-    // Configuration is handled by parent class
-  }
-
-  addReader(readModel)
-}
+/** Case class for entity extraction */
+case class EntityExtraction(
+    entityType: String,
+    text: String,
+    confidence: Double,
+    attributes: Map[String, String] = Map.empty)
 
 /** This is the companion object of [[LLMNerModel]]. Please refer to that class for the
   * documentation.
   */
-object LLMNerModel extends ReadablePretrainedLLMNerModel with ReadLLMNerModel
+object LLMNerModel extends ParamsAndFeaturesReadable[LLMNerModel]
