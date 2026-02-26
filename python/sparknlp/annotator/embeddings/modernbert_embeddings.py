@@ -124,6 +124,11 @@ class ModernBertEmbeddings(AnnotatorModel,
 
     name = "ModernBertEmbeddings"
 
+    inputAnnotatorTypes = [AnnotatorType.DOCUMENT, AnnotatorType.TOKEN]
+
+    outputAnnotatorType = AnnotatorType.WORD_EMBEDDINGS
+
+
     maxSentenceLength = Param(Params._dummy(),
                              "maxSentenceLength",
                              "Max sentence length to process",
@@ -192,7 +197,7 @@ class ModernBertEmbeddings(AnnotatorModel,
             The restored model
         """
         from sparknlp.internal import _ModernBertEmbeddingsLoader
-        jModel = _ModernBertEmbeddingsLoader(folder, spark_session._jsparkSession, use_openvino).loadModel()
+        jModel = _ModernBertEmbeddingsLoader(folder, spark_session._jsparkSession, use_openvino)._java_obj
         return ModernBertEmbeddings(java_model=jModel)
 
     @staticmethod

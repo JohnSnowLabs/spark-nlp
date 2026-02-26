@@ -126,8 +126,22 @@ private[johnsnowlabs] class ModernBert(
             val content = if (caseSensitive) token.token else token.token.toLowerCase()
             IndexedToken(content, token.begin, token.end)
         }
-      val wordpieceTokens =
-        bertTokens.flatMap(token => bpeTokenizer.encode(token)).take(maxSentenceLength)
+
+      // A token gets a leading space prepended if there is whitespace between it and the
+      // previous token (i.e. its begin > prevToken.end + 1). The first token never gets one.
+      val wordpieceTokens = bertTokens.zipWithIndex
+        .flatMap { case (token, idx) =>
+          val needsSpacePrefix = idx > 0 && {
+            val prev = bertTokens(idx - 1)
+            token.begin > prev.end + 1
+          }
+          val tokenForEncoding =
+            if (needsSpacePrefix) IndexedToken(" " + token.token, token.begin, token.end)
+            else token
+          bpeTokenizer.encode(tokenForEncoding)
+        }
+        .take(maxSentenceLength)
+
       WordpieceTokenizedSentence(wordpieceTokens)
     }
   }
@@ -206,14 +220,8 @@ private[johnsnowlabs] class ModernBert(
             env,
             batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
 
-        val segmentTensors =
-          OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)
-
         val inputs =
-          Map(
-            "input_ids" -> tokenTensors,
-            "attention_mask" -> maskTensors,
-            "token_type_ids" -> segmentTensors).asJava
+          Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
         // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
         try {
@@ -237,18 +245,15 @@ private[johnsnowlabs] class ModernBert(
           // Close tensors outside the try-catch to avoid repeated null checks.
           tokenTensors.close()
           maskTensors.close()
-          segmentTensors.close()
         }
       case Openvino.name =>
         val shape = Array(batchLength, maxSentenceLength)
         val (tokenTensors, maskTensors) =
           PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
-        val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0L))
 
         val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
         inferRequest.set_tensor("input_ids", tokenTensors)
         inferRequest.set_tensor("attention_mask", maskTensors)
-        inferRequest.set_tensor("token_type_ids", segmentTensors)
 
         inferRequest.infer()
 
@@ -283,10 +288,6 @@ private[johnsnowlabs] class ModernBert(
             _tfBertSignatures
               .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
             maskTensors)
-          .feed(
-            _tfBertSignatures
-              .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
-            segmentTensors)
           .fetch(
             _tfBertSignatures
               .getOrElse(
@@ -329,14 +330,8 @@ private[johnsnowlabs] class ModernBert(
             env,
             batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
 
-        val segmentTensors =
-          OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)
-
         val inputs =
-          Map(
-            "input_ids" -> tokenTensors,
-            "attention_mask" -> maskTensors,
-            "token_type_ids" -> segmentTensors).asJava
+          Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
         try {
           val results = runner.run(inputs)
@@ -349,7 +344,6 @@ private[johnsnowlabs] class ModernBert(
               .array()
             tokenTensors.close()
             maskTensors.close()
-            segmentTensors.close()
             //    runner.close()
             //    env.close()
             //
@@ -366,12 +360,10 @@ private[johnsnowlabs] class ModernBert(
         val shape = Array(batchLength, maxSentenceLength)
         val (tokenTensors, maskTensors) =
           PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
-        val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0L))
 
         val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
         inferRequest.set_tensor("input_ids", tokenTensors)
         inferRequest.set_tensor("attention_mask", maskTensors)
-        inferRequest.set_tensor("token_type_ids", segmentTensors)
 
         inferRequest.infer()
 
@@ -405,10 +397,6 @@ private[johnsnowlabs] class ModernBert(
             _tfBertSignatures
               .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
             maskTensors)
-          .feed(
-            _tfBertSignatures
-              .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
-            segmentTensors)
           .fetch(_tfBertSignatures
             .getOrElse(ModelSignatureConstants.PoolerOutput.key, "missing_pooled_output_key"))
 
@@ -444,14 +432,8 @@ private[johnsnowlabs] class ModernBert(
             env,
             batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
 
-        val segmentTensors =
-          OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)
-
         val inputs =
-          Map(
-            "input_ids" -> tokenTensors,
-            "attention_mask" -> maskTensors,
-            "token_type_ids" -> segmentTensors).asJava
+          Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
         val results = runner.run(inputs)
         val embeddings = results
@@ -463,7 +445,6 @@ private[johnsnowlabs] class ModernBert(
 
         tokenTensors.close()
         maskTensors.close()
-        segmentTensors.close()
         results.close()
 
         embeddings
@@ -471,12 +452,10 @@ private[johnsnowlabs] class ModernBert(
         val shape = Array(batchLength, maxSentenceLength)
         val (tokenTensors, maskTensors) =
           PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
-        val segmentTensors = new Tensor(shape, Array.fill(batchLength * maxSentenceLength)(0L))
 
         val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
         inferRequest.set_tensor("input_ids", tokenTensors)
         inferRequest.set_tensor("attention_mask", maskTensors)
-        inferRequest.set_tensor("token_type_ids", segmentTensors)
 
         inferRequest.infer()
 
@@ -489,7 +468,6 @@ private[johnsnowlabs] class ModernBert(
         val batchLength = batch.length
         val tokenBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
         val maskBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
-        val segmentBuffers = tensors.createLongBuffer(batchLength * maxSentenceLength)
 
         val shape = Array(batch.length.toLong, maxSentenceLength.toLong)
 
@@ -498,12 +476,10 @@ private[johnsnowlabs] class ModernBert(
             val offset = idx * maxSentenceLength
             tokenBuffers.offset(offset).write(sentence.map(_.toLong))
             maskBuffers.offset(offset).write(sentence.map(x => if (x == 0L) 0L else 1L))
-            segmentBuffers.offset(offset).write(Array.fill(maxSentenceLength)(0L))
           }
 
         val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
         val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
-        val segmentTensors = tensors.createLongBufferTensor(shape, segmentBuffers)
 
         val runner = tensorflowWrapper.get
           .getTFSessionWithSignature(
@@ -522,10 +498,6 @@ private[johnsnowlabs] class ModernBert(
             _tfBertSignatures
               .getOrElse(ModelSignatureConstants.AttentionMaskV1.key, "missing_input_mask_key"),
             maskTensors)
-          .feed(
-            _tfBertSignatures
-              .getOrElse(ModelSignatureConstants.TokenTypeIdsV1.key, "missing_segment_ids_key"),
-            segmentTensors)
           .fetch(
             _tfBertSignatures
               .getOrElse(
@@ -537,7 +509,6 @@ private[johnsnowlabs] class ModernBert(
 
         tokenTensors.close()
         maskTensors.close()
-        segmentTensors.close()
         tensors.clearSession(outs)
         tensors.clearTensors()
 

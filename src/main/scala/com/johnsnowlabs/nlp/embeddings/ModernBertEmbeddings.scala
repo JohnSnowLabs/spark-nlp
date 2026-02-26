@@ -469,7 +469,7 @@ trait ReadModernBertDLModel
     implicit val formats: DefaultFormats.type = DefaultFormats // for json4s
 
     // Check if tokenizer.json exists
-    val tokenizerPath = s"$localModelPath/tokenizer.json"
+    val tokenizerPath = s"$localModelPath/assets/tokenizer.json"
     val tokenizerExists = new java.io.File(tokenizerPath).exists()
     val (vocabs, addedTokens, bytePairs) = if (tokenizerExists) {
       val tokenizerConfig: JValue = parse(loadJsonStringAsset(localModelPath, "tokenizer.json"))
@@ -478,13 +478,22 @@ trait ReadModernBertDLModel
         (tokenizerConfig \ "model" \ "vocab").extract[Map[String, Int]]
 
       // extract merges from tokenizer.json ( model -> merges)
-      val bytePairs = (tokenizerConfig \ "model" \ "merges")
-        .extract[List[String]]
-        .map(_.split(" "))
-        .filter(w => w.length == 2)
-        .map { case Array(c1, c2) => (c1, c2) }
-        .zipWithIndex
-        .toMap
+      // Merges can be either strings like "Ġ Ġ" or arrays like ["Ġ", "Ġ"]
+      val mergesJson = (tokenizerConfig \ "model" \ "merges")
+      val bytePairs = mergesJson match {
+        case JArray(items) =>
+          items.zipWithIndex.flatMap { case (item, idx) =>
+            item match {
+              case JString(s) =>
+                val parts = s.split(" ")
+                if (parts.length == 2) Some(((parts(0), parts(1)), idx)) else None
+              case JArray(List(JString(c1), JString(c2))) =>
+                Some(((c1, c2), idx))
+              case _ => None
+            }
+          }.toMap
+        case _ => Map.empty[(String, String), Int]
+      }
 
       // extract added_tokens from tokenizer.json (added_tokens)
       val addedTokens = (tokenizerConfig \ "added_tokens")
@@ -499,6 +508,31 @@ trait ReadModernBertDLModel
       addedTokens.foreach { case (content, id) =>
         vocabs += (content -> id)
       }
+
+      // Also extract special tokens from post_processor (e.g. [UNK] which may not be in added_tokens)
+      val postProcessorSpecialTokens =
+        (tokenizerConfig \ "post_processor" \ "special_tokens") match {
+          case JObject(fields) =>
+            fields.flatMap { case (_, tokenObj) =>
+              val tokenId = (tokenObj \ "ids") match {
+                case JArray(JInt(id) :: _) => Some(id.toInt)
+                case _ => None
+              }
+              val tokenStr = (tokenObj \ "id") match {
+                case JString(s) => Some(s)
+                case _ => None
+              }
+              (tokenStr, tokenId) match {
+                case (Some(s), Some(i)) => Some((s, i))
+                case _ => None
+              }
+            }.toMap
+          case _ => Map.empty[String, Int]
+        }
+      postProcessorSpecialTokens.foreach { case (content, id) =>
+        if (!vocabs.contains(content)) vocabs += (content -> id)
+      }
+
       (vocabs, addedTokens, bytePairs)
     } else {
       // Fallback to old format

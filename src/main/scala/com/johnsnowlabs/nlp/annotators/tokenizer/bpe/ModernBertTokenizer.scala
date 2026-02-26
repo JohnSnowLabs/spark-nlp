@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.annotators.tokenizer.bpe
 
-import com.johnsnowlabs.nlp.annotators.common.IndexedToken
+import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, TokenPiece}
 
 import java.nio.charset.Charset
 import scala.collection.mutable.ListBuffer
@@ -64,11 +64,70 @@ class ModernBertTokenizer(
   protected val unicodeToByteMapping: Map[String, Int] =
     bytesToUnicodeMapping.map(x => (x._2, x._1))
 
+  /** Converts a raw string token to its byte-level unicode representation. Optionally prepends a
+    * space (which maps to 'Ġ') before encoding,
+    */
   override def preProcessTokenForBpe(token: String): String = {
     token
       .getBytes("UTF-8")
       .map { b => if (b < 0) 256 + b else b }
       .foldLeft("")(_ + bytesToUnicodeMapping(_))
+  }
+
+  /** Encode a token using byte-level BPE. If the token starts with a space (prepended by the
+    * caller to signal word-boundary), that space is byte-encoded to 'Ġ' and included in the BPE
+    * run The leading space is then stripped from the stored wordpiece for offset alignment.
+    */
+  override protected def bpe(indToken: IndexedToken): Array[TokenPiece] = {
+    val hasPrefixSpace = indToken.token.startsWith(" ")
+    try {
+      val processedToken = preProcessTokenForBpe(indToken.token)
+
+      var word: Array[String] = processedToken.map(_.toString).toArray
+      val pairs = getBytePairs(word)
+      if (pairs.isEmpty) word = Array(processedToken)
+      else word = performMerges(word, pairs)
+
+      // For a token with a synthetic leading space the first BPE piece starts with 'Ġ';
+      // we strip it for the wordpiece text and adjust the offset accordingly.
+      var currentIndex = indToken.begin
+      var firstPiece = true
+      word.map { subWord =>
+        val isWordStart = firstPiece
+        firstPiece = false
+
+        val origSubWord =
+          if (isWordStart && hasPrefixSpace && subWord.startsWith("\u0120"))
+            subWord.substring(1) // strip the synthetic Ġ from stored wordpiece
+          else subWord
+
+        // Decode back through unicodeToByteMapping to get the length in original chars
+        val origBytes = origSubWord.map(c => unicodeToByteMapping(c.toString).toByte).toArray
+        val origLen = new String(origBytes, Charset.forName("UTF-8")).length
+        val startIndex = currentIndex
+        currentIndex = startIndex + origLen
+
+        // Vocab lookup uses the full BPE piece (including Ġ)
+        val subWordId = vocab.getOrElse(subWord, specialTokens.unk.id)
+        TokenPiece(
+          origSubWord,
+          indToken.token.trim(),
+          subWordId,
+          isWordStart,
+          startIndex,
+          currentIndex - 1)
+      }
+    } catch {
+      case _: java.util.NoSuchElementException =>
+        Array(
+          TokenPiece(
+            indToken.token,
+            indToken.token,
+            specialTokens.unk.id,
+            isWordStart = true,
+            indToken.begin,
+            indToken.end))
+    }
   }
 
   val splitPattern: Regex = splitPatternRegex

@@ -837,4 +837,7 @@ package object annotator {
   object AutoGGUFVisionModel
       extends ReadablePretrainedAutoGGUFVisionModel
       with ReadAutoGGUFVisionModel
+
+  type ModernBertEmbeddings = com.johnsnowlabs.nlp.embeddings.ModernBertEmbeddings
+  object ModernBertEmbeddings extends ReadablePretrainedModernBertModel with ReadModernBertDLModel
 }
