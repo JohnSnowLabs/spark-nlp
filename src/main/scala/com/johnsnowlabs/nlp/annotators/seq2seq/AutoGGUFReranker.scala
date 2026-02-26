@@ -20,15 +20,13 @@ import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.llama.LlamaExtensions
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import de.kherud.llama.{InferenceParameters, LlamaException, LlamaModel, Pair}
+import de.kherud.llama.{LlamaException, LlamaModel, Pair}
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.param.Param
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.ml.param.Param
-import scala.jdk.CollectionConverters._
 
-import java.util
-import java.util.{ArrayList, List}
+import scala.jdk.CollectionConverters._
 
 /** Annotator that uses the llama.cpp library to rerank text documents based on their relevance to
   * a given query using GGUF-format reranking models.
@@ -57,7 +55,7 @@ import java.util.{ArrayList, List}
   *   .setOutputCol("reranked_documents")
   *   .setQuery("A man is eating pasta.")
   * }}}
-  * The default model is `"bge-reranker-v2-m3-Q4_K_M"`, if no name is provided.
+  * The default model is `"bge_reranker_v2_m3_Q4_K_M"`, if no name is provided.
   *
   * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
@@ -90,7 +88,7 @@ import java.util.{ArrayList, List}
   *   .setOutputCol("document")
   *
   * val reranker = AutoGGUFReranker
-  *   .pretrained("bge-reranker-v2-m3-Q4_K_M")
+  *   .pretrained()
   *   .setInputCols("document")
   *   .setOutputCol("reranked_documents")
   *   .setBatchSize(4)
@@ -157,6 +155,10 @@ class AutoGGUFReranker(override val uid: String)
     this
   }
 
+  /** Closes the llama.cpp model backend freeing resources. The model is reloaded when used again.
+    */
+  def close(): Unit = GGUFWrapper.closeBroadcastModel(_model)
+
   val query = new Param[String](
     this,
     "query",
@@ -221,7 +223,7 @@ class AutoGGUFReranker(override val uid: String)
       val (completedTexts: Array[String], metadata: Array[Map[String, String]]) =
         try {
           val results: Array[Pair[String, java.lang.Float]] =
-            model.rerank(true, getQuery, annotationsText: _*).asScala.toArray
+            LlamaExtensions.rerank(model, true, getQuery, annotationsText: _*).asScala.toArray
 
           val (rerankedTexts: Array[String], metadata: Array[Map[String, String]]) =
             results.zipWithIndex.map { case (text, index) =>
@@ -252,7 +254,7 @@ class AutoGGUFReranker(override val uid: String)
 trait ReadablePretrainedAutoGGUFReranker
     extends ParamsAndFeaturesFallbackReadable[AutoGGUFReranker]
     with HasPretrained[AutoGGUFReranker] {
-  override val defaultModelName: Some[String] = Some("bge-reranker-v2-m3-Q4_K_M")
+  override val defaultModelName: Some[String] = Some("bge_reranker_v2_m3_Q4_K_M")
   override val defaultLang: String = "en"
 
   /** Java compliant-overrides */
@@ -271,7 +273,8 @@ trait ReadAutoGGUFReranker {
   this: ParamsAndFeaturesFallbackReadable[AutoGGUFReranker] =>
 
   override def fallbackLoad(folder: String, spark: SparkSession): AutoGGUFReranker = {
-    val localFolder: String = ResourceHelper.copyToLocal(folder)
+    val actualFolderPath: String = ResourceHelper.resolvePath(folder)
+    val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
     val ggufFile = GGUFWrapper.findGGUFModelInFolder(localFolder)
     loadSavedModel(ggufFile, spark)
   }

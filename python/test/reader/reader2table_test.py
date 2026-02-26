@@ -40,7 +40,6 @@ class Reader2TableTest(unittest.TestCase):
         model = pipeline.fit(self.empty_df)
 
         result_df = model.transform(self.empty_df)
-        result_df.show(truncate=False)
 
         self.assertTrue(result_df.select("document").count() > 0)
 
@@ -61,3 +60,34 @@ class Reader2TableMixedFilesTest(unittest.TestCase):
         result_df = model.transform(self.empty_df)
 
         self.assertTrue(result_df.select("document").count() > 1)
+
+@pytest.mark.fast
+class Reader2TableInputColTest(unittest.TestCase):
+
+    def setUp(self):
+        content = """
+                <html>
+                  <body>
+                    <table>
+                      <tr>
+                        <td>Hello World</td>
+                      </tr>
+                    </table>
+                  </body>
+                </html>
+                """
+        spark = SparkContextForTest.spark
+        self.html_df = spark.createDataFrame([(1, content)], ["id", "html"])
+
+    def runTest(self):
+        reader2table = Reader2Table() \
+            .setInputCol("html") \
+            .setContentType("text/html") \
+            .setOutputCol("document")
+
+        pipeline = Pipeline(stages=[reader2table])
+        model = pipeline.fit(self.html_df)
+
+        result_df = model.transform(self.html_df)
+
+        self.assertTrue(result_df.select("document").count() > 0)

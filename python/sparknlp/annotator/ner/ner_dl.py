@@ -41,6 +41,11 @@ class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
     - a WordEmbeddingsModel (any embeddings can be chosen, e.g. BertEmbeddings
       for BERT based embeddings).
 
+    By default, collects all data points into memory for training. For larger datasets, use
+    ``setEnableMemoryOptimizer(true)``. This will optimize memory usage during training at the cost
+    of speed. Note that this annotator will use as much memory as the largest partition of the
+    input dataset, so we recommend repartitioning to batch sizes.
+
     Setting a test dataset to monitor model metrics can be done with
     ``.setTestDataset``. The method expects a path to a parquet file containing a
     dataframe that has the same required columns as the training dataframe. The
@@ -233,6 +238,14 @@ class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
                             "Whether to check F1 Micro-average or F1 Macro-average as a final metric for the best model.",
                             TypeConverters.toString)
 
+    prefetchBatches = Param(Params._dummy(), "prefetchBatches",
+                            "Number of batches to prefetch while training using memory optimizer. Has no effect if memory optimizer is disabled.",
+                            TypeConverters.toInt)
+
+    optimizePartitioning = Param(Params._dummy(), "optimizePartitioning",
+                                 "Whether to repartition the dataset before training for optimal performance. Has no effect if memory optimizer is disabled.",
+                                 TypeConverters.toBoolean)
+
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
 
@@ -372,6 +385,28 @@ class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
         """
         return self._set(bestModelMetric=value)
 
+    def setPrefetchBatches(self, value):
+        """Sets number of batches to prefetch while training using memory optimizer.
+        Has no effect if memory optimizer is disabled.
+
+        Parameters
+        ----------
+        value : int
+            Number of batches to prefetch
+        """
+        return self._set(prefetchBatches=value)
+
+    def setOptimizePartitioning(self, value):
+        """Sets whether to repartition the dataset before training for optimal performance.
+        Has no effect if memory optimizer is disabled.
+
+        Parameters
+        ----------
+        value: bool
+            Whether to optimize partitioning
+        """
+        return self._set(optimizePartitioning=value)
+
     def _create_model(self, java_model):
         return NerDLModel(java_model=java_model)
 
@@ -395,7 +430,9 @@ class NerDLApproach(AnnotatorApproach, NerApproach, EvaluationDLParams):
             enableOutputLogs=False,
             enableMemoryOptimizer=False,
             useBestModel=False,
-            bestModelMetric="f1_micro"
+            bestModelMetric="f1_micro",
+            prefetchBatches=0,
+            optimizePartitioning=True
         )
 
 

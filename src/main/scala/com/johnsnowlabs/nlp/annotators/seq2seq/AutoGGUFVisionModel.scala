@@ -157,7 +157,8 @@ class AutoGGUFVisionModel(override val uid: String)
     with HasEngine
     with HasLlamaCppModelProperties
     with HasLlamaCppInferenceProperties
-    with HasProtectedParams {
+    with HasProtectedParams
+    with CompletionPostProcessing {
   override val inputAnnotatorTypes: Array[AnnotatorType] =
     Array(AnnotatorType.IMAGE, AnnotatorType.DOCUMENT)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
@@ -180,6 +181,10 @@ class AutoGGUFVisionModel(override val uid: String)
 
     this
   }
+
+  /** Closes the llama.cpp model backend freeing resources. The model is reloaded when used again.
+    */
+  def close(): Unit = GGUFWrapperMultiModal.closeBroadcastModel(_model)
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
@@ -238,14 +243,14 @@ class AutoGGUFVisionModel(override val uid: String)
         .zip(base64EncodedImages)
         .map { case (prompt, base64Image) =>
           try {
-            (
-              LlamaExtensions.completeImage(
-                model,
-                getInferenceParameters,
-                getSystemPrompt,
-                prompt,
-                base64Image),
-              Map.empty[String, String])
+            val results = LlamaExtensions.completeImage(
+              model,
+              getInferenceParameters,
+              getSystemPrompt,
+              prompt,
+              base64Image)
+            val resultsCleaned = processCompletions(Array(results)).head
+            (resultsCleaned, Map.empty[String, String])
           } catch {
             case e: LlamaException =>
               logger.error("Error in llama.cpp image batch completion", e)
@@ -289,7 +294,9 @@ trait ReadAutoGGUFVisionModel {
   this: ParamsAndFeaturesFallbackReadable[AutoGGUFVisionModel] =>
 
   override def fallbackLoad(folder: String, spark: SparkSession): AutoGGUFVisionModel = {
-    val localFolder: String = ResourceHelper.copyToLocal(folder)
+    val actualFolderPath: String = ResourceHelper.resolvePath(folder)
+
+    val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
     val (ggufFile, mmprojFile) = GGUFWrapperMultiModal.findGGUFModelsInFolder(localFolder)
     loadSavedModel(ggufFile, mmprojFile, spark)
   }

@@ -24,6 +24,7 @@ import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{
   cleanPostfix,
   cleanPrefix,
   cleanTrailingPunctuation,
+  decodeHtmlEntities,
   removePunctuation,
   replaceUnicodeCharacters
 }
@@ -344,6 +345,25 @@ class CleanerHelperTestSpec extends AnyFlatSpec {
     val actual = CleanerHelper.bytesStringToString(text, encoding)
 
     assert(actual == expected)
+  }
+
+  "decodeHtmlEntities" should "decode common HTML entities" taggedAs FastTest in {
+    val inputs = Seq(
+      "Tom &amp; Jerry are friends.",
+      "5 &lt; 10 &gt; 3",
+      "He said &quot;Hello&quot; &apos;World&apos;",
+      "Rock &#39;n&#39; Roll &copy; 2025")
+
+    val expectedOutputs = Seq(
+      "Tom & Jerry are friends.",
+      "5 < 10 > 3",
+      "He said \"Hello\" 'World'",
+      "Rock 'n' Roll © 2025")
+
+    inputs.zip(expectedOutputs).foreach { case (input, expected) =>
+      val actual = decodeHtmlEntities(input)
+      assert(actual == expected, s"Expected '$expected' but got '$actual'")
+    }
   }
 
 }

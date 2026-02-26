@@ -22,7 +22,7 @@ import com.johnsnowlabs.partition.util.PartitionHelper.{
   datasetWithTextFile,
   isStringContent
 }
-import com.johnsnowlabs.reader.util.HasPdfProperties
+import com.johnsnowlabs.reader.util.HasPdfToTextProperties
 import com.johnsnowlabs.reader.{HTMLElement, PdfToText}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
@@ -85,7 +85,7 @@ class PartitionTransformer(override val uid: String)
     with HasHTMLReaderProperties
     with HasPowerPointProperties
     with HasTextReaderProperties
-    with HasPdfProperties
+    with HasPdfToTextProperties
     with HasXmlReaderProperties
     with HasChunkerProperties {
 

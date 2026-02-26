@@ -11,145 +11,98 @@ sidebar:
   nav: sparknlp  
 ---
 
-**Text generation** is the task of generating meaningful text based on a given input. It is widely used in various *natural language processing (NLP)* applications such as summarization, machine translation, conversational agents, and more. Spark NLP provides SOTA solutions for text generation, enabling you to produce high-quality and contextually relevant text outputs.
+**Text Generation** is a natural language processing task where models create new text based on a given input. Instead of assigning labels, these models expand, complete, or rephrase text in a coherent way. For example, given *“Once upon a time,”* a text generation model might continue with *“we knew that our ancestors were on the verge of extinction...”*. This task includes both **completion models**, which predict the next word in a sequence to build longer passages, and **text-to-text models**, which map one piece of text to another for tasks like *translation*, *summarization*, or *classification*.
 
-Text generation models create text sequences by predicting the next word or sequence of words based on the input prompt. Common use cases include:
+Depending on how they are trained, text generation models come in different variants: **base models** (e.g., Mistral 7B, Llama 3 70B) suited for fine-tuning, **instruction-tuned models** (e.g., Qwen 2, Yi 1.5, Llama 70B Instruct) that follow prompts like *“Write a recipe for chocolate cake”*, and **human feedback models**, which use RLHF to align outputs with human preferences. These capabilities make text generation useful for a wide range of applications, from **chatbots and creative writing** to **code generation and summarization**, with larger models typically producing more fluent and context-aware outputs.
 
-- **Summarization:** Automatically generating concise summaries from longer text.
-- **Machine Translation:** Translating text from one language to another while maintaining meaning and fluency.
-- **Conversational Agents:** Building intelligent systems that can hold natural and coherent conversations with users.
+## Picking a Model  
 
-By leveraging text generation, organizations can build systems capable of generating human-like text, making it useful for content creation, automated writing, and more.
+When picking a model for text generation, start by clarifying your goal—whether you need completions, rephrasings, translations, summaries, or creative writing. Base models like **Mistral 7B** or **Llama 3 70B** are good for fine-tuning, while instruction-tuned ones such as **Qwen 2** or **Llama 70B Instruct** work better out of the box for prompts like “Write a recipe for chocolate cake.” Human-feedback models trained with RLHF usually give the most user-aligned responses. For quick or lightweight tasks, smaller models are efficient, while larger ones generally produce more fluent, context-aware text suited for chatbots, code generation, and long-form writing. For specific tasks, **Pegasus**, **BART**, or **Llama 3 Instruct** are strong for summarization; **MarianMT**, **M2M-100**, or **NLLB** excel at translation; **GPT-based models**, **Llama 3 70B Instruct**, and **Yi 1.5** are strong for creative writing; **Code Llama**, **StarCoder**, and **GPT-4 Turbo (Code)** are well-suited for code generation; and for dialogue, **Llama 3 Instruct**, **Qwen 2**, and **GPT-4** provide reliable conversational performance.  
 
-<!-- <div style="text-align: center;">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-</div> -->
+Explore models tailored for text generation at [Spark NLP Models](https://sparknlp.org/models)
 
-## Picking a Model
-
-When selecting a model for text generation, consider several important factors. First, determine the **type of output** you require (e.g., summarization, translation, or free-form generation). Decide whether your task needs **structured output** like summaries or **creative text generation**.
-
-Next, evaluate the **style and language** of the data you'll be working with—are you dealing with formal language (e.g., research papers) or informal language (e.g., social media)? Model performance metrics such as **perplexity**, **BLEU score**, or **ROUGE score** are also crucial for understanding the quality of the generated text. Finally, take into account the **computational resources** available, as some models (e.g., GPT or T5) may require significant memory and processing power.
-
-Explore models tailored for text generation at [Spark NLP Models](https://sparknlp.org/models), where you’ll find various options for different text generation tasks.
-
+<!-- 
 #### Recommended Models for Specific Text Generation Tasks
 
 - **Summarization:** Use models like [`t5-base`](https://sparknlp.org/2021/01/08/t5_base_en.html){:target="_blank"} and [`bart-large-cnn`](https://sparknlp.org/2023/05/11/bart_large_cnn_en.html){:target="_blank"} for general-purpose text summarization tasks.
 - **Machine Translation:** Consider models such as [`t5_base`](https://sparknlp.org/2021/01/08/t5_base_en.html){:target="_blank"} and [`m2m100_418M`](https://sparknlp.org/2024/05/19/m2m100_418M_xx.html){:target="_blank"} you can also consider searching models with the [`Marian Transformer`](https://sparknlp.org/models?annotator=MarianTransformer){:target="_blank"} Annotator class for translating between non-english languages.
-- **Conversational Agents:** For building chatbots and dialogue systems, use models like [`gpt2`](https://sparknlp.org/2021/12/03/gpt2_en.html){:target="_blank"} to generate coherent and contextually aware responses.
+- **Conversational Agents:** For building chatbots and dialogue systems, use models like [`gpt2`](https://sparknlp.org/2021/12/03/gpt2_en.html){:target="_blank"} to generate coherent and contextually aware responses. -->
 
-By selecting the appropriate text generation model, you can enhance your ability to produce contextually rich and meaningful text outputs tailored to your specific NLP tasks.
-  
 ## How to use
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-import sparknlp
-from sparknlp.base import *
-from sparknlp.annotator import *
+from sparknlp.base import DocumentAssembler
+from sparknlp.annotator import AutoGGUFModel
 from pyspark.ml import Pipeline
 
-# Assembling the document from the input text
-documentAssembler = DocumentAssembler() \
-    .setInputCol("text") \
-    .setOutputCol("documents")
+document_assembler = DocumentAssembler()\
+    .setInputCol("text")\
+    .setOutputCol("document")
 
-# Loading a pre-trained text generation model
-# You can replace `T5Transformer.pretrained("t5_small", "xx")` with your selected model and the transformer it's based on
-# For example: BartTransformer.pretrained("bart_large_cnn")
-t5 = T5Transformer.pretrained("t5_small", "xx") \
-    .setTask("summarize:") \
-    .setInputCols(["documents"]) \
-    .setMaxOutputLength(200) \
-    .setOutputCol("summaries")
+auto_gguf_model = AutoGGUFModel.pretrained("qwen3_4b_q4_k_m_gguf", "en") \
+    .setInputCols(["document"]) \
+    .setOutputCol("completions") \
+    .setBatchSize(4) \
+    .setNPredict(20) \
+    .setNGpuLayers(99) \
+    .setTemperature(0.4) \
+    .setTopK(40) \
+    .setTopP(0.9) \
+    .setPenalizeNl(True)
 
-# Defining the pipeline with document assembler, tokenizer, and classifier
-pipeline = Pipeline().setStages([documentAssembler, t5])
+pipeline = Pipeline().setStages([
+    document_assembler,
+    auto_gguf_model
+])
 
-# Creating a sample DataFrame
-data = spark.createDataFrame([[
-    "Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a " +
-    "downstream task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness" +
-    " of transfer learning has given rise to a diversity of approaches, methodology, and practice. In this " +
-    "paper, we explore the landscape of transfer learning techniques for NLP by introducing a unified framework " +
-    "that converts all text-based language problems into a text-to-text format. Our systematic study compares " +
-    "pre-training objectives, architectures, unlabeled data sets, transfer approaches, and other factors on dozens " +
-    "of language understanding tasks. By combining the insights from our exploration with scale and our new " +
-    "Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many benchmarks covering " +
-    "summarization, question answering, text classification, and more. To facilitate future work on transfer " +
-    "learning for NLP, we release our data set, pre-trained models, and code."
-]]).toDF("text")
+data = spark.createDataFrame([
+    ["A farmer has 17 sheep. All but 9 run away. How many sheep does the farmer have left?"]
+]).toDF("text")
 
-# Fitting the pipeline and transforming the data
-result = pipeline.fit(data).transform(data)
+model = pipeline.fit(data)
+result = model.transform(data)
 
-# Showing the results
-result.select("summaries.result").show(truncate=False)
-
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|result                                                                                                                                                                          |
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|[transfer learning has emerged as a powerful technique in natural language processing (NLP) the effectiveness of transfer learning has given rise to a diversity of approaches, |
-| methodologies, and practice .]                                                                                                                                                 |
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+ 
 ```
-
 ```scala
-import spark.implicits._
-import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.seq2seq.T5Transformer
+import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.annotators._
 import org.apache.spark.ml.Pipeline
 
-// Step 1: Assembling the document from the input text
-// Converts the input 'text' column into a 'document' column, required for NLP tasks
 val documentAssembler = new DocumentAssembler()
   .setInputCol("text")
-  .setOutputCol("documents")
+  .setOutputCol("document")
 
-// Step 3: Loading a pre-trained BERT model for token classification
-// Applies a pre-trained BERT model for Named Entity Recognition (NER) to classify tokens
-// `T5Transformer.pretrained()` loads the model, and `setInputCols` defines the input columns
-val t5 = T5Transformer.pretrained("t5_small")
-  .setTask("summarize:")
-  .setInputCols(Array("documents"))
-  .setMaxOutputLength(200)
-  .setOutputCol("summaries")
+val autoGGUFModel = AutoGGUFModel.pretrained("qwen3_4b_q4_k_m_gguf", "en")
+  .setInputCols("document")
+  .setOutputCol("completions")
+  .setBatchSize(4)
+  .setNPredict(20)
+  .setNGpuLayers(99)
+  .setTemperature(0.4f)
+  .setTopK(40)
+  .setTopP(0.9f)
+  .setPenalizeNl(true)
 
-// Step 4: Defining the pipeline
-// The pipeline stages are document assembler, tokenizer, and token classifier
-val pipeline = new Pipeline().setStages(Array(documentAssembler, t5))
+val pipeline = new Pipeline().setStages(Array(
+  documentAssembler,
+  autoGGUFModel
+))
 
-// Step 5: Creating a sample DataFrame
-// Creates a DataFrame with a sample sentence that will be processed by the pipeline
-val data = Seq(
-  "Transfer learning, where a model is first pre-trained on a data-rich task before being fine-tuned on a " +
-  "downstream task, has emerged as a powerful technique in natural language processing (NLP). The effectiveness" +
-  " of transfer learning has given rise to a diversity of approaches, methodology, and practice. In this " +
-  "paper, we explore the landscape of transfer learning techniques for NLP by introducing a unified framework " +
-  "that converts all text-based language problems into a text-to-text format. Our systematic study compares " +
-  "pre-training objectives, architectures, unlabeled data sets, transfer approaches, and other factors on dozens " +
-  "of language understanding tasks. By combining the insights from our exploration with scale and our new " +
-  "Colossal Clean Crawled Corpus, we achieve state-of-the-art results on many benchmarks covering " +
-  "summarization, question answering, text classification, and more. To facilitate future work on transfer " +
-  "learning for NLP, we release our data set, pre-trained models, and code."
-).toDF("text")
+val data = Seq("A farmer has 17 sheep. All but 9 run away. How many sheep does the farmer have left?").toDF("text")
 
-// Step 6: Fitting the pipeline and transforming the data
-// The pipeline is fitted on the input data, then it performs the transformation to generate token labels
-val result = pipeline.fit(data).transform(data)
+val model = pipeline.fit(data)
+val result = model.transform(data)
 
-// Step 7: Showing the results
-// Displays the 'label.result' column, which contains the Named Entity Recognition (NER) labels for each token
-result.select("summaries.result").show(false)
+```
+</div>
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|result                                                                                                                                                                          |
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|[transfer learning has emerged as a powerful technique in natural language processing (NLP) the effectiveness of transfer learning has given rise to a diversity of approaches, |
-|methodologies, and practice .]                                                                                                                                                  |
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+<div class="tabs-box" markdown="1">
+```
+Explanation:
+The phrase "all but 9 run away" means that 9 sheep did not run away, while the remaining (17 - 9 = 8) did. Therefore, the farmer still has the 9 sheep that stayed behind.
+Answer: 9.
 ```
 </div>
 
@@ -157,10 +110,10 @@ result.select("summaries.result").show(false)
 
 If you want to see the outputs of text generation models in real time, visit our interactive demos:
 
-- **[Generative Pre-trained Transformer 2 (OpenAI GPT2)](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-gpt2){:target="_blank"}** – GPT-2 generates human-like text from prompts.
-- **[Text-To-Text Transfer Transformer (Google T5)](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-t5){:target="_blank"}** – T5 performs text tasks like summarization and translation.
-- **[SQL Query Generation](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-text-to-sql-t5){:target="_blank"}** – Converts natural language commands into SQL queries.
-- **[Multilingual Text Translation with MarianMT](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-MarianMT){:target="_blank"}** – Translates text between multiple languages.
+- **[Generative Pre-trained Transformer 2 (OpenAI GPT2)](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-gpt2){:target="_blank"}**
+- **[Text-To-Text Transfer Transformer (Google T5)](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-t5){:target="_blank"}**
+- **[SQL Query Generation](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-text-to-sql-t5){:target="_blank"}**
+- **[Multilingual Text Translation with MarianMT](https://huggingface.co/spaces/abdullahmubeen10/sparknlp-MarianMT){:target="_blank"}**
 
 ## Useful Resources
 

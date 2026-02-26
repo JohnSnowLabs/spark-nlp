@@ -4,6 +4,7 @@ import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, ImageAssembler}
 import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.util.TestUtils.measureRAMChange
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.lit
 import org.apache.spark.sql.{DataFrame, Row}
@@ -15,11 +16,11 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
 
   behavior of "AutoGGUFVisionModel"
 
-  lazy val documentAssembler = new DocumentAssembler()
+  lazy val documentAssembler: DocumentAssembler = new DocumentAssembler()
     .setInputCol("caption")
     .setOutputCol("caption_document")
 
-  lazy val imageAssembler = new ImageAssembler()
+  lazy val imageAssembler: ImageAssembler = new ImageAssembler()
     .setInputCol("image")
     .setOutputCol("image_assembler")
 
@@ -44,7 +45,7 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     "tractor.JPEG" -> "tractor")
 
   lazy val nPredict = 40
-  lazy val model = AutoGGUFVisionModel
+  lazy val model: AutoGGUFVisionModel = AutoGGUFVisionModel
 //    .loadSavedModel(
 //      "models/Qwen2.5-VL-3B-Instruct-Q4_K_M.gguf",
 //      "models/mmproj-Qwen2.5-VL-3B-Instruct-Q8_0.gguf",
@@ -64,7 +65,8 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     .setTopK(40)
     .setTopP(0.95f)
 
-  lazy val pipeline = new Pipeline().setStages(Array(documentAssembler, imageAssembler, model))
+  lazy val pipeline: Pipeline =
+    new Pipeline().setStages(Array(documentAssembler, imageAssembler, model))
 
   def checkBinaryContents(): Unit = {
     val imageData = data.select("image.data").limit(1).collect()(0).getAs[Array[Byte]](0)
@@ -134,5 +136,54 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
       .save(savePath)
 
     AutoGGUFVisionModel.load(savePath)
+  }
+
+  it should "load models with deprecated parameters" taggedAs SlowTest in {
+    AutoGGUFVisionModel.pretrained("llava_v1.5_7b_Q4_0_gguf")
+  }
+
+  // This test requires cpu
+  it should "be closeable" taggedAs SlowTest ignore {
+    lazy val model: AutoGGUFVisionModel = AutoGGUFVisionModel
+      .pretrained()
+      .setInputCols("caption_document", "image_assembler")
+      .setOutputCol("completions")
+      .setNPredict(5)
+
+    pipeline.fit(data).transform(data.limit(1)).show()
+
+    val ramChange = measureRAMChange { model.close() }
+    println("Freed RAM after closing the model: " + ramChange + " MB")
+    assert(ramChange < -100, "Freed RAM should be greater than 100 MB")
+  }
+
+  it should "be able to remove thinking tags" taggedAs SlowTest in {
+    val thinkTag = "think"
+    val model = AutoGGUFVisionModel
+      .loadSavedModel(
+        "models/SmolVLM-256M-Instruct-Q8_0.gguf",
+        "models/mmproj-SmolVLM-256M-Instruct-Q8_0.gguf",
+        ResourceHelper.spark)
+      .setInputCols("caption_document", "image_assembler")
+      .setOutputCol("completions")
+      .setRemoveThinkingTag(thinkTag)
+      .setNPredict(500)
+      .setTemperature(0.1f)
+
+    val pipeline =
+      new Pipeline().setStages(Array(documentAssembler, imageAssembler, model))
+    val dataThinking = data
+      .limit(1)
+      .withColumn(
+        "caption",
+        lit("What is the meaning of life? Think real hard and relate it to the image."))
+
+    dataThinking.select("caption").show(false)
+
+    val result = pipeline.fit(dataThinking).transform(dataThinking)
+
+    val completion = Annotation.collect(result, "completions").flatten.head.result
+    println(completion)
+    assert(!completion.contains(s"<$thinkTag>") && !completion.contains(s"</$thinkTag>"))
   }
 }

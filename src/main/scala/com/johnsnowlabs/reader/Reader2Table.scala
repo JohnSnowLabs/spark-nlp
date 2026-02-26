@@ -16,13 +16,14 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 /** The Reader2Table annotator allows you to use the reading files more smoothly within existing
-  * Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Doc can be used for
+  * Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Table can be used for
   * extracting structured content from various document types using Spark NLP readers. It supports
   * reading from many files types and returns parsed output as a structured Spark DataFrame.
   *
@@ -57,13 +58,13 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
 
   def this() = this(Identifiable.randomUID("Reader2Table"))
 
-  setDefault(outputFormat -> "json-table", inferTableStructure -> true)
+  setDefault(outputFormat -> "json-table", inferTableStructure -> true, outputAsDocument -> false)
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     super.transform(dataset)
   }
 
-  override def partitionToAnnotation(flatten: Boolean): UserDefinedFunction = udf {
+  override def partitionToAnnotation: UserDefinedFunction = udf {
     (partitions: Seq[Row], fileName: String) =>
       if (partitions == null) Nil
       else {
@@ -79,12 +80,12 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
         if (asDocument)
           mergeElementsAsDocument(elements, outputFormatValue)
         else
-          elementsAsIndividualAnnotations(partitions, flatten, acceptedTypes)
+          elementsAsIndividualAnnotations(partitions, acceptedTypes)
       }
   }
 
   private def getAcceptedTypes(fileName: String): Set[String] = {
-    if (fileName.isEmpty) {
+    if (fileName == null || fileName.isEmpty) {
       val officeDocTypes = Set(
         "application/msword",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -142,7 +143,6 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
 
   private def elementsAsIndividualAnnotations(
       partitions: Seq[Row],
-      flatten: Boolean,
       acceptedTypes: Set[String]): Seq[Annotation] = {
     var currentOffset = 0
     partitions.flatMap { part =>
@@ -156,7 +156,8 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
 
         val baseMeta = if (metadata != null) metadata else Map.empty[String, String]
         val withExtras = baseMeta + ("elementType" -> elementType)
-        val finalMeta = if (flatten) withExtras.filterKeys(_ == "sentence") else withExtras
+        val finalMeta =
+          if ($(flattenOutput)) withExtras.filterKeys(_ == "sentence") else withExtras
 
         Some(
           Annotation(
@@ -171,9 +172,12 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
   }
 
   override def validateRequiredParameters(): Unit = {
-    require(
-      $(contentPath) != null && $(contentPath).trim.nonEmpty,
-      "contentPath must be set and not empty")
+    val hasContentPath = $(contentPath) != null && $(contentPath).trim.nonEmpty
+    if (hasContentPath) {
+      require(
+        ResourceHelper.validFile($(contentPath)),
+        "contentPath must point to a valid file or directory")
+    }
     require(
       Set("html-table", "json-table").contains($(outputFormat)),
       "outputFormat must be either 'html-table' or 'json-table'.")

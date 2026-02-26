@@ -17,16 +17,14 @@ package com.johnsnowlabs.ml.gguf
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import de.kherud.llama.{LlamaModel, ModelParameters}
-import org.apache.commons.io.FileUtils
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.SparkFiles
+import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
 
 import java.io.File
-import java.net.URI
-import java.nio.file.{Files, Paths}
-import java.util.UUID
+import java.nio.file.Paths
 
 class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Serializable {
 
@@ -63,9 +61,16 @@ class GGUFWrapper(var modelFileName: String, var modelFolder: String) extends Se
   }
 
   // Destructor to free the model when this object is garbage collected
-  override def finalize(): Unit = {
-    if (llamaModel != null) {
-      llamaModel.close()
+  override def finalize(): Unit = close()
+
+  /** Closes the underlying LlamaModel and frees resources. */
+  def close(): Unit = {
+    this.synchronized {
+      if (llamaModel != null) {
+        println("Closing llama.cpp model.")
+        llamaModel.close()
+        llamaModel = null
+      }
     }
   }
 
@@ -133,5 +138,42 @@ object GGUFWrapper {
     val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
     val modelFile = findGGUFModelInFolder(localFolder)
     read(spark, modelFile)
+  }
+
+  /** Closes the broadcasted GGUFWrapper model on all Spark workers and the driver, freeing up
+    * resources.
+    *
+    * We use a foreachPartition on a dummy RDD to ensure that the close method is called on each
+    * executor.
+    *
+    * @param broadcastedModel
+    *   An optional Broadcast[GGUFWrapper] instance to be closed. If None, no action is taken.
+    */
+  def closeBroadcastModel(broadcastedModel: Option[Broadcast[GGUFWrapper]]): Unit = {
+    def closeOnWorkers(): Unit = {
+      val spark = SparkSession.getActiveSession.get
+      // Get the number of executors to ensure we run a task on each one.
+      val numExecutors = spark.sparkContext.getExecutorMemoryStatus.size
+
+      // Create a dummy RDD with one partition per executor
+      val dummyRdd = spark.sparkContext.parallelize(1 to numExecutors, numExecutors)
+
+      // Run a job whose only purpose is to trigger the shutdown method on each worker
+      dummyRdd.foreachPartition { _ =>
+        broadcastedModel match {
+          case Some(broadcastModel) =>
+            broadcastModel.value.close()
+          case None => // No model to close
+        }
+      }
+    }
+
+    closeOnWorkers()
+    broadcastedModel match {
+      case Some(broadcastModel) =>
+        broadcastModel.value.close() // Close the model on the driver as well
+        broadcastModel.unpersist()
+      case None => // No model to close
+    }
   }
 }

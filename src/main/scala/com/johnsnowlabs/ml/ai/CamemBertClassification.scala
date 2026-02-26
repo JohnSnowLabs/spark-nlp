@@ -164,28 +164,27 @@ private[johnsnowlabs] class CamemBertClassification(
     val maxSentenceLength = batch.map(encodedSentence => encodedSentence.length).max
     val batchLength = batch.length
 
-    val tokenBuffers: LongDataBuffer = tensors.createLongBuffer(batchLength * maxSentenceLength)
-    val maskBuffers: LongDataBuffer = tensors.createLongBuffer(batchLength * maxSentenceLength)
+    val tokenBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
+    val maskBuffers: IntDataBuffer = tensors.createIntBuffer(batchLength * maxSentenceLength)
 
     // [nb of encoded sentences , maxSentenceLength]
     val shape = Array(batch.length.toLong, maxSentenceLength)
 
     batch.zipWithIndex
       .foreach { case (sentence, idx) =>
-        val sentenceLong = sentence.map(x => x.toLong)
         val offset = idx * maxSentenceLength
-        tokenBuffers.offset(offset).write(sentenceLong)
+        tokenBuffers.offset(offset).write(sentence)
         maskBuffers
           .offset(offset)
-          .write(sentence.map(x => if (x == sentencePadTokenId) 0L else 1L))
+          .write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
       }
 
     val runner = tensorflowWrapper.get
       .getTFSessionWithSignature(configProtoBytes = configProtoBytes, initAllTables = false)
       .runner
 
-    val tokenTensors = tensors.createLongBufferTensor(shape, tokenBuffers)
-    val maskTensors = tensors.createLongBufferTensor(shape, maskBuffers)
+    val tokenTensors = tensors.createIntBufferTensor(shape, tokenBuffers)
+    val maskTensors = tensors.createIntBufferTensor(shape, maskBuffers)
 
     runner
       .feed(

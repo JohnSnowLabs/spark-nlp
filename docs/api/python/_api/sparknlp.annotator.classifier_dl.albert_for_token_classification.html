@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.classifier_dl.albert_for_token_classification module &#8212; Spark NLP 6.1.2 documentation</title>
+    <title>sparknlp.annotator.classifier_dl.albert_for_token_classification module &#8212; Spark NLP 6.3.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=d2ba134b"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=311087f9"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.1.2 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.1.2 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -461,6 +461,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_converter.html">sparknlp.annotator.ner.ner_converter module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_crf.html">sparknlp.annotator.ner.ner_crf module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_dl.html">sparknlp.annotator.ner.ner_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_dl_graph_checker.html">sparknlp.annotator.ner.ner_dl_graph_checker module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_overwriter.html">sparknlp.annotator.ner.ner_overwriter module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.zero_shot_ner_model.html">sparknlp.annotator.ner.zero_shot_ner_model module</a></li>
 </ul>
@@ -557,6 +558,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.base.document_assembler.html">sparknlp.base.document_assembler module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.base.embeddings_finisher.html">sparknlp.base.embeddings_finisher module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.base.finisher.html">sparknlp.base.finisher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.base.gguf_ranking_finisher.html">sparknlp.base.gguf_ranking_finisher module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.base.graph_finisher.html">sparknlp.base.graph_finisher module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.base.has_recursive_fit.html">sparknlp.base.has_recursive_fit module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.base.has_recursive_transform.html">sparknlp.base.has_recursive_transform module</a></li>
@@ -574,6 +576,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_model.html">sparknlp.common.annotator_model module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_properties.html">sparknlp.common.annotator_properties module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.annotator_type.html">sparknlp.common.annotator_type module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.common.completion_post_processing.html">sparknlp.common.completion_post_processing module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.coverage_result.html">sparknlp.common.coverage_result module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.match_strategy.html">sparknlp.common.match_strategy module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.common.properties.html">sparknlp.common.properties module</a></li>
@@ -611,7 +614,9 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.enums.html">sparknlp.reader.enums module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.pdf_to_text.html">sparknlp.reader.pdf_to_text module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.reader2doc.html">sparknlp.reader.reader2doc module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.reader2image.html">sparknlp.reader.reader2image module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.reader2table.html">sparknlp.reader.reader2table module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.reader_assembler.html">sparknlp.reader.reader_assembler module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.reader.sparknlp_reader.html">sparknlp.reader.sparknlp_reader module</a></li>
 </ul>
 </li>
@@ -939,7 +944,7 @@ Spark NLPs repositories otherwise.</p>
 
   <p class="copyright">
     
-      © Copyright 2025 John Snow Labs.
+      © Copyright 2026 John Snow Labs.
       <br/>
     
   </p>

@@ -1,5 +1,5 @@
 /*
- *   Copyright 2017-2024 John Snow Labs
+ *   Copyright 2017-2025 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package com.johnsnowlabs.reader
 
+import com.johnsnowlabs.reader.util.AssertReaders
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.sql.functions.{col, explode}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -76,11 +77,10 @@ class HTMLReaderTest extends AnyFlatSpec {
     val HTMLReader = new HTMLReader(titleFontSize = 19)
 
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/title-test.html")
-    htmlDF.show(truncate = false)
+
     val titleDF = htmlDF
       .select(explode(col("html")).as("exploded_html"))
       .filter(col("exploded_html.elementType") === ElementType.TITLE)
-    titleDF.select("exploded_html").show(truncate = false)
 
     assert(titleDF.count() == 2)
   }
@@ -92,7 +92,6 @@ class HTMLReaderTest extends AnyFlatSpec {
     val titleDF = htmlDF
       .select(explode(col("html")).as("exploded_html"))
       .filter(col("exploded_html.elementType") === ElementType.TITLE)
-    titleDF.select("exploded_html").show(truncate = false)
 
     assert(titleDF.count() == 1)
   }
@@ -114,7 +113,7 @@ class HTMLReaderTest extends AnyFlatSpec {
   it should "correctly parse bold and strong tags" taggedAs FastTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-bold-strong.html")
-    htmlDF.show(truncate = false)
+
     val titleDF = htmlDF
       .select(explode(col("html")).as("exploded_html"))
       .filter(col("exploded_html.elementType") === ElementType.TITLE)
@@ -125,6 +124,7 @@ class HTMLReaderTest extends AnyFlatSpec {
   it should "correctly parse caption and th tags" taggedAs FastTest in {
     val HTMLReader = new HTMLReader()
     val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-caption-th.html")
+
     val titleDF = htmlDF
       .select(explode(col("html")).as("exploded_html"))
       .filter(col("exploded_html.elementType") === ElementType.TABLE)
@@ -161,6 +161,135 @@ class HTMLReaderTest extends AnyFlatSpec {
       .filter(col("exploded_html.elementType") === ElementType.TABLE)
 
     assert(titleDF.count() == 1)
+  }
+
+  it should "read HTML files with images" taggedAs SlowTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-images.html")
+
+    val imagesDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.IMAGE)
+
+    assert(imagesDF.count() == 3)
+  }
+
+  it should "read HTML files with images inside paragraphs" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/example-image-paragraph.html")
+
+    val imagesDF = htmlDF
+      .select(explode(col("html")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.IMAGE)
+
+    assert(imagesDF.count() == 1)
+  }
+
+  it should "produce valid element_id and parent_id relationships" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/simple-book.html")
+
+    AssertReaders.assertHierarchy(htmlDF, "html")
+  }
+
+  it should "include domPath and orderTableIndex metadata fields for tables" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/sample_tables.html")
+
+    val explodedDf = htmlDF.withColumn("html_exploded", explode(col("html")))
+    val tablesDf = explodedDf.filter(col("html_exploded.elementType") === ElementType.TABLE)
+
+    assert(tablesDf.count() > 0, "No TABLE elements found in HTMLReader output")
+
+    val tableMetaDf = tablesDf.selectExpr(
+      "html_exploded.metadata.domPath as domPath",
+      "html_exploded.metadata.orderTableIndex as orderTableIndex")
+
+    assert(
+      tableMetaDf.filter(col("domPath").isNotNull).count() == tableMetaDf.count(),
+      "Missing domPath in TABLE metadata")
+    assert(
+      tableMetaDf.filter(col("orderTableIndex").isNotNull).count() == tableMetaDf.count(),
+      "Missing orderTableIndex in TABLE metadata")
+  }
+
+  it should "include domPath and orderImageIndex metadata fields for images" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/sample_images.html")
+
+    val explodedDf = htmlDF.withColumn("html_exploded", explode(col("html")))
+    val imagesDf = explodedDf.filter(col("html_exploded.elementType") === ElementType.IMAGE)
+
+    assert(imagesDf.count() > 0, "No IMAGE elements found in HTMLReader output")
+
+    val imageMetaDf = imagesDf.selectExpr(
+      "html_exploded.metadata.domPath as domPath",
+      "html_exploded.metadata.orderImageIndex as orderImageIndex")
+
+    assert(
+      imageMetaDf.filter(col("domPath").isNotNull).count() == imageMetaDf.count(),
+      "Missing domPath in IMAGE metadata")
+    assert(
+      imageMetaDf.filter(col("orderImageIndex").isNotNull).count() == imageMetaDf.count(),
+      "Missing orderImageIndex in IMAGE metadata")
+  }
+
+  it should "include domPath, orderTableIndex and orderImageIndex metadata fields for tables and images" taggedAs FastTest in {
+    val HTMLReader = new HTMLReader()
+    val htmlDF = HTMLReader.read(s"$htmlFilesDirectory/sample_mixed.html")
+
+    val explodedDf = htmlDF.withColumn("html_exploded", explode(col("html")))
+
+    val tablesDf = explodedDf.filter(col("html_exploded.elementType") === ElementType.TABLE)
+    assert(tablesDf.count() > 0, "No TABLE elements found in mixed HTML output")
+
+    val tableMetaDf = tablesDf.selectExpr(
+      "html_exploded.metadata.domPath as domPath",
+      "html_exploded.metadata.orderTableIndex as orderTableIndex")
+    assert(
+      tableMetaDf.filter(col("domPath").isNotNull).count() == tableMetaDf.count(),
+      "Missing domPath in TABLE metadata")
+    assert(
+      tableMetaDf.filter(col("orderTableIndex").isNotNull).count() == tableMetaDf.count(),
+      "Missing orderTableIndex in TABLE metadata")
+
+    val imagesDf = explodedDf.filter(col("html_exploded.elementType") === ElementType.IMAGE)
+    assert(imagesDf.count() > 0, "No IMAGE elements found in mixed HTML output")
+
+    val imageMetaDf = imagesDf.selectExpr(
+      "html_exploded.metadata.domPath as domPath",
+      "html_exploded.metadata.orderImageIndex as orderImageIndex")
+    assert(
+      imageMetaDf.filter(col("domPath").isNotNull).count() == imageMetaDf.count(),
+      "Missing domPath in IMAGE metadata")
+    assert(
+      imageMetaDf.filter(col("orderImageIndex").isNotNull).count() == imageMetaDf.count(),
+      "Missing orderImageIndex in IMAGE metadata")
+  }
+
+  it should "include coord metadata field in {x:...,y:...} format for images" taggedAs FastTest in {
+    val htmlReader = new HTMLReader()
+    val htmlDF = htmlReader.read(s"$htmlFilesDirectory/example-image-coordinates.html")
+
+    val explodedDf = htmlDF.withColumn("html_exploded", explode(col("html")))
+    val imagesDf = explodedDf.filter(col("html_exploded.elementType") === ElementType.IMAGE)
+
+    assert(imagesDf.count() == 2, "Expected exactly two images in test HTML")
+
+    // Extract coord metadata
+    val coordDf = imagesDf.selectExpr("html_exploded.metadata.coord as coord")
+
+    // Ensure every image has a coord field
+    assert(
+      coordDf.filter(col("coord").isNotNull).count() == coordDf.count(),
+      "Missing coord field in IMAGE metadata")
+
+    // Validate format: {x:123,y:456}
+    val coordPattern = """\{x:\d+,y:\d+\}"""
+    val allMatch =
+      coordDf.collect().forall(row => row.getAs[String]("coord").matches(coordPattern))
+
+    assert(allMatch, "Some IMAGE coord fields do not match the expected {x:...,y:...} format")
   }
 
 }

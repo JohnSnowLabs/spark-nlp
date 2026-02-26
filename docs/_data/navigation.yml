@@ -52,6 +52,8 @@ sparknlp:
         url: /docs/en/transformers
       - title: Training
         url: /docs/en/training
+      - title: Unstructured Data Extraction
+        url: docs/en/unstructured_data_extraction
       - title: Spark NLP Display
         url: /docs/en/display
       - title: Experiment Tracking

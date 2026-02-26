@@ -145,30 +145,54 @@ class ExcelReader(
     content.length >= 4 && content.slice(0, 4).sameElements(OleMagicNumber)
   }
 
+  private case class ExcelState(var tableCounter: Int = 0, var imageCounter: Int = 0)
+
   private def parseExcel(content: Array[Byte]): Seq[HTMLElement] = {
     val workbookInputStream = new ByteArrayInputStream(content)
-    val workbook: Workbook =
-      if (isXlsxFile(content)) new XSSFWorkbook(workbookInputStream)
-      else if (isXlsFile(content)) new HSSFWorkbook(workbookInputStream)
-      else throw new IllegalArgumentException("Unsupported file format: must be .xls or .xlsx")
+    val state = ExcelState()
+    try {
+      val workbook: Workbook =
+        if (isXlsxFile(content)) new XSSFWorkbook(workbookInputStream)
+        else if (isXlsFile(content)) new HSSFWorkbook(workbookInputStream)
+        else {
+          return Seq(
+            HTMLElement(
+              ElementType.ERROR,
+              "Unsupported file format: must be .xls or .xlsx",
+              mutable.Map()))
+        }
 
-    val elementsBuffer = mutable.ArrayBuffer[HTMLElement]()
+      val elementsBuffer = mutable.ArrayBuffer[HTMLElement]()
 
-    for (sheetIndex <- 0 until workbook.getNumberOfSheets) {
-      if (includePageBreaks)
-        buildSheetContentWithPageBreaks(workbook, sheetIndex, elementsBuffer)
-      else
-        buildSheetContent(workbook, sheetIndex, elementsBuffer)
+      for (sheetIndex <- 0 until workbook.getNumberOfSheets) {
+        if (includePageBreaks)
+          buildSheetContentWithPageBreaks(workbook, sheetIndex, elementsBuffer, state)
+        else
+          buildSheetContent(workbook, sheetIndex, elementsBuffer, state)
+      }
+
+      val images = extractImages(workbook, state)
+      elementsBuffer ++= images
+
+      workbook.close()
+      elementsBuffer
+    } catch {
+      case e: Exception =>
+        Seq(
+          HTMLElement(
+            ElementType.ERROR,
+            s"Could not parse Excel: ${e.getMessage}",
+            mutable.Map()))
+    } finally {
+      workbookInputStream.close()
     }
-
-    workbook.close()
-    elementsBuffer
   }
 
   private def buildSheetContent(
       workbook: Workbook,
       sheetIndex: Int,
-      elementsBuffer: mutable.ArrayBuffer[HTMLElement]): Unit = {
+      elementsBuffer: mutable.ArrayBuffer[HTMLElement],
+      state: ExcelState): Unit = {
 
     val sheet = workbook.getSheetAt(sheetIndex)
     val sheetName = sheet.getSheetName
@@ -192,9 +216,13 @@ class ExcelReader(
           val cellIndex = cell.getColumnIndex
           val cellValue = cell.getCellValue.trim
 
+          val domPath =
+            s"/sheet[${sheetIndex + 1}]/table[${state.tableCounter + 1}]/row[${rowIndex + 1}]/cell[${cellIndex + 1}]"
+
           val cellMetadata = mutable.Map(
             "SheetName" -> sheetName,
-            "location" -> s"(${rowIndex.toString}, ${cellIndex.toString})")
+            "domPath" -> domPath,
+            "orderTableIndex" -> (state.tableCounter + 1).toString)
 
           (cellValue, cellMetadata)
         }
@@ -233,7 +261,8 @@ class ExcelReader(
   private def buildSheetContentWithPageBreaks(
       workbook: Workbook,
       sheetIndex: Int,
-      elementsBuffer: mutable.ArrayBuffer[HTMLElement]): Unit = {
+      elementsBuffer: mutable.ArrayBuffer[HTMLElement],
+      state: ExcelState): Unit = {
     val sheet = workbook.getSheetAt(sheetIndex)
     val sheetName = sheet.getSheetName
 
@@ -267,7 +296,11 @@ class ExcelReader(
           val cellIndex = cell.getColumnIndex
           val cellValue = cell.getCellValue.trim
           val cellMetadata =
-            mutable.Map("location" -> s"($rowIndex, $cellIndex)", "SheetName" -> sheetName)
+            mutable.Map(
+              "SheetName" -> sheetName,
+              "domPath" -> s"/sheet[${sheetIndex + 1}]/table[${state.tableCounter + 1}]/row[${rowIndex + 1}]/cell[${cellIndex + 1}]",
+              "orderTableIndex" -> (state.tableCounter + 1).toString,
+              "pageBreak" -> page.toString)
           (cellValue, cellMetadata)
         }
         val content = cellValuesWithMetadata.map(_._1).mkString(cellSeparator).trim
@@ -287,6 +320,35 @@ class ExcelReader(
 
   private def getPageNumberForCell(cellIndex: Int, breaks: Seq[Int]): Int = {
     breaks.count(break => cellIndex > break) + 1
+  }
+
+  private def extractImages(workbook: Workbook, state: ExcelState): Seq[HTMLElement] = {
+    workbook match {
+      case xssf: XSSFWorkbook =>
+        xssf.getAllPictures.asScala.map { pic =>
+          state.imageCounter += 1
+          val metadata = mutable.Map(
+            "format" -> pic.suggestFileExtension(),
+            "imageType" -> pic.getPictureType.toString,
+            "orderImageIndex" -> state.imageCounter.toString,
+            "domPath" -> s"/image[${state.imageCounter}]")
+          HTMLElement(ElementType.IMAGE, "", metadata, Some(pic.getData))
+        }
+
+      case hssf: HSSFWorkbook =>
+        hssf.getAllPictures.asScala.map { pic =>
+          state.imageCounter += 1
+          val metadata = mutable.Map(
+            "format" -> pic.suggestFileExtension(),
+            "imageType" -> pic.getFormat.toString,
+            "orderImageIndex" -> state.imageCounter.toString,
+            "domPath" -> s"/image[${state.imageCounter}]")
+          HTMLElement(ElementType.IMAGE, "", metadata, Some(pic.getData))
+        }
+
+      case _ => Seq.empty
+    }
+
   }
 
 }

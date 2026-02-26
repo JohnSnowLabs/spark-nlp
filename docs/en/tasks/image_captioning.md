@@ -11,116 +11,98 @@ sidebar:
   nav: sparknlp
 ---
 
-**Image Captioning** is the process of generating descriptive text for an image based on its visual content. This task is crucial in computer vision and has a variety of applications, such as enhancing accessibility for visually impaired individuals, improving image search, and enriching multimedia content. Spark NLP integrates image captioning with other NLP and vision-based tasks, enabling efficient and scalable caption generation within the same framework.
+Image captioning is the task of automatically generating a short, meaningful description for an image. It combines **computer vision**, which helps the model understand what is in the image, with **natural language processing**, which enables it to express that understanding in human language. For example, given an image of a dog running on the beach, the model might generate a caption like *"A dog running along the shoreline."*
 
-By utilizing image captioning models, we can produce natural language descriptions that capture the key elements and context of images. Common use cases include:
+This process typically involves two main components: a **vision model** (such as a CNN or Vision Transformer) that extracts visual features from the image, and a **language model** (like an LSTM or Transformer) that uses those features to generate text. The goal is not just to recognize objects but also to describe their relationships, actions, and context in a fluent, natural sentence.
 
-- **Social Media**: Automatically generating captions for user-uploaded images.
-- **E-Commerce**: Generating product descriptions based on visual attributes.
-- **Accessibility**: Describing visual content for the visually impaired.
-- **Search Engines**: Improving search results by associating images with relevant text.
+Image captioning has many practical uses, such as improving accessibility for visually impaired users, enhancing image search systems, organizing large photo collections, and supporting content generation in applications that rely on visual media.
 
 ## Picking a Model
 
-When selecting a model for image captioning, it’s important to consider the **image complexity** and the **quality of captions** required. For example, some tasks may need simple, high-level descriptions (e.g., "a person riding a bike"), while others might require more detailed, context-rich captions (e.g., "a young man riding a mountain bike on a sunny day").
+When picking a model for image captioning, consider how complex and descriptive you want the captions to be. Most modern systems use a **vision encoder** to interpret the image and a **language decoder** to generate the text. Popular pretrained combinations include **CNN + LSTM** architectures, and more recently, **Vision Transformer (ViT)** or **CLIP** encoders paired with **Transformer-based decoders** like **GPT-2** or **T5**.  
 
-Additionally, assess the **performance metrics** such as **BLEU score** or **ROUGE score** for evaluating the quality of generated captions. Ensure that the model is well-suited to your specific dataset, whether it consists of simple images like products or more complex images like natural scenes.
+If you want a general-purpose captioning model that works well across a wide variety of images, options like **BLIP**, **BLIP-2**, **OFA**, or **GIT** provide strong results out of the box. These models are trained on large image–text datasets and can generate fluent, contextually rich captions.  
 
 Explore pre-trained image captioning models in the [Spark NLP Models Hub](https://sparknlp.org/models) for a variety of datasets and tasks.
 
-#### Recommended Models for Image Captioning
-- **VisionEncoderDecoder For Image Captioning:** This model can be used for generating descriptive captions based on images. It utilizes a transformer-based architecture, providing high-quality captions for various types of images. Check out the pre-trained model [`image-captioning-vit-gpt2`](https://sparknlp.org/2023/09/20/image_captioning_vit_gpt2_en.html){:target="_blank"}.
+<!-- #### Recommended Models for Image Captioning
+- **VisionEncoderDecoder For Image Captioning:** This model can be used for generating descriptive captions based on images. It utilizes a transformer-based architecture, providing high-quality captions for various types of images. Check out the pre-trained model [`image-captioning-vit-gpt2`](https://sparknlp.org/2023/09/20/image_captioning_vit_gpt2_en.html){:target="_blank"}. -->
 
 ## How to use
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-# Import necessary libraries from Spark NLP
-import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
-# Load image data into a DataFrame, discarding any invalid images
-imageDF = spark.read \
-    .format("image") \
-    .option("dropInvalid", value=True) \
-    .load("src/test/resources/image/")
-
-# Create an ImageAssembler to prepare image data for processing
 imageAssembler = ImageAssembler() \
     .setInputCol("image") \
     .setOutputCol("image_assembler")
 
-# Initialize the VisionEncoderDecoder model for image captioning
 imageCaptioning = VisionEncoderDecoderForImageCaptioning \
-    .pretrained() \  # Load a pre-trained model for image captioning
-    .setBeamSize(2)
-    .setDoSample(False)
+    .pretrained() \
+    .setDoSample(False) \
     .setInputCols(["image_assembler"]) \
     .setOutputCol("caption")
 
-# Create a pipeline that includes the image assembler and image captioning stages
-pipeline = Pipeline().setStages([imageAssembler, imageCaptioning])
+pipeline = Pipeline().setStages([
+    imageAssembler, 
+    imageCaptioning
+])
 
-# Fit the pipeline on the image DataFrame and transform the data
-pipelineDF = pipeline.fit(imageDF).transform(imageDF)
+imageDF = spark.read \
+    .format("image") \
+    .option("dropInvalid", value=True) \
+    .load("path/to/images/folder")
 
-# Select and display the image file name and the generated captions
-pipelineDF \
+model = pipeline.fit(imageDF)
+result = model.transform(imageDF)
+
+result \
     .selectExpr("reverse(split(image.origin, '/'))[0] as image_name", "caption.result") \
     .show(truncate=False)
 
-+-----------------+---------------------------------------------------------+
-|image_name       |result                                                   |
-+-----------------+---------------------------------------------------------+
-|palace.JPEG      |[a large room filled with furniture and a large window]  |
-|egyptian_cat.jpeg|[a cat laying on a couch next to another cat]            |
-|hippopotamus.JPEG|[a brown bear in a body of water]                        |
-|hen.JPEG         |[a flock of chickens standing next to each other]        |
-|ostrich.JPEG     |[a large bird standing on top of a lush green field]     |
-|junco.JPEG       |[a small bird standing on a wet ground]                  |
-|bluetick.jpg     |[a small dog standing on a wooden floor]                 |
-|chihuahua.jpg    |[a small brown dog wearing a blue sweater]               |
-|tractor.JPEG     |[a man is standing in a field with a tractor]            |
-|ox.JPEG          |[a large brown cow standing on top of a lush green field]|
-+-----------------+---------------------------------------------------------+
 ```
 ```scala
-// Import necessary libraries from Spark NLP
-import com.johnsnowlabs.nlp.annotator._
-import com.johnsnowlabs.nlp.ImageAssembler
+import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.annotators._
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions._
 
-// Load image data into a DataFrame, discarding invalid images
-val imageDF: DataFrame = spark.read
-  .format("image")
-  .option("dropInvalid", value = true)
-  .load("src/test/resources/image/")
-
-// Image Assembler: Prepares image data for processing
 val imageAssembler = new ImageAssembler()
   .setInputCol("image")
   .setOutputCol("image_assembler")
 
-// Initialize image captioning model
 val imageCaptioning = VisionEncoderDecoderForImageCaptioning
   .pretrained()
-  .setBeamSize(2)
   .setDoSample(false)
   .setInputCols("image_assembler")
   .setOutputCol("caption")
 
-// Create and fit the pipeline
-val pipeline = new Pipeline().setStages(Array(imageAssembler, imageCaptioning))
-val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
+val pipeline = new Pipeline().setStages(Array(
+  imageAssembler,
+  imageCaptioning
+))
 
-// Display image names and generated captions
-pipelineDF
+val imageDF = spark.read
+  .format("image")
+  .option("dropInvalid", true)
+  .load("path/to/images/folder")
+
+val model = pipeline.fit(imageDF)
+val result = model.transform(imageDF)
+
+result
   .selectExpr("reverse(split(image.origin, '/'))[0] as image_name", "caption.result")
-  .show(truncate = false)
+  .show(false)
 
+```
+</div>
+
+<div class="tabs-box" markdown="1">
+```
 +-----------------+---------------------------------------------------------+
 |image_name       |result                                                   |
 +-----------------+---------------------------------------------------------+
@@ -136,6 +118,7 @@ pipelineDF
 |ox.JPEG          |[a large brown cow standing on top of a lush green field]|
 +-----------------+---------------------------------------------------------+
 ```
+</div>
 
 ## Try Real-Time Demos!
 

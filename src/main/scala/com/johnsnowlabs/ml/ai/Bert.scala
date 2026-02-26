@@ -121,9 +121,13 @@ private[johnsnowlabs] class Bert(
         try {
           val results = runner.run(inputs)
           try {
-            val embeddings = results
-              .get("last_hidden_state")
-              .get()
+            val lastHiddenState = results.get("last_hidden_state")
+            val outputTensor = if (lastHiddenState.isPresent) {
+              lastHiddenState.get()
+            } else {
+              results.iterator().next().getValue
+            }
+            val embeddings = outputTensor
               .asInstanceOf[OnnxTensor]
               .getFloatBuffer
               .array()
@@ -246,9 +250,13 @@ private[johnsnowlabs] class Bert(
         try {
           val results = runner.run(inputs)
           try {
-            val embeddings = results
-              .get("last_hidden_state")
-              .get()
+            val lastHiddenState = results.get("last_hidden_state")
+            val outputTensor = if (lastHiddenState.isPresent) {
+              lastHiddenState.get()
+            } else {
+              results.iterator().next().getValue
+            }
+            val embeddings = outputTensor
               .asInstanceOf[OnnxTensor]
               .getFloatBuffer
               .array()

@@ -184,21 +184,24 @@ private[johnsnowlabs] object PrepareEmbeddings {
       embeddings: Array[Float],
       maxSentenceLength: Int,
       batchLength: Int): Seq[Array[Array[Float]]] = {
-    val dim = embeddings.length / (batchLength * maxSentenceLength)
+    val embeddingDim = embeddings.length / (batchLength * maxSentenceLength)
     val batchEmbeddings: Array[Array[Array[Float]]] =
-      embeddings.grouped(dim).toArray.grouped(maxSentenceLength).toArray
+      Array.ofDim(batchLength, maxSentenceLength, embeddingDim)
 
-    val emptyVector = Array.fill(dim)(0f)
-
-    batch.zip(batchEmbeddings).map { case (ids, embeddings) =>
-      if (ids.length > embeddings.length) {
-        embeddings.take(embeddings.length - 1) ++
-          Array.fill(embeddings.length - ids.length)(emptyVector) ++
-          Array(embeddings.last)
-      } else {
-        embeddings
+    // Assign values in place
+    for {
+      batchIndex <- batch.indices
+      tokenIndex <- 0 until maxSentenceLength
+      dimIndex <- 0 until embeddingDim
+    } {
+      val globalIndex = {
+        val batchOffset = batchIndex * maxSentenceLength * embeddingDim
+        val tokenOffset = tokenIndex * embeddingDim
+        batchOffset + tokenOffset + dimIndex
       }
+      batchEmbeddings(batchIndex)(tokenIndex)(dimIndex) = embeddings(globalIndex)
     }
-  }
 
+    batchEmbeddings.toSeq
+  }
 }

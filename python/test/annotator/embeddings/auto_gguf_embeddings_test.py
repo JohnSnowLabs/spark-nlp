@@ -17,7 +17,7 @@ import pytest
 
 from sparknlp.annotator import *
 from sparknlp.base import *
-from test.util import SparkContextForTest
+from test.util import *
 
 
 @pytest.mark.slow
@@ -58,7 +58,7 @@ class AutoGGUFModelTestSpec(unittest.TestCase):
             embds = row["embeddings"][0]
             assert embds is not None
             assert (
-                    sum(embds) > 0
+                sum(embds) > 0
             ), "Embeddings should not be zero. Was there an error on llama.cpp side?"
 
 
@@ -100,7 +100,7 @@ class AutoGGUFEmbeddingsPoolingTypeTestSpec(unittest.TestCase):
             embds = row["embeddings"][0]
             assert embds is not None
             assert (
-                    sum(embds) > 0
+                sum(embds) > 0
             ), "Embeddings should not be zero. Was there an error on llama.cpp side?"
 
 
@@ -113,9 +113,13 @@ class AutoGGUFEmbeddingsErrorHandlingTestSpec(unittest.TestCase):
         )
         self.long_data_copies = 16
         self.long_text = "All work and no play makes Jack a dull boy" * 100
-        self.long_data = self.spark.createDataFrame(
-            [self.long_text] * self.long_data_copies, schema="string"
-        ).toDF("text").repartition(4)
+        self.long_data = (
+            self.spark.createDataFrame(
+                [self.long_text] * self.long_data_copies, schema="string"
+            )
+            .toDF("text")
+            .repartition(4)
+        )
 
     def runTest(self):
         model = (
@@ -131,7 +135,9 @@ class AutoGGUFEmbeddingsErrorHandlingTestSpec(unittest.TestCase):
         assert len(collected) == self.long_data_copies
         for row in collected:
             metadata = row[0][0]["metadata"]
-            assert "llamacpp_exception" in metadata, "llamacpp_exception should be present"
+            assert (
+                "llamacpp_exception" in metadata
+            ), "llamacpp_exception should be present"
 
 
 @pytest.mark.slow
@@ -143,9 +149,13 @@ class AutoGGUFEmbeddingsLongTextTestSpec(unittest.TestCase):
         )
         self.long_data_copies = 16
         self.long_text = "All work and no play makes Jack a dull boy" * 100
-        self.long_data = self.spark.createDataFrame(
-            [self.long_text] * self.long_data_copies, schema="string"
-        ).toDF("text").repartition(4)
+        self.long_data = (
+            self.spark.createDataFrame(
+                [self.long_text] * self.long_data_copies, schema="string"
+            )
+            .toDF("text")
+            .repartition(4)
+        )
 
     def runTest(self):
         model = (
@@ -160,12 +170,14 @@ class AutoGGUFEmbeddingsLongTextTestSpec(unittest.TestCase):
         results = pipeline.fit(self.long_data).transform(self.long_data)
         collected = results.select("embeddings").collect()
 
-        assert len(collected) == self.long_data_copies, "Should return the same number of rows"
+        assert (
+            len(collected) == self.long_data_copies
+        ), "Should return the same number of rows"
         for row in collected:
             embds = row[0][0]["embeddings"]
             assert embds is not None
             assert (
-                    sum(embds) > 0
+                sum(embds) > 0
             ), "Embeddings should not be zero. Was there an error on llama.cpp side?"
 
 
@@ -185,6 +197,37 @@ class AutoGGUFEmbeddingsSerializationTestSpec(unittest.TestCase):
         )
         model_writer.save(model_path)
         AutoGGUFEmbeddings.load(model_path)
-        
+
         model_path = "file:///tmp/autoggufembeddings_spark_nlp"
         AutoGGUFEmbeddings.load(model_path)
+
+
+@pytest.mark.slow
+class AutoGGUFEmbeddingsCloseTest(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkSessionForTest.spark
+
+        self.data = self.spark.createDataFrame(
+            [
+                ["The moons of Jupiter are "],
+            ]
+        ).toDF("text")
+
+        self.document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+    def runTest(self):
+        model = (
+            AutoGGUFEmbeddings.pretrained()
+            .setInputCols("document")
+            .setOutputCol("embeddings")
+        )
+
+        pipeline = Pipeline().setStages([self.document_assembler, model])
+        pipeline.fit(self.data).transform(self.data).show()
+
+        ramChange = measureRAMChange(lambda: model.close())
+
+        print(f"Freed RAM after closing the model: {ramChange} MB")
+        assert ramChange < -100, "Freed RAM should be greater than 100 MB"

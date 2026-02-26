@@ -85,3 +85,26 @@ class EntityRulerLightPipelineTestSpec(unittest.TestCase):
         result = light_pipeline.annotate("This is Google's URI http://google.com. And this is Yahoo's URI http://yahoo.com")
 
         self.assertTrue(len(result["entity"]) == 2)
+
+@pytest.mark.fast
+class EntityRulerAutoModeTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.spark.createDataFrame(
+            [["This server list includes 192.168.1.1, 10.0.0.45 and 172.16.0.2 for internal routing."]]
+        ).toDF("text")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler().setInputCol("text").setOutputCol("document")
+        tokenizer = Tokenizer().setInputCols("document").setOutputCol("token")
+
+        entity_ruler = EntityRulerModel() \
+            .setInputCols(["document", "token"]) \
+            .setOutputCol("entity") \
+            .setAutoMode("NETWORK_ENTITIES")
+
+        pipeline = Pipeline(stages=[document_assembler, tokenizer, entity_ruler])
+        pipeline_model = pipeline.fit(self.data)
+        result = pipeline_model.transform(self.data)
+
+        self.assertTrue(result.select("entity").count() > 0)

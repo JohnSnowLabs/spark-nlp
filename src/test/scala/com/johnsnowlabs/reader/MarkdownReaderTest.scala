@@ -16,7 +16,9 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.reader.util.AssertReaders
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
+import org.apache.spark.sql.functions.{col, explode}
 import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.io.Source
@@ -29,7 +31,6 @@ class MarkdownReaderTest extends AnyFlatSpec {
 
   "Markdown Reader" should "read a markdown file with headers and text" taggedAs FastTest in {
     val textDf = mdReader.md(s"$mdDirectory/simple.md")
-    textDf.select("md").show(truncate = false)
 
     val elements: Seq[HTMLElement] = textDf
       .select("md")
@@ -222,6 +223,22 @@ class MarkdownReaderTest extends AnyFlatSpec {
     assert(elements.nonEmpty, "Parsed elements for table are empty")
     assert(elements.head.elementType == ElementType.TABLE)
     assert(elements.head.content.contains("header"), "JSON content is missing 'header' key")
+  }
+
+  it should "work for markdown with images" taggedAs SlowTest in {
+    val mdDf = mdReader.md(s"$mdDirectory/example-images.md")
+
+    val imagesDF = mdDf
+      .select(explode(col("md")).as("exploded_html"))
+      .filter(col("exploded_html.elementType") === ElementType.IMAGE)
+
+    assert(imagesDF.count() == 3)
+  }
+
+  it should "produce valid element_id and parent_id relationships" taggedAs FastTest in {
+    val mdDf = mdReader.md(s"$mdDirectory/simple-book.md")
+
+    AssertReaders.assertHierarchy(mdDf, "md")
   }
 
 }

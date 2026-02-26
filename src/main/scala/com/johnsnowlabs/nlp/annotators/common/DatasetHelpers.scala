@@ -20,18 +20,14 @@ import com.johnsnowlabs.ml.crf.TextSentenceLabels
 import com.johnsnowlabs.ml.tensorflow.SentenceGrouper
 import com.johnsnowlabs.nlp.util.SparkNlpConfig
 import org.apache.spark.sql.DataFrame
+import org.apache.spark.sql.functions.rand
 
 import scala.reflect.ClassTag
 
 object DatasetHelpers {
 
   implicit class DataFrameHelper(dataset: DataFrame) {
-    def randomize: DataFrame = {
-      implicit val encoder = SparkNlpConfig.getEncoder(dataset, dataset.schema)
-      dataset.mapPartitions {
-        new scala.util.Random().shuffle(_).toIterator
-      }
-    }
+    def randomize: DataFrame = dataset.sortWithinPartitions(rand)
   }
 
   def doSlice[T: ClassTag](

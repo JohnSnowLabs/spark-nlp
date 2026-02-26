@@ -11,115 +11,96 @@ sidebar:
   nav: sparknlp
 ---
 
-**Image classification** is the process of assigning a **label** or **category** to an image based on its visual content. This task is fundamental in the field of computer vision and has numerous applications, from facial recognition to product classification in e-commerce. Spark NLP provides tools that make it easier to integrate image classification into your data pipelines, allowing for scalable, efficient image processing within the same framework.
+Image classification is a way for computers to recognize what an image contains by assigning it a single label, such as **"dog"**, **"car"**, or **"cat"**. The model looks for patterns such as shapes, colors, and textures that distinguish one class from another. It does not locate where the object is in the image or handle multiple objects; it simply identifies the overall category.
 
-By using image classification models, we can analyze and classify images into predefined categories based on patterns and features in the image data. Some common use cases include:
-
-- Classifying product images into categories like **clothing**, **electronics**, **furniture**, etc.
-- Recognizing objects in images, such as identifying animals, vehicles, or various types of landscapes.
-- Detecting facial expressions and other human features for tasks like emotion analysis or identity verification.
+In practice, this is used to organize and tag large collections of photos (like in **Google Photos** or **stock image sites**), filter content, or power **visual search systems**. The model’s output usually includes a few possible labels with **confidence scores** that show how sure it is about each prediction.
 
 ## Picking a Model
 
-When selecting a model for image classification, it’s essential to consider several factors that ensure optimal performance for your specific use case. Start by evaluating the **type of images** you are working with, such as grayscale vs. colored, high-resolution vs. low-resolution, or simple vs. complex visual patterns. Determine whether your task requires **binary classification** (e.g., cat vs. dog) or **multiclass classification** (e.g., classifying various animal species), as the right model choice depends on the complexity of the task.
+When picking a model for image classification, think about what you are trying to achieve. For simple tasks like recognizing a few object types or when you have limited computing power, lightweight models such as **MobileNet**, **EfficientNet-Lite**, or **ResNet-18** are good starting points because they are fast and easy to deploy. If you have a larger dataset and need higher accuracy, deeper architectures like **ResNet-50**, **DenseNet**, or **EfficientNet-B7** generally perform better when properly fine-tuned.
 
-Next, assess the **computational power** available to you. Complex models such as CNNs (Convolutional Neural Networks) can be resource-intensive but deliver highly accurate results. Simpler models may be sufficient for less demanding tasks. Ensure the model's **performance metrics** (accuracy, precision, recall) align with your project goals, and consider the **interpretability** of the model—more advanced models may be less interpretable but offer greater accuracy.
+If your images belong to a specific domain, consider using a **domain-pretrained model** that has been trained on similar data. For example, **MedNet** is designed for medical imaging, **GeoResNet** works well for satellite imagery, and **CLIP** is effective for general-purpose image and text matching. These models often outperform generic ones on domain-specific tasks.
 
-Explore a wide variety of image classification models on the [Spark NLP Models](https://sparknlp.org/models), where you can find pre-trained models suited for different tasks and datasets.
+To explore and select from a variety of models, visit [Spark NLP Models](https://sparknlp.org/models), where you can find models tailored for different tasks and datasets.
 
 #### Recommended Models for Specific Image Classification Tasks
 - **Object Detection:** For detecting objects in images, models such as [`image_classifier_vit_base_patch16_224`](https://sparknlp.org/2022/08/10/image_classifier_vit_base_patch16_224_en_3_0.html){:target="_blank"} can be used to detect objects across multiple categories.
 - **Facial Expression Recognition:** Models like [`image_classifier_swin_swin_large_patch4_window12_384`](https://sparknlp.org/2023/03/23/pipeline_image_classifier_swin_swin_large_patch4_window12_384_en.html){:target="_blank"} are great for tasks that involve recognizing facial emotions.
 - **Scene Classification:** To classify scenes into categories like **urban**, **rural**, or **forest**, models like [`image_classifier_vit_base_patch16_224`](https://sparknlp.org/2022/08/10/image_classifier_vit_base_patch16_224_en_3_0.html){:target="_blank"} can be applied effectively.
 
-By carefully considering your data, task requirements, and available resources, you can make an informed decision and leverage the best models for your image classification needs.
-
 ## How to use
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}
 ```python
-import sparknlp
 from sparknlp.base import *
 from sparknlp.annotator import *
 from pyspark.ml import Pipeline
 
-# Load image data into a DataFrame, discarding any invalid images
-imageDF = spark.read \
-    .format("image") \
-    .option("dropInvalid", value=True) \
-    .load("src/test/resources/image/")
-
-# Image Assembler: Prepares image data for processing
 imageAssembler = ImageAssembler() \
     .setInputCol("image") \
     .setOutputCol("image_assembler")
 
-# ViTForImageClassification: Pretrained Vision Transformer model for image classification
 imageClassifier = ViTForImageClassification \
     .pretrained() \
     .setInputCols(["image_assembler"]) \
     .setOutputCol("class")
 
-# Create a pipeline with image assembler and classifier stages
-pipeline = Pipeline().setStages([imageAssembler, imageClassifier])
+pipeline = Pipeline().setStages([
+    imageAssembler, 
+    imageClassifier
+])
 
-# Fit the pipeline on the image DataFrame and transform the data
-pipelineDF = pipeline.fit(imageDF).transform(imageDF)
+imageDF = spark.read \
+    .format("image") \
+    .option("dropInvalid", value=True) \
+    .load("path/to/images/folder")
 
-# Select and display the image file name and the classification result
-pipelineDF \
+model = pipeline.fit(imageDF)
+result = model.transform(imageDF)
+
+result \
   .selectExpr("reverse(split(image.origin, '/'))[0] as image_name", "class.result") \
   .show(truncate=False)
 
-+-----------------+----------------------------------------------------------+
-|image_name       |result                                                    |
-+-----------------+----------------------------------------------------------+
-|palace.JPEG      |[palace]                                                  |
-|egyptian_cat.jpeg|[Egyptian cat]                                            |
-|hippopotamus.JPEG|[hippopotamus, hippo, river horse, Hippopotamus amphibius]|
-|hen.JPEG         |[hen]                                                     |
-|ostrich.JPEG     |[ostrich, Struthio camelus]                               |
-|junco.JPEG       |[junco, snowbird]                                         |
-|bluetick.jpg     |[bluetick]                                                |
-|chihuahua.jpg    |[Chihuahua]                                               |
-|tractor.JPEG     |[tractor]                                                 |
-|ox.JPEG          |[ox]                                                      |
-+-----------------+----------------------------------------------------------+
 ```
 ```scala
-import com.johnsnowlabs.nlp.annotator._
-import com.johnsnowlabs.nlp.ImageAssembler
+import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.annotators._
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions._
 
-// Load image data into a DataFrame, discarding invalid images
-val imageDF: DataFrame = spark.read
-  .format("image")
-  .option("dropInvalid", value = true)
-  .load("src/test/resources/image/")
-
-// Image Assembler: Prepares image data for further processing
 val imageAssembler = new ImageAssembler()
   .setInputCol("image")
   .setOutputCol("image_assembler")
 
-// Pretrained ViT model for image classification
 val imageClassifier = ViTForImageClassification
   .pretrained()
   .setInputCols("image_assembler")
   .setOutputCol("class")
 
-// Create a pipeline with the image assembler and classifier stages
-val pipeline = new Pipeline().setStages(Array(imageAssembler, imageClassifier))
+val pipeline = new Pipeline().setStages(Array(
+  imageAssembler,
+  imageClassifier
+))
 
-// Fit the pipeline on the image DataFrame and apply transformations
-val pipelineDF = pipeline.fit(imageDF).transform(imageDF)
+val imageDF = spark.read
+  .format("image")
+  .option("dropInvalid", true)
+  .load("path/to/images/folder")
 
-// Select and display the image name and the classification result
-pipelineDF
+val model = pipeline.fit(imageDF)
+val result = model.transform(imageDF)
+
+result
   .selectExpr("reverse(split(image.origin, '/'))[0] as image_name", "class.result")
-  .show(truncate = false)
+  .show(false)
 
+```
+</div>
+
+<div class="tabs-box" markdown="1">
+```
 +-----------------+----------------------------------------------------------+
 |image_name       |result                                                    |
 +-----------------+----------------------------------------------------------+
@@ -135,6 +116,7 @@ pipelineDF
 |ox.JPEG          |[ox]                                                      |
 +-----------------+----------------------------------------------------------+
 ```
+</div>
 
 ## Try Real-Time Demos!
 

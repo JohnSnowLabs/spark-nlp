@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017-2025 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.johnsnowlabs.reader.util
 
 import org.json4s.NoTypeHints
@@ -63,7 +78,7 @@ object HTMLParser {
   def isTitleElement(tag: String, style: String, role: String, titleFontSize: Int): Boolean = {
     // Recognize titles from common title-related tags or formatted <p> elements
     tag match {
-      case "title" | "h1" | "h2" | "h3" | "header" => true
+      case "title" | "h1" | "h2" | "h3" | "h4" | "header" => true
       case "p" | "div" => isFormattedAsTitle(style, titleFontSize)
       case _ => role == "heading" // ARIA role="heading"
     }
@@ -72,23 +87,23 @@ object HTMLParser {
   def tableElementToJson(tableElem: Element): String = {
     implicit val formats = Serialization.formats(NoTypeHints)
 
-    val caption = Option(tableElem.selectFirst("caption")).map(_.text.trim).getOrElse("")
+    val caption = Option(tableElem.selectFirst("caption"))
+      .map(_.text.trim)
+      .getOrElse("")
 
-    // Headers: first row with th or td as header
-    val headerRowOpt = tableElem
-      .select("tr")
-      .asScala
-      .find(tr => tr.select("th,td").asScala.nonEmpty && tr.select("th").asScala.nonEmpty)
+    val allRows = tableElem.select("tr").asScala.toList
+
+    val headerRowOpt = allRows.find(tr => tr.select("th").asScala.nonEmpty)
 
     val headers: List[String] = headerRowOpt
       .map(_.select("th,td").asScala.map(_.text.trim).toList)
       .getOrElse(List.empty)
 
-    val allRows = tableElem.select("tr").asScala.toList
-    val headerIndex = headerRowOpt.map(allRows.indexOf).getOrElse(0)
+    val headerIndexOpt = headerRowOpt.map(allRows.indexOf)
+
     val dataRows =
       allRows.zipWithIndex
-        .filter { case (_, idx) => idx != headerIndex } // skip header row
+        .filter { case (_, idx) => !headerIndexOpt.contains(idx) }
         .map(_._1)
         .map(row => row.select("td").asScala.map(_.text.trim).toList)
         .filter(_.nonEmpty)

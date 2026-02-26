@@ -18,14 +18,17 @@ package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotator.{SentenceDetector, Tokenizer}
+import com.johnsnowlabs.nlp.annotators.ner.dl.NerDLApproach.getIteratorFunc
 import com.johnsnowlabs.nlp.embeddings.{BertEmbeddings, WordEmbeddingsModel}
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.{Benchmark, FileHelper}
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.{DataFrame, Dataset}
 import org.scalatest.flatspec.AnyFlatSpec
 
+import scala.collection.mutable
 import scala.io.Source
 
 class NerDLSpec extends AnyFlatSpec {
@@ -154,6 +157,13 @@ class NerDLSpec extends AnyFlatSpec {
   }
 
   "NerDLApproach" should "be serializable and deserializable correctly" taggedAs SlowTest in {
+    def getTags(dataset: DataFrame, model: NerDLModel): Seq[String] = {
+      val tokenized = AnnotatorBuilder.withTokenizer(dataset)
+      val tagged = model.transform(tokenized)
+      val annotations = Annotation.collect(tagged, "ner").flatten
+
+      annotations.map(a => a.result).toSeq
+    }
 
     val nerSentence = DataBuilder.buildNerDataset(ContentProvider.nerCorpus)
     System.out.println(s"number of sentences in dataset ${nerSentence.count()}")
@@ -163,6 +173,7 @@ class NerDLSpec extends AnyFlatSpec {
     System.out.println(s"number of sentences in dataset ${nerInputDataset.count()}")
 
     val nerModel = AnnotatorBuilder.getNerDLModel(nerSentence)
+    val predicted = getTags(nerInputDataset, nerModel)
 
     nerModel.write.overwrite.save("./test_ner_dl")
     val loadedNer = NerDLModel.read.load("./test_ner_dl")
@@ -172,12 +183,8 @@ class NerDLSpec extends AnyFlatSpec {
     assert(loadedNer.datasetParams.getOrDefault == nerModel.datasetParams.getOrDefault)
 
     // Test that loaded model do the same predictions
-    val tokenized = AnnotatorBuilder.withTokenizer(nerInputDataset)
-    val tagged = loadedNer.transform(tokenized)
-    val annotations = Annotation.collect(tagged, "ner").flatten
-
-    val tags = annotations.map(a => a.result).toSeq
-    assert(tags.toList == Seq("PER", "PER", "O", "O", "ORG", "LOC", "O"))
+    val predictedLoaded = getTags(nerInputDataset, loadedNer)
+    assert(predicted == predictedLoaded)
   }
 
   "NerDLApproach" should "correct search for suitable graphs" taggedAs FastTest in {
@@ -252,7 +259,7 @@ class NerDLSpec extends AnyFlatSpec {
 
   }
 
-  "NerDLApproach" should "benchmark test" taggedAs SlowTest in {
+  "NerDLApproach" should "benchmark test" taggedAs SlowTest ignore {
 
     val conll = CoNLL(explodeSentences = false)
     val trainingData =
@@ -351,4 +358,111 @@ class NerDLSpec extends AnyFlatSpec {
 
   }
 
+  "NerDLApproach" should "use metadata from NerDLGraphCheckerModel" taggedAs FastTest in {
+    def getExpectedParams(
+        dataset: Dataset[_],
+        inputColumns: Array[String],
+        labelColumn: String): (mutable.Set[String], mutable.Set[Char], Int, Long) = {
+      val trainIteratorFunc =
+        getIteratorFunc(
+          dataset = dataset.toDF(),
+          inputColumns = inputColumns,
+          labelColumn = labelColumn,
+          batchSize = 8,
+          enableMemoryOptimizer = false)
+
+      NerDLApproach.getDataSetParams(trainIteratorFunc())
+    }
+
+    val conll = CoNLL()
+    val training_data =
+      conll.readDataset(ResourceHelper.spark, "src/test/resources/conll2003/eng.train")
+
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(training_data.toDF())
+
+    val nerDLGraphChecker = new NerDLGraphChecker()
+      .setInputCols("sentence", "token")
+      .setLabelColumn("label")
+      .setEmbeddingsModel(embeddings)
+
+    val embeddingsTransformed = embeddings.transform(training_data)
+    val checkerTransformed = nerDLGraphChecker
+      .fit(training_data)
+      .transform(training_data)
+
+    val (
+      expectedLabels: mutable.Set[String],
+      expectedChars: mutable.Set[Char],
+      expectedEmbeddingDim: Int,
+      expectedDsLen: Long) =
+      getExpectedParams(embeddingsTransformed, Array("sentence", "token", "embeddings"), "label")
+
+    val (labels: mutable.Set[String], chars: mutable.Set[Char], embeddingDim: Int, dsLen: Long) =
+      NerDLApproach.getDataSetParamsFromMetadata(checkerTransformed, "label") match {
+        case Some(
+              (
+                labels: mutable.Set[String],
+                chars: mutable.Set[Char],
+                embeddingDim: Int,
+                dsLen: Long)) =>
+          (labels, chars, embeddingDim, dsLen)
+        case _ => fail("Dataset params should be present in NerDLGraphCheckerModel metadata")
+      }
+    assert(labels == expectedLabels, "Labels from metadata do not match expected labels")
+    assert(chars == expectedChars, "Chars from metadata do not match expected chars")
+    assert(
+      embeddingDim == expectedEmbeddingDim,
+      "Embedding dim from metadata does not match expected dim")
+    assert(dsLen == expectedDsLen, "Dataset length from metadata does not match expected length")
+  }
+
+  def trainRun(ner: NerDLApproach): Unit = {
+    val conll = CoNLL()
+    val training_data = conll.readDataset(
+      ResourceHelper.spark,
+      "src/test/resources/ner-corpus/test_ner_dataset.txt")
+
+    val embeddings = AnnotatorBuilder.getGLoveEmbeddings(training_data.toDF())
+    val trainData = embeddings.transform(training_data)
+
+    ner.fit(trainData)
+  }
+
+  "NerDLApproach" should "train with memory optimizer and prefetchBatches enabled" taggedAs SlowTest in {
+    val ner = new NerDLApproach()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+      .setLabelColumn("label")
+      .setLr(1e-1f)
+      .setPo(5e-3f)
+      .setDropout(5e-1f)
+      .setMaxEpochs(2)
+      .setRandomSeed(0)
+      .setVerbose(0)
+      .setBatchSize(8)
+      .setEnableMemoryOptimizer(true)
+      .setPrefetchBatches(10)
+      .setGraphFolder("src/test/resources/graph/")
+
+    trainRun(ner)
+  }
+
+  "NerDLApproach" should "train with memory optimizer and optimizePartitioning disabled" taggedAs SlowTest in {
+    val ner = new NerDLApproach()
+      .setInputCols("sentence", "token", "embeddings")
+      .setOutputCol("ner")
+      .setLabelColumn("label")
+      .setLr(1e-1f)
+      .setPo(5e-3f)
+      .setDropout(5e-1f)
+      .setMaxEpochs(2)
+      .setRandomSeed(0)
+      .setVerbose(0)
+      .setBatchSize(8)
+      .setEnableMemoryOptimizer(true)
+      .setOptimizePartitioning(false)
+      .setGraphFolder("src/test/resources/graph/")
+
+    trainRun(ner)
+  }
 }

@@ -17,11 +17,15 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithBinaryFile
+import com.johnsnowlabs.reader.util.ImageParser
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.{PDFTextStripper, TextPosition}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
-import java.io.ByteArrayInputStream
+
+import java.io.ByteArrayOutputStream
+import java.util.UUID
+import javax.imageio.ImageIO
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
@@ -65,7 +69,10 @@ import scala.collection.mutable
   * For more examples please refer to this
   * [[https://github.com/JohnSnowLabs/spark-nlp/examples/python/reader/SparkNLP_PDF_Reader_Demo.ipynb notebook]].
   */
-class PdfReader(storeContent: Boolean = false, titleThreshold: Double = 18.0)
+class PdfReader(
+    storeContent: Boolean = false,
+    titleThreshold: Double = 18.0,
+    readAsImage: Boolean = false)
     extends Serializable {
 
   private lazy val spark = ResourceHelper.spark
@@ -91,35 +98,44 @@ class PdfReader(storeContent: Boolean = false, titleThreshold: Double = 18.0)
   private val parsePdfUDF = udf((data: Array[Byte]) => pdfToHTMLElement(data))
 
   def pdfToHTMLElement(content: Array[Byte]): Seq[HTMLElement] = {
-    val docInputStream = new ByteArrayInputStream(content)
     try {
-      val pdfDoc = PDDocument.load(docInputStream)
-      val elements = extractElementsFromPdf(pdfDoc)
-      pdfDoc.close()
-      elements
+      if (readAsImage) {
+        transformPdfToImages(content)
+      } else {
+        val pdfDoc = PDDocument.load(content)
+        try {
+          extractElementsFromPdf(pdfDoc)
+        } finally {
+          pdfDoc.close()
+        }
+      }
     } catch {
       case e: Exception =>
         Seq(
-          HTMLElement(
-            ElementType.UNCATEGORIZED_TEXT,
-            s"Could not parse PDF: ${e.getMessage}",
-            mutable.Map()))
-    } finally {
-      docInputStream.close()
+          HTMLElement(ElementType.ERROR, s"Could not parse PDF: ${e.getMessage}", mutable.Map()))
     }
   }
 
   private def extractElementsFromPdf(pdfDoc: PDDocument): Seq[HTMLElement] = {
     val collectedElements = mutable.ListBuffer[HTMLElement]()
+    var currentParentId: Option[String] = None
+
     val textStripper = new PDFTextStripper() {
       override def writeString(
           text: String,
           textPositions: java.util.List[TextPosition]): Unit = {
         val lineGroups = groupTextPositionsByLine(textPositions)
         val lineElements = lineGroups.flatMap { case (_, linePositions) =>
-          classifyLineElement(linePositions, getCurrentPageNo)
+          classifyLineElement(linePositions, getCurrentPageNo, currentParentId)
         }
-        collectedElements ++= lineElements
+
+        // Update parentId when encountering titles
+        lineElements.foreach { elem =>
+          collectedElements += elem
+          if (elem.elementType == ElementType.TITLE)
+            currentParentId = Some(elem.metadata("element_id"))
+        }
+
       }
     }
     textStripper.setSortByPosition(true)
@@ -137,23 +153,53 @@ class PdfReader(storeContent: Boolean = false, titleThreshold: Double = 18.0)
 
   private def classifyLineElement(
       linePositions: Seq[TextPosition],
-      pageNumber: Int): Option[HTMLElement] = {
+      pageNumber: Int,
+      currentParentId: Option[String]): Option[HTMLElement] = {
     val lineText = linePositions.map(_.getUnicode).mkString.trim
     if (lineText.isEmpty) return None
 
     val averageFontSize = linePositions.map(_.getFontSize).sum / linePositions.size
     val mostCommonFontName = linePositions.groupBy(_.getFont.getName).maxBy(_._2.size)._1
-
+    val isTitleLine = isTitle(averageFontSize, mostCommonFontName)
     val elementType =
-      if (isTitle(averageFontSize, mostCommonFontName)) ElementType.TITLE
-      else ElementType.NARRATIVE_TEXT
+      if (isTitleLine) ElementType.TITLE else ElementType.NARRATIVE_TEXT
 
-    val metadata = mutable.Map("pageNumber" -> pageNumber.toString)
+    val metadata =
+      mutable.Map("pageNumber" -> pageNumber.toString, "element_id" -> UUID.randomUUID().toString)
+    // Assign parent_id only for narrative text or non-titles
+    if (!isTitleLine) currentParentId.foreach(pid => metadata("parent_id") = pid)
     Some(HTMLElement(elementType, lineText, metadata))
   }
 
   private def isTitle(fontSize: Double, fontName: String): Boolean = {
     fontSize >= titleThreshold || fontName.toLowerCase.contains("bold")
+  }
+
+  private def transformPdfToImages(content: Array[Byte]): Seq[HTMLElement] = {
+    val pageImages = ImageParser.renderPdfFile(content) // Map[Int, Option[BufferedImage]]
+
+    pageImages.flatMap {
+      case (pageIndex, Some(bufferedImage)) =>
+        val baos = new ByteArrayOutputStream()
+        ImageIO.write(bufferedImage, "jpg", baos)
+        val bytes = baos.toByteArray
+        baos.close()
+
+        val metadata = mutable.Map(
+          "pageNumber" -> pageIndex.toString,
+          "format" -> "jpg",
+          "width" -> bufferedImage.getWidth.toString,
+          "height" -> bufferedImage.getHeight.toString,
+          "element_id" -> UUID.randomUUID().toString)
+
+        Some(
+          HTMLElement(
+            elementType = ElementType.IMAGE,
+            content = "",
+            metadata = metadata,
+            binaryContent = Some(bytes)))
+      case _ => None
+    }.toSeq
   }
 
 }

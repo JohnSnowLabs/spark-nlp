@@ -3,37 +3,43 @@ name: build
 on:
   push:
     paths-ignore:
-      - 'docs/**'
-      - 'conda/**'
-      - 'scripts/**'
-      - 'examples/**'
-      - '**.md'
-      - '**.yaml'
-      - '**.yml'
+      - "docs/**"
+      - "conda/**"
+      - "scripts/**"
+      - "examples/**"
+      - "**.md"
+      - "**.yaml"
+      - "**.yml"
+      - "**.ipynb"
     branches:
-      - 'master'
-      - '*release*'
-      - 'release/**'
-      - 'main'
+      - "master"
+      - "*release*"
+      - "release/**"
+      - "main"
   pull_request:
     paths-ignore:
-      - 'docs/**'
-      - 'conda/**'
-      - 'scripts/**'
-      - 'examples/**'
-      - '**.md'
-      - '**.yaml'
-      - '**.yml'
+      - "docs/**"
+      - "conda/**"
+      - "scripts/**"
+      - "examples/**"
+      - "**.md"
+      - "**.yaml"
+      - "**.yml"
+      - "**.ipynb"
     branches:
-      - 'master'
-      - '*release*'
-      - 'release/**'
-      - 'main'
+      - "master"
+      - "*release*"
+      - "release/**"
+      - "main"
+
+concurrency:
+  group: ${{ github. workflow }}-${{ github.event. pull_request.number || github. ref }}
+  cancel-in-progress: true
 
 jobs:
   spark34:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: macos-13
+    runs-on: ubuntu-22.04
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
@@ -41,10 +47,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '8'
+      - name: Setup openjdk Java
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-8-jdk
+          echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
+          echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
+          java -version
       - name: Install Python 3.8
         uses: actions/setup-python@v2
         with:
@@ -54,9 +63,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyspark==3.4.0 numpy pytest
+      - uses: sbt/setup-sbt@v1
       - name: Build Spark NLP on Apache Spark 3.4.0
         run: |
-          brew install sbt
           sbt -mem 4096 -Dis_spark34=true clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.4.x
         run: |
@@ -72,7 +81,7 @@ jobs:
           python3.8 -m pytest -v -m fast
   spark35:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: macos-13
+    runs-on: ubuntu-22.04
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
@@ -80,10 +89,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: '8'
+      - name: Setup openjdk Java
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-8-jdk
+          echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
+          echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
+          java -version
       - name: Install Python 3.10
         uses: actions/setup-python@v2
         with:
@@ -93,9 +105,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyspark==3.5.0 numpy pytest
+      - uses: sbt/setup-sbt@v1
       - name: Build Spark NLP on Apache Spark 3.5.0
         run: |
-          brew install sbt
           sbt -mem 4096 -Dis_spark35=true clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.5.x
         run: |
@@ -107,7 +119,7 @@ jobs:
 
   spark33:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
-    runs-on: macos-13
+    runs-on: ubuntu-22.04
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
@@ -115,10 +127,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: '8'
+      - name: Setup openjdk Java
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openjdk-8-jdk
+          echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
+          echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
+          java -version
       - name: Install Python 3.8
         uses: actions/setup-python@v2
         with:
@@ -128,9 +143,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyspark==3.3.1 numpy pytest
+      - uses: sbt/setup-sbt@v1
       - name: Build Spark NLP on Apache Spark 3.3.1
         run: |
-          brew install sbt
           sbt -mem 4096 -Dis_spark33=true clean assemblyAndCopy
       - name: Test Spark NLP in Scala - Apache Spark 3.3.x
         run: |
@@ -139,4 +154,3 @@ jobs:
         run: |
           cd python
           python3.8 -m pytest -v -m fast
-

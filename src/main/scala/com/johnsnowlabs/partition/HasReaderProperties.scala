@@ -16,9 +16,15 @@
 package com.johnsnowlabs.partition
 
 import com.johnsnowlabs.nlp.ParamsAndFeaturesWritable
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{BooleanParam, Param}
 
 trait HasReaderProperties extends ParamsAndFeaturesWritable {
+  protected final val inputCol: Param[String] =
+    new Param(this, "inputCol", "input column to process")
+
+  final def setInputCol(value: String): this.type = set(inputCol, value)
+
+  final def getInputCol: String = $(inputCol)
 
   val contentPath = new Param[String](this, "contentPath", "Path to the content source")
 
@@ -59,12 +65,32 @@ trait HasReaderProperties extends ParamsAndFeaturesWritable {
 
   def setIncludePageBreaks(value: Boolean): this.type = set(includePageBreaks, value)
 
+  val ignoreExceptions: BooleanParam =
+    new BooleanParam(this, "ignoreExceptions", "whether to ignore exceptions during processing")
+
+  def setIgnoreExceptions(value: Boolean): this.type = set(ignoreExceptions, value)
+
+  val explodeDocs: BooleanParam =
+    new BooleanParam(this, "explodeDocs", "whether to explode the documents into separate rows")
+
+  def setExplodeDocs(value: Boolean): this.type = set(explodeDocs, value)
+
+  val flattenOutput: BooleanParam =
+    new BooleanParam(
+      this,
+      "flattenOutput",
+      "If true, output is flattened to plain text with minimal metadata")
+
+  def setFlattenOutput(value: Boolean): this.type = set(flattenOutput, value)
+
   setDefault(
     contentPath -> "",
     contentType -> "text/plain",
     storeContent -> false,
     titleFontSize -> 9,
     inferTableStructure -> false,
-    includePageBreaks -> false)
+    includePageBreaks -> false,
+    ignoreExceptions -> true,
+    inputCol -> "")
 
 }

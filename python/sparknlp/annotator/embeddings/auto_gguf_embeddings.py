@@ -532,3 +532,8 @@ class AutoGGUFEmbeddings(AnnotatorModel, HasBatchedAnnotate):
         return ResourceDownloader.downloadModel(
             AutoGGUFEmbeddings, name, lang, remote_loc
         )
+
+    def close(self):
+        """Closes the llama.cpp model backend freeing resources. The model is reloaded when used again.
+        """
+        self._java_obj.close()

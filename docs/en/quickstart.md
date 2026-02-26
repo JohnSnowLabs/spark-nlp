@@ -54,7 +54,7 @@ Join our channel, to ask for help and share your feedback. Developers and users 
 Make sure to check out our demos built by Streamlit to showcase Spark NLP in action:
 
 {:.btn-block}
-[Spark NLP Demo](/demo){:.button.button--primary.button--rounded.button--md}
+[Spark NLP Demo](/demos){:.button.button--primary.button--rounded.button--md}
 
 </div></div>
 

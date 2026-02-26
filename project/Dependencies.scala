@@ -128,10 +128,9 @@ object Dependencies {
   val azureIdentity = "com.azure" % "azure-identity" % azureIdentityVersion % Provided
   val azureStorage = "com.azure" % "azure-storage-blob" % azureStorageVersion % Provided
 
-  val llamaCppVersion = "1.0.2"
-  val llamaCppGPUVersion = "1.0.2-compat-rc1" // TODO: Consolidate when next version is released
+  val llamaCppVersion = "2.0.0"
   val llamaCppCPU = "com.johnsnowlabs.nlp" % "jsl-llamacpp-cpu" % llamaCppVersion
-  val llamaCppGPU = "com.johnsnowlabs.nlp" % "jsl-llamacpp-gpu" % llamaCppGPUVersion
+  val llamaCppGPU = "com.johnsnowlabs.nlp" % "jsl-llamacpp-gpu" % llamaCppVersion
   val llamaCppSilicon = "com.johnsnowlabs.nlp" % "jsl-llamacpp-silicon" % llamaCppVersion
   val llamaCppAarch64 = "com.johnsnowlabs.nlp" % "jsl-llamacpp-aarch64" % llamaCppVersion
 
@@ -148,10 +147,19 @@ object Dependencies {
   val poiDocx = "org.apache.poi" % "poi-ooxml" % poiVersion
   val scratchpad = "org.apache.poi" % "poi-scratchpad" % poiVersion
 
+  val poiSchemasVersion = "1.4"
+  val poiSchemas = "org.apache.poi" % "ooxml-schemas" % poiSchemasVersion
+
   val pdfBoxVersion = "2.0.28"
   val pdfBox = "org.apache.pdfbox" % "pdfbox" % pdfBoxVersion
 
   val flexmarkVersion = "0.61.34"
   val flexmark = "com.vladsch.flexmark" % "flexmark-all" % flexmarkVersion
+
+  val tagSoupVersion = "1.2.1"
+  val tagSoup = "org.ccil.cowan.tagsoup" % "tagsoup" % tagSoupVersion
+
+  val json4sVersion = "3.7.0-M11"
+  val json4sNative = "org.json4s" %% "json4s-native" % json4sVersion
   /** ------- Dependencies end  ------- */
 }

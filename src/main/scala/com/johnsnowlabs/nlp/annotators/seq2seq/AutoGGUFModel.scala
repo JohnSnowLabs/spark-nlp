@@ -16,6 +16,7 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.ml.gguf.GGUFWrapper
+import com.johnsnowlabs.ml.gguf.GGUFWrapper.findGGUFModelInFolder
 import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.llama.LlamaExtensions
@@ -123,7 +124,8 @@ class AutoGGUFModel(override val uid: String)
     with HasEngine
     with HasLlamaCppModelProperties
     with HasLlamaCppInferenceProperties
-    with HasProtectedParams {
+    with HasProtectedParams
+    with CompletionPostProcessing {
 
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(AnnotatorType.DOCUMENT)
@@ -145,6 +147,10 @@ class AutoGGUFModel(override val uid: String)
     }
     this
   }
+
+  /** Closes the llama.cpp model backend freeing resources. The model is reloaded when used again.
+    */
+  def close(): Unit = GGUFWrapper.closeBroadcastModel(_model)
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
@@ -199,7 +205,8 @@ class AutoGGUFModel(override val uid: String)
             inferenceParams,
             getSystemPrompt,
             annotationsText)
-          (results, Map.empty)
+          val resultsCleaned = processCompletions(results)
+          (resultsCleaned, Map.empty)
         } catch {
           case e: LlamaException =>
             logger.error("Error in llama.cpp batch completion", e)
@@ -240,9 +247,10 @@ trait ReadAutoGGUFModel {
   this: ParamsAndFeaturesFallbackReadable[AutoGGUFModel] =>
 
   override def fallbackLoad(folder: String, spark: SparkSession): AutoGGUFModel = {
-    val localFolder: String = ResourceHelper.copyToLocal(folder)
-    val ggufFile = GGUFWrapper.findGGUFModelInFolder(localFolder)
-    loadSavedModel(ggufFile, spark)
+    val actualFolderPath: String = ResourceHelper.resolvePath(folder)
+    val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
+    val modelFile = findGGUFModelInFolder(localFolder)
+    loadSavedModel(modelFile, spark)
   }
 
   def readModel(instance: AutoGGUFModel, path: String, spark: SparkSession): Unit = {

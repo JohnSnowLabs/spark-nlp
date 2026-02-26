@@ -133,7 +133,14 @@ class TextReader(
   private val parseTxtUDF = udf((text: String) => parseTxt(text))
 
   def txtToHTMLElement(text: String): Seq[HTMLElement] = {
-    parseTxt(text)
+    try {
+      parseTxt(text)
+    } catch {
+      case e: Exception =>
+        Seq(
+          HTMLElement(ElementType.ERROR, s"Could not parse text: ${e.getMessage}", mutable.Map()))
+    }
+
   }
 
   /** Parses the given text into a sequence of HTMLElements.

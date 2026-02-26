@@ -19,13 +19,8 @@ import com.johnsnowlabs.nlp.annotators.cleaners.util.CleanerHelper.{
   BLOCK_SPLIT_PATTERN,
   DOUBLE_PARAGRAPH_PATTERN
 }
+import com.johnsnowlabs.reader.util.PartitionOptions._
 import com.johnsnowlabs.reader.util.pdf.TextStripperType
-import com.johnsnowlabs.reader.util.PartitionOptions.{
-  getDefaultBoolean,
-  getDefaultInt,
-  getDefaultString,
-  getDefaultDouble
-}
 import org.apache.spark.sql.DataFrame
 
 import scala.collection.JavaConverters._
@@ -353,12 +348,12 @@ class SparkNLPReader(
     *   Parameter with custom configuration
     */
   def pdf(pdfPath: String): DataFrame = {
-    val pdfReader = new PdfReader(getStoreContent, getTitleThreshold)
+    val pdfReader = new PdfReader(getStoreContent, getTitleThreshold, getReadAsImage)
     pdfReader.pdf(pdfPath)
   }
 
   def pdf(content: Array[Byte]): Seq[HTMLElement] = {
-    val pdfReader = new PdfReader(getStoreContent, getTitleThreshold)
+    val pdfReader = new PdfReader(getStoreContent, getTitleThreshold, getReadAsImage)
     pdfReader.pdfToHTMLElement(content)
   }
 
@@ -407,6 +402,10 @@ class SparkNLPReader(
       params.asScala.toMap,
       Seq("normalizeLigatures", "normalize_ligatures"),
       default = true)
+  }
+
+  private def getReadAsImage: Boolean = {
+    getDefaultBoolean(params.asScala.toMap, Seq("readAsImage", "read_as_image"), default = false)
   }
 
   /** Instantiates class to read Excel files.
@@ -752,7 +751,12 @@ class SparkNLPReader(
   }
 
   def xmlToHTMLElement(xml: String): Seq[HTMLElement] = {
-    val xmlReader = new XMLReader(getStoreContent, getXmlKeepTags, getOnlyLeafNodes)
+    val xmlReader =
+      new XMLReader(
+        getStoreContent,
+        getXmlKeepTags,
+        getOnlyLeafNodes,
+        getExtractTagAttributes.toSet)
     xmlReader.parseXml(xml)
   }
 
@@ -765,6 +769,13 @@ class SparkNLPReader(
       params.asScala.toMap,
       Seq("onlyLeafNodes", "only_leaf_nodes"),
       default = true)
+  }
+
+  private def getExtractTagAttributes: Array[String] = {
+    getDefaultArray[String](
+      params.asScala.toMap,
+      Seq("extractTagAttributes", "extract_tag_attributes"),
+      Array.empty)
   }
 
   /** Instantiates class to read Markdown (.md) files.

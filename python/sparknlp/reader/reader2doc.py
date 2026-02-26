@@ -12,7 +12,6 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 from pyspark import keyword_only
-from pyspark.ml.param import TypeConverters, Params, Param
 
 from sparknlp.common import AnnotatorType
 from sparknlp.internal import AnnotatorTransformer
@@ -21,9 +20,10 @@ from sparknlp.partition.partition_properties import *
 
 class Reader2Doc(
     AnnotatorTransformer,
+    HasReaderProperties,
+    HasHTMLReaderProperties,
     HasEmailReaderProperties,
     HasExcelReaderProperties,
-    HasHTMLReaderProperties,
     HasPowerPointProperties,
     HasTextReaderProperties
 ):
@@ -68,59 +68,41 @@ class Reader2Doc(
     |[{'document', 15, 38, 'This is a narrative text', {'pageNumber': 1, 'elementType': 'NarrativeText', 'fileName': 'pdf-title.pdf'}, []}]|
     |[{'document', 39, 68, 'This is another narrative text', {'pageNumber': 1, 'elementType': 'NarrativeText', 'fileName': 'pdf-title.pdf'}, []}]|
     +------------------------------------------------------------------------------------------------------------------------------------+
-"""
+    """
 
     name = "Reader2Doc"
+
     outputAnnotatorType = AnnotatorType.DOCUMENT
 
-    contentPath = Param(
+    excludeNonText = Param(
         Params._dummy(),
-        "contentPath",
-        "contentPath path to files to read",
-        typeConverter=TypeConverters.toString
-    )
-
-    outputCol = Param(
-        Params._dummy(),
-        "outputCol",
-        "output column name",
-        typeConverter=TypeConverters.toString
-    )
-
-    contentType = Param(
-        Params._dummy(),
-        "contentType",
-        "Set the content type to load following MIME specification",
-        typeConverter=TypeConverters.toString
-    )
-
-    explodeDocs = Param(
-        Params._dummy(),
-        "explodeDocs",
-        "whether to explode the documents into separate rows",
+        "excludeNonText",
+        "Whether to exclude non-text content from the output. Default is False.",
         typeConverter=TypeConverters.toBoolean
     )
 
-    flattenOutput = Param(
-        Params._dummy(),
-        "flattenOutput",
-        "If true, output is flattened to plain text with minimal metadata",
-        typeConverter=TypeConverters.toBoolean
-    )
+    def setExcludeNonText(self, value):
+        """Sets whether to exclude non-text content from the output.
 
-    titleThreshold = Param(
-        Params._dummy(),
-        "titleThreshold",
-        "Minimum font size threshold for title detection in PDF docs",
-        typeConverter=TypeConverters.toFloat
-    )
+        Parameters
+        ----------
+        value : bool
+            Whether to exclude non-text content from the output. Default is False.
+        """
+        return self._set(excludeNonText=value)
 
-    outputFormat = Param(
+    joinString = Param(
         Params._dummy(),
-        "outputFormat",
-        "Output format for the table content. Options are 'plain-text' or 'html-table'. Default is 'json-table'.",
+        "joinString",
+        "If outputAsDocument is true, specifies the string used to join elements into a single document.",
         typeConverter=TypeConverters.toString
     )
+
+    def setJoinString(self, value):
+        """
+        If outputAsDocument is true, specifies the string used to join elements into a single
+        """
+        return self._set(joinString=value)
 
     @keyword_only
     def __init__(self):
@@ -130,81 +112,13 @@ class Reader2Doc(
             explodeDocs=False,
             contentType="",
             flattenOutput=False,
-            titleThreshold=18
+            outputAsDocument=True,
+            outputFormat="plain-text",
+            excludeNonText=False,
+            joinString="\n"
         )
+
     @keyword_only
     def setParams(self):
         kwargs = self._input_kwargs
         return self._set(**kwargs)
-
-    def setContentPath(self, value):
-        """Sets content path.
-
-        Parameters
-        ----------
-        value : str
-            contentPath path to files to read
-        """
-        return self._set(contentPath=value)
-
-    def setContentType(self, value):
-        """
-        Set the content type to load following MIME specification
-
-        Parameters
-        ----------
-        value : str
-            content type to load following MIME specification
-        """
-        return self._set(contentType=value)
-
-    def setExplodeDocs(self, value):
-        """Sets whether to explode the documents into separate rows.
-
-
-        Parameters
-        ----------
-        value : boolean
-        Whether to explode the documents into separate rows
-        """
-        return self._set(explodeDocs=value)
-
-    def setOutputCol(self, value):
-        """Sets output column name.
-
-        Parameters
-        ----------
-        value : str
-            Name of the Output Column
-        """
-        return self._set(outputCol=value)
-
-    def setFlattenOutput(self, value):
-        """Sets whether to flatten the output to plain text with minimal metadata.
-
-        Parameters
-        ----------
-        value : bool
-            If true, output is flattened to plain text with minimal metadata
-        """
-        return self._set(flattenOutput=value)
-
-    def setTitleThreshold(self, value):
-        """Sets the minimum font size threshold for title detection in PDF documents.
-
-        Parameters
-        ----------
-        value : float
-            Minimum font size threshold for title detection in PDF docs
-        """
-        return self._set(titleThreshold=value)
-
-    def setOutputFormat(self, value):
-        """Sets the output format for the table content.
-
-        Parameters
-        ----------
-        value : str
-            Output format for the table content. Options are 'plain-text' or 'html-table'. Default is 'json-table'.
-        """
-        return self._set(outputFormat=value)

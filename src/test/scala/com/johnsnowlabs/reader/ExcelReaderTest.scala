@@ -103,7 +103,7 @@ class ExcelReaderTest extends AnyFlatSpec {
 
   it should "output table as JSON" in {
     val excelReader = new ExcelReader(inferTableStructure = true, outputFormat = "html-table")
-    val excelDf = excelReader.xls(s"$docDirectory/simple-example.xlsx")
+    val excelDf = excelReader.xls(s"$docDirectory/simple-example-2tables.xlsx")
 
     val htmlDf = excelDf
       .withColumn("doc_exploded", explode(col("xls")))
@@ -122,6 +122,55 @@ class ExcelReaderTest extends AnyFlatSpec {
 
     assert(!excelDf.select(col("xls").getItem(0)).isEmpty)
     assert(jsonDf.count() > 0, "Expected at least one row with JSON element type")
+  }
+
+  it should "read images from excel file" taggedAs FastTest in {
+    val excelReader = new ExcelReader()
+    val excelDf = excelReader.xls(s"$docDirectory/excel-images.xlsx")
+    val imageDf = excelDf
+      .withColumn("xls_exploded", explode(col("xls")))
+      .filter(col("xls_exploded.elementType") === ElementType.IMAGE)
+
+    assert(imageDf.count() > 0, "Expected at least one row with IMAGE element type")
+  }
+
+  it should "include domPath and orderTableIndex metadata fields for tables" taggedAs FastTest in {
+    val excelReader = new ExcelReader()
+    val excelDf = excelReader.xls(s"$docDirectory/simple-example-2tables.xlsx")
+
+    val explodedDf = excelDf.withColumn("xls_exploded", explode(col("xls")))
+
+    val tableMetaDf = explodedDf.selectExpr(
+      "xls_exploded.metadata.domPath as domPath",
+      "xls_exploded.metadata.orderTableIndex as orderTableIndex")
+
+    assert(
+      tableMetaDf.filter(col("domPath").isNotNull).count() == tableMetaDf.count(),
+      "Missing domPath in TABLE metadata")
+    assert(
+      tableMetaDf.filter(col("orderTableIndex").isNotNull).count() == tableMetaDf.count(),
+      "Missing orderTableIndex in TABLE metadata")
+  }
+
+  it should "include domPath and orderImageIndex metadata fields for images" taggedAs FastTest in {
+    val excelReader = new ExcelReader()
+    val excelDf = excelReader.xls(s"$docDirectory/excel-images.xlsx")
+
+    val explodedDf = excelDf.withColumn("xls_exploded", explode(col("xls")))
+    val imagesDf = explodedDf.filter(col("xls_exploded.elementType") === ElementType.IMAGE)
+
+    assert(imagesDf.count() > 0, "No IMAGE elements found in ExcelReader output")
+
+    val imageMetaDf = imagesDf.selectExpr(
+      "xls_exploded.metadata.domPath as domPath",
+      "xls_exploded.metadata.orderImageIndex as orderImageIndex")
+
+    assert(
+      imageMetaDf.filter(col("domPath").isNotNull).count() == imageMetaDf.count(),
+      "Missing domPath in IMAGE metadata")
+    assert(
+      imageMetaDf.filter(col("orderImageIndex").isNotNull).count() == imageMetaDf.count(),
+      "Missing orderImageIndex in IMAGE metadata")
   }
 
 }

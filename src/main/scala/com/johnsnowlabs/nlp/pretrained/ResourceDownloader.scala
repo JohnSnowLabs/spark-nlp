@@ -122,7 +122,7 @@ object ResourceDownloader {
 
   /** Reset the cache and recreate ResourceDownloader S3 credentials */
   def resetResourceDownloader(): Unit = {
-    cache.empty
+    cache.clear()
     this.privateDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "private")
   }
 

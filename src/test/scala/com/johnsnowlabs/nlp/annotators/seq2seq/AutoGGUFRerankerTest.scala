@@ -2,8 +2,10 @@ package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.DocumentAssembler
+import com.johnsnowlabs.nlp.finisher.GGUFRankingFinisher
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.{SlowTest, FastTest}
+import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.util.TestUtils.measureRAMChange
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -19,11 +21,11 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
     .setOutputCol("document")
 
   lazy val query: String = "A man is eating pasta."
-  lazy val modelPath = "/tmp/bge-reranker-v2-m3-Q4_K_M.gguf"
+  lazy val modelPath = "/tmp/bge_reranker_v2_m3_Q4_K_M.gguf"
   lazy val model: AutoGGUFReranker = AutoGGUFReranker
-    .loadSavedModel(modelPath, ResourceHelper.spark)
+    .pretrained()
     .setInputCols("document")
-    .setOutputCol("completions")
+    .setOutputCol("reranked_documents")
     .setBatchSize(4)
     .setQuery(query)
 
@@ -34,11 +36,19 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
     "The girl is carrying a baby.",
     "A man is riding a horse.",
     "A young girl is playing violin.").toDF("text").repartition(1)
-  lazy val pipeline: Pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+
+  lazy val finisher: GGUFRankingFinisher = new GGUFRankingFinisher()
+    .setInputCols("reranked_documents")
+    .setOutputCol("ranked_documents")
+    .setTopK(-1)
+    .setMinRelevanceScore(0.1)
+    .setMinMaxScaling(true)
+  lazy val pipeline: Pipeline =
+    new Pipeline().setStages(Array(documentAssembler, model))
 
   def assertAnnotationsNonEmpty(resultDf: DataFrame): Unit = {
     Annotation
-      .collect(resultDf, "completions")
+      .collect(resultDf, "reranked_documents")
       .foreach(annotations => {
         println(annotations.head)
         println(annotations.head.metadata)
@@ -77,12 +87,11 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
     newPipeline
       .fit(data)
       .transform(data)
-      .select("completions")
+      .select("reranked_documents")
       .show(truncate = false)
   }
 
   it should "contain metadata when loadSavedModel" taggedAs SlowTest in {
-    lazy val modelPath = "/tmp/bge-reranker-v2-m3-Q4_K_M.gguf"
     val model = AutoGGUFReranker.loadSavedModel(modelPath, ResourceHelper.spark)
     val metadata = model.getMetadata
     assert(metadata.nonEmpty)
@@ -96,7 +105,7 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
     val model = AutoGGUFReranker
       .pretrained()
       .setInputCols("document")
-      .setOutputCol("completions")
+      .setOutputCol("reranked_documents")
       .setBatchSize(2)
 
     val pipeline =
@@ -109,12 +118,43 @@ class AutoGGUFRerankerTest extends AnyFlatSpec {
     val model: AutoGGUFReranker = AutoGGUFReranker
       .loadSavedModel(modelPath, ResourceHelper.spark)
       .setInputCols("document")
-      .setOutputCol("completions")
+      .setOutputCol("reranked_documents")
       .setBatchSize(4)
     val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
     assertThrows[org.apache.spark.SparkException] {
       val result = pipeline.fit(data).transform(data)
       result.show()
     }
+  }
+
+  it should "be able to finisher the reranked documents" taggedAs SlowTest in {
+    model.setQuery(query)
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, model, finisher))
+    val result = pipeline.fit(data).transform(data)
+
+//    assertAnnotationsNonEmpty(result)
+    result.select("ranked_documents").show(truncate = false)
+  }
+
+  it should "load models with deprecated parameters" taggedAs SlowTest in {
+    // testing only, should be able to load
+    AutoGGUFReranker.pretrained("Nomic_Embed_Text_v1.5.Q8_0.gguf")
+  }
+
+  // This test requires cpu
+  it should "be closeable" taggedAs SlowTest ignore {
+    // TODO: This needs investigation on llama.cpp side
+    val model: AutoGGUFReranker = AutoGGUFReranker
+      .pretrained()
+      .setInputCols("document")
+      .setOutputCol("reranked_documents")
+      .setBatchSize(4)
+      .setQuery(query)
+
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+    pipeline.fit(data).transform(data).show()
+
+    val ramChange = measureRAMChange { model.close() }
+    assert(ramChange < -50, "Freed RAM should be greater than 100 MB")
   }
 }

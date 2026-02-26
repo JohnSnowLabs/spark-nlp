@@ -30,4 +30,6 @@ object ElementType {
   val FOOTER = "Footer"
   val HTML = "HTML"
   val JSON = "JSON"
+  val IMAGE = "Image"
+  val ERROR = "Error"
 }

@@ -16,6 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.reader.util.AssertReaders
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.sql.functions.{array_contains, col, explode, map_keys}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -30,8 +31,7 @@ class WordReaderTest extends AnyFlatSpec {
   "WordReader" should "read a directory of word files" taggedAs FastTest in {
     val wordReader = new WordReader()
     val wordDf = wordReader.doc(docDirectory)
-    wordDf.select("doc").show(false)
-    wordDf.printSchema()
+
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(!wordDf.columns.contains("content"))
   }
@@ -39,7 +39,6 @@ class WordReaderTest extends AnyFlatSpec {
   "WordReader" should "read a docx file with page breaks" taggedAs FastTest in {
     val wordReader = new WordReader(includePageBreaks = true)
     val wordDf = wordReader.doc(s"$docDirectory/page-breaks.docx")
-    wordDf.select("doc").show(false)
 
     val pageBreakCount = wordDf
       .select(explode($"doc.metadata").as("metadata"))
@@ -56,7 +55,6 @@ class WordReaderTest extends AnyFlatSpec {
     val htmlDf = wordDf
       .withColumn("doc_exploded", explode(col("doc")))
       .filter(col("doc_exploded.elementType") === "HTML")
-    wordDf.select("doc").show(false)
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(!wordDf.columns.contains("content"))
@@ -66,7 +64,6 @@ class WordReaderTest extends AnyFlatSpec {
   "WordReader" should "read a docx file with images on it" taggedAs FastTest in {
     val wordReader = new WordReader()
     val wordDf = wordReader.doc(s"$docDirectory/contains-pictures.docx")
-    wordDf.select("doc").show(false)
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(!wordDf.columns.contains("content"))
@@ -75,7 +72,6 @@ class WordReaderTest extends AnyFlatSpec {
   "WordReader" should "store content" taggedAs FastTest in {
     val wordReader = new WordReader(storeContent = true)
     val wordDf = wordReader.doc(s"$docDirectory")
-    wordDf.select("doc").show(false)
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(wordDf.columns.contains("content"))
@@ -101,6 +97,86 @@ class WordReaderTest extends AnyFlatSpec {
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
     assert(jsonDf.count() > 0, "Expected at least one row with JSON element type")
+  }
+
+  it should "read doc file with images on it" taggedAs FastTest in {
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/contains-pictures.docx")
+    val htmlDf = wordDf
+      .withColumn("doc_exploded", explode(col("doc")))
+      .filter(col("doc_exploded.elementType") === ElementType.IMAGE)
+
+    assert(htmlDf.count() > 1)
+  }
+
+  it should "output hierarchy metadata" taggedAs FastTest in {
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/hierarchy_test.docx")
+
+    AssertReaders.assertHierarchy(wordDf, "doc")
+  }
+
+  it should "include domPath, orderTableIndex and orderImageIndex metadata fields" taggedAs FastTest in {
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/doc-img-table.docx")
+
+    val explodedDf = wordDf.withColumn("doc_exploded", explode(col("doc")))
+
+    val tablesDf = explodedDf.filter(col("doc_exploded.elementType") === ElementType.TABLE)
+    assert(tablesDf.count() > 0, "No TABLE elements found in WordReader output")
+
+    val tableMetaDf = tablesDf.selectExpr(
+      "doc_exploded.metadata.domPath as domPath",
+      "doc_exploded.metadata.orderTableIndex as orderTableIndex")
+
+    assert(
+      tableMetaDf.filter(col("domPath").isNotNull).count() == tableMetaDf.count(),
+      "Missing domPath in TABLE metadata")
+    assert(
+      tableMetaDf.filter(col("orderTableIndex").isNotNull).count() == tableMetaDf.count(),
+      "Missing orderTableIndex in TABLE metadata")
+
+    val imagesDf = explodedDf.filter(col("doc_exploded.elementType") === ElementType.IMAGE)
+    assert(imagesDf.count() > 0, "No IMAGE elements found in WordReader output")
+
+    val imageMetaDf = imagesDf.selectExpr(
+      "doc_exploded.metadata.domPath as domPath",
+      "doc_exploded.metadata.orderImageIndex as orderImageIndex")
+
+    assert(
+      imageMetaDf.filter(col("domPath").isNotNull).count() == imageMetaDf.count(),
+      "Missing domPath in IMAGE metadata")
+    assert(
+      imageMetaDf.filter(col("orderImageIndex").isNotNull).count() == imageMetaDf.count(),
+      "Missing orderImageIndex in IMAGE metadata")
+  }
+
+  it should "include coord field in IMAGE metadata with {x:...,y:...} format" taggedAs FastTest in {
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/contains-pictures.docx")
+
+    val explodedDf = wordDf.withColumn("doc_exploded", explode(col("doc")))
+    val imagesDf = explodedDf.filter(col("doc_exploded.elementType") === ElementType.IMAGE)
+
+    val coordDf = imagesDf.selectExpr("doc_exploded.metadata.coord as coord")
+
+    assert(coordDf.count() > 0, "No coord field found in IMAGE metadata")
+
+    val pattern = """\{x:\d+,y:\d+\}"""
+    val allMatch = coordDf.collect().forall(row => row.getAs[String]("coord").matches(pattern))
+    assert(allMatch, "Some IMAGE coord fields do not match expected {x:...,y:...} format")
+  }
+
+  it should "assign distinct coord values to each image" taggedAs FastTest in {
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/contains-pictures.docx")
+
+    val explodedDf = wordDf.withColumn("doc_exploded", explode(col("doc")))
+    val imagesDf = explodedDf.filter(col("doc_exploded.elementType") === ElementType.IMAGE)
+    val coords = imagesDf.selectExpr("doc_exploded.metadata.coord as coord").as[String].collect()
+
+    assert(coords.nonEmpty, "No IMAGE coord metadata found")
+    assert(coords.distinct.length == coords.length, "Duplicate IMAGE coordinates detected")
   }
 
 }

@@ -10,7 +10,9 @@ Submodules
    sparknlp.reader.enums
    sparknlp.reader.pdf_to_text
    sparknlp.reader.reader2doc
+   sparknlp.reader.reader2image
    sparknlp.reader.reader2table
+   sparknlp.reader.reader_assembler
    sparknlp.reader.sparknlp_reader
 
 Module contents

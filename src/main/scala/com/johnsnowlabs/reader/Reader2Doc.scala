@@ -16,28 +16,28 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, HasOutputAnnotationCol, HasOutputAnnotatorType}
-import com.johnsnowlabs.partition.util.PartitionHelper.{
-  datasetWithBinaryFile,
-  datasetWithTextFile,
-  isStringContent
-}
 import com.johnsnowlabs.partition._
+import com.johnsnowlabs.partition.util.PartitionHelper.isStringContent
 import org.apache.spark.ml.Transformer
-import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
+import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
+import org.apache.spark.sql._
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
-import org.apache.spark.sql._
 
-import java.io.File
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
 
 /** The Reader2Doc annotator allows you to use the reading files more smoothly within existing
   * Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Doc can be used for
   * extracting structured content from various document types using Spark NLP readers. It supports
   * reading from many files types and returns parsed output as a structured Spark DataFrame.
+  *
+  * By default, the annotator combines all extracted elements into a single document annotation.
+  * For more fine-grained control, you can use `setOutputAsDocument(false)` and
+  * `setExplodeDocs(true)` to filter individual elements.
   *
   * Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
   * (.ppt/.pptx), email files (.eml, .msg), and PDFs.
@@ -74,38 +74,11 @@ class Reader2Doc(override val uid: String)
     with DefaultParamsWritable
     with HasOutputAnnotatorType
     with HasOutputAnnotationCol
-    with HasReaderProperties
-    with HasEmailReaderProperties
-    with HasExcelReaderProperties
-    with HasHTMLReaderProperties
-    with HasPowerPointProperties
+    with HasBinaryReaderProperties
     with HasTextReaderProperties
-    with HasXmlReaderProperties {
+    with HasReaderContent {
 
   def this() = this(Identifiable.randomUID("Reader2Doc"))
-
-  val explodeDocs: BooleanParam =
-    new BooleanParam(this, "explodeDocs", "whether to explode the documents into separate rows")
-
-  def setExplodeDocs(value: Boolean): this.type = set(explodeDocs, value)
-
-  val flattenOutput: BooleanParam =
-    new BooleanParam(
-      this,
-      "flattenOutput",
-      "If true, output is flattened to plain text with minimal metadata")
-
-  def setFlattenOutput(value: Boolean): this.type = set(flattenOutput, value)
-
-  val titleThreshold: Param[Float] =
-    new Param[Float](
-      this,
-      "titleThreshold",
-      "Minimum font size threshold for title detection in PDF docs")
-
-  def setTitleThreshold(value: Float): this.type = {
-    set(titleThreshold, value)
-  }
 
   /** Whether to return all sentences joined into a single document
     *
@@ -119,120 +92,55 @@ class Reader2Doc(override val uid: String)
   /** Whether to return all sentences joined into a single document */
   def setOutputAsDocument(value: Boolean): this.type = set(outputAsDocument, value)
 
+  val excludeNonText: BooleanParam =
+    new BooleanParam(this, "excludeNonText", "Excludes rows that are not text data. e.g. tables")
+
+  /** Excludes rows that are not text data. e.g. tables */
+  def setExcludeNonText(value: Boolean): this.type = set(excludeNonText, value)
+
+  val joinString =
+    new Param[String](
+      this,
+      "joinString",
+      "If outputAsDocument is true, specifies the string used to join elements into a single document.")
+
+  /** If outputAsDocument is true, specifies the string used to join elements into a single */
+  def setJoinString(value: String): this.type = set(joinString, value)
+
   setDefault(
-    this.explodeDocs -> false,
+    explodeDocs -> false,
     contentType -> "",
     flattenOutput -> false,
-    titleThreshold -> 18,
-    outputAsDocument -> false,
-    outputFormat -> "plain-text")
+    outputAsDocument -> true,
+    outputFormat -> "plain-text",
+    excludeNonText -> false,
+    joinString -> "\n")
 
   override def transform(dataset: Dataset[_]): DataFrame = {
     validateRequiredParameters()
-    val finalDf = if ($(contentType).trim.isEmpty) {
-      partitionMixedContent(dataset.sparkSession, $(contentPath))
-    } else {
-      partitionContent(partitionBuilder, dataset)
-    }
-    val annotatedDf = finalDf
-      .withColumn(
-        getOutputCol,
-        wrapColumnMetadata(
-          partitionToAnnotation($(flattenOutput))(col("partition"), col("fileName"))))
-      .select("fileName", getOutputCol)
-
-    afterAnnotate(annotatedDf)
-  }
-
-  private def partitionMixedContent(spark: SparkSession, dirPath: String): DataFrame = {
-    val allFiles = listAllFilesRecursively(new File(dirPath))
-    val grouped = allFiles
-      .filter(_.isFile)
-      .groupBy { file =>
-        val ext = file.getName.split("\\.").lastOption.getOrElse("").toLowerCase
-        supportedTypes.get(ext).map(_ => ext)
-      }
-      .collect { case (Some(ext), files) => ext -> files }
-
-    val mixedDfs = grouped.flatMap { case (ext, files) =>
-      val (ctype, isText) = supportedTypes(ext)
+    val structuredDf = if ($(contentType).trim.isEmpty && getInputCol.trim.isEmpty) {
       val partitionParams = Map(
-        "contentType" -> ctype,
         "inferTableStructure" -> $(inferTableStructure).toString,
         "outputFormat" -> $(outputFormat))
-      val partition = new Partition(partitionParams.asJava)
-      val filePaths = files.map(_.getAbsolutePath)
-      if (filePaths.nonEmpty) {
-        if (isText) {
-          val textDfList = files.map { file =>
-            val resultDf = if (ext == "csv") {
-              partition.setOutputColumn("csv")
-              partition
-                .partition(file.getAbsolutePath)
-            } else {
-              val textDf = datasetWithTextFile(spark, file.getAbsolutePath)
-              val partitionUDF =
-                udf((text: String) =>
-                  partition.partitionStringContent(text, Map.empty[String, String].asJava))
-              textDf
-                .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
-            }
-            resultDf
-              .withColumnRenamed(partition.getOutputColumn, "partition")
-              .withColumn("fileName", lit(file.getName))
-              .drop("content")
-          }
-          Some(textDfList.reduce(_.unionByName(_)))
-        } else {
-          val binaryDfList = files.map { file =>
-            val binDf = datasetWithBinaryFile(spark, file.getAbsolutePath)
-            val partitionUDF =
-              udf((bytes: Array[Byte]) => partition.partitionBytesContent(bytes))
+      partitionMixedContent(dataset, $(contentPath), partitionParams)
+    } else {
+      partitionContent(partitionBuilder, $(contentPath), isStringContent(getContentType), dataset)
+    }
+    if (!structuredDf.isEmpty) {
+      val annotatedDf = structuredDf
+        .withColumn(
+          getOutputCol,
+          wrapColumnMetadata(partitionToAnnotation(col("partition"), col("fileName"))))
 
-            val outCol = partition.getOutputColumn
-            binDf
-              .withColumn(outCol, partitionUDF(col("content")))
-              .withColumnRenamed(outCol, "partition")
-              .withColumn("fileName", lit(file.getName))
-              .drop("content")
-          }
-          Some(binaryDfList.reduce(_.unionByName(_)))
-        }
-      } else None
-    }.toSeq
-
-    if (mixedDfs.isEmpty)
-      throw new IllegalArgumentException("No supported files found in directory (or subdirs)")
-    else {
-      mixedDfs.reduce(_.unionByName(_))
+      afterAnnotate(annotatedDf).select("fileName", getOutputCol, "exception")
+    } else {
+      structuredDf
     }
   }
-
-  private def listAllFilesRecursively(dir: File): Seq[File] = {
-    val these = Option(dir.listFiles).getOrElse(Array.empty)
-    these.filter(_.isFile) ++ these.filter(_.isDirectory).flatMap(listAllFilesRecursively)
-  }
-
-  private val supportedTypes: Map[String, (String, Boolean)] = Map(
-    "txt" -> ("text/plain", true),
-    "html" -> ("text/html", true),
-    "htm" -> ("text/html", true),
-    "md" -> ("text/markdown", true),
-    "xml" -> ("application/xml", true),
-    "csv" -> ("text/csv", true),
-    "pdf" -> ("application/pdf", false),
-    "doc" -> ("application/msword", false),
-    "docx" -> ("application/vnd.openxmlformats-officedocument.wordprocessingml.document", false),
-    "xls" -> ("application/vnd.ms-excel", false),
-    "xlsx" -> ("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", false),
-    "ppt" -> ("application/vnd.ms-powerpoint", false),
-    "pptx" -> ("application/vnd.openxmlformats-officedocument.presentationml.presentation", false),
-    "eml" -> ("message/rfc822", false),
-    "msg" -> ("message/rfc822", false))
 
   protected def partitionBuilder: Partition = {
     val params = Map(
-      "contentType" -> $(contentType),
+      "contentType" -> getContentType,
       "storeContent" -> $(storeContent).toString,
       "titleFontSize" -> $(titleFontSize).toString,
       "inferTableStructure" -> $(inferTableStructure).toString,
@@ -251,37 +159,12 @@ class Reader2Doc(override val uid: String)
       "xmlKeepTags" -> $(xmlKeepTags).toString,
       "onlyLeafNodes" -> $(onlyLeafNodes).toString,
       "titleThreshold" -> $(titleThreshold).toString,
-      "outputFormat" -> $(outputFormat))
+      "outputFormat" -> $(outputFormat),
+      "extractTagAttributes" -> $(extractTagAttributes).mkString(","))
     new Partition(params.asJava)
   }
 
-  private def partitionContent(partition: Partition, dataset: Dataset[_]): DataFrame = {
-
-    if (isStringContent($(contentType))) {
-      val stringContentDF = if ($(contentType) == "text/csv") {
-        partition.setOutputColumn("csv")
-        partition
-          .partition($(contentPath))
-          .withColumnRenamed(partition.getOutputColumn, "partition")
-      } else {
-        val partitionUDF =
-          udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
-        datasetWithTextFile(dataset.sparkSession, $(contentPath))
-          .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
-      }
-      stringContentDF
-        .withColumn("fileName", getFileName(col("path")))
-    } else {
-      val binaryContentDF = datasetWithBinaryFile(dataset.sparkSession, $(contentPath))
-      val partitionUDF =
-        udf((input: Array[Byte]) => partition.partitionBytesContent(input))
-      binaryContentDF
-        .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
-        .withColumn("fileName", getFileName(col("path")))
-    }
-  }
-
-  private def afterAnnotate(dataset: DataFrame): DataFrame = {
+  def afterAnnotate(dataset: DataFrame): DataFrame = {
     if ($(explodeDocs)) {
       dataset
         .select(dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(
@@ -295,31 +178,43 @@ class Reader2Doc(override val uid: String)
   }
 
   protected def validateRequiredParameters(): Unit = {
-    require(
-      $(contentPath) != null && $(contentPath).trim.nonEmpty,
-      "contentPath must be set and not empty")
+    val hasContentPath = $(contentPath) != null && $(contentPath).trim.nonEmpty
+    if (hasContentPath) {
+      require(
+        ResourceHelper.validFile($(contentPath)),
+        "contentPath must point to a valid file or directory")
+    }
+
     require(
       $(outputFormat) == "plain-text",
       "Only 'plain-text' outputFormat is supported for this operation.")
   }
 
-  private val getFileName = udf { path: String =>
-    if (path != null) path.split("/").last else ""
-  }
-
-  protected def partitionToAnnotation(flatten: Boolean): UserDefinedFunction = udf {
+  def partitionToAnnotation: UserDefinedFunction = udf {
     (partitions: Seq[Row], fileName: String) =>
       if (partitions == null) Nil
       else if ($(outputAsDocument)) {
         mergeElementsAsDocument(partitions)
       } else {
-        elementsAsIndividualAnnotations(partitions, flatten)
+        elementsAsIndividualAnnotations(partitions)
       }
   }
 
+  private def isTableElement(row: Row): Boolean = {
+    val elementType = row.getAs[String]("elementType")
+    elementType != null && (elementType.equalsIgnoreCase(ElementType.TABLE) || elementType
+      .equalsIgnoreCase(ElementType.IMAGE))
+  }
+
   private def mergeElementsAsDocument(partitions: Seq[Row]): Seq[Annotation] = {
+    val partitionsToKept =
+      if ($(excludeNonText)) partitions.filterNot(isTableElement) else partitions
+
     val allText =
-      partitions.flatMap(part => Option(part.getAs[String]("content"))).mkString(" ")
+      partitionsToKept
+        .flatMap(part => Option(part.getAs[String]("content")))
+        .mkString($(joinString))
+
     val begin = 0
     val end = if (allText.isEmpty) 0 else allText.length - 1
     val meta = Map("sentence" -> "0")
@@ -333,27 +228,31 @@ class Reader2Doc(override val uid: String)
         embeddings = Array.emptyFloatArray))
   }
 
-  private def elementsAsIndividualAnnotations(
-      partitions: Seq[Row],
-      flatten: Boolean): Seq[Annotation] = {
+  private def elementsAsIndividualAnnotations(partitions: Seq[Row]): Seq[Annotation] = {
     var currentOffset = 0
-    partitions.map { part =>
+    partitions.flatMap { part =>
       val elementType = part.getAs[String]("elementType")
-      val content = part.getAs[String]("content")
-      val metadata = part.getAs[Map[String, String]]("metadata")
-      val begin = currentOffset
-      val end = currentOffset + (if (content != null) content.length else 0) - 1
-      currentOffset = end + 1
-      val baseMeta = if (metadata != null) metadata else Map.empty[String, String]
-      val withExtras = baseMeta + ("elementType" -> elementType)
-      val finalMeta = if (flatten) withExtras.filterKeys(_ == "sentence") else withExtras
-      Annotation(
-        annotatorType = outputAnnotatorType,
-        begin = begin,
-        end = end,
-        result = content,
-        metadata = finalMeta,
-        embeddings = Array.emptyFloatArray)
+      if ($(excludeNonText) && isTableElement(part)) {
+        None
+      } else {
+        val content = part.getAs[String]("content")
+        val metadata = part.getAs[Map[String, String]]("metadata")
+        val begin = currentOffset
+        val end = currentOffset + (if (content != null) content.length else 0) - 1
+        currentOffset = end + 1
+        val baseMeta = if (metadata != null) metadata else Map.empty[String, String]
+        val withExtras = baseMeta + ("elementType" -> elementType)
+        val finalMeta =
+          if ($(flattenOutput)) withExtras.filterKeys(_ == "sentence") else withExtras
+        Some(
+          Annotation(
+            annotatorType = outputAnnotatorType,
+            begin = begin,
+            end = end,
+            result = content,
+            metadata = finalMeta,
+            embeddings = Array.emptyFloatArray))
+      }
     }
   }
 

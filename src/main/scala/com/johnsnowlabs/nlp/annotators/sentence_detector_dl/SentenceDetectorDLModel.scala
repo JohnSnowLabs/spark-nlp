@@ -558,7 +558,7 @@ class SentenceDetectorDLModel(override val uid: String)
                 begin = sentenceBegin,
                 end = sentenceBegin + splitSentence.length - 1,
                 result = splitSentence,
-                metadata = mutable.Map("sentence" -> sentenceNo.toString)))
+                metadata = doc.metadata ++ mutable.Map("sentence" -> sentenceNo.toString)))
             sentenceBegin += splitSentence.length
             sentenceNo += 1
           })
@@ -571,7 +571,7 @@ class SentenceDetectorDLModel(override val uid: String)
             begin = doc.begin,
             end = doc.end,
             result = doc.result,
-            metadata = mutable.Map("sentence" -> sentenceNo.toString)))
+            metadata = doc.metadata ++ mutable.Map("sentence" -> sentenceNo.toString)))
       }
     })
 

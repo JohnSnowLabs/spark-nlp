@@ -237,4 +237,17 @@ object CleanerHelper {
     new String(textBytes, Charset.forName(formattedEncoding))
   }
 
+  def decodeHtmlEntities(text: String): String = {
+    text
+      .replaceAll("&amp;", "&")
+      .replaceAll("&lt;", "<")
+      .replaceAll("&gt;", ">")
+      .replaceAll("&quot;", "\"")
+      .replaceAll("&apos;", "'")
+      .replaceAll("&#39;", "'")
+      .replaceAll("&#x27;", "'")
+      .replaceAll("&copy;", "©")
+      .replaceAll("&nbsp;", " ")
+  }
+
 }

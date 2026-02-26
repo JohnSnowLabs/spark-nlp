@@ -17,7 +17,7 @@ import pytest
 
 from sparknlp.annotator import *
 from sparknlp.base import *
-from test.util import SparkContextForTest
+from test.util import *
 
 
 @pytest.mark.slow
@@ -232,9 +232,7 @@ class AutoGGUFModelErrorMessagesTestSpec(unittest.TestCase):
         )
         for row in collected:
             annotation = row[0][0]
-            self.assertEqual(
-                annotation["result"], "", "Completions should be empty"
-            )
+            self.assertEqual(annotation["result"], "", "Completions should be empty")
             self.assertIn(
                 "llamacpp_exception",
                 annotation["metadata"],
@@ -258,6 +256,76 @@ class AutoGGUFModelSerializationTestSpec(unittest.TestCase):
         )
         model_writer.save(model_path)
         AutoGGUFModel.load(model_path)
-        
+
         model_path = "file:///tmp/autogguf_spark_nlp"
         AutoGGUFModel.load(model_path)
+
+
+@pytest.mark.slow
+class AutoGGUFModelCloseTest(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkSessionForTest.spark
+
+        self.data = self.spark.createDataFrame(
+            [
+                ["The moons of Jupiter are "],
+                ["Earth is "],
+                ["The moon is "],
+                ["The sun is "],
+            ]
+        ).toDF("text")
+
+        self.document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+    def runTest(self):
+        model = (
+            AutoGGUFModel.pretrained()
+            .setInputCols("document")
+            .setOutputCol("completions")
+        )
+
+        pipeline = Pipeline().setStages([self.document_assembler, model])
+        pipeline.fit(self.data).transform(self.data).show()
+
+        ramChange = measureRAMChange(lambda: model.close())
+
+        print(f"Freed RAM after closing the model: {ramChange} MB")
+        assert ramChange < -100, "Freed RAM should be greater than 100 MB"
+
+
+@pytest.mark.slow
+class AutoGGUFModelThinkingTagTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("document")
+        )
+
+        think_tag = "think"
+
+        model = (
+            AutoGGUFModel.loadSavedModel("models/Qwen3-8B-Q4_K_M.gguf", self.spark)
+            .setInputCols(["document"])
+            .setOutputCol("completions")
+            .setRemoveThinkingTag(think_tag)
+            .setNPredict(500)
+            .setTemperature(0.1)
+        )
+
+        data = self.spark.createDataFrame(
+            [("What is the meaning of life? Think shortly step by step.",)], ["text"]
+        )
+
+        pipeline = Pipeline(stages=[document_assembler, model])
+        result = pipeline.fit(data).transform(data)
+
+        completions = result.select("completions").collect()
+        completion = completions[0][0][0].result
+
+        print(completion)
+        assert f"<{think_tag}>" not in completion
+        assert f"</{think_tag}>" not in completion

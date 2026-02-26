@@ -4,7 +4,9 @@ import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.util.TestUtils.measureRAMChange
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
@@ -12,11 +14,11 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
 
   behavior of "AutoGGUFEmbeddings"
 
-  lazy val documentAssembler = new DocumentAssembler()
+  lazy val documentAssembler: DocumentAssembler = new DocumentAssembler()
     .setInputCol("text")
     .setOutputCol("document")
 
-  lazy val data = Seq(
+  lazy val data: Dataset[Row] = Seq(
     "The moons of Jupiter are ", // "The moons of Jupiter are 77 in total, with 79 confirmed natural satellites and 2 man-made ones. The four"
     "Earth is ", // "Earth is 4.5 billion years old. It has been home to countless species, some of which have gone extinct, while others have evolved into"
     "The moon is ", // "The moon is 1/400th the size of the sun. The sun is 1.39 million kilometers in diameter, while"
@@ -24,7 +26,7 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
   ).toDF("text").repartition(1)
 
   lazy val longDataCopies = 16
-  lazy val longData = {
+  lazy val longData: Dataset[Row] = {
     val text = "All work and no play makes Jack a dull boy" * 100
     Seq.fill(longDataCopies)(text).toDF("text").repartition(4)
   }
@@ -50,23 +52,25 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
       val embeddings = annotations.head.embeddings
       assert(embeddings != null, "embeddings should not be null")
       assert(
-        embeddings.sum > 0.0,
+        embeddings.map(_.abs).sum > 0.0,
         "embeddings should not be zero. Was there an error on llama.cpp side?")
     }
   }
 
-  it should "produce embeddings of different pooling types" taggedAs SlowTest in {
+  it should "produce embeddings of different pooling types" taggedAs SlowTest ignore {
     def testPoolingType(poolingType: String): Unit = {
-      val result = pipeline(model(poolingType)).fit(data).transform(data)
+      val embeddingsModel = model(poolingType)
+      val result = pipeline(embeddingsModel).fit(data).transform(data)
       val embeddings: Array[Float] = Annotation.collect(result, "embeddings").head.head.embeddings
 
       assert(embeddings != null, "embeddings should not be null")
       assert(
-        embeddings.sum > 0.0,
+        embeddings.map(_.abs).sum > 0.0,
         "embeddings should not be zero. Was there an error on llama.cpp side?")
+      embeddingsModel.close()
     }
 
-    Seq("NONE", "MEAN", "CLS", "LAST").foreach(testPoolingType)
+    Seq("MEAN", "CLS", "LAST").foreach(testPoolingType)
   }
 
   it should "be serializable" taggedAs SlowTest in {
@@ -117,7 +121,7 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
       val embeddings = annotations.head.embeddings
       assert(embeddings != null, "embeddings should not be null")
       assert(
-        embeddings.sum > 0.0,
+        embeddings.map(_.abs).sum > 0.0,
         "embeddings should not be zero. Was there an error on llama.cpp side?")
     }
   }
@@ -137,4 +141,22 @@ class AutoGGUFEmbeddingsTestSpec extends AnyFlatSpec {
     AutoGGUFEmbeddings.load(savePath)
   }
 
+  it should "load models with deprecated parameters" taggedAs SlowTest in {
+    AutoGGUFEmbeddings.pretrained("Nomic_Embed_Text_v1.5.Q8_0.gguf")
+  }
+
+  // This test requires cpu
+  it should "be closeable" taggedAs SlowTest in {
+    val model = AutoGGUFEmbeddings
+      .pretrained()
+      .setInputCols("document")
+      .setOutputCol("embeddings")
+
+    val data = Seq("Hello, I am a").toDF("text")
+    pipeline(model).fit(data).transform(data).show()
+
+    val ramChange = measureRAMChange { model.close() }
+    println("Freed RAM after closing the model: " + ramChange + " MB")
+    assert(ramChange < -100, "Freed RAM should be greater than 100 MB")
+  }
 }

@@ -1,4 +1,165 @@
 =======
+6.3.2
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1136] JSON Serialization for Features #14722
+* [SPARKNLP-1329] Adding image coordinates to metadata for Reader2Image #14725
+* [SPARKNLP-1333] Adding ids input for LightPipeline #14726
+
+---------
+Bug Fixes
+---------
+
+* Fix out of memory error when copying big models to a cloud storage
+
+=======
+6.3.1
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1304] Upgrade jsl-llamacpp to llama.cpp b7247 #14719
+* [SPARKNLP-1322] Store Structural Position for Tables and Images #14713
+* [SPARKNLP-1323] Adding instructions to setup MS Frabric on spark-nlp #14710
+
+---------
+Bug Fixes
+---------
+
+* [SPARKNLP-1324] handle nonstandard output tensor names better when loading onnx bert models #14711
+* Bugfix when resetting cache in ResourceDownloader #14712
+* Addition sentence info into DocumentAssembler output in LightPipeline #14714
+
+=======
+6.3.0
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1318] Reader2Image Integration with AutoGGUFVisionModel #14705
+
+---------
+Bug Fixes
+---------
+
+None
+
+=======
+6.2.3
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1317] Further NerDL Optimizations (#14699)
+* [SPARKNLP-1315] Fix input data type for CamemBertForTokenClassification
+
+---------
+Bug Fixes
+---------
+
+None
+
+=======
+6.2.2
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+None
+
+---------
+Bug Fixes
+---------
+* Fixes WordEmbeddings creating duplicate results
+* Minor fixes to NerDLApproach logging
+
+=======
+6.2.1
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1306] Adding hierarchical support for Readers
+* [SPARKNLP-1297] NerDLApproach Optimizations
+* XML Reader and Reader2Doc Improvements
+
+---------
+Bug Fixes
+---------
+* Add Java installation to Colab setup script
+
+=======
+6.2.0
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1288] AutoGGUF close model #14671
+* [SPARKNLP-1283] Add remove thinking flag #14672
+* [SPARKNLP-1293] Enhancements EntityRuler and DocumentNormalizer #14674
+* [SPARKNLP-1299] Add Hierarchical Element Identification to HTMLReader #14675
+
+---------
+Bug Fixes
+---------
+* [SPARKNLP-1300] RobertaEmbeddings: changing token sequence in warmup test #14677
+
+=======
+6.1.5
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1291] Adding support fort input string column on readers #14665
+* [SPARKNLP-1292] Adding fault-tolerance support for malformed XML #14666
+* [SPARKNLP-1290] Introducing ReaderAssembler Annotator #14668
+
+---------
+Bug Fixes
+---------
+* fix duplicate loading in FeaturesFallbackReader #14667
+
+=======
+6.1.4
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1261] Introducing Reader2Image Annotator #14658
+
+---------
+Bug Fixes
+---------
+None
+
+=======
+6.1.3
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1286] GGUFRankingFinisher (#14653)
+* [SPARKNLP-1282] Adding improvements to Reader2Doc #14656
+* [SPARKNLP-1244] NerDLGraphChecker #14657
+
+---------
+Bug Fixes
+---------
+None
+
+=======
 6.1.2
 =======
 ---------------------------
@@ -10,7 +171,7 @@ New Features & Enhancements
 ---------
 Bug Fixes
 ---------
-* Fixed
+* Fixed Issues with loading AutoGGUFVision models
 
 =======
 6.1.1

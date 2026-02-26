@@ -382,7 +382,7 @@ data:
       actions:
         - text: View Demo
           type: trans
-          url: /demo
+          url: /demos
         - text: Examples
           type: trans
           url: https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples
