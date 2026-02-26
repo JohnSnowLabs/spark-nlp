@@ -75,6 +75,7 @@ class PdfReader(
     readAsImage: Boolean = false)
     extends Serializable {
 
+  private val paragraphSpacingY = 25
   private lazy val spark = ResourceHelper.spark
   private var outputColumn = "pdf"
 
@@ -119,6 +120,7 @@ class PdfReader(
   private def extractElementsFromPdf(pdfDoc: PDDocument): Seq[HTMLElement] = {
     val collectedElements = mutable.ListBuffer[HTMLElement]()
     var currentParentId: Option[String] = None
+    var paragraphIndex = 0
 
     val textStripper = new PDFTextStripper() {
       override def writeString(
@@ -126,7 +128,10 @@ class PdfReader(
           textPositions: java.util.List[TextPosition]): Unit = {
         val lineGroups = groupTextPositionsByLine(textPositions)
         val lineElements = lineGroups.flatMap { case (_, linePositions) =>
-          classifyLineElement(linePositions, getCurrentPageNo, currentParentId)
+          val element =
+            classifyLineElement(linePositions, getCurrentPageNo, currentParentId, paragraphIndex)
+          if (element.nonEmpty) paragraphIndex += 1
+          element
         }
 
         // Update parentId when encountering titles
@@ -146,15 +151,16 @@ class PdfReader(
   }
 
   private def groupTextPositionsByLine(
-      textPositions: java.util.List[TextPosition]): Map[Int, Seq[TextPosition]] = {
+      textPositions: java.util.List[TextPosition]): Seq[(Int, Seq[TextPosition])] = {
     val yTolerance = 2f // Potential parameter, since needs to experiment to fit your PDFs
-    textPositions.asScala.groupBy(tp => (tp.getY / yTolerance).round)
+    textPositions.asScala.groupBy(tp => (tp.getY / yTolerance).round).toSeq.sortBy(_._1)
   }
 
   private def classifyLineElement(
       linePositions: Seq[TextPosition],
       pageNumber: Int,
-      currentParentId: Option[String]): Option[HTMLElement] = {
+      currentParentId: Option[String],
+      paragraphIndex: Int): Option[HTMLElement] = {
     val lineText = linePositions.map(_.getUnicode).mkString.trim
     if (lineText.isEmpty) return None
 
@@ -165,7 +171,11 @@ class PdfReader(
       if (isTitleLine) ElementType.TITLE else ElementType.NARRATIVE_TEXT
 
     val metadata =
-      mutable.Map("pageNumber" -> pageNumber.toString, "element_id" -> UUID.randomUUID().toString)
+      mutable.Map(
+        "pageNumber" -> pageNumber.toString,
+        "element_id" -> UUID.randomUUID().toString,
+        "paragraph_index" -> paragraphIndex.toString,
+        "paragraph_y" -> (paragraphIndex * paragraphSpacingY).toString)
     // Assign parent_id only for narrative text or non-titles
     if (!isTitleLine) currentParentId.foreach(pid => metadata("parent_id") = pid)
     Some(HTMLElement(elementType, lineText, metadata))
@@ -178,28 +188,35 @@ class PdfReader(
   private def transformPdfToImages(content: Array[Byte]): Seq[HTMLElement] = {
     val pageImages = ImageParser.renderPdfFile(content) // Map[Int, Option[BufferedImage]]
 
-    pageImages.flatMap {
-      case (pageIndex, Some(bufferedImage)) =>
-        val baos = new ByteArrayOutputStream()
-        ImageIO.write(bufferedImage, "jpg", baos)
-        val bytes = baos.toByteArray
-        baos.close()
+    pageImages.toSeq
+      .sortBy(_._1)
+      .flatMap {
+        case (pageIndex, Some(bufferedImage)) =>
+          val pageNumber = pageIndex + 1
+          val baos = new ByteArrayOutputStream()
+          ImageIO.write(bufferedImage, "jpg", baos)
+          val bytes = baos.toByteArray
+          baos.close()
+          val coordY = pageIndex * bufferedImage.getHeight
+          val coord = s"{x:0,y:$coordY}"
 
-        val metadata = mutable.Map(
-          "pageNumber" -> pageIndex.toString,
-          "format" -> "jpg",
-          "width" -> bufferedImage.getWidth.toString,
-          "height" -> bufferedImage.getHeight.toString,
-          "element_id" -> UUID.randomUUID().toString)
+          val metadata = mutable.Map(
+            "pageNumber" -> pageNumber.toString,
+            "coord" -> coord,
+            "format" -> "jpg",
+            "width" -> bufferedImage.getWidth.toString,
+            "height" -> bufferedImage.getHeight.toString,
+            "element_id" -> UUID.randomUUID().toString)
 
-        Some(
-          HTMLElement(
-            elementType = ElementType.IMAGE,
-            content = "",
-            metadata = metadata,
-            binaryContent = Some(bytes)))
-      case _ => None
-    }.toSeq
+          Some(
+            HTMLElement(
+              elementType = ElementType.IMAGE,
+              content = "",
+              metadata = metadata,
+              binaryContent = Some(bytes)))
+        case _ => None
+      }
+      .toSeq
   }
 
 }

@@ -11,6 +11,7 @@ class LayoutAlignerForVisionTest extends AnyFlatSpec with SparkSessionTest {
 
   val docDirectory = "src/test/resources/reader/doc"
   val pptDirectory = "src/test/resources/reader/ppt"
+  val pdfDirectory = "src/test/resources/reader/pdf"
   val baseImagePrompt =
     "Describe in a short and easy to understand sentence what you see in the image"
 
@@ -188,6 +189,50 @@ class LayoutAlignerForVisionTest extends AnyFlatSpec with SparkSessionTest {
           docs.head.metadata.get("slide_index") == images.head.metadata.get("slide_index")
         },
       "Aligned text/image should belong to the same slide")
+  }
+
+  it should "align PDF text/images on the same page when image coordinates are page-scale" taggedAs FastTest in {
+    val reader = new ReaderAssembler()
+      .setContentType("application/pdf")
+      .setContentPath(s"$pdfDirectory/pdf-with-2images.pdf")
+      .setOutputAsDocument(false)
+      .setOutputCol("data")
+
+    val aligner = new LayoutAlignerForVision()
+      .setInputCols("data_text", "data_image")
+      .setOutputCol("aligned")
+
+    val pipeline = new Pipeline().setStages(Array(reader, aligner))
+    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
+
+    val alignedDocs = AssertAnnotations.getActualResult(resultDf, "aligned_doc")
+    val alignedImages = AssertAnnotations.getActualImageResult(resultDf, "aligned_image")
+
+    assert(alignedDocs.nonEmpty, "Expected aligned document/image pairs for PDF")
+    assert(
+      alignedDocs.length == alignedImages.length,
+      "Expected aligned_doc and aligned_image row counts to match")
+    assert(alignedDocs.forall(_.size == 1), "Each exploded row should have one doc annotation")
+    assert(
+      alignedImages.forall(_.size == 1),
+      "Each exploded row should have one image annotation")
+    assert(
+      alignedDocs.forall(_.head.metadata.contains("pageNumber")),
+      "Aligned document metadata should include pageNumber")
+    assert(
+      alignedImages.forall(_.head.metadata.contains("pageNumber")),
+      "Aligned image metadata should include pageNumber")
+    assert(
+      alignedImages.forall(
+        _.head.metadata.get("match_strategy").exists(_.startsWith("same_page"))),
+      "PDF alignments should use same_page strategies")
+    assert(
+      alignedDocs
+        .zip(alignedImages)
+        .forall { case (docs, images) =>
+          docs.head.metadata.get("pageNumber") == images.head.metadata.get("pageNumber")
+        },
+      "Aligned text/image should belong to the same PDF page")
   }
 
   it should "work with AutoGGUFVisionModel for doc files" taggedAs SlowTest in {

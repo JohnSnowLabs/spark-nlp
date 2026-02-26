@@ -85,7 +85,8 @@ class LayoutAlignerForVision(override val uid: String)
       annotation: Annotation,
       y: Int,
       index: Int,
-      slideIndex: Option[Int])
+      slideIndex: Option[Int],
+      pageNumber: Option[Int])
   private case class ParagraphKey(begin: Int, end: Int, index: Option[Int])
   private case class ImageKey(imageId: String, coord: String, imageType: String)
   private case class ImageLayout(
@@ -94,7 +95,8 @@ class LayoutAlignerForVision(override val uid: String)
       imageType: String,
       sourceFile: String,
       coord: String,
-      slideIndex: Option[Int])
+      slideIndex: Option[Int],
+      pageNumber: Option[Int])
   private case class AlignedPair(
       doc: Annotation,
       image: AnnotationImage,
@@ -245,11 +247,23 @@ class LayoutAlignerForVision(override val uid: String)
       val sameSlideParagraphs = image.slideIndex
         .map(slideIndex => paragraphLayout.filter(_.slideIndex.contains(slideIndex)))
         .getOrElse(Seq.empty)
+      val samePageParagraphs = if (sameSlideParagraphs.nonEmpty) {
+        Seq.empty
+      } else {
+        image.pageNumber
+          .map(pageNumber => paragraphLayout.filter(_.pageNumber.contains(pageNumber)))
+          .getOrElse(Seq.empty)
+      }
       val candidateParagraphs =
-        if (sameSlideParagraphs.nonEmpty) sameSlideParagraphs else paragraphLayout
+        if (sameSlideParagraphs.nonEmpty) sameSlideParagraphs
+        else if (samePageParagraphs.nonEmpty) samePageParagraphs
+        else paragraphLayout
       val paragraphByIndex = candidateParagraphs.map(p => p.index -> p).toMap
       val primaryMatchStrategy =
-        if (sameSlideParagraphs.nonEmpty) "same_slide_distance" else "distance"
+        if (sameSlideParagraphs.nonEmpty) "same_slide_distance"
+        else if (samePageParagraphs.nonEmpty) "same_page_distance"
+        else "distance"
+      val hasScopedCandidates = sameSlideParagraphs.nonEmpty || samePageParagraphs.nonEmpty
 
       val closest = findClosestParagraph(image.y, candidateParagraphs)
       closest.toSeq.flatMap { closestLayout =>
@@ -262,13 +276,15 @@ class LayoutAlignerForVision(override val uid: String)
         }
         if (strictAlignments.nonEmpty) {
           strictAlignments
-        } else if (sameSlideParagraphs.nonEmpty && candidates.nonEmpty) {
-          val closestSameSlide =
+        } else if (hasScopedCandidates && candidates.nonEmpty) {
+          val closestScoped =
             findClosestParagraph(image.y, candidates).getOrElse(candidates.head)
+          val fallbackStrategy =
+            if (sameSlideParagraphs.nonEmpty) "same_slide_fallback" else "same_page_fallback"
           buildAlignedPair(
             image = image,
-            paragraph = closestSameSlide,
-            matchStrategy = "same_slide_fallback",
+            paragraph = closestScoped,
+            matchStrategy = fallbackStrategy,
             skipMaxDistance = true,
             forcedConfidence = Some(sameSlideFallbackConfidence)).toSeq
         } else {
@@ -357,7 +373,12 @@ class LayoutAlignerForVision(override val uid: String)
     for {
       y <- metadata.get("paragraph_y").flatMap(parseInt)
       idx <- metadata.get("paragraph_index").flatMap(parseInt)
-    } yield ParagraphLayout(annotation, y, idx, extractSlideIndex(metadata))
+    } yield ParagraphLayout(
+      annotation,
+      y,
+      idx,
+      extractSlideIndex(metadata),
+      extractPageNumber(metadata))
   }
 
   private def extractImageLayout(annotation: AnnotationImage): Option[ImageLayout] = {
@@ -370,8 +391,10 @@ class LayoutAlignerForVision(override val uid: String)
       .getOrElse("")
     val imageType = metadata.getOrElse("image_type", "unknown")
     val slideIndex = extractSlideIndex(metadata)
+    val pageNumber = extractPageNumber(metadata)
 
-    extractY(coord).map(y => ImageLayout(annotation, y, imageType, sourceFile, coord, slideIndex))
+    extractY(coord).map(y =>
+      ImageLayout(annotation, y, imageType, sourceFile, coord, slideIndex, pageNumber))
   }
 
   private def parseInt(value: String): Option[Int] = {
@@ -392,6 +415,13 @@ class LayoutAlignerForVision(override val uid: String)
       .get("slide_index")
       .flatMap(parseInt)
       .orElse(metadata.get("domPath").flatMap(extractSlideIndexFromDomPath))
+  }
+
+  private def extractPageNumber(metadata: Map[String, String]): Option[Int] = {
+    metadata
+      .get("pageNumber")
+      .flatMap(parseInt)
+      .orElse(metadata.get("page_number").flatMap(parseInt))
   }
 
   private def extractSlideIndexFromDomPath(domPath: String): Option[Int] = {

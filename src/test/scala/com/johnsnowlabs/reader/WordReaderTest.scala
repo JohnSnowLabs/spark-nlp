@@ -116,6 +116,36 @@ class WordReaderTest extends AnyFlatSpec {
     AssertReaders.assertHierarchy(wordDf, "doc")
   }
 
+  it should "include paragraph_index and paragraph_y metadata fields for text elements" taggedAs FastTest in {
+    val paragraphSpacingY = 25
+    val wordReader = new WordReader()
+    val wordDf = wordReader.doc(s"$docDirectory/hierarchy_test.docx")
+
+    val textDf = wordDf
+      .withColumn("doc_exploded", explode(col("doc")))
+      .filter(
+        col("doc_exploded.elementType")
+          .isin(
+            ElementType.TITLE,
+            ElementType.NARRATIVE_TEXT,
+            ElementType.LIST_ITEM,
+            ElementType.TABLE))
+      .selectExpr(
+        "cast(doc_exploded.metadata.paragraph_index as int) as paragraphIndex",
+        "cast(doc_exploded.metadata.paragraph_y as int) as paragraphY")
+
+    assert(textDf.count() > 0, "No text elements found in WordReader output")
+    assert(
+      textDf.filter(col("paragraphIndex").isNull).count() == 0,
+      "Missing paragraph_index in text metadata")
+    assert(
+      textDf.filter(col("paragraphY").isNull).count() == 0,
+      "Missing paragraph_y in text metadata")
+    assert(
+      textDf.filter(col("paragraphY") =!= col("paragraphIndex") * paragraphSpacingY).count() == 0,
+      "paragraph_y should be derived from paragraph_index")
+  }
+
   it should "include domPath, orderTableIndex and orderImageIndex metadata fields" taggedAs FastTest in {
     val wordReader = new WordReader()
     val wordDf = wordReader.doc(s"$docDirectory/doc-img-table.docx")

@@ -40,6 +40,32 @@ class PdfReaderTest extends AnyFlatSpec {
     assert(pdfDf.columns.contains("content"))
   }
 
+  it should "include coord field in IMAGE metadata with {x:...,y:...} format when readAsImage is enabled" taggedAs FastTest in {
+    val pdfReader = new PdfReader(readAsImage = true)
+    val pdfDf = pdfReader.pdf(s"$pdfDirectory/text_3_pages.pdf")
+
+    val imagesDf = pdfDf
+      .select(explode(col("pdf")).as("pdf_exploded"))
+      .filter(col("pdf_exploded.elementType") === ElementType.IMAGE)
+
+    val coordDf = imagesDf.selectExpr("pdf_exploded.metadata.coord as coord")
+    val pageDf =
+      imagesDf.selectExpr("cast(pdf_exploded.metadata.pageNumber as int) as pageNumber")
+
+    assert(coordDf.count() > 0, "No IMAGE elements found in PdfReader output")
+    assert(coordDf.filter(col("coord").isNull).count() == 0, "Missing coord in IMAGE metadata")
+    assert(
+      pageDf.filter(col("pageNumber").isNull).count() == 0,
+      "Missing pageNumber in IMAGE metadata")
+    assert(
+      pageDf.filter(col("pageNumber") < 1).count() == 0,
+      "IMAGE pageNumber should be 1-based")
+
+    val pattern = """\{x:\d+,y:\d+\}"""
+    val allMatch = coordDf.collect().forall(row => row.getAs[String]("coord").matches(pattern))
+    assert(allMatch, "Some IMAGE coord fields do not match expected {x:...,y:...} format")
+  }
+
   it should "identify text as titles based on threshold value" taggedAs FastTest in {
     val pdfReader = new PdfReader(titleThreshold = 10)
     val pdfDf = pdfReader.pdf(s"$pdfDirectory/pdf-title.pdf")
@@ -47,9 +73,33 @@ class PdfReaderTest extends AnyFlatSpec {
     val titleDF = pdfDf
       .select(explode(col("pdf")).as("exploded_pdf"))
       .filter(col("exploded_pdf.elementType") === ElementType.TITLE)
-    titleDF.select("exploded_pdf").show(truncate = false)
 
     assert(titleDF.count() == 3)
+  }
+
+  it should "include paragraph_index and paragraph_y metadata fields for text elements" taggedAs FastTest in {
+    val paragraphSpacingY = 25
+    val pdfReader = new PdfReader()
+    val pdfDf = pdfReader.pdf(s"$pdfDirectory/text_3_pages.pdf")
+
+    val textDf = pdfDf
+      .select(explode(col("pdf")).as("pdf_exploded"))
+      .filter(col("pdf_exploded.elementType")
+        .isin(ElementType.TITLE, ElementType.NARRATIVE_TEXT))
+      .selectExpr(
+        "cast(pdf_exploded.metadata.paragraph_index as int) as paragraphIndex",
+        "cast(pdf_exploded.metadata.paragraph_y as int) as paragraphY")
+
+    assert(textDf.count() > 0, "No text elements found in PdfReader output")
+    assert(
+      textDf.filter(col("paragraphIndex").isNull).count() == 0,
+      "Missing paragraph_index in text metadata")
+    assert(
+      textDf.filter(col("paragraphY").isNull).count() == 0,
+      "Missing paragraph_y in text metadata")
+    assert(
+      textDf.filter(col("paragraphY") =!= col("paragraphIndex") * paragraphSpacingY).count() == 0,
+      "paragraph_y should be derived from paragraph_index")
   }
 
   it should "handle corrupted files" taggedAs FastTest in {
