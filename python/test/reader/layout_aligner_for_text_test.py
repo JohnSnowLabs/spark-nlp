@@ -17,10 +17,6 @@ import unittest
 
 import pytest
 from pyspark.ml import Pipeline
-#
-# from sparknlp.reader.layout_aligner_for_text import LayoutAlignerForText
-# from sparknlp.reader.layout_aligner_for_vision import LayoutAlignerForVision
-# from sparknlp.reader.reader_assembler import ReaderAssembler
 from sparknlp.reader import ReaderAssembler, LayoutAlignerForVision, LayoutAlignerForText
 from test.util import SparkContextForTest
 
