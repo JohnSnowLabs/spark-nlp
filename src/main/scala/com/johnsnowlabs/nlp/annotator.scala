@@ -859,4 +859,9 @@ package object annotator {
   type ReaderAssembler = com.johnsnowlabs.reader.ReaderAssembler
 
   object ReaderAssembler extends DefaultParamsReadable[ReaderAssembler]
+
+  type LLMNerModel = com.johnsnowlabs.nlp.annotators.ner.dl.LLMNerModel
+
+  object LLMNerModel extends ParamsAndFeaturesReadable[LLMNerModel]
+
 }
