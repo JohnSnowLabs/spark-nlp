@@ -17,9 +17,11 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel
-import com.johnsnowlabs.nlp.{AnnotatorType, AssertAnnotations}
+import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, AnnotatorType, AssertAnnotations}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.types.MetadataBuilder
 import org.scalatest.flatspec.AnyFlatSpec
 
 class LayoutAlignerForVisionTest extends AnyFlatSpec with SparkSessionTest {
@@ -105,19 +107,50 @@ class LayoutAlignerForVisionTest extends AnyFlatSpec with SparkSessionTest {
       .setMergeImagesPerChunk(true)
       .setExplodeDocs(true)
 
+    val unmergedAligner = new LayoutAlignerForVision()
+      .setInputCols("data_text", "data_image")
+      .setOutputCol("aligned")
+      .setMergeImagesPerChunk(false)
+      .setExplodeDocs(true)
+
+    val unmergedPipeline = new Pipeline().setStages(Array(reader, unmergedAligner))
+    val unmergedResult = unmergedPipeline.fit(emptyDataSet).transform(emptyDataSet)
+    val unmergedDocs = AssertAnnotations
+      .getActualResult(unmergedResult, "aligned_doc")
+      .map(_.head)
+    val unmergedCountsByParagraph = unmergedDocs
+      .groupBy(a => (a.begin, a.end, a.metadata.getOrElse("paragraph_index", "")))
+      .map { case (key, docs) => key -> docs.size }
+
     val pipeline = new Pipeline().setStages(Array(reader, aligner))
     val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
 
     val alignedDocs = AssertAnnotations.getActualResult(resultDf, "aligned_doc")
     val alignedImages = AssertAnnotations.getActualImageResult(resultDf, "aligned_image")
 
-    assert(alignedDocs.length == 4, "Expected one merged doc/image pair per paragraph")
+    assert(
+      alignedDocs.length == unmergedCountsByParagraph.size,
+      "Expected one merged doc/image pair per paragraph with at least one image")
+    assert(alignedDocs.length <= unmergedDocs.length)
     assert(alignedDocs.length == alignedImages.length)
     assert(alignedDocs.forall(_.size == 1))
     assert(alignedImages.forall(_.size == 1))
     assert(
       alignedDocs.forall(_.head.metadata.contains("image_matches")),
       "Merged doc metadata should include image_matches")
+
+    val sourceFileToken = "\"source_file\""
+    alignedDocs.foreach { row =>
+      val doc = row.head
+      val paragraphKey = (doc.begin, doc.end, doc.metadata.getOrElse("paragraph_index", ""))
+      val expectedMatches = unmergedCountsByParagraph(paragraphKey)
+      val imageMatchesJson = doc.metadata("image_matches")
+      val actualMatches =
+        imageMatchesJson.sliding(sourceFileToken.length).count(_ == sourceFileToken)
+      assert(
+        actualMatches == expectedMatches,
+        s"Merged image_matches should keep all matches for paragraph $paragraphKey")
+    }
   }
 
   it should "include aligned text in prompt when addNeighborText is enabled" taggedAs FastTest in {
@@ -149,6 +182,68 @@ class LayoutAlignerForVisionTest extends AnyFlatSpec with SparkSessionTest {
         promptText.contains(docText)
       },
       "Prompt should include aligned text when addNeighborText=true")
+  }
+
+  it should "emit only one alignment per floating image even with context window candidates" taggedAs FastTest in {
+    import spark.implicits._
+
+    val docMetadata =
+      new MetadataBuilder().putString("annotatorType", AnnotatorType.DOCUMENT).build()
+    val imageMetadata =
+      new MetadataBuilder().putString("annotatorType", AnnotatorType.IMAGE).build()
+
+    val doc1 = Annotation(
+      annotatorType = AnnotatorType.DOCUMENT,
+      begin = 0,
+      end = 9,
+      result = "Paragraph4",
+      metadata = Map(
+        "paragraph_index" -> "4",
+        "paragraph_y" -> "100",
+        "page_y" -> "174",
+        "pageNumber" -> "1"))
+    val doc2 = Annotation(
+      annotatorType = AnnotatorType.DOCUMENT,
+      begin = 10,
+      end = 19,
+      result = "Paragraph5",
+      metadata = Map(
+        "paragraph_index" -> "5",
+        "paragraph_y" -> "125",
+        "page_y" -> "186",
+        "pageNumber" -> "1"))
+
+    val image = AnnotationImage(
+      annotatorType = AnnotatorType.IMAGE,
+      origin = "report.pdf",
+      height = 288,
+      width = 432,
+      nChannels = 3,
+      mode = 16,
+      result = Array.emptyByteArray,
+      metadata = Map(
+        "coord" -> "{x:90,y:209}",
+        "pageNumber" -> "1",
+        "image_type" -> "floating",
+        "source_file" -> "report.pdf"),
+      text = "")
+
+    val input = Seq((Seq(doc1, doc2), Seq(image)))
+      .toDF("data_text", "data_image")
+      .withColumn("data_text", col("data_text").as("data_text", docMetadata))
+      .withColumn("data_image", col("data_image").as("data_image", imageMetadata))
+
+    val aligner = new LayoutAlignerForVision()
+      .setInputCols("data_text", "data_image")
+      .setOutputCol("aligned")
+
+    val resultDf = aligner.transform(input)
+    val alignedDocs = AssertAnnotations.getActualResult(resultDf, "aligned_doc")
+    val alignedImages = AssertAnnotations.getActualImageResult(resultDf, "aligned_image")
+
+    assert(alignedDocs.length == 1, "Same floating image should align once")
+    assert(alignedImages.length == 1, "Same floating image should align once")
+    assert(alignedImages.head.head.metadata.get("paragraph_index").contains("5"))
   }
 
   it should "align PowerPoint text/images on the same slide" taggedAs FastTest in {

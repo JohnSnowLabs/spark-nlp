@@ -17,8 +17,18 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.reader.util.AssertReaders
 import com.johnsnowlabs.tags.FastTest
+import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.pdmodel.PDPage
+import org.apache.pdfbox.pdmodel.PDPageContentStream
+import org.apache.pdfbox.pdmodel.common.PDRectangle
+import org.apache.pdfbox.pdmodel.font.PDType1Font
+import org.apache.pdfbox.pdmodel.graphics.image.LosslessFactory
 import org.scalatest.flatspec.AnyFlatSpec
 import org.apache.spark.sql.functions.{col, explode}
+
+import java.awt.Color
+import java.awt.image.BufferedImage
+import java.nio.file.Files
 
 class PdfReaderTest extends AnyFlatSpec {
 
@@ -100,6 +110,61 @@ class PdfReaderTest extends AnyFlatSpec {
     assert(
       textDf.filter(col("paragraphY") =!= col("paragraphIndex") * paragraphSpacingY).count() == 0,
       "paragraph_y should be derived from paragraph_index")
+  }
+
+  it should "extract non-zero embedded image coordinates when PDF contains positioned images" taggedAs FastTest in {
+    val tempPdfPath = Files.createTempFile("pdf-reader-image-coord-", ".pdf")
+    val document = new PDDocument()
+
+    try {
+      val page = new PDPage(PDRectangle.LETTER)
+      document.addPage(page)
+
+      val image = new BufferedImage(120, 60, BufferedImage.TYPE_INT_RGB)
+      val graphics = image.createGraphics()
+      graphics.setColor(Color.WHITE)
+      graphics.fillRect(0, 0, image.getWidth, image.getHeight)
+      graphics.setColor(Color.BLUE)
+      graphics.fillRect(0, 0, image.getWidth, image.getHeight)
+      graphics.dispose()
+
+      val pdImage = LosslessFactory.createFromImage(document, image)
+      val contentStream = new PDPageContentStream(document, page)
+      contentStream.beginText()
+      contentStream.setFont(PDType1Font.HELVETICA_BOLD, 14)
+      contentStream.newLineAtOffset(72, 740)
+      contentStream.showText("Revenue Summary")
+      contentStream.endText()
+      contentStream.drawImage(pdImage, 100, 320, 220, 120)
+      contentStream.close()
+
+      document.save(tempPdfPath.toFile)
+    } finally {
+      document.close()
+    }
+
+    try {
+      val pdfReader = new PdfReader(readAsImage = true)
+      val pdfDf = pdfReader.pdf(tempPdfPath.toString)
+
+      val imagesDf = pdfDf
+        .select(explode(col("pdf")).as("pdf_exploded"))
+        .filter(col("pdf_exploded.elementType") === ElementType.IMAGE)
+
+      val coordPattern = """\{x:(\d+),y:(\d+)\}""".r
+      val yValues = imagesDf
+        .selectExpr("pdf_exploded.metadata.coord as coord")
+        .collect()
+        .flatMap(row =>
+          coordPattern
+            .findFirstMatchIn(row.getAs[String]("coord"))
+            .map(_.group(2).toInt))
+
+      assert(yValues.nonEmpty, "Expected IMAGE elements with coord metadata")
+      assert(yValues.exists(_ > 0), "Expected at least one embedded IMAGE with y > 0")
+    } finally {
+      Files.deleteIfExists(tempPdfPath)
+    }
   }
 
   it should "handle corrupted files" taggedAs FastTest in {

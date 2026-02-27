@@ -67,7 +67,7 @@ class LayoutAlignerForText(AnnotatorTransformer, AnnotatorProperties):
             outputCol="aligned_text",
             joinDelimiter="\n",
             inlinePrefixThreshold=10,
-            explodeElements=True,
+            explodeElements=False,
         )
 
     @keyword_only

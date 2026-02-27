@@ -290,7 +290,7 @@ class LayoutAlignerForVision(override val uid: String)
             matchStrategy = primaryMatchStrategy)
         }
         if (strictAlignments.nonEmpty) {
-          strictAlignments
+          Seq(selectBestAlignmentForImage(strictAlignments))
         } else if (hasScopedCandidates && candidates.nonEmpty) {
           val closestScoped =
             findClosestParagraph(image.y, candidates).getOrElse(candidates.head)
@@ -311,7 +311,7 @@ class LayoutAlignerForVision(override val uid: String)
     val uniqueAlignments = candidateAlignments
       .groupBy(alignmentIdentity)
       .values
-      .map(_.head)
+      .map(group => group.minBy(alignmentSortKey))
       .toSeq
       .sortBy(alignmentSortKey)
 
@@ -333,6 +333,9 @@ class LayoutAlignerForVision(override val uid: String)
   private def toOutputPair(alignment: AlignedPair): (Annotation, AnnotationImage) =
     (alignment.doc, alignment.image)
 
+  private def selectBestAlignmentForImage(candidates: Seq[AlignedPair]): AlignedPair =
+    candidates.minBy(imageAssignmentSortKey)
+
   private def alignmentIdentity(alignment: AlignedPair): (ParagraphKey, ImageKey, Int, Double) =
     (alignment.paragraphKey, alignment.imageKey, alignment.distance, alignment.confidence)
 
@@ -342,6 +345,14 @@ class LayoutAlignerForVision(override val uid: String)
       alignment.paragraphKey.end,
       alignment.distance,
       -alignment.confidence,
+      alignment.coord)
+
+  private def imageAssignmentSortKey(alignment: AlignedPair): (Int, Double, Int, Int, String) =
+    (
+      alignment.distance,
+      -alignment.confidence,
+      alignment.paragraphKey.begin,
+      alignment.paragraphKey.end,
       alignment.coord)
 
   private def mergeParagraphAlignments(alignments: Seq[AlignedPair]): AlignedPair = {
@@ -385,8 +396,12 @@ class LayoutAlignerForVision(override val uid: String)
 
   private def extractParagraphLayout(annotation: Annotation): Option[ParagraphLayout] = {
     val metadata: Map[String, String] = Option(annotation.metadata).getOrElse(Map.empty)
+    val paragraphY = metadata
+      .get("page_y")
+      .flatMap(parseInt)
+      .orElse(metadata.get("paragraph_y").flatMap(parseInt))
     for {
-      y <- metadata.get("paragraph_y").flatMap(parseInt)
+      y <- paragraphY
       idx <- metadata.get("paragraph_index").flatMap(parseInt)
     } yield ParagraphLayout(
       annotation,
@@ -497,7 +512,9 @@ class LayoutAlignerForVision(override val uid: String)
       "confidence" -> confidence.toString,
       "match_strategy" -> matchStrategy,
       "paragraph_index" -> paragraph.index.toString,
-      "paragraph_y" -> paragraph.y.toString) ++ slideMetadata
+      "paragraph_y" -> docMetadata.getOrElse(
+        "paragraph_y",
+        paragraph.y.toString)) ++ slideMetadata
     val pairedImage = image.annotation.copy(metadata = imageMetadata)
 
     val paragraphKey = ParagraphKey(doc.begin, doc.end, Some(paragraph.index))

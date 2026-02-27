@@ -61,11 +61,15 @@ class LayoutAlignerForText(override val uid: String)
     "inlinePrefixThreshold",
     "Inline images with x <= threshold are inserted before the paragraph text")
 
-  /** Controls whether rebuilt elements are emitted as one output row per element. */
+  /** Controls row emission mode.
+    *
+    * When `true`, one output row is emitted per aligned element. When `false`, one output row is
+    * emitted per file with a single merged document annotation.
+    */
   val explodeElements: BooleanParam = new BooleanParam(
     this,
     "explodeElements",
-    "Whether to emit one output row per aligned text element")
+    "Whether to emit one output row per aligned text element (otherwise one merged document)")
 
   /** Controls whether input annotation columns are preserved in the final output.
     *
@@ -93,7 +97,7 @@ class LayoutAlignerForText(override val uid: String)
   setDefault(
     joinDelimiter -> "\n",
     inlinePrefixThreshold -> 10,
-    explodeElements -> true,
+    explodeElements -> false,
     preserveColumns -> false)
 
   /** Output metadata required by Spark NLP to mark outputCol as DOCUMENT annotations. */
@@ -107,6 +111,16 @@ class LayoutAlignerForText(override val uid: String)
       pairs: Vector[(Annotation, Annotation)],
       preservedDocs: Vector[Row],
       preservedCaptions: Vector[Row])
+
+  /** Placeholder caption used to keep document chunks when no matching caption exists. */
+  private val emptyCaptionAnnotation: Annotation =
+    Annotation(
+      annotatorType = AnnotatorType.DOCUMENT,
+      begin = 0,
+      end = 0,
+      result = "",
+      metadata = Map.empty[String, String],
+      embeddings = Array.emptyFloatArray)
 
   /** Internal, normalized representation of one `(doc, caption)` pair used by heuristics. */
   private case class PairRecord(
@@ -175,7 +189,8 @@ class LayoutAlignerForText(override val uid: String)
         rebuilt.iterator.map(annotation =>
           Row.fromSeq(baseValues ++ Seq(Seq(annotationToRow(annotation)))))
       } else {
-        Iterator.single(Row.fromSeq(baseValues ++ Seq(rebuilt.map(annotationToRow))))
+        val mergedDocument = mergeElementsToSingleDocument(rebuilt)
+        Iterator.single(Row.fromSeq(baseValues ++ Seq(mergedDocument.map(annotationToRow))))
       }
     }
 
@@ -277,7 +292,7 @@ class LayoutAlignerForText(override val uid: String)
     *
     * The accumulator stores:
     *   - passthrough column values
-    *   - zipped `(doc, caption)` pairs used for rebuilding
+    *   - matched `(doc, caption)` pairs used for rebuilding
     *   - full raw input annotation arrays for optional preservation
     */
   private def buildGroupAccumulator(
@@ -287,7 +302,9 @@ class LayoutAlignerForText(override val uid: String)
       captionInputIndex: Int): GroupAccumulator = {
     val docs = extractAnnotationRows(row, docInputIndex).toVector
     val captions = extractAnnotationRows(row, captionInputIndex).toVector
-    val pairs = docs.map(Annotation(_)).zip(captions.map(Annotation(_))).toVector
+    val docAnnotations = docs.map(Annotation(_))
+    val captionAnnotations = captions.map(Annotation(_))
+    val pairs = pairDocsWithCaptions(docAnnotations, captionAnnotations)
     val baseValues = passthroughColumns.map(name => name -> row.getAs[Any](name)).toMap
 
     GroupAccumulator(
@@ -321,6 +338,50 @@ class LayoutAlignerForText(override val uid: String)
   /** Extracts raw annotation rows from a row/column index, returning empty on null. */
   private def extractAnnotationRows(row: Row, columnIndex: Int): Seq[Row] =
     Option(row.getAs[Seq[Row]](columnIndex)).getOrElse(Seq.empty)
+
+  /** Pairs all docs with captions using paragraph index when available, then positional fallback.
+    *
+    * This prevents dropping document chunks when captions are fewer than documents.
+    */
+  private def pairDocsWithCaptions(
+      docs: Vector[Annotation],
+      captions: Vector[Annotation]): Vector[(Annotation, Annotation)] = {
+    if (docs.isEmpty) {
+      Vector.empty
+    } else if (captions.isEmpty) {
+      docs.map(doc => doc -> emptyCaptionAnnotation)
+    } else {
+      val docsByParagraphIndex: Map[Int, Int] = docs.zipWithIndex.flatMap {
+        case (doc, docIndex) =>
+          getInt(Option(doc.metadata).getOrElse(Map.empty), "paragraph_index").map(_ -> docIndex)
+      }.toMap
+
+      val captionsByDocIndex =
+        captions.zipWithIndex.foldLeft(Map.empty[Int, Vector[Annotation]]) {
+          case (acc, (caption, captionIndex)) =>
+            val captionMetadata: Map[String, String] =
+              Option(caption.metadata).getOrElse(Map.empty)
+            val targetDocIndex =
+              getInt(captionMetadata, "paragraph_index")
+                .flatMap(docsByParagraphIndex.get)
+                .orElse(if (captionIndex < docs.length) Some(captionIndex) else None)
+
+            targetDocIndex match {
+              case Some(docIndex) =>
+                val assigned = acc.getOrElse(docIndex, Vector.empty)
+                acc.updated(docIndex, assigned :+ caption)
+              case None =>
+                acc
+            }
+        }
+
+      docs.zipWithIndex.flatMap { case (doc, docIndex) =>
+        val assignedCaptions = captionsByDocIndex.getOrElse(docIndex, Vector.empty)
+        if (assignedCaptions.nonEmpty) assignedCaptions.map(caption => doc -> caption)
+        else Vector(doc -> emptyCaptionAnnotation)
+      }
+    }
+  }
 
   /** Builds output base values in schema order, injecting preserved input columns when enabled.
     */
@@ -375,6 +436,29 @@ class LayoutAlignerForText(override val uid: String)
           "layout_aligner" -> "LayoutAlignerForText",
           "piece_count" -> deduplicatedPieces.size.toString,
           "element_id" -> block.elementId) ++ paragraphMetadata ++ slideMetadata)
+    }
+  }
+
+  /** Merges per-element rebuilt annotations into a single file-level document annotation. */
+  private def mergeElementsToSingleDocument(rebuilt: Seq[Annotation]): Seq[Annotation] = {
+    if (rebuilt.isEmpty) {
+      Seq.empty
+    } else {
+      val orderedPieces = rebuilt.map(_.result).filter(_.nonEmpty)
+      val deduplicatedPieces = collapseConsecutiveDuplicates(orderedPieces)
+      val text = deduplicatedPieces.mkString($(joinDelimiter))
+
+      Seq(
+        Annotation(
+          annotatorType = AnnotatorType.DOCUMENT,
+          begin = 0,
+          end = if (text.isEmpty) 0 else text.length - 1,
+          result = text,
+          metadata = Map(
+            "sentence" -> "0",
+            "layout_aligner" -> "LayoutAlignerForText",
+            "piece_count" -> deduplicatedPieces.size.toString,
+            "document_scope" -> "file")))
     }
   }
 

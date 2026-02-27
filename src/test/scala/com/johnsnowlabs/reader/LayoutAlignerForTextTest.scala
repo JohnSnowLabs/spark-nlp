@@ -149,6 +149,7 @@ class LayoutAlignerForTextTest extends AnyFlatSpec with SparkSessionTest {
     val aligner = new LayoutAlignerForText()
       .setInputCols("aligned_doc", "image_caption")
       .setOutputCol("aligned_text")
+      .setExplodeElements(true)
 
     val resultDf = aligner.transform(input)
 
@@ -204,6 +205,7 @@ class LayoutAlignerForTextTest extends AnyFlatSpec with SparkSessionTest {
     val aligner = new LayoutAlignerForText()
       .setInputCols("aligned_doc", "image_caption")
       .setOutputCol("aligned_text")
+      .setExplodeElements(true)
 
     val exception = intercept[IllegalArgumentException] {
       aligner.transform(input)
@@ -262,6 +264,7 @@ class LayoutAlignerForTextTest extends AnyFlatSpec with SparkSessionTest {
     val aligner = new LayoutAlignerForText()
       .setInputCols("aligned_doc", "image_caption")
       .setOutputCol("aligned_text")
+      .setExplodeElements(true)
 
     val resultDf = aligner.transform(input)
 
@@ -321,6 +324,7 @@ class LayoutAlignerForTextTest extends AnyFlatSpec with SparkSessionTest {
     val aligner = new LayoutAlignerForText()
       .setInputCols("aligned_doc", "image_caption")
       .setOutputCol("aligned_text")
+      .setExplodeElements(true)
       .setPreserveColumns(true)
 
     val resultDf = aligner.transform(input)
@@ -390,6 +394,7 @@ class LayoutAlignerForTextTest extends AnyFlatSpec with SparkSessionTest {
     val aligner = new LayoutAlignerForText()
       .setInputCols("aligned_doc", "image_caption")
       .setOutputCol("aligned_text")
+      .setExplodeElements(true)
 
     val resultDf = aligner.transform(input)
     val aligned = AssertAnnotations.getActualResult(resultDf, "aligned_text")
@@ -406,6 +411,124 @@ class LayoutAlignerForTextTest extends AnyFlatSpec with SparkSessionTest {
 
     val allText = Seq(rebuiltE10.result, rebuiltE11.result).mkString("\n")
     assert(allText.split(repeatedCaption, -1).length - 1 == 1)
+  }
+
+  it should "keep all text chunks when captions are fewer than docs" taggedAs FastTest in {
+
+    val heading = "Revenue Report"
+    val paragraph1 = "North America showed stable growth."
+    val paragraph2 = "Europe and APAC both improved quarter over quarter."
+    val caption = "Bar chart compares quarterly regional revenue."
+
+    val input = Seq(
+      (
+        "report.pdf",
+        Seq(
+          docAnnotation(
+            0,
+            heading.length - 1,
+            heading,
+            Map("element_id" -> "e0", "paragraph_index" -> "0", "paragraph_y" -> "0")),
+          docAnnotation(
+            20,
+            20 + paragraph1.length - 1,
+            paragraph1,
+            Map("element_id" -> "e1", "paragraph_index" -> "1", "paragraph_y" -> "25")),
+          docAnnotation(
+            80,
+            80 + paragraph2.length - 1,
+            paragraph2,
+            Map("element_id" -> "e2", "paragraph_index" -> "2", "paragraph_y" -> "50"))),
+        Seq(docAnnotation(
+          0,
+          caption.length - 1,
+          caption,
+          Map(
+            "paragraph_index" -> "1",
+            "orderImageIndex" -> "1",
+            "distance" -> "0",
+            "confidence" -> "0.95",
+            "image_type" -> "floating",
+            "coord" -> "{x:120,y:25}",
+            "source_file" -> "report.pdf")))))
+      .toDF("fileName", "aligned_doc", "image_caption")
+      .withColumn("aligned_doc", col("aligned_doc").as("aligned_doc", docMetadata))
+      .withColumn("image_caption", col("image_caption").as("image_caption", docMetadata))
+
+    val aligner = new LayoutAlignerForText()
+      .setInputCols("aligned_doc", "image_caption")
+      .setOutputCol("aligned_text")
+      .setExplodeElements(true)
+
+    val resultDf = aligner.transform(input)
+    val aligned = AssertAnnotations.getActualResult(resultDf, "aligned_text").flatten
+
+    assert(aligned.size == 3)
+
+    val rebuiltByElement = aligned.map(a => a.metadata("element_id") -> a).toMap
+    assert(rebuiltByElement("e0").result == heading)
+    assert(rebuiltByElement("e1").result == Seq(paragraph1, caption).mkString("\n"))
+    assert(rebuiltByElement("e2").result == paragraph2)
+  }
+
+  it should "return a single file-level annotation by default" taggedAs FastTest in {
+    val heading = "Revenue Report"
+    val paragraph1 = "North America showed stable growth."
+    val paragraph2 = "Europe and APAC both improved quarter over quarter."
+    val caption = "Bar chart compares quarterly regional revenue."
+
+    val input = Seq(
+      (
+        "report.pdf",
+        Seq(
+          docAnnotation(
+            0,
+            heading.length - 1,
+            heading,
+            Map("element_id" -> "e0", "paragraph_index" -> "0", "paragraph_y" -> "0")),
+          docAnnotation(
+            20,
+            20 + paragraph1.length - 1,
+            paragraph1,
+            Map("element_id" -> "e1", "paragraph_index" -> "1", "paragraph_y" -> "25")),
+          docAnnotation(
+            80,
+            80 + paragraph2.length - 1,
+            paragraph2,
+            Map("element_id" -> "e2", "paragraph_index" -> "2", "paragraph_y" -> "50"))),
+        Seq(docAnnotation(
+          0,
+          caption.length - 1,
+          caption,
+          Map(
+            "paragraph_index" -> "1",
+            "orderImageIndex" -> "1",
+            "distance" -> "0",
+            "confidence" -> "0.95",
+            "image_type" -> "floating",
+            "coord" -> "{x:120,y:25}",
+            "source_file" -> "report.pdf")))))
+      .toDF("fileName", "aligned_doc", "image_caption")
+      .withColumn("aligned_doc", col("aligned_doc").as("aligned_doc", docMetadata))
+      .withColumn("image_caption", col("image_caption").as("image_caption", docMetadata))
+
+    val aligner = new LayoutAlignerForText()
+      .setInputCols("aligned_doc", "image_caption")
+      .setOutputCol("aligned_text")
+
+    val resultDf = aligner.transform(input)
+    assert(resultDf.count() == 1)
+
+    val aligned = AssertAnnotations.getActualResult(resultDf, "aligned_text")
+    assert(aligned.size == 1)
+    assert(aligned.head.size == 1)
+
+    val mergedText = aligned.head.head.result
+    assert(mergedText.contains(heading))
+    assert(mergedText.contains(paragraph1))
+    assert(mergedText.contains(caption))
+    assert(mergedText.contains(paragraph2))
+    assert(mergedText.indexOf(paragraph1) < mergedText.indexOf(caption))
   }
 
   it should "work with AutoGGUFVisionModel for doc files" taggedAs SlowTest in {
@@ -432,19 +555,24 @@ class LayoutAlignerForTextTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipeline =
       new Pipeline().setStages(Array(reader, alignerVision, autoGgufModel, alignerText))
-    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
+    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet).cache()
+    resultDf.count()
 
-    resultDf.select("data_text").show(truncate = false)
-    resultDf.select("aligned_prompt").show(truncate = false)
-    resultDf.select("aligned_doc", "image_caption.result").show(truncate = false)
-    resultDf.select("aligned_text").show(truncate = false)
+    try {
+      resultDf.select("data_text").show(truncate = false)
+      resultDf.select("aligned_prompt").show(truncate = false)
+      resultDf.select("aligned_doc", "image_caption.result").show(truncate = false)
+      resultDf.select("aligned_text").show(truncate = false)
 
-    resultDf
-      .selectExpr(
-        "size(aligned_doc) as n_docs",
-        "size(image_caption) as n_caps",
-        "size(aligned_text) as n_text")
-      .show(false)
+      resultDf
+        .selectExpr(
+          "size(aligned_doc) as n_docs",
+          "size(image_caption) as n_caps",
+          "size(aligned_text) as n_text")
+        .show(false)
+    } finally {
+      resultDf.unpersist(blocking = false)
+    }
 
   }
 
@@ -471,11 +599,16 @@ class LayoutAlignerForTextTest extends AnyFlatSpec with SparkSessionTest {
 
     val pipeline =
       new Pipeline().setStages(Array(reader, alignerVision, autoGgufModel, alignerText))
-    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
+    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet).cache()
+    resultDf.count()
 
-    resultDf.select("data_text").show(truncate = false)
-    resultDf.select("aligned_prompt").show(truncate = false)
-    resultDf.select("aligned_text").show(truncate = false)
+    try {
+      resultDf.select("data_text").show(truncate = false)
+      resultDf.select("aligned_prompt").show(truncate = false)
+      resultDf.select("aligned_text").show(truncate = false)
+    } finally {
+      resultDf.unpersist(blocking = false)
+    }
   }
 
   it should "work with AutoGGUFVisionModel in a separate pipeline with PDF files" taggedAs SlowTest in {
@@ -496,21 +629,31 @@ class LayoutAlignerForTextTest extends AnyFlatSpec with SparkSessionTest {
 
     val imageCaptionPipeline =
       new Pipeline().setStages(Array(reader, alignerVision, autoGgufModel))
-    val imageCaptionDf = imageCaptionPipeline.fit(emptyDataSet).transform(emptyDataSet)
+    val imageCaptionDf = imageCaptionPipeline.fit(emptyDataSet).transform(emptyDataSet).cache()
+    imageCaptionDf.count()
 
-    imageCaptionDf
-      .select("aligned_prompt.result", "data_text", "aligned_doc", "image_caption")
-      .show(truncate = false)
+    try {
+      imageCaptionDf
+        .select("aligned_prompt.result", "data_text", "aligned_doc", "image_caption")
+        .show(truncate = false)
 
-    val alignerText = new LayoutAlignerForText()
-      .setInputCols("aligned_doc", "image_caption")
-      .setOutputCol("aligned_text")
+      val alignerText = new LayoutAlignerForText()
+        .setInputCols("aligned_doc", "image_caption")
+        .setOutputCol("aligned_text")
 
-    val pipeline =
-      new Pipeline().setStages(Array(alignerText))
-    val resultDf = pipeline.fit(imageCaptionDf).transform(imageCaptionDf)
+      val pipeline =
+        new Pipeline().setStages(Array(alignerText))
+      val resultDf = pipeline.fit(imageCaptionDf).transform(imageCaptionDf).cache()
+      resultDf.count()
 
-    resultDf.select("aligned_text").show(truncate = false)
+      try {
+        resultDf.select("aligned_text").show(truncate = false)
+      } finally {
+        resultDf.unpersist(blocking = false)
+      }
+    } finally {
+      imageCaptionDf.unpersist(blocking = false)
+    }
   }
 
 }
