@@ -184,6 +184,84 @@ class LayoutAlignerForVisionTest extends AnyFlatSpec with SparkSessionTest {
       "Prompt should include aligned text when addNeighborText=true")
   }
 
+  it should "include neighboring characters in prompt when neighborTextCharsWindow is set" taggedAs FastTest in {
+    import spark.implicits._
+
+    val docMetadata =
+      new MetadataBuilder().putString("annotatorType", AnnotatorType.DOCUMENT).build()
+    val imageMetadata =
+      new MetadataBuilder().putString("annotatorType", AnnotatorType.IMAGE).build()
+
+    val before = Annotation(
+      annotatorType = AnnotatorType.DOCUMENT,
+      begin = 0,
+      end = 9,
+      result = "AAAAABBBBB",
+      metadata = Map(
+        "paragraph_index" -> "0",
+        "paragraph_y" -> "100",
+        "page_y" -> "100",
+        "pageNumber" -> "1"))
+    val center = Annotation(
+      annotatorType = AnnotatorType.DOCUMENT,
+      begin = 10,
+      end = 15,
+      result = "CENTER",
+      metadata = Map(
+        "paragraph_index" -> "1",
+        "paragraph_y" -> "130",
+        "page_y" -> "130",
+        "pageNumber" -> "1"))
+    val after = Annotation(
+      annotatorType = AnnotatorType.DOCUMENT,
+      begin = 16,
+      end = 25,
+      result = "CCCCCDDDDD",
+      metadata = Map(
+        "paragraph_index" -> "2",
+        "paragraph_y" -> "160",
+        "page_y" -> "160",
+        "pageNumber" -> "1"))
+
+    val image = AnnotationImage(
+      annotatorType = AnnotatorType.IMAGE,
+      origin = "report.pdf",
+      height = 288,
+      width = 432,
+      nChannels = 3,
+      mode = 16,
+      result = Array.emptyByteArray,
+      metadata = Map(
+        "coord" -> "{x:90,y:130}",
+        "pageNumber" -> "1",
+        "image_type" -> "floating",
+        "source_file" -> "report.pdf"),
+      text = "")
+
+    val input = Seq((Seq(before, center, after), Seq(image)))
+      .toDF("data_text", "data_image")
+      .withColumn("data_text", col("data_text").as("data_text", docMetadata))
+      .withColumn("data_image", col("data_image").as("data_image", imageMetadata))
+
+    val aligner = new LayoutAlignerForVision()
+      .setInputCols("data_text", "data_image")
+      .setOutputCol("aligned")
+      .setAddNeighborText(true)
+      .setNeighborTextCharsWindow(5)
+
+    val resultDf = aligner.transform(input)
+
+    val alignedDocs = AssertAnnotations.getActualResult(resultDf, "aligned_doc")
+    val alignedPrompts = AssertAnnotations.getActualResult(resultDf, "aligned_prompt")
+
+    assert(alignedDocs.length == 1)
+    assert(alignedPrompts.length == 1)
+    assert(alignedDocs.head.head.result == "CENTER")
+    assert(
+      alignedPrompts.head.head.result.contains("this text: BBBBB CENTER CCCCC"),
+      "Prompt should include +/- 5 chars around the aligned chunk")
+  }
+
   it should "emit only one alignment per floating image even with context window candidates" taggedAs FastTest in {
     import spark.implicits._
 

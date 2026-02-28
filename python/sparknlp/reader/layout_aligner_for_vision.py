@@ -86,6 +86,13 @@ class LayoutAlignerForVision(AnnotatorTransformer, AnnotatorProperties):
         typeConverter=TypeConverters.toBoolean,
     )
 
+    neighborTextCharsWindow = Param(
+        Params._dummy(),
+        "neighborTextCharsWindow",
+        "When > 0, include this many characters before and after aligned text in prompt context.",
+        typeConverter=TypeConverters.toInt,
+    )
+
     @keyword_only
     def __init__(self):
         super(LayoutAlignerForVision, self).__init__(
@@ -100,6 +107,7 @@ class LayoutAlignerForVision(AnnotatorTransformer, AnnotatorProperties):
             explodeDocs=True,
             mergeImagesPerChunk=False,
             addNeighborText=False,
+            neighborTextCharsWindow=0,
         )
 
     @keyword_only
@@ -127,3 +135,6 @@ class LayoutAlignerForVision(AnnotatorTransformer, AnnotatorProperties):
 
     def setAddNeighborText(self, value):
         return self._set(addNeighborText=value)
+
+    def setNeighborTextCharsWindow(self, value):
+        return self._set(neighborTextCharsWindow=value)

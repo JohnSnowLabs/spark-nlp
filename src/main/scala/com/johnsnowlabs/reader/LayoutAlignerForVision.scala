@@ -73,9 +73,16 @@ class LayoutAlignerForVision(override val uid: String)
     "addNeighborText",
     "When true, prompt output includes the aligned text chunk as additional context")
 
+  val neighborTextCharsWindow: IntParam = new IntParam(
+    this,
+    "neighborTextCharsWindow",
+    "When > 0, include this many characters before and after the aligned chunk in prompt context",
+    ParamValidators.gtEq(0))
+
   def setExplodeDocs(value: Boolean): this.type = set(explodeDocs, value)
   def setMergeImagesPerChunk(value: Boolean): this.type = set(mergeImagesPerChunk, value)
   def setAddNeighborText(value: Boolean): this.type = set(addNeighborText, value)
+  def setNeighborTextCharsWindow(value: Int): this.type = set(neighborTextCharsWindow, value)
 
   setDefault(
     maxDistance -> 40,
@@ -84,7 +91,8 @@ class LayoutAlignerForVision(override val uid: String)
     confidenceThreshold -> 0.0,
     explodeDocs -> true,
     mergeImagesPerChunk -> false,
-    addNeighborText -> false)
+    addNeighborText -> false,
+    neighborTextCharsWindow -> 0)
 
   private val outputDocTypeMetadata: Metadata =
     new MetadataBuilder().putString("annotatorType", AnnotatorType.DOCUMENT).build()
@@ -161,12 +169,14 @@ class LayoutAlignerForVision(override val uid: String)
       rows.flatMap { row =>
         val textRows = Option(row.getAs[Seq[Row]](docInputIndex)).getOrElse(Seq.empty)
         val imageRows = Option(row.getAs[Seq[Row]](imageInputIndex)).getOrElse(Seq.empty)
-        val pairs = alignPairs(toTextAnnotations(textRows), toImageAnnotations(imageRows))
+        val textAnnotations = toTextAnnotations(textRows)
+        val pairs = alignPairs(textAnnotations, toImageAnnotations(imageRows))
+        val neighborTextByParagraph = buildNeighborTextByParagraph(textAnnotations)
         val baseValues = baseColumnIndexes.map(row.get)
 
         if ($(explodeDocs)) {
           pairs.iterator.map { case (doc, image) =>
-            val prompt = buildPromptAnnotation(doc)
+            val prompt = buildPromptAnnotation(resolveNeighborText(doc, neighborTextByParagraph))
             Row.fromSeq(
               baseValues ++ Seq(
                 Seq(annotationToRow(doc)),
@@ -177,7 +187,8 @@ class LayoutAlignerForVision(override val uid: String)
           val docValues = pairs.map { case (doc, _) => annotationToRow(doc) }
           val imageValues = pairs.map { case (_, image) => annotationImageToRow(image) }
           val promptValues = pairs.map { case (doc, _) =>
-            annotationToRow(buildPromptAnnotation(doc))
+            annotationToRow(
+              buildPromptAnnotation(resolveNeighborText(doc, neighborTextByParagraph)))
           }
           Iterator.single(Row.fromSeq(baseValues ++ Seq(docValues, imageValues, promptValues)))
         }
@@ -541,8 +552,81 @@ class LayoutAlignerForVision(override val uid: String)
     else 0.4
   }
 
-  private def buildPromptAnnotation(doc: Annotation): Annotation = {
-    val neighborText = Option(doc.result).getOrElse("")
+  private def paragraphKeyFromAnnotation(annotation: Annotation): ParagraphKey = {
+    val paragraphIndex =
+      Option(annotation.metadata)
+        .flatMap(_.get("paragraph_index"))
+        .flatMap(parseInt)
+    ParagraphKey(annotation.begin, annotation.end, paragraphIndex)
+  }
+
+  private def buildNeighborTextByParagraph(
+      textAnnotations: Seq[Annotation]): Map[ParagraphKey, String] = {
+    if (! $(addNeighborText)) return Map.empty
+
+    val paragraphLayout = textAnnotations.flatMap(extractParagraphLayout)
+    if (paragraphLayout.isEmpty) return Map.empty
+
+    val scopeGroups = paragraphLayout.groupBy { paragraph =>
+      paragraph.slideIndex
+        .map(idx => s"slide:$idx")
+        .orElse(paragraph.pageNumber.map(page => s"page:$page"))
+        .getOrElse("global")
+    }
+
+    val windowChars = $(neighborTextCharsWindow)
+    scopeGroups.values.flatMap { paragraphsInScope =>
+      val ordered = paragraphsInScope.sortBy(p => (p.index, p.annotation.begin))
+      ordered.zipWithIndex.map { case (paragraph, position) =>
+        val neighborContext =
+          buildContextText(ordered, centerPosition = position, windowChars = windowChars)
+        ParagraphKey(
+          begin = paragraph.annotation.begin,
+          end = paragraph.annotation.end,
+          index = Some(paragraph.index)) -> neighborContext
+      }
+    }.toMap
+  }
+
+  private def buildContextText(
+      orderedParagraphs: Seq[ParagraphLayout],
+      centerPosition: Int,
+      windowChars: Int): String = {
+    val currentText = Option(orderedParagraphs(centerPosition).annotation.result).getOrElse("")
+    if (windowChars <= 0) {
+      currentText
+    } else {
+      val beforeText = orderedParagraphs
+        .take(centerPosition)
+        .map(_.annotation.result)
+        .filter(_ != null)
+        .mkString(" ")
+      val afterText = orderedParagraphs
+        .drop(centerPosition + 1)
+        .map(_.annotation.result)
+        .filter(_ != null)
+        .mkString(" ")
+      val beforeSlice = if (beforeText.isEmpty) "" else beforeText.takeRight(windowChars)
+      val afterSlice = if (afterText.isEmpty) "" else afterText.take(windowChars)
+      Seq(beforeSlice, currentText, afterSlice)
+        .filter(_.nonEmpty)
+        .mkString(" ")
+        .replaceAll("\\s+", " ")
+        .trim
+    }
+  }
+
+  private def resolveNeighborText(
+      doc: Annotation,
+      neighborTextByParagraph: Map[ParagraphKey, String]): String = {
+    if (! $(addNeighborText)) ""
+    else {
+      val paragraphKey = paragraphKeyFromAnnotation(doc)
+      neighborTextByParagraph.getOrElse(paragraphKey, Option(doc.result).getOrElse(""))
+    }
+  }
+
+  private def buildPromptAnnotation(neighborText: String): Annotation = {
     val promptText =
       if ($(addNeighborText) && neighborText.nonEmpty) {
         s"$baseImagePrompt and then summarize it along with this text: $neighborText"

@@ -40,7 +40,8 @@ class LayoutAlignerForVisionWrapperTest(unittest.TestCase):
         aligner = LayoutAlignerForVision() \
             .setInputCols(["data_text", "data_image"]) \
             .setOutputCol("aligned") \
-            .setExplodeDocs(True)
+            .setExplodeDocs(True) \
+            .setNeighborTextCharsWindow(20)
 
         pipeline = Pipeline(stages=[reader, aligner])
         model = pipeline.fit(self.empty_df)
