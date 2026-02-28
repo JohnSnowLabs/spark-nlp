@@ -86,6 +86,13 @@ class LayoutAlignerForVision(AnnotatorTransformer, AnnotatorProperties):
         typeConverter=TypeConverters.toBoolean,
     )
 
+    imageCaptionBasePrompt = Param(
+        Params._dummy(),
+        "imageCaptionBasePrompt",
+        "Base prompt used for captioning aligned images.",
+        typeConverter=TypeConverters.toString,
+    )
+
     neighborTextCharsWindow = Param(
         Params._dummy(),
         "neighborTextCharsWindow",
@@ -107,6 +114,7 @@ class LayoutAlignerForVision(AnnotatorTransformer, AnnotatorProperties):
             explodeDocs=True,
             mergeImagesPerChunk=False,
             addNeighborText=False,
+            imageCaptionBasePrompt="Describe in a short and easy to understand sentence what you see in the image",
             neighborTextCharsWindow=0,
         )
 
@@ -135,6 +143,9 @@ class LayoutAlignerForVision(AnnotatorTransformer, AnnotatorProperties):
 
     def setAddNeighborText(self, value):
         return self._set(addNeighborText=value)
+
+    def setImageCaptionBasePrompt(self, value):
+        return self._set(imageCaptionBasePrompt=value)
 
     def setNeighborTextCharsWindow(self, value):
         return self._set(neighborTextCharsWindow=value)

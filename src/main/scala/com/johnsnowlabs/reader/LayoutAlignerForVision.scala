@@ -73,15 +73,24 @@ class LayoutAlignerForVision(override val uid: String)
     "addNeighborText",
     "When true, prompt output includes the aligned text chunk as additional context")
 
+  val imageCaptionBasePrompt: Param[String] = new Param[String](
+    this,
+    "imageCaptionBasePrompt",
+    "Base prompt used for captioning aligned images")
+
   val neighborTextCharsWindow: IntParam = new IntParam(
     this,
     "neighborTextCharsWindow",
     "When > 0, include this many characters before and after the aligned chunk in prompt context",
     ParamValidators.gtEq(0))
 
+  private val defaultImageCaptionBasePrompt =
+    "Describe in a short and easy to understand sentence what you see in the image"
+
   def setExplodeDocs(value: Boolean): this.type = set(explodeDocs, value)
   def setMergeImagesPerChunk(value: Boolean): this.type = set(mergeImagesPerChunk, value)
   def setAddNeighborText(value: Boolean): this.type = set(addNeighborText, value)
+  def setImageCaptionBasePrompt(value: String): this.type = set(imageCaptionBasePrompt, value)
   def setNeighborTextCharsWindow(value: Int): this.type = set(neighborTextCharsWindow, value)
 
   setDefault(
@@ -92,6 +101,7 @@ class LayoutAlignerForVision(override val uid: String)
     explodeDocs -> true,
     mergeImagesPerChunk -> false,
     addNeighborText -> false,
+    imageCaptionBasePrompt -> defaultImageCaptionBasePrompt,
     neighborTextCharsWindow -> 0)
 
   private val outputDocTypeMetadata: Metadata =
@@ -100,9 +110,6 @@ class LayoutAlignerForVision(override val uid: String)
     new MetadataBuilder().putString("annotatorType", AnnotatorType.IMAGE).build()
   private val outputPromptTypeMetadata: Metadata =
     new MetadataBuilder().putString("annotatorType", AnnotatorType.DOCUMENT).build()
-
-  private val baseImagePrompt =
-    "Describe in a short and easy to understand sentence what you see in the image"
 
   private case class ParagraphLayout(
       annotation: Annotation,
@@ -627,11 +634,13 @@ class LayoutAlignerForVision(override val uid: String)
   }
 
   private def buildPromptAnnotation(neighborText: String): Annotation = {
+    val basePrompt =
+      Option($(imageCaptionBasePrompt)).getOrElse(defaultImageCaptionBasePrompt)
     val promptText =
       if ($(addNeighborText) && neighborText.nonEmpty) {
-        s"$baseImagePrompt and then summarize it along with this text: $neighborText"
+        s"$basePrompt and then summarize it along with this text: $neighborText"
       } else {
-        baseImagePrompt
+        basePrompt
       }
 
     Annotation(

@@ -41,6 +41,7 @@ class LayoutAlignerForVisionWrapperTest(unittest.TestCase):
             .setInputCols(["data_text", "data_image"]) \
             .setOutputCol("aligned") \
             .setExplodeDocs(True) \
+            .setImageCaptionBasePrompt("Provide a concise financial caption for this image") \
             .setNeighborTextCharsWindow(20)
 
         pipeline = Pipeline(stages=[reader, aligner])

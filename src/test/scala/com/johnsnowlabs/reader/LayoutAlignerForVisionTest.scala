@@ -93,6 +93,39 @@ class LayoutAlignerForVisionTest extends AnyFlatSpec with SparkSessionTest {
       "Default prompt should describe only the image")
   }
 
+  it should "allow overriding image caption base prompt" taggedAs FastTest in {
+
+    val customBasePrompt = "Provide a concise financial caption for this image"
+
+    val reader = new ReaderAssembler()
+      .setContentType("application/msword")
+      .setContentPath(s"$docDirectory/contains-pictures.docx")
+      .setOutputAsDocument(false)
+      .setOutputCol("data")
+
+    val aligner = new LayoutAlignerForVision()
+      .setInputCols("data_text", "data_image")
+      .setOutputCol("aligned")
+      .setAddNeighborText(true)
+      .setImageCaptionBasePrompt(customBasePrompt)
+
+    val pipeline = new Pipeline().setStages(Array(reader, aligner))
+    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
+
+    val alignedDocs = AssertAnnotations.getActualResult(resultDf, "aligned_doc")
+    val alignedPrompts = AssertAnnotations.getActualResult(resultDf, "aligned_prompt")
+
+    assert(alignedDocs.length == alignedPrompts.length)
+    assert(
+      alignedPrompts.forall(_.head.result.startsWith(customBasePrompt)),
+      "Prompt should start with the custom base prompt")
+    assert(
+      alignedDocs.zip(alignedPrompts).forall { case (docs, prompts) =>
+        prompts.head.result.contains(docs.head.result)
+      },
+      "Prompt should still include aligned text when addNeighborText=true")
+  }
+
   it should "keep a single primary image and all image_matches when mergeImagesPerChunk is enabled" taggedAs FastTest in {
 
     val reader = new ReaderAssembler()
