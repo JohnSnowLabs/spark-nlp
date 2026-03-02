@@ -31,9 +31,11 @@ import org.apache.spark.sql.functions.{col, udf}
 import org.openxmlformats.schemas.drawingml.x2006.wordprocessingDrawing.{CTAnchor, CTInline}
 
 import java.io.ByteArrayInputStream
-import java.util.UUID
+import java.math.BigInteger
+import java.util.{Locale, UUID}
 import scala.collection.JavaConverters._
 import scala.collection.mutable
+
 
 /** Class to read and parse Word files.
   *
@@ -445,15 +447,24 @@ class WordReader(
     val EmusPerPixel = 9525
     val emuToPx = (v: Long) => (v / EmusPerPixel).toInt
 
+    // Safe numeric extractor (handles Object, BigInteger, and null)
+    def extractLong(value: Any): Long = value match {
+      case bi: BigInteger => bi.longValue()
+      case n: java.lang.Number => n.longValue()
+      case s: String => scala.util.Try(s.toLong).getOrElse(0L)
+      case null => 0L
+      case _ => 0L
+    }
+
     val posHOpt = Option(anchor.getPositionH)
     val posVOpt = Option(anchor.getPositionV)
     val simplePosOpt = Option(anchor.getSimplePos)
 
     // Extract numeric offsets (in EMUs)
-    val xOffsetEmu = posHOpt.flatMap(ph => Option(ph.getPosOffset)).map(_.toLong).getOrElse(0L)
-    val yOffsetEmu = posVOpt.flatMap(pv => Option(pv.getPosOffset)).map(_.toLong).getOrElse(0L)
-    val xSimpleEmu = simplePosOpt.map(_.getX).getOrElse(0L)
-    val ySimpleEmu = simplePosOpt.map(_.getY).getOrElse(0L)
+    val xOffsetEmu = posHOpt.flatMap(ph => Option(ph.getPosOffset)).map(extractLong).getOrElse(0L)
+    val yOffsetEmu = posVOpt.flatMap(pv => Option(pv.getPosOffset)).map(extractLong).getOrElse(0L)
+    val xSimpleEmu = simplePosOpt.map(_.getX).map(extractLong).getOrElse(0L)
+    val ySimpleEmu = simplePosOpt.map(_.getY).map(extractLong).getOrElse(0L)
 
     val hasPosOffset = xOffsetEmu != 0L || yOffsetEmu != 0L
 
@@ -463,7 +474,11 @@ class WordReader(
 
     // Alignment and positioning hints
     val alignH =
-      posHOpt.flatMap(ph => Option(ph.getAlign)).map(_.toString.toLowerCase).getOrElse("none")
+      posHOpt
+        .flatMap(ph => Option(ph.getAlign))
+        .map(a => Option(a).map(_.toString.toLowerCase(Locale.ROOT)).getOrElse("none"))
+        .getOrElse("none")
+
     val relativeFromH =
       posHOpt.flatMap(ph => Option(ph.getRelativeFrom)).map(_.toString).getOrElse("unknown")
 
