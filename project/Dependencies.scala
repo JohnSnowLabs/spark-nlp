@@ -157,6 +157,9 @@ object Dependencies {
   val tagSoupVersion = "1.2.1"
   val tagSoup = "org.ccil.cowan.tagsoup" % "tagsoup" % tagSoupVersion
 
+  val pineconeScalaClient = "io.cequence" %% "pinecone-scala-client" % "1.3.2"
+
+
   val json4sVersion = "3.7.0-M11"
   val json4sNative = "org.json4s" %% "json4s-native" % json4sVersion
   /** ------- Dependencies end  ------- */
