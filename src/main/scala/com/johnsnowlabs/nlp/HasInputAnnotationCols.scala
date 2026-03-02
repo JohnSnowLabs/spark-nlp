@@ -34,6 +34,13 @@ trait HasInputAnnotationCols extends Params {
   protected final val inputCols: StringArrayParam =
     new StringArrayParam(this, "inputCols", "the input annotation columns")
 
+  protected final val extraInputCols = new StringArrayParam(
+    this,
+    "extraInputCols",
+    "Additional input annotation columns added internally by annotators")
+
+  def setExtraInputCols(value: Array[String]): this.type = set(extraInputCols, value)
+
   /** Overrides required annotators column if different than default */
   def setInputCols(value: Array[String]): this.type = {
     if (optionalInputAnnotatorTypes.isEmpty) {
@@ -79,9 +86,14 @@ trait HasInputAnnotationCols extends Params {
   final def setInputCols(value: String*): this.type = setInputCols(value.toArray)
 
   /** @return input annotations columns currently used */
-  def getInputCols: Array[String] =
-    get(inputCols)
+  def getInputCols: Array[String] = {
+    val baseCols = get(inputCols)
       .orElse(getDefault(inputCols))
       .getOrElse(throw new Exception(s"inputCols not provided." +
         s" Requires columns for ${inputAnnotatorTypes.mkString(", ")} annotators"))
+    val extraCols = get(extraInputCols)
+      .orElse(getDefault(extraInputCols))
+      .getOrElse(Array.empty[String])
+    if (extraCols.nonEmpty) baseCols ++ extraCols else baseCols
+  }
 }

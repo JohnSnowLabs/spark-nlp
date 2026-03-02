@@ -85,12 +85,17 @@ class PretrainedPipeline:
         >>> result["ner"]
         ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']
         """
+        metadata = kwargs.pop("metadata", None)
+
         if "target" in kwargs:
             args = (kwargs["target"],) + args
         if "optional_target" in kwargs:
             args = args + (kwargs["optional_target"],)
 
-        annotations = self.light_model.annotate(*args)
+        if metadata is not None:
+            annotations = self.light_model.annotate(*args, metadata=metadata)
+        else:
+            annotations = self.light_model.annotate(*args)
         return annotations
 
     def fullAnnotate(self, *args, **kwargs):
@@ -125,12 +130,17 @@ class PretrainedPipeline:
         Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),
         Annotation(named_entity, 37, 37, O, {'word': '.'})]
         """
+        metadata = kwargs.pop("metadata", None)
+
         if "target" in kwargs:
             args = (kwargs["target"],) + args
         if "optional_target" in kwargs:
             args = args + (kwargs["optional_target"],)
 
-        annotations = self.light_model.fullAnnotate(*args)
+        if metadata is not None:
+            annotations = self.light_model.fullAnnotate(*args, metadata=metadata)
+        else:
+            annotations = self.light_model.fullAnnotate(*args)
         return annotations
 
     def fullAnnotateImage(self, path_to_image):
