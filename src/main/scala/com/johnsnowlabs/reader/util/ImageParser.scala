@@ -26,7 +26,7 @@ import java.net.{HttpURLConnection, URL}
 import java.util.Base64
 import javax.imageio.ImageIO
 import scala.annotation.tailrec
-import scala.util.{Try, Using}
+import scala.util.Try
 
 object ImageParser {
 
@@ -41,8 +41,11 @@ object ImageParser {
     val cleaned = base64Str.replaceAll("\\s", "")
     val bytes = Base64.getDecoder.decode(cleaned)
     if (bytes == null || bytes.isEmpty) return None
-    Using.resource(new ByteArrayInputStream(bytes)) { in =>
+    val in = new ByteArrayInputStream(bytes)
+    try {
       Try(ImageIO.read(in)).toOption // catch exception → None
+    } finally {
+      closeQuietly(in)
     }
   }
 
@@ -88,8 +91,12 @@ object ImageParser {
         conn.disconnect()
         fetch(nextUrl, redirectsLeft - 1)
       } else if (code >= 200 && code < 300) {
-        Using.resource(new BufferedInputStream(conn.getInputStream)) { in =>
+        val in = new BufferedInputStream(conn.getInputStream)
+        try {
           Option(ImageIO.read(in)) // may return None when format unsupported
+        } finally {
+          closeQuietly(in)
+          conn.disconnect()
         }
       } else {
         val snippet = readErrorSnippet(conn.getErrorStream)
@@ -137,7 +144,8 @@ object ImageParser {
 
   private def readErrorSnippet(err: InputStream): String = {
     if (err == null) return ""
-    Using.resource(err) { resource =>
+    val resource = err
+    try {
       val out = new ByteArrayOutputStream()
       val buffer = new Array[Byte](512)
       var errorData = resource.read(buffer)
@@ -147,6 +155,8 @@ object ImageParser {
       new String(out.toByteArray, java.nio.charset.StandardCharsets.UTF_8).linesIterator
         .take(3)
         .mkString(" ") // keep message short
+    } finally {
+      closeQuietly(resource)
     }
   }
 
@@ -159,10 +169,19 @@ object ImageParser {
     */
   def bytesToBufferedImage(bytes: Array[Byte]): Option[BufferedImage] = {
     if (bytes == null || bytes.isEmpty) return None
-    Using.resource(new ByteArrayInputStream(bytes)) { in =>
+    val in = new ByteArrayInputStream(bytes)
+    try {
       Try(ImageIO.read(in)).toOption // returns None if format unsupported
+    } finally {
+      closeQuietly(in)
     }
   }
+
+  private def closeQuietly(closeable: Closeable): Unit =
+    if (closeable != null) {
+      try closeable.close()
+      catch { case _: IOException => }
+    }
 
   /** Renders each page of a PDF document into a BufferedImage.
     *
