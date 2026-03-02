@@ -14,9 +14,10 @@
 """Contains classes for partition properties used in reading various document types."""
 from typing import Dict
 from pyspark.ml.param import Param, Params, TypeConverters
+from sparknlp.common.annotator_properties import AnnotatorProperties
 
 
-class HasReaderProperties(Params):
+class HasReaderProperties(AnnotatorProperties):
     inputCol = Param(
         Params._dummy(),
         "inputCol",
@@ -33,23 +34,6 @@ class HasReaderProperties(Params):
             Name of the Input Column
         """
         return self._set(inputCol=value)
-
-    outputCol = Param(
-        Params._dummy(),
-        "outputCol",
-        "output column name",
-        typeConverter=TypeConverters.toString
-    )
-
-    def setOutputCol(self, value):
-        """Sets output column name.
-
-        Parameters
-        ----------
-        value : str
-            Name of the Output Column
-        """
-        return self._set(outputCol=value)
 
     contentPath = Param(
         Params._dummy(),
@@ -337,6 +321,13 @@ class HasExcelReaderProperties(Params):
 
 
 class HasHTMLReaderProperties(Params):
+    def _toStringDict(value):
+        if value is None:
+            return {}
+        if isinstance(value, dict):
+            return {str(k): str(v) for k, v in value.items()}
+        raise TypeError("headers must be a dict[str, str]")
+
     timeout = Param(
         Params._dummy(),
         "timeout",
@@ -366,9 +357,34 @@ class HasHTMLReaderProperties(Params):
         """
         return self.getOrDefault(self.timeout)
 
+    headers = Param(
+        Params._dummy(),
+        "headers",
+        "HTTP headers to include in requests.",
+        typeConverter=_toStringDict
+    )
+
     def setHeaders(self, headers: Dict[str, str]):
+        self._set(headers=headers)
         self._call_java("setHeadersPython", headers)
         return self
+
+    includeTitleTag = Param(
+        Params._dummy(),
+        "includeTitleTag",
+        "Whether to include the title tag in the HTML output.",
+        typeConverter=TypeConverters.toBoolean
+    )
+
+    def setIncludeTitleTag(self, value: bool):
+        """Sets whether to include the title tag in the HTML output.
+
+        Parameters
+        ----------
+        value : bool
+            True to include the title tag in output metadata/content.
+        """
+        return self._set(includeTitleTag=value)
 
     outputFormat = Param(
         Params._dummy(),
@@ -392,6 +408,48 @@ class HasHTMLReaderProperties(Params):
             Output format for the table content.
         """
         return self._set(outputFormat=value)
+
+
+class HasXmlReaderProperties(Params):
+    xmlKeepTags = Param(
+        Params._dummy(),
+        "xmlKeepTags",
+        "Whether to include XML tag names as metadata in the output.",
+        typeConverter=TypeConverters.toBoolean
+    )
+
+    def setXmlKeepTags(self, value: bool):
+        """
+        Sets whether to include XML tag names as metadata in the output.
+
+        Parameters
+        ----------
+        value : bool
+            True to keep XML tags, False otherwise.
+        """
+        return self._set(xmlKeepTags=value)
+
+    onlyLeafNodes = Param(
+        Params._dummy(),
+        "onlyLeafNodes",
+        "If true, only processes XML leaf nodes (no nested children).",
+        typeConverter=TypeConverters.toBoolean
+    )
+
+    def setOnlyLeafNodes(self, value: bool):
+        """
+        Sets whether to process only XML leaf nodes.
+
+        Parameters
+        ----------
+        value : bool
+            True to keep only leaf-node content, False to include nested nodes.
+        """
+        return self._set(onlyLeafNodes=value)
+
+
+class HasTagsReaderProperties(HasHTMLReaderProperties, HasXmlReaderProperties):
+    pass
 
 
 class HasPowerPointProperties(Params):

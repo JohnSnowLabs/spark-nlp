@@ -18,11 +18,17 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.partition.util.PartitionHelper.datasetWithBinaryFile
 import com.johnsnowlabs.reader.util.ImageParser
+import org.apache.pdfbox.contentstream.PDFGraphicsStreamEngine
+import org.apache.pdfbox.cos.COSName
 import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.pdmodel.PDPage
+import org.apache.pdfbox.pdmodel.graphics.image.PDImage
 import org.apache.pdfbox.text.{PDFTextStripper, TextPosition}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.{col, udf}
 
+import java.awt.geom.Point2D
+import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.util.UUID
 import javax.imageio.ImageIO
@@ -75,8 +81,26 @@ class PdfReader(
     readAsImage: Boolean = false)
     extends Serializable {
 
+  private val paragraphSpacingY = 25
   private lazy val spark = ResourceHelper.spark
   private var outputColumn = "pdf"
+
+  private case class EmbeddedPdfImage(
+      pageIndex: Int,
+      pageNumber: Int,
+      coordX: Int,
+      coordY: Int,
+      width: Int,
+      height: Int,
+      bytes: Array[Byte],
+      format: String)
+
+  private case class DrawnImagePosition(
+      x: Float,
+      y: Float,
+      width: Float,
+      height: Float,
+      image: BufferedImage)
 
   def setOutputColumn(name: String): this.type = {
     require(name.nonEmpty, "Output column name cannot be empty.")
@@ -119,6 +143,7 @@ class PdfReader(
   private def extractElementsFromPdf(pdfDoc: PDDocument): Seq[HTMLElement] = {
     val collectedElements = mutable.ListBuffer[HTMLElement]()
     var currentParentId: Option[String] = None
+    var paragraphIndex = 0
 
     val textStripper = new PDFTextStripper() {
       override def writeString(
@@ -126,7 +151,10 @@ class PdfReader(
           textPositions: java.util.List[TextPosition]): Unit = {
         val lineGroups = groupTextPositionsByLine(textPositions)
         val lineElements = lineGroups.flatMap { case (_, linePositions) =>
-          classifyLineElement(linePositions, getCurrentPageNo, currentParentId)
+          val element =
+            classifyLineElement(linePositions, getCurrentPageNo, currentParentId, paragraphIndex)
+          if (element.nonEmpty) paragraphIndex += 1
+          element
         }
 
         // Update parentId when encountering titles
@@ -146,15 +174,16 @@ class PdfReader(
   }
 
   private def groupTextPositionsByLine(
-      textPositions: java.util.List[TextPosition]): Map[Int, Seq[TextPosition]] = {
+      textPositions: java.util.List[TextPosition]): Seq[(Int, Seq[TextPosition])] = {
     val yTolerance = 2f // Potential parameter, since needs to experiment to fit your PDFs
-    textPositions.asScala.groupBy(tp => (tp.getY / yTolerance).round)
+    textPositions.asScala.groupBy(tp => (tp.getY / yTolerance).round).toSeq.sortBy(_._1)
   }
 
   private def classifyLineElement(
       linePositions: Seq[TextPosition],
       pageNumber: Int,
-      currentParentId: Option[String]): Option[HTMLElement] = {
+      currentParentId: Option[String],
+      paragraphIndex: Int): Option[HTMLElement] = {
     val lineText = linePositions.map(_.getUnicode).mkString.trim
     if (lineText.isEmpty) return None
 
@@ -164,8 +193,14 @@ class PdfReader(
     val elementType =
       if (isTitleLine) ElementType.TITLE else ElementType.NARRATIVE_TEXT
 
+    val pageY = linePositions.map(_.getY).min.round
     val metadata =
-      mutable.Map("pageNumber" -> pageNumber.toString, "element_id" -> UUID.randomUUID().toString)
+      mutable.Map(
+        "pageNumber" -> pageNumber.toString,
+        "element_id" -> UUID.randomUUID().toString,
+        "paragraph_index" -> paragraphIndex.toString,
+        "paragraph_y" -> (paragraphIndex * paragraphSpacingY).toString,
+        "page_y" -> pageY.toString)
     // Assign parent_id only for narrative text or non-titles
     if (!isTitleLine) currentParentId.foreach(pid => metadata("parent_id") = pid)
     Some(HTMLElement(elementType, lineText, metadata))
@@ -177,29 +212,157 @@ class PdfReader(
 
   private def transformPdfToImages(content: Array[Byte]): Seq[HTMLElement] = {
     val pageImages = ImageParser.renderPdfFile(content) // Map[Int, Option[BufferedImage]]
+    val embeddedImagesByPage = extractEmbeddedImages(content).groupBy(_.pageIndex)
 
-    pageImages.flatMap {
-      case (pageIndex, Some(bufferedImage)) =>
-        val baos = new ByteArrayOutputStream()
-        ImageIO.write(bufferedImage, "jpg", baos)
-        val bytes = baos.toByteArray
-        baos.close()
+    pageImages.toSeq
+      .sortBy(_._1)
+      .flatMap { case (pageIndex, renderedPageOpt) =>
+        val embeddedImages = embeddedImagesByPage.getOrElse(pageIndex, Seq.empty)
+        if (embeddedImages.nonEmpty) {
+          embeddedImages.sortBy(img => (img.coordY, img.coordX)).map(buildImageElement)
+        } else {
+          renderedPageOpt.toSeq.map { bufferedImage =>
+            val pageNumber = pageIndex + 1
+            val encoded = encodeBufferedImage(bufferedImage)
+            val coordY = pageIndex * bufferedImage.getHeight
+            val metadata = mutable.Map(
+              "pageNumber" -> pageNumber.toString,
+              "coord" -> s"{x:0,y:$coordY}",
+              "format" -> encoded._2,
+              "image_type" -> "floating",
+              "width" -> bufferedImage.getWidth.toString,
+              "height" -> bufferedImage.getHeight.toString,
+              "element_id" -> UUID.randomUUID().toString)
 
-        val metadata = mutable.Map(
-          "pageNumber" -> pageIndex.toString,
-          "format" -> "jpg",
-          "width" -> bufferedImage.getWidth.toString,
-          "height" -> bufferedImage.getHeight.toString,
-          "element_id" -> UUID.randomUUID().toString)
+            HTMLElement(
+              elementType = ElementType.IMAGE,
+              content = "",
+              metadata = metadata,
+              binaryContent = Some(encoded._1))
+          }
+        }
+      }
+      .toSeq
+  }
 
-        Some(
-          HTMLElement(
-            elementType = ElementType.IMAGE,
-            content = "",
-            metadata = metadata,
-            binaryContent = Some(bytes)))
-      case _ => None
-    }.toSeq
+  private def buildImageElement(image: EmbeddedPdfImage): HTMLElement = {
+    val metadata = mutable.Map(
+      "pageNumber" -> image.pageNumber.toString,
+      "coord" -> s"{x:${image.coordX},y:${image.coordY}}",
+      "format" -> image.format,
+      "image_type" -> "floating",
+      "width" -> image.width.toString,
+      "height" -> image.height.toString,
+      "element_id" -> UUID.randomUUID().toString)
+
+    HTMLElement(
+      elementType = ElementType.IMAGE,
+      content = "",
+      metadata = metadata,
+      binaryContent = Some(image.bytes))
+  }
+
+  private def extractEmbeddedImages(content: Array[Byte]): Seq[EmbeddedPdfImage] = {
+    val pdfDoc = PDDocument.load(content)
+    try {
+      (0 until pdfDoc.getNumberOfPages).flatMap { pageIndex =>
+        val page = pdfDoc.getPage(pageIndex)
+        val pageNumber = pageIndex + 1
+        val pageHeight = page.getMediaBox.getHeight
+        val collector = new PdfPageImagePositionCollector(page)
+        collector.processPage(page)
+
+        collector.positions.flatMap { position =>
+          val topY = pageHeight - (position.y + position.height)
+          val coordX = math.max(0, math.round(position.x))
+          val coordY = math.max(0, math.round(topY))
+          val width = math.max(1, math.round(position.width))
+          val height = math.max(1, math.round(position.height))
+          val encoded = encodeBufferedImage(position.image)
+
+          if (encoded._1.nonEmpty)
+            Some(
+              EmbeddedPdfImage(
+                pageIndex = pageIndex,
+                pageNumber = pageNumber,
+                coordX = coordX,
+                coordY = coordY,
+                width = width,
+                height = height,
+                bytes = encoded._1,
+                format = encoded._2))
+          else None
+        }
+      }
+    } catch {
+      case _: Exception => Seq.empty
+    } finally {
+      pdfDoc.close()
+    }
+  }
+
+  private def encodeBufferedImage(image: BufferedImage): (Array[Byte], String) = {
+    if (image == null) return (Array.emptyByteArray, "jpg")
+
+    val jpgBytes = imageToBytes(image, "jpg")
+    if (jpgBytes.nonEmpty) (jpgBytes, "jpg")
+    else {
+      val pngBytes = imageToBytes(image, "png")
+      if (pngBytes.nonEmpty) (pngBytes, "png")
+      else (Array.emptyByteArray, "jpg")
+    }
+  }
+
+  private def imageToBytes(image: BufferedImage, format: String): Array[Byte] = {
+    val baos = new ByteArrayOutputStream()
+    try {
+      val written = ImageIO.write(image, format, baos)
+      if (written) baos.toByteArray else Array.emptyByteArray
+    } catch {
+      case _: Exception => Array.emptyByteArray
+    } finally {
+      baos.close()
+    }
+  }
+
+  private class PdfPageImagePositionCollector(page: PDPage)
+      extends PDFGraphicsStreamEngine(page) {
+
+    private val currentPoint = new Point2D.Float()
+    private val collectedPositions = mutable.ListBuffer[DrawnImagePosition]()
+
+    def positions: Seq[DrawnImagePosition] = collectedPositions.toSeq
+
+    override def drawImage(pdImage: PDImage): Unit = {
+      val bufferedImage = pdImage.getImage
+      if (bufferedImage != null) {
+        val transformMatrix = getGraphicsState.getCurrentTransformationMatrix
+        val width = math.abs(transformMatrix.getScalingFactorX)
+        val height = math.abs(transformMatrix.getScalingFactorY)
+        if (width > 0 && height > 0) {
+          collectedPositions += DrawnImagePosition(
+            x = transformMatrix.getTranslateX,
+            y = transformMatrix.getTranslateY,
+            width = width,
+            height = height,
+            image = bufferedImage)
+        }
+      }
+    }
+
+    override def appendRectangle(p0: Point2D, p1: Point2D, p2: Point2D, p3: Point2D): Unit = {}
+    override def clip(windingRule: Int): Unit = {}
+    override def moveTo(x: Float, y: Float): Unit = currentPoint.setLocation(x, y)
+    override def lineTo(x: Float, y: Float): Unit = currentPoint.setLocation(x, y)
+    override def curveTo(x1: Float, y1: Float, x2: Float, y2: Float, x3: Float, y3: Float): Unit =
+      currentPoint.setLocation(x3, y3)
+    override def getCurrentPoint: Point2D = currentPoint
+    override def closePath(): Unit = {}
+    override def endPath(): Unit = {}
+    override def strokePath(): Unit = {}
+    override def fillPath(windingRule: Int): Unit = {}
+    override def fillAndStrokePath(windingRule: Int): Unit = {}
+    override def shadingFill(shadingName: COSName): Unit = {}
   }
 
 }
