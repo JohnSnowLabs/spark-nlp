@@ -17,9 +17,11 @@ import unittest
 
 import pytest
 from pyspark.ml import Pipeline
+from pyspark.sql import functions as F
 
+from sparknlp import DocumentAssembler
+from sparknlp.base import ImageAssembler
 from sparknlp.reader.layout_aligner_for_vision import LayoutAlignerForVision
-from sparknlp.reader.reader_assembler import ReaderAssembler
 from test.util import SparkContextForTest
 
 
@@ -28,25 +30,32 @@ class LayoutAlignerForVisionWrapperTest(unittest.TestCase):
 
     def setUp(self):
         spark = SparkContextForTest.spark
-        self.empty_df = spark.createDataFrame([], "string").toDF("text")
+        # It validates LayoutAlignerForVision I/O contracts on deterministic local data.
+        images_df = spark.read.format("image").load(
+            path=f"file:///{os.getcwd()}/../src/test/resources/image/"
+        )
+        self.input_df = images_df.limit(1).withColumn(
+            "text", F.lit("Quarterly revenue increased compared to last year.")
+        )
 
     def runTest(self):
-        reader = ReaderAssembler() \
-            .setContentType("application/msword") \
-            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/doc/contains-pictures.docx") \
-            .setOutputAsDocument(False) \
-            .setOutputCol("data")
+        document_assembler = (
+            DocumentAssembler().setInputCol("text").setOutputCol("data_text")
+        )
+        image_assembler = (
+            ImageAssembler().setInputCol("image").setOutputCol("data_image")
+        )
 
         aligner = LayoutAlignerForVision() \
             .setInputCols(["data_text", "data_image"]) \
             .setOutputCol("aligned") \
-            .setExplodeDocs(True) \
+            .setExplodeDocs(False) \
             .setImageCaptionBasePrompt("Provide a concise financial caption for this image") \
             .setNeighborTextCharsWindow(20)
 
-        pipeline = Pipeline(stages=[reader, aligner])
-        model = pipeline.fit(self.empty_df)
-        result_df = model.transform(self.empty_df)
+        pipeline = Pipeline(stages=[document_assembler, image_assembler, aligner])
+        model = pipeline.fit(self.input_df)
+        result_df = model.transform(self.input_df)
 
         self.assertTrue(result_df.count() > 0)
         self.assertTrue("aligned_doc" in result_df.columns)
