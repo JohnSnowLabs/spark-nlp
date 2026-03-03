@@ -12,12 +12,12 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-import os
 import unittest
 
 import pytest
 from pyspark.ml import Pipeline
-from sparknlp.reader import ReaderAssembler, LayoutAlignerForVision, LayoutAlignerForText
+from sparknlp import DocumentAssembler
+from sparknlp.reader import LayoutAlignerForText
 from test.util import SparkContextForTest
 
 
@@ -26,28 +26,35 @@ class LayoutAlignerForTextWrapperTest(unittest.TestCase):
 
     def setUp(self):
         spark = SparkContextForTest.spark
-        self.empty_df = spark.createDataFrame([], "string").toDF("text")
+        # Test focused on LayoutAlignerForText input/output contracts.us
+        self.input_df = spark.createDataFrame(
+            [
+                (
+                    "Quarterly revenue increased by twenty percent.",
+                    "A bar chart comparing quarterly revenue growth.",
+                    "in-memory-layout-doc",
+                )
+            ],
+            ["raw_text", "raw_caption", "fileName"],
+        )
 
     def runTest(self):
-        reader = ReaderAssembler() \
-            .setContentType("application/msword") \
-            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/doc/contains-pictures.docx") \
-            .setOutputAsDocument(False) \
-            .setOutputCol("data")
+        aligned_doc = (
+            DocumentAssembler().setInputCol("raw_text").setOutputCol("aligned_doc")
+        )
+        image_caption = (
+            DocumentAssembler().setInputCol("raw_caption").setOutputCol("image_caption")
+        )
 
-        aligner_vision = LayoutAlignerForVision() \
-            .setInputCols(["data_text", "data_image"]) \
-            .setOutputCol("aligned")
-
-        # Use aligned_doc as both inputs here to validate the wrapper wiring and output shape
-        # without requiring a multimodal captioning model in Python unit tests.
         aligner_text = LayoutAlignerForText() \
-            .setInputCols(["aligned_doc", "aligned_doc"]) \
+            .setInputCols(["aligned_doc", "image_caption"]) \
             .setOutputCol("aligned_text")
 
-        pipeline = Pipeline(stages=[reader, aligner_vision, aligner_text])
-        model = pipeline.fit(self.empty_df)
-        result_df = model.transform(self.empty_df)
+        pipeline = Pipeline(stages=[aligned_doc, image_caption, aligner_text])
+        model = pipeline.fit(self.input_df)
+        result_df = model.transform(self.input_df)
 
-        self.assertTrue(result_df.count() > 0)
         self.assertTrue("aligned_text" in result_df.columns)
+        rebuilt_text = result_df.selectExpr("aligned_text[0].result AS result").first()["result"]
+        self.assertIn("Quarterly revenue increased by twenty percent.", rebuilt_text)
+        self.assertIn("A bar chart comparing quarterly revenue growth.", rebuilt_text)
