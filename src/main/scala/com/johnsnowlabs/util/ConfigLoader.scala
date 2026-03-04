@@ -55,6 +55,7 @@ object ConfigLoader {
       getConfigInfo(ConfigHelper.awsExternalRegion, "") ++
       getConfigInfo(ConfigHelper.gcpProjectId, "") ++
       getConfigInfo(ConfigHelper.openAIAPIKey, sys.env.getOrElse("OPENAI_API_KEY", "")) ++
+      getConfigInfo(ConfigHelper.vectorDBAPIKey, sys.env.getOrElse("VECTORDB_API_KEY", "")) ++
       getConfigInfo(ConfigHelper.onnxGpuDeviceId, "0") ++
       getConfigInfo(ConfigHelper.onnxIntraOpNumThreads, "6") ++
       getConfigInfo(ConfigHelper.onnxOptimizationLevel, "ALL_OPT") ++

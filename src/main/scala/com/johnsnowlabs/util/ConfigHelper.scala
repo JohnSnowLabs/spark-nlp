@@ -69,6 +69,8 @@ object ConfigHelper {
 
   val openAIAPIKey = "spark.jsl.settings.openai.api.key"
 
+  val vectorDBAPIKey = "spark.jsl.settings.vectordb.api.key"
+
   // Configs for ONNX session
   val onnxGpuDeviceId = "spark.jsl.settings.onnx.gpuDeviceId" // The GPU device ID to execute on
   val onnxIntraOpNumThreads = "spark.jsl.settings.onnx.intraOpNumThreads"

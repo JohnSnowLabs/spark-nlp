@@ -107,6 +107,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="TokenAssembler" summary="This transformer reconstructs a DOCUMENT type annotation from tokens, usually after these have been normalized, lemmatized, normalized, spell checked, etc, in order to use this document annotation in further annotators."%}
 {% include templates/anno_table_entry.md path="" name="Tokenizer" summary="Tokenizes raw text into word pieces, tokens. Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs."%}
 {% include templates/anno_table_entry.md path="" name="TypedDependencyParser" summary="Labeled parser that finds a grammatical relation between two words in a sentence."%}
+{% include templates/anno_table_entry.md path="" name="VectorDBConnector" summary="Connector for storing and retrieving embeddings from vector databases like Pinecone for semantic search and retrieval."%}
 {% include templates/anno_table_entry.md path="" name="ViveknSentiment" summary="Sentiment analyser inspired by the algorithm by Vivek Narayanan."%}
 {% include templates/anno_table_entry.md path="" name="WordEmbeddings" summary="Word Embeddings lookup annotator that maps tokens to vectors."%}
 {% include templates/anno_table_entry.md path="" name="Word2Vec" summary="Word2Vec model that creates vector representations of words in a text corpus."%}

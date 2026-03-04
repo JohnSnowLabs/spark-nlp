@@ -143,12 +143,10 @@ object Dependencies {
   val angusMailVersion = "2.0.3"
   val angusMail = "org.eclipse.angus" % "angus-mail" % angusMailVersion
 
-  val poiVersion = "4.1.2"
-  val poiDocx = "org.apache.poi" % "poi-ooxml" % poiVersion
-  val scratchpad = "org.apache.poi" % "poi-scratchpad" % poiVersion
-
-  val poiSchemasVersion = "1.4"
-  val poiSchemas = "org.apache.poi" % "ooxml-schemas" % poiSchemasVersion
+  val poiFullVersion = "5.4.1"
+  val poiSchemas = "org.apache.poi" % "poi-ooxml-full" % poiFullVersion
+  val poiDocx = "org.apache.poi" % "poi-ooxml" % poiFullVersion
+  val scratchpad = "org.apache.poi" % "poi-scratchpad" % poiFullVersion
 
   val pdfBoxVersion = "2.0.28"
   val pdfBox = "org.apache.pdfbox" % "pdfbox" % pdfBoxVersion
@@ -158,6 +156,9 @@ object Dependencies {
 
   val tagSoupVersion = "1.2.1"
   val tagSoup = "org.ccil.cowan.tagsoup" % "tagsoup" % tagSoupVersion
+
+  val pineconeScalaClient = "io.cequence" %% "pinecone-scala-client" % "1.3.2"
+
 
   val json4sVersion = "3.7.0-M11"
   val json4sNative = "org.json4s" %% "json4s-native" % json4sVersion

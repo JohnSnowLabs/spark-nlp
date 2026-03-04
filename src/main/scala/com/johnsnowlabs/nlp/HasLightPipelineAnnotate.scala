@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2022 John Snow Labs
+ * Copyright 2017-2026 John Snow Labs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,15 @@
  * limitations under the License.
  */
 
-package com.johnsnowlabs.util
+package com.johnsnowlabs.nlp
 
-object Build {
-  val version: String = "6.3.3-rc1"
+trait HasLightPipelineAnnotate {
+
+  def beforeAnnotateLight(
+      annotations: Map[String, Seq[IAnnotation]],
+      metadata: Map[String, Seq[String]]): Map[String, Seq[IAnnotation]] = annotations
+
+  def afterAnnotateLight(
+      annotations: Map[String, Seq[IAnnotation]],
+      metadata: Map[String, Seq[String]]): Map[String, Seq[IAnnotation]] = annotations
 }
