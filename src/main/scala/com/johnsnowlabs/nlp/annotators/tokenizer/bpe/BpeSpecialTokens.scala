@@ -186,6 +186,14 @@ private[johnsnowlabs] object SpecialTokens {
           unkTokenString = "[UNK]",
           maskTokenString = "[MASK]",
           padTokenString = "[PAD]")
+      case "modernbert" =>
+        SpecialTokens(
+          vocab,
+          startTokenString = "[CLS]",
+          endTokenString = "[SEP]",
+          unkTokenString = "[UNK]",
+          maskTokenString = "[MASK]",
+          padTokenString = "[PAD]")
     }
 }
 
