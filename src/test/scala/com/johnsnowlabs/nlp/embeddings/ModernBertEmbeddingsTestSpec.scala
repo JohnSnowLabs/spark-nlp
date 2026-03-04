@@ -218,7 +218,7 @@ class ModernBertEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  "ModernBertEmbeddings" should "correctly set parameters" in {
+  "ModernBertEmbeddings" should "correctly set parameters" taggedAs SlowTest in {
     val embeddings = ModernBertEmbeddings
       .pretrained("modernbert-base", "en")
       .setMaxSentenceLength(512)
@@ -232,7 +232,7 @@ class ModernBertEmbeddingsTestSpec extends AnyFlatSpec {
     assert(embeddings.getDimension == 768)
   }
 
-  "ModernBertEmbeddings" should "fail when maxSentenceLength is too large" in {
+  "ModernBertEmbeddings" should "fail when maxSentenceLength is too large" taggedAs SlowTest in {
     assertThrows[IllegalArgumentException] {
       ModernBertEmbeddings
         .pretrained("modernbert-base", "en")
@@ -240,7 +240,7 @@ class ModernBertEmbeddingsTestSpec extends AnyFlatSpec {
     }
   }
 
-  "ModernBertEmbeddings" should "fail when maxSentenceLength is too small" in {
+  "ModernBertEmbeddings" should "fail when maxSentenceLength is too small" taggedAs SlowTest in {
     assertThrows[IllegalArgumentException] {
       ModernBertEmbeddings
         .pretrained("modernbert-base", "en")
@@ -248,7 +248,7 @@ class ModernBertEmbeddingsTestSpec extends AnyFlatSpec {
     }
   }
 
-  "ModernBertEmbeddings" should "have correct input and output types" in {
+  "ModernBertEmbeddings" should "have correct input and output types" taggedAs SlowTest in {
     val embeddings = ModernBertEmbeddings.pretrained("modernbert-base", "en")
 
     assert(
