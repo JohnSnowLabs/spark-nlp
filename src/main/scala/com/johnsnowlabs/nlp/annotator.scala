@@ -824,6 +824,9 @@ package object annotator {
       extends ReadablePretrainedAutoGGUFVisionModel
       with ReadAutoGGUFVisionModel
 
+  type ModernBertEmbeddings = com.johnsnowlabs.nlp.embeddings.ModernBertEmbeddings
+  object ModernBertEmbeddings extends ReadablePretrainedModernBertModel with ReadModernBertDLModel
+
   type VectorDBConnector = com.johnsnowlabs.ml.ai.VectorDBConnector
   object VectorDBConnector extends DefaultParamsReadable[VectorDBConnector]
 
