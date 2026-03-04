@@ -44,8 +44,8 @@ import scala.util.matching.Regex
   * {{{
   * {
   *   "extractions": [
-  *     {"entity": "MEDICATION", "text": "aspirin", "confidence": 0.95},
-  *     {"entity": "DOSAGE", "text": "250mg", "confidence": 0.92}
+  *     {"entity": "MEDICATION", "text": "aspirin"},
+  *     {"entity": "DOSAGE", "text": "250mg"}
   *   ]
   * }
   * }}}
@@ -72,7 +72,6 @@ import scala.util.matching.Regex
   *   .setOutputCol("entities")
   *   .setModelName("qwen3_4b_bf16_gguf")
   *   .setEntityTypes(Array("MEDICATION", "DOSAGE", "ROUTE", "FREQUENCY"))
-  *   .setMinConfidence(0.7)
   *   .setNPredict(500)
   *   .setTemperature(0.1f)
   *
@@ -171,7 +170,7 @@ IMPORTANT: Extract the EXACT text as it appears in the input. Output ONLY valid 
 Output format:
 {
   "extractions": [
-    {"entity": "<type>", "text": "<exact_text>", "confidence": <0.0-1.0>}
+    {"entity": "<type>", "text": "<exact_text>"}
   ]
 }
 {examples}
@@ -222,21 +221,6 @@ Output:"""
 
   /** @group getParam */
   def getEntityTypes: Array[String] = $(entityTypes)
-
-  /** Minimum confidence threshold for including entities (Default: `0.0`)
-    *
-    * Entities with confidence scores below this threshold will be filtered out.
-    *
-    * @group param
-    */
-  val minConfidence =
-    new DoubleParam(this, "minConfidence", "Minimum confidence threshold for including entities")
-
-  /** @group setParam */
-  def setMinConfidence(value: Double): this.type = set(minConfidence, value)
-
-  /** @group getParam */
-  def getMinConfidence: Double = $(minConfidence)
 
   /** Case sensitivity for entity matching (Default: `false`)
     *
@@ -290,7 +274,6 @@ Output:"""
 
   // Default values
   setDefault(
-    minConfidence -> 0.0,
     entityTypes -> Array("PERSON", "ORGANIZATION", "LOCATION", "DATE", "TIME"),
     caseSensitive -> false,
     promptTemplate -> defaultPrompt,
@@ -398,13 +381,6 @@ $output
     }
   }
 
-  /** Build the NER prompt with just the input text (instructions are in systemPrompt) */
-  private def buildPrompt(text: String): String = {
-    // The system prompt already contains all instructions, entity types, and examples
-    // Just send the text to analyze
-    s"Text to analyze:\n$text"
-  }
-
   /** Safely retrieve fewShotExamples, handling both native Scala Array[(String, String)] and
     * java.util.ArrayList (when set from PySpark).
     */
@@ -444,17 +420,6 @@ $output
       val allExtractions = extractions.flatMap { extraction =>
         val entityType = extraction.get("entity").map(_.toString)
         val entityText = extraction.get("text").map(_.toString)
-        val confidence = extraction.get("confidence") match {
-          case Some(conf: Double) => conf
-          case Some(conf: Int) => conf.toDouble
-          case Some(conf: String) =>
-            try {
-              conf.toDouble
-            } catch {
-              case _: NumberFormatException => 1.0
-            }
-          case _ => 1.0
-        }
 
         // Extract additional attributes if present
         val additionalAttributes = extraction.get("attributes") match {
@@ -465,15 +430,14 @@ $output
 
         (entityType, entityText) match {
           case (Some(entity), Some(text)) if text.nonEmpty =>
-            Some(EntityExtraction(entity, text, confidence, additionalAttributes))
+            Some(EntityExtraction(entity, text, additionalAttributes))
           case _ => None
         }
       }
 
-      // Step 5: Filter by confidence and entity types
+      // Step 5: Filter by entity types
       val entityTypeSet = $(entityTypes).toSet
       allExtractions
-        .filter(e => e.confidence >= $(minConfidence))
         .filter(e => entityTypeSet.isEmpty || entityTypeSet.contains(e.entityType))
     } catch {
       case e: Exception =>
@@ -514,7 +478,6 @@ $output
 
         val metadata = scala.collection.immutable.Map(
           "entity" -> entity.entityType,
-          "confidence" -> entity.confidence.toString,
           "chunk" -> chunkIndex.toString) ++ entity.attributes ++ sourceMetadata
 
         lastSearchPosition = endIdx + 1
@@ -535,7 +498,6 @@ $output
 
           val metadata = scala.collection.immutable.Map(
             "entity" -> entity.entityType,
-            "confidence" -> entity.confidence.toString,
             "chunk" -> chunkIndex.toString) ++ entity.attributes ++ sourceMetadata
 
           chunkIndex += 1
@@ -610,7 +572,6 @@ $output
 case class EntityExtraction(
     entityType: String,
     text: String,
-    confidence: Double,
     attributes: Map[String, String] = Map.empty)
 
 /** This is the companion object of [[LLMNerModel]]. Please refer to that class for the
