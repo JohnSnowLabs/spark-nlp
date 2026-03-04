@@ -36,16 +36,16 @@ class LLMNerModelTestSpec extends AnyFlatSpec {
     val medicalExamples = Array(
       (
         "Patient takes aspirin 81mg daily.",
-        """{"extractions": [{"entity": "MEDICATION", "text": "aspirin", "confidence": 0.95}, {"entity": "DOSAGE", "text": "81mg", "confidence": 0.98}, {"entity": "FREQUENCY", "text": "daily", "confidence": 0.99}]}"""),
+        """{"extractions": [{"entity": "MEDICATION", "text": "aspirin"}, {"entity": "DOSAGE", "text": "81mg"}, {"entity": "FREQUENCY", "text": "daily"}]}"""),
       (
         "Dr. Michael Chen from Massachusetts General Hospital ordered a chest X-ray and prescribed lisinopril 10mg PO BID for patient Sarah Williams on March 15th, 2024.",
-        """{"extractions": [{"entity": "PERSON", "text": "Dr. Michael Chen", "confidence": 0.95}, {"entity": "ORGANIZATION", "text": "Massachusetts General Hospital", "confidence": 0.98}, {"entity": "TEST", "text": "chest X-ray", "confidence": 0.97}, {"entity": "MEDICATION", "text": "lisinopril", "confidence": 0.96}, {"entity": "DOSAGE", "text": "10mg", "confidence": 0.98}, {"entity": "FREQUENCY", "text": "BID", "confidence": 0.99}, {"entity": "PERSON", "text": "Sarah Williams", "confidence": 0.94}]}"""),
+        """{"extractions": [{"entity": "PERSON", "text": "Dr. Michael Chen"}, {"entity": "ORGANIZATION", "text": "Massachusetts General Hospital"}, {"entity": "TEST", "text": "chest X-ray"}, {"entity": "MEDICATION", "text": "lisinopril"}, {"entity": "DOSAGE", "text": "10mg"}, {"entity": "FREQUENCY", "text": "BID"}, {"entity": "PERSON", "text": "Sarah Williams"}]}"""),
       (
         "The cardiology department at Johns Hopkins performed an echocardiogram revealing severe aortic stenosis in patient Robert Martinez, who was started on metoprolol 50mg twice daily.",
-        """{"extractions": [{"entity": "LOCATION", "text": "cardiology department", "confidence": 0.92}, {"entity": "ORGANIZATION", "text": "Johns Hopkins", "confidence": 0.96}, {"entity": "TEST", "text": "echocardiogram", "confidence": 0.98}, {"entity": "CONDITION", "text": "severe aortic stenosis", "confidence": 0.97}, {"entity": "PERSON", "text": "Robert Martinez", "confidence": 0.95}, {"entity": "MEDICATION", "text": "metoprolol", "confidence": 0.96}, {"entity": "DOSAGE", "text": "50mg", "confidence": 0.98}, {"entity": "FREQUENCY", "text": "twice daily", "confidence": 0.97}]}"""),
+        """{"extractions": [{"entity": "LOCATION", "text": "cardiology department"}, {"entity": "ORGANIZATION", "text": "Johns Hopkins"}, {"entity": "TEST", "text": "echocardiogram"}, {"entity": "CONDITION", "text": "severe aortic stenosis"}, {"entity": "PERSON", "text": "Robert Martinez"}, {"entity": "MEDICATION", "text": "metoprolol"}, {"entity": "DOSAGE", "text": "50mg"}, {"entity": "FREQUENCY", "text": "twice daily"}]}"""),
       (
         "Patient Jennifer Thompson received vancomycin 1g IV Q12H at Cleveland Clinic for treatment of MRSA pneumonia diagnosed on January 20th, 2024.",
-        """{"extractions": [{"entity": "PERSON", "text": "Jennifer Thompson", "confidence": 0.95}, {"entity": "MEDICATION", "text": "vancomycin", "confidence": 0.98}, {"entity": "DOSAGE", "text": "1g", "confidence": 0.99}, {"entity": "FREQUENCY", "text": "Q12H", "confidence": 0.97}, {"entity": "ORGANIZATION", "text": "Cleveland Clinic", "confidence": 0.96}, {"entity": "CONDITION", "text": "MRSA pneumonia", "confidence": 0.98}]}"""))
+        """{"extractions": [{"entity": "PERSON", "text": "Jennifer Thompson"}, {"entity": "MEDICATION", "text": "vancomycin"}, {"entity": "DOSAGE", "text": "1g"}, {"entity": "FREQUENCY", "text": "Q12H"}, {"entity": "ORGANIZATION", "text": "Cleveland Clinic"}, {"entity": "CONDITION", "text": "MRSA pneumonia"}]}"""))
 
     val llmNer = new LLMNerModel()
       .setInputCols("document")
@@ -60,7 +60,6 @@ class LLMNerModelTestSpec extends AnyFlatSpec {
       .setTopP(0.9f)
       .setPenalizeNl(true)
       .setBatchSize(4)
-
 
     val pipeline = new Pipeline().setStages(Array(documentAssembler, llmNer))
 

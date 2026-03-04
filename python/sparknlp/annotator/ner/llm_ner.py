@@ -32,8 +32,8 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
 
         {
           "extractions": [
-            {"entity": "MEDICATION", "text": "aspirin", "confidence": 0.95},
-            {"entity": "DOSAGE", "text": "250mg", "confidence": 0.92}
+            {"entity": "MEDICATION", "text": "aspirin"},
+            {"entity": "DOSAGE", "text": "250mg"}
           ]
         }
 
@@ -63,8 +63,6 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
     entityTypes : List[str], optional
         List of entity types to extract (used in prompt), by default
         ["PERSON", "ORGANIZATION", "LOCATION", "DATE", "TIME"]
-    minConfidence : float, optional
-        Minimum confidence threshold for including entities, by default 0.0
     caseSensitive : bool, optional
         Whether entity matching is case-sensitive, by default False
     modelName : str, optional
@@ -86,7 +84,6 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
     ...     .setOutputCol("entities") \\
     ...     .setModelName("qwen3_4b_bf16_gguf") \\
     ...     .setEntityTypes(["MEDICATION", "DOSAGE", "ROUTE", "FREQUENCY"]) \\
-    ...     .setMinConfidence(0.7) \\
     ...     .setNPredict(500) \\
     ...     .setTemperature(0.1)
     >>> pipeline = Pipeline().setStages([documentAssembler, llmNer])
@@ -125,12 +122,6 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         typeConverter=TypeConverters.toListString,
     )
 
-    minConfidence = Param(
-        Params._dummy(),
-        "minConfidence",
-        "Minimum confidence threshold for including entities",
-        typeConverter=TypeConverters.toFloat,
-    )
 
     caseSensitive = Param(
         Params._dummy(),
@@ -158,7 +149,6 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
             java_model=java_model,
         )
         self._setDefault(
-            minConfidence=0.0,
             entityTypes=["PERSON", "ORGANIZATION", "LOCATION", "DATE", "TIME"],
             caseSensitive=False,
             modelName="qwen3_4b_bf16_gguf",
@@ -199,21 +189,6 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
             The updated model
         """
         return self._set(entityTypes=value)
-
-    def setMinConfidence(self, value):
-        """Set minimum confidence threshold for including entities.
-
-        Parameters
-        ----------
-        value : float
-            Minimum confidence score (0.0 - 1.0)
-
-        Returns
-        -------
-        LLMNerModel
-            The updated model
-        """
-        return self._set(minConfidence=value)
 
     def setCaseSensitive(self, value):
         """Set whether entity matching is case-sensitive.
@@ -280,15 +255,6 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         """
         return self.getOrDefault(self.entityTypes)
 
-    def getMinConfidence(self):
-        """Get the minimum confidence threshold.
-
-        Returns
-        -------
-        float
-            Minimum confidence score
-        """
-        return self.getOrDefault(self.minConfidence)
 
     def getCaseSensitive(self):
         """Get whether entity matching is case-sensitive.
