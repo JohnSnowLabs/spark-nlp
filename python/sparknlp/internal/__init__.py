@@ -1213,12 +1213,3 @@ class _AutoGGUFRerankerLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_AutoGGUFRerankerLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFReranker.loadSavedModel", path, jspark)
-
-class _ModernBertEmbeddingsLoader(ExtendedJavaWrapper):
-    def __init__(self, path, jspark, use_openvino=False):
-        super(_ModernBertEmbeddingsLoader, self).__init__(
-            "com.johnsnowlabs.nlp.embeddings.ModernBertEmbeddings.loadSavedModel",
-            path,
-            jspark,
-            use_openvino,
-        )
