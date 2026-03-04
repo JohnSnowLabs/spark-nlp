@@ -36,7 +36,6 @@ import java.util.{Locale, UUID}
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
-
 /** Class to read and parse Word files.
   *
   * @param storeContent
