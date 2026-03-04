@@ -7,7 +7,7 @@ Connector for storing and retrieving embeddings from vector databases.
 
 This annotator takes embeddings from previous annotators (like `BertEmbeddings`,
 `SentenceEmbeddings`, `OpenAIEmbeddings`, etc.) and stores them in a vector database for
-similarity search and retrieval. Currently supports [**Pinecone**](app.pinecone.io/) with more providers planned.
+similarity search and retrieval. Currently supports [**Pinecone**](https://app.pinecone.io/) with more providers planned.
 
 The annotator automatically manages vector IDs, metadata, and batch operations, making it easy
 to integrate vector database capabilities into your Spark NLP pipelines without additional
@@ -81,10 +81,7 @@ result.select("vectordb_result").show(truncate=False)
 
 {%- capture scala_example -%}
 import spark.implicits._
-import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.annotators.Tokenizer
-import com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
-import com.johnsnowlabs.nlp.ml.ai.VectorDBConnector
+import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.Pipeline
 
 val documentAssembler = new DocumentAssembler()
@@ -167,13 +164,13 @@ DOCUMENT, SENTENCE_EMBEDDINGS
 DOCUMENT
 {%- endcapture -%}
 
-<!-- {%- capture api_link -%}
+{%- capture api_link -%}
 [VectorDBConnector](/api/com/johnsnowlabs/nlp/ml/ai/VectorDBConnector)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
 [VectorDBConnector](/api/python/reference/autosummary/sparknlp/annotator/vector_db_connector/index.html)
-{%- endcapture -%} -->
+{%- endcapture -%}
 
 {%- capture source_link -%}
 [VectorDBConnector](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/ml/ai/VectorDBConnector.scala)
