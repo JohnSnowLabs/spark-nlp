@@ -1,4 +1,23 @@
 =======
+6.3.3
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1335] Implement Layout Aligner annotators #14737
+* [SPARKNLP-1336] Enhancements to LightPipeline #14734
+* [SPARKNLP-1287] vector db connector annotator #14729
+* [SPARKNLP-1231] implement modern bert embeddings #14736
+* [SPARKNLP-1341] Add MultiColumnAssembler #14743
+
+---------
+Bug Fixes
+---------
+
+* [SPARKNLP-1334] Updating POI dependency for readers #14727
+
+=======
 6.3.2
 =======
 ---------------------------
