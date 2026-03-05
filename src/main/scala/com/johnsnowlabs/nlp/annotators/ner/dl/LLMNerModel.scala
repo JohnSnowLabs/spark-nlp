@@ -287,6 +287,7 @@ Output:"""
     nGpuLayers -> 99,
     temperature -> 0.1f,
     batchSize -> 4,
+    reasoningBudget -> 0,
     grammar -> defaultGrammar)
 
   /** Load the AutoGGUF model if not already set - runs on driver before Spark tasks */
@@ -410,7 +411,24 @@ $output
 
       // Step 2: Parse JSON
       implicit val formats: DefaultFormats.type = DefaultFormats
-      val parsed = parse(jsonText)
+      val parsed = try {
+        parse(jsonText)
+      } catch {
+        case e: Exception =>
+          // JSON may be truncated (nPredict exhausted) - attempt repair
+          repairTruncatedJson(jsonText) match {
+            case Some(repaired) =>
+              if (logger != null)
+                logger.warn("LLM JSON was truncated, recovered partial entities. " +
+                  "Consider increasing nPredict or setting reasoningBudget to 0 for long texts.")
+              parse(repaired)
+            case None =>
+              val errorMsg = if (e.getMessage != null) e.getMessage else "Unknown error"
+              if (logger != null)
+                logger.error(s"Failed to parse or repair LLM JSON: $errorMsg")
+              return Seq.empty[EntityExtraction]
+          }
+      }
 
       // Step 3: Extract the entity array
       val extractions =
@@ -543,6 +561,33 @@ $output
     }
 
     cleanJsonString(rawJson)
+  }
+
+  /** Attempt to repair truncated JSON output from the LLM.
+    *
+    * When nPredict is exhausted, the JSON may be cut off mid-array or mid-object. This method
+    * tries to find the last complete entity object and close the JSON structure properly.
+    */
+  private def repairTruncatedJson(json: String): Option[String] = {
+    val lastCompleteObjEnd = {
+      val pattern = """\"text\"\s*:\s*\"[^"]*\"\s*\}""".r
+      val matches = pattern.findAllMatchIn(json).toList
+      if (matches.nonEmpty) matches.last.end else -1
+    }
+
+    if (lastCompleteObjEnd > 0) {
+      val truncated = json.substring(0, lastCompleteObjEnd).trim
+      val repaired = if (truncated.endsWith("},")) {
+        truncated.dropRight(1) + "]}"
+      } else if (truncated.endsWith("}")) {
+        truncated + "]}"
+      } else {
+        return None
+      }
+      Some(repaired)
+    } else {
+      None
+    }
   }
 
   /** Clean JSON string to handle various escape sequence issues from LLM output */
