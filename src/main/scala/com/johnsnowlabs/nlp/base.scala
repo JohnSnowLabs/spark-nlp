@@ -61,4 +61,8 @@ package object base {
 
   object TableAssembler extends DefaultParamsReadable[TableAssembler]
 
+  type AnnotationMerger = com.johnsnowlabs.nlp.AnnotationMerger
+
+  object AnnotationMerger extends DefaultParamsReadable[AnnotationMerger]
+
 }

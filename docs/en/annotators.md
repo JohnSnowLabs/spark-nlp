@@ -45,6 +45,7 @@ There are two types of Annotators:
 {:.table-model-big}
 |Annotator|Description|Version |
 |---|---|---|
+{% include templates/anno_table_entry.md path="" name="AnnotationMerger" summary="Merges multiple annotation columns into a single annotation column. Useful when separate document columns need to be combined for a downstream annotator."%}
 {% include templates/anno_table_entry.md path="" name="AutoGGUFEmbeddings" summary="Annotator that uses the llama.cpp library to generate text embeddings with large language models."%}
 {% include templates/anno_table_entry.md path="" name="AutoGGUFModel" summary="Annotator that uses the llama.cpp library to generate text completions with large language models."%}
 {% include templates/anno_table_entry.md path="" name="AutoGGUFReranker" summary="Annotator that uses the llama.cpp library to rerank text documents based on their relevance to a given query using GGUF-format reranking models."%}
