@@ -292,7 +292,7 @@ Output:"""
 
   /** Load the AutoGGUF model if not already set - runs on driver before Spark tasks */
   override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
-    if (_model.isEmpty && isSet(modelName)) {
+    if (_model.isEmpty && isDefined(modelName)) {
       val autoGGUFModel = com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
         .pretrained($(modelName), "en")
       setModelIfNotSet(dataset.sparkSession, autoGGUFModel.getModelIfNotSet)
