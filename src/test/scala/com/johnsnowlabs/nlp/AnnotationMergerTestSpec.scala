@@ -17,7 +17,9 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
+import com.johnsnowlabs.reader.ReaderAssembler
 import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -235,6 +237,35 @@ class AnnotationMergerTestSpec extends AnyFlatSpec {
     assert(allAnnotations(1)(1).result == "Row 2 Text B")
     assert(allAnnotations(2)(0).result == "Row 3 Text A")
     assert(allAnnotations(2)(1).result == "Row 3 Text B")
+  }
+
+  it should "work with ReaderAssembler to merge document_text and document_table" taggedAs FastTest in {
+    val docDirectory = "src/test/resources/reader/doc"
+
+    val reader = new ReaderAssembler()
+      .setContentType("application/msword")
+      .setContentPath(s"$docDirectory/doc-img-table.docx")
+      .setOutputCol("document")
+
+    val merger = new AnnotationMerger()
+      .setInputCols("document_text", "document_table")
+      .setOutputCol("merged")
+
+    val pipeline = new Pipeline()
+      .setStages(Array(reader, merger))
+      .fit(PipelineModels.dummyDataset)
+
+    val resultDf = pipeline.transform(PipelineModels.dummyDataset)
+
+    val mergedResult = AssertAnnotations.getActualResult(resultDf, "merged")
+    assert(mergedResult.nonEmpty)
+
+    // Check that we have both text and table annotations merged
+    val mergedAnnotations = mergedResult.head
+    assert(mergedAnnotations.length >= 2) // At least text and table
+
+    // Verify all merged annotations are DOCUMENT type
+    assert(mergedAnnotations.forall(_.annotatorType == AnnotatorType.DOCUMENT))
   }
 
 }

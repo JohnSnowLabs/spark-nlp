@@ -191,6 +191,37 @@ class AnnotationMergerTest(unittest.TestCase):
         merged = result.select("merged").collect()[0]["merged"]
         self.assertEqual(len(merged), 2)
 
+    def test_reader_assembler_merge_document_text_and_table(self):
+        import os
+        from sparknlp.reader.reader_assembler import ReaderAssembler
+
+        empty_df = self.spark.createDataFrame([], "string").toDF("text")
+
+        reader = (
+            ReaderAssembler()
+            .setContentType("application/msword")
+            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/doc/doc-img-table.docx")
+            .setOutputCol("document")
+        )
+
+        merger = (
+            AnnotationMerger()
+            .setInputCols(["document_text", "document_table"])
+            .setOutputCol("merged")
+        )
+
+        pipeline = Pipeline(stages=[reader, merger])
+        model = pipeline.fit(empty_df)
+        result = model.transform(empty_df)
+
+        self.assertTrue(result.count() > 0)
+
+        merged = result.select("merged").collect()[0]["merged"]
+        self.assertGreaterEqual(len(merged), 2)
+
+        for annotation in merged:
+            self.assertEqual(annotation["annotatorType"], "document")
+
 
 if __name__ == "__main__":
     unittest.main()
