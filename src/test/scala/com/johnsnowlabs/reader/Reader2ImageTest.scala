@@ -590,7 +590,7 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
       .pretrained()
       .setInputCols("prompt", "image")
       .setOutputCol("completions")
-      .setBatchSize(2)
+      .setBatchSize(1)
       .setNGpuLayers(99)
       .setNCtx(4096)
       .setMinKeep(0)

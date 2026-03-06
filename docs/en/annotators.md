@@ -107,6 +107,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="TokenAssembler" summary="This transformer reconstructs a DOCUMENT type annotation from tokens, usually after these have been normalized, lemmatized, normalized, spell checked, etc, in order to use this document annotation in further annotators."%}
 {% include templates/anno_table_entry.md path="" name="Tokenizer" summary="Tokenizes raw text into word pieces, tokens. Identifies tokens with tokenization open standards. A few rules will help customizing it if defaults do not fit user needs."%}
 {% include templates/anno_table_entry.md path="" name="TypedDependencyParser" summary="Labeled parser that finds a grammatical relation between two words in a sentence."%}
+{% include templates/anno_table_entry.md path="" name="VectorDBConnector" summary="Connector for storing and retrieving embeddings from vector databases like Pinecone for semantic search and retrieval."%}
 {% include templates/anno_table_entry.md path="" name="ViveknSentiment" summary="Sentiment analyser inspired by the algorithm by Vivek Narayanan."%}
 {% include templates/anno_table_entry.md path="" name="WordEmbeddings" summary="Word Embeddings lookup annotator that maps tokens to vectors."%}
 {% include templates/anno_table_entry.md path="" name="Word2Vec" summary="Word2Vec model that creates vector representations of words in a text corpus."%}
@@ -173,6 +174,7 @@ Additionally, these transformers are available.
 {% include templates/anno_table_entry.md path="./transformers" name="MiniLMEmbeddings" summary="Sentence embeddings using MiniLM, a lightweight and efficient sentence embedding model that can generate text embeddings for various NLP tasks."%}
 {% include templates/anno_table_entry.md path="./transformers" name="MistralTransformer" summary="MistralTransformer loads Mistral models, efficient dense and mixture-of-experts (MoE) language models optimized for high performance on reasoning and coding tasks." %}
 {% include templates/anno_table_entry.md path="./transformers" name="MLLamaForMultimodal" summary="MLLamaForMultimodal is an open-source multimodal model that combines a vision encoder with a large language model."%}
+{% include templates/anno_table_entry.md path="./transformers" name="ModernBertEmbeddings" summary="Token-level embeddings using ModernBERT, a modernized bidirectional encoder that is 8x faster and uses 5x less memory than traditional BERT, with support for sequences up to 8192 tokens."%}
 {% include templates/anno_table_entry.md path="./transformers" name="MPNetEmbeddings" summary="Sentence embeddings using MPNet."%}
 {% include templates/anno_table_entry.md path="./transformers" name="MPNetForQuestionAnswering" summary="MPNet Models with a span classification head on top for extractive question-answering tasks like SQuAD."%}
 {% include templates/anno_table_entry.md path="./transformers" name="MPNetForSequenceClassification" summary="MPNet Models with sequence classification/regression head on top e.g. for multi-class document classification tasks."%}

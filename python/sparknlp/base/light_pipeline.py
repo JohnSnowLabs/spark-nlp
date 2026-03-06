@@ -172,6 +172,55 @@ class LightPipeline:
 
         return result
 
+    @staticmethod
+    def __isMetadataInput(value):
+        if isinstance(value, dict):
+            return True
+
+        return isinstance(value, list) and len(value) > 0 and all(
+            isinstance(item, dict) for item in value
+        )
+
+    def __extractMetadataFromArgs(self, args, metadata):
+        if metadata is not None:
+            return args, metadata
+
+        if len(args) == 2 and self.__isMetadataInput(args[1]):
+            return (args[0],), args[1]
+
+        return args, metadata
+
+    def __normalizeMetadataForTextInput(self, target, metadata):
+        if metadata is None or isinstance(target, str):
+            return metadata
+
+        if isinstance(metadata, dict):
+            return self.__columnarToRowMetadata(metadata, len(target))
+
+        return metadata
+
+    @staticmethod
+    def __columnarToRowMetadata(metadata, target_size):
+        if not metadata:
+            return [{} for _ in range(target_size)]
+
+        for key, values in metadata.items():
+            if not isinstance(values, list):
+                raise TypeError(
+                    "When passing multiple texts with dict metadata, each metadata "
+                    "value must be a list."
+                )
+            if len(values) != target_size:
+                raise TypeError(
+                    "When passing multiple texts with dict metadata, each metadata "
+                    "list must have the same length as target."
+                )
+
+        return [
+            {key: [values[idx]] for key, values in metadata.items()}
+            for idx in range(target_size)
+        ]
+
     def fullAnnotate(self, *args, **kwargs):
         """
         Annotate and return full Annotation objects.
@@ -180,6 +229,10 @@ class LightPipeline:
           - fullAnnotate(text: str)
           - fullAnnotate(texts: list[str])
           - fullAnnotate(ids: list[int], texts: list[str])
+          - fullAnnotate(text: str, metadata: dict[str, list[str]])
+          - fullAnnotate(texts: list[str], metadata: list[dict[str, list[str]]])
+          - fullAnnotate(texts: list[str], metadata: dict[str, list[str]])
+
 
         Examples
         --------
@@ -198,10 +251,13 @@ class LightPipeline:
         Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),
         Annotation(named_entity, 37, 37, O, {'word': '.'})]
         """
+        metadata = kwargs.pop("metadata", None)
+
         if "target" in kwargs:
             args = (kwargs["target"],) + args
         if "optional_target" in kwargs:
             args = args + (kwargs["optional_target"],)
+        args, metadata = self.__extractMetadataFromArgs(args, metadata)
 
         stages = self.pipeline_model.stages
         if not self._skipPipelineValidation(stages):
@@ -216,18 +272,25 @@ class LightPipeline:
 
         if input_type == "qa":
             question, context = args
+            if metadata is not None:
+                raise TypeError("metadata is only supported for text inputs.")
             return self.__fullAnnotateQuestionAnswering(question, context)
 
         if input_type == "text":
             target = args[0]
-            return self.__fullAnnotateText(target)
+            metadata = self.__normalizeMetadataForTextInput(target, metadata)
+            return self.__fullAnnotateText(target, metadata)
 
         if input_type == "audio":
             audios = args[0]
+            if metadata is not None:
+                raise TypeError("metadata is only supported for text inputs.")
             return self.__fullAnnotateAudio(audios)
 
         if input_type == "image":
             images = args[0]
+            if metadata is not None:
+                raise TypeError("metadata is only supported for text inputs.")
             return self.fullAnnotateImage(images)
 
         raise TypeError(
@@ -257,18 +320,41 @@ class LightPipeline:
         else:
             return False
 
-    def __fullAnnotateText(self, target):
+    def __fullAnnotateText(self, target, metadata=None):
 
         if self.__isPath(target):
+            if metadata is not None:
+                raise TypeError("metadata is only supported for text inputs.")
             result = self.fullAnnotateImage(target)
             return result
         else:
             result = []
             if type(target) is str:
-                target = [target]
-
-            for annotations_result in self._lightPipeline.fullAnnotateJava(target):
-                result.append(self.__buildStages(annotations_result))
+                if metadata is None:
+                    target = [target]
+                    for annotations_result in self._lightPipeline.fullAnnotateJava(target):
+                        result.append(self.__buildStages(annotations_result))
+                else:
+                    annotations_result = self._lightPipeline.fullAnnotateWithMetaJava(
+                        target, metadata
+                    )
+                    result.append(self.__buildStages(annotations_result))
+            else:
+                if metadata is None:
+                    for annotations_result in self._lightPipeline.fullAnnotateJava(target):
+                        result.append(self.__buildStages(annotations_result))
+                else:
+                    if not isinstance(metadata, list):
+                        raise TypeError(
+                            "metadata must be a list of dicts or a dict of lists when "
+                            "passing multiple texts."
+                        )
+                    if len(metadata) != len(target):
+                        raise TypeError("metadata and target must have the same length.")
+                    for annotations_result in self._lightPipeline.fullAnnotateWithMetaJava(
+                        target, metadata
+                    ):
+                        result.append(self.__buildStages(annotations_result))
             return result
 
     def __isPath(self, target):
@@ -363,6 +449,9 @@ class LightPipeline:
           - annotate(text: str)
           - annotate(texts: list[str])
           - annotate(ids: list[int], texts: list[str])
+          - annotate(text: str, metadata: dict[str, list[str]])
+          - annotate(texts: list[str], metadata: list[dict[str, list[str]]])
+          - annotate(texts: list[str], metadata: dict[str, list[str]])
 
         Returns
         -------
@@ -378,6 +467,8 @@ class LightPipeline:
         >>> result["ner"]
         ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']
         """
+        metadata = kwargs.pop("metadata", None)
+
         def reformat(annotations):
             return {k: list(v) for k, v in annotations.items()}
 
@@ -385,6 +476,7 @@ class LightPipeline:
             args = (kwargs["target"],) + args
         if "optional_target" in kwargs:
             args = args + (kwargs["optional_target"],)
+        args, metadata = self.__extractMetadataFromArgs(args, metadata)
 
         stages = self.pipeline_model.stages
         if not self._skipPipelineValidation(stages):
@@ -394,12 +486,16 @@ class LightPipeline:
 
         if input_type == "ids_texts":
             ids, texts = args
+            if metadata is not None:
+                raise TypeError("metadata is only supported for text inputs.")
             annotations = self._lightPipeline.annotateWithIdsJava(ids, texts)
             results = list(map(lambda a: reformat(a), list(annotations)))
             return results
 
         if input_type == "qa":
             question, context = args
+            if metadata is not None:
+                raise TypeError("metadata is only supported for text inputs.")
             if isinstance(question, list) and isinstance(context, list):
                 annotations = self._lightPipeline.annotateJava(question, context)
                 results = list(map(lambda a: reformat(a), list(annotations)))
@@ -411,12 +507,27 @@ class LightPipeline:
 
         if input_type == "text":
             target = args[0]
+            metadata = self.__normalizeMetadataForTextInput(target, metadata)
             if isinstance(target, str):
-                annotations = self._lightPipeline.annotateJava(target)
+                if metadata is None:
+                    annotations = self._lightPipeline.annotateJava(target)
+                else:
+                    annotations = self._lightPipeline.annotateWithMetaJava(target, metadata)
                 results = reformat(annotations)
                 return results
             else:
-                annotations = self._lightPipeline.annotateJava(target)
+                if metadata is None:
+                    annotations = self._lightPipeline.annotateJava(target)
+                    results = list(map(lambda a: reformat(a), list(annotations)))
+                    return results
+                if not isinstance(metadata, list):
+                    raise TypeError(
+                        "metadata must be a list of dicts or a dict of lists when "
+                        "passing multiple texts."
+                    )
+                if len(metadata) != len(target):
+                    raise TypeError("metadata and target must have the same length.")
+                annotations = self._lightPipeline.annotateWithMetaJava(target, metadata)
                 results = list(map(lambda a: reformat(a), list(annotations)))
                 return results
 

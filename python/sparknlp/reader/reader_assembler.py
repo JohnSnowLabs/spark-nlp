@@ -21,7 +21,7 @@ from sparknlp.partition.partition_properties import *
 class ReaderAssembler(
     AnnotatorTransformer,
     HasReaderProperties,
-    HasHTMLReaderProperties,
+    HasTagsReaderProperties,
     HasEmailReaderProperties,
     HasExcelReaderProperties,
     HasPowerPointProperties,
@@ -99,15 +99,30 @@ class ReaderAssembler(
         typeConverter=TypeConverters.toString
     )
 
+    useEncodedImageBytes = Param(
+        Params._dummy(),
+        "useEncodedImageBytes",
+        "If true, use the original encoded image bytes (e.g. JPEG, PNG). "
+        "If false, decode the image into pixel data.",
+        typeConverter=TypeConverters.toBoolean
+    )
+
     @keyword_only
     def __init__(self):
         super(ReaderAssembler, self).__init__(classname="com.johnsnowlabs.reader.ReaderAssembler")
         self._setDefault(contentType="",
                          explodeDocs=False,
+                         outputAsDocument=True,
                          userMessage="Describe this image",
                          promptTemplate="qwen2vl-chat",
-                         readAsImage=True,
+                         readAsImage=False,
+                         outputFormat="json-table",
+                         includeTitleTag=False,
+                         headers={},
                          customPromptTemplate="",
+                         xmlKeepTags=False,
+                         onlyLeafNodes=True,
+                         useEncodedImageBytes=False,
                          ignoreExceptions=True,
                          flattenOutput=False,
                          titleThreshold=18)
@@ -157,3 +172,25 @@ class ReaderAssembler(
             Custom prompt template string.
         """
         return self._set(customPromptTemplate=value)
+
+    def setOutputAsDocument(self, value: bool):
+        """Sets whether to return all extracted text joined into a single document.
+
+        Parameters
+        ----------
+        value : bool
+            True to join extracted text into one document annotation.
+            False to keep per-element document annotations.
+        """
+        return self._set(outputAsDocument=value)
+
+    def setUseEncodedImageBytes(self, value: bool):
+        """Sets whether to use encoded image bytes instead of decoded pixels.
+
+        Parameters
+        ----------
+        value : bool
+            If True, keeps images in encoded form (e.g., JPEG/PNG).
+            If False, decodes images into pixel data.
+        """
+        return self._set(useEncodedImageBytes=value)
