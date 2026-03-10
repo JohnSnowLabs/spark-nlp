@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.reader.reader_assembler &#8212; Spark NLP 6.3.2 documentation</title>
+    <title>sparknlp.reader.reader_assembler &#8212; Spark NLP 6.3.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=311087f9"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=956803e0"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.2 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.2 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.3 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -382,7 +382,7 @@ document.write(`
 <div class="viewcode-block" id="ReaderAssembler"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader_assembler/index.html#sparknlp.reader.reader_assembler.ReaderAssembler">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ReaderAssembler</span><span class="p">(</span>
     <span class="n">AnnotatorTransformer</span><span class="p">,</span>
     <span class="n">HasReaderProperties</span><span class="p">,</span>
-    <span class="n">HasHTMLReaderProperties</span><span class="p">,</span>
+    <span class="n">HasTagsReaderProperties</span><span class="p">,</span>
     <span class="n">HasEmailReaderProperties</span><span class="p">,</span>
     <span class="n">HasExcelReaderProperties</span><span class="p">,</span>
     <span class="n">HasPowerPointProperties</span><span class="p">,</span>
@@ -460,15 +460,30 @@ document.write(`
         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
     <span class="p">)</span></div>
 
+<div class="viewcode-block" id="ReaderAssembler.useEncodedImageBytes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader_assembler/index.html#sparknlp.reader.reader_assembler.ReaderAssembler.useEncodedImageBytes">[docs]</a>    <span class="n">useEncodedImageBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;useEncodedImageBytes&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;If true, use the original encoded image bytes (e.g. JPEG, PNG). &quot;</span>
+        <span class="s2">&quot;If false, decode the image into pixel data.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
     <span class="nd">@keyword_only</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ReaderAssembler</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.reader.ReaderAssembler&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span><span class="n">contentType</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
                          <span class="n">explodeDocs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                         <span class="n">outputAsDocument</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                          <span class="n">userMessage</span><span class="o">=</span><span class="s2">&quot;Describe this image&quot;</span><span class="p">,</span>
                          <span class="n">promptTemplate</span><span class="o">=</span><span class="s2">&quot;qwen2vl-chat&quot;</span><span class="p">,</span>
-                         <span class="n">readAsImage</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">readAsImage</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                         <span class="n">outputFormat</span><span class="o">=</span><span class="s2">&quot;json-table&quot;</span><span class="p">,</span>
+                         <span class="n">includeTitleTag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                         <span class="n">headers</span><span class="o">=</span><span class="p">{},</span>
                          <span class="n">customPromptTemplate</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                         <span class="n">xmlKeepTags</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                         <span class="n">onlyLeafNodes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">useEncodedImageBytes</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                          <span class="n">ignoreExceptions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                          <span class="n">flattenOutput</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                          <span class="n">titleThreshold</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span>
@@ -517,7 +532,29 @@ document.write(`
 <span class="sd">        value : str</span>
 <span class="sd">            Custom prompt template string.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">customPromptTemplate</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">customPromptTemplate</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ReaderAssembler.setOutputAsDocument"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader_assembler/index.html#sparknlp.reader.reader_assembler.ReaderAssembler.setOutputAsDocument">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputAsDocument</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to return all extracted text joined into a single document.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to join extracted text into one document annotation.</span>
+<span class="sd">            False to keep per-element document annotations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputAsDocument</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ReaderAssembler.setUseEncodedImageBytes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/reader/reader_assembler/index.html#sparknlp.reader.reader_assembler.ReaderAssembler.setUseEncodedImageBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setUseEncodedImageBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to use encoded image bytes instead of decoded pixels.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            If True, keeps images in encoded form (e.g., JPEG/PNG).</span>
+<span class="sd">            If False, decodes images into pixel data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">useEncodedImageBytes</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
 </pre></div>
 
                 </article>

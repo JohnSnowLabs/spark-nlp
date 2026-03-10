@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.3.2 ScalaDoc  - com.johnsnowlabs.reader</title>
-          <meta name="description" content="Spark NLP 6.3.2 ScalaDoc - com.johnsnowlabs.reader" />
-          <meta name="keywords" content="Spark NLP 6.3.2 ScalaDoc com.johnsnowlabs.reader" />
+          <title>Spark NLP 6.3.3 ScalaDoc  - com.johnsnowlabs.reader</title>
+          <meta name="description" content="Spark NLP 6.3.3 ScalaDoc - com.johnsnowlabs.reader" />
+          <meta name="keywords" content="Spark NLP 6.3.3 ScalaDoc com.johnsnowlabs.reader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.3.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -241,6 +241,14 @@
                         <span class="separator"></span>
                         <a class="trait" href="HasReaderContent.html" title=""></a>
                         <a href="HasReaderContent.html" title="">HasReaderContent</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="LayoutAlignerForText$.html" title=""></a>
+                        <a class="class" href="LayoutAlignerForText.html" title="LayoutAlignerForText rebuilds final text by combining document chunks and generated image captions produced by multimodal models."></a>
+                        <a href="LayoutAlignerForText.html" title="LayoutAlignerForText rebuilds final text by combining document chunks and generated image captions produced by multimodal models.">LayoutAlignerForText</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="LayoutAlignerForVision$.html" title=""></a>
+                        <a class="class" href="LayoutAlignerForVision.html" title="LayoutAlignerForVision aligns document chunks with nearby images and emits paired outputs: one document annotation column, one image annotation column, and one prompt annotation column."></a>
+                        <a href="LayoutAlignerForVision.html" title="LayoutAlignerForVision aligns document chunks with nearby images and emits paired outputs: one document annotation column, one image annotation column, and one prompt annotation column.">LayoutAlignerForVision</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="MarkdownReader.html" title=""></a>
@@ -488,6 +496,48 @@
       </span>
       
       
+    </li><li name="com.johnsnowlabs.reader.LayoutAlignerForText" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="LayoutAlignerForTextextendsTransformerwithHasInputAnnotationColswithHasOutputAnnotationColwithDefaultParamsWritable"></a><a id="LayoutAlignerForText:LayoutAlignerForText"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/LayoutAlignerForText.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="LayoutAlignerForText rebuilds final text by combining document chunks and generated image captions produced by multimodal models." href="LayoutAlignerForText.html"><span class="name">LayoutAlignerForText</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <a href="../nlp/HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a> with <a href="../nlp/HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">LayoutAlignerForText rebuilds final text by combining document chunks and generated image
+captions produced by multimodal models.</p><div class="fullcomment"><div class="comment cmt"><p>LayoutAlignerForText rebuilds final text by combining document chunks and generated image
+captions produced by multimodal models.</p><p>It is designed to consume <code>aligned_doc</code> + <code>image_caption</code> pairs (for example, after
+<code>LayoutAlignerForVision</code> + <code>AutoGGUFVisionModel</code>) and emit a coherent document where captions
+are inserted around their best matching text blocks.</p><p>DISCLAIMER: By default, input columns (<code>aligned_doc</code>, <code>image_caption</code>) are not preserved. This
+stage groups and can explode rows while rebuilding text, so input row cardinality does not
+reliably match output row cardinality. Keeping passthrough inputs in that mode can produce
+misleading repeated values. Set <code>preserveColumns = true</code> to try to keep grouped input
+annotations when you explicitly need them for inspection.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.reader.LayoutAlignerForVision" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LayoutAlignerForVisionextendsTransformerwithHasInputAnnotationColswithHasOutputAnnotationColwithDefaultParamsWritable"></a><a id="LayoutAlignerForVision:LayoutAlignerForVision"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/LayoutAlignerForVision.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="LayoutAlignerForVision aligns document chunks with nearby images and emits paired outputs: one document annotation column, one image annotation column, and one prompt annotation column." href="LayoutAlignerForVision.html"><span class="name">LayoutAlignerForVision</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <a href="../nlp/HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a> with <a href="../nlp/HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a> with <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">LayoutAlignerForVision aligns document chunks with nearby images and emits paired outputs: one
+document annotation column, one image annotation column, and one prompt annotation column.</p>
     </li><li name="com.johnsnowlabs.reader.MarkdownReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="MarkdownReaderextendsSerializable"></a><a id="MarkdownReader:MarkdownReader"></a>
       <span class="permalink">
@@ -885,6 +935,38 @@ output.
       </span>
       <span class="symbol">
         <a title="" href="ElementType$.html"><span class="name">ElementType</span></a>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.reader.LayoutAlignerForText" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LayoutAlignerForText"></a><a id="LayoutAlignerForText:LayoutAlignerForText"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/LayoutAlignerForText$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="LayoutAlignerForText$.html"><span class="name">LayoutAlignerForText</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="LayoutAlignerForText.html" class="extype" name="com.johnsnowlabs.reader.LayoutAlignerForText">LayoutAlignerForText</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.reader.LayoutAlignerForVision" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LayoutAlignerForVision"></a><a id="LayoutAlignerForVision:LayoutAlignerForVision"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/LayoutAlignerForVision$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="LayoutAlignerForVision$.html"><span class="name">LayoutAlignerForVision</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="LayoutAlignerForVision.html" class="extype" name="com.johnsnowlabs.reader.LayoutAlignerForVision">LayoutAlignerForVision</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       
       

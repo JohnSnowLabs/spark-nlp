@@ -580,6 +580,11 @@ in the DataFrames.</li>
     </thead>
     <tbody>
       <tr>
+        <td><a href="#multicolumnassembler">MultiColumnAssembler</a></td>
+        <td>Merges multiple annotation columns into a single annotation column. Useful when separate document columns need to be combined for a downstream annotator.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#autoggufembeddings">AutoGGUFEmbeddings</a></td>
         <td>Annotator that uses the llama.cpp library to generate text embeddings with large language models.</td>
         <td>Opensource</td>
@@ -890,6 +895,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="#vectordbconnector">VectorDBConnector</a></td>
+        <td>Connector for storing and retrieving embeddings from vector databases like Pinecone for semantic search and retrieval.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#viveknsentiment">ViveknSentiment</a></td>
         <td>Sentiment analyser inspired by the algorithm by Vivek Narayanan.</td>
         <td>Opensource</td>
@@ -1193,6 +1203,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="./transformers#mllamaformultimodal">MLLamaForMultimodal</a></td>
         <td>MLLamaForMultimodal is an open-source multimodal model that combines a vision encoder with a large language model.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="./transformers#modernbertembeddings">ModernBertEmbeddings</a></td>
+        <td>Token-level embeddings using ModernBERT, a modernized bidirectional encoder that is 8x faster and uses 5x less memory than traditional BERT, with support for sequences up to 8192 tokens.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -6558,6 +6573,127 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 
 <div class="h3-box tabs-python-scala-box">
 
+  <h2 id="multicolumnassembler">MultiColumnAssembler</h2>
+
+  <p>Merges multiple annotation columns into a single annotation column. This is useful when
+multiple annotators produce separate annotation columns (e.g., <code class="language-plaintext highlighter-rouge">document_text</code>,
+<code class="language-plaintext highlighter-rouge">document_table</code> from <a href="/docs/en/annotators#readerassembler">ReaderAssembler</a>) and a downstream
+annotator (e.g., <a href="/docs/en/annotators#autoggufvisionmodel">AutoGGUFVisionModel</a>) expects a
+single input column containing all annotations.</p>
+
+  <p>Annotations from all input columns are collected and concatenated into the output column.
+The output annotator type defaults to <code class="language-plaintext highlighter-rouge">DOCUMENT</code> but can be configured via
+<code class="language-plaintext highlighter-rouge">setOutputAsAnnotatorType</code>. Each annotation’s metadata is preserved, and a <code class="language-plaintext highlighter-rouge">source_column</code>
+key is added to track which input column the annotation originated from. All
+annotations from the first input column appear first, then all from the second, and so on.</p>
+
+  <p><strong>Note:</strong> All input columns must use the standard <code class="language-plaintext highlighter-rouge">Annotation</code> schema. Columns that use the
+<code class="language-plaintext highlighter-rouge">AnnotationImage</code> schema (e.g., IMAGE-typed columns from <code class="language-plaintext highlighter-rouge">ReaderAssembler</code>) are <strong>not
+supported</strong> and will cause a validation error.</p>
+
+  <p>For more extended examples see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/annotation-merger/Merging_Annotation_Columns.ipynb">Examples</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/base/multi_column_assembler/index.html#sparknlp.base.multi_column_assembler.MultiColumnAssembler">MultiColumnAssembler</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/MultiColumnAssembler">MultiColumnAssembler</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/MultiColumnAssembler.scala">MultiColumnAssembler</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler1</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document_text"</span><span class="p">)</span>
+
+<span class="n">documentAssembler2</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"table"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document_table"</span><span class="p">)</span>
+
+<span class="n">multiColumnAssembler</span> <span class="o">=</span> <span class="n">MultiColumnAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document_text"</span><span class="p">,</span> <span class="s">"document_table"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"merged_document"</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+    <span class="p">[(</span><span class="s">"Hello world"</span><span class="p">,</span> <span class="s">"Name | Age</span><span class="se">\n</span><span class="s">John | 30"</span><span class="p">)],</span>
+    <span class="p">[</span><span class="s">"text"</span><span class="p">,</span> <span class="s">"table"</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">documentAssembler1</span><span class="p">,</span>
+    <span class="n">documentAssembler2</span><span class="p">,</span>
+    <span class="n">multiColumnAssembler</span>
+<span class="p">]).</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"merged_document.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+--------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                          <span class="o">|</span>
+<span class="o">+--------------------------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">Hello</span> <span class="n">world</span><span class="p">,</span> <span class="n">Name</span> <span class="o">|</span> <span class="n">Age</span>       <span class="o">|</span>
+<span class="o">|</span><span class="n">John</span> <span class="o">|</span> <span class="mi">30</span><span class="p">]</span>                      <span class="o">|</span>
+<span class="o">+--------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.</span><span class="o">{</span><span class="nc">MultiColumnAssembler</span><span class="o">,</span> <span class="nc">DocumentAssembler</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler1</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document_text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler2</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"table"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document_table"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">multiColumnAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">MultiColumnAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document_text"</span><span class="o">,</span> <span class="s">"document_table"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"merged_document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">((</span><span class="s">"Hello world"</span><span class="o">,</span> <span class="s">"Name | Age\nJohn | 30"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="s">"table"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler1</span><span class="o">,</span> <span class="n">documentAssembler2</span><span class="o">,</span> <span class="n">multiColumnAssembler</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"merged_document.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="o">+--------------------------------+</span>
+<span class="o">|</span><span class="n">result</span>                          <span class="o">|</span>
+<span class="o">+--------------------------------+</span>
+<span class="o">|[</span><span class="kt">Hello</span> <span class="kt">world</span>, <span class="kt">Name</span> <span class="kt">|</span> <span class="kt">Age</span>       <span class="kt">|</span>
+<span class="kt">|John</span> <span class="kt">|</span> <span class="err">30</span><span class="o">]</span>                      <span class="o">|</span>
+<span class="o">+--------------------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
   <h2 id="multidatematcher">MultiDateMatcher</h2>
 
   <p>Matches standard date formats into a provided format.</p>
@@ -11281,6 +11417,196 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/
       </table>
 
     </div>
+
+  </div>
+
+  <div class="h3-box tabs-python-scala-box">
+
+    <h2 id="vectordbconnector">VectorDBConnector</h2>
+
+    <p>Connector for storing and retrieving embeddings from vector databases.</p>
+
+    <p>This annotator takes embeddings from previous annotators (like <code class="language-plaintext highlighter-rouge">BertEmbeddings</code>,
+<code class="language-plaintext highlighter-rouge">SentenceEmbeddings</code>, <code class="language-plaintext highlighter-rouge">OpenAIEmbeddings</code>, etc.) and stores them in a vector database for
+similarity search and retrieval. Currently supports <a href="https://app.pinecone.io/"><strong>Pinecone</strong></a> with more providers planned.</p>
+
+    <p>The annotator automatically manages vector IDs, metadata, and batch operations, making it easy
+to integrate vector database capabilities into your Spark NLP pipelines without additional
+boilerplate code.</p>
+
+    <p><strong>Key Features:</strong></p>
+    <ul>
+      <li><strong>Automatic ID Management</strong>: Generates UUIDs or uses custom ID columns</li>
+      <li><strong>Metadata Support</strong>: Store additional context with vectors (e.g., text, category, source)</li>
+      <li><strong>Batch Processing</strong>: Efficiently upsert vectors to Pinecone with configurable batch sizes</li>
+      <li><strong>Namespace Support</strong>: Organize vectors within index partitions</li>
+      <li><strong>Error Handling</strong>: Graceful handling of connection and processing errors</li>
+    </ul>
+
+    <p>For more extended examples see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/annotation/text/english/vector-db/VectorDBConnector_Pinecone_Demo.ipynb">VectorDBConnector_Pinecone_Demo.ipynb</a> and <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/ml/ai/VectorDBConnectorTest.scala">VectorDBConnectorTest</a>.</p>
+
+    <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, SENTENCE_EMBEDDINGS</code></p>
+
+    <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+    <blockquote>
+      <p><strong>Note:</strong> <strong>Prerequisites:</strong></p>
+      <ul>
+        <li>A valid <strong>Pinecone API key</strong> must be configured. Set it via the configuration system using the key <code class="language-plaintext highlighter-rouge">spark-nlp.vectordb.api_key</code>, or the annotator will attempt to load it automatically from your Spark NLP configuration.</li>
+        <li>The <strong>index must already exist</strong> in Pinecone before using this annotator.</li>
+        <li>Ensure embeddings have appropriate dimensions matching your Pinecone index configuration.</li>
+      </ul>
+    </blockquote>
+
+    <p><strong>Output Format:</strong>
+The annotator returns annotations with the vector ID stored in the <code class="language-plaintext highlighter-rouge">result</code> field and metadata containing:</p>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">vectordb_status</code>: Status of the upsert operation (e.g., “upserted”)</li>
+      <li><code class="language-plaintext highlighter-rouge">provider</code>: The vector database provider used (e.g., “pinecone”)</li>
+    </ul>
+
+    <p><strong>ID Management:</strong></p>
+    <ul>
+      <li>If <code class="language-plaintext highlighter-rouge">idColumn</code> is set, values from that column are used as vector IDs</li>
+      <li>If <code class="language-plaintext highlighter-rouge">idColumn</code> is not set, UUIDs are automatically generated</li>
+      <li>The ID is returned in the output annotation’s <code class="language-plaintext highlighter-rouge">result</code> field</li>
+    </ul>
+
+    <p><strong>Namespace Support:</strong>
+The <code class="language-plaintext highlighter-rouge">namespace</code> parameter is optional and provider-specific. In Pinecone, it’s used to partition vectors within an index, enabling multi-tenant scenarios or logical data separation.</p>
+
+    <p><strong>Batch Processing:</strong>
+Vectors are automatically grouped into batches (default: 100) before being sent to Pinecone. This improves performance and reduces network overhead. The batch size can be customized with <code class="language-plaintext highlighter-rouge">setBatchSize()</code>.</p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/vector_db_connector/index.html">VectorDBConnector</a></td>
+          <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/ml/ai/VectorDBConnector">VectorDBConnector</a></td>
+          <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/ml/ai/VectorDBConnector.scala">VectorDBConnector</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_small_bert_L2_768"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence_embeddings"</span><span class="p">)</span>
+
+<span class="n">vectorDB</span> <span class="o">=</span> <span class="n">VectorDBConnector</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"vectordb_result"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setProvider</span><span class="p">(</span><span class="s">"pinecone"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setIndexName</span><span class="p">(</span><span class="s">"my-semantic-index"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setNamespace</span><span class="p">(</span><span class="s">"production"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setIdColumn</span><span class="p">(</span><span class="s">"doc_id"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMetadataColumns</span><span class="p">([</span><span class="s">"text"</span><span class="p">,</span> <span class="s">"category"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setStages</span><span class="p">([</span>
+      <span class="n">documentAssembler</span><span class="p">,</span>
+      <span class="n">tokenizer</span><span class="p">,</span>
+      <span class="n">embeddings</span><span class="p">,</span>
+      <span class="n">vectorDB</span>
+    <span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+    <span class="p">(</span><span class="s">"doc_001"</span><span class="p">,</span> <span class="s">"Spark NLP is a powerful library"</span><span class="p">,</span> <span class="s">"technology"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">"doc_002"</span><span class="p">,</span> <span class="s">"Vector databases enable semantic search"</span><span class="p">,</span> <span class="s">"technology"</span><span class="p">),</span>
+    <span class="p">(</span><span class="s">"doc_003"</span><span class="p">,</span> <span class="s">"Machine learning requires quality data"</span><span class="p">,</span> <span class="s">"data-science"</span><span class="p">)</span>
+<span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"doc_id"</span><span class="p">,</span> <span class="s">"text"</span><span class="p">,</span> <span class="s">"category"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># View the output - contains vector IDs returned from Pinecone
+</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"vectordb_result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+-----------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">vectordb_result</span>                                            <span class="o">|</span>
+<span class="o">+-----------------------------------------------------------+</span>
+<span class="o">|</span><span class="p">[[</span><span class="n">document</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="n">doc_001</span><span class="p">,</span> <span class="p">{</span><span class="n">vectordb_status</span> <span class="o">-&gt;</span> <span class="n">upserted</span><span class="p">},</span> <span class="o">|</span>
+<span class="o">|</span><span class="p">[[</span><span class="n">document</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">doc_002</span><span class="p">,</span> <span class="p">{</span><span class="n">vectordb_status</span> <span class="o">-&gt;</span> <span class="n">upserted</span><span class="p">},</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[[</span><span class="n">document</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="n">doc_003</span><span class="p">,</span> <span class="p">{</span><span class="n">vectordb_status</span> <span class="o">-&gt;</span> <span class="n">upserted</span><span class="p">},</span><span class="o">|</span>
+<span class="o">+-----------------------------------------------------------+</span>
+</code></pre></div>        </div>
+
+        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sent_small_bert_L2_768"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence_embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">vectorDB</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">VectorDBConnector</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"vectordb_result"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setProvider</span><span class="o">(</span><span class="s">"pinecone"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setIndexName</span><span class="o">(</span><span class="s">"my-semantic-index"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setNamespace</span><span class="o">(</span><span class="s">"production"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setIdColumn</span><span class="o">(</span><span class="s">"doc_id"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMetadataColumns</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="s">"category"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setBatchSize</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+    <span class="n">documentAssembler</span><span class="o">,</span>
+    <span class="n">tokenizer</span><span class="o">,</span>
+    <span class="n">embeddings</span><span class="o">,</span>
+    <span class="n">vectorDB</span>
+  <span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="o">(</span><span class="s">"doc_001"</span><span class="o">,</span> <span class="s">"Spark NLP is a powerful library"</span><span class="o">,</span> <span class="s">"technology"</span><span class="o">),</span>
+  <span class="o">(</span><span class="s">"doc_002"</span><span class="o">,</span> <span class="s">"Vector databases enable semantic search"</span><span class="o">,</span> <span class="s">"technology"</span><span class="o">),</span>
+  <span class="o">(</span><span class="s">"doc_003"</span><span class="o">,</span> <span class="s">"Machine learning requires quality data"</span><span class="o">,</span> <span class="s">"data-science"</span><span class="o">)</span>
+<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"doc_id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">,</span> <span class="s">"category"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+
+<span class="c1">// View the output - contains vector IDs returned from Pinecone</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"vectordb_result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="o">+-----------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">vectordb_result</span>                                            <span class="o">|</span>
+<span class="o">+-----------------------------------------------------------+</span>
+<span class="o">|[[</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">29</span>, <span class="kt">doc_001</span>, <span class="o">{</span><span class="kt">vectordb_status</span> <span class="kt">-&gt;</span> <span class="kt">upserted</span><span class="o">}</span>,<span class="k">_</span><span class="kt">|</span>
+<span class="kt">|</span><span class="o">[[</span><span class="kt">document</span>, <span class="err">31</span>, <span class="err">64</span>, <span class="kt">doc_002</span>, <span class="o">{</span><span class="kt">vectordb_status</span> <span class="kt">-&gt;</span> <span class="kt">upserted</span><span class="o">}</span>,<span class="kt">|</span>
+<span class="kt">|</span><span class="o">[[</span><span class="kt">document</span>, <span class="err">65</span>, <span class="err">95</span>, <span class="kt">doc_003</span>, <span class="o">{</span><span class="kt">vectordb_status</span> <span class="kt">-&gt;</span> <span class="kt">upserted</span><span class="o">}</span>,<span class="kt">|</span>
+<span class="kt">+-----------------------------------------------------------+</span>
+</code></pre></div>        </div>
+
+      </div>
+
+</details>
 
   </div>
 
