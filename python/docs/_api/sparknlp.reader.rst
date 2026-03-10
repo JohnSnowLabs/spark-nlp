@@ -8,6 +8,8 @@ Submodules
    :maxdepth: 4
 
    sparknlp.reader.enums
+   sparknlp.reader.layout_aligner_for_text
+   sparknlp.reader.layout_aligner_for_vision
    sparknlp.reader.pdf_to_text
    sparknlp.reader.reader2doc
    sparknlp.reader.reader2image

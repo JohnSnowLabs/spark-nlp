@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.3.2 ScalaDoc  - com.johnsnowlabs.reader.ReaderAssembler</title>
-          <meta name="description" content="Spark NLP 6.3.2 ScalaDoc - com.johnsnowlabs.reader.ReaderAssembler" />
-          <meta name="keywords" content="Spark NLP 6.3.2 ScalaDoc com.johnsnowlabs.reader.ReaderAssembler" />
+          <title>Spark NLP 6.3.3 ScalaDoc  - com.johnsnowlabs.reader.ReaderAssembler</title>
+          <meta name="description" content="Spark NLP 6.3.3 ScalaDoc - com.johnsnowlabs.reader.ReaderAssembler" />
+          <meta name="keywords" content="Spark NLP 6.3.3 ScalaDoc com.johnsnowlabs.reader.ReaderAssembler" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.3.3 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -161,6 +161,14 @@
                         <span class="separator"></span>
                         <a class="trait" href="HasReaderContent.html" title=""></a>
                         <a href="HasReaderContent.html" title="">HasReaderContent</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="LayoutAlignerForText$.html" title=""></a>
+                        <a class="class" href="LayoutAlignerForText.html" title="LayoutAlignerForText rebuilds final text by combining document chunks and generated image captions produced by multimodal models."></a>
+                        <a href="LayoutAlignerForText.html" title="LayoutAlignerForText rebuilds final text by combining document chunks and generated image captions produced by multimodal models.">LayoutAlignerForText</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="LayoutAlignerForVision$.html" title=""></a>
+                        <a class="class" href="LayoutAlignerForVision.html" title="LayoutAlignerForVision aligns document chunks with nearby images and emits paired outputs: one document annotation column, one image annotation column, and one prompt annotation column."></a>
+                        <a href="LayoutAlignerForVision.html" title="LayoutAlignerForVision aligns document chunks with nearby images and emits paired outputs: one document annotation column, one image annotation column, and one prompt annotation column.">LayoutAlignerForVision</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="MarkdownReader.html" title=""></a>
@@ -299,7 +307,7 @@ output.
           <div id="order">
             <span class="filtertype">Ordering</span>
             <ol>
-              
+              <li class="group out"><span>Grouped</span></li>
               <li class="alpha in"><span>Alphabetic</span></li>
               <li class="inherit out"><span>By Inheritance</span></li>
             </ol>
@@ -1775,6 +1783,23 @@ output.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.reader.ReaderAssembler">ReaderAssembler</a> → <a href="../nlp/HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.ReaderAssembler#outputAsDocument" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="outputAsDocument:org.apache.spark.ml.param.BooleanParam"></a><a id="outputAsDocument:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/ReaderAssembler.html#outputAsDocument:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">outputAsDocument</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to return all sentences joined into a single document
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#outputCol" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="outputCol:org.apache.spark.ml.param.Param[String]"></a><a id="outputCol:Param[String]"></a>
       <span class="permalink">
@@ -2520,6 +2545,22 @@ characteristics. This limits the amount of text inspected for layout heuristics.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasXmlReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasXmlReaderProperties">HasXmlReaderProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.ReaderAssembler#setOutputAsDocument" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setOutputAsDocument(value:Boolean):ReaderAssembler.this.type"></a><a id="setOutputAsDocument(Boolean):ReaderAssembler.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/ReaderAssembler.html#setOutputAsDocument(value:Boolean):ReaderAssembler.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setOutputAsDocument</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.ReaderAssembler">ReaderAssembler</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether to return all sentences joined into a single document</p>
     </li><li name="com.johnsnowlabs.nlp.HasOutputAnnotationCol#setOutputCol" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setOutputCol(value:String):HasOutputAnnotationCol.this.type"></a><a id="setOutputCol(String):ReaderAssembler.this.type"></a>
       <span class="permalink">
@@ -2717,6 +2758,22 @@ during parsing.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../partition/HasPdfReaderProperties.html" class="extype" name="com.johnsnowlabs.partition.HasPdfReaderProperties">HasPdfReaderProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.ReaderAssembler#setUseEncodedImageBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="setUseEncodedImageBytes(value:Boolean):ReaderAssembler.this.type"></a><a id="setUseEncodedImageBytes(Boolean):ReaderAssembler.this.type"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/ReaderAssembler.html#setUseEncodedImageBytes(value:Boolean):ReaderAssembler.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setUseEncodedImageBytes</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.reader.ReaderAssembler">ReaderAssembler</a>.this.type</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.reader.ReaderAssembler#setUserMessage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="setUserMessage(value:String):ReaderAssembler.this.type"></a><a id="setUserMessage(String):ReaderAssembler.this.type"></a>
       <span class="permalink">
@@ -3022,6 +3079,22 @@ during parsing.
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.reader.ReaderAssembler">ReaderAssembler</a> → Identifiable</dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.ReaderAssembler#useEncodedImageBytes" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="useEncodedImageBytes:org.apache.spark.ml.param.Param[Boolean]"></a><a id="useEncodedImageBytes:Param[Boolean]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/ReaderAssembler.html#useEncodedImageBytes:org.apache.spark.ml.param.Param[Boolean]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">useEncodedImageBytes</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Boolean">Boolean</span>]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.reader.ReaderAssembler#userMessage" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="userMessage:org.apache.spark.ml.param.Param[String]"></a><a id="userMessage:Param[String]"></a>
       <span class="permalink">
@@ -3221,7 +3294,10 @@ during parsing.
         </div>
 
         <div id="groupedMembers">
-        <div class="group" name="Ungrouped">
+        <div class="group" name="param">
+              <h3>param</h3>
+              
+            </div><div class="group" name="Ungrouped">
               <h3>Ungrouped</h3>
               
             </div>

@@ -18,6 +18,7 @@ Submodules
    sparknlp.base.has_recursive_transform
    sparknlp.base.image_assembler
    sparknlp.base.light_pipeline
+   sparknlp.base.multi_column_assembler
    sparknlp.base.multi_document_assembler
    sparknlp.base.prompt_assembler
    sparknlp.base.recursive_pipeline
