@@ -23,11 +23,11 @@ import com.johnsnowlabs.util.PipelineModels
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.scalatest.flatspec.AnyFlatSpec
 
-class AnnotationMergerTestSpec extends AnyFlatSpec {
+class MultiColumnAssemblerTestSpec extends AnyFlatSpec {
 
   import ResourceHelper.spark.implicits._
 
-  behavior of "AnnotationMerger"
+  behavior of "MultiColumnAssembler"
 
   it should "merge two DOCUMENT annotation columns" taggedAs FastTest in {
     val data = Seq(("Hello world", "This is a table"))
@@ -41,7 +41,7 @@ class AnnotationMergerTestSpec extends AnyFlatSpec {
       .setInputCol("text2")
       .setOutputCol("document_table")
 
-    val merger = new AnnotationMerger()
+    val merger = new MultiColumnAssembler()
       .setInputCols("document_text", "document_table")
       .setOutputCol("merged")
 
@@ -69,7 +69,7 @@ class AnnotationMergerTestSpec extends AnyFlatSpec {
     val da2 = new DocumentAssembler().setInputCol("text2").setOutputCol("doc2")
     val da3 = new DocumentAssembler().setInputCol("text3").setOutputCol("doc3")
 
-    val merger = new AnnotationMerger()
+    val merger = new MultiColumnAssembler()
       .setInputCols("doc1", "doc2", "doc3")
       .setOutputCol("merged")
 
@@ -91,7 +91,7 @@ class AnnotationMergerTestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
-    val merger = new AnnotationMerger()
+    val merger = new MultiColumnAssembler()
       .setInputCols("document")
       .setOutputCol("merged")
 
@@ -112,7 +112,7 @@ class AnnotationMergerTestSpec extends AnyFlatSpec {
     val da1 = new DocumentAssembler().setInputCol("text1").setOutputCol("doc1")
     val da2 = new DocumentAssembler().setInputCol("text2").setOutputCol("doc2")
 
-    val merger = new AnnotationMerger()
+    val merger = new MultiColumnAssembler()
       .setInputCols("doc1", "doc2")
       .setOutputCol("merged")
 
@@ -140,7 +140,7 @@ class AnnotationMergerTestSpec extends AnyFlatSpec {
     val da1 = new DocumentAssembler().setInputCol("text1").setOutputCol("doc1")
     val da2 = new DocumentAssembler().setInputCol("text2").setOutputCol("doc2")
 
-    val merger = new AnnotationMerger()
+    val merger = new MultiColumnAssembler()
       .setInputCols("doc1", "doc2")
       .setOutputCol("merged")
       .setSortByBegin(true)
@@ -165,7 +165,7 @@ class AnnotationMergerTestSpec extends AnyFlatSpec {
     val da1 = new DocumentAssembler().setInputCol("text1").setOutputCol("doc1")
     val da2 = new DocumentAssembler().setInputCol("text2").setOutputCol("doc2")
 
-    val merger = new AnnotationMerger()
+    val merger = new MultiColumnAssembler()
       .setInputCols("doc1", "doc2")
       .setOutputCol("merged")
       .setOutputAsAnnotatorType(AnnotatorType.CHUNK)
@@ -186,7 +186,7 @@ class AnnotationMergerTestSpec extends AnyFlatSpec {
     val da1 = new DocumentAssembler().setInputCol("text1").setOutputCol("doc1")
     val da2 = new DocumentAssembler().setInputCol("text2").setOutputCol("doc2")
 
-    val merger = new AnnotationMerger()
+    val merger = new MultiColumnAssembler()
       .setInputCols("doc1", "doc2")
       .setOutputCol("merged")
 
@@ -194,7 +194,7 @@ class AnnotationMergerTestSpec extends AnyFlatSpec {
       .setStages(Array(da1, da2, merger))
       .fit(data)
 
-    val tmpPath = java.io.File.createTempFile("annotation_merger_test", "").getAbsolutePath
+    val tmpPath = java.io.File.createTempFile("multi_column_assembler_test", "").getAbsolutePath
 
     pipeline.write.overwrite().save(tmpPath)
     val loadedPipeline = PipelineModel.load(tmpPath)
@@ -215,7 +215,7 @@ class AnnotationMergerTestSpec extends AnyFlatSpec {
     val da1 = new DocumentAssembler().setInputCol("text1").setOutputCol("doc1")
     val da2 = new DocumentAssembler().setInputCol("text2").setOutputCol("doc2")
 
-    val merger = new AnnotationMerger()
+    val merger = new MultiColumnAssembler()
       .setInputCols("doc1", "doc2")
       .setOutputCol("merged")
 
@@ -247,7 +247,7 @@ class AnnotationMergerTestSpec extends AnyFlatSpec {
       .setContentPath(s"$docDirectory/doc-img-table.docx")
       .setOutputCol("document")
 
-    val merger = new AnnotationMerger()
+    val merger = new MultiColumnAssembler()
       .setInputCols("document_text", "document_table")
       .setOutputCol("merged")
 

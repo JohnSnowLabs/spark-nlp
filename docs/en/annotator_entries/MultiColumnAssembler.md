@@ -1,5 +1,5 @@
 {%- capture title -%}
-AnnotationMerger
+MultiColumnAssembler
 {%- endcapture -%}
 
 {%- capture description -%}
@@ -44,7 +44,7 @@ documentAssembler2 = DocumentAssembler() \
     .setInputCol("table") \
     .setOutputCol("document_table")
 
-annotationMerger = AnnotationMerger() \
+multiColumnAssembler = MultiColumnAssembler() \
     .setInputCols(["document_text", "document_table"]) \
     .setOutputCol("merged_document")
 
@@ -56,7 +56,7 @@ data = spark.createDataFrame(
 pipeline = Pipeline().setStages([
     documentAssembler1,
     documentAssembler2,
-    annotationMerger
+    multiColumnAssembler
 ]).fit(data)
 
 result = pipeline.transform(data)
@@ -72,7 +72,7 @@ result.selectExpr("merged_document.result").show(truncate=False)
 
 {%- capture scala_example -%}
 import spark.implicits._
-import com.johnsnowlabs.nlp.{AnnotationMerger, DocumentAssembler}
+import com.johnsnowlabs.nlp.{MultiColumnAssembler, DocumentAssembler}
 import org.apache.spark.ml.Pipeline
 
 val documentAssembler1 = new DocumentAssembler()
@@ -83,7 +83,7 @@ val documentAssembler2 = new DocumentAssembler()
   .setInputCol("table")
   .setOutputCol("document_table")
 
-val annotationMerger = new AnnotationMerger()
+val multiColumnAssembler = new MultiColumnAssembler()
   .setInputCols("document_text", "document_table")
   .setOutputCol("merged_document")
 
@@ -91,7 +91,7 @@ val data = Seq(("Hello world", "Name | Age\nJohn | 30"))
   .toDF("text", "table")
 
 val pipeline = new Pipeline()
-  .setStages(Array(documentAssembler1, documentAssembler2, annotationMerger))
+  .setStages(Array(documentAssembler1, documentAssembler2, multiColumnAssembler))
   .fit(data)
 
 val result = pipeline.transform(data)
@@ -106,15 +106,15 @@ result.selectExpr("merged_document.result").show(false)
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[AnnotationMerger](/api/com/johnsnowlabs/nlp/AnnotationMerger)
+[MultiColumnAssembler](/api/com/johnsnowlabs/nlp/MultiColumnAssembler)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[AnnotationMerger](/api/python/reference/autosummary/sparknlp/base/annotation_merger/index.html#sparknlp.base.annotation_merger.AnnotationMerger)
+[MultiColumnAssembler](/api/python/reference/autosummary/sparknlp/base/multi_column_assembler/index.html#sparknlp.base.multi_column_assembler.MultiColumnAssembler)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[AnnotationMerger](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/AnnotationMerger.scala)
+[MultiColumnAssembler](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/MultiColumnAssembler.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md

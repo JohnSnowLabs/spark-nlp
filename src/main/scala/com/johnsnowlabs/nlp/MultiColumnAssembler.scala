@@ -39,7 +39,7 @@ import org.apache.spark.sql.types.StructType
   * ==Example==
   * {{{
   * import spark.implicits._
-  * import com.johnsnowlabs.nlp.{AnnotationMerger, DocumentAssembler}
+  * import com.johnsnowlabs.nlp.{MultiColumnAssembler, DocumentAssembler}
   * import org.apache.spark.ml.Pipeline
   *
   * val documentAssembler1 = new DocumentAssembler()
@@ -50,7 +50,7 @@ import org.apache.spark.sql.types.StructType
   *   .setInputCol("text2")
   *   .setOutputCol("document_table")
   *
-  * val annotationMerger = new AnnotationMerger()
+  * val multiColumnAssembler = new MultiColumnAssembler()
   *   .setInputCols("document_text", "document_table")
   *   .setOutputCol("merged_document")
   *
@@ -58,7 +58,7 @@ import org.apache.spark.sql.types.StructType
   *   .toDF("text1", "text2")
   *
   * val pipeline = new Pipeline()
-  *   .setStages(Array(documentAssembler1, documentAssembler2, annotationMerger))
+  *   .setStages(Array(documentAssembler1, documentAssembler2, multiColumnAssembler))
   *   .fit(data)
   *
   * val result = pipeline.transform(data)
@@ -83,9 +83,9 @@ import org.apache.spark.sql.types.StructType
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class AnnotationMerger(override val uid: String)
-    extends AnnotatorModel[AnnotationMerger]
-    with HasSimpleAnnotate[AnnotationMerger]
+class MultiColumnAssembler(override val uid: String)
+    extends AnnotatorModel[MultiColumnAssembler]
+    with HasSimpleAnnotate[MultiColumnAssembler]
     with HasMultipleInputAnnotationCols {
 
   import com.johnsnowlabs.nlp.AnnotatorType._
@@ -159,7 +159,7 @@ class AnnotationMerger(override val uid: String)
   }
 
   override protected def extraValidateMsg: String =
-    s"AnnotationMerger input columns must have annotation metadata and cannot be IMAGE type. " +
+    s"MultiColumnAssembler input columns must have annotation metadata and cannot be IMAGE type. " +
       s"Current inputCols: ${getInputCols.mkString(", ")}"
 
   override protected def extraValidate(structType: StructType): Boolean = {
@@ -221,7 +221,7 @@ class AnnotationMerger(override val uid: String)
 
 }
 
-/** This is the companion object of [[AnnotationMerger]]. Please refer to that class for the
+/** This is the companion object of [[MultiColumnAssembler]]. Please refer to that class for the
   * documentation.
   */
-object AnnotationMerger extends DefaultParamsReadable[AnnotationMerger]
+object MultiColumnAssembler extends DefaultParamsReadable[MultiColumnAssembler]

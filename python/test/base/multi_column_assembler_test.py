@@ -21,7 +21,7 @@ from test.util import SparkSessionForTest
 
 
 @pytest.mark.fast
-class AnnotationMergerTest(unittest.TestCase):
+class MultiColumnAssemblerTest(unittest.TestCase):
     def setUp(self):
         self.spark = SparkSessionForTest.spark
 
@@ -34,7 +34,7 @@ class AnnotationMergerTest(unittest.TestCase):
         da2 = DocumentAssembler().setInputCol("text2").setOutputCol("document_table")
 
         merger = (
-            AnnotationMerger()
+            MultiColumnAssembler()
             .setInputCols(["document_text", "document_table"])
             .setOutputCol("merged")
         )
@@ -57,7 +57,7 @@ class AnnotationMergerTest(unittest.TestCase):
         da3 = DocumentAssembler().setInputCol("text3").setOutputCol("doc3")
 
         merger = (
-            AnnotationMerger()
+            MultiColumnAssembler()
             .setInputCols(["doc1", "doc2", "doc3"])
             .setOutputCol("merged")
         )
@@ -76,7 +76,7 @@ class AnnotationMergerTest(unittest.TestCase):
         da = DocumentAssembler().setInputCol("text").setOutputCol("document")
 
         merger = (
-            AnnotationMerger()
+            MultiColumnAssembler()
             .setInputCols(["document"])
             .setOutputCol("merged")
         )
@@ -97,7 +97,7 @@ class AnnotationMergerTest(unittest.TestCase):
         da2 = DocumentAssembler().setInputCol("text2").setOutputCol("doc2")
 
         merger = (
-            AnnotationMerger()
+            MultiColumnAssembler()
             .setInputCols(["doc1", "doc2"])
             .setOutputCol("merged")
             .setSortByBegin(True)
@@ -120,7 +120,7 @@ class AnnotationMergerTest(unittest.TestCase):
         da2 = DocumentAssembler().setInputCol("text2").setOutputCol("doc2")
 
         merger = (
-            AnnotationMerger()
+            MultiColumnAssembler()
             .setInputCols(["doc1", "doc2"])
             .setOutputCol("merged")
             .setOutputAsAnnotatorType("chunk")
@@ -147,7 +147,7 @@ class AnnotationMergerTest(unittest.TestCase):
         da2 = DocumentAssembler().setInputCol("text2").setOutputCol("doc2")
 
         merger = (
-            AnnotationMerger()
+            MultiColumnAssembler()
             .setInputCols(["doc1", "doc2"])
             .setOutputCol("merged")
         )
@@ -172,14 +172,14 @@ class AnnotationMergerTest(unittest.TestCase):
         da2 = DocumentAssembler().setInputCol("text2").setOutputCol("doc2")
 
         merger = (
-            AnnotationMerger()
+            MultiColumnAssembler()
             .setInputCols(["doc1", "doc2"])
             .setOutputCol("merged")
         )
 
         pipeline = Pipeline().setStages([da1, da2, merger]).fit(data)
 
-        tmp_path = os.path.join(tempfile.mkdtemp(), "annotation_merger_test")
+        tmp_path = os.path.join(tempfile.mkdtemp(), "multi_column_assembler_test")
         pipeline.write().overwrite().save(tmp_path)
 
         from pyspark.ml import PipelineModel
@@ -191,28 +191,23 @@ class AnnotationMergerTest(unittest.TestCase):
         merged = result.select("merged").collect()[0]["merged"]
         self.assertEqual(len(merged), 2)
 
-    def test_reader_assembler_merge_document_text_and_table(self):
-        import os
-        from sparknlp.reader.reader_assembler import ReaderAssembler
-
-        empty_df = self.spark.createDataFrame([], "string").toDF("text")
-
-        reader = (
-            ReaderAssembler()
-            .setContentType("application/msword")
-            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/doc/doc-img-table.docx")
-            .setOutputCol("document")
+    def test_merge_document_text_and_table_columns(self):
+        data = self.spark.createDataFrame(
+            [("Some paragraph text.", "Col1 | Col2\n1    | 2")],
+            ["text", "table"],
         )
 
+        da_text = DocumentAssembler().setInputCol("text").setOutputCol("document_text")
+        da_table = DocumentAssembler().setInputCol("table").setOutputCol("document_table")
+
         merger = (
-            AnnotationMerger()
+            MultiColumnAssembler()
             .setInputCols(["document_text", "document_table"])
             .setOutputCol("merged")
         )
 
-        pipeline = Pipeline(stages=[reader, merger])
-        model = pipeline.fit(empty_df)
-        result = model.transform(empty_df)
+        pipeline = Pipeline(stages=[da_text, da_table, merger]).fit(data)
+        result = pipeline.transform(data)
 
         self.assertTrue(result.count() > 0)
 

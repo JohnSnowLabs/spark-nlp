@@ -11,7 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-"""Contains classes for the AnnotationMerger."""
+"""Contains classes for the MultiColumnAssembler."""
 
 from pyspark import keyword_only
 from pyspark.ml.param import TypeConverters, Params, Param
@@ -20,7 +20,7 @@ from sparknlp.internal import AnnotatorTransformer
 from sparknlp.common import AnnotatorProperties, AnnotatorType
 
 
-class AnnotationMerger(AnnotatorTransformer, AnnotatorProperties):
+class MultiColumnAssembler(AnnotatorTransformer, AnnotatorProperties):
     """Merges multiple annotation columns into a single annotation column.
 
     This is useful when multiple annotators produce separate annotation columns
@@ -65,11 +65,11 @@ class AnnotationMerger(AnnotatorTransformer, AnnotatorProperties):
     >>> documentAssembler2 = DocumentAssembler() \\
     ...     .setInputCol("text2") \\
     ...     .setOutputCol("document_table")
-    >>> annotationMerger = AnnotationMerger() \\
+    >>> multiColumnAssembler = MultiColumnAssembler() \\
     ...     .setInputCols(["document_text", "document_table"]) \\
     ...     .setOutputCol("merged_document")
     >>> data = spark.createDataFrame([("Hello world", "Name | Age")]).toDF("text1", "text2")
-    >>> pipeline = Pipeline().setStages([documentAssembler1, documentAssembler2, annotationMerger]).fit(data)
+    >>> pipeline = Pipeline().setStages([documentAssembler1, documentAssembler2, multiColumnAssembler]).fit(data)
     >>> result = pipeline.transform(data)
     >>> result.selectExpr("merged_document.result").show(truncate=False)
     +---------------------------+
@@ -97,12 +97,12 @@ class AnnotationMerger(AnnotatorTransformer, AnnotatorProperties):
         typeConverter=TypeConverters.toBoolean,
     )
 
-    name = "AnnotationMerger"
+    name = "MultiColumnAssembler"
 
     @keyword_only
     def __init__(self):
-        super(AnnotationMerger, self).__init__(
-            classname="com.johnsnowlabs.nlp.AnnotationMerger"
+        super(MultiColumnAssembler, self).__init__(
+            classname="com.johnsnowlabs.nlp.MultiColumnAssembler"
         )
         self._setDefault(outputAsAnnotatorType="document", sortByBegin=False)
 
