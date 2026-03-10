@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp &#8212; Spark NLP 6.3.2 documentation</title>
+    <title>sparknlp &#8212; Spark NLP 6.3.3 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=311087f9"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=956803e0"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.2 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.2 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.3 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.3 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -382,7 +382,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotator</span>
 <span class="c1"># Must be declared here one by one or else PretrainedPipeline will fail with AttributeError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocumentAssembler</span><span class="p">,</span> <span class="n">MultiDocumentAssembler</span><span class="p">,</span> <span class="n">Finisher</span><span class="p">,</span> <span class="n">EmbeddingsFinisher</span><span class="p">,</span> <span class="n">TokenAssembler</span><span class="p">,</span> \
-    <span class="n">Doc2Chunk</span><span class="p">,</span> <span class="n">AudioAssembler</span><span class="p">,</span> <span class="n">GraphFinisher</span><span class="p">,</span> <span class="n">ImageAssembler</span><span class="p">,</span> <span class="n">TableAssembler</span>
+    <span class="n">Doc2Chunk</span><span class="p">,</span> <span class="n">AudioAssembler</span><span class="p">,</span> <span class="n">GraphFinisher</span><span class="p">,</span> <span class="n">ImageAssembler</span><span class="p">,</span> <span class="n">TableAssembler</span><span class="p">,</span> <span class="n">MultiColumnAssembler</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkNLPReader</span>
 
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
@@ -424,7 +424,7 @@ document.write(`
 <div class="viewcode-block" id="annotators"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.annotators">[docs]</a><span class="n">annotators</span> <span class="o">=</span> <span class="n">annotator</span></div>
 <div class="viewcode-block" id="embeddings"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.embeddings">[docs]</a><span class="n">embeddings</span> <span class="o">=</span> <span class="n">annotator</span></div>
 
-<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;6.3.2&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;6.3.3&quot;</span>
 
 
 <div class="viewcode-block" id="start"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.start">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
