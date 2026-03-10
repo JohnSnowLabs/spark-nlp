@@ -28,3 +28,4 @@ from sparknlp.base.image_assembler import *
 from sparknlp.base.audio_assembler import *
 from sparknlp.base.table_assembler import *
 from sparknlp.base.prompt_assembler import *
+from sparknlp.base.multi_column_assembler import *
