@@ -236,7 +236,7 @@ Spark NLP provides comprehensive support for common document formats through its
 | **DOCX** | Reader2Doc, Reader2Table, Reader2Image | Support text, tables, and images from Word documents |
 | **PPTX** | Reader2Doc, Reader2Table, Reader2Image | Extract slide content, notes, tables, and images |
 | **XLSX** | Reader2Doc, Reader2Table, Reader2Image | Parse spreadsheets, extract structured data |
-| **CSV** | Reader2Doc, Reader2Table | Read tabular data with proper schema |
+| **CSV / TSV** | Reader2Doc, Reader2Table | Read delimited tabular data while preserving structure |
 | **Email (MSG, EML)** | Reader2Doc, Reader2Table, Reader2Image | Parse headers, body, and attachments |
 | **XML** | Reader2Doc, Reader2Table, Reader2Image | Preserve structure, control tag handling |
 | **Markdown** | Reader2Doc, Reader2Table, Reader2Image | Parse text and embedded images |

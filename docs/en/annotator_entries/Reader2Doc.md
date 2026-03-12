@@ -8,6 +8,7 @@ The Reader2Doc annotator enables seamless integration of document reading capabi
 Supported File Formats:
 - Text: `.txt`  
 - HTML: `.html`, `.htm`  
+- Delimited text: `.csv`, `.tsv`  
 - Microsoft Word: `.doc`, `.docx`  
 - Microsoft Excel: `.xls`, `.xlsx`  
 - Microsoft PowerPoint: `.ppt`, `.pptx`  
@@ -19,6 +20,7 @@ Parameters:
 - `flattenOutput` : Whether to output plain text with minimal metadata (default: `false`).  
 - `outputAsDocument` : Whether to output data as one single document instead of multiple records (default: `false`).  
 - `excludeNonText` : Whether to exclude non-textual data such as tables and images (default: `false`).  
+- `contentType` : MIME type of the input content (for example, `text/html`, `text/csv`, or `text/tsv`).  
 
 For an extended example see the
 [example notebook](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/data-preprocessing/SparkNLP_Reader2Doc_Demo.ipynb).

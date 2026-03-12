@@ -3,20 +3,20 @@ Reader2Table
 {%- endcapture -%}
 
 {%- capture description -%}
-The Reader2Table annotator enables seamless extraction of tabular content from documents within existing Spark NLP workflows. It allows you to efficiently parse tables from a wide variety of file types, including HTML, Word, Excel, PowerPoint, and CSV files, and return them as structured Spark DataFrames with metadata, ready for downstream processing or analysis.
+The Reader2Table annotator enables seamless extraction of tabular content from documents within existing Spark NLP workflows. It allows you to efficiently parse tables from a wide variety of file types, including HTML, Word, Excel, PowerPoint, CSV, and TSV files, and return them as structured Spark DataFrames with metadata, ready for downstream processing or analysis.
 
 Supported File Formats:
 - HTML: `.html`, `.htm`  
 - Word documents: `.doc`, `.docx`  
 - Excel spreadsheets: `.xls`, `.xlsx`  
 - PowerPoint presentations: `.ppt`, `.pptx`  
-- CSV files: `.csv`  
+- Delimited files: `.csv`, `.tsv`  
 
 Parameters:
 - `contentPath`: Path to the input documents or table-containing files (required).  
 - `inputCol`: Input column name (optional).  
 - `outputCol`: Output column name for structured table data (default: `document`).  
-- `contentType`: MIME type of the documents (e.g., `"text/html"`, `"application/vnd.ms-excel"`) (optional).  
+- `contentType`: MIME type of the documents (e.g., `"text/html"`, `"text/csv"`, `"text/tsv"`, `"application/vnd.ms-excel"`) (optional).  
 - `explodeDocs`: Whether to split multi-document files into separate rows (default: `true`).  
 - `storeContent`: Whether to include the raw file content alongside structured output (default: `false`).  
 - `flattenOutput`: Whether to return plain table data with minimal metadata (default: `false`).  
@@ -42,7 +42,7 @@ from sparknlp.reader.reader2table import Reader2Table
 from pyspark.ml import Pipeline
 
 reader2Table = Reader2Table() \
-    .setContentType("application/csv") \
+    .setContentType("text/csv") \
     .setContentPath(f"./csvDirectory")
 
 pipeline = Pipeline(stages=[reader2Table])
@@ -63,7 +63,7 @@ import com.johnsnowlabs.reader.Reader2Table
 import org.apache.spark.ml.Pipeline
 
 val reader2Table = new Reader2Table()
-  .setContentType("application/csv")
+  .setContentType("text/csv")
   .setContentPath(s"$csvDirectory/")
 
 val pipeline = new Pipeline().setStages(Array(reader2Table))
