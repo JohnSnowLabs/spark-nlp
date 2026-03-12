@@ -3,11 +3,11 @@ ReaderAssembler
 {%- endcapture -%}
 
 {%- capture description -%}
-The ReaderAssembler annotator provides a unified interface to combine multiple Spark NLP readers such as `Reader2Doc`, `Reader2Table`, and `Reader2Image` into a single, configurable component. It automatically selects and orchestrates the appropriate reader for each input based on file type, content type, and configured priorities, allowing you to process heterogeneous content (documents, tables, images) seamlessly in one pipeline.
+The ReaderAssembler annotator provides a unified interface to combine multiple Spark NLP readers such as `Reader2Doc`, `Reader2Table`, and `Reader2Image` into a single, configurable component. It automatically selects and orchestrates the appropriate reader for each input based on file type, content type, and configured priorities, allowing you to process heterogeneous content, including ODT files alongside other office formats, seamlessly in one pipeline.
 
 Supported Input Types:
 - Text: `txt`, `html`, `htm`, `md`, `xml`, `csv`  
-- Documents: `pdf`, `doc`, `docx`, `xls`, `xlsx`, `ppt`, `pptx`  
+- Documents: `pdf`, `doc`, `docx`, `odt`, `xls`, `xlsx`, `ppt`, `pptx`
 - Email: `eml`, `msg`  
 - Images: `png`, `jpg`, `jpeg`, `bmp`, `gif`  
 
@@ -15,12 +15,12 @@ Parameters:
 - `contentPath`: Path to the content source (file or directory).  
 - `inputCol`: Input column name for in-memory string content (optional).  
 - `outputCol`: Base output column name; appends `text`, `table`, `image` for respective reader outputs (default: `document`).  
-- `contentType`: MIME type of the content (e.g., `text/html`, `application/pdf`) (optional).  
+- `contentType`: MIME type of the content (e.g., `text/html`, `application/pdf`, `application/vnd.oasis.opendocument.text`) (optional).
 - `explodeDocs`: Whether to split multi-document files into separate rows (default: `false`).  
 - `flattenOutput`: Whether to return plain content with minimal metadata (default: `false`).  
 - `inferTableStructure`: Whether to automatically detect table structure from tabular content (default: `true`).  
 - `excludeNonText`: Whether to ignore non-text rows, such as tables, in Reader2Doc (default: `false`).  
-- `userMessage`: Custom message describing the content for prompt-based models (op—ional).  
+- `userMessage`: Custom message describing the content for prompt-based models (optional).
 - `promptTemplate`: Template format for prompt generation (optional).  
 - `customPromptTemplate`: Custom prompt template if `promptTemplate` is set to `"custom"` (optional).  
 

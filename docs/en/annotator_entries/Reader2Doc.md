@@ -9,10 +9,13 @@ Supported File Formats:
 - Text: `.txt`  
 - HTML: `.html`, `.htm`  
 - Microsoft Word: `.doc`, `.docx`  
+- OpenDocument Text: `.odt`
 - Microsoft Excel: `.xls`, `.xlsx`  
 - Microsoft PowerPoint: `.ppt`, `.pptx`  
 - Email files: `.eml`, `.msg`  
 - PDF documents: `.pdf` 
+
+Use `application/vnd.oasis.opendocument.text` when you want to set the ODT MIME type explicitly with `contentType`.
 
 Parameters:
 - `explodeDocs` : Whether to output one document per row (default: `true`). Set to `false` to combine all content into a single row per input file.  
