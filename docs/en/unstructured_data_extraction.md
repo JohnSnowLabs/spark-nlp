@@ -222,7 +222,7 @@ Processing **60 mixed-format documents** on single machine:
 
 ### Document Format Support
 
-Spark NLP provides comprehensive support for common document formats through its `Reader2X` components.
+Spark NLP provides comprehensive support for common document formats through its `Reader2X` components, including OpenDocument Text (`.odt`) files.
 
 </div><div class="h3-box" markdown="1">
 
@@ -234,6 +234,7 @@ Spark NLP provides comprehensive support for common document formats through its
 | **PDF** | Reader2Doc, Reader2Table, Reader2Image | Extract text and images, handles complex layouts |
 | **HTML** | Reader2Doc, Reader2Table, Reader2Image | Parse structure, extract tables, preserve DOM context |
 | **DOCX** | Reader2Doc, Reader2Table, Reader2Image | Support text, tables, and images from Word documents |
+| **ODT** | Reader2Doc, Reader2Table, Reader2Image | Extract text, page breaks, tables, and embedded images from OpenDocument Text files |
 | **PPTX** | Reader2Doc, Reader2Table, Reader2Image | Extract slide content, notes, tables, and images |
 | **XLSX** | Reader2Doc, Reader2Table, Reader2Image | Parse spreadsheets, extract structured data |
 | **CSV** | Reader2Doc, Reader2Table | Read tabular data with proper schema |
@@ -241,6 +242,8 @@ Spark NLP provides comprehensive support for common document formats through its
 | **XML** | Reader2Doc, Reader2Table, Reader2Image | Preserve structure, control tag handling |
 | **Markdown** | Reader2Doc, Reader2Table, Reader2Image | Parse text and embedded images |
 | **Plain Text** | Reader2Doc | Simple text ingestion |
+
+For explicit ODT parsing, set `contentType` to `application/vnd.oasis.opendocument.text`.
 
 </div><div class="h3-box" markdown="1">
 
