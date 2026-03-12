@@ -192,6 +192,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "application/xml" => sparkNLPReader.xml
       case "text/markdown" => sparkNLPReader.md
       case "text/csv" => sparkNLPReader.csv
+      case "text/tsv" => sparkNLPReader.tsv
       case _ => throw new IllegalArgumentException(s"Unsupported content type: $contentType")
     }
   }
@@ -205,6 +206,8 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "url" => sparkNLPReader.urlToHTMLElement
       case "application/xml" => sparkNLPReader.xmlToHTMLElement
       case "text/markdown" => sparkNLPReader.mdToHTMLElement
+      case "text/csv" => sparkNLPReader.csvToHTMLElement
+      case "text/tsv" => sparkNLPReader.tsvToHTMLElement
       case _ => throw new IllegalArgumentException(s"Unsupported content type: $contentType")
     }
   }
@@ -244,6 +247,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "xml" => sparkNLPReader.xml
       case "md" => sparkNLPReader.md
       case "csv" => sparkNLPReader.csv
+      case "tsv" => sparkNLPReader.tsv
       case _ => throw new IllegalArgumentException(s"Unsupported file type: $extension")
     }
   }
