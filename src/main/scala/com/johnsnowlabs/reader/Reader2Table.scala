@@ -27,8 +27,8 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row}
   * extracting structured content from various document types using Spark NLP readers. It supports
   * reading from many files types and returns parsed output as a structured Spark DataFrame.
   *
-  * Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
-  * (.ppt/.pptx)
+  * Supported formats include plain text, HTML, Word (.doc/.docx), ODT (.odt), Excel (.xls/.xlsx),
+  * PowerPoint (.ppt/.pptx)
   *
   * ==Example==
   * {{{
@@ -89,6 +89,7 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
       val officeDocTypes = Set(
         "application/msword",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/vnd.oasis.opendocument.text",
         "application/vnd.ms-excel",
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "application/vnd.ms-powerpoint",
@@ -100,7 +101,7 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
         Set(ElementType.TABLE)
       }
     } else {
-      val officeFiles = Set("doc", "docx", "xls", "xlsx", "ppt", "pptx")
+      val officeFiles = Set("doc", "docx", "odt", "xls", "xlsx", "ppt", "pptx")
       val extension = fileName.split("\\.").last.toLowerCase
       if (officeFiles.contains(extension)) {
         Set(ElementType.HTML, ElementType.JSON)

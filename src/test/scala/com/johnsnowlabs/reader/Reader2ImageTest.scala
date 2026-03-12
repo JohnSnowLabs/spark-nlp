@@ -34,6 +34,7 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
   val unsupportedFiles = "src/test/resources/reader/unsupported-files"
   val emailDirectory = "src/test/resources/reader/email/"
   val wordDirectory = "src/test/resources/reader/doc/"
+  val odtDirectory = "src/test/resources/reader/odt/"
   val imageDirectory = "src/test/resources/reader/img/"
   val pdfDirectory = "src/test/resources/reader/pdf/"
   val filesDirectory = "src/test/resources/reader/"
@@ -225,6 +226,32 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     val reader2Image = new Reader2Image()
       .setContentPath(wordPath)
       .setContentType("application/msword")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
+
+    annotationsResult.foreach { annotations =>
+      assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
+      assert(annotations.head.origin == wordFile)
+      assert(annotations.head.result.nonEmpty)
+      assert(annotations.head.height > 0)
+      assert(annotations.head.width > 0)
+      assert(annotations.head.nChannels > 0)
+      assert(annotations.head.mode > 0)
+      assert(annotations.head.metadata.nonEmpty)
+    }
+  }
+
+  it should "read images from OpenOffice files" taggedAs FastTest in {
+    val wordFile = "contains-pictures.odt"
+    val wordPath = s"$odtDirectory/$wordFile"
+    val reader2Image = new Reader2Image()
+      .setContentPath(wordPath)
+      .setContentType("application/vnd.oasis.opendocument.text")
       .setOutputCol("image")
 
     val pipeline = new Pipeline().setStages(Array(reader2Image))
