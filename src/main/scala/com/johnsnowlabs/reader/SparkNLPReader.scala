@@ -305,6 +305,26 @@ class SparkNLPReader(
     wordReader.docToHTMLElement(content)
   }
 
+  def odt(docPath: String): DataFrame = {
+    val odtReader = new ODTReader(
+      getStoreContent,
+      getIncludePageBreaks,
+      getInferTableStructure,
+      getOutputFormat)
+    setOutputColumn(odtReader.getOutputColumn)
+    odtReader.doc(docPath)
+  }
+
+  def odt(content: Array[Byte]): Seq[HTMLElement] = {
+    val odtReader = new ODTReader(
+      getStoreContent,
+      getIncludePageBreaks,
+      getInferTableStructure,
+      getOutputFormat)
+    setOutputColumn(odtReader.getOutputColumn)
+    odtReader.docToHTMLElement(content)
+  }
+
   /** Instantiates class to read PDF files.
     *
     * pdfPath: this is a path to a directory of PDF files or a path to an PDF file E.g.

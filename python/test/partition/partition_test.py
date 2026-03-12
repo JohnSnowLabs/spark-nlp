@@ -46,6 +46,20 @@ class PartitionWordTesSpec(unittest.TestCase):
 
 
 @pytest.mark.fast
+class PartitionOdtTesSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.odt_directory = f"file:///{os.getcwd()}/../src/test/resources/reader/odt"
+
+    def runTest(self):
+        odt_df = Partition(content_type = "application/vnd.oasis.opendocument.text").partition(self.odt_directory)
+        odt_file_df = Partition().partition(f"{self.odt_directory}/fake_table.odt")
+
+        self.assertTrue(odt_df.select("doc").count() > 0)
+        self.assertTrue(odt_file_df.select("doc").count() > 0)
+
+
+@pytest.mark.fast
 class PartitionExcelTesSpec(unittest.TestCase):
 
     def setUp(self):

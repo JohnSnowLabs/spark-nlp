@@ -252,6 +252,7 @@ class Reader2Image(override val uid: String)
     "msg" -> ("message/rfc822", false),
     "docx" -> ("application/msword", false),
     "doc" -> ("application/msword", false),
+    "odt" -> ("application/vnd.oasis.opendocument.text", false),
     "ppt" -> ("application/vnd.ms-powerpoint", false),
     "pptx" -> ("application/vnd.ms-powerpoint", false),
     "xlsx" -> ("application/vnd.ms-excel", false),

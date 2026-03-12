@@ -28,6 +28,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
   import spark.implicits._
   val htmlFilesDirectory = "src/test/resources/reader/html"
   val docDirectory = "src/test/resources/reader/doc"
+  val odtDirectory = "src/test/resources/reader/odt"
   val txtDirectory = "src/test/resources/reader/txt/"
   val pdfDirectory = "src/test/resources/reader/pdf/"
   val mdDirectory = "src/test/resources/reader/md"
@@ -142,6 +143,20 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val reader2Doc = new Reader2Doc()
       .setContentType("application/msword")
       .setContentPath(s"$docDirectory/page-breaks.docx")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    assert(resultDf.count() == 1)
+  }
+
+  it should "work for ODT documents" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("application/vnd.oasis.opendocument.text")
+      .setContentPath(s"$odtDirectory/page-breaks.odt")
       .setOutputCol("document")
 
     val pipeline = new Pipeline().setStages(Array(reader2Doc))

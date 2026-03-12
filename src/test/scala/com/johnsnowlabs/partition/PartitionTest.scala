@@ -27,6 +27,7 @@ class PartitionTest extends AnyFlatSpec {
 
   val txtDirectory = "src/test/resources/reader/txt"
   val wordDirectory = "src/test/resources/reader/doc"
+  val odtDirectory = "src/test/resources/reader/odt"
   val excelDirectory = "src/test/resources/reader/xls"
   val powerPointDirectory = "src/test/resources/reader/ppt"
   val emailDirectory = "src/test/resources/reader/email"
@@ -56,6 +57,20 @@ class PartitionTest extends AnyFlatSpec {
     val wordDf = Partition().partition(s"$wordDirectory/fake_table.docx")
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
+  }
+
+  it should "work with odt content_type" taggedAs FastTest in {
+    val odtDf =
+      Partition(Map("content_type" -> "application/vnd.oasis.opendocument.text"))
+        .partition(odtDirectory)
+
+    assert(!odtDf.select(col("doc").getItem(0)).isEmpty)
+  }
+
+  it should "identify odt file" taggedAs FastTest in {
+    val odtDf = Partition().partition(s"$odtDirectory/fake_table.odt")
+
+    assert(!odtDf.select(col("doc").getItem(0)).isEmpty)
   }
 
   it should "work with excel content_type" taggedAs FastTest in {
