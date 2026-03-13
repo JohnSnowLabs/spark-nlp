@@ -5,7 +5,7 @@ seotitle: Unstructured Data Extraction
 title: Unstructured Data Extraction
 permalink: /docs/en/unstructured_data_extraction
 key: docs-concepts
-modify_date: "2026-02-09"
+modify_date: "2026-03-13"
 show_nav: true
 sidebar:
     nav: sparknlp
@@ -233,6 +233,7 @@ Spark NLP provides comprehensive support for common document formats through its
 |--------|---------------------|-------------|
 | **PDF** | Reader2Doc, Reader2Table, Reader2Image | Extract text and images, handles complex layouts |
 | **HTML** | Reader2Doc, Reader2Table, Reader2Image | Parse structure, extract tables, preserve DOM context |
+| **EPUB** | Reader2Doc, Reader2Table, Reader2Image | Parse chapter XHTML in reading order, extract tables, and read embedded images from the archive |
 | **DOCX** | Reader2Doc, Reader2Table, Reader2Image | Support text, tables, and images from Word documents |
 | **PPTX** | Reader2Doc, Reader2Table, Reader2Image | Extract slide content, notes, tables, and images |
 | **XLSX** | Reader2Doc, Reader2Table, Reader2Image | Parse spreadsheets, extract structured data |
