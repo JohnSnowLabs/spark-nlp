@@ -305,6 +305,24 @@ class SparkNLPReader(
     wordReader.docToHTMLElement(content)
   }
 
+  /** Instantiates class to read EPUB files.
+    *
+    * epubPath: this is a path to a directory of EPUB files or a path to an EPUB file E.g.
+    * "path/epub/files"
+    */
+
+  def epub(epubPath: String): DataFrame = {
+    val epubReader = new EpubReader(getStoreContent, getOutputFormat)
+    setOutputColumn(epubReader.getOutputColumn)
+    epubReader.epub(epubPath)
+  }
+
+  def epub(content: Array[Byte]): Seq[HTMLElement] = {
+    val epubReader = new EpubReader(getStoreContent, getOutputFormat)
+    setOutputColumn(epubReader.getOutputColumn)
+    epubReader.epubToHTMLElement(content)
+  }
+
   /** Instantiates class to read PDF files.
     *
     * pdfPath: this is a path to a directory of PDF files or a path to an PDF file E.g.

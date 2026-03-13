@@ -254,6 +254,7 @@ class Reader2Image(override val uid: String)
     "doc" -> ("application/msword", false),
     "ppt" -> ("application/vnd.ms-powerpoint", false),
     "pptx" -> ("application/vnd.ms-powerpoint", false),
+    "epub" -> ("application/epub+zip", false),
     "xlsx" -> ("application/vnd.ms-excel", false),
     "xls" -> ("application/vnd.ms-excel", false),
     "png" -> ("image/raw", false),

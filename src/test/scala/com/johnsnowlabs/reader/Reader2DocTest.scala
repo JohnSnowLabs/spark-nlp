@@ -32,6 +32,7 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
   val pdfDirectory = "src/test/resources/reader/pdf/"
   val mdDirectory = "src/test/resources/reader/md"
   val xmlDirectory = "src/test/resources/reader/xml"
+  val epubDirectory = "src/test/resources/reader/epub"
   val unsupportedFiles = "src/test/resources/reader/unsupported-files"
 
   "Reader2Doc" should "convert unstructured input to structured output for HTML" taggedAs FastTest in {
@@ -184,6 +185,20 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val reader2Doc = new Reader2Doc()
       .setContentType("application/xml")
       .setContentPath(s"$xmlDirectory/test.xml")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    assert(resultDf.count() == 1)
+  }
+
+  it should "work with EPUB" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("application/epub+zip")
+      .setContentPath(s"$epubDirectory/sample.epub")
       .setOutputCol("document")
 
     val pipeline = new Pipeline().setStages(Array(reader2Doc))

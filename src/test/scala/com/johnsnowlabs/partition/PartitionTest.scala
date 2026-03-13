@@ -33,6 +33,7 @@ class PartitionTest extends AnyFlatSpec {
   val htmlDirectory = "src/test/resources/reader/html"
   val pdfDirectory = "src/test/resources/reader/pdf"
   val xmlDirectory = "src/test/resources/reader/xml"
+  val epubDirectory = "src/test/resources/reader/epub"
 
   "Partition" should "work with text content_type" taggedAs FastTest in {
     val textDf = Partition(Map("content_type" -> "text/plain")).partition(txtDirectory)
@@ -131,6 +132,18 @@ class PartitionTest extends AnyFlatSpec {
     val pdfDf = Partition(Map("content_type" -> "application/pdf")).partition(pdfDirectory)
 
     assert(!pdfDf.select(col("pdf")).isEmpty)
+  }
+
+  it should "identify an EPUB file" taggedAs FastTest in {
+    val epubDf = Partition().partition(s"$epubDirectory/sample.epub")
+
+    assert(!epubDf.select(col("epub").getItem(0)).isEmpty)
+  }
+
+  it should "work with EPUB content_type" taggedAs FastTest in {
+    val epubDf = Partition(Map("content_type" -> "application/epub+zip")).partition(epubDirectory)
+
+    assert(!epubDf.select(col("epub").getItem(0)).isEmpty)
   }
 
   it should "work with text in memory" taggedAs FastTest in {

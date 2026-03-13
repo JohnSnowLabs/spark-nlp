@@ -189,6 +189,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
           "application/vnd.openxmlformats-officedocument.presentationml.presentation" =>
         sparkNLPReader.ppt
       case "application/pdf" => sparkNLPReader.pdf
+      case "application/epub+zip" => sparkNLPReader.epub
       case "application/xml" => sparkNLPReader.xml
       case "text/markdown" => sparkNLPReader.md
       case "text/csv" => sparkNLPReader.csv
@@ -224,6 +225,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
           "application/vnd.openxmlformats-officedocument.presentationml.presentation" =>
         sparkNLPReader.ppt
       case "application/pdf" => sparkNLPReader.pdf
+      case "application/epub+zip" => sparkNLPReader.epub
       case _ => throw new IllegalArgumentException(s"Unsupported content type: $contentType")
     }
 
@@ -241,6 +243,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "xls" | "xlsx" => sparkNLPReader.xls
       case "ppt" | "pptx" => sparkNLPReader.ppt
       case "pdf" => sparkNLPReader.pdf
+      case "epub" => sparkNLPReader.epub
       case "xml" => sparkNLPReader.xml
       case "md" => sparkNLPReader.md
       case "csv" => sparkNLPReader.csv

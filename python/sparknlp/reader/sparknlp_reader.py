@@ -200,6 +200,25 @@ class SparkNLPReader(ExtendedJavaWrapper):
         dataframe = self.getDataFrame(self.spark, jdf)
         return dataframe
 
+    def epub(self, epubPath):
+        """Reads EPUB files and returns a Spark DataFrame.
+
+        Parameters
+        ----------
+        epubPath : str
+            Path to an EPUB file or a directory containing EPUB files.
+
+        Returns
+        -------
+        pyspark.sql.DataFrame
+            A DataFrame containing parsed EPUB content.
+        """
+        if not isinstance(epubPath, str):
+            raise TypeError("epubPath must be a string")
+        jdf = self._java_obj.epub(epubPath)
+        dataframe = self.getDataFrame(self.spark, jdf)
+        return dataframe
+
     def pdf(self, pdfPath):
         if not isinstance(pdfPath, str):
             raise TypeError("docPath must be a string")

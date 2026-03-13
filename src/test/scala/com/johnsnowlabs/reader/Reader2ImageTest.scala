@@ -34,6 +34,7 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
   val unsupportedFiles = "src/test/resources/reader/unsupported-files"
   val emailDirectory = "src/test/resources/reader/email/"
   val wordDirectory = "src/test/resources/reader/doc/"
+  val epubDirectory = "src/test/resources/reader/epub/"
   val imageDirectory = "src/test/resources/reader/img/"
   val pdfDirectory = "src/test/resources/reader/pdf/"
   val filesDirectory = "src/test/resources/reader/"
@@ -236,6 +237,33 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     annotationsResult.foreach { annotations =>
       assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
       assert(annotations.head.origin == wordFile)
+      assert(annotations.head.result.nonEmpty)
+      assert(annotations.head.height > 0)
+      assert(annotations.head.width > 0)
+      assert(annotations.head.nChannels > 0)
+      assert(annotations.head.mode > 0)
+      assert(annotations.head.metadata.nonEmpty)
+    }
+  }
+
+  it should "read images from EPUB files" taggedAs FastTest in {
+    val epubFile = "sample.epub"
+    val epubPath = s"$epubDirectory/$epubFile"
+    val reader2Image = new Reader2Image()
+      .setContentPath(epubPath)
+      .setContentType("application/epub+zip")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
+
+    assert(annotationsResult.length == 1)
+    annotationsResult.foreach { annotations =>
+      assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
+      assert(annotations.head.origin == epubFile)
       assert(annotations.head.result.nonEmpty)
       assert(annotations.head.height > 0)
       assert(annotations.head.width > 0)

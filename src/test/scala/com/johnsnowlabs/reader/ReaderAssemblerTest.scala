@@ -29,6 +29,7 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
   val docDirectory = "src/test/resources/reader/doc"
   val csvDirectory = "src/test/resources/reader/csv"
   val pdfDirectory = "src/test/resources/reader/pdf/"
+  val epubDirectory = "src/test/resources/reader/epub"
 
   "ReaderAssembler" should "read HTML files" taggedAs FastTest in {
     val reader = new ReaderAssembler()
@@ -156,6 +157,27 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
 
     assert(actualText.nonEmpty)
     assert(actualTable.isEmpty)
+    assert(actualImages.nonEmpty)
+  }
+
+  it should "read EPUB files" taggedAs FastTest in {
+    val reader = new ReaderAssembler()
+      .setContentType("application/epub+zip")
+      .setContentPath(s"$epubDirectory/sample.epub")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader))
+    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
+
+    val textResult = AssertAnnotations.getActualResult(resultDf, "document_text")
+    val tableResult = AssertAnnotations.getActualResult(resultDf, "document_table")
+    val imageResult = AssertAnnotations.getActualImageResult(resultDf, "document_image")
+    val actualText = textResult.filter(annotation => annotation.nonEmpty)
+    val actualTable = tableResult.filter(annotation => annotation.nonEmpty)
+    val actualImages = imageResult.filter(annotation => annotation.nonEmpty)
+
+    assert(actualText.nonEmpty)
+    assert(actualTable.nonEmpty)
     assert(actualImages.nonEmpty)
   }
 

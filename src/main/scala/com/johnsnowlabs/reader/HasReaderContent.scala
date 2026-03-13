@@ -29,6 +29,7 @@ trait HasReaderContent extends HasReaderProperties with HasTagsReaderProperties 
     "xlsx" -> ("application/vnd.ms-excel", false),
     "ppt" -> ("application/vnd.ms-powerpoint", false),
     "pptx" -> ("application/vnd.ms-powerpoint", false),
+    "epub" -> ("application/epub+zip", false),
     "eml" -> ("message/rfc822", false),
     "msg" -> ("message/rfc822", false))
 
