@@ -93,6 +93,31 @@ class Reader2DocPdfTest(unittest.TestCase):
 
 
 @pytest.mark.fast
+class Reader2DocRtfTest(unittest.TestCase):
+
+    def setUp(self):
+        spark = SparkContextForTest.spark
+        self.empty_df = spark.createDataFrame([], "string").toDF("text")
+
+    def runTest(self):
+        reader2doc = Reader2Doc() \
+            .setContentType("text/rtf") \
+            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/rtf/sample.rtf") \
+            .setOutputCol("document")
+
+        pipeline = Pipeline(stages=[reader2doc])
+        model = pipeline.fit(self.empty_df)
+
+        result_df = model.transform(self.empty_df)
+        collected = result_df.select("document.result").collect()
+
+        text = collected[0][0][0]
+        self.assertIn("My Sample RTF Document", text)
+        self.assertIn("1. Milk", text)
+        self.assertIn("3. Cheese", text)
+
+
+@pytest.mark.fast
 class Reader2DocTestOutputAsDoc(unittest.TestCase):
 
     def setUp(self):

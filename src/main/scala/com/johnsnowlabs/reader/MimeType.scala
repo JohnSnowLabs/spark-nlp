@@ -19,6 +19,7 @@ object MimeType {
 
   val TEXT_PLAIN = "text/plain"
   val TEXT_HTML = "text/html"
+  val TEXT_RTF = "text/rtf"
   val MULTIPART = "multipart/*"
   val IMAGE = "image/*"
   val APPLICATION = "application/*"

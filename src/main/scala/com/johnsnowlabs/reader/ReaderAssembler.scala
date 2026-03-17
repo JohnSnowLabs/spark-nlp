@@ -152,6 +152,7 @@ class ReaderAssembler(override val uid: String)
     "txt" -> ("text/plain", true),
     "html" -> ("text/html", true),
     "htm" -> ("text/html", true),
+    "rtf" -> ("text/rtf", true),
     "md" -> ("text/markdown", true),
     "xml" -> ("application/xml", true),
     "csv" -> ("text/csv", true),

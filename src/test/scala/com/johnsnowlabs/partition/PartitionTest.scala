@@ -33,6 +33,7 @@ class PartitionTest extends AnyFlatSpec {
   val htmlDirectory = "src/test/resources/reader/html"
   val pdfDirectory = "src/test/resources/reader/pdf"
   val xmlDirectory = "src/test/resources/reader/xml"
+  val rtfDirectory = "src/test/resources/reader/rtf"
 
   "Partition" should "work with text content_type" taggedAs FastTest in {
     val textDf = Partition(Map("content_type" -> "text/plain")).partition(txtDirectory)
@@ -170,6 +171,18 @@ class PartitionTest extends AnyFlatSpec {
     val pdfDf = Partition(Map("content_type" -> "application/xml")).partition(xmlDirectory)
 
     assert(!pdfDf.select(col("xml")).isEmpty)
+  }
+
+  it should "work with rtf content_type" taggedAs FastTest in {
+    val rtfDf = Partition(Map("content_type" -> "text/rtf")).partition(rtfDirectory)
+
+    assert(!rtfDf.select(col("rtf").getItem(0)).isEmpty)
+  }
+
+  it should "identify rtf file" taggedAs FastTest in {
+    val rtfDf = Partition().partition(s"$rtfDirectory/sample.rtf")
+
+    assert(!rtfDf.select(col("rtf").getItem(0)).isEmpty)
   }
 
 }

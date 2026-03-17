@@ -26,8 +26,8 @@ import scala.util.Try
   * document types using Spark NLP readers. It supports reading from files, URLs, in-memory
   * strings, or byte arrays, and returns parsed output as a structured Spark DataFrame.
   *
-  * Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
-  * (.ppt/.pptx), email files (.eml, .msg), and PDFs.
+  * Supported formats include plain text, HTML, Rich Text Format (.rtf), Word (.doc/.docx), Excel
+  * (.xls/.xlsx), PowerPoint (.ppt/.pptx), email files (.eml, .msg), and PDFs.
   *
   * The class detects the appropriate reader either from the file extension or a provided MIME
   * contentType, and delegates to the relevant method of SparkNLPReader. Custom behavior (like
@@ -178,6 +178,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     contentType match {
       case "text/plain" => sparkNLPReader.txt
       case "text/html" => sparkNLPReader.html
+      case "text/rtf" | "application/rtf" => sparkNLPReader.rtf
       case "message/rfc822" => sparkNLPReader.email
       case "application/msword" |
           "application/vnd.openxmlformats-officedocument.wordprocessingml.document" =>
@@ -202,6 +203,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     contentType match {
       case "text/plain" => sparkNLPReader.txtToHTMLElement
       case "text/html" => sparkNLPReader.htmlToHTMLElement
+      case "text/rtf" | "application/rtf" => sparkNLPReader.rtfToHTMLElement
       case "url" => sparkNLPReader.urlToHTMLElement
       case "application/xml" => sparkNLPReader.xmlToHTMLElement
       case "text/markdown" => sparkNLPReader.mdToHTMLElement
@@ -213,6 +215,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       contentType: String,
       sparkNLPReader: SparkNLPReader): Array[Byte] => Seq[HTMLElement] = {
     contentType match {
+      case "text/rtf" | "application/rtf" => sparkNLPReader.rtf
       case "message/rfc822" => sparkNLPReader.email
       case "application/msword" |
           "application/vnd.openxmlformats-officedocument.wordprocessingml.document" =>
@@ -236,6 +239,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     extension match {
       case "txt" => sparkNLPReader.txt
       case "html" | "htm" => sparkNLPReader.html
+      case "rtf" => sparkNLPReader.rtf
       case "eml" | "msg" => sparkNLPReader.email
       case "doc" | "docx" => sparkNLPReader.doc
       case "xls" | "xlsx" => sparkNLPReader.xls

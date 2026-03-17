@@ -647,6 +647,29 @@ class SparkNLPReader(
     textReader.txtContent(content)
   }
 
+  /** Instantiates class to read Rich Text Format (.rtf) files.
+    *
+    * rtfPath: this is a path to a directory of RTF files or a path to an RTF file. E.g.
+    * "path/rtf/files"
+    */
+  def rtf(rtfPath: String): DataFrame = {
+    val rtfReader = new RTFReader(getStoreContent, getTitleLengthSize)
+    setOutputColumn(rtfReader.getOutputColumn)
+    rtfReader.rtf(rtfPath)
+  }
+
+  def rtf(content: Array[Byte]): Seq[HTMLElement] = {
+    val rtfReader = new RTFReader(getStoreContent, getTitleLengthSize)
+    setOutputColumn(rtfReader.getOutputColumn)
+    rtfReader.rtfToHTMLElement(content)
+  }
+
+  def rtfToHTMLElement(rtfContent: String): Seq[HTMLElement] = {
+    val rtfReader = new RTFReader(getStoreContent, getTitleLengthSize)
+    setOutputColumn(rtfReader.getOutputColumn)
+    rtfReader.rtfToHTMLElement(rtfContent)
+  }
+
   private def getTitleLengthSize: Int = {
     getDefaultInt(params.asScala.toMap, Seq("titleLengthSize", "title_length_size"), default = 50)
   }
