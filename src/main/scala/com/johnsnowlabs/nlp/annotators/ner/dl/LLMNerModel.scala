@@ -16,10 +16,12 @@
 package com.johnsnowlabs.nlp.annotators.ner.dl
 
 import com.johnsnowlabs.ml.gguf.GGUFWrapper
+import com.johnsnowlabs.ml.gguf.GGUFWrapper.findGGUFModelInFolder
 import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.llama.LlamaExtensions
 import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import de.kherud.llama.{InferenceParameters, LlamaException, LlamaModel}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam, Param, StringArrayParam}
@@ -67,10 +69,10 @@ import scala.util.matching.Regex
   *   .setInputCol("text")
   *   .setOutputCol("document")
   *
-  * val llmNer = new LLMNerModel()
+  * val llmNer = LLMNerModel
+  *   .pretrained("qwen3_4b_bf16_gguf")
   *   .setInputCols("document")
   *   .setOutputCol("entities")
-  *   .setModelName("qwen3_4b_bf16_gguf")
   *   .setEntityTypes(Array("MEDICATION", "DOSAGE", "ROUTE", "FREQUENCY"))
   *   .setNPredict(500)
   *   .setTemperature(0.1f)
@@ -189,6 +191,10 @@ Output:"""
     this
   }
 
+  /** Closes the llama.cpp model backend freeing resources. The model is reloaded when used again.
+    */
+  def close(): Unit = GGUFWrapper.closeBroadcastModel(_model)
+
   /** Custom prompt template for NER extraction (Default: medical NER prompt)
     *
     * The prompt should include instructions for the LLM to extract entities in JSON format. Use
@@ -237,21 +243,6 @@ Output:"""
   /** @group getParam */
   def getCaseSensitive: Boolean = $(caseSensitive)
 
-  /** Name of the AutoGGUF model to load (Default: `"qwen3_4b_bf16_gguf"`)
-    *
-    * When set, the model will be automatically loaded from pretrained models.
-    *
-    * @group param
-    */
-  val modelName =
-    new Param[String](this, "modelName", "Name of the AutoGGUF model to load for NER extraction")
-
-  /** @group setParam */
-  def setModelName(value: String): this.type = set(modelName, value)
-
-  /** @group getParam */
-  def getModelName: String = $(modelName)
-
   /** Few-shot examples for the prompt (Default: empty array)
     *
     * Each example should be a tuple of (input_text, json_output). These examples will be inserted
@@ -277,7 +268,6 @@ Output:"""
     entityTypes -> Array("PERSON", "ORGANIZATION", "LOCATION", "DATE", "TIME"),
     caseSensitive -> false,
     promptTemplate -> defaultPrompt,
-    modelName -> "qwen3_4b_bf16_gguf",
     fewShotExamples -> Array.empty[(String, String)],
     engine -> LlamaCPP.name,
     useChatTemplate -> true,
@@ -290,13 +280,8 @@ Output:"""
     reasoningBudget -> 0,
     grammar -> defaultGrammar)
 
-  /** Load the AutoGGUF model if not already set - runs on driver before Spark tasks */
+  /** Validate that a model has been loaded - runs on driver before Spark tasks */
   override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
-    if (_model.isEmpty && isDefined(modelName)) {
-      val autoGGUFModel = com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
-        .pretrained($(modelName), "en")
-      setModelIfNotSet(dataset.sparkSession, autoGGUFModel.getModelIfNotSet)
-    }
 
     // Build the system prompt with NER instructions ONCE per pipeline execution
     if (!isSet(systemPrompt) || $(systemPrompt).isEmpty) {
@@ -304,6 +289,11 @@ Output:"""
     }
 
     dataset
+  }
+
+  override def onWrite(path: String, spark: SparkSession): Unit = {
+    super.onWrite(path, spark)
+    getModelIfNotSet.saveToFile(path)
   }
 
   /** Build the system prompt with NER instructions and few-shot examples */
@@ -333,10 +323,7 @@ $output
     baseInstructions
   }
 
-  /** Batch annotation method - processes all documents through AutoGGUF in efficient batches
-    *
-    * This method follows the same pattern as AutoGGUFModel.batchAnnotate for maximum throughput.
-    * All prompts are built first, then sent to the LLM in one multiComplete call.
+  /** Batch annotation method - processes all documents through AutoGGUF
     *
     * @param batchedAnnotations
     *   Batched annotations (documents) to process
@@ -411,24 +398,25 @@ $output
 
       // Step 2: Parse JSON
       implicit val formats: DefaultFormats.type = DefaultFormats
-      val parsed = try {
-        parse(jsonText)
-      } catch {
-        case e: Exception =>
-          // JSON may be truncated (nPredict exhausted) - attempt repair
-          repairTruncatedJson(jsonText) match {
-            case Some(repaired) =>
-              if (logger != null)
-                logger.warn("LLM JSON was truncated, recovered partial entities. " +
-                  "Consider increasing nPredict or setting reasoningBudget to 0 for long texts.")
-              parse(repaired)
-            case None =>
-              val errorMsg = if (e.getMessage != null) e.getMessage else "Unknown error"
-              if (logger != null)
-                logger.error(s"Failed to parse or repair LLM JSON: $errorMsg")
-              return Seq.empty[EntityExtraction]
-          }
-      }
+      val parsed =
+        try {
+          parse(jsonText)
+        } catch {
+          case e: Exception =>
+            // JSON may be truncated (nPredict exhausted) - attempt repair
+            repairTruncatedJson(jsonText) match {
+              case Some(repaired) =>
+                if (logger != null)
+                  logger.warn("LLM JSON was truncated, recovered partial entities. " +
+                    "Consider increasing nPredict or setting reasoningBudget to 0 for long texts.")
+                parse(repaired)
+              case None =>
+                val errorMsg = if (e.getMessage != null) e.getMessage else "Unknown error"
+                if (logger != null)
+                  logger.error(s"Failed to parse or repair LLM JSON: $errorMsg")
+                return Seq.empty[EntityExtraction]
+            }
+        }
 
       // Step 3: Extract the entity array
       val extractions =
@@ -619,7 +607,55 @@ case class EntityExtraction(
     text: String,
     attributes: Map[String, String] = Map.empty)
 
-/** This is the companion object of [[LLMNerModel]]. Please refer to that class for the
-  * documentation.
-  */
-object LLMNerModel extends ParamsAndFeaturesReadable[LLMNerModel]
+trait ReadablePretrainedLLMNerModel
+    extends ParamsAndFeaturesFallbackReadable[LLMNerModel]
+    with HasPretrained[LLMNerModel] {
+  override val defaultModelName: Some[String] = Some("qwen3_4b_bf16_gguf")
+  override val defaultLang: String = "en"
+
+  /** Java compliant-overrides */
+  override def pretrained(): LLMNerModel = super.pretrained()
+
+  override def pretrained(name: String): LLMNerModel = super.pretrained(name)
+
+  override def pretrained(name: String, lang: String): LLMNerModel =
+    super.pretrained(name, lang)
+
+  override def pretrained(name: String, lang: String, remoteLoc: String): LLMNerModel =
+    super.pretrained(name, lang, remoteLoc)
+}
+
+trait ReadLLMNerModel {
+  this: ParamsAndFeaturesFallbackReadable[LLMNerModel] =>
+
+  /** Fallback: load a raw GGUF folder (e.g. from AutoGGUFModel.save) */
+  override def fallbackLoad(folder: String, spark: SparkSession): LLMNerModel = {
+    val actualFolderPath: String = ResourceHelper.resolvePath(folder)
+    val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
+    val modelFile = findGGUFModelInFolder(localFolder)
+    loadSavedModel(modelFile, spark)
+  }
+
+  /** Reader called by Spark after params are deserialized */
+  def readModel(instance: LLMNerModel, path: String, spark: SparkSession): Unit = {
+    val model: GGUFWrapper = GGUFWrapper.readModel(path, spark)
+    instance.setModelIfNotSet(spark, model)
+  }
+
+  addReader(readModel)
+
+  /** Load a GGUF model file from a local path into a new LLMNerModel */
+  def loadSavedModel(modelPath: String, spark: SparkSession): LLMNerModel = {
+    val localPath: String = ResourceHelper.copyToLocal(modelPath)
+    val annotatorModel = new LLMNerModel()
+    annotatorModel
+      .setModelIfNotSet(spark, GGUFWrapper.read(spark, localPath))
+      .setEngine(LlamaCPP.name)
+
+    val metadata = LlamaExtensions.getMetadataFromFile(localPath)
+    if (metadata.nonEmpty) annotatorModel.setMetadata(metadata)
+    annotatorModel
+  }
+}
+
+object LLMNerModel extends ReadablePretrainedLLMNerModel with ReadLLMNerModel

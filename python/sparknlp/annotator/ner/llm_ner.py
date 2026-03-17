@@ -41,13 +41,12 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
     of each entity in the original text, outputting CHUNK annotations with accurate
     begin/end indices and chunk indexing similar to other Spark NLP annotators.
 
-    The model is instantiated directly and automatically loads the specified AutoGGUF
-    model at runtime:
+    The model is loaded via ``LLMNerModel.pretrained()`` to download a pretrained model,
+    or ``LLMNerModel.loadSavedModel()`` to load a local GGUF model:
 
-    >>> llm_ner = LLMNerModel() \\
-    ...     .setInputCols(["document"]) \\
-    ...     .setOutputCol("entities") \\
-    ...     .setModelName("qwen3_4b_bf16_gguf") \\
+    >>> llm_ner = LLMNerModel.pretrained("qwen3_4b_bf16_gguf") \
+    ...     .setInputCols(["document"]) \
+    ...     .setOutputCol("entities") \
     ...     .setEntityTypes(["PERSON", "ORGANIZATION", "LOCATION"])
 
     ====================== ======================
@@ -65,8 +64,6 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         ["PERSON", "ORGANIZATION", "LOCATION", "DATE", "TIME"]
     caseSensitive : bool, optional
         Whether entity matching is case-sensitive, by default False
-    modelName : str, optional
-        Name of the AutoGGUF model to load, by default "qwen3_4b_bf16_gguf"
     fewShotExamples : List[Tuple[str, str]], optional
         Few-shot examples as (input, output_json) tuples to guide the model
 
@@ -79,11 +76,10 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("document")
-    >>> llmNer = LLMNerModel() \\
-    ...     .setInputCols(["document"]) \\
-    ...     .setOutputCol("entities") \\
-    ...     .setModelName("qwen3_4b_bf16_gguf") \\
-    ...     .setEntityTypes(["MEDICATION", "DOSAGE", "ROUTE", "FREQUENCY"]) \\
+    >>> llmNer = LLMNerModel.pretrained("qwen3_4b_bf16_gguf") \
+    ...     .setInputCols(["document"]) \
+    ...     .setOutputCol("entities") \
+    ...     .setEntityTypes(["MEDICATION", "DOSAGE", "ROUTE", "FREQUENCY"]) \
     ...     .setNPredict(500) \\
     ...     .setTemperature(0.1)
     >>> pipeline = Pipeline().setStages([documentAssembler, llmNer])
@@ -130,12 +126,6 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         typeConverter=TypeConverters.toBoolean,
     )
 
-    modelName = Param(
-        Params._dummy(),
-        "modelName",
-        "Name of the AutoGGUF model to load for NER extraction",
-        typeConverter=TypeConverters.toString,
-    )
 
     fewShotExamples = Param(
         Params._dummy(),
@@ -151,7 +141,6 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         self._setDefault(
             entityTypes=["PERSON", "ORGANIZATION", "LOCATION", "DATE", "TIME"],
             caseSensitive=False,
-            modelName="qwen3_4b_bf16_gguf",
             useChatTemplate=True,
             nCtx=4096,
             nBatch=512,
@@ -205,20 +194,6 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         """
         return self._set(caseSensitive=value)
 
-    def setModelName(self, value):
-        """Set the name of the AutoGGUF model to load.
-
-        Parameters
-        ----------
-        value : str
-            Name of the pretrained AutoGGUF model (e.g., "qwen3_4b_bf16_gguf")
-
-        Returns
-        -------
-        LLMNerModel
-            The updated model
-        """
-        return self._set(modelName=value)
 
     def setFewShotExamples(self, value):
         """Set few-shot examples to guide the model.
@@ -266,15 +241,6 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         """
         return self.getOrDefault(self.caseSensitive)
 
-    def getModelName(self):
-        """Get the name of the AutoGGUF model.
-
-        Returns
-        -------
-        str
-            Name of the pretrained AutoGGUF model
-        """
-        return self.getOrDefault(self.modelName)
 
     def getFewShotExamples(self):
         """Get the few-shot examples.
@@ -285,4 +251,51 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
             List of (input_text, json_output) tuples as examples
         """
         return self.getOrDefault(self.fewShotExamples)
+
+    @staticmethod
+    def loadSavedModel(path, spark_session):
+        """Loads a locally saved GGUF model for LLM-based NER.
+
+        Parameters
+        ----------
+        path : str
+            Path to the GGUF model file
+        spark_session : pyspark.sql.SparkSession
+            The current SparkSession
+
+        Returns
+        -------
+        LLMNerModel
+            The restored model
+        """
+        from sparknlp.internal import _LLMNerLoader
+        jModel = _LLMNerLoader(path, spark_session._jsparkSession)._java_obj
+        return LLMNerModel(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="qwen3_4b_bf16_gguf", lang="en", remote_loc=None):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the pretrained model, by default "qwen3_4b_bf16_gguf"
+        lang : str, optional
+            Language of the pretrained model, by default "en"
+        remote_loc : str, optional
+            Optional remote address of the resource, by default None.
+
+        Returns
+        -------
+        LLMNerModel
+            The restored model
+        """
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(LLMNerModel, name, lang, remote_loc)
+
+    def close(self):
+        """Closes the underlying llama.cpp model backend freeing resources.
+        The model is reloaded when used again.
+        """
+        self._java_obj.close()
 
