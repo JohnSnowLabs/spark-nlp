@@ -47,10 +47,9 @@ class LLMNerModelTestSpec(unittest.TestCase):
                 "Patient Jennifer Thompson received vancomycin 1g IV Q12H at Cleveland Clinic for treatment of MRSA pneumonia diagnosed on January 20th, 2024.",
                 """{"extractions": [{"entity": "PERSON", "text": "Jennifer Thompson"}, {"entity": "MEDICATION", "text": "vancomycin"}, {"entity": "DOSAGE", "text": "1g"}, {"entity": "FREQUENCY", "text": "Q12H"}, {"entity": "ORGANIZATION", "text": "Cleveland Clinic"}, {"entity": "CONDITION", "text": "MRSA pneumonia"}]}""")]
 
-        llm_ner = LLMNerModel() \
+        llm_ner = LLMNerModel.pretrained() \
             .setInputCols(["document"]) \
             .setOutputCol("entities") \
-            .setModelName("qwen3_4b_bf16_gguf") \
             .setFewShotExamples(medical_examples) \
             .setNPredict(600) \
             .setNGpuLayers(99) \
