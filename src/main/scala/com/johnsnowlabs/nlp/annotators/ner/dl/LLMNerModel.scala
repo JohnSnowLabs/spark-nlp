@@ -258,6 +258,24 @@ Output:"""
   /** @group setParam */
   def setFewShotExamples(value: Array[(String, String)]): this.type = set(fewShotExamples, value)
 
+  /** Java/Python-compatible setter for fewShotExamples.
+    *
+    * When called from PySpark via py4j, Python lists of tuples arrive as
+    * java.util.ArrayList[java.util.ArrayList[String]]. This overload converts them to the
+    * expected Scala Array[(String, String)].
+    *
+    * @group setParam
+    */
+  def setFewShotExamples(value: java.util.List[java.util.List[String]]): this.type = {
+    import scala.collection.JavaConverters._
+    val converted = value.asScala.flatMap { inner =>
+      val list = inner.asScala
+      if (list.size == 2) Some((list(0), list(1)))
+      else None
+    }.toArray
+    set(fewShotExamples, converted)
+  }
+
   /** @group getParam */
   def getFewShotExamples: Array[(String, String)] = $(fewShotExamples)
 
@@ -279,17 +297,6 @@ Output:"""
     batchSize -> 4,
     reasoningBudget -> 0,
     grammar -> defaultGrammar)
-
-  /** Validate that a model has been loaded - runs on driver before Spark tasks */
-  override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
-
-    // Build the system prompt with NER instructions ONCE per pipeline execution
-    if (!isSet(systemPrompt) || $(systemPrompt).isEmpty) {
-      set(systemPrompt, buildSystemPrompt())
-    }
-
-    dataset
-  }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
@@ -337,6 +344,10 @@ $output
       return batchedAnnotations.map(_ => Seq.empty[Annotation])
     }
 
+    if (!isSet(systemPrompt) || $(systemPrompt).isEmpty) {
+      set(systemPrompt, buildSystemPrompt())
+    }
+
     val text = annotations.map(annotation => annotation.result).toArray
 
     val modelParams = getModelParameters.setParallel(getBatchSize)
@@ -369,9 +380,7 @@ $output
     }
   }
 
-  /** Safely retrieve fewShotExamples, handling both native Scala Array[(String, String)] and
-    * java.util.ArrayList (when set from PySpark).
-    */
+  /** Safely retrieve fewShotExamples, handling both native Scala Array[(String, String)] and */
   private def getFewShotExamplesSafe: Array[(String, String)] = {
     try {
       val raw = getOrDefault(fewShotExamples).asInstanceOf[Any]

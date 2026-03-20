@@ -194,9 +194,9 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         """
         return self._set(caseSensitive=value)
 
-
     def setFewShotExamples(self, value):
         """Set few-shot examples to guide the model.
+
 
         Parameters
         ----------
@@ -208,7 +208,10 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         LLMNerModel
             The updated model
         """
-        return self._set(fewShotExamples=value)
+        # Convert list of tuples to list of lists for proper py4j serialization
+        java_compatible = [list(pair) for pair in value]
+        self._call_java("setFewShotExamples", java_compatible)
+        return self
 
     def getPromptTemplate(self):
         """Get the custom prompt template for NER extraction.
