@@ -47,10 +47,10 @@ class LLMNerModelTestSpec extends AnyFlatSpec {
         "Patient Jennifer Thompson received vancomycin 1g IV Q12H at Cleveland Clinic for treatment of MRSA pneumonia diagnosed on January 20th, 2024.",
         """{"extractions": [{"entity": "PERSON", "text": "Jennifer Thompson"}, {"entity": "MEDICATION", "text": "vancomycin"}, {"entity": "DOSAGE", "text": "1g"}, {"entity": "FREQUENCY", "text": "Q12H"}, {"entity": "ORGANIZATION", "text": "Cleveland Clinic"}, {"entity": "CONDITION", "text": "MRSA pneumonia"}]}"""))
 
-    val llmNer = new LLMNerModel()
+    val llmNer = LLMNerModel
+      .pretrained("llm-ner-medical")
       .setInputCols("document")
       .setOutputCol("entities")
-      .setModelName("qwen3_4b_bf16_gguf")
       .setFewShotExamples(medicalExamples)
       .setNPredict(600)
       .setNGpuLayers(99)
