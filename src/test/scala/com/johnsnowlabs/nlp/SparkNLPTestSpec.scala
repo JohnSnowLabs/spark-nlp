@@ -17,7 +17,7 @@ package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.ConfigHelper.{awsJavaSdkVersion, hadoopAwsVersion}
-import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.functions.{col, explode}
 import org.scalatest.flatspec.AnyFlatSpec
 
 class SparkNLPTestSpec extends AnyFlatSpec {
@@ -74,14 +74,25 @@ class SparkNLPTestSpec extends AnyFlatSpec {
     assert(!htmlDF.select(col("html").getItem(0)).isEmpty)
   }
 
-  it should "rise an exception when HTML file is invalid" taggedAs FastTest in {
-    val htmlFilePath = ""
+  it should "return fallback HTML when URL input is unreachable" taggedAs FastTest in {
+    val url = "http://127.0.0.1:1/unreachable.html"
+    val htmlDF = SparkNLP.read.html(url)
 
-    val htmlDF = SparkNLP.read.html(htmlFilePath)
+    val explodedDf = htmlDF.withColumn("html_exploded", explode(col("html")))
 
-    assertThrows[Exception] {
-      htmlDF.show()
-    }
+    assert(htmlDF.count() == 1)
+    assert(
+      explodedDf
+        .filter(col("html_exploded.metadata.fetchFallback") === "true")
+        .count() == explodedDf.count())
+
+    val combinedContent = explodedDf
+      .selectExpr("html_exploded.content as content")
+      .collect()
+      .map(_.getAs[String]("content"))
+      .mkString(" ")
+
+    assert(combinedContent.contains("Could not fetch remote HTML"))
   }
 
   it should "structured Email files" taggedAs FastTest in {

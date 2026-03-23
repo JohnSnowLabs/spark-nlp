@@ -25,10 +25,12 @@ import org.apache.spark.sql.functions.{col, udf}
 import org.jsoup.Jsoup
 import org.jsoup.nodes.{Document, Element, Node, TextNode}
 
+import java.net.SocketTimeoutException
 import java.util.UUID
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
+import scala.util.control.NonFatal
 
 /** Class to parse and read HTML files.
   *
@@ -44,6 +46,9 @@ import scala.collection.mutable.ArrayBuffer
   *   from URLs. By default, it is set to 0.
   * @param headers
   *   sets the necessary headers for the URL request.
+  * @param ignoreUrlErrors
+  *   When true, remote URL fetch failures return a synthetic HTML fallback instead of failing the
+  *   Spark job. By default, it is set to true.
   *
   * Two types of input paths are supported for the reader,
   *
@@ -88,7 +93,8 @@ class HTMLReader(
     timeout: Int = 0,
     includeTitleTag: Boolean = false,
     outputFormat: String = "plain-text",
-    headers: Map[String, String] = Map.empty)
+    headers: Map[String, String] = Map.empty,
+    ignoreUrlErrors: Boolean = true)
     extends Serializable {
 
   private lazy val spark = ResourceHelper.spark
@@ -154,12 +160,7 @@ class HTMLReader(
   })
 
   private val parseURLUDF = udf((url: String) => {
-    val connection = Jsoup
-      .connect(url)
-      .headers(headers.asJava)
-      .timeout(timeout * 1000)
-    val document = connection.get()
-    startTraversalFromBody(document)
+    fetchUrlAsElements(url)
   })
 
   private def startTraversalFromBody(document: Document): Array[HTMLElement] = {
@@ -190,12 +191,85 @@ class HTMLReader(
   }
 
   def urlToHTMLElement(url: String): Array[HTMLElement] = {
-    val connection = Jsoup
-      .connect(url)
-      .headers(headers.asJava)
-      .timeout(timeout * 1000)
-    val document = connection.get()
-    startTraversalFromBody(document)
+    fetchUrlAsElements(url)
+  }
+
+  private def fetchUrlAsElements(url: String): Array[HTMLElement] = {
+    try {
+      val document = Jsoup
+        .connect(url)
+        .headers(headers.asJava)
+        .timeout(timeout * 1000)
+        .get()
+      startTraversalFromBody(document)
+    } catch {
+      case NonFatal(e) if ignoreUrlErrors =>
+        buildUrlFallbackElements(url, e)
+    }
+  }
+
+  private def buildUrlFallbackElements(url: String, error: Throwable): Array[HTMLElement] = {
+    val fallbackDocument = Jsoup.parse(buildUrlFallbackHtml(url, error))
+    val fetchErrorMessage = compactErrorMessage(error)
+    val fallbackMetadata = mutable.Map(
+      "sourceUrl" -> url,
+      "fetchStatus" -> "failed",
+      "fetchFallback" -> "true",
+      "fetchErrorType" -> error.getClass.getSimpleName,
+      "fetchErrorMessage" -> fetchErrorMessage)
+
+    startTraversalFromBody(fallbackDocument).map { element =>
+      element.copy(metadata = fallbackMetadata.clone() ++ element.metadata)
+    }
+  }
+
+  private def buildUrlFallbackHtml(url: String, error: Throwable): String = {
+    val title =
+      if (isTimeoutError(error)) "HTML request timed out" else "HTML request failed"
+    val escapedTitle = escapeHtml(title)
+    val escapedUrl = escapeHtml(url)
+    val escapedMessage = escapeHtml(compactErrorMessage(error))
+
+    s"""<!DOCTYPE html>
+       |<html>
+       |  <head>
+       |    <title>$escapedTitle</title>
+       |  </head>
+       |  <body>
+       |    <h1>$escapedTitle</h1>
+       |    <p>Could not fetch remote HTML from $escapedUrl.</p>
+       |    <p>$escapedMessage</p>
+       |  </body>
+       |</html>""".stripMargin
+  }
+
+  private def isTimeoutError(error: Throwable): Boolean = {
+    Iterator
+      .iterate(Option(error))(_.flatMap(t => Option(t.getCause)))
+      .takeWhile(_.isDefined)
+      .exists {
+        case Some(_: SocketTimeoutException) => true
+        case Some(t) =>
+          val message = Option(t.getMessage).getOrElse("").toLowerCase
+          message.contains("timed out") || message.contains("timeout")
+        case None => false
+      }
+  }
+
+  private def compactErrorMessage(error: Throwable): String = {
+    val message = Option(error.getMessage).map(_.trim).filter(_.nonEmpty).getOrElse {
+      error.getClass.getSimpleName
+    }
+    message.replaceAll("\\s+", " ").take(500)
+  }
+
+  private def escapeHtml(text: String): String = {
+    text
+      .replace("&", "&amp;")
+      .replace("<", "&lt;")
+      .replace(">", "&gt;")
+      .replace("\"", "&quot;")
+      .replace("'", "&#39;")
   }
 
   private case class NodeMetadata(tagName: Option[String], hidden: Boolean, var visited: Boolean)
