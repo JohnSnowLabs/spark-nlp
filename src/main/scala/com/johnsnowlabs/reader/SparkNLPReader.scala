@@ -93,7 +93,8 @@ class SparkNLPReader(
         getTimeout,
         getIncludeTitleTag,
         getOutputFormat,
-        headers = htmlHeaders)
+        headers = htmlHeaders,
+        ignoreUrlErrors = getIgnoreUrlErrors)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(htmlPath)
   }
@@ -106,7 +107,8 @@ class SparkNLPReader(
         getTimeout,
         getIncludeTitleTag,
         getOutputFormat,
-        headers = htmlHeaders)
+        headers = htmlHeaders,
+        ignoreUrlErrors = getIgnoreUrlErrors)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.htmlToHTMLElement(html)
   }
@@ -119,7 +121,8 @@ class SparkNLPReader(
         getTimeout,
         getIncludeTitleTag,
         getOutputFormat,
-        headers = htmlHeaders)
+        headers = htmlHeaders,
+        ignoreUrlErrors = getIgnoreUrlErrors)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.urlToHTMLElement(url)
   }
@@ -132,7 +135,8 @@ class SparkNLPReader(
         getTimeout,
         getIncludeTitleTag,
         getOutputFormat,
-        headers = htmlHeaders)
+        headers = htmlHeaders,
+        ignoreUrlErrors = getIgnoreUrlErrors)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(urls)
   }
@@ -145,7 +149,8 @@ class SparkNLPReader(
         getTimeout,
         getIncludeTitleTag,
         getOutputFormat,
-        headers = htmlHeaders)
+        headers = htmlHeaders,
+        ignoreUrlErrors = getIgnoreUrlErrors)
     setOutputColumn(htmlReader.getOutputColumn)
     htmlReader.read(urls.asScala.toArray)
   }
@@ -178,6 +183,13 @@ class SparkNLPReader(
       params.asScala.toMap,
       Seq("outputFormat", "output_format"),
       default = "plain-text")
+  }
+
+  private def getIgnoreUrlErrors: Boolean = {
+    getDefaultBoolean(
+      params.asScala.toMap,
+      Seq("ignoreUrlErrors", "ignore_url_errors"),
+      default = true)
   }
 
   /** Instantiates class to read email files.

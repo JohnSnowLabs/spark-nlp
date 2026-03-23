@@ -292,4 +292,48 @@ class HTMLReaderTest extends AnyFlatSpec {
     assert(allMatch, "Some IMAGE coord fields do not match the expected {x:...,y:...} format")
   }
 
+  it should "return fallback HTML elements when a remote URL is unreachable" taggedAs FastTest in {
+    val unreachableUrl = "http://127.0.0.1:1/unreachable"
+    val htmlReader = new HTMLReader(timeout = 1)
+    val htmlDF = htmlReader.read(Array(unreachableUrl))
+
+    val explodedDf = htmlDF.withColumn("html_exploded", explode(col("html")))
+    explodedDf.show(truncate = false)
+
+    assert(htmlDF.count() == 1, "Expected the unreachable URL row to be preserved")
+    assert(
+      explodedDf.filter(col("html_exploded.elementType") === ElementType.TITLE).count() == 1,
+      "Expected a fallback TITLE element")
+
+    val fallbackMetaDf = explodedDf.selectExpr(
+      "html_exploded.metadata.fetchFallback as fetchFallback",
+      "html_exploded.metadata.sourceUrl as sourceUrl")
+
+    assert(
+      fallbackMetaDf.filter(col("fetchFallback") === "true").count() == fallbackMetaDf.count(),
+      "Expected fallback metadata on every synthetic HTML element")
+    assert(
+      fallbackMetaDf.filter(col("sourceUrl") === unreachableUrl).count() == fallbackMetaDf
+        .count(),
+      "Expected the original URL to be preserved in fallback metadata")
+
+    val combinedContent = explodedDf
+      .selectExpr("html_exploded.content as content")
+      .collect()
+      .map(_.getAs[String]("content"))
+      .mkString(" ")
+
+    assert(
+      combinedContent.contains("Could not fetch remote HTML"),
+      "Expected the fallback content to explain the fetch failure")
+  }
+
+  it should "allow opting into fail-fast behavior for remote URL fetch failures" taggedAs FastTest in {
+    val htmlReader = new HTMLReader(timeout = 1, ignoreUrlErrors = false)
+
+    assertThrows[Exception] {
+      htmlReader.urlToHTMLElement("http://127.0.0.1:1/unreachable")
+    }
+  }
+
 }
