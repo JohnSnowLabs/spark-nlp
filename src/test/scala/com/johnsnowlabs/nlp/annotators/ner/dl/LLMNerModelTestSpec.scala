@@ -48,7 +48,7 @@ class LLMNerModelTestSpec extends AnyFlatSpec {
         """{"extractions": [{"entity": "PERSON", "text": "Jennifer Thompson"}, {"entity": "MEDICATION", "text": "vancomycin"}, {"entity": "DOSAGE", "text": "1g"}, {"entity": "FREQUENCY", "text": "Q12H"}, {"entity": "ORGANIZATION", "text": "Cleveland Clinic"}, {"entity": "CONDITION", "text": "MRSA pneumonia"}]}"""))
 
     val llmNer = LLMNerModel
-      .pretrained("llm-ner-medical")
+      .pretrained()
       .setInputCols("document")
       .setOutputCol("entities")
       .setFewShotExamples(medicalExamples)

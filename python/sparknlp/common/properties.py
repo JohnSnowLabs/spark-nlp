@@ -895,9 +895,9 @@ class HasLlamaCppProperties:
     typicalP = Param(Params._dummy(), "typicalP", "Set locally typical sampling, parameter p",
                      typeConverter=TypeConverters.toFloat)
     temperature = Param(Params._dummy(), "temperature", "Set the temperature", typeConverter=TypeConverters.toFloat)
-    dynamicTemperatureRange = Param(Params._dummy(), "dynamicTemperatureRange", "Set the dynamic temperature range",
+    dynamicTemperatureRange = Param(Params._dummy(), "dynatempRange", "Set the dynamic temperature range",
                                     typeConverter=TypeConverters.toFloat)
-    dynamicTemperatureExponent = Param(Params._dummy(), "dynamicTemperatureExponent", "Set the dynamic temperature exponent",
+    dynamicTemperatureExponent = Param(Params._dummy(), "dynatempExponent", "Set the dynamic temperature exponent",
                                        typeConverter=TypeConverters.toFloat)
     repeatLastN = Param(Params._dummy(), "repeatLastN", "Set the last n tokens to consider for penalties",
                         typeConverter=TypeConverters.toInt)
@@ -909,9 +909,9 @@ class HasLlamaCppProperties:
                             typeConverter=TypeConverters.toFloat)
     miroStat = Param(Params._dummy(), "miroStat", "Set MiroStat sampling strategies.",
                      typeConverter=TypeConverters.toString)
-    miroStatTau = Param(Params._dummy(), "miroStatTau", "Set the MiroStat target entropy, parameter tau",
+    miroStatTau = Param(Params._dummy(), "mirostatTau", "Set the MiroStat target entropy, parameter tau",
                         typeConverter=TypeConverters.toFloat)
-    miroStatEta = Param(Params._dummy(), "miroStatEta", "Set the MiroStat learning rate, parameter eta",
+    miroStatEta = Param(Params._dummy(), "mirostatEta", "Set the MiroStat learning rate, parameter eta",
                         typeConverter=TypeConverters.toFloat)
     penalizeNl = Param(Params._dummy(), "penalizeNl", "Whether to penalize newline tokens",
                        typeConverter=TypeConverters.toBoolean)
