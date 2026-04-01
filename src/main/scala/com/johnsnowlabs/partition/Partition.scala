@@ -26,8 +26,8 @@ import scala.util.Try
   * document types using Spark NLP readers. It supports reading from files, URLs, in-memory
   * strings, or byte arrays, and returns parsed output as a structured Spark DataFrame.
   *
-  * Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
-  * (.ppt/.pptx), email files (.eml, .msg), and PDFs.
+  * Supported formats include plain text, HTML, Word (.doc/.docx), ODT (.odt), Excel (.xls/.xlsx),
+  * PowerPoint (.ppt/.pptx), email files (.eml, .msg), and PDFs.
   *
   * The class detects the appropriate reader either from the file extension or a provided MIME
   * contentType, and delegates to the relevant method of SparkNLPReader. Custom behavior (like
@@ -182,6 +182,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "application/msword" |
           "application/vnd.openxmlformats-officedocument.wordprocessingml.document" =>
         sparkNLPReader.doc
+      case "application/vnd.oasis.opendocument.text" => sparkNLPReader.odt
       case "application/vnd.ms-excel" |
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" =>
         sparkNLPReader.xls
@@ -193,6 +194,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "application/xml" => sparkNLPReader.xml
       case "text/markdown" => sparkNLPReader.md
       case "text/csv" => sparkNLPReader.csv
+      case "text/tsv" => sparkNLPReader.tsv
       case _ => throw new IllegalArgumentException(s"Unsupported content type: $contentType")
     }
   }
@@ -206,6 +208,8 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "url" => sparkNLPReader.urlToHTMLElement
       case "application/xml" => sparkNLPReader.xmlToHTMLElement
       case "text/markdown" => sparkNLPReader.mdToHTMLElement
+      case "text/csv" => sparkNLPReader.csvToHTMLElement
+      case "text/tsv" => sparkNLPReader.tsvToHTMLElement
       case _ => throw new IllegalArgumentException(s"Unsupported content type: $contentType")
     }
   }
@@ -218,6 +222,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "application/msword" |
           "application/vnd.openxmlformats-officedocument.wordprocessingml.document" =>
         sparkNLPReader.doc
+      case "application/vnd.oasis.opendocument.text" => sparkNLPReader.odt
       case "application/vnd.ms-excel" |
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" =>
         sparkNLPReader.xls
@@ -240,6 +245,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "html" | "htm" => sparkNLPReader.html
       case "eml" | "msg" => sparkNLPReader.email
       case "doc" | "docx" => sparkNLPReader.doc
+      case "odt" => sparkNLPReader.odt
       case "xls" | "xlsx" => sparkNLPReader.xls
       case "ppt" | "pptx" => sparkNLPReader.ppt
       case "pdf" => sparkNLPReader.pdf
@@ -247,6 +253,7 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
       case "xml" => sparkNLPReader.xml
       case "md" => sparkNLPReader.md
       case "csv" => sparkNLPReader.csv
+      case "tsv" => sparkNLPReader.tsv
       case _ => throw new IllegalArgumentException(s"Unsupported file type: $extension")
     }
   }

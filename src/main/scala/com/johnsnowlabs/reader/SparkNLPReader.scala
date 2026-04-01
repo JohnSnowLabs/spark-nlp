@@ -305,6 +305,26 @@ class SparkNLPReader(
     wordReader.docToHTMLElement(content)
   }
 
+  def odt(docPath: String): DataFrame = {
+    val odtReader = new ODTReader(
+      getStoreContent,
+      getIncludePageBreaks,
+      getInferTableStructure,
+      getOutputFormat)
+    setOutputColumn(odtReader.getOutputColumn)
+    odtReader.doc(docPath)
+  }
+
+  def odt(content: Array[Byte]): Seq[HTMLElement] = {
+    val odtReader = new ODTReader(
+      getStoreContent,
+      getIncludePageBreaks,
+      getInferTableStructure,
+      getOutputFormat)
+    setOutputColumn(odtReader.getOutputColumn)
+    odtReader.docToHTMLElement(content)
+  }
+
   /** Instantiates class to read EPUB files.
     *
     * epubPath: this is a path to a directory of EPUB files or a path to an EPUB file E.g.
@@ -914,6 +934,42 @@ class SparkNLPReader(
     csvReader.csv(csvPath)
   }
 
+  def csvToHTMLElement(csvContent: String): Seq[HTMLElement] = {
+    val csvReader = new CSVReader(
+      encoding = getEncoding,
+      includeHeader = getIncludeHeader,
+      inferTableStructure = getInferTableStructure,
+      delimiter = getDelimiter,
+      storeContent = getStoreContent,
+      outputFormat = getOutputFormat)
+    setOutputColumn(csvReader.getOutputColumn)
+    csvReader.csvToHTMLElement(csvContent)
+  }
+
+  def tsv(tsvPath: String): DataFrame = {
+    val tsvReader = new TSVReader(
+      encoding = getEncoding,
+      includeHeader = getIncludeHeader,
+      inferTableStructure = getInferTableStructure,
+      delimiter = getTSVDelimiter,
+      storeContent = getStoreContent,
+      outputFormat = getOutputFormat)
+    setOutputColumn(tsvReader.getOutputColumn)
+    tsvReader.tsv(tsvPath)
+  }
+
+  def tsvToHTMLElement(tsvContent: String): Seq[HTMLElement] = {
+    val tsvReader = new TSVReader(
+      encoding = getEncoding,
+      includeHeader = getIncludeHeader,
+      inferTableStructure = getInferTableStructure,
+      delimiter = getTSVDelimiter,
+      storeContent = getStoreContent,
+      outputFormat = getOutputFormat)
+    setOutputColumn(tsvReader.getOutputColumn)
+    tsvReader.tsvToHTMLElement(tsvContent)
+  }
+
   private def getEncoding: String = {
     getDefaultString(params.asScala.toMap, Seq("encoding"), default = "UTF-8")
   }
@@ -927,6 +983,10 @@ class SparkNLPReader(
 
   private def getDelimiter: String = {
     getDefaultString(params.asScala.toMap, Seq("delimiter"), default = ",")
+  }
+
+  private def getTSVDelimiter: String = {
+    getDefaultString(params.asScala.toMap, Seq("delimiter"), default = "\t")
   }
 
 }

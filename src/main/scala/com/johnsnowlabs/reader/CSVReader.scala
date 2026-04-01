@@ -77,7 +77,18 @@ class CSVReader(
     }
   }
 
-  private def buildStructuredCSV(textDF: DataFrame): DataFrame = {
+  def csvToHTMLElement(csvContent: String): Seq[HTMLElement] = {
+    import spark.implicits._
+
+    buildStructuredCSV(Seq(("", csvContent)).toDF("path", "content"))
+      .select(outputColumn)
+      .as[Seq[HTMLElement]]
+      .collect()
+      .headOption
+      .getOrElse(Seq.empty[HTMLElement])
+  }
+
+  private[reader] def buildStructuredCSV(textDF: DataFrame): DataFrame = {
     import spark.implicits._
     val delimiterPattern = Pattern.quote(delimiter)
 

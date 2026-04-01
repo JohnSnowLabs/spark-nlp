@@ -464,11 +464,58 @@ class Reader2TableTest extends AnyFlatSpec with SparkSessionTest {
     }
   }
 
+  it should "read TSV content from spark dataframe" taggedAs FastTest in {
+    val content =
+      """Team	Location	Stanley Cups
+        |Blues	STL	1
+        |Flyers	PHI	2
+        |Maple Leafs	TOR	13""".stripMargin
+
+    val tsvDf = spark.createDataFrame(Seq((1, content))).toDF("id", "tsv")
+
+    val reader2Table = new Reader2Table()
+      .setInputCol("tsv")
+      .setContentType("text/tsv")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Table))
+    val resultDf = pipeline.fit(tsvDf).transform(tsvDf)
+
+    val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
+    val objectMapper = new ObjectMapper()
+    annotationsResult.foreach { annotation =>
+      val jsonStringOutput = annotation.head.result
+      val resultJson = objectMapper.readTree(jsonStringOutput)
+
+      assert(resultJson.has("caption"), "JSON missing 'caption'")
+      assert(resultJson.has("header"), "JSON missing 'header'")
+      assert(resultJson.has("rows"), "JSON missing 'rows'")
+      assert(resultJson.get("rows").isArray, "Rows should be an array")
+      assert(resultJson.get("rows").size() > 0, "Rows array should not be empty")
+    }
+  }
+
   it should "work for csv files" taggedAs FastTest in {
     val csvDirectory = "src/test/resources/reader/csv"
     val reader2Table = new Reader2Table()
       .setContentType("text/csv")
       .setContentPath(s"$csvDirectory/stanley-cups.csv")
+      .setOutputCol("document")
+      .setExplodeDocs(true)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Table))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    assert(resultDf.count() == 1)
+  }
+
+  it should "work for tsv files" taggedAs FastTest in {
+    val tsvDirectory = "src/test/resources/reader/tsv"
+    val reader2Table = new Reader2Table()
+      .setContentType("text/tsv")
+      .setContentPath(s"$tsvDirectory/stanley-cups.tsv")
       .setOutputCol("document")
       .setExplodeDocs(true)
 
