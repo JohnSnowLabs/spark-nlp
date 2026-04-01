@@ -3,20 +3,23 @@ Reader2Table
 {%- endcapture -%}
 
 {%- capture description -%}
-The Reader2Table annotator enables seamless extraction of tabular content from documents within existing Spark NLP workflows. It allows you to efficiently parse tables from a wide variety of file types, including HTML, Word, Excel, PowerPoint, CSV, and TSV files, and return them as structured Spark DataFrames with metadata, ready for downstream processing or analysis.
+The Reader2Table annotator enables seamless extraction of tabular content from documents within existing Spark NLP workflows. It allows you to efficiently parse tables from a wide variety of file types, including HTML, Word, OpenDocument Text (ODT), Excel, PowerPoint, CSV, and TSV files, and return them as structured Spark DataFrames with metadata, ready for downstream processing or analysis.
 
 Supported File Formats:
 - HTML: `.html`, `.htm`  
 - Word documents: `.doc`, `.docx`  
+- OpenDocument Text documents: `.odt`
 - Excel spreadsheets: `.xls`, `.xlsx`  
 - PowerPoint presentations: `.ppt`, `.pptx`  
 - Delimited files: `.csv`, `.tsv`  
+
+ODT tables support the same `json-table` and `html-table` output modes as the other office-style readers.
 
 Parameters:
 - `contentPath`: Path to the input documents or table-containing files (required).  
 - `inputCol`: Input column name (optional).  
 - `outputCol`: Output column name for structured table data (default: `document`).  
-- `contentType`: MIME type of the documents (e.g., `"text/html"`, `"text/csv"`, `"text/tsv"`, `"application/vnd.ms-excel"`) (optional).  
+- `contentType`: MIME type of the documents (e.g., `"text/html"`, `"application/vnd.ms-excel"`) (optional).  
 - `explodeDocs`: Whether to split multi-document files into separate rows (default: `true`).  
 - `storeContent`: Whether to include the raw file content alongside structured output (default: `false`).  
 - `flattenOutput`: Whether to return plain table data with minimal metadata (default: `false`).  

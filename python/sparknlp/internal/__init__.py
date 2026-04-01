@@ -1121,6 +1121,12 @@ class _AutoGGUFLoader(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel.loadSavedModel", path, jspark)
 
 
+class _LLMNerLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_LLMNerLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.ner.dl.LLMNerModel.loadSavedModel", path, jspark)
+
+
 class _MxbaiEmbeddingsLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_MxbaiEmbeddingsLoader, self).__init__(

@@ -40,6 +40,7 @@ class Reader2Doc(
     - Plain text
     - HTML
     - Word (.doc/.docx)
+    - ODT (.odt)
     - Excel (.xls/.xlsx)
     - PowerPoint (.ppt/.pptx)
     - Email files (.eml, .msg)

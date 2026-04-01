@@ -7,7 +7,7 @@ The ReaderAssembler annotator provides a unified interface to combine multiple S
 
 Supported Input Types:
 - Text: `txt`, `html`, `htm`, `md`, `xml`, `csv`, `tsv`  
-- Documents: `pdf`, `doc`, `docx`, `xls`, `xlsx`, `ppt`, `pptx`  
+- Documents: `pdf`, `doc`, `docx`, `xls`, `xlsx`, `ppt`, `pptx`, `odt`  
 - Email: `eml`, `msg`  
 - Images: `png`, `jpg`, `jpeg`, `bmp`, `gif`  
 
@@ -15,12 +15,12 @@ Parameters:
 - `contentPath`: Path to the content source (file or directory).  
 - `inputCol`: Input column name for in-memory string content (optional).  
 - `outputCol`: Base output column name; appends `text`, `table`, `image` for respective reader outputs (default: `document`).  
-- `contentType`: MIME type of the content (e.g., `text/html`, `text/csv`, `text/tsv`, `application/pdf`) (optional).  
+- `contentType`: MIME type of the content (e.g., `text/html`, `application/pdf`) (optional).  
 - `explodeDocs`: Whether to split multi-document files into separate rows (default: `false`).  
 - `flattenOutput`: Whether to return plain content with minimal metadata (default: `false`).  
 - `inferTableStructure`: Whether to automatically detect table structure from tabular content (default: `true`).  
 - `excludeNonText`: Whether to ignore non-text rows, such as tables, in Reader2Doc (default: `false`).  
-- `userMessage`: Custom message describing the content for prompt-based models (op—ional).  
+- `userMessage`: Custom message describing the content for prompt-based models (optional).
 - `promptTemplate`: Template format for prompt generation (optional).  
 - `customPromptTemplate`: Custom prompt template if `promptTemplate` is set to `"custom"` (optional).  
 

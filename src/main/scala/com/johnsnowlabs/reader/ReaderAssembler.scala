@@ -159,6 +159,7 @@ class ReaderAssembler(override val uid: String)
     "pdf" -> ("application/pdf", false),
     "doc" -> ("application/msword", false),
     "docx" -> ("application/msword", false),
+    "odt" -> ("application/vnd.oasis.opendocument.text", false),
     "xls" -> ("application/vnd.ms-excel", false),
     "xlsx" -> ("application/vnd.ms-excel", false),
     "ppt" -> ("application/vnd.ms-powerpoint", false),

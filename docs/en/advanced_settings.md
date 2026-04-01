@@ -106,6 +106,28 @@ spark.executor.userClassPathFirst true
 These configurations are required because the Databricks runtime environment includes a bundled version of the `com.sun.mail:jakarta.mail` library, which conflicts with `jakarta.activation`.
 By setting these properties, the application ensures that the user-provided libraries take precedence over those bundled in the Databricks environment, resolving the dependency conflict.
 
+#### Databricks Unity Catalog Volumes and pretrained models
+
+Databricks documents that some JVM-based operations do not support reading from or writing to Unity Catalog Volumes through standard `/Volumes/...` paths. See the official Databricks guidance here:
+
+[Databricks documentation: Work with files on Databricks](https://docs.databricks.com/aws/en/files/)
+
+Spark NLP pretrained downloads rely on JVM-side file operations for download, move, and unzip. Because of this Databricks limitation, Unity Catalog Volumes are not supported as Spark NLP download/cache targets for `spark.jsl.settings.pretrained.cache_folder`, `spark.jsl.settings.storage.cluster_tmp_dir`, or `spark.jsl.settings.annotator.log_folder`.
+
+For Databricks environments that store pretrained models on a Unity Catalog Volume, the supported workaround is to place the model artifacts on the Volume outside the Spark NLP `.pretrained()` flow and then load them directly with `.load(model_path)`.
+
+**Load a model already stored on a Unity Catalog Volume**
+
+```python
+from sparknlp.annotator import NerDLModel
+
+model_path = "/Volumes/<catalog>/<schema>/<volume>/cache_pretrained/ner_dl_en_2.4.3_2.4_1584624950746"
+
+ner_model = NerDLModel.load(model_path) \
+    .setInputCols(["sentence", "token", "embeddings"]) \
+    .setOutputCol("ner")
+```
+
 </div><div class="h3-box" markdown="1">
 
 ### S3 Integration
