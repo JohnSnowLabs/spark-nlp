@@ -27,6 +27,7 @@ class PartitionTest extends AnyFlatSpec {
 
   val txtDirectory = "src/test/resources/reader/txt"
   val wordDirectory = "src/test/resources/reader/doc"
+  val odtDirectory = "src/test/resources/reader/odt"
   val excelDirectory = "src/test/resources/reader/xls"
   val powerPointDirectory = "src/test/resources/reader/ppt"
   val emailDirectory = "src/test/resources/reader/email"
@@ -34,6 +35,7 @@ class PartitionTest extends AnyFlatSpec {
   val pdfDirectory = "src/test/resources/reader/pdf"
   val xmlDirectory = "src/test/resources/reader/xml"
   val rtfDirectory = "src/test/resources/reader/rtf"
+  val epubDirectory = "src/test/resources/reader/epub"
 
   "Partition" should "work with text content_type" taggedAs FastTest in {
     val textDf = Partition(Map("content_type" -> "text/plain")).partition(txtDirectory)
@@ -57,6 +59,20 @@ class PartitionTest extends AnyFlatSpec {
     val wordDf = Partition().partition(s"$wordDirectory/fake_table.docx")
 
     assert(!wordDf.select(col("doc").getItem(0)).isEmpty)
+  }
+
+  it should "work with odt content_type" taggedAs FastTest in {
+    val odtDf =
+      Partition(Map("content_type" -> "application/vnd.oasis.opendocument.text"))
+        .partition(odtDirectory)
+
+    assert(!odtDf.select(col("doc").getItem(0)).isEmpty)
+  }
+
+  it should "identify odt file" taggedAs FastTest in {
+    val odtDf = Partition().partition(s"$odtDirectory/fake_table.odt")
+
+    assert(!odtDf.select(col("doc").getItem(0)).isEmpty)
   }
 
   it should "work with excel content_type" taggedAs FastTest in {
@@ -132,6 +148,18 @@ class PartitionTest extends AnyFlatSpec {
     val pdfDf = Partition(Map("content_type" -> "application/pdf")).partition(pdfDirectory)
 
     assert(!pdfDf.select(col("pdf")).isEmpty)
+  }
+
+  it should "identify an EPUB file" taggedAs FastTest in {
+    val epubDf = Partition().partition(s"$epubDirectory/sample.epub")
+
+    assert(!epubDf.select(col("epub").getItem(0)).isEmpty)
+  }
+
+  it should "work with EPUB content_type" taggedAs FastTest in {
+    val epubDf = Partition(Map("content_type" -> "application/epub+zip")).partition(epubDirectory)
+
+    assert(!epubDf.select(col("epub").getItem(0)).isEmpty)
   }
 
   it should "work with text in memory" taggedAs FastTest in {

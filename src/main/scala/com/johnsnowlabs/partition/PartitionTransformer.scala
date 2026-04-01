@@ -39,8 +39,8 @@ import scala.collection.JavaConverters._
   * using Spark NLP readers. It supports reading from files, URLs, in-memory strings, or byte
   * arrays, and returns parsed output as a structured Spark DataFrame.
   *
-  * Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
-  * (.ppt/.pptx), email files (.eml, .msg), and PDFs.
+  * Supported formats include plain text, HTML, Word (.doc/.docx), ODT (.odt), Excel (.xls/.xlsx),
+  * PowerPoint (.ppt/.pptx), email files (.eml, .msg), and PDFs.
   *
   * ==Example==
   * {{{

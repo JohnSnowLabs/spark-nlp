@@ -313,3 +313,29 @@ class Reader2DocTestWord(unittest.TestCase):
         result_df = model.transform(self.empty_df)
 
         self.assertTrue(result_df.select("document").count() > 0)
+
+
+@pytest.mark.fast
+class Reader2DocTestOdt(unittest.TestCase):
+
+    def setUp(self):
+        spark = SparkContextForTest.spark
+        self.empty_df = spark.createDataFrame([], "string").toDF("text")
+
+    def runTest(self):
+        reader2doc: Reader2Doc = Reader2Doc() \
+            .setContentType("application/vnd.oasis.opendocument.text") \
+            .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/odt/page-breaks.odt") \
+            .setOutputCol("document") \
+            .setOutputAsDocument(False)
+
+        sentence_detector = SentenceDetector() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+
+        pipeline = Pipeline(stages=[reader2doc, sentence_detector])
+        model = pipeline.fit(self.empty_df)
+
+        result_df = model.transform(self.empty_df)
+
+        self.assertTrue(result_df.select("document").count() > 0)

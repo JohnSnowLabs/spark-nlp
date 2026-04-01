@@ -48,7 +48,8 @@ import scala.jdk.CollectionConverters.mapAsJavaMapConverter
   * NLP readers. It supports reading from many files types and returns parsed output as a
   * structured Spark DataFrame.
   *
-  * Supported formats include HTML and Markdown
+  * Supported formats include HTML, Markdown, Word (.doc/.docx), ODT (.odt), Excel
+  * (.xls/.xlsx), PowerPoint (.ppt/.pptx), email files (.eml, .msg), raw image files, and PDFs.
   *
   * ==Example==
   * {{{
@@ -252,8 +253,10 @@ class Reader2Image(override val uid: String)
     "msg" -> ("message/rfc822", false),
     "docx" -> ("application/msword", false),
     "doc" -> ("application/msword", false),
+    "odt" -> ("application/vnd.oasis.opendocument.text", false),
     "ppt" -> ("application/vnd.ms-powerpoint", false),
     "pptx" -> ("application/vnd.ms-powerpoint", false),
+    "epub" -> ("application/epub+zip", false),
     "xlsx" -> ("application/vnd.ms-excel", false),
     "xls" -> ("application/vnd.ms-excel", false),
     "png" -> ("image/raw", false),
