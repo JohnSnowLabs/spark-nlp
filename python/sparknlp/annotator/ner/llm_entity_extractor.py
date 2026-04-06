@@ -11,22 +11,22 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-"""Contains classes for the LLMNerModel."""
+"""Contains classes for the LLMEntityExtractor annotator."""
 
 from sparknlp.common import *
 
 
-class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
-    """End-to-end LLM-based Named Entity Recognition using AutoGGUF with BNF grammars.
+class LLMEntityExtractor(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
+    """End-to-end LLM-based entity extraction using AutoGGUF with BNF grammars.
 
-    LLMNerModel is an end-to-end annotator that performs entity extraction from text
-    using Large Language Models (LLMs) with structured JSON output via BNF grammars.
-    It embeds AutoGGUFModel directly and uses string matching to compute accurate
-    character indices for extracted entities.
+    LLMEntityExtractor is an end-to-end annotator that performs entity extraction
+    from text using Large Language Models (LLMs) with structured JSON output via
+    BNF grammars. It embeds AutoGGUFModel directly and uses string matching to
+    compute accurate character indices for extracted entities.
 
-    This annotator follows the LangExtract pattern from Google Research, combining
-    few-shot prompting with constrained generation through llama.cpp BNF grammars to
-    ensure valid JSON output.
+    This annotator follows the LangExtract pattern from Google Research,
+    combining few-shot prompting with constrained generation through llama.cpp
+    BNF grammars to ensure valid JSON output.
 
     The LLM generates responses in this format (enforced by grammar)::
 
@@ -38,13 +38,15 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         }
 
     The annotator performs string matching to find the exact character positions
-    of each entity in the original text, outputting CHUNK annotations with accurate
-    begin/end indices and chunk indexing similar to other Spark NLP annotators.
+    of each entity in the original text, outputting CHUNK annotations with
+    accurate begin/end indices and chunk indexing similar to other Spark NLP
+    annotators.
 
-    The model is loaded via ``LLMNerModel.pretrained()`` to download a pretrained model,
-    or ``LLMNerModel.loadSavedModel()`` to load a local GGUF model:
+    The model is loaded via ``LLMEntityExtractor.pretrained()`` to download a
+    pretrained model, or ``LLMEntityExtractor.loadSavedModel()`` to load a local
+    GGUF model:
 
-    >>> llm_ner = LLMNerModel.pretrained("qwen3_4b_bf16_gguf") \
+    >>> entity_extractor = LLMEntityExtractor.pretrained("qwen3_4b_bf16_gguf") \
     ...     .setInputCols(["document"]) \
     ...     .setOutputCol("entities") \
     ...     .setEntityTypes(["PERSON", "ORGANIZATION", "LOCATION"])
@@ -58,7 +60,8 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
     Parameters
     ----------
     promptTemplate : str, optional
-        Custom prompt template for NER extraction. Use {entityTypes} placeholder.
+        Custom prompt template for entity extraction. Use {entityTypes}
+        placeholder.
     entityTypes : List[str], optional
         List of entity types to extract (used in prompt), by default
         ["PERSON", "ORGANIZATION", "LOCATION", "DATE", "TIME"]
@@ -76,13 +79,13 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
     >>> documentAssembler = DocumentAssembler() \\
     ...     .setInputCol("text") \\
     ...     .setOutputCol("document")
-    >>> llmNer = LLMNerModel.pretrained("qwen3_4b_bf16_gguf") \
+    >>> entity_extractor = LLMEntityExtractor.pretrained("qwen3_4b_bf16_gguf") \
     ...     .setInputCols(["document"]) \
     ...     .setOutputCol("entities") \
     ...     .setEntityTypes(["MEDICATION", "DOSAGE", "ROUTE", "FREQUENCY"]) \
     ...     .setNPredict(500) \\
     ...     .setTemperature(0.1)
-    >>> pipeline = Pipeline().setStages([documentAssembler, llmNer])
+    >>> pipeline = Pipeline().setStages([documentAssembler, entity_extractor])
     >>> data = spark.createDataFrame([["Patient prescribed 500mg amoxicillin PO TID"]]).toDF("text")
     >>> result = pipeline.fit(data).transform(data)
     >>> result.select("entities.result", "entities.metadata").show(truncate=False)
@@ -98,7 +101,7 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
     NerConverter : to further process NER results
     """
 
-    name = "LLMNerModel"
+    name = "LLMEntityExtractor"
 
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
 
@@ -107,7 +110,7 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
     promptTemplate = Param(
         Params._dummy(),
         "promptTemplate",
-        "Custom prompt template for NER extraction. Use {entityTypes} placeholder.",
+        "Custom prompt template for entity extraction. Use {entityTypes} placeholder.",
         typeConverter=TypeConverters.toString,
     )
 
@@ -118,7 +121,6 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         typeConverter=TypeConverters.toListString,
     )
 
-
     caseSensitive = Param(
         Params._dummy(),
         "caseSensitive",
@@ -126,15 +128,18 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
         typeConverter=TypeConverters.toBoolean,
     )
 
-
     fewShotExamples = Param(
         Params._dummy(),
         "fewShotExamples",
         "Few-shot examples as array of (input, output_json) tuples",
     )
 
-    def __init__(self, classname="com.johnsnowlabs.nlp.annotators.ner.dl.LLMNerModel", java_model=None):
-        super(LLMNerModel, self).__init__(
+    def __init__(
+        self,
+        classname="com.johnsnowlabs.nlp.annotators.ner.dl.LLMEntityExtractor",
+        java_model=None,
+    ):
+        super(LLMEntityExtractor, self).__init__(
             classname=classname,
             java_model=java_model,
         )
@@ -146,11 +151,11 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
             nBatch=512,
             nPredict=500,
             nGpuLayers=99,
-            batchSize=4
+            batchSize=4,
         )
 
     def setPromptTemplate(self, value):
-        """Set custom prompt template for NER extraction.
+        """Set custom prompt template for entity extraction.
 
         Parameters
         ----------
@@ -159,7 +164,7 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
 
         Returns
         -------
-        LLMNerModel
+        LLMEntityExtractor
             The updated model
         """
         return self._set(promptTemplate=value)
@@ -174,7 +179,7 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
 
         Returns
         -------
-        LLMNerModel
+        LLMEntityExtractor
             The updated model
         """
         return self._set(entityTypes=value)
@@ -189,14 +194,13 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
 
         Returns
         -------
-        LLMNerModel
+        LLMEntityExtractor
             The updated model
         """
         return self._set(caseSensitive=value)
 
     def setFewShotExamples(self, value):
         """Set few-shot examples to guide the model.
-
 
         Parameters
         ----------
@@ -205,100 +209,44 @@ class LLMNerModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties):
 
         Returns
         -------
-        LLMNerModel
+        LLMEntityExtractor
             The updated model
         """
-        # Convert list of tuples to list of lists for proper py4j serialization
         java_compatible = [list(pair) for pair in value]
         self._call_java("setFewShotExamples", java_compatible)
         return self
 
     def getPromptTemplate(self):
-        """Get the custom prompt template for NER extraction.
-
-        Returns
-        -------
-        str
-            The prompt template
-        """
+        """Get the custom prompt template for entity extraction."""
         return self.getOrDefault(self.promptTemplate)
 
     def getEntityTypes(self):
-        """Get the list of entity types to extract.
-
-        Returns
-        -------
-        List[str]
-            List of entity type names
-        """
+        """Get the list of entity types to extract."""
         return self.getOrDefault(self.entityTypes)
 
-
     def getCaseSensitive(self):
-        """Get whether entity matching is case-sensitive.
-
-        Returns
-        -------
-        bool
-            True if case-sensitive, False otherwise
-        """
+        """Get whether entity matching is case-sensitive."""
         return self.getOrDefault(self.caseSensitive)
 
-
     def getFewShotExamples(self):
-        """Get the few-shot examples.
-
-        Returns
-        -------
-        List[Tuple[str, str]]
-            List of (input_text, json_output) tuples as examples
-        """
+        """Get the few-shot examples."""
         return self.getOrDefault(self.fewShotExamples)
 
-    @staticmethod
-    def loadSavedModel(path, spark_session):
-        """Loads a locally saved GGUF model for LLM-based NER.
+    @classmethod
+    def loadSavedModel(cls, path, spark_session):
+        """Loads a locally saved GGUF model for LLM-based entity extraction."""
+        from sparknlp.internal import _LLMEntityExtractorLoader
 
-        Parameters
-        ----------
-        path : str
-            Path to the GGUF model file
-        spark_session : pyspark.sql.SparkSession
-            The current SparkSession
+        jModel = _LLMEntityExtractorLoader(path, spark_session._jsparkSession)._java_obj
+        return cls(java_model=jModel)
 
-        Returns
-        -------
-        LLMNerModel
-            The restored model
-        """
-        from sparknlp.internal import _LLMNerLoader
-        jModel = _LLMNerLoader(path, spark_session._jsparkSession)._java_obj
-        return LLMNerModel(java_model=jModel)
-
-    @staticmethod
-    def pretrained(name="qwen3_4b_bf16_gguf", lang="en", remote_loc=None):
-        """Downloads and loads a pretrained model.
-
-        Parameters
-        ----------
-        name : str, optional
-            Name of the pretrained model, by default "qwen3_4b_bf16_gguf"
-        lang : str, optional
-            Language of the pretrained model, by default "en"
-        remote_loc : str, optional
-            Optional remote address of the resource, by default None.
-
-        Returns
-        -------
-        LLMNerModel
-            The restored model
-        """
+    @classmethod
+    def pretrained(cls, name="qwen3_4b_bf16_gguf", lang="en", remote_loc=None):
+        """Downloads and loads a pretrained model."""
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(LLMNerModel, name, lang, remote_loc)
+
+        return ResourceDownloader.downloadModel(cls, name, lang, remote_loc)
 
     def close(self):
-        """Closes the underlying llama.cpp model backend freeing resources.
-        The model is reloaded when used again.
-        """
+        """Closes the underlying llama.cpp model backend freeing resources."""
         self._java_obj.close()
-

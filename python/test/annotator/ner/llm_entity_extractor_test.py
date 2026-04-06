@@ -22,7 +22,7 @@ from test.util import SparkContextForTest
 
 
 @pytest.mark.slow
-class LLMNerModelTestSpec(unittest.TestCase):
+class LLMEntityExtractorTestSpec(unittest.TestCase):
 
     def setUp(self):
         self.spark = SparkContextForTest.spark
@@ -47,7 +47,7 @@ class LLMNerModelTestSpec(unittest.TestCase):
                 "Patient Jennifer Thompson received vancomycin 1g IV Q12H at Cleveland Clinic for treatment of MRSA pneumonia diagnosed on January 20th, 2024.",
                 """{"extractions": [{"entity": "PERSON", "text": "Jennifer Thompson"}, {"entity": "MEDICATION", "text": "vancomycin"}, {"entity": "DOSAGE", "text": "1g"}, {"entity": "FREQUENCY", "text": "Q12H"}, {"entity": "ORGANIZATION", "text": "Cleveland Clinic"}, {"entity": "CONDITION", "text": "MRSA pneumonia"}]}""")]
 
-        llm_ner = LLMNerModel.pretrained() \
+        entity_extractor = LLMEntityExtractor.pretrained() \
             .setInputCols(["document"]) \
             .setOutputCol("entities") \
             .setFewShotExamples(medical_examples) \
@@ -61,7 +61,7 @@ class LLMNerModelTestSpec(unittest.TestCase):
             .setBatchSize(4) \
 
 
-        pipeline = Pipeline(stages=[document_assembler, llm_ner])
+        pipeline = Pipeline(stages=[document_assembler, entity_extractor])
 
         complex_sentences = [
             "Dr. Sarah Johnson from Stanford Medical Center prescribed 500mg amoxicillin PO TID to patient John Smith on January 15th, 2024 for acute bronchitis.",
@@ -90,4 +90,3 @@ class LLMNerModelTestSpec(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

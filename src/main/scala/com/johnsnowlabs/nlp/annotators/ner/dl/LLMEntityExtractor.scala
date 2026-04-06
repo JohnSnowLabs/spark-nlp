@@ -32,11 +32,12 @@ import org.json4s.jackson.JsonMethods._
 
 import scala.util.matching.Regex
 
-/** End-to-end LLM-based Named Entity Recognition using AutoGGUF with BNF grammars.
+/** End-to-end LLM-based entity extraction using AutoGGUF with BNF grammars.
   *
-  * LLMNerModel is an end-to-end annotator that performs entity extraction from text using Large
-  * Language Models (LLMs) with structured JSON output via BNF grammars. It embeds AutoGGUFModel
-  * directly and uses simple string matching to compute character indices for extracted entities.
+  * LLMEntityExtractor is an end-to-end annotator that performs entity extraction from text using
+  * Large Language Models (LLMs) with structured JSON output via BNF grammars. It embeds
+  * AutoGGUFModel directly and uses simple string matching to compute character indices for
+  * extracted entities.
   *
   * This annotator follows the LangExtract pattern from Google Research, combining few-shot
   * prompting with constrained generation through llama.cpp BNF grammars to ensure valid JSON
@@ -62,14 +63,14 @@ import scala.util.matching.Regex
   * {{{
   * import spark.implicits._
   * import com.johnsnowlabs.nlp.base._
-  * import com.johnsnowlabs.nlp.annotators.ner.dl.LLMNerModel
+  * import com.johnsnowlabs.nlp.annotators.ner.dl.LLMEntityExtractor
   * import org.apache.spark.ml.Pipeline
   *
   * val documentAssembler = new DocumentAssembler()
   *   .setInputCol("text")
   *   .setOutputCol("document")
   *
-  * val llmNer = LLMNerModel
+  * val entityExtractor = LLMEntityExtractor
   *   .pretrained("qwen3_4b_bf16_gguf")
   *   .setInputCols("document")
   *   .setOutputCol("entities")
@@ -77,7 +78,7 @@ import scala.util.matching.Regex
   *   .setNPredict(500)
   *   .setTemperature(0.1f)
   *
-  * val pipeline = new Pipeline().setStages(Array(documentAssembler, llmNer))
+  * val pipeline = new Pipeline().setStages(Array(documentAssembler, entityExtractor))
   *
   * val data = Seq("Patient prescribed 500mg amoxicillin PO TID").toDF("text")
   * val result = pipeline.fit(data).transform(data)
@@ -109,9 +110,9 @@ import scala.util.matching.Regex
   *   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   *   parameter values through setters and getters, respectively.
   */
-class LLMNerModel(override val uid: String)
-    extends AnnotatorModel[LLMNerModel]
-    with HasBatchedAnnotate[LLMNerModel]
+class LLMEntityExtractor(override val uid: String)
+    extends AnnotatorModel[LLMEntityExtractor]
+    with HasBatchedAnnotate[LLMEntityExtractor]
     with HasLlamaCppModelProperties
     with HasLlamaCppInferenceProperties
     with HasProtectedParams
@@ -120,7 +121,7 @@ class LLMNerModel(override val uid: String)
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
     */
-  def this() = this(Identifiable.randomUID("LLM_NER"))
+  def this() = this(Identifiable.randomUID("LLM_ENTITY_EXTRACTOR"))
 
   /** Input Annotator Type: DOCUMENT
     *
@@ -195,7 +196,7 @@ Output:"""
     */
   def close(): Unit = GGUFWrapper.closeBroadcastModel(_model)
 
-  /** Custom prompt template for NER extraction (Default: medical NER prompt)
+  /** Custom prompt template for entity extraction.
     *
     * The prompt should include instructions for the LLM to extract entities in JSON format. Use
     * {entityTypes} as a placeholder for the entity types list.
@@ -205,7 +206,7 @@ Output:"""
   val promptTemplate = new Param[String](
     this,
     "promptTemplate",
-    "Custom prompt template for NER extraction. Use {entityTypes} placeholder.")
+    "Custom prompt template for entity extraction. Use {entityTypes} placeholder.")
 
   /** @group setParam */
   def setPromptTemplate(value: String): this.type = set(promptTemplate, value)
@@ -303,7 +304,7 @@ Output:"""
     getModelIfNotSet.saveToFile(path)
   }
 
-  /** Build the system prompt with NER instructions and few-shot examples */
+  /** Build the system prompt with entity extraction instructions and few-shot examples */
   private def buildSystemPrompt(): String = {
     val entityTypesStr = $(entityTypes).mkString(", ")
 
@@ -616,29 +617,29 @@ case class EntityExtraction(
     text: String,
     attributes: Map[String, String] = Map.empty)
 
-trait ReadablePretrainedLLMNerModel
-    extends ParamsAndFeaturesFallbackReadable[LLMNerModel]
-    with HasPretrained[LLMNerModel] {
+trait ReadablePretrainedLLMEntityExtractor
+    extends ParamsAndFeaturesFallbackReadable[LLMEntityExtractor]
+    with HasPretrained[LLMEntityExtractor] {
   override val defaultModelName: Some[String] = Some("qwen3_4b_bf16_gguf")
   override val defaultLang: String = "en"
 
   /** Java compliant-overrides */
-  override def pretrained(): LLMNerModel = super.pretrained()
+  override def pretrained(): LLMEntityExtractor = super.pretrained()
 
-  override def pretrained(name: String): LLMNerModel = super.pretrained(name)
+  override def pretrained(name: String): LLMEntityExtractor = super.pretrained(name)
 
-  override def pretrained(name: String, lang: String): LLMNerModel =
+  override def pretrained(name: String, lang: String): LLMEntityExtractor =
     super.pretrained(name, lang)
 
-  override def pretrained(name: String, lang: String, remoteLoc: String): LLMNerModel =
+  override def pretrained(name: String, lang: String, remoteLoc: String): LLMEntityExtractor =
     super.pretrained(name, lang, remoteLoc)
 }
 
-trait ReadLLMNerModel {
-  this: ParamsAndFeaturesFallbackReadable[LLMNerModel] =>
+trait ReadLLMEntityExtractor {
+  this: ParamsAndFeaturesFallbackReadable[LLMEntityExtractor] =>
 
   /** Fallback: load a raw GGUF folder (e.g. from AutoGGUFModel.save) */
-  override def fallbackLoad(folder: String, spark: SparkSession): LLMNerModel = {
+  override def fallbackLoad(folder: String, spark: SparkSession): LLMEntityExtractor = {
     val actualFolderPath: String = ResourceHelper.resolvePath(folder)
     val localFolder = ResourceHelper.copyToLocal(actualFolderPath)
     val modelFile = findGGUFModelInFolder(localFolder)
@@ -646,17 +647,17 @@ trait ReadLLMNerModel {
   }
 
   /** Reader called by Spark after params are deserialized */
-  def readModel(instance: LLMNerModel, path: String, spark: SparkSession): Unit = {
+  def readModel(instance: LLMEntityExtractor, path: String, spark: SparkSession): Unit = {
     val model: GGUFWrapper = GGUFWrapper.readModel(path, spark)
     instance.setModelIfNotSet(spark, model)
   }
 
   addReader(readModel)
 
-  /** Load a GGUF model file from a local path into a new LLMNerModel */
-  def loadSavedModel(modelPath: String, spark: SparkSession): LLMNerModel = {
+  /** Load a GGUF model file from a local path into a new LLMEntityExtractor */
+  def loadSavedModel(modelPath: String, spark: SparkSession): LLMEntityExtractor = {
     val localPath: String = ResourceHelper.copyToLocal(modelPath)
-    val annotatorModel = new LLMNerModel()
+    val annotatorModel = new LLMEntityExtractor()
     annotatorModel
       .setModelIfNotSet(spark, GGUFWrapper.read(spark, localPath))
       .setEngine(LlamaCPP.name)
@@ -667,4 +668,4 @@ trait ReadLLMNerModel {
   }
 }
 
-object LLMNerModel extends ReadablePretrainedLLMNerModel with ReadLLMNerModel
+object LLMEntityExtractor extends ReadablePretrainedLLMEntityExtractor with ReadLLMEntityExtractor

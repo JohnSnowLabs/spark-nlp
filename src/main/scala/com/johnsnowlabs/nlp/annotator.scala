@@ -31,7 +31,7 @@ import com.johnsnowlabs.nlp.annotators.ld.dl.{
   ReadablePretrainedLanguageDetectorDLModel
 }
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
-import com.johnsnowlabs.nlp.annotators.ner.dl.{LLMNerModel, _}
+import com.johnsnowlabs.nlp.annotators.ner.dl.{LLMEntityExtractor, _}
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
 import com.johnsnowlabs.nlp.annotators.parser.typdep.ReadablePretrainedTypedDependency
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron
@@ -860,8 +860,10 @@ package object annotator {
 
   object ReaderAssembler extends DefaultParamsReadable[ReaderAssembler]
 
-  type LLMNerModel = com.johnsnowlabs.nlp.annotators.ner.dl.LLMNerModel
+  type LLMEntityExtractor = com.johnsnowlabs.nlp.annotators.ner.dl.LLMEntityExtractor
 
-  object LLMNerModel extends ReadablePretrainedLLMNerModel with ReadLLMNerModel
+  object LLMEntityExtractor
+      extends ReadablePretrainedLLMEntityExtractor
+      with ReadLLMEntityExtractor
 
 }

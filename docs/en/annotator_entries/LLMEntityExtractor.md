@@ -1,9 +1,9 @@
 {%- capture title -%}
-LLMNerModel
+LLMEntityExtractor
 {%- endcapture -%}
 
 {%- capture description -%}
-LLMNerModel is an annotator that performs entity extraction from text using Large
+LLMEntityExtractor is an annotator that performs entity extraction from text using Large
 Language Models (LLMs) with structured JSON output via BNF grammars. It embeds AutoGGUFModel
 directly and uses simple string matching to compute accurate character indices for extracted
 entities.
@@ -33,7 +33,7 @@ runtime. The default model is `"qwen3_4b_bf16_gguf"`.
 
 For available pretrained models please see the [Models Hub](https://sparknlp.org/models).
 
-For extended examples of usage, see [llama_cpp_in_Spark_NLP_LLMNerModel.ipynb](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama_cpp_in_Spark_NLP_LLMNerModel.ipynb) and [LLMNerModelTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/LLMNerModelTestSpec.scala).
+For extended examples of usage, see [llama_cpp_in_Spark_NLP_LLMEntityExtractor.ipynb](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama_cpp_in_Spark_NLP_LLMEntityExtractor.ipynb) and [LLMEntityExtractorTestSpec](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/LLMEntityExtractorTestSpec.scala).
 
 **Note**: To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
 the number of GPU layers with the `setNGpuLayers` method.
@@ -46,9 +46,9 @@ according to your hardware to avoid out-of-memory errors.
 {:.table-model-big}
 | Parameter | Description | Default |
 |---|---|---|
-| `modelName` | Name of the AutoGGUF model to load for NER extraction | `"qwen3_4b_bf16_gguf"` |
+| `modelName` | Name of the AutoGGUF model to load for entity extraction | `"qwen3_4b_bf16_gguf"` |
 | `entityTypes` | List of entity types to extract (used in prompt) | `["PERSON", "ORGANIZATION", "LOCATION", "DATE", "TIME"]` |
-| `promptTemplate` | Custom prompt template for NER extraction. Use `{entityTypes}` and `{examples}` placeholders | Built-in default prompt |
+| `promptTemplate` | Custom prompt template for entity extraction. Use `{entityTypes}` and `{examples}` placeholders | Built-in default prompt |
 | `fewShotExamples` | Few-shot examples as array of `(input_text, json_output)` tuples to guide the model | Empty array |
 | `caseSensitive` | Whether entity matching is case-sensitive | `false` |
 | `nPredict` | Maximum number of tokens to predict | `500` |
@@ -85,7 +85,7 @@ medical_examples = [
     )
 ]
 
-llmNer = LLMNerModel() \
+entityExtractor = LLMEntityExtractor() \
     .setInputCols(["document"]) \
     .setOutputCol("entities") \
     .setModelName("qwen3_4b_bf16_gguf") \
@@ -96,7 +96,7 @@ llmNer = LLMNerModel() \
     .setTemperature(0.1) \
     .setBatchSize(4)
 
-pipeline = Pipeline().setStages([documentAssembler, llmNer])
+pipeline = Pipeline().setStages([documentAssembler, entityExtractor])
 
 data = spark.createDataFrame([
     ["John Smith visited the United Nations headquarters in New York on January 15th, 2024."],
@@ -136,7 +136,7 @@ result.select(
 import spark.implicits._
 import org.apache.spark.sql.functions._
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.nlp.annotators.ner.dl.LLMNerModel
+import com.johnsnowlabs.nlp.annotators.ner.dl.LLMEntityExtractor
 import org.apache.spark.ml.Pipeline
 
 val documentAssembler = new DocumentAssembler()
@@ -151,7 +151,7 @@ val medicalExamples = Array(
   )
 )
 
-val llmNer = new LLMNerModel()
+val entityExtractor = new LLMEntityExtractor()
   .setInputCols("document")
   .setOutputCol("entities")
   .setModelName("qwen3_4b_bf16_gguf")
@@ -162,7 +162,7 @@ val llmNer = new LLMNerModel()
   .setTemperature(0.1f)
   .setBatchSize(4)
 
-val pipeline = new Pipeline().setStages(Array(documentAssembler, llmNer))
+val pipeline = new Pipeline().setStages(Array(documentAssembler, entityExtractor))
 
 val data = Seq(
   "John Smith visited the United Nations headquarters in New York on January 15th, 2024.",
@@ -199,15 +199,15 @@ result.select(
 {%- endcapture -%}
 
 {%- capture api_link -%}
-[LLMNerModel](/api/com/johnsnowlabs/nlp/annotators/ner/dl/LLMNerModel)
+[LLMEntityExtractor](/api/com/johnsnowlabs/nlp/annotators/ner/dl/LLMEntityExtractor)
 {%- endcapture -%}
 
 {%- capture python_api_link -%}
-[LLMNerModel](/api/python/reference/autosummary/sparknlp/annotator/ner/llm_ner/index.html)
+[LLMEntityExtractor](/api/python/reference/autosummary/sparknlp/annotator/ner/llm_entity_extractor/index.html)
 {%- endcapture -%}
 
 {%- capture source_link -%}
-[LLMNerModel](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/LLMNerModel.scala)
+[LLMEntityExtractor](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/LLMEntityExtractor.scala)
 {%- endcapture -%}
 
 {% include templates/anno_template.md

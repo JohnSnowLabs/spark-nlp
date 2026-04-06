@@ -23,7 +23,7 @@ import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
-class LLMNerModelTestSpec extends AnyFlatSpec {
+class LLMEntityExtractorTestSpec extends AnyFlatSpec {
 
   it should "extract entities" taggedAs SlowTest in {
     import ResourceHelper.spark.implicits._
@@ -47,7 +47,7 @@ class LLMNerModelTestSpec extends AnyFlatSpec {
         "Patient Jennifer Thompson received vancomycin 1g IV Q12H at Cleveland Clinic for treatment of MRSA pneumonia diagnosed on January 20th, 2024.",
         """{"extractions": [{"entity": "PERSON", "text": "Jennifer Thompson"}, {"entity": "MEDICATION", "text": "vancomycin"}, {"entity": "DOSAGE", "text": "1g"}, {"entity": "FREQUENCY", "text": "Q12H"}, {"entity": "ORGANIZATION", "text": "Cleveland Clinic"}, {"entity": "CONDITION", "text": "MRSA pneumonia"}]}"""))
 
-    val llmNer = LLMNerModel
+    val entityExtractor = LLMEntityExtractor
       .pretrained()
       .setInputCols("document")
       .setOutputCol("entities")
@@ -61,7 +61,7 @@ class LLMNerModelTestSpec extends AnyFlatSpec {
       .setPenalizeNl(true)
       .setBatchSize(4)
 
-    val pipeline = new Pipeline().setStages(Array(documentAssembler, llmNer))
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, entityExtractor))
 
     val complexSentences = Seq(
       "Dr. Sarah Johnson from Stanford Medical Center prescribed 500mg amoxicillin PO TID to patient John Smith on January 15th, 2024 for acute bronchitis.",

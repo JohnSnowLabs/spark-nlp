@@ -24,7 +24,7 @@ import com.johnsnowlabs.nlp.annotators.cv._
 import com.johnsnowlabs.nlp.annotators.er.EntityRulerModel
 import com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL
 import com.johnsnowlabs.nlp.annotators.ner.crf.NerCrfModel
-import com.johnsnowlabs.nlp.annotators.ner.dl.{LLMNerModel, NerDLModel, ZeroShotNerModel}
+import com.johnsnowlabs.nlp.annotators.ner.dl.{LLMEntityExtractor, NerDLModel, ZeroShotNerModel}
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
 import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
@@ -715,7 +715,7 @@ object PythonResourceDownloader {
     "Phi4Transformer" -> Phi4Transformer,
     "AutoGGUFReranker" -> AutoGGUFReranker,
     "ModernBertEmbeddings" -> ModernBertEmbeddings,
-    "LLMNerModel" -> LLMNerModel)
+    "LLMEntityExtractor" -> LLMEntityExtractor)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")
