@@ -7,6 +7,7 @@ Submodules
 .. toctree::
    :maxdepth: 4
 
+   sparknlp.annotator.ner.llm_entity_extractor
    sparknlp.annotator.ner.ner_approach
    sparknlp.annotator.ner.ner_converter
    sparknlp.annotator.ner.ner_crf

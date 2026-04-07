@@ -26,8 +26,9 @@ import scala.util.Try
   * document types using Spark NLP readers. It supports reading from files, URLs, in-memory
   * strings, or byte arrays, and returns parsed output as a structured Spark DataFrame.
   *
-  * Supported formats include plain text, HTML, Rich Text Format (.rtf), Word (.doc/.docx), OpenDocument
-  * Text (.odt), Excel (.xls/.xlsx), PowerPoint (.ppt/.pptx), email files (.eml, .msg), and PDFs.
+  * Supported formats include plain text, HTML, Rich Text Format (.rtf), Word (.doc/.docx),
+  * OpenDocument Text (.odt), Excel (.xls/.xlsx), PowerPoint (.ppt/.pptx), email files (.eml,
+  * .msg), and PDFs.
   *
   * The class detects the appropriate reader either from the file extension or a provided MIME
   * contentType, and delegates to the relevant method of SparkNLPReader. Custom behavior (like
