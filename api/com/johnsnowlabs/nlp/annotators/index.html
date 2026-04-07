@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.3.3 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
-          <meta name="description" content="Spark NLP 6.3.3 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
-          <meta name="keywords" content="Spark NLP 6.3.3 ScalaDoc com.johnsnowlabs.nlp.annotators" />
+          <title>Spark NLP 6.4.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators</title>
+          <meta name="description" content="Spark NLP 6.4.0 ScalaDoc - com.johnsnowlabs.nlp.annotators" />
+          <meta name="keywords" content="Spark NLP 6.4.0 ScalaDoc com.johnsnowlabs.nlp.annotators" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.3.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -549,6 +549,10 @@
                         <a class="object" href="DocumentNormalizer$.html" title="This is the companion object of DocumentNormalizer."></a>
                         <a class="class" href="DocumentNormalizer.html" title="Annotator which normalizes raw text from tagged text, e.g."></a>
                         <a href="DocumentNormalizer.html" title="Annotator which normalizes raw text from tagged text, e.g.">DocumentNormalizer</a>
+                      </li><li class="current-entities indented4">
+                        <a class="object" href="DocumentTitleSplitter$.html" title=""></a>
+                        <a class="class" href="DocumentTitleSplitter.html" title="Annotator that groups element-level documents into title-aware sections."></a>
+                        <a href="DocumentTitleSplitter.html" title="Annotator that groups element-level documents into title-aware sections.">DocumentTitleSplitter</a>
                       </li><li class="current-entities indented4">
                         <a class="object" href="DocumentTokenSplitter$.html" title="This is the companion object of DocumentTokenSplitter."></a>
                         <a class="class" href="DocumentTokenSplitter.html" title="Annotator that splits large documents into smaller documents based on the number of tokens in the text."></a>
@@ -1369,6 +1373,28 @@ result.selectExpr(<span class="lit">"normalizedDocument.result"</span>).show(tru
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |[ the world's largest web developer site the world's largest web developer site lorem ipsum is simply dummy text of the printing and typesetting industry. lorem ipsum has been the industry's standard dummy text ever since the <span class="num">1500</span>s, when an unknown printer took a galley of <span class="kw">type</span> and scrambled it to make a <span class="kw">type</span> specimen book. it has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. it was popularised in the <span class="num">1960</span>s <span class="kw">with</span> the release of letraset sheets containing lorem ipsum passages, and more recently <span class="kw">with</span> desktop publishing software like aldus pagemaker including versions of lorem ipsum..]|
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DocumentTitleSplitter" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DocumentTitleSplitterextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.DocumentTitleSplitter]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.DocumentTitleSplitter]"></a><a id="DocumentTitleSplitter:DocumentTitleSplitter"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DocumentTitleSplitter.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Annotator that groups element-level documents into title-aware sections." href="DocumentTitleSplitter.html"><span class="name">DocumentTitleSplitter</span></a><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="DocumentTitleSplitter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DocumentTitleSplitter">DocumentTitleSplitter</a>] with <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="DocumentTitleSplitter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DocumentTitleSplitter">DocumentTitleSplitter</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Annotator that groups element-level documents into title-aware sections.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator that groups element-level documents into title-aware sections.</p><p><code>DocumentTitleSplitter</code> is intended to work with element-level <code>DOCUMENT</code> annotations, such as
+those generated by <code>Reader2Doc().setOutputAsDocument(false)</code>. Whenever a <code>Title</code> element is
+encountered in the input metadata, it starts a new semantic section and the title is kept with
+the following content.</p><p>If overflow splitting is enabled, sections larger than <code>maxCharacters</code> are further split into
+smaller documents. Otherwise, each semantic section is emitted as a single chunk regardless of
+length.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.DocumentTokenSplitter" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DocumentTokenSplitterextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.DocumentTokenSplitter]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.DocumentTokenSplitter]"></a><a id="DocumentTokenSplitter:DocumentTokenSplitter"></a>
       <span class="permalink">
@@ -2541,6 +2567,22 @@ for the documentation.
       <p class="shortcomment cmt">This is the companion object of <a href="DocumentNormalizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DocumentNormalizer">DocumentNormalizer</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="DocumentNormalizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DocumentNormalizer">DocumentNormalizer</a>. Please refer to that class for the
 documentation.
 </p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.DocumentTitleSplitter" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="DocumentTitleSplitter"></a><a id="DocumentTitleSplitter:DocumentTitleSplitter"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/annotators/DocumentTitleSplitter$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="DocumentTitleSplitter$.html"><span class="name">DocumentTitleSplitter</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="DocumentTitleSplitter.html" class="extype" name="com.johnsnowlabs.nlp.annotators.DocumentTitleSplitter">DocumentTitleSplitter</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.DocumentTokenSplitter" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DocumentTokenSplitter"></a><a id="DocumentTokenSplitter:DocumentTokenSplitter"></a>
       <span class="permalink">

@@ -690,6 +690,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="#documenttitlesplitter">DocumentTitleSplitter</a></td>
+        <td>Annotator that groups element-level documents into title-aware sections using Title metadata.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#documenttokensplitter">DocumentTokenSplitter</a></td>
         <td>Annotator that splits large documents into smaller documents based on the number of tokens in the text.</td>
         <td>Opensource</td>
@@ -732,6 +737,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="#lemmatizer">Lemmatizer</a></td>
         <td>Finds lemmas out of words with the objective of returning a base dictionary word.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="#llmentityextractor">LLMEntityExtractor</a></td>
+        <td>End-to-end LLM-based entity extraction using AutoGGUF with BNF grammars for structured entity extraction.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -4755,6 +4765,145 @@ documentation of the main class.</p>
 
 <div class="h3-box tabs-python-scala-box">
 
+  <h2 id="documenttitlesplitter">DocumentTitleSplitter</h2>
+
+  <p>Annotator that groups element-level documents into title-aware sections.</p>
+
+  <p><code class="language-plaintext highlighter-rouge">DocumentTitleSplitter</code> is intended to work with element-level <code class="language-plaintext highlighter-rouge">DOCUMENT</code> annotations,
+typically produced by <code class="language-plaintext highlighter-rouge">Reader2Doc().setOutputAsDocument(false).setExplodeDocs(false)</code>.
+Whenever an input annotation has <code class="language-plaintext highlighter-rouge">metadata["elementType"] == "Title"</code>, it starts a new
+semantic section and the title stays with the following content.</p>
+
+  <p>If overflow splitting is enabled, sections larger than <code class="language-plaintext highlighter-rouge">maxCharacters</code> are split into
+smaller documents. Otherwise, each semantic section is emitted as a single chunk regardless
+of length.</p>
+
+  <p>For example, given element-level input annotations:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Title</span> <span class="o">-&gt;</span> <span class="s">"Overview"</span>
+<span class="n">NarrativeText</span> <span class="o">-&gt;</span> <span class="s">"Intro paragraph."</span>
+<span class="n">Title</span> <span class="o">-&gt;</span> <span class="s">"Configuration"</span>
+<span class="n">NarrativeText</span> <span class="o">-&gt;</span> <span class="s">"Settings paragraph."</span>
+</code></pre></div>  </div>
+
+  <p>The resulting document chunks are:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="s">"Overview Intro paragraph."</span><span class="p">,</span> <span class="s">"Configuration Settings paragraph."</span><span class="p">]</span>
+</code></pre></div>  </div>
+
+  <p>Additionally, you can set</p>
+
+  <ul>
+    <li>the join string used between elements with <code class="language-plaintext highlighter-rouge">setJoinString</code></li>
+    <li>whether to split on page changes with <code class="language-plaintext highlighter-rouge">setSplitOnPageChange</code></li>
+    <li>whether to enable overflow splitting with <code class="language-plaintext highlighter-rouge">setEnableOverflowSplitting</code></li>
+    <li>the overflow chunk size with <code class="language-plaintext highlighter-rouge">setMaxCharacters</code></li>
+    <li>whether to explode the splits to individual rows with <code class="language-plaintext highlighter-rouge">setExplodeSplits</code></li>
+  </ul>
+
+  <p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/DocumentTitleSplitterTest.scala">DocumentTitleSplitterTest</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/document_title_splitter/index.html#sparknlp.annotator.document_title_splitter.DocumentTitleSplitter">DocumentTitleSplitter</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/DocumentTitleSplitter">DocumentTitleSplitter</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/DocumentTitleSplitter.scala">DocumentTitleSplitter</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">DocumentTitleSplitter</span>
+<span class="kn">from</span> <span class="nn">sparknlp.reader.reader2doc</span> <span class="kn">import</span> <span class="n">Reader2Doc</span>
+
+<span class="n">empty_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([],</span> <span class="s">"string"</span><span class="p">).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">reader2doc</span> <span class="o">=</span> <span class="n">Reader2Doc</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setContentType</span><span class="p">(</span><span class="s">"text/markdown"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setContentPath</span><span class="p">(</span><span class="s">"src/test/resources/reader/md/title-chunking.md"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputAsDocument</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setExplodeDocs</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">titleSplitter</span> <span class="o">=</span> <span class="n">DocumentTitleSplitter</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"splits"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setExplodeSplits</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">reader2doc</span><span class="p">,</span> <span class="n">titleSplitter</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">empty_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">empty_df</span><span class="p">)</span>
+
+<span class="n">result</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span>
+      <span class="s">"splits.result as result"</span><span class="p">,</span>
+      <span class="s">"splits.metadata.sectionTitle as sectionTitle"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span> <span class="o">=</span> <span class="mi">80</span><span class="p">)</span>
+<span class="o">+--------------------------------------------------------------------------------+-------------+</span>
+<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span> <span class="n">sectionTitle</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+-------------+</span>
+<span class="o">|</span><span class="p">[</span><span class="n">Overview</span> <span class="n">Unstructured</span> <span class="n">can</span> <span class="n">parse</span> <span class="n">Markdown</span> <span class="n">into</span> <span class="n">elements</span><span class="p">.</span> <span class="n">This</span> <span class="n">makes</span> <span class="n">it</span> <span class="n">easy</span> <span class="n">t</span><span class="p">...</span><span class="o">|</span>     <span class="n">Overview</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">Configuration</span> <span class="n">max_characters</span> <span class="n">controls</span> <span class="n">hard</span> <span class="n">chunk</span> <span class="n">size</span><span class="p">.</span> <span class="n">new_after_n_chars</span> <span class="n">con</span><span class="p">...</span><span class="o">|</span><span class="n">Configuration</span><span class="o">|</span>
+<span class="o">|</span><span class="p">[</span><span class="n">Example</span> <span class="n">When</span> <span class="n">the</span> <span class="n">parser</span> <span class="n">detects</span> <span class="n">headings</span><span class="p">,</span> <span class="n">they</span> <span class="n">become</span> <span class="n">Title</span> <span class="n">elements</span><span class="p">.</span> <span class="n">The</span> <span class="n">ch</span><span class="p">...</span><span class="o">|</span>      <span class="n">Example</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+-------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.reader.Reader2Doc</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">emptyDataSet</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nv">Seq</span><span class="o">.</span><span class="py">empty</span><span class="o">[</span><span class="kt">String</span><span class="o">].</span><span class="py">map</span><span class="o">(</span><span class="nc">Tuple1</span><span class="o">(</span><span class="k">_</span><span class="o">))).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">reader2Doc</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Reader2Doc</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setContentType</span><span class="o">(</span><span class="s">"text/markdown"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setContentPath</span><span class="o">(</span><span class="s">"src/test/resources/reader/md/title-chunking.md"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputAsDocument</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setExplodeDocs</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">titleSplitter</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentTitleSplitter</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"splits"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setExplodeSplits</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">reader2Doc</span><span class="o">,</span> <span class="n">titleSplitter</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">emptyDataSet</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">emptyDataSet</span><span class="o">)</span>
+
+<span class="n">result</span>
+  <span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span>
+    <span class="s">"splits.result as result"</span><span class="o">,</span>
+    <span class="s">"splits.metadata.sectionTitle as sectionTitle"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="mi">80</span><span class="o">)</span>
+<span class="o">+--------------------------------------------------------------------------------+-------------+</span>
+<span class="o">|</span>                                                                          <span class="n">result</span><span class="o">|</span> <span class="n">sectionTitle</span><span class="o">|</span>
+<span class="o">+--------------------------------------------------------------------------------+-------------+</span>
+<span class="o">|[</span><span class="kt">Overview</span> <span class="kt">Unstructured</span> <span class="kt">can</span> <span class="kt">parse</span> <span class="kt">Markdown</span> <span class="kt">into</span> <span class="kt">elements.</span> <span class="kt">This</span> <span class="kt">makes</span> <span class="kt">it</span> <span class="kt">easy</span> <span class="kt">t...|</span>     <span class="kt">Overview|</span>
+<span class="kt">|</span><span class="o">[</span><span class="kt">Configuration</span> <span class="kt">max_characters</span> <span class="kt">controls</span> <span class="kt">hard</span> <span class="kt">chunk</span> <span class="kt">size.</span> <span class="kt">new_after_n_chars</span> <span class="kt">con...|Configuration|</span>
+<span class="kt">|</span><span class="o">[</span><span class="kt">Example</span> <span class="kt">When</span> <span class="kt">the</span> <span class="kt">parser</span> <span class="kt">detects</span> <span class="kt">headings</span>, <span class="kt">they</span> <span class="kt">become</span> <span class="kt">Title</span> <span class="kt">elements.</span> <span class="kt">The</span> <span class="kt">ch...|</span>      <span class="kt">Example|</span>
+<span class="kt">+--------------------------------------------------------------------------------+-------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
   <h2 id="documenttokensplitter">DocumentTokenSplitter</h2>
 
   <p>Annotator that splits large documents into smaller documents based on the number of tokens in
@@ -5902,6 +6051,269 @@ is needed to process images.</p>
  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">metadata</span><span class="k">:</span> <span class="kt">map</span> <span class="o">(</span><span class="kt">nullable</span> <span class="o">=</span> <span class="kt">true</span><span class="o">)</span>
  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">key</span><span class="k">:</span> <span class="kt">string</span>
  <span class="o">|</span>    <span class="o">|</span>    <span class="o">|</span>    <span class="o">|--</span> <span class="n">value</span><span class="k">:</span> <span class="kt">string</span> <span class="o">(</span><span class="kt">valueContainsNull</span> <span class="o">=</span> <span class="kt">true</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="llmentityextractor">LLMEntityExtractor</h2>
+
+  <p>LLMEntityExtractor is an annotator that performs entity extraction from text using Large
+Language Models (LLMs) with structured JSON output via BNF grammars. It embeds AutoGGUFModel
+directly and uses simple string matching to compute accurate character indices for extracted
+entities.</p>
+
+  <p>This annotator follows the LangExtract pattern from Google Research, combining few-shot
+prompting with constrained generation through llama.cpp BNF grammars to ensure valid JSON
+output. The LLM generates responses in a structured format enforced by grammar:</p>
+
+  <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"extractions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"entity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"MEDICATION"</span><span class="p">,</span><span class="w"> </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aspirin"</span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="nl">"entity"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DOSAGE"</span><span class="p">,</span><span class="w"> </span><span class="nl">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"250mg"</span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>The annotator then performs string matching to find the exact character positions of each entity
+in the original text, outputting CHUNK annotations with accurate begin/end indices and chunk
+indexing similar to other Spark NLP annotators.</p>
+
+  <p>Batch processing is used for performance, all documents are processed together in a single
+LLM call via <code class="language-plaintext highlighter-rouge">multiComplete</code> for maximum throughput.</p>
+
+  <p>The model is instantiated directly and automatically loads the specified AutoGGUF model at
+runtime. The default model is <code class="language-plaintext highlighter-rouge">"qwen3_4b_bf16_gguf"</code>.</p>
+
+  <p>For available pretrained models please see the <a href="https://sparknlp.org/models">Models Hub</a>.</p>
+
+  <p>For extended examples of usage, see <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/llama.cpp/llama_cpp_in_Spark_NLP_LLMEntityExtractor.ipynb">llama_cpp_in_Spark_NLP_LLMEntityExtractor.ipynb</a> and <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/LLMEntityExtractorTestSpec.scala">LLMEntityExtractorTestSpec</a>.</p>
+
+  <p><strong>Note</strong>: To use GPU inference with this annotator, make sure to use the Spark NLP GPU package and set
+the number of GPU layers with the <code class="language-plaintext highlighter-rouge">setNGpuLayers</code> method.</p>
+
+  <p>When using larger models, we recommend adjusting GPU usage with <code class="language-plaintext highlighter-rouge">setNCtx</code> and <code class="language-plaintext highlighter-rouge">setNGpuLayers</code>
+according to your hardware to avoid out-of-memory errors.</p>
+
+  <p><strong>Parameters:</strong></p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">modelName</code></td>
+        <td>Name of the AutoGGUF model to load for entity extraction</td>
+        <td><code class="language-plaintext highlighter-rouge">"qwen3_4b_bf16_gguf"</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">entityTypes</code></td>
+        <td>List of entity types to extract (used in prompt)</td>
+        <td><code class="language-plaintext highlighter-rouge">["PERSON", "ORGANIZATION", "LOCATION", "DATE", "TIME"]</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">promptTemplate</code></td>
+        <td>Custom prompt template for entity extraction. Use <code class="language-plaintext highlighter-rouge">{entityTypes}</code> and <code class="language-plaintext highlighter-rouge">{examples}</code> placeholders</td>
+        <td>Built-in default prompt</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">fewShotExamples</code></td>
+        <td>Few-shot examples as array of <code class="language-plaintext highlighter-rouge">(input_text, json_output)</code> tuples to guide the model</td>
+        <td>Empty array</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">caseSensitive</code></td>
+        <td>Whether entity matching is case-sensitive</td>
+        <td><code class="language-plaintext highlighter-rouge">false</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">nPredict</code></td>
+        <td>Maximum number of tokens to predict</td>
+        <td><code class="language-plaintext highlighter-rouge">500</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">nCtx</code></td>
+        <td>Context size for the model</td>
+        <td><code class="language-plaintext highlighter-rouge">4096</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">nGpuLayers</code></td>
+        <td>Number of layers to offload to GPU</td>
+        <td><code class="language-plaintext highlighter-rouge">99</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">temperature</code></td>
+        <td>Sampling temperature</td>
+        <td><code class="language-plaintext highlighter-rouge">0.1</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">batchSize</code></td>
+        <td>Number of documents to process in parallel</td>
+        <td><code class="language-plaintext highlighter-rouge">4</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">CHUNK</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/ner/llm_entity_extractor/index.html">LLMEntityExtractor</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/ner/dl/LLMEntityExtractor">LLMEntityExtractor</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/ner/dl/LLMEntityExtractor.scala">LLMEntityExtractor</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">pyspark.sql.functions</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="c1"># Define few-shot examples to guide the model
+</span><span class="n">medical_examples</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span>
+        <span class="s">"Patient takes aspirin 81mg daily."</span><span class="p">,</span>
+        <span class="s">'{"extractions": [{"entity": "MEDICATION", "text": "aspirin", "confidence": 0.95}, {"entity": "DOSAGE", "text": "81mg", "confidence": 0.98}, {"entity": "FREQUENCY", "text": "daily", "confidence": 0.99}]}'</span>
+    <span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">entityExtractor</span> <span class="o">=</span> <span class="n">LLMEntityExtractor</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"entities"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setModelName</span><span class="p">(</span><span class="s">"qwen3_4b_bf16_gguf"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setEntityTypes</span><span class="p">([</span><span class="s">"MEDICATION"</span><span class="p">,</span> <span class="s">"DOSAGE"</span><span class="p">,</span> <span class="s">"ROUTE"</span><span class="p">,</span> <span class="s">"FREQUENCY"</span><span class="p">,</span> <span class="s">"PERSON"</span><span class="p">,</span> <span class="s">"ORGANIZATION"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setFewShotExamples</span><span class="p">(</span><span class="n">medical_examples</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setNPredict</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setNGpuLayers</span><span class="p">(</span><span class="mi">99</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setTemperature</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">entityExtractor</span><span class="p">])</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+    <span class="p">[</span><span class="s">"John Smith visited the United Nations headquarters in New York on January 15th, 2024."</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">"Dr. Emily Chen from Stanford University presented her research at the WHO conference in Geneva."</span><span class="p">],</span>
+    <span class="p">[</span><span class="s">"Apple Inc. CEO Tim Cook announced the new product line at their Cupertino campus on March 3rd."</span><span class="p">]</span>
+<span class="p">]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span>
+    <span class="n">F</span><span class="p">.</span><span class="n">explode</span><span class="p">(</span><span class="s">"entities"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"entity"</span><span class="p">)</span>
+<span class="p">).</span><span class="n">select</span><span class="p">(</span>
+    <span class="n">F</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="s">"entity.result"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"text"</span><span class="p">),</span>
+    <span class="n">F</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="s">"entity.begin"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"begin"</span><span class="p">),</span>
+    <span class="n">F</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="s">"entity.end"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"end"</span><span class="p">),</span>
+    <span class="n">F</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="s">"entity.metadata.entity"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"entity_type"</span><span class="p">),</span>
+    <span class="n">F</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="s">"entity.metadata.chunk"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"chunk_index"</span><span class="p">)</span>
+<span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+-------------------+-----+---+------------+-----------+</span>
+<span class="o">|</span><span class="n">text</span>               <span class="o">|</span><span class="n">begin</span><span class="o">|</span><span class="n">end</span><span class="o">|</span><span class="n">entity_type</span> <span class="o">|</span><span class="n">chunk_index</span><span class="o">|</span>
+<span class="o">+-------------------+-----+---+------------+-----------+</span>
+<span class="o">|</span><span class="n">John</span> <span class="n">Smith</span>         <span class="o">|</span><span class="mi">0</span>    <span class="o">|</span><span class="mi">9</span>  <span class="o">|</span><span class="n">PERSON</span>      <span class="o">|</span><span class="mi">0</span>          <span class="o">|</span>
+<span class="o">|</span><span class="n">United</span> <span class="n">Nations</span>     <span class="o">|</span><span class="mi">23</span>   <span class="o">|</span><span class="mi">36</span> <span class="o">|</span><span class="n">ORGANIZATION</span><span class="o">|</span><span class="mi">1</span>          <span class="o">|</span>
+<span class="o">|</span><span class="n">New</span> <span class="n">York</span>           <span class="o">|</span><span class="mi">54</span>   <span class="o">|</span><span class="mi">61</span> <span class="o">|</span><span class="n">LOCATION</span>    <span class="o">|</span><span class="mi">2</span>          <span class="o">|</span>
+<span class="o">|</span><span class="n">January</span> <span class="mi">15</span><span class="n">th</span><span class="p">,</span> <span class="mi">2024</span> <span class="o">|</span><span class="mi">66</span>   <span class="o">|</span><span class="mi">83</span> <span class="o">|</span><span class="n">DATE</span>        <span class="o">|</span><span class="mi">3</span>          <span class="o">|</span>
+<span class="o">|</span><span class="n">Dr</span><span class="p">.</span> <span class="n">Emily</span> <span class="n">Chen</span>     <span class="o">|</span><span class="mi">0</span>    <span class="o">|</span><span class="mi">13</span> <span class="o">|</span><span class="n">PERSON</span>      <span class="o">|</span><span class="mi">0</span>          <span class="o">|</span>
+<span class="o">|</span><span class="n">Stanford</span> <span class="n">University</span><span class="o">|</span><span class="mi">20</span>   <span class="o">|</span><span class="mi">38</span> <span class="o">|</span><span class="n">ORGANIZATION</span><span class="o">|</span><span class="mi">1</span>          <span class="o">|</span>
+<span class="o">|</span><span class="n">Geneva</span>             <span class="o">|</span><span class="mi">88</span>   <span class="o">|</span><span class="mi">93</span> <span class="o">|</span><span class="n">LOCATION</span>    <span class="o">|</span><span class="mi">2</span>          <span class="o">|</span>
+<span class="o">|</span><span class="n">WHO</span> <span class="n">conference</span>     <span class="o">|</span><span class="mi">70</span>   <span class="o">|</span><span class="mi">83</span> <span class="o">|</span><span class="n">DATE</span>        <span class="o">|</span><span class="mi">3</span>          <span class="o">|</span>
+<span class="o">|</span><span class="n">Apple</span> <span class="n">Inc</span><span class="p">.</span>         <span class="o">|</span><span class="mi">0</span>    <span class="o">|</span><span class="mi">9</span>  <span class="o">|</span><span class="n">ORGANIZATION</span><span class="o">|</span><span class="mi">0</span>          <span class="o">|</span>
+<span class="o">|</span><span class="n">Tim</span> <span class="n">Cook</span>           <span class="o">|</span><span class="mi">15</span>   <span class="o">|</span><span class="mi">22</span> <span class="o">|</span><span class="n">PERSON</span>      <span class="o">|</span><span class="mi">1</span>          <span class="o">|</span>
+<span class="o">|</span><span class="n">Cupertino</span>          <span class="o">|</span><span class="mi">64</span>   <span class="o">|</span><span class="mi">72</span> <span class="o">|</span><span class="n">LOCATION</span>    <span class="o">|</span><span class="mi">2</span>          <span class="o">|</span>
+<span class="o">|</span><span class="n">March</span> <span class="mi">3</span><span class="n">rd</span>          <span class="o">|</span><span class="mi">84</span>   <span class="o">|</span><span class="mi">92</span> <span class="o">|</span><span class="n">DATE</span>        <span class="o">|</span><span class="mi">3</span>          <span class="o">|</span>
+<span class="o">+-------------------+-----+---+------------+-----------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.ner.dl.LLMEntityExtractor</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="c1">// Define few-shot examples to guide the model</span>
+<span class="k">val</span> <span class="nv">medicalExamples</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span>
+  <span class="o">(</span>
+    <span class="s">"Patient takes aspirin 81mg daily."</span><span class="o">,</span>
+    <span class="s">"""{"extractions": [{"entity": "MEDICATION", "text": "aspirin", "confidence": 0.95}, {"entity": "DOSAGE", "text": "81mg", "confidence": 0.98}, {"entity": "FREQUENCY", "text": "daily", "confidence": 0.99}]}"""</span>
+  <span class="o">)</span>
+<span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">entityExtractor</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LLMEntityExtractor</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"entities"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setModelName</span><span class="o">(</span><span class="s">"qwen3_4b_bf16_gguf"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setEntityTypes</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"MEDICATION"</span><span class="o">,</span> <span class="s">"DOSAGE"</span><span class="o">,</span> <span class="s">"ROUTE"</span><span class="o">,</span> <span class="s">"FREQUENCY"</span><span class="o">,</span> <span class="s">"PERSON"</span><span class="o">,</span> <span class="s">"ORGANIZATION"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setFewShotExamples</span><span class="o">(</span><span class="n">medicalExamples</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setNPredict</span><span class="o">(</span><span class="mi">500</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setNGpuLayers</span><span class="o">(</span><span class="mi">99</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setTemperature</span><span class="o">(</span><span class="mf">0.1f</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setBatchSize</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">entityExtractor</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">"John Smith visited the United Nations headquarters in New York on January 15th, 2024."</span><span class="o">,</span>
+  <span class="s">"Dr. Emily Chen from Stanford University presented her research at the WHO conference in Geneva."</span><span class="o">,</span>
+  <span class="s">"Apple Inc. CEO Tim Cook announced the new product line at their Cupertino campus on March 3rd."</span>
+<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span>
+    <span class="nv">F</span><span class="o">.</span><span class="py">explode</span><span class="o">(</span><span class="s">"entities"</span><span class="o">).</span><span class="py">alias</span><span class="o">(</span><span class="s">"entity"</span><span class="o">)</span>
+<span class="o">).</span><span class="py">select</span><span class="o">(</span>
+    <span class="nv">F</span><span class="o">.</span><span class="py">col</span><span class="o">(</span><span class="s">"entity.result"</span><span class="o">).</span><span class="py">alias</span><span class="o">(</span><span class="s">"text"</span><span class="o">),</span>
+    <span class="nv">F</span><span class="o">.</span><span class="py">col</span><span class="o">(</span><span class="s">"entity.begin"</span><span class="o">).</span><span class="py">alias</span><span class="o">(</span><span class="s">"begin"</span><span class="o">),</span>
+    <span class="nv">F</span><span class="o">.</span><span class="py">col</span><span class="o">(</span><span class="s">"entity.end"</span><span class="o">).</span><span class="py">alias</span><span class="o">(</span><span class="s">"end"</span><span class="o">),</span>
+    <span class="nv">F</span><span class="o">.</span><span class="py">col</span><span class="o">(</span><span class="s">"entity.metadata.entity"</span><span class="o">).</span><span class="py">alias</span><span class="o">(</span><span class="s">"entity_type"</span><span class="o">),</span>
+    <span class="nv">F</span><span class="o">.</span><span class="py">col</span><span class="o">(</span><span class="s">"entity.metadata.chunk"</span><span class="o">).</span><span class="py">alias</span><span class="o">(</span><span class="s">"chunk_index"</span><span class="o">)</span>
+<span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span><span class="k">=</span><span class="nc">False</span><span class="o">)</span>
+<span class="o">+-------------------+-----+---+------------+-----------+</span>
+<span class="o">|</span><span class="n">text</span>               <span class="o">|</span><span class="n">begin</span><span class="o">|</span><span class="n">end</span><span class="o">|</span><span class="n">entity_type</span> <span class="o">|</span><span class="n">chunk_index</span><span class="o">|</span>
+<span class="o">+-------------------+-----+---+------------+-----------+</span>
+<span class="o">|</span><span class="nc">John</span> <span class="nc">Smith</span>         <span class="o">|</span><span class="mi">0</span>    <span class="o">|</span><span class="mi">9</span>  <span class="o">|</span><span class="nc">PERSON</span>      <span class="o">|</span><span class="mi">0</span>          <span class="o">|</span>
+<span class="o">|</span><span class="nc">United</span> <span class="nc">Nations</span>     <span class="o">|</span><span class="mi">23</span>   <span class="o">|</span><span class="mi">36</span> <span class="o">|</span><span class="nc">ORGANIZATION</span><span class="o">|</span><span class="mi">1</span>          <span class="o">|</span>
+<span class="o">|</span><span class="nc">New</span> <span class="nc">York</span>           <span class="o">|</span><span class="mi">54</span>   <span class="o">|</span><span class="mi">61</span> <span class="o">|</span><span class="nc">LOCATION</span>    <span class="o">|</span><span class="mi">2</span>          <span class="o">|</span>
+<span class="o">|</span><span class="nc">January</span> <span class="mi">15</span><span class="n">th</span><span class="o">,</span> <span class="mi">2024</span> <span class="o">|</span><span class="mi">66</span>   <span class="o">|</span><span class="mi">83</span> <span class="o">|</span><span class="nc">DATE</span>        <span class="o">|</span><span class="mi">3</span>          <span class="o">|</span>
+<span class="o">|</span><span class="nc">Dr</span><span class="o">.</span> <span class="nc">Emily</span> <span class="nc">Chen</span>     <span class="o">|</span><span class="mi">0</span>    <span class="o">|</span><span class="mi">13</span> <span class="o">|</span><span class="nc">PERSON</span>      <span class="o">|</span><span class="mi">0</span>          <span class="o">|</span>
+<span class="o">|</span><span class="nc">Stanford</span> <span class="nc">University</span><span class="o">|</span><span class="mi">20</span>   <span class="o">|</span><span class="mi">38</span> <span class="o">|</span><span class="nc">ORGANIZATION</span><span class="o">|</span><span class="mi">1</span>          <span class="o">|</span>
+<span class="o">|</span><span class="nc">Geneva</span>             <span class="o">|</span><span class="mi">88</span>   <span class="o">|</span><span class="mi">93</span> <span class="o">|</span><span class="nc">LOCATION</span>    <span class="o">|</span><span class="mi">2</span>          <span class="o">|</span>
+<span class="o">|</span><span class="nc">WHO</span> <span class="n">conference</span>     <span class="o">|</span><span class="mi">70</span>   <span class="o">|</span><span class="mi">83</span> <span class="o">|</span><span class="nc">DATE</span>        <span class="o">|</span><span class="mi">3</span>          <span class="o">|</span>
+<span class="o">|</span><span class="nc">Apple</span> <span class="nc">Inc</span><span class="o">.</span>         <span class="o">|</span><span class="mi">0</span>    <span class="o">|</span><span class="mi">9</span>  <span class="o">|</span><span class="nc">ORGANIZATION</span><span class="o">|</span><span class="mi">0</span>          <span class="o">|</span>
+<span class="o">|</span><span class="nc">Tim</span> <span class="nc">Cook</span>           <span class="o">|</span><span class="mi">15</span>   <span class="o">|</span><span class="mi">22</span> <span class="o">|</span><span class="nc">PERSON</span>      <span class="o">|</span><span class="mi">1</span>          <span class="o">|</span>
+<span class="o">|</span><span class="nc">Cupertino</span>          <span class="o">|</span><span class="mi">64</span>   <span class="o">|</span><span class="mi">72</span> <span class="o">|</span><span class="nc">LOCATION</span>    <span class="o">|</span><span class="mi">2</span>          <span class="o">|</span>
+<span class="o">|</span><span class="nc">March</span> <span class="mi">3</span><span class="n">rd</span>          <span class="o">|</span><span class="mi">84</span>   <span class="o">|</span><span class="mi">92</span> <span class="o">|</span><span class="nc">DATE</span>        <span class="o">|</span><span class="mi">3</span>          <span class="o">|</span>
+<span class="o">+-------------------+-----+---+------------+-----------+</span>
 </code></pre></div>      </div>
 
     </div>
@@ -8594,12 +9006,16 @@ supported.</p>
   <ul>
     <li>Text: <code class="language-plaintext highlighter-rouge">.txt</code></li>
     <li>HTML: <code class="language-plaintext highlighter-rouge">.html</code>, <code class="language-plaintext highlighter-rouge">.htm</code></li>
+    <li>Delimited text: <code class="language-plaintext highlighter-rouge">.csv</code>, <code class="language-plaintext highlighter-rouge">.tsv</code></li>
     <li>Microsoft Word: <code class="language-plaintext highlighter-rouge">.doc</code>, <code class="language-plaintext highlighter-rouge">.docx</code></li>
+    <li>OpenDocument Text: <code class="language-plaintext highlighter-rouge">.odt</code></li>
     <li>Microsoft Excel: <code class="language-plaintext highlighter-rouge">.xls</code>, <code class="language-plaintext highlighter-rouge">.xlsx</code></li>
     <li>Microsoft PowerPoint: <code class="language-plaintext highlighter-rouge">.ppt</code>, <code class="language-plaintext highlighter-rouge">.pptx</code></li>
     <li>Email files: <code class="language-plaintext highlighter-rouge">.eml</code>, <code class="language-plaintext highlighter-rouge">.msg</code></li>
     <li>PDF documents: <code class="language-plaintext highlighter-rouge">.pdf</code></li>
   </ul>
+
+  <p>Use <code class="language-plaintext highlighter-rouge">application/vnd.oasis.opendocument.text</code> when you want to set the ODT MIME type explicitly with <code class="language-plaintext highlighter-rouge">contentType</code>.</p>
 
   <p>Parameters:</p>
   <ul>
@@ -8607,6 +9023,7 @@ supported.</p>
     <li><code class="language-plaintext highlighter-rouge">flattenOutput</code> : Whether to output plain text with minimal metadata (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
     <li><code class="language-plaintext highlighter-rouge">outputAsDocument</code> : Whether to output data as one single document instead of multiple records (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
     <li><code class="language-plaintext highlighter-rouge">excludeNonText</code> : Whether to exclude non-textual data such as tables and images (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
+    <li><code class="language-plaintext highlighter-rouge">contentType</code> : MIME type of the input content (for example, <code class="language-plaintext highlighter-rouge">text/html</code>, <code class="language-plaintext highlighter-rouge">text/csv</code>, or <code class="language-plaintext highlighter-rouge">text/tsv</code>).</li>
   </ul>
 
   <p>For an extended example see the
@@ -8693,12 +9110,12 @@ supported.</p>
 
   <p>The Reader2Image annotator enables seamless integration of image reading capabilities into existing Spark NLP workflows. It allows you to efficiently extract and structure image content from both individual image files and documents with embedded images.</p>
 
-  <p>With this, you can read image files or extract images from documents such as PDFs, Word, Excel, PowerPoint, HTML, Markdown, and email files. All extracted images are returned as structured Spark DataFrames with associated metadata, ready for downstream processing in Spark NLP pipelines.</p>
+  <p>With this, you can read image files or extract images from documents such as PDFs, Word, OpenDocument Text (ODT), Excel, PowerPoint, HTML, Markdown, and email files. All extracted images are returned as structured Spark DataFrames with associated metadata, ready for downstream processing in Spark NLP pipelines.</p>
 
   <p>Supported File Formats:</p>
   <ul>
     <li>Image files: <code class="language-plaintext highlighter-rouge">.png</code>, <code class="language-plaintext highlighter-rouge">.jpg</code>, <code class="language-plaintext highlighter-rouge">.jpeg</code>, <code class="language-plaintext highlighter-rouge">.bmp</code>, <code class="language-plaintext highlighter-rouge">.gif</code></li>
-    <li>Documents with embedded images: <code class="language-plaintext highlighter-rouge">.pdf</code>, <code class="language-plaintext highlighter-rouge">.doc</code>, <code class="language-plaintext highlighter-rouge">.docx</code>, <code class="language-plaintext highlighter-rouge">.ppt</code>, <code class="language-plaintext highlighter-rouge">.pptx</code>, <code class="language-plaintext highlighter-rouge">.xls</code>, <code class="language-plaintext highlighter-rouge">.xlsx</code>, <code class="language-plaintext highlighter-rouge">.eml</code>, <code class="language-plaintext highlighter-rouge">.msg</code>, <code class="language-plaintext highlighter-rouge">.html</code>, <code class="language-plaintext highlighter-rouge">.htm</code>, <code class="language-plaintext highlighter-rouge">.md</code></li>
+    <li>Documents with embedded images: <code class="language-plaintext highlighter-rouge">.pdf</code>, <code class="language-plaintext highlighter-rouge">.doc</code>, <code class="language-plaintext highlighter-rouge">.docx</code>, <code class="language-plaintext highlighter-rouge">.odt</code>, <code class="language-plaintext highlighter-rouge">.ppt</code>, <code class="language-plaintext highlighter-rouge">.pptx</code>, <code class="language-plaintext highlighter-rouge">.xls</code>, <code class="language-plaintext highlighter-rouge">.xlsx</code>, <code class="language-plaintext highlighter-rouge">.eml</code>, <code class="language-plaintext highlighter-rouge">.msg</code>, <code class="language-plaintext highlighter-rouge">.html</code>, <code class="language-plaintext highlighter-rouge">.htm</code>, <code class="language-plaintext highlighter-rouge">.md</code></li>
   </ul>
 
   <p>Parameters:</p>
@@ -8713,7 +9130,7 @@ supported.</p>
     <li><code class="language-plaintext highlighter-rouge">flattenOutput</code>: Whether to return plain image data with minimal metadata (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
     <li><code class="language-plaintext highlighter-rouge">outputAsDocument</code>: Whether to output all extracted images as a single combined document (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
     <li><code class="language-plaintext highlighter-rouge">excludeNonImage</code>: Whether to skip non-image content found in mixed-format files (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
-    <li><code class="language-plaintext highlighter-rouge">contentType</code>: MIME type of the documents (e.g., “text/html”, “application/pdf”).</li>
+    <li><code class="language-plaintext highlighter-rouge">contentType</code>: MIME type of the documents (e.g., “text/html”, “application/pdf”, “application/vnd.oasis.opendocument.text”).</li>
     <li><code class="language-plaintext highlighter-rouge">userMessage</code>: Custom message describing the image for prompt-based models (default: <code class="language-plaintext highlighter-rouge">"Describe this image"</code>).</li>
     <li><code class="language-plaintext highlighter-rouge">promptTemplate</code>: Format of the output prompt for image models (default: <code class="language-plaintext highlighter-rouge">"qwen2vl-chat"</code>).</li>
     <li><code class="language-plaintext highlighter-rouge">customPromptTemplate</code>: Custom prompt template for image models when <code class="language-plaintext highlighter-rouge">promptTemplate</code> is <code class="language-plaintext highlighter-rouge">"custom"</code>.</li>
@@ -8800,16 +9217,19 @@ supported.</p>
 
   <h2 id="reader2table">Reader2Table</h2>
 
-  <p>The Reader2Table annotator enables seamless extraction of tabular content from documents within existing Spark NLP workflows. It allows you to efficiently parse tables from a wide variety of file types, including HTML, Word, Excel, PowerPoint, and CSV files, and return them as structured Spark DataFrames with metadata, ready for downstream processing or analysis.</p>
+  <p>The Reader2Table annotator enables seamless extraction of tabular content from documents within existing Spark NLP workflows. It allows you to efficiently parse tables from a wide variety of file types, including HTML, Word, OpenDocument Text (ODT), Excel, PowerPoint, CSV, and TSV files, and return them as structured Spark DataFrames with metadata, ready for downstream processing or analysis.</p>
 
   <p>Supported File Formats:</p>
   <ul>
     <li>HTML: <code class="language-plaintext highlighter-rouge">.html</code>, <code class="language-plaintext highlighter-rouge">.htm</code></li>
     <li>Word documents: <code class="language-plaintext highlighter-rouge">.doc</code>, <code class="language-plaintext highlighter-rouge">.docx</code></li>
+    <li>OpenDocument Text documents: <code class="language-plaintext highlighter-rouge">.odt</code></li>
     <li>Excel spreadsheets: <code class="language-plaintext highlighter-rouge">.xls</code>, <code class="language-plaintext highlighter-rouge">.xlsx</code></li>
     <li>PowerPoint presentations: <code class="language-plaintext highlighter-rouge">.ppt</code>, <code class="language-plaintext highlighter-rouge">.pptx</code></li>
-    <li>CSV files: <code class="language-plaintext highlighter-rouge">.csv</code></li>
+    <li>Delimited files: <code class="language-plaintext highlighter-rouge">.csv</code>, <code class="language-plaintext highlighter-rouge">.tsv</code></li>
   </ul>
+
+  <p>ODT tables support the same <code class="language-plaintext highlighter-rouge">json-table</code> and <code class="language-plaintext highlighter-rouge">html-table</code> output modes as the other office-style readers.</p>
 
   <p>Parameters:</p>
   <ul>
@@ -8854,7 +9274,7 @@ supported.</p>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
 
 <span class="n">reader2Table</span> <span class="o">=</span> <span class="n">Reader2Table</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setContentType</span><span class="p">(</span><span class="s">"application/csv"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setContentType</span><span class="p">(</span><span class="s">"text/csv"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setContentPath</span><span class="p">(</span><span class="sa">f</span><span class="s">"./csvDirectory"</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">reader2Table</span><span class="p">])</span>
@@ -8874,7 +9294,7 @@ supported.</p>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
 
 <span class="k">val</span> <span class="nv">reader2Table</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Reader2Table</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setContentType</span><span class="o">(</span><span class="s">"application/csv"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setContentType</span><span class="o">(</span><span class="s">"text/csv"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setContentPath</span><span class="o">(</span><span class="n">s</span><span class="s">"$csvDirectory/"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">reader2Table</span><span class="o">))</span>
@@ -8904,8 +9324,8 @@ supported.</p>
 
   <p>Supported Input Types:</p>
   <ul>
-    <li>Text: <code class="language-plaintext highlighter-rouge">txt</code>, <code class="language-plaintext highlighter-rouge">html</code>, <code class="language-plaintext highlighter-rouge">htm</code>, <code class="language-plaintext highlighter-rouge">md</code>, <code class="language-plaintext highlighter-rouge">xml</code>, <code class="language-plaintext highlighter-rouge">csv</code></li>
-    <li>Documents: <code class="language-plaintext highlighter-rouge">pdf</code>, <code class="language-plaintext highlighter-rouge">doc</code>, <code class="language-plaintext highlighter-rouge">docx</code>, <code class="language-plaintext highlighter-rouge">xls</code>, <code class="language-plaintext highlighter-rouge">xlsx</code>, <code class="language-plaintext highlighter-rouge">ppt</code>, <code class="language-plaintext highlighter-rouge">pptx</code></li>
+    <li>Text: <code class="language-plaintext highlighter-rouge">txt</code>, <code class="language-plaintext highlighter-rouge">html</code>, <code class="language-plaintext highlighter-rouge">htm</code>, <code class="language-plaintext highlighter-rouge">md</code>, <code class="language-plaintext highlighter-rouge">xml</code>, <code class="language-plaintext highlighter-rouge">csv</code>, <code class="language-plaintext highlighter-rouge">tsv</code></li>
+    <li>Documents: <code class="language-plaintext highlighter-rouge">pdf</code>, <code class="language-plaintext highlighter-rouge">doc</code>, <code class="language-plaintext highlighter-rouge">docx</code>, <code class="language-plaintext highlighter-rouge">xls</code>, <code class="language-plaintext highlighter-rouge">xlsx</code>, <code class="language-plaintext highlighter-rouge">ppt</code>, <code class="language-plaintext highlighter-rouge">pptx</code>, <code class="language-plaintext highlighter-rouge">odt</code></li>
     <li>Email: <code class="language-plaintext highlighter-rouge">eml</code>, <code class="language-plaintext highlighter-rouge">msg</code></li>
     <li>Images: <code class="language-plaintext highlighter-rouge">png</code>, <code class="language-plaintext highlighter-rouge">jpg</code>, <code class="language-plaintext highlighter-rouge">jpeg</code>, <code class="language-plaintext highlighter-rouge">bmp</code>, <code class="language-plaintext highlighter-rouge">gif</code></li>
   </ul>
@@ -8920,7 +9340,7 @@ supported.</p>
     <li><code class="language-plaintext highlighter-rouge">flattenOutput</code>: Whether to return plain content with minimal metadata (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
     <li><code class="language-plaintext highlighter-rouge">inferTableStructure</code>: Whether to automatically detect table structure from tabular content (default: <code class="language-plaintext highlighter-rouge">true</code>).</li>
     <li><code class="language-plaintext highlighter-rouge">excludeNonText</code>: Whether to ignore non-text rows, such as tables, in Reader2Doc (default: <code class="language-plaintext highlighter-rouge">false</code>).</li>
-    <li><code class="language-plaintext highlighter-rouge">userMessage</code>: Custom message describing the content for prompt-based models (op—ional).</li>
+    <li><code class="language-plaintext highlighter-rouge">userMessage</code>: Custom message describing the content for prompt-based models (optional).</li>
     <li><code class="language-plaintext highlighter-rouge">promptTemplate</code>: Template format for prompt generation (optional).</li>
     <li><code class="language-plaintext highlighter-rouge">customPromptTemplate</code>: Custom prompt template if <code class="language-plaintext highlighter-rouge">promptTemplate</code> is set to <code class="language-plaintext highlighter-rouge">"custom"</code> (optional).</li>
   </ul>

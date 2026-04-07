@@ -533,7 +533,7 @@
 
 <!-- end custom article top snippet --><div class="article__content" itemprop="articleBody"><div class="h3-box">
 
-  <p>Spark NLP provides comprehensive capabilities for extracting and processing unstructured data from various document formats at enterprise scale using its <code class="language-plaintext highlighter-rouge">Reader2X</code> components and related annotators handle common document AI tasks, with comparisons to other frameworks.</p>
+  <p>Spark NLP provides comprehensive capabilities for extracting and processing unstructured data from various document formats at enterprise scale using its <code class="language-plaintext highlighter-rouge">Reader2X</code> components. These related annotators handle common document AI tasks across HTML, PDF, Office, XML, Markdown, plain-text, and Rich Text Format (RTF) sources.</p>
 
 </div>
 <div class="h3-box">
@@ -783,9 +783,19 @@
         <td>Parse structure, extract tables, preserve DOM context</td>
       </tr>
       <tr>
+        <td><strong>EPUB</strong></td>
+        <td>Reader2Doc, Reader2Table, Reader2Image</td>
+        <td>Parse chapter XHTML in reading order, extract tables, and read embedded images from the archive</td>
+      </tr>
+      <tr>
         <td><strong>DOCX</strong></td>
         <td>Reader2Doc, Reader2Table, Reader2Image</td>
         <td>Support text, tables, and images from Word documents</td>
+      </tr>
+      <tr>
+        <td><strong>ODT</strong></td>
+        <td>Reader2Doc, Reader2Table, Reader2Image</td>
+        <td>Extract text, page breaks, tables, and embedded images from OpenDocument Text files</td>
       </tr>
       <tr>
         <td><strong>PPTX</strong></td>
@@ -798,9 +808,9 @@
         <td>Parse spreadsheets, extract structured data</td>
       </tr>
       <tr>
-        <td><strong>CSV</strong></td>
+        <td><strong>CSV / TSV</strong></td>
         <td>Reader2Doc, Reader2Table</td>
-        <td>Read tabular data with proper schema</td>
+        <td>Read delimited tabular data while preserving structure</td>
       </tr>
       <tr>
         <td><strong>Email (MSG, EML)</strong></td>
@@ -818,12 +828,19 @@
         <td>Parse text and embedded images</td>
       </tr>
       <tr>
+        <td><strong>RTF</strong></td>
+        <td>Reader2Doc, ReaderAssembler</td>
+        <td>Read Rich Text Format files while preserving paragraph, title, and list structure</td>
+      </tr>
+      <tr>
         <td><strong>Plain Text</strong></td>
         <td>Reader2Doc</td>
         <td>Simple text ingestion</td>
       </tr>
     </tbody>
   </table>
+
+  <p>For explicit ODT parsing, set <code class="language-plaintext highlighter-rouge">contentType</code> to <code class="language-plaintext highlighter-rouge">application/vnd.oasis.opendocument.text</code>.</p>
 
 </div>
 <div class="h3-box">
@@ -1285,7 +1302,7 @@ For questions or issues, visit the [Spark NLP GitHub repository](https://github.
 
 </div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2026-02-09T00:00:00+00:00">Feb 09, 2026</time>
+      <time itemprop="dateModified" datetime="2026-03-17T00:00:00+00:00">Mar 17, 2026</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
