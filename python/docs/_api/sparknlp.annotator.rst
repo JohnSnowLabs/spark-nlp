@@ -43,6 +43,7 @@ Submodules
    sparknlp.annotator.date2_chunk
    sparknlp.annotator.document_character_text_splitter
    sparknlp.annotator.document_normalizer
+   sparknlp.annotator.document_title_splitter
    sparknlp.annotator.document_token_splitter
    sparknlp.annotator.document_token_splitter_test
    sparknlp.annotator.graph_extraction

@@ -1,5 +1,5 @@
 {% set name = "spark-nlp" %}
-{% set version = "6.3.3" %}
+{% set version = "6.4.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/spark_nlp-{{ version }}.tar.gz
-  sha256: 0bd75f5a71897d6cd74ed45cf9ecbbdfa86ce7582843765112c6192c16ab54f5
+  sha256: 74d0f3e502c4616d890ccaf24e2710049d4f2ac7b07262426fe6d857eb5d4445
 
 build:
   noarch: python

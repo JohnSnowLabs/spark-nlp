@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.ner package &#8212; Spark NLP 6.3.3 documentation</title>
+    <title>sparknlp.annotator.ner package &#8212; Spark NLP 6.4.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=956803e0"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=2ccb7844"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.3 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.3 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -458,6 +458,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">sparknlp.annotator.ner package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html">sparknlp.annotator.ner.llm_entity_extractor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_approach.html">sparknlp.annotator.ner.ner_approach module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_converter.html">sparknlp.annotator.ner.ner_converter module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_crf.html">sparknlp.annotator.ner.ner_crf module</a></li>
@@ -545,6 +546,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.date2_chunk.html">sparknlp.annotator.date2_chunk module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_character_text_splitter.html">sparknlp.annotator.document_character_text_splitter module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_normalizer.html">sparknlp.annotator.document_normalizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_title_splitter.html">sparknlp.annotator.document_title_splitter module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_token_splitter.html">sparknlp.annotator.document_token_splitter module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.document_token_splitter_test.html">sparknlp.annotator.document_token_splitter_test module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.graph_extraction.html">sparknlp.annotator.graph_extraction module</a></li>
@@ -705,6 +707,30 @@ document.write(`
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html">sparknlp.annotator.ner.llm_entity_extractor module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.caseSensitive"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.caseSensitive</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.close"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.entityTypes"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.entityTypes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.fewShotExamples"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.fewShotExamples</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.getCaseSensitive"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.getCaseSensitive()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.getEntityTypes"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.getEntityTypes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.getFewShotExamples"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.getFewShotExamples()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.getPromptTemplate"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.getPromptTemplate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.inputAnnotatorTypes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.loadSavedModel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.name"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.outputAnnotatorType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.pretrained"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.pretrained()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.promptTemplate"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.promptTemplate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.setCaseSensitive"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.setCaseSensitive()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.setEntityTypes"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.setEntityTypes()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.setFewShotExamples"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.setFewShotExamples()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.llm_entity_extractor.html#sparknlp.annotator.ner.llm_entity_extractor.LLMEntityExtractor.setPromptTemplate"><code class="docutils literal notranslate"><span class="pre">LLMEntityExtractor.setPromptTemplate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="sparknlp.annotator.ner.ner_approach.html">sparknlp.annotator.ner.ner_approach module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.ner.ner_approach.html#sparknlp.annotator.ner.ner_approach.NerApproach"><code class="docutils literal notranslate"><span class="pre">NerApproach</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.ner.ner_approach.html#sparknlp.annotator.ner.ner_approach.NerApproach.entities"><code class="docutils literal notranslate"><span class="pre">NerApproach.entities</span></code></a></li>

@@ -15,6 +15,7 @@
  */
 package com.johnsnowlabs.partition
 
+import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.reader.{ElementType, HTMLElement}
 
 import scala.collection.mutable
@@ -47,105 +48,68 @@ object TitleChunker {
       newAfterNChars: Int = -1,
       overlapAll: Boolean = false): List[Chunk] = {
 
-    val softLimit = if (newAfterNChars <= 0) maxCharacters else newAfterNChars
-    val chunks = mutable.ListBuffer.empty[Chunk]
-    val sections = mutable.ListBuffer.empty[List[HTMLElement]]
-    var currentSection = List.empty[HTMLElement]
-    var currentLength = 0
-    var currentPage = -1
-
-    for (element <- elements) {
-      val elementLength = element.content.length
-      val isTable = element.elementType == "Table"
-      val elementPage = element.metadata.getOrElse("pageNumber", "-1").toInt
-
-      val pageChanged = currentPage != -1 && elementPage != currentPage
-      val softLimitExceeded = currentSection.length >= 2 &&
-        (currentLength + elementLength > softLimit)
-
-      if (isTable) {
-        if (currentSection.nonEmpty) sections += currentSection
-        sections += List(element)
-        currentSection = List.empty
-        currentLength = 0
-        currentPage = -1
-      } else if (pageChanged || softLimitExceeded) {
-        if (currentSection.nonEmpty) sections += currentSection
-        currentSection = List(element)
-        currentLength = elementLength
-        currentPage = elementPage
-      } else {
-        currentSection :+= element
-        currentLength += elementLength
-        currentPage = elementPage
-      }
-    }
-    if (currentSection.nonEmpty) sections += currentSection
-
-    val mergedSections = sections.foldLeft(List.empty[List[HTMLElement]]) { (acc, section) =>
-      val sectionLength = section.map(_.content.length).sum
-      val canMerge = combineTextUnderNChars > 0 &&
-        sectionLength < combineTextUnderNChars &&
-        acc.nonEmpty &&
-        acc.last.exists(_.elementType != "Table") &&
-        section.exists(_.elementType != "Table")
-
-      if (canMerge) {
-        acc.init :+ (acc.last ++ section)
-      } else {
-        acc :+ section
-      }
+    val inputs = elements.map { element =>
+      TitleChunkInput(
+        source = element,
+        text = element.content,
+        metadata = element.metadata.toMap,
+        elementType = Option(element.elementType),
+        pageNumber =
+          element.metadata.get("pageNumber").flatMap(v => scala.util.Try(v.toInt).toOption))
     }
 
-    var lastNarrativeText = ""
-    for (section <- mergedSections) {
-      if (section.exists(_.elementType == "Table")) {
-        chunks += Chunk(section)
-        lastNarrativeText = ""
-      } else {
-        val sectionText = section.map(_.content).mkString(" ")
-        val content =
-          if (overlap > 0 && lastNarrativeText.nonEmpty && (overlapAll || sectionText.length > maxCharacters))
-            lastNarrativeText.takeRight(overlap) + " " + sectionText
-          else sectionText
-
-        val merged = HTMLElement(ElementType.NARRATIVE_TEXT, content.trim, section.head.metadata)
-        val split = if (content.length > maxCharacters) {
-          splitHTMLElement(merged, maxCharacters, overlap)
-        } else List(merged)
-
-        chunks ++= split.map(e => Chunk(List(e)))
-        lastNarrativeText = sectionText
+    TitleChunkingUtil
+      .chunk(
+        inputs,
+        TitleChunkingOptions(
+          joinString = " ",
+          splitOnPageChange = true,
+          combineTextUnderNChars = combineTextUnderNChars,
+          enableOverflowSplitting = true,
+          maxCharacters = maxCharacters,
+          newAfterNChars = newAfterNChars,
+          overlap = overlap,
+          overlapAll = overlapAll))
+      .map { section =>
+        val elements = section.items.map(_.source)
+        if (elements.length == 1 &&
+          elements.head.elementType.equalsIgnoreCase(ElementType.TABLE)) {
+          Chunk(elements.toList)
+        } else {
+          val baseMetadata =
+            if (elements.nonEmpty)
+              mutable.Map.empty[String, String] ++ elements.head.metadata.toSeq
+            else mutable.Map.empty[String, String]
+          Chunk(List(HTMLElement(ElementType.NARRATIVE_TEXT, section.text, baseMetadata)))
+        }
       }
-    }
-
-    chunks.toList
+      .toList
   }
 
-  private def splitHTMLElement(
-      element: HTMLElement,
-      maxLen: Int,
-      overlap: Int): List[HTMLElement] = {
+  private[johnsnowlabs] def chunkAnnotationsByTitle(
+      annotations: Seq[Annotation],
+      joinString: String = " ",
+      splitOnPageChange: Boolean = false,
+      enableOverflowSplitting: Boolean = false,
+      maxCharacters: Int = 500): Seq[TitleChunkSection[Annotation]] = {
 
-    val words = element.content.split(" ")
-    val buffer = mutable.ListBuffer.empty[HTMLElement]
-    var chunk = new StringBuilder
-
-    for (word <- words) {
-      if (chunk.length + word.length + 1 > maxLen) {
-        val text = chunk.toString().trim
-        buffer += element.copy(content = text)
-        chunk = new StringBuilder
-        if (overlap > 0 && text.length >= overlap)
-          chunk.append(text.takeRight(overlap)).append(" ")
-      }
-      chunk.append(word).append(" ")
+    val inputs = annotations.map { annotation =>
+      TitleChunkInput(
+        source = annotation,
+        text = annotation.result,
+        metadata = annotation.metadata.toMap,
+        elementType = annotation.metadata.get("elementType"),
+        pageNumber =
+          annotation.metadata.get("pageNumber").flatMap(v => scala.util.Try(v.toInt).toOption))
     }
 
-    if (chunk.nonEmpty)
-      buffer += element.copy(content = chunk.toString().trim)
-
-    buffer.toList
+    TitleChunkingUtil.chunk(
+      inputs,
+      TitleChunkingOptions(
+        joinString = joinString,
+        splitOnPageChange = splitOnPageChange,
+        enableOverflowSplitting = enableOverflowSplitting,
+        maxCharacters = maxCharacters))
   }
 
 }

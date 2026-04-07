@@ -5,7 +5,7 @@ seotitle: Unstructured Data Extraction
 title: Unstructured Data Extraction
 permalink: /docs/en/unstructured_data_extraction
 key: docs-concepts
-modify_date: "2026-02-09"
+modify_date: "2026-03-17"
 show_nav: true
 sidebar:
     nav: sparknlp
@@ -13,7 +13,7 @@ sidebar:
 
 <div class="h3-box" markdown="1">
 
-Spark NLP provides comprehensive capabilities for extracting and processing unstructured data from various document formats at enterprise scale using its `Reader2X` components and related annotators handle common document AI tasks, with comparisons to other frameworks.
+Spark NLP provides comprehensive capabilities for extracting and processing unstructured data from various document formats at enterprise scale using its `Reader2X` components. These related annotators handle common document AI tasks across HTML, PDF, Office, XML, Markdown, plain-text, and Rich Text Format (RTF) sources.
 
 </div><div class="h3-box" markdown="1">
 
@@ -233,14 +233,19 @@ Spark NLP provides comprehensive support for common document formats through its
 |--------|---------------------|-------------|
 | **PDF** | Reader2Doc, Reader2Table, Reader2Image | Extract text and images, handles complex layouts |
 | **HTML** | Reader2Doc, Reader2Table, Reader2Image | Parse structure, extract tables, preserve DOM context |
+| **EPUB** | Reader2Doc, Reader2Table, Reader2Image | Parse chapter XHTML in reading order, extract tables, and read embedded images from the archive |
 | **DOCX** | Reader2Doc, Reader2Table, Reader2Image | Support text, tables, and images from Word documents |
+| **ODT** | Reader2Doc, Reader2Table, Reader2Image | Extract text, page breaks, tables, and embedded images from OpenDocument Text files |
 | **PPTX** | Reader2Doc, Reader2Table, Reader2Image | Extract slide content, notes, tables, and images |
 | **XLSX** | Reader2Doc, Reader2Table, Reader2Image | Parse spreadsheets, extract structured data |
-| **CSV** | Reader2Doc, Reader2Table | Read tabular data with proper schema |
+| **CSV / TSV** | Reader2Doc, Reader2Table | Read delimited tabular data while preserving structure |
 | **Email (MSG, EML)** | Reader2Doc, Reader2Table, Reader2Image | Parse headers, body, and attachments |
 | **XML** | Reader2Doc, Reader2Table, Reader2Image | Preserve structure, control tag handling |
 | **Markdown** | Reader2Doc, Reader2Table, Reader2Image | Parse text and embedded images |
+| **RTF** | Reader2Doc, ReaderAssembler | Read Rich Text Format files while preserving paragraph, title, and list structure |
 | **Plain Text** | Reader2Doc | Simple text ingestion |
+
+For explicit ODT parsing, set `contentType` to `application/vnd.oasis.opendocument.text`.
 
 </div><div class="h3-box" markdown="1">
 

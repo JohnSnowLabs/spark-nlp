@@ -152,16 +152,20 @@ class ReaderAssembler(override val uid: String)
     "txt" -> ("text/plain", true),
     "html" -> ("text/html", true),
     "htm" -> ("text/html", true),
+    "rtf" -> ("text/rtf", true),
     "md" -> ("text/markdown", true),
     "xml" -> ("application/xml", true),
     "csv" -> ("text/csv", true),
+    "tsv" -> ("text/tsv", true),
     "pdf" -> ("application/pdf", false),
     "doc" -> ("application/msword", false),
     "docx" -> ("application/msword", false),
+    "odt" -> ("application/vnd.oasis.opendocument.text", false),
     "xls" -> ("application/vnd.ms-excel", false),
     "xlsx" -> ("application/vnd.ms-excel", false),
     "ppt" -> ("application/vnd.ms-powerpoint", false),
     "pptx" -> ("application/vnd.ms-powerpoint", false),
+    "epub" -> ("application/epub+zip", false),
     "eml" -> ("message/rfc822", false),
     "msg" -> ("message/rfc822", false),
     "png" -> ("image/raw", false),
@@ -228,7 +232,7 @@ class ReaderAssembler(override val uid: String)
   }
 
   private def partitionStringContent(dataset: Dataset[_]): DataFrame = {
-    if ($(contentType) == "text/csv") {
+    if (isDelimitedContentType($(contentType))) {
       val imageCol = typedLit(Seq())
       return partitionContentFromPath(
         partitionTableBuilder,
@@ -444,8 +448,8 @@ class ReaderAssembler(override val uid: String)
         val dfs = files.map(path => buildErrorDataFrame(dataset, path, badExt))
         Some(dfs.reduce(_.unionByName(_, allowMissingColumns = true)))
 
-      case (ext, files) if supportedTypes(ext)._1 == "text/csv" =>
-        Some(processCsvFiles(dataset, files, ext))
+      case (ext, files) if isDelimitedContentType(supportedTypes(ext)._1) =>
+        Some(processDelimitedFiles(dataset, files, ext))
 
       case (ext, files) if Seq("png", "jpg", "jpeg", "bmp", "gif").contains(ext) =>
         Some(processImageFiles(dataset, files, ext))
@@ -515,7 +519,10 @@ class ReaderAssembler(override val uid: String)
     if ($(ignoreExceptions)) df.filter(col("exception").isNull) else df
   }
 
-  private def processCsvFiles(dataset: Dataset[_], files: Seq[String], ext: String): DataFrame = {
+  private def processDelimitedFiles(
+      dataset: Dataset[_],
+      files: Seq[String],
+      ext: String): DataFrame = {
     val pathsStr = files.mkString(",")
     val mimeType = supportedTypes(ext)._1
     val partitionTableBuilder =
@@ -527,14 +534,15 @@ class ReaderAssembler(override val uid: String)
       HTMLElement(ElementType.ERROR, s"Could not parse image", mutable.Map()))
     val imageCol = typedLit(imageElement)
 
-    val csvDf = partitionContentFromPath(partitionTableBuilder, pathsStr, isText = true, dataset)
-      .withColumnRenamed("partition", "partition_text")
-      .withColumn("partition_table", col("partition_text"))
-      .withColumn("partition_image", imageCol)
-      .withColumn("fileName", getFileName(col("path")))
-      .withColumn("exception", lit(null: String))
+    val delimitedDf =
+      partitionContentFromPath(partitionTableBuilder, pathsStr, isText = true, dataset)
+        .withColumnRenamed("partition", "partition_text")
+        .withColumn("partition_table", col("partition_text"))
+        .withColumn("partition_image", imageCol)
+        .withColumn("fileName", getFileName(col("path")))
+        .withColumn("exception", lit(null: String))
 
-    if ($(ignoreExceptions)) csvDf.filter(col("exception").isNull) else csvDf
+    if ($(ignoreExceptions)) delimitedDf.filter(col("exception").isNull) else delimitedDf
   }
 
   private def processImageFiles(
@@ -601,6 +609,26 @@ class ReaderAssembler(override val uid: String)
 
     val mimeType = getContentType
 
+    if (isDelimitedContentType(mimeType)) {
+      val partitionTableBuilder =
+        buildPartition(
+          Map("inferTableStructure" -> "true", "contentType" -> mimeType),
+          "partition_table")
+
+      val tableUdf =
+        udf((text: String) =>
+          partitionTableBuilder.partitionStringContent(text, $(this.headers).asJava))
+
+      val emptyImageArray = typedLit(Seq.empty[HTMLElement])
+
+      return dataset
+        .withColumn("partition_text", tableUdf(col(getInputCol)))
+        .withColumn("partition_table", col("partition_text"))
+        .withColumn("partition_image", emptyImageArray)
+        .withColumn("fileName", lit(null: String))
+        .withColumn("exception", lit(null: String))
+    }
+
     val partitionTextBuilder =
       buildPartition(
         Map("inferTableStructure" -> "false", "contentType" -> mimeType),
@@ -632,6 +660,10 @@ class ReaderAssembler(override val uid: String)
       .withColumn("partition_image", imageUdf(col(getInputCol)))
       .withColumn("fileName", lit(null: String))
       .withColumn("exception", lit(null: String))
+  }
+
+  private def isDelimitedContentType(contentType: String): Boolean = {
+    Set("text/csv", "text/tsv").contains(contentType)
   }
 
   override def buildErrorDataFrame(

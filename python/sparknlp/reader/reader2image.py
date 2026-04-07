@@ -30,7 +30,9 @@ class Reader2Image(
     extracting structured image content from various document types using Spark NLP readers. It supports
     reading from many file types and returns parsed output as a structured Spark DataFrame.
 
-    Supported formats include HTML and Markdown.
+    Supported formats include HTML, Markdown, Word (.doc/.docx), ODT (.odt),
+    Excel (.xls/.xlsx), PowerPoint (.ppt/.pptx), email files (.eml, .msg),
+    raw image files, and PDFs.
 
     == Example ==
     This example demonstrates how to load HTML files with images and process them into a structured

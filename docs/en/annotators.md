@@ -67,6 +67,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="DocumentCharacterTextSplitter" summary="Annotator which splits large documents into chunks of roughly given size."%}
 {% include templates/anno_table_entry.md path="" name="DocumentNormalizer" summary="Annotator which normalizes raw text from tagged text, e.g. scraped web pages or xml documents, from document type columns into Sentence."%}
 {% include templates/anno_table_entry.md path="" name="DocumentSimilarityRanker" summary="Annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest neighbors search on top of sentence embeddings."%}
+{% include templates/anno_table_entry.md path="" name="DocumentTitleSplitter" summary="Annotator that groups element-level documents into title-aware sections using Title metadata."%}
 {% include templates/anno_table_entry.md path="" name="DocumentTokenSplitter" summary="Annotator that splits large documents into smaller documents based on the number of tokens in the text."%}
 {% include templates/anno_table_entry.md path="" name="EntityRuler" summary="Fits an Annotator to match exact strings or regex patterns provided in a file against a Document and assigns them an named entity."%}
 {% include templates/anno_table_entry.md path="" name="EmbeddingsFinisher" summary="Extracts embeddings from Annotations into a more easily usable form."%}
@@ -76,6 +77,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="ImageAssembler" summary="Prepares images read by Spark into a format that is processable by Spark NLP."%}
 {% include templates/anno_table_entry.md path="" name="LanguageDetectorDL" summary="Language Identification and Detection by using CNN and RNN architectures in TensorFlow."%}
 {% include templates/anno_table_entry.md path="" name="Lemmatizer" summary="Finds lemmas out of words with the objective of returning a base dictionary word."%}
+{% include templates/anno_table_entry.md path="" name="LLMEntityExtractor" summary="End-to-end LLM-based entity extraction using AutoGGUF with BNF grammars for structured entity extraction."%}
 {% include templates/anno_table_entry.md path="" name="MultiClassifierDL" summary="Multi-label Text Classification."%}
 {% include templates/anno_table_entry.md path="" name="MultiDateMatcher" summary="Matches standard date formats into a provided format."%}
 {% include templates/anno_table_entry.md path="" name="MultiDocumentAssembler" summary="Prepares data into a format that is processable by Spark NLP."%}

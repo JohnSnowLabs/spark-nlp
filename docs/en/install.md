@@ -279,7 +279,7 @@ If you are using `DependencyParserModel` or `TextMatcherModel` in your pipelines
 
 ```sh
 # Load Spark NLP with Spark Submit
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:6.3.3
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.0
 ```
 
 See our [cheat sheet](#spark-nlp-cheatsheet) for more examples.

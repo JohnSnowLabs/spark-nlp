@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.3.3 ScalaDoc  - com.johnsnowlabs.reader</title>
-          <meta name="description" content="Spark NLP 6.3.3 ScalaDoc - com.johnsnowlabs.reader" />
-          <meta name="keywords" content="Spark NLP 6.3.3 ScalaDoc com.johnsnowlabs.reader" />
+          <title>Spark NLP 6.4.0 ScalaDoc  - com.johnsnowlabs.reader</title>
+          <meta name="description" content="Spark NLP 6.4.0 ScalaDoc - com.johnsnowlabs.reader" />
+          <meta name="keywords" content="Spark NLP 6.4.0 ScalaDoc com.johnsnowlabs.reader" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.3.3 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -227,6 +227,10 @@
                         <a href="EmailReader.html" title="This class is used to read and parse email content.">EmailReader</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="class" href="EpubReader.html" title="Class to read and parse EPUB files."></a>
+                        <a href="EpubReader.html" title="Class to read and parse EPUB files.">EpubReader</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="class" href="ExcelReader.html" title="This class is used to read and parse excel files."></a>
                         <a href="ExcelReader.html" title="This class is used to read and parse excel files.">ExcelReader</a>
                       </li><li class="current-entities indented3">
@@ -259,6 +263,10 @@
                         <a href="MimeType$.html" title="">MimeType</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="class" href="ODTReader.html" title="Class to read and parse ODT files."></a>
+                        <a href="ODTReader.html" title="Class to read and parse ODT files.">ODTReader</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="class" href="PdfReader.html" title="Class to parse and read PDF files."></a>
                         <a href="PdfReader.html" title="Class to parse and read PDF files.">PdfReader</a>
                       </li><li class="current-entities indented3">
@@ -273,6 +281,10 @@
                         <span class="separator"></span>
                         <a class="class" href="PowerPointReader.html" title="Class to read and parse PowerPoint files."></a>
                         <a href="PowerPointReader.html" title="Class to read and parse PowerPoint files.">PowerPointReader</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="RTFReader.html" title="Class to read and parse Rich Text Format (RTF) files."></a>
+                        <a href="RTFReader.html" title="Class to read and parse Rich Text Format (RTF) files.">RTFReader</a>
                       </li><li class="current-entities indented3">
                         <a class="object" href="Reader2Doc$.html" title=""></a>
                         <a class="class" href="Reader2Doc.html" title="The Reader2Doc annotator allows you to use the reading files more smoothly within existing Spark NLP workflows, enabling seamless reuse of your pipelines."></a>
@@ -293,6 +305,10 @@
                         <span class="separator"></span>
                         <a class="class" href="SparkNLPReader.html" title=""></a>
                         <a href="SparkNLPReader.html" title="">SparkNLPReader</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
+                        <a class="class" href="TSVReader.html" title="TSVReader reuses CSVReader behavior while defaulting to tab-separated input."></a>
+                        <a href="TSVReader.html" title="TSVReader reuses CSVReader behavior while defaulting to tab-separated input.">TSVReader</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
                         <a class="class" href="TextReader.html" title="Class to read and parse text files."></a>
@@ -432,6 +448,26 @@
       </span>
       
       <p class="shortcomment cmt">This class is used to read and parse email content.</p>
+    </li><li name="com.johnsnowlabs.reader.EpubReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="EpubReaderextendsSerializable"></a><a id="EpubReader:EpubReader"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/EpubReader.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Class to read and parse EPUB files." href="EpubReader.html"><span class="name">EpubReader</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Class to read and parse EPUB files.</p><div class="fullcomment"><div class="comment cmt"><p>Class to read and parse EPUB files.</p><p>EPUB content is extracted by resolving the package manifest and spine, then parsing the XHTML
+chapters with the existing HTML reader to preserve the same text/table heuristics. Embedded
+images are resolved from the archive and attached as binary payloads so image pipelines can
+consume them without relying on external paths.
+</p></div></div>
     </li><li name="com.johnsnowlabs.reader.ExcelReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="ExcelReaderextendsSerializable"></a><a id="ExcelReader:ExcelReader"></a>
       <span class="permalink">
@@ -554,6 +590,23 @@ document annotation column, one image annotation column, and one prompt annotati
       </span>
       
       
+    </li><li name="com.johnsnowlabs.reader.ODTReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ODTReaderextendsSerializable"></a><a id="ODTReader:ODTReader"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/ODTReader.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Class to read and parse ODT files." href="ODTReader.html"><span class="name">ODTReader</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Class to read and parse ODT files.</p><div class="fullcomment"><div class="comment cmt"><p>Class to read and parse ODT files.</p><p>Public behavior matches <a href="WordReader.html" class="extype" name="com.johnsnowlabs.reader.WordReader">WordReader</a> so it can be used in the same ingestion flows.
+</p></div></div>
     </li><li name="com.johnsnowlabs.reader.PdfReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="PdfReaderextendsSerializable"></a><a id="PdfReader:PdfReader"></a>
       <span class="permalink">
@@ -656,6 +709,25 @@ root
       </span>
       
       <p class="shortcomment cmt">Class to read and parse PowerPoint files.</p>
+    </li><li name="com.johnsnowlabs.reader.RTFReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="RTFReaderextendsSerializable"></a><a id="RTFReader:RTFReader"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/RTFReader.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Class to read and parse Rich Text Format (RTF) files." href="RTFReader.html"><span class="name">RTFReader</span></a><span class="result"> extends <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Class to read and parse Rich Text Format (RTF) files.</p><div class="fullcomment"><div class="comment cmt"><p>Class to read and parse Rich Text Format (RTF) files.</p><p>The reader extracts paragraph-level content from <code>.rtf</code> documents and maps it into
+<code>HTMLElement</code>s, classifying paragraphs as titles, list items, or narrative text using the same
+structural conventions used by the other readers.
+</p></div></div>
     </li><li name="com.johnsnowlabs.reader.Reader2Doc" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="Reader2DocextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorTypewithHasOutputAnnotationColwithHasBinaryReaderPropertieswithHasTextReaderPropertieswithHasReaderContent"></a><a id="Reader2Doc:Reader2Doc"></a>
       <span class="permalink">
@@ -677,8 +749,8 @@ Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Doc can b
 extracting structured content from various document types using Spark NLP readers. It supports
 reading from many files types and returns parsed output as a structured Spark DataFrame.</p><p>By default, the annotator combines all extracted elements into a single document annotation.
 For more fine-grained control, you can use <code>setOutputAsDocument(false)</code> and
-<code>setExplodeDocs(true)</code> to filter individual elements.</p><p>Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
-(.ppt/.pptx), email files (.eml, .msg), and PDFs.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.reader.Reader2Doc
+<code>setExplodeDocs(true)</code> to filter individual elements.</p><p>Supported formats include plain text, HTML, Word (.doc/.docx), ODT (.odt), Excel (.xls/.xlsx),
+PowerPoint (.ppt/.pptx), email files (.eml, .msg), and PDFs.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.reader.Reader2Doc
 <span class="kw">import</span> com. johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 
@@ -721,7 +793,8 @@ within existing Spark NLP workflows, enabling seamless reuse of your pipelines.<
 within existing Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Image
 can be used for extracting structured image content from various document types using Spark
 NLP readers. It supports reading from many files types and returns parsed output as a
-structured Spark DataFrame.</p><p>Supported formats include HTML and Markdown</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.reader.Reader2Image
+structured Spark DataFrame.</p><p>Supported formats include HTML, Markdown, Word (.doc/.docx), ODT (.odt), Excel (.xls/.xlsx),
+PowerPoint (.ppt/.pptx), email files (.eml, .msg), raw image files, and PDFs.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.reader.Reader2Image
 <span class="kw">import</span> com. johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 
@@ -780,8 +853,8 @@ root
 Spark NLP workflows, enabling seamless reuse of your pipelines.</p><div class="fullcomment"><div class="comment cmt"><p>The Reader2Table annotator allows you to use the reading files more smoothly within existing
 Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Table can be used for
 extracting structured content from various document types using Spark NLP readers. It supports
-reading from many files types and returns parsed output as a structured Spark DataFrame.</p><p>Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
-(.ppt/.pptx)</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.reader.Reader2Table
+reading from many files types and returns parsed output as a structured Spark DataFrame.</p><p>Supported formats include plain text, HTML, Word (.doc/.docx), ODT (.odt), Excel (.xls/.xlsx),
+PowerPoint (.ppt/.pptx)</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.reader.Reader2Table
 <span class="kw">import</span> com. johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 
@@ -866,6 +939,22 @@ output.
       </span>
       
       
+    </li><li name="com.johnsnowlabs.reader.TSVReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="TSVReaderextendsCSVReader"></a><a id="TSVReader:TSVReader"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/TSVReader.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="TSVReader reuses CSVReader behavior while defaulting to tab-separated input." href="TSVReader.html"><span class="name">TSVReader</span></a><span class="result"> extends <a href="CSVReader.html" class="extype" name="com.johnsnowlabs.reader.CSVReader">CSVReader</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">TSVReader reuses CSVReader behavior while defaulting to tab-separated input.</p>
     </li><li name="com.johnsnowlabs.reader.TextReader" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="TextReaderextendsSerializable"></a><a id="TextReader:TextReader"></a>
       <span class="permalink">

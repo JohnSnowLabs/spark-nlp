@@ -6,8 +6,8 @@ ReaderAssembler
 The ReaderAssembler annotator provides a unified interface to combine multiple Spark NLP readers such as `Reader2Doc`, `Reader2Table`, and `Reader2Image` into a single, configurable component. It automatically selects and orchestrates the appropriate reader for each input based on file type, content type, and configured priorities, allowing you to process heterogeneous content (documents, tables, images) seamlessly in one pipeline.
 
 Supported Input Types:
-- Text: `txt`, `html`, `htm`, `md`, `xml`, `csv`  
-- Documents: `pdf`, `doc`, `docx`, `xls`, `xlsx`, `ppt`, `pptx`  
+- Text: `txt`, `html`, `htm`, `md`, `xml`, `csv`, `tsv`  
+- Documents: `pdf`, `doc`, `docx`, `xls`, `xlsx`, `ppt`, `pptx`, `odt`  
 - Email: `eml`, `msg`  
 - Images: `png`, `jpg`, `jpeg`, `bmp`, `gif`  
 
@@ -20,7 +20,7 @@ Parameters:
 - `flattenOutput`: Whether to return plain content with minimal metadata (default: `false`).  
 - `inferTableStructure`: Whether to automatically detect table structure from tabular content (default: `true`).  
 - `excludeNonText`: Whether to ignore non-text rows, such as tables, in Reader2Doc (default: `false`).  
-- `userMessage`: Custom message describing the content for prompt-based models (op—ional).  
+- `userMessage`: Custom message describing the content for prompt-based models (optional).
 - `promptTemplate`: Template format for prompt generation (optional).  
 - `customPromptTemplate`: Custom prompt template if `promptTemplate` is set to `"custom"` (optional).  
 

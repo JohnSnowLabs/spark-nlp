@@ -16,9 +16,17 @@
 package com.johnsnowlabs.reader.util
 
 import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.util.LocalHttpTestServer
 import org.scalatest.flatspec.AnyFlatSpec
 
+import java.io.IOException
+import java.util.Base64
+
 class ImageParserTest extends AnyFlatSpec {
+
+  private val tinyPngBase64 =
+    "iVBORw0KGgoAAAANSUhEUgAAAAUA" +
+      "AAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
 
   "ImageHelper" should "convert image to base64" taggedAs FastTest in {
     val base64 =
@@ -32,16 +40,41 @@ class ImageParserTest extends AnyFlatSpec {
     assert(decodedImage.get.getType > 0)
   }
 
-  it should "fail to convert invalid base64" taggedAs FastTest ignore {
-    val url =
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1024px-React-icon.svg.png"
+  it should "fetch image from a valid HTTP URL" taggedAs FastTest in {
+    val pngBytes = Base64.getDecoder.decode(tinyPngBase64)
+    val server = LocalHttpTestServer.start(
+      Map("/image.png" -> LocalHttpTestServer.Response(200, pngBytes, contentType = "image/png")))
 
-    val resultImage = ImageParser.fetchFromUrl(url)
+    try {
+      val resultImage = ImageParser.fetchFromUrl(server.url("/image.png"))
 
-    assert(resultImage.isDefined)
-    assert(resultImage.get.getHeight > 0)
-    assert(resultImage.get.getWidth > 0)
-    assert(resultImage.get.getType > 0)
+      assert(resultImage.isDefined)
+      assert(resultImage.get.getHeight > 0)
+      assert(resultImage.get.getWidth > 0)
+      assert(resultImage.get.getType > 0)
+    } finally {
+      server.close()
+    }
+  }
+
+  it should "throw for a non-success HTTP response" taggedAs FastTest in {
+    val server = LocalHttpTestServer.start(
+      Map("/missing.png" -> LocalHttpTestServer
+        .Response(404, "Not found".getBytes("UTF-8"), contentType = "text/plain")))
+
+    try {
+      assertThrows[IOException] {
+        ImageParser.fetchFromUrl(server.url("/missing.png"))
+      }
+    } finally {
+      server.close()
+    }
+  }
+
+  it should "throw when the URL is unreachable" taggedAs FastTest in {
+    assertThrows[IOException] {
+      ImageParser.fetchFromUrl("http://127.0.0.1:1/unreachable.png")
+    }
   }
 
 }
