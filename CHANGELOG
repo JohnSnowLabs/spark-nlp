@@ -1,4 +1,20 @@
 =======
+6.3.4
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1340] Adding instructions for Databricks Volume #14746
+* [SPARKNLP-1279] Introduce LLMNer #14735
+* [SPARKNLP-1342] Adding support for ODT files to readers #14747
+* [SPARKNLP-1342] Adding support for TSV files to readers #14748
+* [SPARKNLP-1346] Adding support for Epub files to readers #14749
+* [SPARKNLP-1347] Adding Support for Rich Text Format #14750
+* [SPARKNLP-1328] Handle HTML/image fetch failures #14752
+* [SPARKNLP-1344] Adding DocumentTitleSplitter annotator #14751
+
+=======
 6.3.3
 =======
 ---------------------------
