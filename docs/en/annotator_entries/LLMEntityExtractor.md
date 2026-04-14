@@ -46,7 +46,7 @@ according to your hardware to avoid out-of-memory errors.
 {:.table-model-big}
 | Parameter | Description | Default |
 |---|---|---|
-| `modelName` | Name of the AutoGGUF model to load for entity extraction | `"qwen3_4b_bf16_gguf"` |
+| `pretrained` | Name of the AutoGGUF model to load for entity extraction | `"qwen3_4b_bf16_gguf"` |
 | `entityTypes` | List of entity types to extract (used in prompt) | `["PERSON", "ORGANIZATION", "LOCATION", "DATE", "TIME"]` |
 | `promptTemplate` | Custom prompt template for entity extraction. Use `{entityTypes}` and `{examples}` placeholders | Built-in default prompt |
 | `fewShotExamples` | Few-shot examples as array of `(input_text, json_output)` tuples to guide the model | Empty array |
@@ -86,9 +86,9 @@ medical_examples = [
 ]
 
 entityExtractor = LLMEntityExtractor() \
+    .pretrained("qwen3_4b_bf16_gguf") \
     .setInputCols(["document"]) \
     .setOutputCol("entities") \
-    .setModelName("qwen3_4b_bf16_gguf") \
     .setEntityTypes(["MEDICATION", "DOSAGE", "ROUTE", "FREQUENCY", "PERSON", "ORGANIZATION"]) \
     .setFewShotExamples(medical_examples) \
     .setNPredict(500) \
@@ -114,6 +114,7 @@ result.select(
     F.col("entity.metadata.entity").alias("entity_type"),
     F.col("entity.metadata.chunk").alias("chunk_index")
 ).show(truncate=False)
+
 +-------------------+-----+---+------------+-----------+
 |text               |begin|end|entity_type |chunk_index|
 +-------------------+-----+---+------------+-----------+
@@ -152,9 +153,9 @@ val medicalExamples = Array(
 )
 
 val entityExtractor = new LLMEntityExtractor()
+  .pretrained("qwen3_4b_bf16_gguf")
   .setInputCols("document")
   .setOutputCol("entities")
-  .setModelName("qwen3_4b_bf16_gguf")
   .setEntityTypes(Array("MEDICATION", "DOSAGE", "ROUTE", "FREQUENCY", "PERSON", "ORGANIZATION"))
   .setFewShotExamples(medicalExamples)
   .setNPredict(500)
@@ -180,6 +181,7 @@ result.select(
     F.col("entity.metadata.entity").alias("entity_type"),
     F.col("entity.metadata.chunk").alias("chunk_index")
 ).show(truncate=False)
+
 +-------------------+-----+---+------------+-----------+
 |text               |begin|end|entity_type |chunk_index|
 +-------------------+-----+---+------------+-----------+
