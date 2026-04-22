@@ -13,3 +13,8 @@
 #  limitations under the License.
 """Module for reading different files types."""
 from sparknlp.reader.sparknlp_reader import *
+from sparknlp.reader.reader_assembler import *
+from sparknlp.reader.layout_aligner_for_vision import *
+from sparknlp.reader.layout_aligner_for_text import *
+from sparknlp.reader.reader2doc import *
+from sparknlp.reader.reader2table import *

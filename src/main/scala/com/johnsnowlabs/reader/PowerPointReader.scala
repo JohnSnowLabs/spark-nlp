@@ -81,6 +81,10 @@ class PowerPointReader(
     outputFormat: String = "json-table")
     extends Serializable {
 
+  private val paragraphSpacingY = 25
+  private val paragraphElementTypes =
+    Set(ElementType.TITLE, ElementType.NARRATIVE_TEXT, ElementType.LIST_ITEM, ElementType.TABLE)
+
   private lazy val spark = ResourceHelper.spark
 
   private var outputColumn = "ppt"
@@ -164,11 +168,13 @@ class PowerPointReader(
     val slides = ppt.getSlides
 
     val state = PptxState()
-    val elements = slides.asScala.flatMap(_.extractHSLFSlideContent)
+    val elements = assignParagraphMetadata(slides.asScala.flatMap { slide =>
+      slide.extractHSLFSlideContent.map(withSlideIndex(_, slide.getSlideNumber))
+    })
     val images = extractImages(ppt, state)
 
     ppt.close()
-    (elements ++ images).toSeq
+    elements ++ images
   }
 
   private case class PptxState(var tableCounter: Int = 0, var imageCounter: Int = 0)
@@ -178,27 +184,50 @@ class PowerPointReader(
     val slides = pptx.getSlides
     val state = PptxState()
 
-    val elements = slides.asScala.zipWithIndex.flatMap { case (slide, _) =>
-      val slideElements =
-        slide.extractXSLFSlideContent(inferTableStructure, includeSlideNotes, outputFormat)
+    val elements = assignParagraphMetadata(slides.asScala.zipWithIndex.flatMap {
+      case (slide, _) =>
+        val slideElements =
+          slide.extractXSLFSlideContent(inferTableStructure, includeSlideNotes, outputFormat)
 
-      slideElements.zipWithIndex.map { case (elem, _) =>
-        val newMeta = mutable.Map(elem.metadata.toSeq: _*)
+        slideElements.zipWithIndex.map { case (elem, _) =>
+          val newMeta = mutable.Map(elem.metadata.toSeq: _*)
+          newMeta("slide_index") = slide.getSlideNumber.toString
 
-        if (elem.elementType == ElementType.TABLE && !newMeta.contains("orderTableIndex")) {
-          state.tableCounter += 1
-          newMeta("orderTableIndex") = state.tableCounter.toString
+          if (elem.elementType == ElementType.TABLE && !newMeta.contains("orderTableIndex")) {
+            state.tableCounter += 1
+            newMeta("orderTableIndex") = state.tableCounter.toString
+          }
+
+          HTMLElement(elem.elementType, elem.content, newMeta, elem.binaryContent)
         }
 
-        HTMLElement(elem.elementType, elem.content, newMeta, elem.binaryContent)
-      }
-
-    }
+    })
 
     val images = extractImages(pptx, state)
 
     pptx.close()
-    (elements ++ images).toSeq
+    elements ++ images
+  }
+
+  private def assignParagraphMetadata(elements: Seq[HTMLElement]): Seq[HTMLElement] = {
+    var paragraphIndex = 0
+    elements.map { element =>
+      if (paragraphElementTypes.contains(element.elementType)) {
+        val metadata = mutable.Map(element.metadata.toSeq: _*)
+        metadata("paragraph_index") = paragraphIndex.toString
+        metadata("paragraph_y") = (paragraphIndex * paragraphSpacingY).toString
+        paragraphIndex += 1
+        element.copy(metadata = metadata)
+      } else {
+        element
+      }
+    }
+  }
+
+  private def withSlideIndex(element: HTMLElement, slideIndex: Int): HTMLElement = {
+    val metadata = mutable.Map(element.metadata.toSeq: _*)
+    metadata("slide_index") = slideIndex.toString
+    element.copy(metadata = metadata)
   }
 
   private def extractImages(pptx: XMLSlideShow, state: PptxState): Seq[HTMLElement] = {
@@ -214,6 +243,7 @@ class PowerPointReader(
           "coord" -> coordString,
           "format" -> picture.getPictureData.suggestFileExtension,
           "orderImageIndex" -> state.imageCounter.toString,
+          "slide_index" -> slide.getSlideNumber.toString,
           "domPath" -> s"/presentation[1]/slide[${slide.getSlideNumber}]/image[${state.imageCounter}]")
 
         HTMLElement(
@@ -223,7 +253,7 @@ class PowerPointReader(
           metadata = metadata,
           binaryContent = Some(picture.getPictureData.getData))
       }
-    }.toSeq
+    }
   }
 
   private def extractImages(ppt: HSLFSlideShow, state: PptxState): Seq[HTMLElement] = {
@@ -238,6 +268,7 @@ class PowerPointReader(
             "coord" -> coordString,
             "format" -> picture.getPictureData.getType.toString,
             "orderImageIndex" -> state.imageCounter.toString,
+            "slide_index" -> slide.getSlideNumber.toString,
             "domPath" -> s"/presentation[1]/slide[${slide.getSlideNumber}]/image[${state.imageCounter}]")
 
           HTMLElement(
@@ -246,7 +277,7 @@ class PowerPointReader(
             metadata = metadata,
             binaryContent = Some(picture.getPictureData.getData))
       }
-    }.toSeq
+    }
   }
 
 }

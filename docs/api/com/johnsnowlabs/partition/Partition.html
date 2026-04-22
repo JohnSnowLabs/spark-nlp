@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.3.2 ScalaDoc  - com.johnsnowlabs.partition.Partition</title>
-          <meta name="description" content="Spark NLP 6.3.2 ScalaDoc - com.johnsnowlabs.partition.Partition" />
-          <meta name="keywords" content="Spark NLP 6.3.2 ScalaDoc com.johnsnowlabs.partition.Partition" />
+          <title>Spark NLP 6.4.0 ScalaDoc  - com.johnsnowlabs.partition.Partition</title>
+          <meta name="description" content="Spark NLP 6.4.0 ScalaDoc - com.johnsnowlabs.partition.Partition" />
+          <meta name="keywords" content="Spark NLP 6.4.0 ScalaDoc com.johnsnowlabs.partition.Partition" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -233,8 +233,9 @@
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>The Partition class is a unified interface for extracting structured content from various
 document types using Spark NLP readers. It supports reading from files, URLs, in-memory
-strings, or byte arrays, and returns parsed output as a structured Spark DataFrame.</p><p>Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
-(.ppt/.pptx), email files (.eml, .msg), and PDFs.</p><p>The class detects the appropriate reader either from the file extension or a provided MIME
+strings, or byte arrays, and returns parsed output as a structured Spark DataFrame.</p><p>Supported formats include plain text, HTML, Rich Text Format (.rtf), Word (.doc/.docx),
+OpenDocument Text (.odt), Excel (.xls/.xlsx), PowerPoint (.ppt/.pptx), email files (.eml,
+.msg), and PDFs.</p><p>The class detects the appropriate reader either from the file extension or a provided MIME
 contentType, and delegates to the relevant method of SparkNLPReader. Custom behavior (like
 title thresholds, page breaks, etc.) can be configured through the params map during
 initialization.</p><p>By abstracting reader initialization, type detection, and parsing logic, Partition simplifies

@@ -1,4 +1,39 @@
 =======
+6.4.0
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1340] Adding instructions for Databricks Volume #14746
+* [SPARKNLP-1279] Introduce LLMNer #14735
+* [SPARKNLP-1342] Adding support for ODT files to readers #14747
+* [SPARKNLP-1342] Adding support for TSV files to readers #14748
+* [SPARKNLP-1346] Adding support for Epub files to readers #14749
+* [SPARKNLP-1347] Adding Support for Rich Text Format #14750
+* [SPARKNLP-1328] Handle HTML/image fetch failures #14752
+* [SPARKNLP-1344] Adding DocumentTitleSplitter annotator #14751
+
+=======
+6.3.3
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+
+* [SPARKNLP-1335] Implement Layout Aligner annotators #14737
+* [SPARKNLP-1336] Enhancements to LightPipeline #14734
+* [SPARKNLP-1287] vector db connector annotator #14729
+* [SPARKNLP-1231] implement modern bert embeddings #14736
+* [SPARKNLP-1341] Add MultiColumnAssembler #14743
+
+---------
+Bug Fixes
+---------
+
+* [SPARKNLP-1334] Updating POI dependency for readers #14727
+
+=======
 6.3.2
 =======
 ---------------------------

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.3.2 ScalaDoc  - com.johnsnowlabs.nlp</title>
-          <meta name="description" content="Spark NLP 6.3.2 ScalaDoc - com.johnsnowlabs.nlp" />
-          <meta name="keywords" content="Spark NLP 6.3.2 ScalaDoc com.johnsnowlabs.nlp" />
+          <title>Spark NLP 6.4.0 ScalaDoc  - com.johnsnowlabs.nlp</title>
+          <meta name="description" content="Spark NLP 6.4.0 ScalaDoc - com.johnsnowlabs.nlp" />
+          <meta name="keywords" content="Spark NLP 6.4.0 ScalaDoc com.johnsnowlabs.nlp" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -423,6 +423,10 @@
                         <a href="HasInputAnnotationCols.html" title="">HasInputAnnotationCols</a>
                       </li><li class="current-entities indented3">
                         <span class="separator"></span>
+                        <a class="trait" href="HasLightPipelineAnnotate.html" title=""></a>
+                        <a href="HasLightPipelineAnnotate.html" title="">HasLightPipelineAnnotate</a>
+                      </li><li class="current-entities indented3">
+                        <span class="separator"></span>
                         <a class="trait" href="HasLlamaCppInferenceProperties.html" title="Contains settable inference parameters for the AutoGGUFModel."></a>
                         <a href="HasLlamaCppInferenceProperties.html" title="Contains settable inference parameters for the AutoGGUFModel.">HasLlamaCppInferenceProperties</a>
                       </li><li class="current-entities indented3">
@@ -477,6 +481,10 @@
                         <span class="separator"></span>
                         <a class="class" href="LightPipeline.html" title=""></a>
                         <a href="LightPipeline.html" title="">LightPipeline</a>
+                      </li><li class="current-entities indented3">
+                        <a class="object" href="MultiColumnAssembler$.html" title="This is the companion object of MultiColumnAssembler."></a>
+                        <a class="class" href="MultiColumnAssembler.html" title="Merges multiple annotation columns into a single annotation column."></a>
+                        <a href="MultiColumnAssembler.html" title="Merges multiple annotation columns into a single annotation column.">MultiColumnAssembler</a>
                       </li><li class="current-entities indented3">
                         <a class="object" href="MultiDocumentAssembler$.html" title="This is the companion object of MultiDocumentAssembler."></a>
                         <a class="class" href="MultiDocumentAssembler.html" title="Prepares data into a format that is processable by Spark NLP."></a>
@@ -1363,6 +1371,22 @@ finishedResult.select(<span class="lit">"text"</span>, <span class="lit">"graph_
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.HasLightPipelineAnnotate" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="HasLightPipelineAnnotateextendsAnyRef"></a><a id="HasLightPipelineAnnotate:HasLightPipelineAnnotate"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/HasLightPipelineAnnotate.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="HasLightPipelineAnnotate.html"><span class="name">HasLightPipelineAnnotate</span></a><span class="result"> extends <a href="../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.HasLlamaCppInferenceProperties" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="HasLlamaCppInferencePropertiesextendsAnyRef"></a><a id="HasLlamaCppInferenceProperties:HasLlamaCppInferenceProperties"></a>
       <span class="permalink">
@@ -1657,6 +1681,52 @@ root
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.MultiColumnAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="MultiColumnAssemblerextendsAnnotatorModel[com.johnsnowlabs.nlp.MultiColumnAssembler]withHasSimpleAnnotate[com.johnsnowlabs.nlp.MultiColumnAssembler]withHasMultipleInputAnnotationCols"></a><a id="MultiColumnAssembler:MultiColumnAssembler"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/MultiColumnAssembler.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Merges multiple annotation columns into a single annotation column." href="MultiColumnAssembler.html"><span class="name">MultiColumnAssembler</span></a><span class="result"> extends <a href="AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="MultiColumnAssembler.html" class="extype" name="com.johnsnowlabs.nlp.MultiColumnAssembler">MultiColumnAssembler</a>] with <a href="HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="MultiColumnAssembler.html" class="extype" name="com.johnsnowlabs.nlp.MultiColumnAssembler">MultiColumnAssembler</a>] with <a href="HasMultipleInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasMultipleInputAnnotationCols">HasMultipleInputAnnotationCols</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Merges multiple annotation columns into a single annotation column.</p><div class="fullcomment"><div class="comment cmt"><p>Merges multiple annotation columns into a single annotation column.</p><p>This is useful when multiple annotators produce separate annotation columns (e.g.,
+<code>document_text</code>, <code>document_table</code> from <code>ReaderAssembler</code>) and a downstream annotator (e.g.,
+<code>AutoGGUFVisionModel</code>) expects a single input column containing all annotations.</p><p>Annotations from all input columns are collected and concatenated into the output column. The
+output annotator type defaults to <code>DOCUMENT</code> but can be configured. Each annotation's metadata
+is preserved, and a <code>source_column</code> key is added to track the original column name.</p><p><b>Note:</b> All input columns must use the <code>Annotation</code> schema (i.e., <code>Annotation.dataType</code>).
+Columns using <code>AnnotationImage.dataType</code> (e.g., IMAGE-typed columns from <code>ReaderAssembler</code>)
+are not supported and will cause a validation error.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.{MultiColumnAssembler, DocumentAssembler}
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler1 = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text1"</span>)
+  .setOutputCol(<span class="lit">"document_text"</span>)
+
+<span class="kw">val</span> documentAssembler2 = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text2"</span>)
+  .setOutputCol(<span class="lit">"document_table"</span>)
+
+<span class="kw">val</span> multiColumnAssembler = <span class="kw">new</span> MultiColumnAssembler()
+  .setInputCols(<span class="lit">"document_text"</span>, <span class="lit">"document_table"</span>)
+  .setOutputCol(<span class="lit">"merged_document"</span>)
+
+<span class="kw">val</span> data = <span class="std">Seq</span>((<span class="lit">"Hello world"</span>, <span class="lit">"Name | Age\nJohn | 30"</span>))
+  .toDF(<span class="lit">"text1"</span>, <span class="lit">"text2"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline()
+  .setStages(<span class="std">Array</span>(documentAssembler1, documentAssembler2, multiColumnAssembler))
+  .fit(data)
+
+<span class="kw">val</span> result = pipeline.transform(data)
+result.selectExpr(<span class="lit">"merged_document.result"</span>).show(<span class="kw">false</span>)</pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.MultiDocumentAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="MultiDocumentAssemblerextendsTransformerwithDefaultParamsWritablewithHasOutputAnnotatorType"></a><a id="MultiDocumentAssembler:MultiDocumentAssembler"></a>
       <span class="permalink">
@@ -2236,6 +2306,24 @@ documentation.
       </span>
       
       <p class="shortcomment cmt">This is the companion object of <a href="ImageAssembler.html" class="extype" name="com.johnsnowlabs.nlp.ImageAssembler">ImageAssembler</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="ImageAssembler.html" class="extype" name="com.johnsnowlabs.nlp.ImageAssembler">ImageAssembler</a>. Please refer to that class for the
+documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.MultiColumnAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="MultiColumnAssembler"></a><a id="MultiColumnAssembler:MultiColumnAssembler"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/nlp/MultiColumnAssembler$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of MultiColumnAssembler." href="MultiColumnAssembler$.html"><span class="name">MultiColumnAssembler</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="MultiColumnAssembler.html" class="extype" name="com.johnsnowlabs.nlp.MultiColumnAssembler">MultiColumnAssembler</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="MultiColumnAssembler.html" class="extype" name="com.johnsnowlabs.nlp.MultiColumnAssembler">MultiColumnAssembler</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="MultiColumnAssembler.html" class="extype" name="com.johnsnowlabs.nlp.MultiColumnAssembler">MultiColumnAssembler</a>. Please refer to that class for the
 documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.MultiDocumentAssembler" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">

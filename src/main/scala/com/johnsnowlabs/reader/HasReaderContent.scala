@@ -19,16 +19,20 @@ trait HasReaderContent extends HasReaderProperties with HasTagsReaderProperties 
     "txt" -> ("text/plain", true),
     "html" -> ("text/html", true),
     "htm" -> ("text/html", true),
+    "rtf" -> ("text/rtf", true),
     "md" -> ("text/markdown", true),
     "xml" -> ("application/xml", true),
     "csv" -> ("text/csv", true),
+    "tsv" -> ("text/tsv", true),
     "pdf" -> ("application/pdf", false),
     "doc" -> ("application/msword", false),
     "docx" -> ("application/msword", false),
+    "odt" -> ("application/vnd.oasis.opendocument.text", false),
     "xls" -> ("application/vnd.ms-excel", false),
     "xlsx" -> ("application/vnd.ms-excel", false),
     "ppt" -> ("application/vnd.ms-powerpoint", false),
     "pptx" -> ("application/vnd.ms-powerpoint", false),
+    "epub" -> ("application/epub+zip", false),
     "eml" -> ("message/rfc822", false),
     "msg" -> ("message/rfc822", false))
 
@@ -115,14 +119,15 @@ trait HasReaderContent extends HasReaderProperties with HasTagsReaderProperties 
     }
 
     val partitionDf = if (isText) {
-      val stringContentDF = if ($(contentType) == "text/csv" || ext == "csv") {
-        partitionCSVContent(partition, contentPath)
-      } else {
-        val partitionUDF =
-          udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
-        datasetWithTextFile(dataset.sparkSession, contentPath)
-          .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
-      }
+      val stringContentDF =
+        if (isDelimitedContentType($(contentType)) || isDelimitedExtension(ext)) {
+          partitionDelimitedContent(partition, contentPath, $(contentType), ext)
+        } else {
+          val partitionUDF =
+            udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
+          datasetWithTextFile(dataset.sparkSession, contentPath)
+            .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
+        }
       stringContentDF
         .withColumn("fileName", getFileName(col("path")))
         .withColumn("exception", lit(null: String))
@@ -198,11 +203,25 @@ trait HasReaderContent extends HasReaderProperties with HasTagsReaderProperties 
     if ($(contentType).trim.isEmpty && getInputCol.nonEmpty) "text/plain" else $(contentType)
   }
 
-  private def partitionCSVContent(partition: Partition, contentPath: String): DataFrame = {
-    partition.setOutputColumn("csv")
+  private def isDelimitedContentType(contentType: String): Boolean = {
+    Set("text/csv", "text/tsv").contains(contentType)
+  }
+
+  private def isDelimitedExtension(ext: String): Boolean = {
+    Set("csv", "tsv").contains(ext)
+  }
+
+  private def partitionDelimitedContent(
+      partition: Partition,
+      contentPath: String,
+      contentType: String,
+      ext: String): DataFrame = {
+    val sourceColumn =
+      if (contentType == "text/tsv" || ext == "tsv") "tsv" else "csv"
+    partition.setOutputColumn(sourceColumn)
     partition
       .partition(contentPath)
-      .withColumnRenamed(partition.getOutputColumn, "partition")
+      .withColumnRenamed(sourceColumn, "partition")
   }
 
 }

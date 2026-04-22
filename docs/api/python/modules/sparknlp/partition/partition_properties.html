@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.3.2 documentation</title>
+    <title>sparknlp.partition.partition_properties &#8212; Spark NLP 6.4.0 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=311087f9"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=2ccb7844"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.2 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.2 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -375,9 +375,10 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;Contains classes for partition properties used in reading various document types.&quot;&quot;&quot;</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.param</span><span class="w"> </span><span class="kn">import</span> <span class="n">Param</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">TypeConverters</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common.annotator_properties</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnnotatorProperties</span>
 
 
-<div class="viewcode-block" id="HasReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+<div class="viewcode-block" id="HasReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasReaderProperties</span><span class="p">(</span><span class="n">AnnotatorProperties</span><span class="p">):</span>
 <div class="viewcode-block" id="HasReaderProperties.inputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.inputCol">[docs]</a>    <span class="n">inputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;inputCol&quot;</span><span class="p">,</span>
@@ -394,23 +395,6 @@ document.write(`
 <span class="sd">            Name of the Input Column</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="HasReaderProperties.outputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.outputCol">[docs]</a>    <span class="n">outputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
-        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
-        <span class="s2">&quot;outputCol&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;output column name&quot;</span><span class="p">,</span>
-        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span>
-    <span class="p">)</span></div>
-
-<div class="viewcode-block" id="HasReaderProperties.setOutputCol"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.setOutputCol">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets output column name.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        value : str</span>
-<span class="sd">            Name of the Output Column</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasReaderProperties.contentPath"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasReaderProperties.contentPath">[docs]</a>    <span class="n">contentPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
@@ -698,6 +682,13 @@ document.write(`
 
 
 <div class="viewcode-block" id="HasHTMLReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasHTMLReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_toStringDict</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;headers must be a dict[str, str]&quot;</span><span class="p">)</span>
+
 <div class="viewcode-block" id="HasHTMLReaderProperties.timeout"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.timeout">[docs]</a>    <span class="n">timeout</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
         <span class="s2">&quot;timeout&quot;</span><span class="p">,</span>
@@ -727,9 +718,34 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">timeout</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="HasHTMLReaderProperties.headers"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.headers">[docs]</a>    <span class="n">headers</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;headers&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;HTTP headers to include in requests.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">_toStringDict</span>
+    <span class="p">)</span></div>
+
 <div class="viewcode-block" id="HasHTMLReaderProperties.setHeaders"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setHeaders">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setHeaders</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_call_java</span><span class="p">(</span><span class="s2">&quot;setHeadersPython&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="HasHTMLReaderProperties.includeTitleTag"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.includeTitleTag">[docs]</a>    <span class="n">includeTitleTag</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;includeTitleTag&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to include the title tag in the HTML output.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasHTMLReaderProperties.setIncludeTitleTag"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.setIncludeTitleTag">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setIncludeTitleTag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to include the title tag in the HTML output.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to include the title tag in output metadata/content.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">includeTitleTag</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="HasHTMLReaderProperties.outputFormat"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasHTMLReaderProperties.outputFormat">[docs]</a>    <span class="n">outputFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
         <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
@@ -753,6 +769,48 @@ document.write(`
 <span class="sd">            Output format for the table content.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputFormat</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasXmlReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasXmlReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasXmlReaderProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>
+<div class="viewcode-block" id="HasXmlReaderProperties.xmlKeepTags"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasXmlReaderProperties.xmlKeepTags">[docs]</a>    <span class="n">xmlKeepTags</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;xmlKeepTags&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Whether to include XML tag names as metadata in the output.&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasXmlReaderProperties.setXmlKeepTags"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasXmlReaderProperties.setXmlKeepTags">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setXmlKeepTags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets whether to include XML tag names as metadata in the output.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to keep XML tags, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">xmlKeepTags</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasXmlReaderProperties.onlyLeafNodes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasXmlReaderProperties.onlyLeafNodes">[docs]</a>    <span class="n">onlyLeafNodes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span>
+        <span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+        <span class="s2">&quot;onlyLeafNodes&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;If true, only processes XML leaf nodes (no nested children).&quot;</span><span class="p">,</span>
+        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span>
+    <span class="p">)</span></div>
+
+<div class="viewcode-block" id="HasXmlReaderProperties.setOnlyLeafNodes"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasXmlReaderProperties.setOnlyLeafNodes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOnlyLeafNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets whether to process only XML leaf nodes.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            True to keep only leaf-node content, False to include nested nodes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">onlyLeafNodes</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="HasTagsReaderProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasTagsReaderProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasTagsReaderProperties</span><span class="p">(</span><span class="n">HasHTMLReaderProperties</span><span class="p">,</span> <span class="n">HasXmlReaderProperties</span><span class="p">):</span>
+    <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="HasPowerPointProperties"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/partition/partition_properties/index.html#sparknlp.partition.partition_properties.HasPowerPointProperties">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HasPowerPointProperties</span><span class="p">(</span><span class="n">Params</span><span class="p">):</span>

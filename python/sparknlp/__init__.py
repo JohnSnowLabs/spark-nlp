@@ -24,7 +24,7 @@ from pyspark.sql import SparkSession
 from sparknlp import annotator
 # Must be declared here one by one or else PretrainedPipeline will fail with AttributeError
 from sparknlp.base import DocumentAssembler, MultiDocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, \
-    Doc2Chunk, AudioAssembler, GraphFinisher, ImageAssembler, TableAssembler
+    Doc2Chunk, AudioAssembler, GraphFinisher, ImageAssembler, TableAssembler, MultiColumnAssembler
 from sparknlp.reader import SparkNLPReader
 
 sys.modules['com.johnsnowlabs.nlp.annotators'] = annotator
@@ -66,7 +66,7 @@ sys.modules['com.johnsnowlabs.ml.ai'] = annotator
 annotators = annotator
 embeddings = annotator
 
-__version__ = "6.3.2"
+__version__ = "6.4.0"
 
 
 def start(gpu=False,

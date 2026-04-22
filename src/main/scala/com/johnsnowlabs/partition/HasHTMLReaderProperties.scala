@@ -16,7 +16,7 @@
 package com.johnsnowlabs.partition
 
 import com.johnsnowlabs.nlp.ParamsAndFeaturesWritable
-import org.apache.spark.ml.param.Param
+import org.apache.spark.ml.param.{BooleanParam, Param}
 import scala.collection.JavaConverters._
 
 trait HasHTMLReaderProperties extends ParamsAndFeaturesWritable {
@@ -44,6 +44,13 @@ trait HasHTMLReaderProperties extends ParamsAndFeaturesWritable {
 
   def setIncludeTitleTag(value: Boolean): this.type = set(includeTitleTag, value)
 
+  val ignoreUrlErrors: BooleanParam = new BooleanParam(
+    this,
+    "ignoreUrlErrors",
+    "When true, remote HTML fetch failures return a fallback HTML payload instead of failing.")
+
+  def setIgnoreUrlErrors(value: Boolean): this.type = set(ignoreUrlErrors, value)
+
   val outputFormat = new Param[String](
     this,
     "outputFormat",
@@ -51,6 +58,10 @@ trait HasHTMLReaderProperties extends ParamsAndFeaturesWritable {
 
   def setOutputFormat(value: String): this.type = set(outputFormat, value)
 
-  setDefault(timeout -> 0, includeTitleTag -> false, headers -> Map.empty[String, String])
+  setDefault(
+    timeout -> 0,
+    includeTitleTag -> false,
+    ignoreUrlErrors -> true,
+    headers -> Map.empty[String, String])
 
 }

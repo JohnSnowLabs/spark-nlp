@@ -39,8 +39,8 @@ import scala.jdk.CollectionConverters._
   * For more fine-grained control, you can use `setOutputAsDocument(false)` and
   * `setExplodeDocs(true)` to filter individual elements.
   *
-  * Supported formats include plain text, HTML, Word (.doc/.docx), Excel (.xls/.xlsx), PowerPoint
-  * (.ppt/.pptx), email files (.eml, .msg), and PDFs.
+  * Supported formats include plain text, HTML, Word (.doc/.docx), ODT (.odt), Excel (.xls/.xlsx),
+  * PowerPoint (.ppt/.pptx), email files (.eml, .msg), and PDFs.
   *
   * ==Example==
   * {{{

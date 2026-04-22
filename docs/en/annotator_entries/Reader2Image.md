@@ -5,11 +5,11 @@ Reader2Image
 {%- capture description -%}
 The Reader2Image annotator enables seamless integration of image reading capabilities into existing Spark NLP workflows. It allows you to efficiently extract and structure image content from both individual image files and documents with embedded images.
 
-With this, you can read image files or extract images from documents such as PDFs, Word, Excel, PowerPoint, HTML, Markdown, and email files. All extracted images are returned as structured Spark DataFrames with associated metadata, ready for downstream processing in Spark NLP pipelines.
+With this, you can read image files or extract images from documents such as PDFs, Word, OpenDocument Text (ODT), Excel, PowerPoint, HTML, Markdown, and email files. All extracted images are returned as structured Spark DataFrames with associated metadata, ready for downstream processing in Spark NLP pipelines.
 
 Supported File Formats:
 - Image files: `.png`, `.jpg`, `.jpeg`, `.bmp`, `.gif`  
-- Documents with embedded images: `.pdf`, `.doc`, `.docx`, `.ppt`, `.pptx`, `.xls`, `.xlsx`, `.eml`, `.msg`, `.html`, `.htm`, `.md`
+- Documents with embedded images: `.pdf`, `.doc`, `.docx`, `.odt`, `.ppt`, `.pptx`, `.xls`, `.xlsx`, `.eml`, `.msg`, `.html`, `.htm`, `.md`
 
 Parameters:
 - `contentPath`: Path to the documents or image files to read.  
@@ -22,7 +22,7 @@ Parameters:
 - `flattenOutput`: Whether to return plain image data with minimal metadata (default: `false`).  
 - `outputAsDocument`: Whether to output all extracted images as a single combined document (default: `false`).  
 - `excludeNonImage`: Whether to skip non-image content found in mixed-format files (default: `false`).  
-- `contentType`: MIME type of the documents (e.g., "text/html", "application/pdf").  
+- `contentType`: MIME type of the documents (e.g., "text/html", "application/pdf", "application/vnd.oasis.opendocument.text").
 - `userMessage`: Custom message describing the image for prompt-based models (default: `"Describe this image"`).  
 - `promptTemplate`: Format of the output prompt for image models (default: `"qwen2vl-chat"`).  
 - `customPromptTemplate`: Custom prompt template for image models when `promptTemplate` is `"custom"`.

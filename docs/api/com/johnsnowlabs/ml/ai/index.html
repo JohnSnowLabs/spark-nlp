@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.3.2 ScalaDoc  - com.johnsnowlabs.ml.ai</title>
-          <meta name="description" content="Spark NLP 6.3.2 ScalaDoc - com.johnsnowlabs.ml.ai" />
-          <meta name="keywords" content="Spark NLP 6.3.2 ScalaDoc com.johnsnowlabs.ml.ai" />
+          <title>Spark NLP 6.4.0 ScalaDoc  - com.johnsnowlabs.ml.ai</title>
+          <meta name="description" content="Spark NLP 6.4.0 ScalaDoc - com.johnsnowlabs.ml.ai" />
+          <meta name="keywords" content="Spark NLP 6.4.0 ScalaDoc com.johnsnowlabs.ml.ai" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -217,6 +217,10 @@
                         <span class="separator"></span>
                         <a class="class" href="SmolVLMConfig.html" title="Configuration class for SmolVLM model parameters"></a>
                         <a href="SmolVLMConfig.html" title="Configuration class for SmolVLM model parameters">SmolVLMConfig</a>
+                      </li><li class="current-entities indented4">
+                        <a class="object" href="VectorDBConnector$.html" title="This is the companion object of VectorDBConnector."></a>
+                        <a class="class" href="VectorDBConnector.html" title="Connector for storing and retrieving embeddings from vector databases."></a>
+                        <a href="VectorDBConnector.html" title="Connector for storing and retrieving embeddings from vector databases.">VectorDBConnector</a>
                       </li><li name="com.johnsnowlabs.ml.crf" visbl="pub" class="indented4 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="crf"></a><a id="crf:crf"></a>
       <span class="permalink">
@@ -526,6 +530,59 @@ embeddingsDF.select(<span class="lit">"embeddings"</span>).show(<span class="kw"
   Value used for padding</p></dd><dt class="param">patchSize</dt><dd class="cmt"><p>
   Size of image patches for processing</p></dd><dt class="param">returnPixelMask</dt><dd class="cmt"><p>
   Whether to return pixel attention masks</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.ai.VectorDBConnector" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="VectorDBConnectorextendsAnnotatorModel[com.johnsnowlabs.ml.ai.VectorDBConnector]withHasBatchedAnnotate[com.johnsnowlabs.ml.ai.VectorDBConnector]"></a><a id="VectorDBConnector:VectorDBConnector"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/ai/VectorDBConnector.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Connector for storing and retrieving embeddings from vector databases." href="VectorDBConnector.html"><span class="name">VectorDBConnector</span></a><span class="result"> extends <a href="../../nlp/AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="VectorDBConnector.html" class="extype" name="com.johnsnowlabs.ml.ai.VectorDBConnector">VectorDBConnector</a>] with <a href="../../nlp/HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a>[<a href="VectorDBConnector.html" class="extype" name="com.johnsnowlabs.ml.ai.VectorDBConnector">VectorDBConnector</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Connector for storing and retrieving embeddings from vector databases.</p><div class="fullcomment"><div class="comment cmt"><p>Connector for storing and retrieving embeddings from vector databases.</p><p>This annotator takes embeddings from previous annotators (like BertEmbeddings,
+SentenceEmbeddings, OpenAIEmbeddings, etc.) and stores them in a vector database for
+similarity search and retrieval. Currently supports Pinecone with more providers planned.</p><h4>Supported Providers</h4><ul><li><b>pinecone</b>: Pinecone vector database (default)</li></ul><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.VectorDBConnector
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> embeddings = BertSentenceEmbeddings.pretrained()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"sentence_embeddings"</span>)
+
+<span class="kw">val</span> vectorDB = <span class="kw">new</span> VectorDBConnector()
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"sentence_embeddings"</span>)
+  .setOutputCol(<span class="lit">"vectordb_result"</span>)
+  .setProvider(<span class="lit">"pinecone"</span>)
+  .setIndexName(<span class="lit">"my-index"</span>)
+  .setNamespace(<span class="lit">"production"</span>)
+  .setIdColumn(<span class="lit">"id"</span>)
+  .setMetadataColumns(<span class="std">Array</span>(<span class="lit">"text"</span>, <span class="lit">"category"</span>))
+  .setBatchSize(<span class="num">100</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  documentAssembler,
+  embeddings,
+  vectorDB
+))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(
+  (<span class="lit">"1"</span>, <span class="lit">"Spark NLP is great"</span>, <span class="lit">"tech"</span>),
+  (<span class="lit">"2"</span>, <span class="lit">"Vector databases enable semantic search"</span>, <span class="lit">"tech"</span>)
+).toDF(<span class="lit">"id"</span>, <span class="lit">"text"</span>, <span class="lit">"category"</span>)
+
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)</pre></div></div>
     </li></ol>
             </div>
 
@@ -566,6 +623,24 @@ embeddingsDF.select(<span class="lit">"embeddings"</span>).show(<span class="kw"
       </span>
       
       <p class="shortcomment cmt">This is the companion object of <a href="OpenAIEmbeddings.html" class="extype" name="com.johnsnowlabs.ml.ai.OpenAIEmbeddings">OpenAIEmbeddings</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="OpenAIEmbeddings.html" class="extype" name="com.johnsnowlabs.ml.ai.OpenAIEmbeddings">OpenAIEmbeddings</a>. Please refer to that class for the
+documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.ml.ai.VectorDBConnector" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="VectorDBConnector"></a><a id="VectorDBConnector:VectorDBConnector"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/ai/VectorDBConnector$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of VectorDBConnector." href="VectorDBConnector$.html"><span class="name">VectorDBConnector</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="VectorDBConnector.html" class="extype" name="com.johnsnowlabs.ml.ai.VectorDBConnector">VectorDBConnector</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="VectorDBConnector.html" class="extype" name="com.johnsnowlabs.ml.ai.VectorDBConnector">VectorDBConnector</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="VectorDBConnector.html" class="extype" name="com.johnsnowlabs.ml.ai.VectorDBConnector">VectorDBConnector</a>. Please refer to that class for the
 documentation.
 </p></div></div>
     </li>

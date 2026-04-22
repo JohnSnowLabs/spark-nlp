@@ -28,10 +28,15 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
   import spark.implicits._
   val htmlFilesDirectory = "src/test/resources/reader/html"
   val docDirectory = "src/test/resources/reader/doc"
+  val odtDirectory = "src/test/resources/reader/odt"
   val txtDirectory = "src/test/resources/reader/txt/"
   val pdfDirectory = "src/test/resources/reader/pdf/"
   val mdDirectory = "src/test/resources/reader/md"
   val xmlDirectory = "src/test/resources/reader/xml"
+  val csvDirectory = "src/test/resources/reader/csv"
+  val tsvDirectory = "src/test/resources/reader/tsv"
+  val epubDirectory = "src/test/resources/reader/epub"
+  val rtfDirectory = "src/test/resources/reader/rtf"
   val unsupportedFiles = "src/test/resources/reader/unsupported-files"
 
   "Reader2Doc" should "convert unstructured input to structured output for HTML" taggedAs FastTest in {
@@ -152,6 +157,20 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     assert(resultDf.count() == 1)
   }
 
+  it should "work for ODT documents" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("application/vnd.oasis.opendocument.text")
+      .setContentPath(s"$odtDirectory/page-breaks.odt")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    assert(resultDf.count() == 1)
+  }
+
   it should "work with PDF documents" taggedAs FastTest in {
     val reader2Doc = new Reader2Doc()
       .setContentType("application/pdf")
@@ -192,6 +211,67 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val resultDf = pipelineModel.transform(emptyDataSet)
 
     assert(resultDf.count() == 1)
+  }
+
+  it should "work with RTF" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("text/rtf")
+      .setContentPath(s"$rtfDirectory/sample.rtf")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    assert(resultDf.count() == 1)
+  }
+
+  it should "work with EPUB" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("application/epub+zip")
+      .setContentPath(s"$epubDirectory/sample.epub")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    assert(resultDf.count() == 1)
+  }
+
+  it should "work for TSV documents" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("text/tsv")
+      .setContentPath(s"$tsvDirectory/stanley-cups.tsv")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
+    assert(resultDf.count() == 1)
+    assert(annotationsResult.head.head.result.contains("Blues STL 1"))
+  }
+
+  it should "work for CSV documents" taggedAs FastTest in {
+    val reader2Doc = new Reader2Doc()
+      .setContentType("text/csv")
+      .setContentPath(s"$csvDirectory/stanley-cups.csv")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+
+    val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
+    assert(resultDf.count() == 1)
+    assert(annotationsResult.head.head.result.contains("Team Location Stanley Cups"))
+    assert(annotationsResult.head.head.result.contains("Blues STL 1"))
   }
 
   it should "throw if contentPath is not set" taggedAs FastTest in {
@@ -411,6 +491,28 @@ class Reader2DocTest extends AnyFlatSpec with SparkSessionTest {
     val resultDf = pipeline.fit(txtDf).transform(txtDf)
 
     assert(resultDf.count() > 0)
+  }
+
+  it should "process TSV content from a spark dataframe" taggedAs FastTest in {
+    val content =
+      """Team	Location	Stanley Cups
+        |Blues	STL	1
+        |Flyers	PHI	2
+        |Maple Leafs	TOR	13""".stripMargin
+
+    val tsvDf = spark.createDataFrame(Seq((1, content))).toDF("id", "tsv")
+
+    val reader2Doc = new Reader2Doc()
+      .setInputCol("tsv")
+      .setContentType("text/tsv")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Doc))
+    val resultDf = pipeline.fit(tsvDf).transform(tsvDf)
+
+    val annotationsResult = AssertAnnotations.getActualResult(resultDf, "document")
+    assert(resultDf.count() == 1)
+    assert(annotationsResult.head.head.result.contains("Blues STL 1"))
   }
 
   it should "be fault-tolerant for HTML content" taggedAs FastTest in {

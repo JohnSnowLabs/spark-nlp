@@ -28,7 +28,10 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
   val htmlFilesDirectory = "src/test/resources/reader/html"
   val docDirectory = "src/test/resources/reader/doc"
   val csvDirectory = "src/test/resources/reader/csv"
+  val tsvDirectory = "src/test/resources/reader/tsv"
   val pdfDirectory = "src/test/resources/reader/pdf/"
+  val rtfDirectory = "src/test/resources/reader/rtf"
+  val epubDirectory = "src/test/resources/reader/epub"
 
   "ReaderAssembler" should "read HTML files" taggedAs FastTest in {
     val reader = new ReaderAssembler()
@@ -76,6 +79,27 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     val reader = new ReaderAssembler()
       .setContentType("text/csv")
       .setContentPath(s"$csvDirectory/stanley-cups.csv")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader))
+    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
+
+    val textResult = AssertAnnotations.getActualResult(resultDf, "document_text")
+    val tableResult = AssertAnnotations.getActualResult(resultDf, "document_table")
+    val imageResult = AssertAnnotations.getActualImageResult(resultDf, "document_image")
+    val actualText = textResult.filter(annotation => annotation.nonEmpty)
+    val actualTable = tableResult.filter(annotation => annotation.nonEmpty)
+    val actualImages = imageResult.filter(annotation => annotation.nonEmpty)
+
+    assert(actualText.nonEmpty)
+    assert(actualTable.nonEmpty)
+    assert(actualImages.isEmpty)
+  }
+
+  it should "work for tsv files" taggedAs FastTest in {
+    val reader = new ReaderAssembler()
+      .setContentType("text/tsv")
+      .setContentPath(s"$tsvDirectory/stanley-cups.tsv")
       .setOutputCol("document")
 
     val pipeline = new Pipeline().setStages(Array(reader))
@@ -159,6 +183,48 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     assert(actualImages.nonEmpty)
   }
 
+  it should "read EPUB files" taggedAs FastTest in {
+    val reader = new ReaderAssembler()
+      .setContentType("application/epub+zip")
+      .setContentPath(s"$epubDirectory/sample.epub")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader))
+    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
+
+    val textResult = AssertAnnotations.getActualResult(resultDf, "document_text")
+    val tableResult = AssertAnnotations.getActualResult(resultDf, "document_table")
+    val imageResult = AssertAnnotations.getActualImageResult(resultDf, "document_image")
+    val actualText = textResult.filter(annotation => annotation.nonEmpty)
+    val actualTable = tableResult.filter(annotation => annotation.nonEmpty)
+    val actualImages = imageResult.filter(annotation => annotation.nonEmpty)
+
+    assert(actualText.nonEmpty)
+    assert(actualTable.nonEmpty)
+    assert(actualImages.nonEmpty)
+  }
+
+  it should "work for rtf files" taggedAs FastTest in {
+    val reader = new ReaderAssembler()
+      .setContentType("text/rtf")
+      .setContentPath(s"$rtfDirectory/sample.rtf")
+      .setOutputCol("document")
+
+    val pipeline = new Pipeline().setStages(Array(reader))
+    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
+
+    val textResult = AssertAnnotations.getActualResult(resultDf, "document_text")
+    val tableResult = AssertAnnotations.getActualResult(resultDf, "document_table")
+    val imageResult = AssertAnnotations.getActualImageResult(resultDf, "document_image")
+    val actualText = textResult.filter(annotation => annotation.nonEmpty)
+    val actualTable = tableResult.filter(annotation => annotation.nonEmpty)
+    val actualImages = imageResult.filter(annotation => annotation.nonEmpty)
+
+    assert(actualText.nonEmpty)
+    assert(actualTable.isEmpty)
+    assert(actualImages.isEmpty)
+  }
+
   it should "integrate PDF files with VLM models" taggedAs SlowTest in {
     val reader = new ReaderAssembler()
       .setContentType("application/pdf")
@@ -181,8 +247,7 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     resultDf.select("document_image.origin", "answer.result").show(truncate = false)
   }
 
-  // TODO: FIXME this should not rely on online resources
-  it should "read from a directory" taggedAs FastTest ignore {
+  it should "read from a directory" taggedAs FastTest in {
     val reader = new ReaderAssembler()
       .setContentPath(s"$filesDirectory")
       .setOutputCol("document")

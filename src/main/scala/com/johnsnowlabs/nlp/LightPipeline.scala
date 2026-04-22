@@ -21,11 +21,7 @@ import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.{PipelineModel, Transformer}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
-import scala.collection.parallel.CollectionConverters.{
-  ArrayIsParallelizable,
-  IterableIsParallelizable
-}
-import scala.jdk.CollectionConverters._
+import scala.collection.JavaConverters._
 import scala.util.{Failure, Success, Try}
 
 class LightPipeline(
@@ -148,11 +144,27 @@ class LightPipeline(
     }.toArray
   }
 
+  def fullAnnotateWithMeta(
+      target: String,
+      metadata: Map[String, Seq[String]]): Map[String, Seq[IAnnotation]] = {
+    fullAnnotateInternal(target = target, metadata = metadata)
+  }
+
+  def fullAnnotateWithMeta(
+      targets: Array[String],
+      metadatas: Array[Map[String, Seq[String]]]): Array[Map[String, Seq[IAnnotation]]] = {
+    require(targets.length == metadatas.length, "targets and metadatas must have the same length")
+    (targets zip metadatas).par.map { case (target, meta) =>
+      fullAnnotateInternal(target = target, metadata = meta)
+    }.toArray
+  }
+
   private def fullAnnotateInternal(
       target: String,
       optionalTarget: String = "",
       audio: Array[Float] = Array.empty,
       id: Option[Int] = None,
+      metadata: Map[String, Seq[String]] = Map.empty[String, Seq[String]],
       startWith: Map[String, Seq[IAnnotation]] = Map.empty[String, Seq[IAnnotation]])
       : Map[String, Seq[IAnnotation]] = {
     val annotations = getStages.foldLeft(startWith)((annotations, transformer) => {
@@ -173,14 +185,13 @@ class LightPipeline(
         case recursiveAnnotator: HasRecursiveTransform[_] with AnnotatorModel[_] =>
           processRecursiveAnnotator(recursiveAnnotator, annotations)
         case annotatorModel: AnnotatorModel[_] =>
-          processAnnotatorModel(annotatorModel, annotations)
-        case finisher: Finisher =>
-          annotations.view.filterKeys(finisher.getInputCols.contains).toMap
+          processAnnotatorModel(annotatorModel, annotations, metadata)
+        case finisher: Finisher => annotations.filterKeys(finisher.getInputCols.contains)
         case graphFinisher: GraphFinisher => processGraphFinisher(graphFinisher, annotations)
         case rawModel: RawAnnotator[_] => processRowAnnotator(rawModel, annotations)
         case pipeline: PipelineModel =>
           new LightPipeline(pipeline, parseEmbeddings, outputCols)
-            .fullAnnotateInternal(target, optionalTarget, audio, id, annotations)
+            .fullAnnotateInternal(target, optionalTarget, audio, id, metadata, annotations)
         case _ => annotations
       }
     })
@@ -293,16 +304,29 @@ class LightPipeline(
 
   private def processAnnotatorModel(
       annotatorModel: AnnotatorModel[_],
-      annotations: Map[String, Seq[IAnnotation]]): Map[String, Seq[IAnnotation]] = {
-    annotatorModel match {
+      annotations: Map[String, Seq[IAnnotation]],
+      metadata: Map[String, Seq[String]]): Map[String, Seq[IAnnotation]] = {
+    val preparedAnnotations = annotatorModel match {
+      case hook: HasLightPipelineAnnotate =>
+        hook.beforeAnnotateLight(annotations, metadata)
+      case _ => annotations
+    }
+
+    val updatedAnnotations = annotatorModel match {
       case annotator: HasSimpleAnnotate[_] =>
-        processAnnotator(annotator, annotations)
+        processAnnotator(annotator, preparedAnnotations)
       case batchedAnnotator: HasBatchedAnnotate[_] =>
-        processBatchedAnnotator(batchedAnnotator, annotations)
+        processBatchedAnnotator(batchedAnnotator, preparedAnnotations)
       case batchedAnnotatorImage: HasBatchedAnnotateImage[_] =>
-        processBatchedAnnotatorImage(batchedAnnotatorImage, annotations)
+        processBatchedAnnotatorImage(batchedAnnotatorImage, preparedAnnotations)
       case batchedAnnotatorAudio: HasBatchedAnnotateAudio[_] =>
-        processBatchedAnnotatorAudio(batchedAnnotatorAudio, annotations)
+        processBatchedAnnotatorAudio(batchedAnnotatorAudio, preparedAnnotations)
+    }
+
+    annotatorModel match {
+      case hook: HasLightPipelineAnnotate =>
+        hook.afterAnnotateLight(updatedAnnotations, metadata)
+      case _ => updatedAnnotations
     }
   }
 
@@ -417,22 +441,34 @@ class LightPipeline(
   }
 
   def fullAnnotateJava(target: String): java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotate(target).view
+    fullAnnotate(target)
       .mapValues(_.map { annotation =>
         castToJavaAnnotation(annotation)
       }.asJava)
-      .toMap
       .asJava
   }
 
   def fullAnnotateJava(
       target: String,
       optionalTarget: String): java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotate(target, optionalTarget).view
+    fullAnnotate(target, optionalTarget)
       .mapValues(_.map { annotation =>
         castToJavaAnnotation(annotation)
       }.asJava)
-      .toMap
+      .asJava
+  }
+
+  private def toScalaMetadata(
+      metadata: java.util.Map[String, java.util.List[String]]): Map[String, Seq[String]] = {
+    metadata.asScala.map { case (key, values) => key -> values.asScala.toSeq }.toMap
+  }
+
+  def fullAnnotateWithMetaJava(
+      target: String,
+      metadata: java.util.Map[String, java.util.List[String]])
+      : java.util.Map[String, java.util.List[IAnnotation]] = {
+    fullAnnotateWithMeta(target, toScalaMetadata(metadata))
+      .mapValues(_.map(castToJavaAnnotation).asJava)
       .asJava
   }
 
@@ -463,6 +499,22 @@ class LightPipeline(
       .asJava
   }
 
+  def fullAnnotateWithMetaJava(
+      targets: java.util.ArrayList[String],
+      metadatas: java.util.ArrayList[java.util.Map[String, java.util.List[String]]])
+      : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
+    require(targets.size() == metadatas.size(), "targets and metadatas must have the same length")
+    val scalaTargets = targets.asScala.toArray
+    val scalaMetas = metadatas.asScala.map(toScalaMetadata).toArray
+
+    fullAnnotateWithMeta(scalaTargets, scalaMetas)
+      .map { annotations =>
+        annotations.mapValues(_.map(castToJavaAnnotation).asJava).asJava
+      }
+      .toList
+      .asJava
+  }
+
   def fullAnnotateJava(
       targets: java.util.ArrayList[String],
       optionalTargets: java.util.ArrayList[String])
@@ -477,7 +529,7 @@ class LightPipeline(
 
   def fullAnnotateImageJava(
       pathToImage: String): java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotateImage(pathToImage).view.mapValues(_.asJava).toMap.asJava
+    fullAnnotateImage(pathToImage).mapValues(_.asJava).asJava
   }
 
   def fullAnnotateImageJava(
@@ -487,7 +539,7 @@ class LightPipeline(
     if (texts.isEmpty) {
       pathToImages.asScala.par
         .map { imageFilePath =>
-          fullAnnotateInternal(imageFilePath).view.mapValues(_.asJava).toMap.asJava
+          fullAnnotateInternal(imageFilePath).mapValues(_.asJava).asJava
         }
         .toList
         .asJava
@@ -501,7 +553,7 @@ class LightPipeline(
 
       imageTextPairs
         .map { case (imageFilePath, text) =>
-          fullAnnotateImage(imageFilePath, text).view.mapValues(_.asJava).toMap.asJava
+          fullAnnotateImage(imageFilePath, text).mapValues(_.asJava).asJava
         }
         .toList
         .asJava
@@ -510,14 +562,14 @@ class LightPipeline(
 
   def fullAnnotateSingleAudioJava(
       audio: java.util.ArrayList[Double]): java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotate(audio.asScala.toArray).view.mapValues(_.asJava).toMap.asJava
+    fullAnnotate(audio.asScala.toArray).mapValues(_.asJava).asJava
   }
 
   def fullAnnotateAudiosJava(audios: java.util.ArrayList[java.util.ArrayList[Double]])
       : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
     audios.asScala.par
       .map { audio =>
-        fullAnnotate(audio.asScala.toArray).view.mapValues(_.asJava).toMap.asJava
+        fullAnnotate(audio.asScala.toArray).mapValues(_.asJava).asJava
       }
       .toList
       .asJava
@@ -532,7 +584,7 @@ class LightPipeline(
     val scalaTexts = texts.asScala.toArray
     fullAnnotate(scalaIds, scalaTexts)
       .map { annotations: Map[String, Seq[IAnnotation]] =>
-        annotations.view.mapValues(_.map(castToJavaAnnotation).asJava).toMap.asJava
+        annotations.mapValues(_.map(castToJavaAnnotation).asJava).asJava
       }
       .toList
       .asJava
@@ -546,18 +598,16 @@ class LightPipeline(
 
   def annotate(target: String, optionalTarget: String = ""): Map[String, Seq[String]] = {
     val annotations = fullAnnotate(target, optionalTarget)
-    annotations.view
-      .mapValues(_.map {
-        case annotation: Annotation =>
-          annotation.annotatorType match {
-            case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
-                if parseEmbeddings =>
-              annotation.embeddings.mkString(" ")
-            case _ => annotation.result
-          }
-        case _ => ""
-      })
-      .toMap
+    annotations.mapValues(_.map {
+      case annotation: Annotation =>
+        annotation.annotatorType match {
+          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
+              if parseEmbeddings =>
+            annotation.embeddings.mkString(" ")
+          case _ => annotation.result
+        }
+      case _ => ""
+    })
   }
 
   def annotate(
@@ -596,14 +646,46 @@ class LightPipeline(
     }
   }
 
+  def annotateWithMeta(
+      target: String,
+      metadata: Map[String, Seq[String]]): Map[String, Seq[String]] = {
+    val annotations = fullAnnotateWithMeta(target, metadata)
+    annotations.mapValues(_.map {
+      case annotation: Annotation =>
+        annotation.annotatorType match {
+          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
+              if parseEmbeddings =>
+            annotation.embeddings.mkString(" ")
+          case _ => annotation.result
+        }
+      case _ => ""
+    })
+  }
+
+  def annotateWithMeta(
+      targets: Array[String],
+      metadatas: Array[Map[String, Seq[String]]]): Array[Map[String, Seq[String]]] = {
+    require(targets.length == metadatas.length, "targets and metadatas must have the same length")
+    (targets zip metadatas).par.map { case (target, meta) =>
+      annotateWithMeta(target, meta)
+    }.toArray
+  }
+
   def annotateJava(target: String): java.util.Map[String, java.util.List[String]] = {
-    annotate(target).view.mapValues(_.asJava).toMap.asJava
+    annotate(target).mapValues(_.asJava).asJava
   }
 
   def annotateJava(
       target: String,
       optionalTarget: String): java.util.Map[String, java.util.List[String]] = {
-    annotate(target, optionalTarget).view.mapValues(_.asJava).toMap.asJava
+    annotate(target, optionalTarget).mapValues(_.asJava).asJava
+  }
+
+  def annotateWithMetaJava(
+      target: String,
+      metadata: java.util.Map[String, java.util.List[String]])
+      : java.util.Map[String, java.util.List[String]] = {
+    annotateWithMeta(target, toScalaMetadata(metadata)).mapValues(_.asJava).asJava
   }
 
   def annotateJava(targets: java.util.ArrayList[String])
@@ -626,6 +708,22 @@ class LightPipeline(
       .asJava
   }
 
+  def annotateWithMetaJava(
+      targets: java.util.ArrayList[String],
+      metadatas: java.util.ArrayList[java.util.Map[String, java.util.List[String]]])
+      : java.util.List[java.util.Map[String, java.util.List[String]]] = {
+    require(targets.size() == metadatas.size(), "targets and metadatas must have the same length")
+    val scalaTargets = targets.asScala.toArray
+    val scalaMetas = metadatas.asScala.map(toScalaMetadata).toArray
+
+    annotateWithMeta(scalaTargets, scalaMetas)
+      .map { results =>
+        results.mapValues(_.asJava).asJava
+      }
+      .toList
+      .asJava
+  }
+
   def annotateWithIdsJava(ids: java.util.ArrayList[Integer], texts: java.util.ArrayList[String])
       : java.util.List[java.util.Map[String, java.util.List[String]]] = {
 
@@ -634,7 +732,7 @@ class LightPipeline(
 
     annotate(scalaIds, scalaTexts)
       .map { results =>
-        results.view.mapValues(_.asJava).toMap.asJava
+        results.mapValues(_.asJava).asJava
       }
       .toList
       .asJava

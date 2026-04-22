@@ -40,7 +40,8 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Column, DataFrame, Dataset, Row}
 
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.mapAsJavaMapConverter
+import scala.util.control.NonFatal
 
 /** The Reader2Image annotator allows you to use the reading files with images more smoothly
   * within existing Spark NLP workflows, enabling seamless reuse of your pipelines. Reader2Image
@@ -48,7 +49,8 @@ import scala.jdk.CollectionConverters._
   * NLP readers. It supports reading from many files types and returns parsed output as a
   * structured Spark DataFrame.
   *
-  * Supported formats include HTML and Markdown
+  * Supported formats include HTML, Markdown, Word (.doc/.docx), ODT (.odt), Excel (.xls/.xlsx),
+  * PowerPoint (.ppt/.pptx), email files (.eml, .msg), raw image files, and PDFs.
   *
   * ==Example==
   * {{{
@@ -252,8 +254,10 @@ class Reader2Image(override val uid: String)
     "msg" -> ("message/rfc822", false),
     "docx" -> ("application/msword", false),
     "doc" -> ("application/msword", false),
+    "odt" -> ("application/vnd.oasis.opendocument.text", false),
     "ppt" -> ("application/vnd.ms-powerpoint", false),
     "pptx" -> ("application/vnd.ms-powerpoint", false),
+    "epub" -> ("application/epub+zip", false),
     "xlsx" -> ("application/vnd.ms-excel", false),
     "xls" -> ("application/vnd.ms-excel", false),
     "png" -> ("image/raw", false),
@@ -319,7 +323,16 @@ class Reader2Image(override val uid: String)
         if (encoding.contains("base64")) {
           ImageParser.decodeBase64(content)
         } else {
-          ImageParser.fetchFromUrl(content)
+          try {
+            ImageParser.fetchFromUrl(
+              content,
+              connectTimeoutMs = imageFetchTimeoutMs,
+              readTimeoutMs = imageFetchTimeoutMs,
+              headers = $(headers))
+          } catch {
+            case NonFatal(e) if $(ignoreExceptions) =>
+              return Some(buildImageErrorArtifact(path, content, metadata, e))
+          }
         }
     }
 
@@ -347,6 +360,46 @@ class Reader2Image(override val uid: String)
     } else {
       None
     }
+  }
+
+  private def buildImageErrorArtifact(
+      path: String,
+      sourceUrl: String,
+      metadata: Map[String, String],
+      error: Throwable): AnnotationImage = {
+    val origin = retrieveFileName(path)
+    val errorMessage = compactErrorMessage(error)
+
+    AnnotationImage(
+      annotatorType = IMAGE,
+      origin = origin,
+      height = 0,
+      width = 0,
+      nChannels = 0,
+      mode = 0,
+      result = Array.emptyByteArray,
+      metadata = metadata ++ Map(
+        "errorArtifact" -> "true",
+        "errorType" -> "image_fetch_failed",
+        "sourceUrl" -> sourceUrl,
+        "fetchStatus" -> "failed",
+        "fetchErrorClass" -> error.getClass.getSimpleName,
+        "fetchErrorMessage" -> errorMessage),
+      text = s"Could not fetch image: $errorMessage")
+  }
+
+  private def compactErrorMessage(error: Throwable): String = {
+    Option(error.getMessage)
+      .map(_.trim)
+      .filter(_.nonEmpty)
+      .getOrElse(error.getClass.getSimpleName)
+      .replaceAll("\\s+", " ")
+      .take(500)
+  }
+
+  private def imageFetchTimeoutMs: Int = {
+    val timeoutSeconds = $(timeout)
+    if (timeoutSeconds > 0) timeoutSeconds * 1000 else 1000
   }
 
   protected def partitionBuilder: Partition = {

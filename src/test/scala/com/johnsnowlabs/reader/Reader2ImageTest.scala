@@ -18,7 +18,7 @@ package com.johnsnowlabs.reader
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
 import com.johnsnowlabs.nlp.annotators.cv.{Qwen2VLTransformer, SmolVLMTransformer}
 import com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel
-import com.johnsnowlabs.nlp.{AnnotatorType, AssertAnnotations}
+import com.johnsnowlabs.nlp.{AnnotationImage, AnnotatorType, AssertAnnotations}
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.{col, explode}
@@ -34,6 +34,8 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
   val unsupportedFiles = "src/test/resources/reader/unsupported-files"
   val emailDirectory = "src/test/resources/reader/email/"
   val wordDirectory = "src/test/resources/reader/doc/"
+  val odtDirectory = "src/test/resources/reader/odt/"
+  val epubDirectory = "src/test/resources/reader/epub/"
   val imageDirectory = "src/test/resources/reader/img/"
   val pdfDirectory = "src/test/resources/reader/pdf/"
   val filesDirectory = "src/test/resources/reader/"
@@ -50,18 +52,21 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     val pipelineModel = pipeline.fit(emptyDataSet)
     val resultDf = pipelineModel.transform(emptyDataSet)
 
-    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
+    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image").flatten
 
     assert(annotationsResult.length == 2)
-    annotationsResult.foreach { annotations =>
-      assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
-      assert(annotations.head.origin == sourceFile)
-      assert(annotations.head.result.nonEmpty)
-      assert(annotations.head.height > 0)
-      assert(annotations.head.width > 0)
-      assert(annotations.head.nChannels > 0)
-      assert(annotations.head.mode > 0)
-      assert(annotations.head.metadata.nonEmpty)
+
+    val base64Image = annotationsResult.find(_.metadata.get("alt").contains("Base64 Red Dot")).get
+    assertSuccessfulImageAnnotation(base64Image, sourceFile)
+
+    val remoteImage = annotationsResult.find(_.metadata.get("alt").contains("React Logo")).get
+    if (remoteImage.metadata.get("errorArtifact").contains("true")) {
+      assertImageErrorArtifact(
+        remoteImage,
+        sourceFile,
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1024px-React-icon.svg.png")
+    } else {
+      assertSuccessfulImageAnnotation(remoteImage, sourceFile)
     }
 
   }
@@ -164,6 +169,41 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     assert(resultDf.isEmpty)
   }
 
+  it should "return an image error artifact when a remote image URL is unreachable" taggedAs FastTest in {
+    val sourceFile = "example-broken-image.html"
+    val unreachableUrl = "http://127.0.0.1:1/unreachable.png"
+    val reader2Image = new Reader2Image()
+      .setContentType("text/html")
+      .setContentPath(s"$htmlFilesDirectory/$sourceFile")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image").flatten
+
+    assert(annotationsResult.length == 1)
+    assertImageErrorArtifact(annotationsResult.head, sourceFile, unreachableUrl)
+    assert(annotationsResult.head.metadata.get("alt").contains("Broken Remote"))
+  }
+
+  it should "fail fast for unreachable remote image URLs when ignoreExceptions is false" taggedAs FastTest in {
+    val sourceFile = "example-broken-image.html"
+    val reader2Image = new Reader2Image()
+      .setContentType("text/html")
+      .setContentPath(s"$htmlFilesDirectory/$sourceFile")
+      .setOutputCol("image")
+      .setIgnoreExceptions(false)
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+    val pipelineModel = pipeline.fit(emptyDataSet)
+
+    assertThrows[Exception] {
+      pipelineModel.transform(emptyDataSet).count()
+    }
+  }
+
   it should "work for email files with eml extension" taggedAs FastTest in {
     val emailFile = "email-test-image.eml"
     val emailPath = s"$emailDirectory/$emailFile"
@@ -236,6 +276,59 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     annotationsResult.foreach { annotations =>
       assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
       assert(annotations.head.origin == wordFile)
+      assert(annotations.head.result.nonEmpty)
+      assert(annotations.head.height > 0)
+      assert(annotations.head.width > 0)
+      assert(annotations.head.nChannels > 0)
+      assert(annotations.head.mode > 0)
+      assert(annotations.head.metadata.nonEmpty)
+    }
+  }
+
+  it should "read images from OpenOffice files" taggedAs FastTest in {
+    val wordFile = "contains-pictures.odt"
+    val wordPath = s"$odtDirectory/$wordFile"
+    val reader2Image = new Reader2Image()
+      .setContentPath(wordPath)
+      .setContentType("application/vnd.oasis.opendocument.text")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
+
+    annotationsResult.foreach { annotations =>
+      assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
+      assert(annotations.head.origin == wordFile)
+      assert(annotations.head.result.nonEmpty)
+      assert(annotations.head.height > 0)
+      assert(annotations.head.width > 0)
+      assert(annotations.head.nChannels > 0)
+      assert(annotations.head.mode > 0)
+      assert(annotations.head.metadata.nonEmpty)
+    }
+  }
+
+  it should "read images from EPUB files" taggedAs FastTest in {
+    val epubFile = "sample.epub"
+    val epubPath = s"$epubDirectory/$epubFile"
+    val reader2Image = new Reader2Image()
+      .setContentPath(epubPath)
+      .setContentType("application/epub+zip")
+      .setOutputCol("image")
+
+    val pipeline = new Pipeline().setStages(Array(reader2Image))
+
+    val pipelineModel = pipeline.fit(emptyDataSet)
+    val resultDf = pipelineModel.transform(emptyDataSet)
+    val annotationsResult = AssertAnnotations.getActualImageResult(resultDf, "image")
+
+    assert(annotationsResult.length == 1)
+    annotationsResult.foreach { annotations =>
+      assert(annotations.head.annotatorType == AnnotatorType.IMAGE)
+      assert(annotations.head.origin == epubFile)
       assert(annotations.head.result.nonEmpty)
       assert(annotations.head.height > 0)
       assert(annotations.head.width > 0)
@@ -590,7 +683,7 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
       .pretrained()
       .setInputCols("prompt", "image")
       .setOutputCol("completions")
-      .setBatchSize(2)
+      .setBatchSize(1)
       .setNGpuLayers(99)
       .setNCtx(4096)
       .setMinKeep(0)
@@ -658,6 +751,39 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
     } else {
       Seq.empty
     }
+  }
+
+  private def assertSuccessfulImageAnnotation(
+      annotation: AnnotationImage,
+      expectedOrigin: String): Unit = {
+    assert(annotation.annotatorType == AnnotatorType.IMAGE)
+    assert(annotation.origin == expectedOrigin)
+    assert(annotation.result.nonEmpty)
+    assert(annotation.height > 0)
+    assert(annotation.width > 0)
+    assert(annotation.nChannels > 0)
+    assert(annotation.mode > 0)
+    assert(annotation.metadata.nonEmpty)
+  }
+
+  private def assertImageErrorArtifact(
+      annotation: AnnotationImage,
+      expectedOrigin: String,
+      expectedSourceUrl: String): Unit = {
+    assert(annotation.annotatorType == AnnotatorType.IMAGE)
+    assert(annotation.origin == expectedOrigin)
+    assert(annotation.result.isEmpty)
+    assert(annotation.height == 0)
+    assert(annotation.width == 0)
+    assert(annotation.nChannels == 0)
+    assert(annotation.mode == 0)
+    assert(annotation.metadata.get("errorArtifact").contains("true"))
+    assert(annotation.metadata.get("errorType").contains("image_fetch_failed"))
+    assert(annotation.metadata.get("sourceUrl").contains(expectedSourceUrl))
+    assert(annotation.metadata.get("fetchStatus").contains("failed"))
+    assert(annotation.metadata.contains("fetchErrorClass"))
+    assert(annotation.metadata.contains("fetchErrorMessage"))
+    assert(annotation.text.contains("Could not fetch image"))
   }
 
 }

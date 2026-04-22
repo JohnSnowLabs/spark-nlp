@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.3.2 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings</title>
-          <meta name="description" content="Spark NLP 6.3.2 ScalaDoc - com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings" />
-          <meta name="keywords" content="Spark NLP 6.3.2 ScalaDoc com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings" />
+          <title>Spark NLP 6.4.0 ScalaDoc  - com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings</title>
+          <meta name="description" content="Spark NLP 6.4.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings" />
+          <meta name="keywords" content="Spark NLP 6.4.0 ScalaDoc com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.3.2 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.4.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -214,6 +214,10 @@
                         <a class="class" href="MiniLMEmbeddings.html" title="Sentence embeddings using MiniLM."></a>
                         <a href="MiniLMEmbeddings.html" title="Sentence embeddings using MiniLM.">MiniLMEmbeddings</a>
                       </li><li class="current-entities indented4">
+                        <a class="object" href="ModernBertEmbeddings$.html" title="This is the companion object of ModernBertEmbeddings."></a>
+                        <a class="class" href="ModernBertEmbeddings.html" title="Token-level embeddings using ModernBERT."></a>
+                        <a href="ModernBertEmbeddings.html" title="Token-level embeddings using ModernBERT.">ModernBertEmbeddings</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="MxbaiEmbeddings$.html" title="This is the companion object of MxbaiEmbeddings."></a>
                         <a class="class" href="" title="Sentence embeddings using Mxbai Embeddings."></a>
                         <a href="" title="Sentence embeddings using Mxbai Embeddings.">MxbaiEmbeddings</a>
@@ -285,6 +289,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadMiniLMDLModel.html" title=""></a>
                         <a href="ReadMiniLMDLModel.html" title="">ReadMiniLMDLModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadModernBertDLModel.html" title=""></a>
+                        <a href="ReadModernBertDLModel.html" title="">ReadModernBertDLModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadMxbaiDLModel.html" title=""></a>
@@ -389,6 +397,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedMiniLMModel.html" title=""></a>
                         <a href="ReadablePretrainedMiniLMModel.html" title="">ReadablePretrainedMiniLMModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedModernBertModel.html" title=""></a>
+                        <a href="ReadablePretrainedModernBertModel.html" title="">ReadablePretrainedModernBertModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedMxbaiModel.html" title=""></a>
@@ -1231,6 +1243,22 @@ type
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#extraInputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="extraInputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="extraInputCols:StringArrayParam"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/MxbaiEmbeddings.html#extraInputCols:org.apache.spark.ml.param.StringArrayParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">extraInputCols</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.StringArrayParam">StringArrayParam</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.RawAnnotator#extraValidate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="extraValidate(structType:org.apache.spark.sql.types.StructType):Boolean"></a><a id="extraValidate(StructType):Boolean"></a>
       <span class="permalink">
@@ -2659,6 +2687,22 @@ is saved dimension is not changeable, it comes from BERT config file
 </p><div class="fullcomment"><div class="comment cmt"><p>Set Embeddings dimensions for the BERT model Only possible to set this when the first time
 is saved dimension is not changeable, it comes from BERT config file
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings">MxbaiEmbeddings</a> → <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setExtraInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="setExtraInputCols(value:Array[String]):HasInputAnnotationCols.this.type"></a><a id="setExtraInputCols(Array[String]):MxbaiEmbeddings.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/MxbaiEmbeddings.html#setExtraInputCols(value:Array[String]):HasInputAnnotationCols.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setExtraInputCols</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings">MxbaiEmbeddings</a>.this.type</span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):MxbaiEmbeddings.this.type"></a>
       <span class="permalink">

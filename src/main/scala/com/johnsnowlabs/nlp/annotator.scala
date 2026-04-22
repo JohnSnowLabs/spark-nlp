@@ -31,7 +31,7 @@ import com.johnsnowlabs.nlp.annotators.ld.dl.{
   ReadablePretrainedLanguageDetectorDLModel
 }
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
-import com.johnsnowlabs.nlp.annotators.ner.dl._
+import com.johnsnowlabs.nlp.annotators.ner.dl.{LLMEntityExtractor, _}
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
 import com.johnsnowlabs.nlp.annotators.parser.typdep.ReadablePretrainedTypedDependency
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron
@@ -838,6 +838,12 @@ package object annotator {
       extends ReadablePretrainedAutoGGUFVisionModel
       with ReadAutoGGUFVisionModel
 
+  type ModernBertEmbeddings = com.johnsnowlabs.nlp.embeddings.ModernBertEmbeddings
+  object ModernBertEmbeddings extends ReadablePretrainedModernBertModel with ReadModernBertDLModel
+
+  type VectorDBConnector = com.johnsnowlabs.ml.ai.VectorDBConnector
+  object VectorDBConnector extends DefaultParamsReadable[VectorDBConnector]
+
   type Reader2Doc = com.johnsnowlabs.reader.Reader2Doc
 
   object Reader2Doc extends DefaultParamsReadable[Reader2Doc]
@@ -853,4 +859,11 @@ package object annotator {
   type ReaderAssembler = com.johnsnowlabs.reader.ReaderAssembler
 
   object ReaderAssembler extends DefaultParamsReadable[ReaderAssembler]
+
+  type LLMEntityExtractor = com.johnsnowlabs.nlp.annotators.ner.dl.LLMEntityExtractor
+
+  object LLMEntityExtractor
+      extends ReadablePretrainedLLMEntityExtractor
+      with ReadLLMEntityExtractor
+
 }

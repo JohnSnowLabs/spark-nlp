@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017-2026 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.johnsnowlabs.partition
 
 import com.johnsnowlabs.reader.HTMLElement
@@ -10,19 +25,20 @@ class TitleChunkerTest extends AnyFlatSpec {
   def element(et: String, text: String, page: Int = 1): HTMLElement =
     HTMLElement(et, text, mutable.Map("pageNumber" -> page.toString))
 
-  "chunkByTitle" should "include titles in same chunk with following text" in {
+  "chunkByTitle" should "start a new chunk when a title element is found" in {
     val elements = List(
       element("Title", "My First Heading"),
-      element("Title", "My Second Heading"),
       element("NarrativeText", "My first paragraph. lorem ipsum dolor set amet."),
-      element("Title", "A Third Heading"))
+      element("Title", "My Second Heading"),
+      element("NarrativeText", "My second paragraph."))
 
     val result = TitleChunker.chunkByTitle(elements, maxCharacters = 1000)
 
-    assert(result.length == 1)
-    val content = result.head.elements.head.content
-    assert(content.contains("My First Heading"))
-    assert(content.contains("My Second Heading"))
+    assert(result.length == 2)
+    assert(result.head.elements.head.content.contains("My First Heading"))
+    assert(result.head.elements.head.content.contains("My first paragraph"))
+    assert(result(1).elements.head.content.contains("My Second Heading"))
+    assert(result(1).elements.head.content.contains("My second paragraph"))
   }
 
   it should "split on soft limit newAfterNChars" in {

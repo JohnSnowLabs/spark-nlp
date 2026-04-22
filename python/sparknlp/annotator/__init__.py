@@ -48,7 +48,9 @@ from sparknlp.annotator.date2_chunk import *
 from sparknlp.annotator.openai import *
 from sparknlp.annotator.token2_chunk import *
 from sparknlp.annotator.document_character_text_splitter import *
+from sparknlp.annotator.document_title_splitter import *
 from sparknlp.annotator.document_token_splitter import *
+from sparknlp.annotator.vector_db import *
 
 if sys.version_info[0] == 2:
     raise ImportError(

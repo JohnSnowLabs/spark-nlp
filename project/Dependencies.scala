@@ -23,8 +23,8 @@ object Dependencies {
   val is_spark31: String = System.getProperty("is_spark31", "false")
   val is_spark32: String = System.getProperty("is_spark32", "false")
   val is_spark33: String = System.getProperty("is_spark33", "false")
-  val is_spark34: String = System.getProperty("is_spark34", "false")
-  val is_spark35: String = System.getProperty("is_spark35", "true")
+  val is_spark34: String = System.getProperty("is_spark34", "true")
+  val is_spark35: String = System.getProperty("is_spark35", "false")
 
   val sparkVer: String =
     getSparkVersion(is_spark30, is_spark31, is_spark32, is_spark33, is_spark34, is_spark35)
@@ -110,8 +110,7 @@ object Dependencies {
   val tensorflowGPU = "com.johnsnowlabs.nlp" %% "tensorflow-gpu" % tensorflowVersion
   val tensorflowCPU = "com.johnsnowlabs.nlp" %% "tensorflow-cpu" % tensorflowVersion
   val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
-  val tensorflowLinuxAarch64 =
-    "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
+  val tensorflowLinuxAarch64 = "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
 
   val onnxRuntimeVersion = "1.19.2"
   val onnxCPU = "com.microsoft.onnxruntime" % "onnxruntime" % onnxRuntimeVersion
@@ -143,12 +142,10 @@ object Dependencies {
   val angusMailVersion = "2.0.3"
   val angusMail = "org.eclipse.angus" % "angus-mail" % angusMailVersion
 
-  val poiVersion = "4.1.2"
-  val poiDocx = "org.apache.poi" % "poi-ooxml" % poiVersion
-  val scratchpad = "org.apache.poi" % "poi-scratchpad" % poiVersion
-
-  val poiSchemasVersion = "1.4"
-  val poiSchemas = "org.apache.poi" % "ooxml-schemas" % poiSchemasVersion
+  val poiFullVersion = "5.4.1"
+  val poiSchemas = "org.apache.poi" % "poi-ooxml-full" % poiFullVersion
+  val poiDocx = "org.apache.poi" % "poi-ooxml" % poiFullVersion
+  val scratchpad = "org.apache.poi" % "poi-scratchpad" % poiFullVersion
 
   val pdfBoxVersion = "2.0.28"
   val pdfBox = "org.apache.pdfbox" % "pdfbox" % pdfBoxVersion
@@ -158,6 +155,9 @@ object Dependencies {
 
   val tagSoupVersion = "1.2.1"
   val tagSoup = "org.ccil.cowan.tagsoup" % "tagsoup" % tagSoupVersion
+
+  val pineconeScalaClient = "io.cequence" %% "pinecone-scala-client" % "1.3.2"
+
 
   val json4sVersion = "3.7.0-M11"
   val json4sNative = "org.json4s" %% "json4s-native" % json4sVersion

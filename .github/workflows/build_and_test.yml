@@ -10,6 +10,7 @@ on:
       - "**.md"
       - "**.yaml"
       - "**.yml"
+      - "**.ipynb"
     branches:
       - "master"
       - "*release*"
@@ -24,6 +25,7 @@ on:
       - "**.md"
       - "**.yaml"
       - "**.yml"
+      - "**.ipynb"
     branches:
       - "master"
       - "*release*"
@@ -31,7 +33,7 @@ on:
       - "main"
 
 concurrency:
-  group: ${{ github. workflow }}-${{ github.event. pull_request.number || github. ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:

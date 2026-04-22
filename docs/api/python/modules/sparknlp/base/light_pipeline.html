@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 6.3.2 documentation</title>
+    <title>sparknlp.base.light_pipeline &#8212; Spark NLP 6.4.0 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=311087f9"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=2ccb7844"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.3.2 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.3.2 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -533,6 +533,55 @@ document.write(`
 
         <span class="k">return</span> <span class="n">result</span>
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__isMetadataInput</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">value</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__extractMetadataFromArgs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">args</span><span class="p">,</span> <span class="n">metadata</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isMetadataInput</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],),</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">args</span><span class="p">,</span> <span class="n">metadata</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__normalizeMetadataForTextInput</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">metadata</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__columnarToRowMetadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">target</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">metadata</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__columnarToRowMetadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">target_size</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">metadata</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[{}</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">target_size</span><span class="p">)]</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;When passing multiple texts with dict metadata, each metadata &quot;</span>
+                    <span class="s2">&quot;value must be a list.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">!=</span> <span class="n">target_size</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;When passing multiple texts with dict metadata, each metadata &quot;</span>
+                    <span class="s2">&quot;list must have the same length as target.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="p">[</span><span class="n">values</span><span class="p">[</span><span class="n">idx</span><span class="p">]]</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">target_size</span><span class="p">)</span>
+        <span class="p">]</span>
+
 <div class="viewcode-block" id="LightPipeline.fullAnnotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/base/light_pipeline/index.html#sparknlp.base.light_pipeline.LightPipeline.fullAnnotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Annotate and return full Annotation objects.</span>
@@ -541,6 +590,10 @@ document.write(`
 <span class="sd">          - fullAnnotate(text: str)</span>
 <span class="sd">          - fullAnnotate(texts: list[str])</span>
 <span class="sd">          - fullAnnotate(ids: list[int], texts: list[str])</span>
+<span class="sd">          - fullAnnotate(text: str, metadata: dict[str, list[str]])</span>
+<span class="sd">          - fullAnnotate(texts: list[str], metadata: list[dict[str, list[str]]])</span>
+<span class="sd">          - fullAnnotate(texts: list[str], metadata: dict[str, list[str]])</span>
+
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -559,10 +612,13 @@ document.write(`
 <span class="sd">        Annotation(named_entity, 30, 36, B-LOC, {&#39;word&#39;: &#39;Baghdad&#39;}),</span>
 <span class="sd">        Annotation(named_entity, 37, 37, O, {&#39;word&#39;: &#39;.&#39;})]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="s2">&quot;target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">],)</span> <span class="o">+</span> <span class="n">args</span>
         <span class="k">if</span> <span class="s2">&quot;optional_target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optional_target&quot;</span><span class="p">],)</span>
+        <span class="n">args</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extractMetadataFromArgs</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
 
         <span class="n">stages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skipPipelineValidation</span><span class="p">(</span><span class="n">stages</span><span class="p">):</span>
@@ -577,18 +633,25 @@ document.write(`
 
         <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;qa&quot;</span><span class="p">:</span>
             <span class="n">question</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;metadata is only supported for text inputs.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateQuestionAnswering</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateText</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__normalizeMetadataForTextInput</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateText</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;audio&quot;</span><span class="p">:</span>
             <span class="n">audios</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;metadata is only supported for text inputs.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fullAnnotateAudio</span><span class="p">(</span><span class="n">audios</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;image&quot;</span><span class="p">:</span>
             <span class="n">images</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;metadata is only supported for text inputs.&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fullAnnotateImage</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
 
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
@@ -618,18 +681,41 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">__fullAnnotateText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__fullAnnotateText</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__isPath</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;metadata is only supported for text inputs.&quot;</span><span class="p">)</span>
             <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fullAnnotateImage</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">result</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
-                <span class="n">target</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
-
-            <span class="k">for</span> <span class="n">annotations_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
-                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">annotations_result</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">target</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">annotations_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">annotations_result</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">annotations_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateWithMetaJava</span><span class="p">(</span>
+                        <span class="n">target</span><span class="p">,</span> <span class="n">metadata</span>
+                    <span class="p">)</span>
+                    <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">annotations_result</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">annotations_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">annotations_result</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                            <span class="s2">&quot;metadata must be a list of dicts or a dict of lists when &quot;</span>
+                            <span class="s2">&quot;passing multiple texts.&quot;</span>
+                        <span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+                        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;metadata and target must have the same length.&quot;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">annotations_result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">fullAnnotateWithMetaJava</span><span class="p">(</span>
+                        <span class="n">target</span><span class="p">,</span> <span class="n">metadata</span>
+                    <span class="p">):</span>
+                        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__buildStages</span><span class="p">(</span><span class="n">annotations_result</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">result</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__isPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
@@ -724,6 +810,9 @@ document.write(`
 <span class="sd">          - annotate(text: str)</span>
 <span class="sd">          - annotate(texts: list[str])</span>
 <span class="sd">          - annotate(ids: list[int], texts: list[str])</span>
+<span class="sd">          - annotate(text: str, metadata: dict[str, list[str]])</span>
+<span class="sd">          - annotate(texts: list[str], metadata: list[dict[str, list[str]]])</span>
+<span class="sd">          - annotate(texts: list[str], metadata: dict[str, list[str]])</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -739,6 +828,8 @@ document.write(`
 <span class="sd">        &gt;&gt;&gt; result[&quot;ner&quot;]</span>
 <span class="sd">        [&#39;B-ORG&#39;, &#39;O&#39;, &#39;O&#39;, &#39;B-PER&#39;, &#39;O&#39;, &#39;O&#39;, &#39;B-LOC&#39;, &#39;O&#39;]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
         <span class="k">def</span><span class="w"> </span><span class="nf">reformat</span><span class="p">(</span><span class="n">annotations</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">annotations</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
@@ -746,6 +837,7 @@ document.write(`
             <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">],)</span> <span class="o">+</span> <span class="n">args</span>
         <span class="k">if</span> <span class="s2">&quot;optional_target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optional_target&quot;</span><span class="p">],)</span>
+        <span class="n">args</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__extractMetadataFromArgs</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
 
         <span class="n">stages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">stages</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skipPipelineValidation</span><span class="p">(</span><span class="n">stages</span><span class="p">):</span>
@@ -755,12 +847,16 @@ document.write(`
 
         <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;ids_texts&quot;</span><span class="p">:</span>
             <span class="n">ids</span><span class="p">,</span> <span class="n">texts</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;metadata is only supported for text inputs.&quot;</span><span class="p">)</span>
             <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateWithIdsJava</span><span class="p">(</span><span class="n">ids</span><span class="p">,</span> <span class="n">texts</span><span class="p">)</span>
             <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">reformat</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">annotations</span><span class="p">)))</span>
             <span class="k">return</span> <span class="n">results</span>
 
         <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;qa&quot;</span><span class="p">:</span>
             <span class="n">question</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">args</span>
+            <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;metadata is only supported for text inputs.&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
                 <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">reformat</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">annotations</span><span class="p">)))</span>
@@ -772,12 +868,27 @@ document.write(`
 
         <span class="k">if</span> <span class="n">input_type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
             <span class="n">target</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__normalizeMetadataForTextInput</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateWithMetaJava</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
                 <span class="n">results</span> <span class="o">=</span> <span class="n">reformat</span><span class="p">(</span><span class="n">annotations</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">results</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateJava</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+                    <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">reformat</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">annotations</span><span class="p">)))</span>
+                    <span class="k">return</span> <span class="n">results</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                        <span class="s2">&quot;metadata must be a list of dicts or a dict of lists when &quot;</span>
+                        <span class="s2">&quot;passing multiple texts.&quot;</span>
+                    <span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">target</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;metadata and target must have the same length.&quot;</span><span class="p">)</span>
+                <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lightPipeline</span><span class="o">.</span><span class="n">annotateWithMetaJava</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
                 <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">a</span><span class="p">:</span> <span class="n">reformat</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">annotations</span><span class="p">)))</span>
                 <span class="k">return</span> <span class="n">results</span>
 

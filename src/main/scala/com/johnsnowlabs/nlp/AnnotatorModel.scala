@@ -59,9 +59,9 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
               this match {
                 case a: HasRecursiveTransform[M] =>
                   a.dfRecAnnotate(recursivePipeline.get)(
-                    array(getInputCols.map(c => dataset.col(c)): _*))
+                    array(getInputCols.map(c => inputDataset.col(c)): _*))
                 case _ =>
-                  withAnnotate.dfAnnotate(array(getInputCols.map(c => dataset.col(c)): _*))
+                  withAnnotate.dfAnnotate(array(getInputCols.map(c => inputDataset.col(c)): _*))
               }
             }))
         case withBatchAnnotate: HasBatchedAnnotate[M] =>

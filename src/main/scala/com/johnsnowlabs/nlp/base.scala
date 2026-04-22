@@ -61,4 +61,8 @@ package object base {
 
   object TableAssembler extends DefaultParamsReadable[TableAssembler]
 
+  type MultiColumnAssembler = com.johnsnowlabs.nlp.MultiColumnAssembler
+
+  object MultiColumnAssembler extends DefaultParamsReadable[MultiColumnAssembler]
+
 }
