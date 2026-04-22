@@ -833,6 +833,10 @@ package object annotator {
       extends ReadablePretrainedAutoGGUFEmbeddings
       with ReadAutoGGUFEmbeddings
 
+  type BiEncoderMultimodalEmbeddings =
+    com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings
+  object BiEncoderMultimodalEmbeddings extends ReadBiEncoderMultimodalEmbeddingsDLModel
+
   type AutoGGUFVisionModel = com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFVisionModel
   object AutoGGUFVisionModel
       extends ReadablePretrainedAutoGGUFVisionModel
