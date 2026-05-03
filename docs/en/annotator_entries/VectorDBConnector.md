@@ -15,8 +15,7 @@ boilerplate code.
 
 **Supports two modality modes:**
 - **`text`** (default): expects `DOCUMENT + SENTENCE_EMBEDDINGS` input columns.
-- **`image`**: expects `IMAGE + SENTENCE_EMBEDDINGS` input columns (e.g. from `ImageAssembler` +
-  `E5VEmbeddings`).
+- **`image`**: expects `IMAGE + IMAGE_EMBEDDINGS` input columns.
 
 For more extended examples see the
 [VectorDBConnector_Pinecone_Demo.ipynb](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/annotation/text/english/vector-db/VectorDBConnector_Pinecone_Demo.ipynb) and [VectorDBConnectorTest](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/ml/ai/VectorDBConnectorTest.scala).
