@@ -37,7 +37,7 @@ class VectorDBConnectorMultimodalTest extends AnyFlatSpec {
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
     .config(
       "spark.jsl.settings.vectordb.api.key",
-      "pcsk_553ube_NNjrehQJbcxeNwMZaNWqWumwuLP2N3VNRExdVagShXxkGmJXsb7W3u5wKYR34Be")
+      "")
     .getOrCreate()
 
   "VectorDBConnector" should "default to text modality mode" taggedAs FastTest in {
