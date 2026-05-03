@@ -16,8 +16,8 @@
 
 package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, SENTENCE_EMBEDDINGS}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasBatchedAnnotate}
+import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, IMAGE, SENTENCE_EMBEDDINGS}
+import com.johnsnowlabs.nlp.{Annotation, AnnotationImage, AnnotatorModel, HasBatchedAnnotate}
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
 import org.apache.http.client.methods.{HttpGet, HttpPost}
 import org.apache.http.entity.{ContentType, StringEntity}
@@ -26,25 +26,36 @@ import org.apache.http.util.EntityUtils
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param.{IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
 
+import java.time.Instant
 import java.util.UUID
 
 /** Connector for storing and retrieving embeddings from vector databases.
   *
   * This annotator takes embeddings from previous annotators (like BertEmbeddings,
-  * SentenceEmbeddings, OpenAIEmbeddings, etc.) and stores them in a vector database for
-  * similarity search and retrieval. Currently supports Pinecone with more providers planned.
+  * SentenceEmbeddings, E5VEmbeddings, etc.) and stores them in a vector database for similarity
+  * search and retrieval. Currently supports Pinecone with more providers planned.
+  *
+  * Supports two modality modes:
+  *   - 'text' (default): expects `DOCUMENT + SENTENCE_EMBEDDINGS` input columns. Metadata is
+  *     augmented with `modality=text`.
+  *   - 'image': expects `IMAGE + SENTENCE_EMBEDDINGS` input columns (e.g. from `ImageAssembler` +
+  *     `E5VEmbeddings`). Metadata is augmented with `modality=image`, `image_origin`,
+  *     `image_width`, `image_height`, and `image_nChannels`. Vector IDs are generated as
+  *     deterministic UUID-v3 values derived from the image file path (origin), ensuring stable
+  *     re-indexing.
   *
   * ==Supported Providers==
   *   - '''pinecone''': Pinecone vector database (default)
   *
-  * ==Example==
+  * ==Text Example==
   * {{{
   * import spark.implicits._
   * import com.johnsnowlabs.nlp.base.DocumentAssembler
   * import com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
-  * import com.johnsnowlabs.nlp.annotators.VectorDBConnector
+  * import com.johnsnowlabs.ml.ai.VectorDBConnector
   * import org.apache.spark.ml.Pipeline
   *
   * val documentAssembler = new DocumentAssembler()
@@ -79,6 +90,36 @@ import java.util.UUID
   * val result = pipeline.fit(data).transform(data)
   * }}}
   *
+  * ==Image Example==
+  * {{{
+  * import com.johnsnowlabs.nlp.base.ImageAssembler
+  * import com.johnsnowlabs.nlp.embeddings.E5VEmbeddings
+  * import com.johnsnowlabs.ml.ai.VectorDBConnector
+  * import org.apache.spark.ml.Pipeline
+  *
+  * val imageAssembler = new ImageAssembler()
+  *   .setInputCol("image")
+  *   .setOutputCol("image_assembler")
+  *
+  * val e5vEmbeddings = E5VEmbeddings.pretrained()
+  *   .setInputCols("image_assembler")
+  *   .setOutputCol("image_embeddings")
+  *
+  * val vectorDB = new VectorDBConnector()
+  *   .setInputCols("image_assembler", "image_embeddings")
+  *   .setOutputCol("vectordb_result")
+  *   .setProvider("pinecone")
+  *   .setIndexName("my-multimodal-index")
+  *   .setModalityMode("image")
+  *   .setBatchSize(50)
+  *
+  * val pipeline = new Pipeline().setStages(Array(
+  *   imageAssembler,
+  *   e5vEmbeddings,
+  *   vectorDB
+  * ))
+  * }}}
+  *
   * @param uid
   *   required uid for storing annotator to disk
   * @groupname anno Annotator types
@@ -104,8 +145,51 @@ class VectorDBConnector(override val uid: String)
 
   def this() = this(Identifiable.randomUID("VECTOR_DB_CONNECTOR"))
 
+  /** Input annotator types.
+    *
+    * In 'text' mode (default): `DOCUMENT, SENTENCE_EMBEDDINGS`
+    *
+    * In 'image' mode: `IMAGE, SENTENCE_EMBEDDINGS`
+    *
+    * @group anno
+    */
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT, SENTENCE_EMBEDDINGS)
   override val outputAnnotatorType: String = DOCUMENT
+
+  /** Modality mode for indexing: "text" (default) or "image".
+    *
+    * Set to "image" when the first input column contains IMAGE annotations (e.g. from
+    * `ImageAssembler` + `E5VEmbeddings`). In image mode vector IDs are stable UUID-v3 values
+    * derived from the image origin path and upserted records carry image-specific metadata
+    * fields.
+    *
+    * @group param
+    */
+  val modalityMode = new Param[String](
+    this,
+    "modalityMode",
+    "Modality mode for indexing. Supported values: 'text' (default), 'image'.")
+
+  /** @group setParam */
+  def setModalityMode(value: String): this.type = {
+    require(
+      Set("text", "image").contains(value),
+      s"modalityMode must be 'text' or 'image', got: $value")
+    set(modalityMode, value)
+  }
+
+  /** @group getParam */
+  def getModalityMode: String = $(modalityMode)
+
+  /** Override schema validation to accept IMAGE in the first input column when modalityMode is
+    * set to "image", while still requiring SENTENCE_EMBEDDINGS in the second input column.
+    */
+  override protected def validate(schema: StructType): Boolean = {
+    $(modalityMode) match {
+      case "image" => checkSchema(schema, IMAGE) && checkSchema(schema, SENTENCE_EMBEDDINGS)
+      case _ => checkSchema(schema, DOCUMENT) && checkSchema(schema, SENTENCE_EMBEDDINGS)
+    }
+  }
 
   /** Vector database provider (e.g., 'pinecone')
     * @group param
@@ -192,7 +276,8 @@ class VectorDBConnector(override val uid: String)
     provider -> "pinecone",
     batchSize -> 100,
     namespace -> "",
-    metadataColumns -> Array.empty[String])
+    metadataColumns -> Array.empty[String],
+    modalityMode -> "text")
 
   // Provider-specific state
   private var apiKey: Option[Broadcast[String]] = None
@@ -289,7 +374,7 @@ class VectorDBConnector(override val uid: String)
         if (host.startsWith("https://")) host else s"https://$host"
       }
     } catch {
-      case ex: Exception =>
+      case ex: Exception if !ex.getMessage.startsWith("Failed to fetch") =>
         throw new Exception(s"Error fetching Pinecone index host: ${ex.getMessage}", ex)
     } finally {
       httpclient.close()
@@ -300,6 +385,9 @@ class VectorDBConnector(override val uid: String)
     *
     * This is necessary because we need access to additional columns (idColumn, metadataColumns)
     * beyond just the annotations. The standard batchAnnotate only receives annotations.
+    *
+    * Branches on `modalityMode`: in "text" mode the first input column is expected to carry
+    * DOCUMENT annotations; in "image" mode it carries IMAGE annotations (AnnotationImage).
     *
     * @param rows
     *   Iterator of rows to process
@@ -316,42 +404,9 @@ class VectorDBConnector(override val uid: String)
     val processedBatches = allRows.grouped($(batchSize)).flatMap { batchRows =>
       val vectorsWithRows = batchRows.flatMap { row =>
         try {
-          val embeddingAnnotations = getAnnotationsFromRow(row, getInputCols.last)
-          val documentAnnotations = getAnnotationsFromRow(row, getInputCols.head)
-
-          if (embeddingAnnotations.nonEmpty) {
-            val embeddings = embeddingAnnotations.head.embeddings
-
-            val vectorId = if (isSet(idColumn)) {
-              try {
-                val idIdx = row.fieldIndex($(idColumn))
-                row.get(idIdx).toString
-              } catch {
-                case _: Exception => UUID.randomUUID().toString
-              }
-            } else {
-              UUID.randomUUID().toString
-            }
-
-            val vectorMetadata = if (isSet(metadataColumns) && $(metadataColumns).nonEmpty) {
-              $(metadataColumns).flatMap { col =>
-                try {
-                  val colIdx = row.fieldIndex(col)
-                  Option(row.get(colIdx)).map(v => col -> v.toString)
-                } catch {
-                  case _: Exception => None
-                }
-              }.toMap
-            } else {
-              Map.empty[String, String]
-            }
-
-            val vector =
-              Map("id" -> vectorId, "values" -> embeddings.toList, "metadata" -> vectorMetadata)
-
-            Some((row, vector, documentAnnotations))
-          } else {
-            Some((row, null, documentAnnotations))
+          $(modalityMode) match {
+            case "image" => processImageRow(row)
+            case _ => processTextRow(row)
           }
         } catch {
           case e: Exception =>
@@ -362,6 +417,10 @@ class VectorDBConnector(override val uid: String)
 
       val vectors = vectorsWithRows.collect { case (_, v, _) if v != null => v }
 
+      // Track whether the batch upsert actually succeeded on the remote provider.
+      // A failed upsert must be reflected in the output annotation so callers are not
+      // misled into thinking vectors were stored when they were not.
+      var upsertError: Option[String] = None
       if (vectors.nonEmpty) {
         try {
           $(provider) match {
@@ -370,12 +429,17 @@ class VectorDBConnector(override val uid: String)
           }
         } catch {
           case e: Exception =>
+            upsertError = Some(e.getMessage)
             println(s"[VectorDBConnector] Error upserting batch: ${e.getMessage}")
         }
       }
 
       vectorsWithRows.map { case (row, vector, docAnnotations) =>
         val outputAnnotations = if (vector != null) {
+          val status = upsertError match {
+            case None => "upserted"
+            case Some(err) => s"failed: $err"
+          }
           docAnnotations.map { ann =>
             Annotation(
               annotatorType = outputAnnotatorType,
@@ -383,7 +447,7 @@ class VectorDBConnector(override val uid: String)
               end = ann.end,
               result = vector("id").asInstanceOf[String],
               metadata =
-                ann.metadata + ("vectordb_status" -> "upserted") + ("provider" -> $(provider)))
+                ann.metadata + ("vectordb_status" -> status) + ("provider" -> $(provider)))
           }
         } else {
           Seq.empty[Annotation]
@@ -402,7 +466,142 @@ class VectorDBConnector(override val uid: String)
     batchedAnnotations.map(_ => Seq.empty[Annotation])
   }
 
-  /** Helper method to get annotations from a row
+  /** Build and return a vector payload for a text-mode row (DOCUMENT + SENTENCE_EMBEDDINGS).
+    *
+    * Metadata always contains `modality=text` in addition to any user-specified columns.
+    */
+  private def processTextRow(row: Row): Option[(Row, Map[String, Any], Seq[Annotation])] = {
+    val embeddingAnnotations = getAnnotationsFromRow(row, getInputCols.last)
+    val documentAnnotations = getAnnotationsFromRow(row, getInputCols.head)
+    if (embeddingAnnotations.nonEmpty) {
+      val embeddings = embeddingAnnotations.head.embeddings
+      val vectorId = resolveVectorId(row, None)
+      val metadata: Map[String, String] =
+        resolveUserMetadata(row) + ("modality" -> "text") + ("indexed_at" -> Instant.now().toString)
+      val vector: Map[String, Any] =
+        Map("id" -> vectorId, "values" -> embeddings.toList, "metadata" -> metadata)
+      Some((row, vector, documentAnnotations))
+    } else {
+      Some((row, null, documentAnnotations))
+    }
+  }
+
+  /** Build and return a vector payload for an image-mode row (IMAGE + SENTENCE_EMBEDDINGS).
+    *
+    * Metadata always contains `modality=image`, `image_origin`, `image_width`, `image_height`,
+    * and `image_nChannels` in addition to any user-specified columns. When no explicit `idColumn`
+    * is configured the vector ID is a deterministic UUID-v3 derived from the image origin path,
+    * ensuring stable re-indexing of the same asset.
+    *
+    * Synthetic DOCUMENT output annotations are produced from the IMAGE annotations so that
+    * downstream pipeline stages receive valid annotation rows. Each synthesised annotation
+    * carries the image metadata so callers can inspect it after the transform.
+    */
+  private def processImageRow(row: Row): Option[(Row, Map[String, Any], Seq[Annotation])] = {
+    val embeddingAnnotations = getAnnotationsFromRow(row, getInputCols.last)
+    val imageAnnotations = getImageAnnotationsFromRow(row, getInputCols.head)
+
+    // Synthesise output annotations regardless of whether we have embeddings so that empty
+    // rows still produce a well-formed output column.
+    val syntheticAnns: Seq[Annotation] = imageAnnotations.map { imgAnn =>
+      Annotation(
+        annotatorType = outputAnnotatorType,
+        begin = 0,
+        end = 0,
+        result = imgAnn.origin,
+        metadata = Map(
+          "modality" -> "image",
+          "image_origin" -> imgAnn.origin,
+          "image_filename" -> extractFilename(imgAnn.origin),
+          "image_width" -> imgAnn.width.toString,
+          "image_height" -> imgAnn.height.toString,
+          "image_nChannels" -> imgAnn.nChannels.toString))
+    }
+
+    if (embeddingAnnotations.nonEmpty && imageAnnotations.nonEmpty) {
+      val embeddings = embeddingAnnotations.head.embeddings
+      val firstImage = imageAnnotations.head
+      val vectorId = resolveVectorId(row, Some(firstImage.origin))
+      val imageMeta: Map[String, String] = Map(
+        "modality" -> "image",
+        "image_origin" -> firstImage.origin,
+        "image_filename" -> extractFilename(firstImage.origin),
+        "image_width" -> firstImage.width.toString,
+        "image_height" -> firstImage.height.toString,
+        "image_nChannels" -> firstImage.nChannels.toString,
+        "indexed_at" -> Instant.now().toString)
+      val metadata: Map[String, String] = resolveUserMetadata(row) ++ imageMeta
+      val vector: Map[String, Any] =
+        Map("id" -> vectorId, "values" -> embeddings.toList, "metadata" -> metadata)
+      Some((row, vector, syntheticAnns))
+    } else {
+      Some((row, null, syntheticAnns))
+    }
+  }
+
+  /** Resolve the vector ID for a row.
+    *
+    * Priority:
+    *   1. Value from `idColumn` DataFrame column (if set and present). 2. Stable UUID-v3 derived
+    *      from `fallbackOrigin` (used for image paths). 3. Random UUID.
+    */
+  private def resolveVectorId(row: Row, fallbackOrigin: Option[String]): String = {
+    if (isSet(idColumn)) {
+      try {
+        val idIdx = row.fieldIndex($(idColumn))
+        Option(row.get(idIdx))
+          .map(_.toString)
+          .getOrElse(fallbackOrigin.map(stableImageId).getOrElse(UUID.randomUUID().toString))
+      } catch {
+        case _: Exception =>
+          fallbackOrigin.map(stableImageId).getOrElse(UUID.randomUUID().toString)
+      }
+    } else {
+      fallbackOrigin.map(stableImageId).getOrElse(UUID.randomUUID().toString)
+    }
+  }
+
+  /** Collect user-specified metadata columns from the row. Returns an empty map when
+    * `metadataColumns` is not set.
+    */
+  private def resolveUserMetadata(row: Row): Map[String, String] = {
+    if (isSet(metadataColumns) && $(metadataColumns).nonEmpty) {
+      $(metadataColumns).flatMap { col =>
+        try {
+          val colIdx = row.fieldIndex(col)
+          Option(row.get(colIdx)).map(v => col -> v.toString)
+        } catch {
+          case _: Exception => None
+        }
+      }.toMap
+    } else {
+      Map.empty[String, String]
+    }
+  }
+
+  /** Generate a deterministic, stable UUID-v3 from an image origin path.
+    *
+    * Repeated calls with the same `origin` always produce the same ID, which makes re-indexing
+    * idempotent without an explicit `idColumn`.
+    */
+  private def stableImageId(origin: String): String =
+    UUID.nameUUIDFromBytes(origin.getBytes("UTF-8")).toString
+
+  /** Extract the filename (last path segment) from an image origin URI or file-system path.
+    *
+    * Examples:
+    *   - `"file:///content/test_images/cat.jpg"` → `"cat.jpg"`
+    *   - `"s3://my-bucket/images/dog.png"` → `"dog.png"`
+    *   - `"/local/path/photo.jpeg"` → `"photo.jpeg"`
+    */
+  private def extractFilename(origin: String): String = {
+    val stripped = origin.replaceAll("^file://", "")
+    val lastSlash = stripped.lastIndexOf('/')
+    if (lastSlash >= 0 && lastSlash < stripped.length - 1) stripped.substring(lastSlash + 1)
+    else stripped
+  }
+
+  /** Helper method to get Annotation items from a row (text / embeddings columns).
     *
     * @param row
     *   Input row
@@ -418,6 +617,25 @@ class VectorDBConnector(override val uid: String)
       if (annotations != null) annotations.map(Annotation(_)) else Seq.empty
     } catch {
       case _: Exception => Seq.empty[Annotation]
+    }
+  }
+
+  /** Helper method to get AnnotationImage items from a row (IMAGE columns).
+    *
+    * @param row
+    *   Input row
+    * @param column
+    *   Column name – must reference an IMAGE-typed annotation column
+    * @return
+    *   Sequence of AnnotationImage
+    */
+  private def getImageAnnotationsFromRow(row: Row, column: String): Seq[AnnotationImage] = {
+    try {
+      val colIdx = row.fieldIndex(column)
+      val annotations = row.getAs[Seq[Row]](colIdx)
+      if (annotations != null) annotations.map(AnnotationImage(_)) else Seq.empty
+    } catch {
+      case _: Exception => Seq.empty[AnnotationImage]
     }
   }
 
@@ -460,7 +678,7 @@ class VectorDBConnector(override val uid: String)
         throw new Exception(s"Pinecone upsert failed with status $statusCode: $responseBody")
       }
     } catch {
-      case ex: Exception =>
+      case ex: Exception if !ex.getMessage.startsWith("Pinecone upsert failed") =>
         throw new Exception(s"Error upserting to Pinecone: ${ex.getMessage}", ex)
     } finally {
       httpclient.close()
@@ -492,7 +710,7 @@ class VectorDBConnector(override val uid: String)
       }
 
       val valuesJson = values.mkString(", ")
-      s"""{"id": "$id", "values": [$valuesJson]$metadataJson}"""
+      s"""{"id": "${escapeJsonString(id)}", "values": [$valuesJson]$metadataJson}"""
     }
 
     s"[${vectorsJson.mkString(", ")}]"
