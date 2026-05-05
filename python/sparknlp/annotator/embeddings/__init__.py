@@ -18,6 +18,7 @@ from sparknlp.annotator.embeddings.bert_embeddings import *
 from sparknlp.annotator.embeddings.bert_sentence_embeddings import *
 from sparknlp.annotator.embeddings.camembert_embeddings import *
 from sparknlp.annotator.embeddings.chunk_embeddings import *
+from sparknlp.annotator.embeddings.late_chunk_embeddings import *
 from sparknlp.annotator.embeddings.deberta_embeddings import *
 from sparknlp.annotator.embeddings.distil_bert_embeddings import *
 from sparknlp.annotator.embeddings.doc2vec import *
