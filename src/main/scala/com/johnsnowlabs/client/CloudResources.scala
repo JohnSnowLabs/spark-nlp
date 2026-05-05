@@ -21,16 +21,20 @@ import com.johnsnowlabs.client.azure.AzureClient
 import com.johnsnowlabs.client.gcp.GCPClient
 import com.johnsnowlabs.client.util.CloudHelper
 import com.johnsnowlabs.client.util.CloudHelper.transformURIToWASB
+import com.johnsnowlabs.nlp.util.io.OutputHelper
 import com.johnsnowlabs.util.{ConfigHelper, ConfigLoader}
-import org.apache.commons.io.IOUtils
+import org.apache.hadoop.fs.Path
+import org.apache.hadoop.io.IOUtils
 import org.apache.spark.SparkFiles
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
+import java.io.{ByteArrayInputStream, FileInputStream, FileOutputStream, InputStream}
 import java.net.URI
-import java.nio.file.Paths
+import java.nio.file.{Files, Paths}
 import java.util.zip.ZipInputStream
 
 object CloudResources {
+
+  private val CloudCacheCompleteMarker = "_spark_nlp_cache_complete"
 
   def downloadModelFromCloud(
       awsGateway: AWSGateway,
@@ -51,9 +55,7 @@ object CloudResources {
           doesModelExistInExternalCloudStorage(modelName, destinationS3URI, awsClient)
 
         if (!modelExists) {
-          val destinationKey =
-            unzipInExternalCloudStorage(sourceKey, destinationS3URI, awsClient, zippedModel)
-          Option(destinationKey)
+          Option(unzipInExternalCloudStorage(sourceKey, destinationS3URI, awsClient, zippedModel))
         } else {
           Option(destinationS3URI + "/" + modelName)
         }
@@ -64,9 +66,7 @@ object CloudResources {
           doesModelExistInExternalCloudStorage(modelName, cachePath, gcpClient)
 
         if (!modelExists) {
-          val destination =
-            unzipInExternalCloudStorage(sourceS3URI, cachePath, gcpClient, zippedModel)
-          Option(destination)
+          Option(unzipInExternalCloudStorage(sourceS3URI, cachePath, gcpClient, zippedModel))
         } else {
           Option(cachePath + "/" + modelName)
         }
@@ -91,7 +91,7 @@ object CloudResources {
   }
 
   private def buildAzureModelPath(cachePath: String, destination: String): Option[String] = {
-    if (CloudHelper.isFabricAbfss(cachePath)) {
+    if (CloudHelper.isFabricAbfss(cachePath) || CloudHelper.isWasbsPath(cachePath)) {
       Some(destination)
     } else {
       Some(transformURIToWASB(destination))
@@ -101,7 +101,7 @@ object CloudResources {
   private def buildAzureModelPathWhenExists(
       cachePath: String,
       modelName: String): Option[String] = {
-    if (CloudHelper.isFabricAbfss(cachePath)) {
+    if (CloudHelper.isFabricAbfss(cachePath) || CloudHelper.isWasbsPath(cachePath)) {
       Some(cachePath + "/" + modelName)
     } else {
       Some(transformURIToWASB(cachePath + "/" + modelName))
@@ -118,28 +118,36 @@ object CloudResources {
         val (destinationBucketName, destinationKey) = CloudHelper.parseS3URI(destinationURI)
 
         val modelPath = destinationKey + "/" + modelName
+        val markerPath = modelPath + "/" + CloudCacheCompleteMarker
 
-        awsDestinationClient.doesBucketPathExist(destinationBucketName, modelPath)
+        awsDestinationClient.doesBucketPathExist(destinationBucketName, markerPath)
       }
       case gcpClient: GCPClient => {
         val (destinationBucketName, destinationStoragePath) =
           CloudHelper.parseGCPStorageURI(destinationURI)
         val modelPath = destinationStoragePath + "/" + modelName
+        val markerPath = modelPath + "/" + CloudCacheCompleteMarker
 
-        gcpClient.doesBucketPathExist(destinationBucketName, modelPath)
+        gcpClient.doesBucketPathExist(destinationBucketName, markerPath)
       }
       case azureClient: AzureClient => {
         if (CloudHelper.isFabricAbfss(destinationURI)) {
           val fabricUri =
             if (destinationURI.endsWith("/")) destinationURI + modelName
             else destinationURI + "/" + modelName
-          azureClient.doesBucketPathExist(fabricUri, "")
+          val markerUri = fabricUri + "/" + CloudCacheCompleteMarker
+          azureClient.doesBucketPathExist(markerUri, "")
+        } else if (CloudHelper.isWasbsPath(destinationURI)) {
+          val markerUri =
+            buildCloudPath(destinationURI, modelName, CloudCacheCompleteMarker, "_SUCCESS")
+          doesHadoopCloudPathExist(markerUri)
         } else {
           val (destinationBucketName, destinationStoragePath) =
             CloudHelper.parseAzureBlobURI(destinationURI)
           val modelPath = destinationStoragePath + "/" + modelName
+          val markerPath = modelPath + "/" + CloudCacheCompleteMarker
 
-          azureClient.doesBucketPathExist(destinationBucketName, modelPath)
+          azureClient.doesBucketPathExist(destinationBucketName, markerPath)
         }
       }
     }
@@ -160,56 +168,167 @@ object CloudResources {
 
     while (zipEntry != null) {
       if (!zipEntry.isDirectory) {
-
-        cloudClient match {
-          case awsClient: AWSClient => {
-            val (awsGatewayDestination, destinationBucketName, destinationKey) = getS3Config(
-              destinationStorageURI)
-            val fileName = s"$modelName/${zipEntry.getName}"
-            val destinationS3Path = destinationKey + "/" + fileName
-
-            awsGatewayDestination.copyFileToBucket(
-              destinationBucketName,
-              destinationS3Path,
-              zipInputStream)
-          }
-          case gcpClient: GCPClient => {
-            val (destinationBucketName, destinationStoragePath) =
-              CloudHelper.parseGCPStorageURI(destinationStorageURI)
-
-            val destinationGCPStoragePath =
-              s"$destinationStoragePath/$modelName/${zipEntry.getName}"
-
-            gcpClient.copyFileToBucket(
-              destinationBucketName,
-              destinationGCPStoragePath,
-              zipInputStream)
-          }
-          case azureClient: AzureClient => {
-            if (CloudHelper.isFabricAbfss(destinationStorageURI)) {
-              val fabricUri = (if (destinationStorageURI.endsWith("/")) destinationStorageURI
-                               else destinationStorageURI + "/") +
-                s"$modelName/${zipEntry.getName}"
-              azureClient.copyFileToBucket(fabricUri, "", zipInputStream)
-            } else {
-              val (destinationBucketName, destinationStoragePath) =
-                CloudHelper.parseAzureBlobURI(destinationStorageURI)
-
-              val destinationAzureStoragePath =
-                s"$destinationStoragePath/$modelName/${zipEntry.getName}".stripPrefix("/")
-
-              azureClient.copyFileToBucket(
-                destinationBucketName,
-                destinationAzureStoragePath,
-                zipInputStream)
-            }
-          }
-        }
+        uploadZipEntryToCloudStorage(
+          zipInputStream,
+          zipEntry.getName,
+          modelName,
+          destinationStorageURI,
+          cloudClient)
 
       }
       zipEntry = zipInputStream.getNextEntry
     }
-    destinationStorageURI + "/" + modelName
+    writeCloudCacheCompleteMarker(destinationStorageURI, modelName, cloudClient)
+    val destination = destinationStorageURI + "/" + modelName
+    destination
+  }
+
+  private def uploadZipEntryToCloudStorage(
+      zipInputStream: ZipInputStream,
+      zipEntryName: String,
+      modelName: String,
+      destinationStorageURI: String,
+      cloudClient: CloudClient): Unit = {
+    val tempFile = Files.createTempFile("sparknlp-cloud-cache-", ".entry").toFile
+
+    try {
+      val outputStream = new FileOutputStream(tempFile)
+      try {
+        val buffer = Array.ofDim[Byte](1024 * 1024)
+        var bytesRead = zipInputStream.read(buffer)
+        while (bytesRead != -1) {
+          outputStream.write(buffer, 0, bytesRead)
+          bytesRead = zipInputStream.read(buffer)
+        }
+      } finally {
+        outputStream.close()
+      }
+
+      val inputStream = new FileInputStream(tempFile)
+      try {
+        uploadFileToCloudStorage(
+          inputStream,
+          zipEntryName,
+          modelName,
+          destinationStorageURI,
+          cloudClient)
+      } finally {
+        inputStream.close()
+      }
+    } finally {
+      Files.deleteIfExists(tempFile.toPath)
+    }
+  }
+
+  private def uploadFileToCloudStorage(
+      inputStream: FileInputStream,
+      zipEntryName: String,
+      modelName: String,
+      destinationStorageURI: String,
+      cloudClient: CloudClient): Unit = {
+    cloudClient match {
+      case awsClient: AWSClient => {
+        val (awsGatewayDestination, destinationBucketName, destinationKey) =
+          getS3Config(destinationStorageURI)
+        val fileName = s"$modelName/$zipEntryName"
+        val destinationS3Path = destinationKey + "/" + fileName
+
+        awsGatewayDestination.copyFileToBucket(
+          destinationBucketName,
+          destinationS3Path,
+          inputStream)
+      }
+      case gcpClient: GCPClient => {
+        val (destinationBucketName, destinationStoragePath) =
+          CloudHelper.parseGCPStorageURI(destinationStorageURI)
+
+        val destinationGCPStoragePath =
+          s"$destinationStoragePath/$modelName/$zipEntryName"
+
+        gcpClient.copyFileToBucket(destinationBucketName, destinationGCPStoragePath, inputStream)
+      }
+      case azureClient: AzureClient => {
+        if (CloudHelper.isFabricAbfss(destinationStorageURI)) {
+          val fabricUri = (if (destinationStorageURI.endsWith("/")) destinationStorageURI
+                           else destinationStorageURI + "/") +
+            s"$modelName/$zipEntryName"
+          azureClient.copyFileToBucket(fabricUri, "", inputStream)
+        } else if (CloudHelper.isWasbsPath(destinationStorageURI)) {
+          val destinationWasbsPath =
+            buildCloudPath(destinationStorageURI, modelName, zipEntryName)
+          copyInputStreamToHadoopCloudPath(destinationWasbsPath, inputStream)
+        } else {
+          val (destinationBucketName, destinationStoragePath) =
+            CloudHelper.parseAzureBlobURI(destinationStorageURI)
+
+          val destinationAzureStoragePath =
+            s"$destinationStoragePath/$modelName/$zipEntryName".stripPrefix("/")
+
+          azureClient.copyFileToBucket(
+            destinationBucketName,
+            destinationAzureStoragePath,
+            inputStream)
+        }
+      }
+    }
+  }
+
+  private def writeCloudCacheCompleteMarker(
+      destinationStorageURI: String,
+      modelName: String,
+      cloudClient: CloudClient): Unit = {
+    val markerContent = new ByteArrayInputStream("complete".getBytes("UTF-8"))
+    val markerName = s"$CloudCacheCompleteMarker/_SUCCESS"
+
+    cloudClient match {
+      case awsClient: AWSClient => {
+        val (awsGatewayDestination, destinationBucketName, destinationKey) =
+          getS3Config(destinationStorageURI)
+        val markerPath = s"$destinationKey/$modelName/$markerName"
+        awsGatewayDestination.copyFileToBucket(destinationBucketName, markerPath, markerContent)
+      }
+      case gcpClient: GCPClient => {
+        val (destinationBucketName, destinationStoragePath) =
+          CloudHelper.parseGCPStorageURI(destinationStorageURI)
+        val markerPath = s"$destinationStoragePath/$modelName/$markerName"
+        gcpClient.copyFileToBucket(destinationBucketName, markerPath, markerContent)
+      }
+      case azureClient: AzureClient => {
+        if (CloudHelper.isFabricAbfss(destinationStorageURI)) {
+          val markerUri = (if (destinationStorageURI.endsWith("/")) destinationStorageURI
+                           else destinationStorageURI + "/") + s"$modelName/$markerName"
+          azureClient.copyFileToBucket(markerUri, "", markerContent)
+        } else if (CloudHelper.isWasbsPath(destinationStorageURI)) {
+          val markerUri = buildCloudPath(destinationStorageURI, modelName, markerName)
+          copyInputStreamToHadoopCloudPath(markerUri, markerContent)
+        } else {
+          val (destinationBucketName, destinationStoragePath) =
+            CloudHelper.parseAzureBlobURI(destinationStorageURI)
+          val markerPath = s"$destinationStoragePath/$modelName/$markerName".stripPrefix("/")
+          azureClient.copyFileToBucket(destinationBucketName, markerPath, markerContent)
+        }
+      }
+    }
+  }
+
+  private def buildCloudPath(basePath: String, pathParts: String*): String = {
+    val suffix = pathParts.map(_.stripPrefix("/")).mkString("/")
+    s"${basePath.stripSuffix("/")}/$suffix"
+  }
+
+  private def doesHadoopCloudPathExist(path: String): Boolean = {
+    val fileSystem = OutputHelper.getFileSystem(path)
+    fileSystem.exists(new Path(path))
+  }
+
+  private def copyInputStreamToHadoopCloudPath(path: String, inputStream: InputStream): Unit = {
+    val fileSystem = OutputHelper.getFileSystem(path)
+    val outputStream = fileSystem.create(new Path(path), true)
+    try {
+      IOUtils.copyBytes(inputStream, outputStream, 4096, false)
+    } finally {
+      outputStream.close()
+    }
   }
 
   private def getS3Config(destinationS3URI: String): (AWSClient, String, String) = {

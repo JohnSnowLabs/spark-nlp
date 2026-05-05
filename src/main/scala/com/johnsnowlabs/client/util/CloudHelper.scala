@@ -43,10 +43,19 @@ object CloudHelper {
 
   def parseAzureBlobURI(azureBlobURI: String): (String, String) = {
     val uri = new URI(azureBlobURI)
-    val parts = uri.getPath.stripPrefix("/").split("/", 2)
-    val containerName = parts(0)
+    val (containerName, blobPath) =
+      if (isWasbsPath(azureBlobURI)) {
+        val container = Option(uri.getUserInfo)
+          .getOrElse(Option(uri.getAuthority).flatMap(_.split("@").headOption).getOrElse(""))
+        val path = uri.getPath.stripPrefix("/")
+        (container, path)
+      } else {
+        val parts = uri.getPath.stripPrefix("/").split("/", 2)
+        val container = parts(0)
+        val path = if (parts.length > 1) parts(1) else ""
+        (container, path)
+      }
     require(containerName.nonEmpty, "Azure container name is empty!")
-    val blobPath = if (parts.length > 1) parts(1) else ""
 
     (containerName, blobPath)
   }
@@ -60,6 +69,8 @@ object CloudHelper {
   }
 
   def transformURIToWASB(azureURI: String): String = {
+    if (isWasbsPath(azureURI)) return azureURI
+
     val url = new URL(azureURI)
     val host = url.getHost
     val pathParts = url.getPath.split("/").filter(_.nonEmpty)
@@ -81,9 +92,13 @@ object CloudHelper {
   private def isGCPStoragePath(uri: String): Boolean = uri.startsWith("gs://")
 
   private def isAzureBlobPath(uri: String): Boolean = {
-    (uri.startsWith("https://") && uri.contains(".blob.core.windows.net/")) || uri.startsWith(
-      "abfss://")
+    (uri.startsWith("https://") && uri.contains(".blob.core.windows.net/")) ||
+    uri.startsWith("abfss://") ||
+    isWasbsPath(uri)
   }
+
+  def isWasbsPath(uri: String): Boolean =
+    uri.startsWith("wasbs://") || uri.startsWith("wasb://")
 
   def isMicrosoftFabric: Boolean = {
     ResourceHelper.spark.conf.getAll.keys.exists(_.startsWith("spark.fabric"))
