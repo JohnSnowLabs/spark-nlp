@@ -142,11 +142,14 @@ object ResourceMetadata {
       }
     }
 
-    //  Engine → Spark → Lib → Time
-    val sortedResult = compatibleCandidates.sortWith { (a, b) =>
-      val engineComp = enginePriority(a.engine) compare enginePriority(b.engine)
-      if (engineComp != 0) engineComp > 0
-      else a < b // fallback to old logic
+    // Sort candidates by engine priority first, then fall back to Spark → lib → time.
+    val sortedResult = compatibleCandidates.sortWith { (leftCandidate, rightCandidate) =>
+      // returns true when leftCandidate should come AFTER rightCandidate in the ascending list.
+      // The winner is always sortedResult.lastOption — i.e. the candidate that sorts last.
+      // Therefore we want the higher-priority candidate (lower engine score) to sort last.
+      val engineComp = enginePriority(leftCandidate.engine) compare enginePriority(rightCandidate.engine)
+      if (engineComp != 0) engineComp > 0   // left's engine score is higher (worse priority) → left goes after right → left wins
+      else leftCandidate < rightCandidate    // same engine → fall back to original Spark → lib → time sort
     }
 
     sortedResult.lastOption

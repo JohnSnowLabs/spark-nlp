@@ -235,6 +235,63 @@ class ResourceMedataTest extends AnyFlatSpec {
     assert(versions.get.engine.get == expectedEngine)
   }
 
+  it should "default to onnx engine when no engine is specified and multiple engines are available" in {
+    val resourcePath = "src/test/resources/resource-downloader/test_engine_metadata.json"
+    val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
+    val resourceMetadata = mockResourceDownloader.resources
+    // BertEmbeddings has onnx, openvino, tensorflow variants at libVersion [6, 1, 5]
+    // No engine specified - should default to ONNX (first in defaultPriority)
+    val resourceRequest = ResourceRequest(
+      "bert_base_uncased",
+      libVersion = Version(List(6, 1, 5)),
+      sparkVersion = Version(List(3, 0)),
+      annotator = Some("BertEmbeddings"))
+
+    val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
+
+    assert(versions.isDefined, "Expected a BertEmbeddings candidate but got none. Check compatibleCandidates filter.")
+    assert(versions.get.annotator.get == "BertEmbeddings")
+    assert(versions.get.engine.get == "onnx", s"Expected onnx but got ${versions.get.engine.get}")
+  }
+
+  it should "return onnx when onnx is explicitly requested for BertEmbeddings" in {
+    val resourcePath = "src/test/resources/resource-downloader/test_engine_metadata.json"
+    val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
+    val resourceMetadata = mockResourceDownloader.resources
+    val resourceRequest = ResourceRequest(
+      "bert_base_uncased",
+      libVersion = Version(List(6, 1, 5)),
+      sparkVersion = Version(List(3, 0)),
+      annotator = Some("BertEmbeddings"),
+      engine = Some("onnx"))
+
+    val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
+
+    assert(versions.isDefined)
+    assert(versions.get.annotator.get == "BertEmbeddings")
+    assert(versions.get.engine.get == "onnx")
+  }
+
+  it should "fall back to tensorflow when preferred engine does not exist for BertSentenceEmbeddings" in {
+    val resourcePath = "src/test/resources/resource-downloader/test_engine_metadata.json"
+    val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
+    val resourceMetadata = mockResourceDownloader.resources
+    // BertSentenceEmbeddings has only tensorflow variant at libVersion [6, 1, 5]
+    // Requesting onnx should fall back to tensorflow
+    val resourceRequest = ResourceRequest(
+      "bert_sentence_embeddings",
+      libVersion = Version(List(6, 1, 5)),
+      sparkVersion = Version(List(3, 0)),
+      annotator = Some("BertSentenceEmbeddings"),
+      engine = Some("onnx"))
+
+    val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
+
+    assert(versions.isDefined, "Expected BertSentenceEmbeddings candidate but got none")
+    assert(versions.get.annotator.get == "BertSentenceEmbeddings")
+    assert(versions.get.engine.get == "tensorflow")
+  }
+
 
   it should "fall back to other model variant if preferred engine does not exist" in {
     val resourcePath = "src/test/resources/resource-downloader/test_engine_metadata.json"
