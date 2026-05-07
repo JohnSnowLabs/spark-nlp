@@ -1206,6 +1206,14 @@ class _E5VEmbeddingsLoader(ExtendedJavaWrapper):
             use_openvino
         )
 
+class _BiEncoderMultimodalEmbeddingsLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_BiEncoderMultimodalEmbeddingsLoader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings.loadSavedModel",
+            path,
+            jspark,
+        )
+
 class _Phi4Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_Phi4Loader, self).__init__(

@@ -13,6 +13,7 @@
 #  limitations under the License.
 
 from pyspark import keyword_only
+from pyspark.ml.wrapper import JavaTransformer
 from pyspark.ml.param import Param, Params, TypeConverters
 
 from sparknlp.common import AnnotatorType, AnnotatorProperties
@@ -45,10 +46,17 @@ class BiEncoderMultimodalEmbeddings(AnnotatorTransformer, AnnotatorProperties):
     )
 
     @keyword_only
-    def __init__(self):
-        super(BiEncoderMultimodalEmbeddings, self).__init__(
-            classname="com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings"
-        )
+    def __init__(
+        self,
+        classname="com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings",
+        java_model=None,
+    ):
+        if java_model is not None:
+            JavaTransformer.__init__(self, java_model)
+            self._create_params_from_java()
+            self._transfer_params_from_java()
+        else:
+            super(BiEncoderMultimodalEmbeddings, self).__init__(classname=classname)
         self._setDefault(outputCol="bi_encoder_multimodal", batchSize=8)
 
     @keyword_only
@@ -58,3 +66,54 @@ class BiEncoderMultimodalEmbeddings(AnnotatorTransformer, AnnotatorProperties):
 
     def setBatchSize(self, value):
         return self._set(batchSize=value)
+
+    @staticmethod
+    def _from_java(java_stage):
+        return BiEncoderMultimodalEmbeddings(java_model=java_stage)
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        """Loads a locally saved external dual ONNX model.
+
+        Parameters
+        ----------
+        folder : str
+            Folder of the external model bundle.
+        spark_session : pyspark.sql.SparkSession
+            The current SparkSession.
+
+        Returns
+        -------
+        BiEncoderMultimodalEmbeddings
+            The restored model.
+        """
+        from sparknlp.internal import _BiEncoderMultimodalEmbeddingsLoader
+
+        jModel = _BiEncoderMultimodalEmbeddingsLoader(
+            folder, spark_session._jsparkSession
+        )._java_obj
+        return BiEncoderMultimodalEmbeddings(java_model=jModel)
+
+    @staticmethod
+    def pretrained(name="ops_mm_embedding_v1_2b", lang="en", remote_loc=None):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            Name of the pretrained model, by default "ops_mm_embedding_v1_2b".
+        lang : str, optional
+            Language of the pretrained model, by default "en".
+        remote_loc : str, optional
+            Optional remote address of the resource. Will use Spark NLP repositories otherwise.
+
+        Returns
+        -------
+        BiEncoderMultimodalEmbeddings
+            The restored model.
+        """
+        from sparknlp.pretrained import ResourceDownloader
+
+        return ResourceDownloader.downloadModel(
+            BiEncoderMultimodalEmbeddings, name, lang, remote_loc
+        )

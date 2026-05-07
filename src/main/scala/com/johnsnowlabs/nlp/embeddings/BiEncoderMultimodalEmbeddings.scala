@@ -48,6 +48,7 @@ import org.json4s.jackson.JsonMethods.parse
 
 import java.io.File
 import java.nio.file.Files
+import java.nio.file.StandardCopyOption.REPLACE_EXISTING
 import java.util.UUID
 import scala.collection.{Map => CMap}
 
@@ -651,7 +652,12 @@ trait ReadBiEncoderMultimodalEmbeddingsDLModel
       dataFileName: Option[String]): OnnxWrapper = {
     val modelFile = new File(modelPath, modelFileName)
     require(modelFile.exists(), s"ONNX model file $modelFileName not found under $modelPath")
-    spark.sparkContext.addFile(modelFile.getAbsolutePath)
+    val stagedModelFileName = s"${UUID.randomUUID().toString.takeRight(12)}_$modelFileName"
+    val stagedModelDir =
+      Files.createTempDirectory(s"${UUID.randomUUID().toString.takeRight(12)}_onnx")
+    val stagedModelFile = stagedModelDir.resolve(stagedModelFileName).toFile
+    Files.copy(modelFile.toPath, stagedModelFile.toPath, REPLACE_EXISTING)
+    spark.sparkContext.addFile(stagedModelFile.getAbsolutePath)
 
     val dataPath = dataFileName.map { fileName =>
       val dataFile = new File(modelPath, fileName)
@@ -660,7 +666,7 @@ trait ReadBiEncoderMultimodalEmbeddingsDLModel
       dataFile.getAbsolutePath
     }
 
-    new OnnxWrapper(Some(modelFile.getName), dataPath)
+    new OnnxWrapper(Some(stagedModelFileName), dataPath)
   }
 
   private def readSavedOnnxWrapper(
@@ -694,12 +700,18 @@ trait ReadBiEncoderMultimodalEmbeddingsDLModel
     val unzippedFolder = ZipArchiveUtil.unzip(localArchive, Some(tmpFolder.getAbsolutePath))
     val extractedModelFile = Option(new File(unzippedFolder).listFiles())
       .getOrElse(Array.empty[File])
-      .find(file => file.isFile && file.getName.endsWith(".onnx"))
+      .find(file =>
+        file.isFile && file.getName.endsWith(
+          ".onnx") && file.getAbsolutePath != localArchive.getAbsolutePath)
       .getOrElse(throw new IllegalStateException(
         s"No extracted ONNX file found inside serialized archive $modelFileName."))
 
-    spark.sparkContext.addFile(extractedModelFile.getAbsolutePath)
-    new OnnxWrapper(Some(extractedModelFile.getName), localDataPath)
+    val stagedModelFileName =
+      s"${UUID.randomUUID().toString.takeRight(12)}_${extractedModelFile.getName}"
+    val stagedModelFile = new File(tmpFolder, stagedModelFileName)
+    Files.copy(extractedModelFile.toPath, stagedModelFile.toPath, REPLACE_EXISTING)
+    spark.sparkContext.addFile(stagedModelFile.getAbsolutePath)
+    new OnnxWrapper(Some(stagedModelFileName), localDataPath)
   }
 
   def readModel(
@@ -797,7 +809,30 @@ trait ReadBiEncoderMultimodalEmbeddingsDLModel
   }
 }
 
-object BiEncoderMultimodalEmbeddings extends ReadBiEncoderMultimodalEmbeddingsDLModel {
+trait ReadablePretrainedBiEncoderMultimodalEmbeddings
+    extends ParamsAndFeaturesReadable[BiEncoderMultimodalEmbeddings]
+    with HasPretrained[BiEncoderMultimodalEmbeddings] {
+
+  override val defaultModelName: Some[String] = Some("ops_mm_embedding_v1_2b")
+
+  /** Java compliant-overrides */
+  override def pretrained(): BiEncoderMultimodalEmbeddings = super.pretrained()
+
+  override def pretrained(name: String): BiEncoderMultimodalEmbeddings = super.pretrained(name)
+
+  override def pretrained(name: String, lang: String): BiEncoderMultimodalEmbeddings =
+    super.pretrained(name, lang)
+
+  override def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String): BiEncoderMultimodalEmbeddings =
+    super.pretrained(name, lang, remoteLoc)
+}
+
+object BiEncoderMultimodalEmbeddings
+    extends ReadablePretrainedBiEncoderMultimodalEmbeddings
+    with ReadBiEncoderMultimodalEmbeddingsDLModel {
   val suffix: String = "_bi_encoder_multimodal"
   val textModelFile: String = "text_model.onnx"
   val imageModelFile: String = "image_model.onnx"

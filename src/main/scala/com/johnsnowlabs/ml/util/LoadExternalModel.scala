@@ -164,8 +164,12 @@ object LoadExternalModel {
     require(f.isDirectory, s"Folder $modelPath is not folder")
 
     /*Check if the assets path is correct*/
-    val assetsPath = Paths.get(modelPath, "/assets").toString
-    val assetsPathFile = new File(assetsPath)
+    val legacyAssetsPath = Paths.get(modelPath, "/assets").toString
+    val fallbackAssetsPath = Paths.get(modelPath, "assets").toString
+    val legacyAssetsPathFile = new File(legacyAssetsPath)
+    val assetsPathFile =
+      if (legacyAssetsPathFile.exists()) legacyAssetsPathFile else new File(fallbackAssetsPath)
+    val assetsPath = assetsPathFile.getPath
     require(assetsPathFile.exists, s"Folder $assetsPath not found")
     require(assetsPathFile.isDirectory, s"Folder $assetsPath is not folder")
 
