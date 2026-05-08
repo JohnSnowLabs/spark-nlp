@@ -29,6 +29,8 @@ trait HasPretrained[M <: PipelineStage] {
 
   val defaultLang: String = "en"
 
+  val defaultPreferredEngine: String = "onnx"
+
   lazy val defaultLoc: String = ResourceDownloader.publicLoc
 
   implicit private val companion: DefaultParamsReadable[M] =
@@ -38,17 +40,35 @@ trait HasPretrained[M <: PipelineStage] {
     s"${this.getClass.getName} does not have a default pretrained model. Please provide a model name."
 
   /** Java default argument interoperability */
-  def pretrained(name: String, lang: String, remoteLoc: String): M = {
+  def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String,
+      preferredEngine: String = "onnx"): M = {
     if (Option(name).isEmpty)
       throw new NotImplementedError(errorMsg)
-    ResourceDownloader.downloadModel(companion, name, Option(lang), remoteLoc)
+    ResourceDownloader.downloadModel(companion, name, Option(lang), remoteLoc, preferredEngine)
   }
 
-  def pretrained(name: String, lang: String): M = pretrained(name, lang, defaultLoc)
+  def pretrained(name: String, lang: String): M =
+    pretrained(name, lang, defaultLoc, defaultPreferredEngine)
 
-  def pretrained(name: String): M = pretrained(name, defaultLang, defaultLoc)
+  def pretrained(name: String): M =
+    pretrained(name, defaultLang, defaultLoc, defaultPreferredEngine)
 
   def pretrained(): M =
-    pretrained(defaultModelName.getOrElse(throw new Exception(errorMsg)), defaultLang, defaultLoc)
+    pretrained(
+      defaultModelName.getOrElse(throw new Exception(errorMsg)),
+      defaultLang,
+      defaultLoc,
+      defaultPreferredEngine)
+
+  def pretrained(name: String, lang: String, remoteLoc: String): M =
+    pretrained(name, lang, remoteLoc, defaultPreferredEngine)
+  def pretrainedEngine(name: String, preferredEngine: String): M =
+    pretrained(name, defaultLang, defaultLoc, preferredEngine)
+
+  def pretrainedEngine(name: String, lang: String, preferredEngine: String): M =
+    pretrained(name, lang, defaultLoc, preferredEngine)
 
 }

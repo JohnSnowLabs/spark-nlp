@@ -713,13 +713,14 @@ class _DownloadModelDirectly(ExtendedJavaWrapper):
 
 
 class _DownloadModel(ExtendedJavaWrapper):
-    def __init__(self, reader, name, language, remote_loc, validator):
+    def __init__(self, reader, name, language, remote_loc, engine, validator):
         super(_DownloadModel, self).__init__(
             "com.johnsnowlabs.nlp.pretrained." + validator + ".downloadModel",
             reader,
             name,
             language,
             remote_loc,
+            engine
         )
 
 
@@ -775,12 +776,14 @@ class _ConfigLoaderGetter(ExtendedJavaWrapper):
 
 
 class _GetResourceSize(ExtendedJavaWrapper):
-    def __init__(self, name, language, remote_loc):
+    def __init__(self, name, language, remote_loc, annotator, engine):
         super(_GetResourceSize, self).__init__(
             "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.getDownloadSize",
             name,
             language,
             remote_loc,
+            annotator,
+            engine
         )
 
 

@@ -59,7 +59,7 @@ class ResourceDownloader(object):
     """
 
     @staticmethod
-    def downloadModel(reader, name, language, remote_loc=None, j_dwn='PythonResourceDownloader'):
+    def downloadModel(reader, name, language, remote_loc=None, engine = "onnx", j_dwn='PythonResourceDownloader'):
         """Downloads and loads a model with the default downloader. Usually this method
         does not need to be called directly, as it is called by the `pretrained()`
         method of the annotator.
@@ -83,7 +83,7 @@ class ResourceDownloader(object):
             Loaded pretrained annotator/pipeline
         """
         print(name + " download started this may take some time.")
-        file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
+        file_size = _internal._GetResourceSize(name, language, remote_loc, reader.name, engine).apply()
         if file_size == "-1":
             print("Can not find the model to download please check the name!")
         else:
@@ -92,7 +92,7 @@ class ResourceDownloader(object):
             t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
             t1.start()
             try:
-                j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, j_dwn).apply()
+                j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, engine, j_dwn).apply()
             except Py4JJavaError as e:
                 sys.stdout.write("\n" + str(e))
                 raise e

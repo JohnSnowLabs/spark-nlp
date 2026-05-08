@@ -502,6 +502,29 @@ class HasEngine:
         """
         return self.getOrDefault(self.engine)
 
+    @classmethod
+    def pretrainedEngine(cls, name: str = "default", lang: str = "en", remote_loc: str = None, engine="onnx"):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            The name of the pretrained model, by default "default"
+        lang : str, optional
+            The language of the pretrained model, by default "en"
+        remote_loc : str, optional
+            Remote location of the model, by default None
+        engine : str, optional
+            The Deep Learning engine used for this model, by default "onnx"
+
+        Returns
+        -------
+        AnnotatorModel
+            Pretrained model
+        """
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(cls, name, lang, remote_loc, engine)
+
 
 class HasCandidateLabelsProperties:
     candidateLabels = Param(Params._dummy(), "candidateLabels",
