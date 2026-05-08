@@ -4,7 +4,7 @@ title: DistilBERT base model (cased)
 author: John Snow Labs
 name: distilbert_base_cased
 date: 2025-06-24
-tags: [distilbert, en, english, open_source, embeddings, onnx, openvino]
+tags: [distilbert, en, english, open_source, embeddings, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

@@ -4,7 +4,7 @@ title: Slovenian sloberta CamemBertEmbeddings from EMBEDDIA
 author: John Snow Labs
 name: sloberta
 date: 2025-06-22
-tags: [sl, open_source, onnx, embeddings, camembert, openvino]
+tags: [sl, open_source, embeddings, camembert, openvino]
 task: Embeddings
 language: sl
 edition: Spark NLP 5.5.1

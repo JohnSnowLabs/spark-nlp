@@ -4,7 +4,7 @@ title: English fin_mpnet_base MPNetEmbeddings from mukaj
 author: John Snow Labs
 name: fin_mpnet_base
 date: 2025-05-22
-tags: [en, open_source, onnx, embeddings, mpnet, openvino]
+tags: [en, open_source, embeddings, mpnet, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

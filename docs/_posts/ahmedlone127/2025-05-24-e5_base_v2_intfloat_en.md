@@ -4,7 +4,7 @@ title: English e5_base_v2_intfloat E5Embeddings from intfloat
 author: John Snow Labs
 name: e5_base_v2_intfloat
 date: 2025-05-24
-tags: [en, open_source, onnx, embeddings, e5, openvino]
+tags: [en, open_source, embeddings, e5, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

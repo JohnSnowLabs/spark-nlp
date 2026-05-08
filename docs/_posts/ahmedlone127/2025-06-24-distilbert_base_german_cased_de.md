@@ -4,7 +4,7 @@ title: German distilbert_base_german_cased DistilBertEmbeddings from huggingface
 author: John Snow Labs
 name: distilbert_base_german_cased
 date: 2025-06-24
-tags: [distilbert, de, open_source, fill_mask, onnx, openvino]
+tags: [distilbert, de, open_source, fill_mask, openvino]
 task: Embeddings
 language: de
 edition: Spark NLP 5.5.1

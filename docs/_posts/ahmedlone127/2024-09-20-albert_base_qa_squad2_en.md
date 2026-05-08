@@ -4,7 +4,7 @@ title: English AlbertForQuestionAnswering model (from twmkn9)
 author: John Snow Labs
 name: albert_base_qa_squad2
 date: 2024-09-20
-tags: [question_answering, albert, openvino, en, open_source, onnx]
+tags: [question_answering, albert, en, open_source, onnx]
 task: Question Answering
 language: en
 edition: Spark NLP 5.5.0

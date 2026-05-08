@@ -4,7 +4,7 @@ title: DistilBERTZero-Shot Classification Base - MNLI(distilbert_base_zero_shot_
 author: John Snow Labs
 name: distilbert_base_zero_shot_classifier_uncased_mnli
 date: 2024-12-16
-tags: [zero_shot, en, mnli, distilbert, english, base, open_source, openvino, onnx]
+tags: [zero_shot, en, mnli, distilbert, english, base, open_source, onnx]
 task: Zero-Shot Classification
 language: en
 edition: Spark NLP 5.5.1

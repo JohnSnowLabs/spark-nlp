@@ -4,7 +4,7 @@ title: English chemberta_zinc_base_v1 RoBertaEmbeddings from seyonec
 author: John Snow Labs
 name: chemberta_zinc_base_v1
 date: 2025-05-22
-tags: [en, open_source, onnx, embeddings, roberta, openvino]
+tags: [en, open_source, embeddings, roberta, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

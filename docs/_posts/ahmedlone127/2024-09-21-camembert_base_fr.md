@@ -4,7 +4,7 @@ title: CamemBERT Base Model
 author: John Snow Labs
 name: camembert_base
 date: 2024-09-21
-tags: [fr, french, embeddings, camembert, base, open_source, onnx, openvino]
+tags: [fr, french, embeddings, camembert, base, open_source, openvino]
 task: Embeddings
 language: fr
 edition: Spark NLP 5.5.0

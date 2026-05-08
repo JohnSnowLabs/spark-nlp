@@ -4,7 +4,7 @@ title: Multilingual twitter_xlm_roberta_base_sentiment_multilingual XlmRoBertaFo
 author: John Snow Labs
 name: twitter_xlm_roberta_base_sentiment_multilingual
 date: 2025-05-20
-tags: [xx, open_source, onnx, sequence_classification, xlm_roberta, openvino]
+tags: [xx, open_source, sequence_classification, xlm_roberta, openvino]
 task: Text Classification
 language: xx
 edition: Spark NLP 5.5.1

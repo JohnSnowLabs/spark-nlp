@@ -4,7 +4,7 @@ title: English covid_qa_mpnet MPNetEmbeddings from shaina
 author: John Snow Labs
 name: covid_qa_mpnet
 date: 2025-05-22
-tags: [mpnet, en, open_source, onnx, openvino]
+tags: [mpnet, en, open_source, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

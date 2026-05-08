@@ -4,7 +4,7 @@ title: English patentsberta MPNetEmbeddings from AI-Growth-Lab
 author: John Snow Labs
 name: patentsberta
 date: 2025-05-22
-tags: [mpnet, en, open_source, onnx, openvino]
+tags: [mpnet, en, open_source, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

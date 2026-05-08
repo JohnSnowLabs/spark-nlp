@@ -4,7 +4,7 @@ title: Thai thainer_corpus_v2_base_model CamemBertForTokenClassification from py
 author: John Snow Labs
 name: thainer_corpus_v2_base_model
 date: 2025-05-27
-tags: [camembert, th, open_source, token_classification, onnx, openvino]
+tags: [camembert, th, open_source, token_classification, openvino]
 task: Named Entity Recognition
 language: th
 edition: Spark NLP 5.5.1

@@ -4,7 +4,7 @@ title: DeBerta Zero-Shot Classification Base - MNLI ANLI  (deberta_base_zero_sho
 author: John Snow Labs
 name: deberta_base_zero_shot_classifier_mnli_anli_v3
 date: 2024-12-14
-tags: [zero_shot, deberta, en, open_source, openvino, onnx]
+tags: [zero_shot, deberta, en, open_source, onnx]
 task: Zero-Shot Classification
 language: en
 edition: Spark NLP 5.5.1

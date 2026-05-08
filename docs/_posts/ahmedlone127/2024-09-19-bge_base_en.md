@@ -4,7 +4,7 @@ title: BAAI general embedding English (bge_base)
 author: John Snow Labs
 name: bge_base
 date: 2024-09-19
-tags: [bert, bge, onnx, en, open_source, openvino]
+tags: [bert, bge, en, open_source, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.0

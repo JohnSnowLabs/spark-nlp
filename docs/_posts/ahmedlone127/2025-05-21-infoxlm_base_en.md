@@ -4,7 +4,7 @@ title: English infoxlm_base XlmRoBertaEmbeddings from microsoft
 author: John Snow Labs
 name: infoxlm_base
 date: 2025-05-21
-tags: [en, open_source, onnx, embeddings, xlm_roberta, openvino]
+tags: [en, open_source, embeddings, xlm_roberta, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

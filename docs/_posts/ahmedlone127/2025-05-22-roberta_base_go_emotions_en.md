@@ -4,7 +4,7 @@ title: English roberta_base_go_emotions RoBertaForSequenceClassification from Sa
 author: John Snow Labs
 name: roberta_base_go_emotions
 date: 2025-05-22
-tags: [roberta, en, open_source, sequence_classification, onnx, openvino]
+tags: [roberta, en, open_source, sequence_classification, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1

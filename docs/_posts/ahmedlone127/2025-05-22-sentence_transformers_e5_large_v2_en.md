@@ -4,7 +4,7 @@ title: English sentence_transformers_e5_large_v2 E5Embeddings from embaas
 author: John Snow Labs
 name: sentence_transformers_e5_large_v2
 date: 2025-05-22
-tags: [en, open_source, onnx, embeddings, e5, openvino]
+tags: [en, open_source, embeddings, e5, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

@@ -4,7 +4,7 @@ title: English mathstral_7b_v0.1_iq4_xs AutoGGUFModel from lmstudio-community
 author: John Snow Labs
 name: mathstral_7b_v0.1_iq4_xs
 date: 2024-10-29
-tags: [en, open_source, onnx, conversational, text_generation, text_to_text, llamacpp]
+tags: [en, open_source, conversational, text_generation, text_to_text, llamacpp]
 task: Text Generation
 language: en
 edition: Spark NLP 5.5.1

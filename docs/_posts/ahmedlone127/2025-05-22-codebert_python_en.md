@@ -4,7 +4,7 @@ title: English codebert_python RoBertaEmbeddings from neulab
 author: John Snow Labs
 name: codebert_python
 date: 2025-05-22
-tags: [en, open_source, onnx, embeddings, roberta, openvino]
+tags: [en, open_source, embeddings, roberta, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

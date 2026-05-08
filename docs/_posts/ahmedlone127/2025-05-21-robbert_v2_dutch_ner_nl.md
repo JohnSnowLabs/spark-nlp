@@ -4,7 +4,7 @@ title: Dutch, Flemish robbert_v2_dutch_ner RoBertaForTokenClassification from pd
 author: John Snow Labs
 name: robbert_v2_dutch_ner
 date: 2025-05-21
-tags: [nl, open_source, onnx, token_classification, roberta, ner, openvino]
+tags: [nl, open_source, token_classification, roberta, ner, openvino]
 task: Named Entity Recognition
 language: nl
 edition: Spark NLP 5.5.1

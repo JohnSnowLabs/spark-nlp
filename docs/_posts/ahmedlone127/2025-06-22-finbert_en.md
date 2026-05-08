@@ -4,7 +4,7 @@ title: English finbert BertForSequenceClassification from ProsusAI
 author: John Snow Labs
 name: finbert
 date: 2025-06-22
-tags: [en, open_source, onnx, sequence_classification, bert, openvino]
+tags: [en, open_source, sequence_classification, bert, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1

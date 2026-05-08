@@ -4,7 +4,7 @@ title: English XlmRoBertaForQuestionAnswering (from deepset)
 author: John Snow Labs
 name: xlm_roberta_qa_xlm_roberta_base_squad2_distilled
 date: 2025-05-21
-tags: [en, open_source, question_answering, xlmroberta, onnx, openvino]
+tags: [en, open_source, question_answering, xlmroberta, openvino]
 task: Question Answering
 language: en
 edition: Spark NLP 5.5.1

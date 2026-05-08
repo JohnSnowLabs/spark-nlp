@@ -4,7 +4,7 @@ title: Thai phayathaibert_thainer CamemBertForTokenClassification from Pavarissy
 author: John Snow Labs
 name: phayathaibert_thainer
 date: 2025-05-27
-tags: [th, open_source, onnx, token_classification, camembert, ner, openvino]
+tags: [th, open_source, token_classification, camembert, ner, openvino]
 task: Named Entity Recognition
 language: th
 edition: Spark NLP 5.5.1

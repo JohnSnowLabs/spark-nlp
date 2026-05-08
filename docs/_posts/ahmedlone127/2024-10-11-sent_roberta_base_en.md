@@ -4,7 +4,7 @@ title: RoBERTa Base Sentence Embeddings(sent_roberta_base)
 author: John Snow Labs
 name: sent_roberta_base
 date: 2024-10-11
-tags: [sentence_embeddings, en, english, roberta, open_source, onnx, openvino]
+tags: [sentence_embeddings, en, english, roberta, open_source, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.0
