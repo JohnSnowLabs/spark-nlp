@@ -35,7 +35,7 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.slf4j.{Logger, LoggerFactory}
 
 import scala.jdk.CollectionConverters._
-import java.io.{File, InputStream}
+import java.io.{File, FileInputStream, InputStream}
 import java.nio.file.Files
 import scala.util.control.NonFatal
 
@@ -111,7 +111,13 @@ class AWSGateway(
       bucketName: String,
       destinationPath: String,
       inputStream: InputStream): Unit = {
-    client.putObject(bucketName, destinationPath, inputStream, new ObjectMetadata())
+    val metadata = new ObjectMetadata()
+    inputStream match {
+      case fileInputStream: FileInputStream =>
+        metadata.setContentLength(fileInputStream.getChannel.size())
+      case _ =>
+    }
+    client.putObject(bucketName, destinationPath, inputStream, metadata)
   }
 
   override def copyInputStreamToBucket(

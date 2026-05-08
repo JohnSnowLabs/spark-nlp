@@ -78,7 +78,8 @@ def start(gpu=False,
           cluster_tmp_dir="",
           params=None,
           real_time_output=False,
-          output_level=1):
+          output_level=1,
+          skip_sparknlp_maven=False):
     """Starts a PySpark instance with default parameters for Spark NLP.
 
     The default parameters would result in the equivalent of:
@@ -115,6 +116,8 @@ def start(gpu=False,
         not supported and it must be local, HDFS, or DBFS.
     params : dict, optional
         Custom parameters to set for the Spark configuration, by default None.
+        Set ``skip_sparknlp_maven`` to ``True`` or ``"true"`` to avoid adding the
+        default Spark NLP Maven package when a custom Spark NLP jar is provided.
     cluster_tmp_dir : str, optional
         The location to save logs from annotators during training. If not set, it will
         be in the users home directory under `annotator_logs`.
@@ -122,6 +125,9 @@ def start(gpu=False,
         Whether to read and print JVM output in real time, by default False
     output_level : int, optional
         Output level for logs, by default 1
+    skip_sparknlp_maven : bool, optional
+        Whether to avoid adding the default Spark NLP Maven package. Use this
+        when providing a custom Spark NLP jar with ``spark.jars``.
 
     Notes
     -----
@@ -135,6 +141,7 @@ def start(gpu=False,
 
     """
     current_version = __version__
+    maven_version = current_version.split("-")[0].split("+")[0]
 
     if params is None:
         params = {}
@@ -144,6 +151,18 @@ def start(gpu=False,
 
     if '_instantiatedSession' in dir(SparkSession) and SparkSession._instantiatedSession is not None:
         print('Warning::Spark Session already created, some configs may not take.')
+
+    skip_sparknlp_maven_param = "skip_sparknlp_maven"
+
+    def is_skip_sparknlp_maven_enabled():
+        value = params.get(skip_sparknlp_maven_param, False)
+        if isinstance(value, str):
+            value = value.strip().lower() == "true"
+        else:
+            value = bool(value)
+        return bool(skip_sparknlp_maven) or value
+
+    skip_sparknlp_maven = is_skip_sparknlp_maven_enabled()
 
     driver_cores = "*"
     for key, value in params.items():
@@ -159,12 +178,12 @@ def start(gpu=False,
             self.serializer, self.serializer_max_buffer = "org.apache.spark.serializer.KryoSerializer", "2000M"
             self.driver_max_result_size = "0"
             # Spark NLP on CPU or GPU
-            self.maven_spark3 = "com.johnsnowlabs.nlp:spark-nlp_2.12:{}".format(current_version)
-            self.maven_gpu_spark3 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:{}".format(current_version)
+            self.maven_spark3 = "com.johnsnowlabs.nlp:spark-nlp_2.12:{}".format(maven_version)
+            self.maven_gpu_spark3 = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:{}".format(maven_version)
             # Spark NLP on Apple Silicon
-            self.maven_silicon = "com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:{}".format(current_version)
+            self.maven_silicon = "com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:{}".format(maven_version)
             # Spark NLP on Linux Aarch64
-            self.maven_aarch64 = "com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:{}".format(current_version)
+            self.maven_aarch64 = "com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:{}".format(maven_version)
 
     def start_without_realtime_output():
         builder = SparkSession.builder \
@@ -191,17 +210,21 @@ def start(gpu=False,
         if cluster_tmp_dir != '':
             builder.config("spark.jsl.settings.storage.cluster_tmp_dir", cluster_tmp_dir)
 
-        if params.get("spark.jars.packages") is None:
+        if not skip_sparknlp_maven and params.get("spark.jars.packages") is None:
             builder.config("spark.jars.packages", spark_jars_packages)
 
         for key, value in params.items():
-            if key == "spark.jars.packages":
+            if key == skip_sparknlp_maven_param:
+                continue
+            if key == "spark.jars.packages" and not skip_sparknlp_maven:
                 packages = spark_jars_packages + "," + value
                 builder.config(key, packages)
             else:
                 builder.config(key, value)
 
-        return builder.getOrCreate()
+        spark_session = builder.getOrCreate()
+        apply_hadoop_params(spark_session)
+        return spark_session
 
     def start_with_realtime_output():
 
@@ -232,11 +255,13 @@ def start(gpu=False,
                 if cluster_tmp_dir != '':
                     spark_conf.set("spark.jsl.settings.storage.cluster_tmp_dir", cluster_tmp_dir)
 
-                if params.get("spark.jars.packages") is None:
+                if not skip_sparknlp_maven and params.get("spark.jars.packages") is None:
                     spark_conf.set("spark.jars.packages", spark_jars_packages)
 
                 for key, value in params.items():
-                    if key == "spark.jars.packages":
+                    if key == skip_sparknlp_maven_param:
+                        continue
+                    if key == "spark.jars.packages" and not skip_sparknlp_maven:
                         packages = spark_jars_packages + "," + value
                         spark_conf.set(key, packages)
                     else:
@@ -255,6 +280,7 @@ def start(gpu=False,
                 # Use the gateway we launched
                 spark_context = SparkContext(gateway=self.gateway)
                 self.spark_session = SparkSession(spark_context)
+                apply_hadoop_params(self.spark_session)
 
                 self.out_thread = threading.Thread(target=self.output_reader)
                 self.error_thread = threading.Thread(target=self.error_reader)
@@ -287,6 +313,13 @@ def start(gpu=False,
                 self.error_thread.join()
 
         return SparkWithCustomGateway()
+
+    def apply_hadoop_params(spark_session):
+        hadoop_prefix = "spark.hadoop."
+        hadoop_configuration = spark_session.sparkContext._jsc.hadoopConfiguration()
+        for key, value in params.items():
+            if key.startswith(hadoop_prefix):
+                hadoop_configuration.set(key[len(hadoop_prefix):], value)
 
     spark_nlp_config = SparkNLPConfig()
 
