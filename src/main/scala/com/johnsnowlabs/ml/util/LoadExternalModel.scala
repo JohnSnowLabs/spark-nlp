@@ -85,21 +85,28 @@ object LoadExternalModel {
       modelPath: String,
       isEncoderDecoder: Boolean = false,
       withPast: Boolean = false,
-      isDecoder: Boolean = false): Boolean = {
-    if (isEncoderDecoder) {
-      val onnxEncoderModel = new File(modelPath, ONNX.encoderModel)
-      val onnxDecoderModel =
-        if (withPast) new File(modelPath, ONNX.decoderWithPastModel)
-        else new File(modelPath, ONNX.decoderModel)
-      onnxEncoderModel.exists() && onnxDecoderModel.exists()
-    } else if (isDecoder) {
-      val onnxDecoderModel =
-        if (withPast) new File(modelPath, ONNX.decoderWithPastModel)
-        else new File(modelPath, ONNX.decoderModel)
-      onnxDecoderModel.exists()
-    } else {
-      val onnxModel = new File(modelPath, ONNX.modelName)
-      onnxModel.exists()
+      isDecoder: Boolean = false,
+      customModelNames: Option[List[String]] = None): Boolean = {
+    customModelNames match {
+      case Some(modelNames) if modelNames.nonEmpty =>
+        modelNames.forall(modelName => new File(modelPath, modelName).exists())
+      case Some(_) => false
+      case None =>
+        if (isEncoderDecoder) {
+          val onnxEncoderModel = new File(modelPath, ONNX.encoderModel)
+          val onnxDecoderModel =
+            if (withPast) new File(modelPath, ONNX.decoderWithPastModel)
+            else new File(modelPath, ONNX.decoderModel)
+          onnxEncoderModel.exists() && onnxDecoderModel.exists()
+        } else if (isDecoder) {
+          val onnxDecoderModel =
+            if (withPast) new File(modelPath, ONNX.decoderWithPastModel)
+            else new File(modelPath, ONNX.decoderModel)
+          onnxDecoderModel.exists()
+        } else {
+          val onnxModel = new File(modelPath, ONNX.modelName)
+          onnxModel.exists()
+        }
     }
 
   }
@@ -148,7 +155,8 @@ object LoadExternalModel {
       isEncoderDecoder: Boolean = false,
       withPast: Boolean = false,
       isDecoder: Boolean = false,
-      custom: Option[List[String]] = None): String = {
+      custom: Option[List[String]] = None,
+      customOnnxModelNames: Option[List[String]] = None): String = {
 
     /** Check if the path is correct */
     val f = new File(modelPath)
@@ -156,8 +164,12 @@ object LoadExternalModel {
     require(f.isDirectory, s"Folder $modelPath is not folder")
 
     /*Check if the assets path is correct*/
-    val assetsPath = Paths.get(modelPath, "/assets").toString
-    val assetsPathFile = new File(assetsPath)
+    val legacyAssetsPath = Paths.get(modelPath, "/assets").toString
+    val fallbackAssetsPath = Paths.get(modelPath, "assets").toString
+    val legacyAssetsPathFile = new File(legacyAssetsPath)
+    val assetsPathFile =
+      if (legacyAssetsPathFile.exists()) legacyAssetsPathFile else new File(fallbackAssetsPath)
+    val assetsPath = assetsPathFile.getPath
     require(assetsPathFile.exists, s"Folder $assetsPath not found")
     require(assetsPathFile.isDirectory, s"Folder $assetsPath is not folder")
 
@@ -165,7 +177,13 @@ object LoadExternalModel {
     val tfSavedModelExist = isTensorFlowModel(modelPath)
 
     /*ONNX required model's name*/
-    val onnxModelExist = isOnnxModel(modelPath, isEncoderDecoder, withPast, isDecoder)
+    val onnxModelExist =
+      isOnnxModel(
+        modelPath,
+        isEncoderDecoder,
+        withPast,
+        isDecoder,
+        customModelNames = customOnnxModelNames)
 
     /*Openvino required model files*/
     val openvinoModelExist = isOpenvinoModel(modelPath, isEncoderDecoder, custom)
@@ -199,10 +217,19 @@ object LoadExternalModel {
       isEncoderDecoder: Boolean = false,
       withPast: Boolean = false,
       isDecoder: Boolean = false,
-      custom: Option[List[String]] = None): (String, String) = {
+      custom: Option[List[String]] = None,
+      customOnnxModelNames: Option[List[String]] = None): (String, String) = {
     val localPath: String = ResourceHelper.copyToLocal(path)
 
-    (localPath, detectEngine(localPath, isEncoderDecoder, withPast, isDecoder, custom))
+    (
+      localPath,
+      detectEngine(
+        localPath,
+        isEncoderDecoder,
+        withPast,
+        isDecoder,
+        custom,
+        customOnnxModelNames))
   }
 
   def loadTextAsset(assetPath: String, assetName: String): Array[String] = {
