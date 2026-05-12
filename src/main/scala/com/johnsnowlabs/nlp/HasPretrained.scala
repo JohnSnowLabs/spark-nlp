@@ -31,8 +31,6 @@ trait HasPretrained[M <: PipelineStage] {
 
   val defaultPreferredEngine: String = "onnx"
 
-  val skipPreferredEngine: Boolean = false
-
   lazy val defaultLoc: String = ResourceDownloader.publicLoc
 
   implicit private val companion: DefaultParamsReadable[M] =
