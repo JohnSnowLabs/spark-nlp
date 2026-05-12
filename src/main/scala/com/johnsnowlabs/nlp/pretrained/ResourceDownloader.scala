@@ -738,7 +738,8 @@ object PythonResourceDownloader {
       name: String,
       language: String = null,
       remoteLoc: String = null,
-      preferredEngine: String): PipelineStage = {
+      preferredEngine: String,
+      skipPreferredEngine: Boolean): PipelineStage = {
 
     val reader = keyToReader.getOrElse(
       if (typeMapper.contains(readerStr)) typeMapper(readerStr) else readerStr,
@@ -751,7 +752,8 @@ object PythonResourceDownloader {
       name,
       Option(language),
       correctedFolder,
-      preferredEngine)
+      preferredEngine,
+      skipPreferredEngine)
 
     // Cast the model to the required type. This has to be done for each entry in the typeMapper map
     if (typeMapper.contains(readerStr) && readerStr == "ZeroShotNerModel")
@@ -822,7 +824,8 @@ object PythonResourceDownloader {
       language: String = "en",
       remoteLoc: String = null,
       annotator: String,
-      engine: String): String = {
+      engine: String,
+      skipPreferredEngine: Boolean): String = {
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
     ResourceDownloader.getDownloadSize(
       ResourceRequest(
@@ -830,6 +833,7 @@ object PythonResourceDownloader {
         Option(language),
         correctedFolder,
         annotator = Some(annotator),
-        engine = Some(engine)))
+        engine = Some(engine),
+        skipPreferredEngine = skipPreferredEngine))
   }
 }
