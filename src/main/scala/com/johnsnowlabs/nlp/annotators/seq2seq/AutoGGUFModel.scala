@@ -129,6 +129,7 @@ class AutoGGUFModel(override val uid: String)
 
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
   override val inputAnnotatorTypes: Array[AnnotatorType] = Array(AnnotatorType.DOCUMENT)
+  override val skipPreferredEngine: Boolean = true
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
@@ -230,7 +231,7 @@ trait ReadablePretrainedAutoGGUFModel
     with HasPretrained[AutoGGUFModel] {
   override val defaultModelName: Some[String] = Some("Phi_4_mini_instruct_Q4_K_M_gguf")
   override val defaultLang: String = "en"
-  override val skipPreferredEngine: Boolean = true
+
 
   /** Java compliant-overrides */
   override def pretrained(): AutoGGUFModel = super.pretrained()
