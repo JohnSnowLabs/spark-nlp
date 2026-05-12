@@ -27,8 +27,6 @@ trait HasEngine extends ParamsAndFeaturesWritable {
     */
   val engine = new Param[String](this, "engine", "Deep Learning engine used for this model")
 
-  val skipPreferredEngine: Boolean = false
-
   setDefault(engine, TensorFlow.name)
 
   /** @group getParam */
