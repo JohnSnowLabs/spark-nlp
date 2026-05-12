@@ -477,7 +477,9 @@ class VectorDBConnector(override val uid: String)
       val embeddings = embeddingAnnotations.head.embeddings
       val vectorId = resolveVectorId(row, None)
       val metadata: Map[String, String] =
-        resolveUserMetadata(row) + ("modality" -> "text") + ("indexed_at" -> Instant.now().toString)
+        resolveUserMetadata(row) + ("modality" -> "text") + ("indexed_at" -> Instant
+          .now()
+          .toString)
       val vector: Map[String, Any] =
         Map("id" -> vectorId, "values" -> embeddings.toList, "metadata" -> metadata)
       Some((row, vector, documentAnnotations))

@@ -48,8 +48,8 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   * The upstream embedding stage '''must''' use `DOCUMENT` (not `SENTENCE`) as its input
   * annotation type, processing the entire document in a single forward pass. If a
   * `SentenceDetector` is placed before the embedding model, each sentence is embedded
-  * independently and the contextual benefit of late chunking is lost — the annotator will
-  * still run without error but will produce embeddings equivalent to naive `ChunkEmbeddings`.
+  * independently and the contextual benefit of late chunking is lost — the annotator will still
+  * run without error but will produce embeddings equivalent to naive `ChunkEmbeddings`.
   *
   * ==Example==
   * {{{

@@ -497,7 +497,8 @@ object ResourceDownloader {
       name: String,
       language: Option[String] = None,
       folder: String = publicLoc,
-      preferredEngine: String = "onnx"): TModel = {
+      preferredEngine: String = "onnx",
+      skipPreferredEngine: Boolean = false): TModel = {
 
     val annotator = reader.getClass.getSimpleName.replace("$", "")
     downloadModel(
@@ -507,7 +508,8 @@ object ResourceDownloader {
         language,
         folder,
         annotator = Some(annotator),
-        engine = Some(preferredEngine)))
+        engine = Some(preferredEngine),
+        skipPreferredEngine = skipPreferredEngine))
   }
 
   def downloadModel[TModel <: PipelineStage](
@@ -587,7 +589,8 @@ case class ResourceRequest(
     libVersion: Version = ResourceDownloader.libVersion,
     sparkVersion: Version = ResourceDownloader.sparkVersion,
     annotator: Option[String] = None,
-    engine: Option[String] = None)
+    engine: Option[String] = None,
+    skipPreferredEngine: Boolean = false)
 
 /* convenience accessor for Py4J calls */
 object PythonResourceDownloader {

@@ -492,6 +492,8 @@ class HasEngine:
                    "Deep Learning engine used for this model",
                    typeConverter=TypeConverters.toString)
 
+    skip_preferred_engine = False
+
     def getEngine(self):
         """
 
@@ -523,7 +525,7 @@ class HasEngine:
             Pretrained model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(cls, name, lang, remote_loc, engine)
+        return ResourceDownloader.downloadModel(cls, name, lang, remote_loc, engine,skip_preferred_engine)
 
 
 class HasCandidateLabelsProperties:

@@ -31,6 +31,8 @@ trait HasPretrained[M <: PipelineStage] {
 
   val defaultPreferredEngine: String = "onnx"
 
+  val skipPreferredEngine: Boolean = false
+
   lazy val defaultLoc: String = ResourceDownloader.publicLoc
 
   implicit private val companion: DefaultParamsReadable[M] =
@@ -47,7 +49,13 @@ trait HasPretrained[M <: PipelineStage] {
       preferredEngine: String = "onnx"): M = {
     if (Option(name).isEmpty)
       throw new NotImplementedError(errorMsg)
-    ResourceDownloader.downloadModel(companion, name, Option(lang), remoteLoc, preferredEngine)
+    ResourceDownloader.downloadModel(
+      companion,
+      name,
+      Option(lang),
+      remoteLoc,
+      preferredEngine,
+      skipPreferredEngine)
   }
 
   def pretrained(name: String, lang: String): M =

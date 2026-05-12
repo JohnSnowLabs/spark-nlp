@@ -249,7 +249,9 @@ class ResourceMedataTest extends AnyFlatSpec {
 
     val versions = ResourceMetadata.resolveResource(resourceMetadata, resourceRequest)
 
-    assert(versions.isDefined, "Expected a BertEmbeddings candidate but got none. Check compatibleCandidates filter.")
+    assert(
+      versions.isDefined,
+      "Expected a BertEmbeddings candidate but got none. Check compatibleCandidates filter.")
     assert(versions.get.annotator.get == "BertEmbeddings")
     assert(versions.get.engine.get == "onnx", s"Expected onnx but got ${versions.get.engine.get}")
   }
@@ -292,7 +294,6 @@ class ResourceMedataTest extends AnyFlatSpec {
     assert(versions.get.engine.get == "tensorflow")
   }
 
-
   it should "fall back to other model variant if preferred engine does not exist" in {
     val resourcePath = "src/test/resources/resource-downloader/test_engine_metadata.json"
     val mockResourceDownloader: MockResourceDownloader = new MockResourceDownloader(resourcePath)
@@ -312,7 +313,6 @@ class ResourceMedataTest extends AnyFlatSpec {
     assert(versions.get.annotator.get == expectedAnnotator)
     assert(versions.get.engine.get == expectedEngine)
   }
-
 
   private def getTimestamp(date: String): Timestamp = {
     val UTC = TimeZone.getTimeZone("UTC")
