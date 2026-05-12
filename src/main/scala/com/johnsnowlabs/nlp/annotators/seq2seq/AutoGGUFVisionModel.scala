@@ -162,7 +162,6 @@ class AutoGGUFVisionModel(override val uid: String)
   override val inputAnnotatorTypes: Array[AnnotatorType] =
     Array(AnnotatorType.IMAGE, AnnotatorType.DOCUMENT)
   override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
-  override val skipPreferredEngine: Boolean = true
 
   /** Annotator reference id. Used to identify elements in metadata or to refer to this annotator
     * type
