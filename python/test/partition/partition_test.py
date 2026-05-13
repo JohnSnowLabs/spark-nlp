@@ -111,8 +111,11 @@ class PartitionHtmlTesSpec(unittest.TestCase):
         html_df = Partition(content_type = "text/html").partition(self.html_directory)
         html_file_df = Partition().partition(f"{self.html_directory}/fake-html.html")
 
-        self.assertTrue(html_df.select("html").count() > 0)
-        self.assertTrue(html_file_df.select("html").count() > 0)
+        html_rows = html_df.select("html").collect()
+        html_file_rows = html_file_df.select("html").collect()
+
+        self.assertTrue(len(html_rows) > 0)
+        self.assertTrue(len(html_file_rows) > 0)
 
 
 @pytest.mark.slow
@@ -122,8 +125,11 @@ class PartitionUrlTesSpec(unittest.TestCase):
         url_df = Partition().partition("https://www.wikipedia.org", headers={"User-Agent": "Mozilla/5.0"})
         urls_df = Partition().partition_urls(["https://www.wikipedia.org", "https://example.com/"])
 
-        self.assertTrue(url_df.select("html").count() > 0)
-        self.assertTrue(urls_df.select("html").count() > 0)
+        url_rows = url_df.select("html").collect()
+        urls_rows = urls_df.select("html").collect()
+
+        self.assertTrue(len(url_rows) > 0)
+        self.assertTrue(len(urls_rows) > 0)
 
 
 @pytest.mark.fast

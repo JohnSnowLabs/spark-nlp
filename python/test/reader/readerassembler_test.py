@@ -40,4 +40,5 @@ class ReaderAssemblerTest(unittest.TestCase):
 
         result_df = model.transform(self.empty_df)
 
-        self.assertTrue(result_df.count() > 0)
+        rows = result_df.collect()
+        self.assertTrue(len(rows) > 0)

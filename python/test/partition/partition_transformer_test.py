@@ -49,7 +49,8 @@ class PartitionTransformerTesSpec(unittest.TestCase):
         resultDf = pipelineModel.transform(self.testDataSet)
         resultDf.show(truncate=False)
 
-        self.assertTrue(resultDf.select("partition").count() > 0)
+        rows = resultDf.select("partition").collect()
+        self.assertTrue(len(rows) > 0)
 
 
 @pytest.mark.slow
@@ -80,7 +81,8 @@ class PartitionTransformerURLsTesSpec(unittest.TestCase):
 
         resultDf = pipelineModel.transform(self.testDataSet)
 
-        self.assertTrue(resultDf.select("partition").count() > 0)
+        rows = resultDf.select("partition").collect()
+        self.assertTrue(len(rows) > 0)
 
 
 @pytest.mark.fast
@@ -108,4 +110,5 @@ class PartitionTransformerChunkTestSpec(unittest.TestCase):
 
         resultDf = pipelineModel.transform(self.emptyDataSet)
 
-        self.assertTrue(resultDf.select("partition").count() >= 0)
+        rows = resultDf.select("partition").collect()
+        self.assertTrue(len(rows) >= 0)

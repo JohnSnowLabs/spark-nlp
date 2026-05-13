@@ -245,16 +245,14 @@ class ReaderAssembler(override val uid: String)
     }
 
     val contentDf = datasetWithTextFile(dataset.sparkSession, $(contentPath))
+    val requestHeaders = getHeadersAsJava
 
     val partitionTextUDF =
-      udf((text: String) =>
-        partitionTextBuilder.partitionStringContent(text, $(this.headers).asJava))
+      udf((text: String) => partitionTextBuilder.partitionStringContent(text, requestHeaders))
     val partitionTableUDF =
-      udf((text: String) =>
-        partitionTableBuilder.partitionStringContent(text, $(this.headers).asJava))
+      udf((text: String) => partitionTableBuilder.partitionStringContent(text, requestHeaders))
     val partitionImageUDF =
-      udf((text: String) =>
-        partitionImageBuilder.partitionStringContent(text, $(this.headers).asJava))
+      udf((text: String) => partitionImageBuilder.partitionStringContent(text, requestHeaders))
 
     contentDf
       .withColumn("partition_text", partitionTextUDF(col("content")))
@@ -489,23 +487,24 @@ class ReaderAssembler(override val uid: String)
     val baseDf =
       if (isText) datasetWithTextFile(spark, pathsStr)
       else datasetWithBinaryFile(spark, pathsStr)
+    val requestHeaders = getHeadersAsJava
 
     val textUdf =
       if (isText)
         udf((content: String) =>
-          partitionTextBuilder.partitionStringContent(content, $(this.headers).asJava))
+          partitionTextBuilder.partitionStringContent(content, requestHeaders))
       else udf((bytes: Array[Byte]) => partitionTextBuilder.partitionBytesContent(bytes))
 
     val tableUdf =
       if (isText)
         udf((content: String) =>
-          partitionTableBuilder.partitionStringContent(content, $(this.headers).asJava))
+          partitionTableBuilder.partitionStringContent(content, requestHeaders))
       else udf((bytes: Array[Byte]) => partitionTableBuilder.partitionBytesContent(bytes))
 
     val imageUdf =
       if (isText)
         udf((content: String) =>
-          partitionImageBuilder.partitionStringContent(content, $(this.headers).asJava))
+          partitionImageBuilder.partitionStringContent(content, requestHeaders))
       else udf((bytes: Array[Byte]) => partitionImageBuilder.partitionBytesContent(bytes))
 
     val df = baseDf
@@ -584,13 +583,12 @@ class ReaderAssembler(override val uid: String)
       buildPartition(
         Map("inferTableStructure" -> "true", "contentType" -> mimeType),
         "partition_table")
+    val requestHeaders = getHeadersAsJava
 
     val textUdf =
-      udf((text: String) =>
-        partitionTextBuilder.partitionStringContent(text, $(this.headers).asJava))
+      udf((text: String) => partitionTextBuilder.partitionStringContent(text, requestHeaders))
     val tableUdf =
-      udf((text: String) =>
-        partitionTableBuilder.partitionStringContent(text, $(this.headers).asJava))
+      udf((text: String) => partitionTableBuilder.partitionStringContent(text, requestHeaders))
 
     val emptyImageArray = typedLit(Seq.empty[HTMLElement])
 
@@ -614,10 +612,10 @@ class ReaderAssembler(override val uid: String)
         buildPartition(
           Map("inferTableStructure" -> "true", "contentType" -> mimeType),
           "partition_table")
+      val requestHeaders = getHeadersAsJava
 
       val tableUdf =
-        udf((text: String) =>
-          partitionTableBuilder.partitionStringContent(text, $(this.headers).asJava))
+        udf((text: String) => partitionTableBuilder.partitionStringContent(text, requestHeaders))
 
       val emptyImageArray = typedLit(Seq.empty[HTMLElement])
 
@@ -641,18 +639,16 @@ class ReaderAssembler(override val uid: String)
       buildPartition(
         Map("inferTableStructure" -> "false", "readAsImage" -> "true", "contentType" -> mimeType),
         "partition_image")
+    val requestHeaders = getHeadersAsJava
 
     val textUdf =
-      udf((text: String) =>
-        partitionTextBuilder.partitionStringContent(text, $(this.headers).asJava))
+      udf((text: String) => partitionTextBuilder.partitionStringContent(text, requestHeaders))
 
     val tableUdf =
-      udf((text: String) =>
-        partitionTableBuilder.partitionStringContent(text, $(this.headers).asJava))
+      udf((text: String) => partitionTableBuilder.partitionStringContent(text, requestHeaders))
 
     val imageUdf =
-      udf((text: String) =>
-        partitionImageBuilder.partitionStringContent(text, $(this.headers).asJava))
+      udf((text: String) => partitionImageBuilder.partitionStringContent(text, requestHeaders))
 
     dataset
       .withColumn("partition_text", textUdf(col(getInputCol)))
