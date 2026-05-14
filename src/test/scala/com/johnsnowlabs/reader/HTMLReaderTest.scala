@@ -267,6 +267,36 @@ class HTMLReaderTest extends AnyFlatSpec {
       "Missing orderImageIndex in IMAGE metadata")
   }
 
+  it should "include paragraph_index and paragraph_y metadata fields for text elements" taggedAs FastTest in {
+    val htmlReader = new HTMLReader()
+    val htmlDF = htmlReader.read(s"$htmlFilesDirectory/table-image.html")
+
+    val explodedDf = htmlDF.withColumn("html_exploded", explode(col("html")))
+
+    val textDf = explodedDf.filter(
+      col("html_exploded.elementType")
+        .isin(ElementType.NARRATIVE_TEXT, ElementType.TITLE, ElementType.UNCATEGORIZED_TEXT))
+
+    assert(textDf.collect().nonEmpty, "No TEXT elements found in HTMLReader output")
+
+    val textMetaRows = textDf
+      .selectExpr(
+        "html_exploded.metadata.paragraph_index as paragraph_index",
+        "html_exploded.metadata.paragraph_y as paragraph_y",
+        "html_exploded.metadata.page_y as page_y")
+      .collect()
+
+    assert(
+      textMetaRows.forall(row => row.getAs[String]("paragraph_index") != null),
+      "Missing paragraph_index in TEXT metadata")
+    assert(
+      textMetaRows.forall(row => row.getAs[String]("paragraph_y") != null),
+      "Missing paragraph_y in TEXT metadata")
+    assert(
+      textMetaRows.forall(row => row.getAs[String]("page_y") != null),
+      "Missing page_y in TEXT metadata")
+  }
+
   it should "include coord metadata field in {x:...,y:...} format for images" taggedAs FastTest in {
     val htmlReader = new HTMLReader()
     val htmlDF = htmlReader.read(s"$htmlFilesDirectory/example-image-coordinates.html")
