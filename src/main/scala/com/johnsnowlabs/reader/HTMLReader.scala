@@ -276,9 +276,11 @@ class HTMLReader(
 
   private def extractElements(root: Node): Array[HTMLElement] = {
     var sentenceIndex = 0
+    var paragraphIndex = 0
     val elements = ArrayBuffer[HTMLElement]()
     val trackingNodes = mutable.Map[Node, NodeMetadata]()
     var pageNumber = 1
+    val paragraphSpacingY = 25
 
     // Track parent-child hierarchy
     var currentParentId: Option[String] = None
@@ -428,6 +430,10 @@ class HTMLReader(
             case "a" =>
               pageMetadata("sentence") = sentenceIndex.toString
               sentenceIndex += 1
+              pageMetadata("paragraph_index") = paragraphIndex.toString
+              pageMetadata("paragraph_y") = (paragraphIndex * paragraphSpacingY).toString
+              pageMetadata("page_y") = (paragraphIndex * paragraphSpacingY).toString
+              paragraphIndex += 1
               val href = element.attr("href").trim
               val linkText = element.text().trim
               if (href.nonEmpty && linkText.nonEmpty && !visitedNode) {
@@ -443,6 +449,10 @@ class HTMLReader(
             case "table" =>
               pageMetadata("sentence") = sentenceIndex.toString
               sentenceIndex += 1
+              pageMetadata("paragraph_index") = paragraphIndex.toString
+              pageMetadata("paragraph_y") = (paragraphIndex * paragraphSpacingY).toString
+              pageMetadata("page_y") = (paragraphIndex * paragraphSpacingY).toString
+              paragraphIndex += 1
               val tableContent = outputFormat match {
                 case "plain-text" => extractNestedTableContent(element).trim
                 case "html-table" =>
@@ -474,6 +484,10 @@ class HTMLReader(
             case "li" =>
               pageMetadata("sentence") = sentenceIndex.toString
               sentenceIndex += 1
+              pageMetadata("paragraph_index") = paragraphIndex.toString
+              pageMetadata("paragraph_y") = (paragraphIndex * paragraphSpacingY).toString
+              pageMetadata("page_y") = (paragraphIndex * paragraphSpacingY).toString
+              paragraphIndex += 1
               val itemText = element.text().trim
               if (itemText.nonEmpty && !visitedNode) {
                 trackingNodes(element).visited = true
@@ -493,6 +507,10 @@ class HTMLReader(
               if (codeText.nonEmpty && !visitedNode) {
                 pageMetadata("sentence") = sentenceIndex.toString
                 sentenceIndex += 1
+                pageMetadata("paragraph_index") = paragraphIndex.toString
+                pageMetadata("paragraph_y") = (paragraphIndex * paragraphSpacingY).toString
+                pageMetadata("page_y") = (paragraphIndex * paragraphSpacingY).toString
+                paragraphIndex += 1
                 trackingNodes(element).visited = true
                 pageMetadata("element_id") = newUUID()
                 currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
@@ -519,6 +537,9 @@ class HTMLReader(
                       sentenceIndex += 1
                       trackingNodes(element).visited = true
                       pageMetadata("element_id") = newUUID()
+                      pageMetadata("paragraph_index") = paragraphIndex.toString
+                      pageMetadata("paragraph_y") = (paragraphIndex * paragraphSpacingY).toString
+                      pageMetadata("page_y") = (paragraphIndex * paragraphSpacingY).toString
                       currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
                       elements += HTMLElement(
                         ElementType.NARRATIVE_TEXT,
@@ -534,11 +555,15 @@ class HTMLReader(
                       trackingNodes(element).visited = true
                       val titleId = newUUID()
                       pageMetadata("element_id") = titleId
+                      pageMetadata("paragraph_index") = paragraphIndex.toString
+                      pageMetadata("paragraph_y") = (paragraphIndex * paragraphSpacingY).toString
+                      pageMetadata("page_y") = (paragraphIndex * paragraphSpacingY).toString
                       elements += HTMLElement(
                         ElementType.TITLE,
                         content = titleText,
                         metadata = pageMetadata)
                       currentParentId = Some(titleId)
+                      paragraphIndex += 1
                     }
 
                   case ElementType.UNCATEGORIZED_TEXT =>
@@ -548,11 +573,15 @@ class HTMLReader(
                       sentenceIndex += 1
                       trackingNodes(element).visited = true
                       pageMetadata("element_id") = newUUID()
+                      pageMetadata("paragraph_index") = paragraphIndex.toString
+                      pageMetadata("paragraph_y") = (paragraphIndex * paragraphSpacingY).toString
+                      pageMetadata("page_y") = (paragraphIndex * paragraphSpacingY).toString
                       currentParentId.foreach(pid => pageMetadata("parent_id") = pid)
                       elements += HTMLElement(
                         ElementType.UNCATEGORIZED_TEXT,
                         content = text,
                         metadata = pageMetadata)
+                      paragraphIndex += 1
                     }
                 }
               }
@@ -565,6 +594,10 @@ class HTMLReader(
                 sentenceIndex += 1
                 val titleId = newUUID()
                 pageMetadata("element_id") = titleId
+                pageMetadata("paragraph_index") = paragraphIndex.toString
+                pageMetadata("paragraph_y") = (paragraphIndex * paragraphSpacingY).toString
+                pageMetadata("page_y") = (paragraphIndex * paragraphSpacingY).toString
+                paragraphIndex += 1
                 elements += HTMLElement(
                   ElementType.TITLE,
                   content = titleText,
@@ -585,6 +618,10 @@ class HTMLReader(
               if (divText.nonEmpty) {
                 pageMetadata("sentence") = sentenceIndex.toString
                 sentenceIndex += 1
+                pageMetadata("paragraph_index") = paragraphIndex.toString
+                pageMetadata("paragraph_y") = (paragraphIndex * paragraphSpacingY).toString
+                pageMetadata("page_y") = (paragraphIndex * paragraphSpacingY).toString
+                paragraphIndex += 1
                 trackingNodes(element).visited = true
                 pageMetadata("element_id") = newUUID()
                 currentParentId.foreach(pid => pageMetadata("parent_id") = pid)

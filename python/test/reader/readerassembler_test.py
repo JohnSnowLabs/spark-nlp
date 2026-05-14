@@ -33,12 +33,14 @@ class ReaderAssemblerTest(unittest.TestCase):
         reader_assembler = ReaderAssembler() \
             .setContentType("text/html") \
             .setContentPath(f"file:///{os.getcwd()}/../src/test/resources/reader/html/table-image.html") \
-            .setOutputCol("document")
+            .setOutputCol("document") \
+            .setOutputAsDocument(False) \
+            .setExplodeDocs(False)
 
         pipeline = Pipeline(stages=[reader_assembler])
         model = pipeline.fit(self.empty_df)
 
-        result_df = model.transform(self.empty_df)
+        rows = model.transform(self.empty_df).collect()
 
-        rows = result_df.collect()
         self.assertTrue(len(rows) > 0)
+        self.assertTrue(any(row.document_image for row in rows))
