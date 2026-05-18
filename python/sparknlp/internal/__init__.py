@@ -777,7 +777,7 @@ class _ConfigLoaderGetter(ExtendedJavaWrapper):
 
 
 class _GetResourceSize(ExtendedJavaWrapper):
-    def __init__(self, name, language, remote_loc, annotator, engine,skip_preferred_engine):
+    def __init__(self, name, language, remote_loc, annotator, engine, skip_preferred_engine):
         super(_GetResourceSize, self).__init__(
             "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.getDownloadSize",
             name,

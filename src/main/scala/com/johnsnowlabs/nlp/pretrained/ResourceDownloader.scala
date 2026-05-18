@@ -833,7 +833,7 @@ object PythonResourceDownloader {
         Option(language),
         correctedFolder,
         annotator = Some(annotator),
-        engine = Some(engine),
+        engine = Option(engine),
         skipPreferredEngine = skipPreferredEngine))
   }
 }

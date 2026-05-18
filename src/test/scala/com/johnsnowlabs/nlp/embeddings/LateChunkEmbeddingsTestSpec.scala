@@ -79,7 +79,7 @@ class LateChunkEmbeddingsTestSpec extends AnyFlatSpec {
     assert(dims.head > 0, "Embedding dimension must be positive")
   }
 
-  "LateChunkEmbeddings" should "preserve chunk metadata in output annotations" taggedAs FastTest in {
+  "LateChunkEmbeddings" should "preserve chunk metadata in output annotations" taggedAs SlowTest in {
 
     val document = "Record: Bush Blue, ZIPCODE: XYZ84556222, phone: (911) 45 88".toRow()
 
@@ -140,7 +140,7 @@ class LateChunkEmbeddingsTestSpec extends AnyFlatSpec {
     assert(annotations.forall(_.annotatorType == SENTENCE_EMBEDDINGS))
   }
 
-  "LateChunkEmbeddings" should "drop chunk annotations that have no overlapping token embeddings" taggedAs FastTest in {
+  "LateChunkEmbeddings" should "drop chunk annotations that have no overlapping token embeddings" taggedAs SlowTest in {
 
     // Chunk span [999, 1020] is far outside the short document — no tokens will match
     val document = "Short text here.".toRow()

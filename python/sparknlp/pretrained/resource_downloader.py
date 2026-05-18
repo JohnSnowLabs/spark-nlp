@@ -59,7 +59,7 @@ class ResourceDownloader(object):
     """
 
     @staticmethod
-    def downloadModel(reader, name, language, remote_loc=None, engine = "onnx", skip_preferred_engine = False,  j_dwn='PythonResourceDownloader'):
+    def downloadModel(reader, name, language, remote_loc=None, engine="onnx", skip_preferred_engine=False, j_dwn='PythonResourceDownloader'):
         """Downloads and loads a model with the default downloader. Usually this method
         does not need to be called directly, as it is called by the `pretrained()`
         method of the annotator.
@@ -74,6 +74,12 @@ class ResourceDownloader(object):
             Language of the model
         remote_loc : str, optional
             Directory of the Spark NLP Folder, by default None
+        engine : str, optional
+            Preferred Deep Learning engine used to resolve and download the model,
+            by default "onnx"
+        skip_preferred_engine : bool, optional
+            Whether to skip the preferred engine resolution and use the default
+            engine priority, by default False
         j_dwn : str, optional
             Which java downloader to use, by default 'PythonResourceDownloader'
 
@@ -138,7 +144,7 @@ class ResourceDownloader(object):
             The loaded pipeline
         """
         print(name + " download started this may take some time.")
-        file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
+        file_size = _internal._GetResourceSize(name, language, remote_loc, annotator="PipelineModel", engine=None, skip_preferred_engine=False).apply()
         if file_size == "-1":
             print("Can not find the model to download please check the name!")
         else:

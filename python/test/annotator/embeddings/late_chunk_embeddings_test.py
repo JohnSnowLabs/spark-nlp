@@ -63,7 +63,7 @@ def _make_chunk_df(spark, rows):
     return df.withColumn("chunk", spark_col("chunk").alias("chunk", metadata={"annotatorType": "chunk"}))
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class LateChunkEmbeddingsAveragePoolingTest(unittest.TestCase):
 
     def runTest(self):
@@ -81,7 +81,7 @@ class LateChunkEmbeddingsAveragePoolingTest(unittest.TestCase):
         self.assertEqual(len(dims), 1, f"Inconsistent embedding dimensions: {dims}")
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class LateChunkEmbeddingsSumPoolingTest(unittest.TestCase):
 
     def runTest(self):
@@ -96,7 +96,7 @@ class LateChunkEmbeddingsSumPoolingTest(unittest.TestCase):
             self.assertGreater(len(row["embeddings"]), 0)
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class LateChunkEmbeddingsMetadataTest(unittest.TestCase):
     """Custom CHUNK metadata (entity, confidence) must survive pooling.
     Required keys: sentence, chunk, token, pieceId, isWordStart."""
@@ -142,7 +142,7 @@ class LateChunkEmbeddingsMetadataTest(unittest.TestCase):
                 self.assertEqual(row["metadata"].get("entity"), "CONDITION")
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class LateChunkEmbeddingsOutOfRangeTest(unittest.TestCase):
     """A CHUNK with no overlapping tokens is silently dropped."""
 
@@ -178,7 +178,7 @@ class LateChunkEmbeddingsOutOfRangeTest(unittest.TestCase):
         self.assertEqual(rows[0]["result"], "Short")
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class LateChunkEmbeddingsFinisherTest(unittest.TestCase):
     """Output is consumable by EmbeddingsFinisher."""
 

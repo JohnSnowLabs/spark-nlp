@@ -525,7 +525,7 @@ class HasEngine:
             Pretrained model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(cls, name, lang, remote_loc, engine,skip_preferred_engine)
+        return ResourceDownloader.downloadModel(cls, name, lang, remote_loc, engine, cls.skip_preferred_engine)
 
 
 class HasCandidateLabelsProperties:
