@@ -144,7 +144,7 @@ class ResourceDownloader(object):
             The loaded pipeline
         """
         print(name + " download started this may take some time.")
-        file_size = _internal._GetResourceSize(name, language, remote_loc, annotator="PipelineModel", engine=None, skip_preferred_engine=False).apply()
+        file_size = _internal._GetResourceSize(name, language, remote_loc, annotator="PipelineModel", engine=None, skip_preferred_engine=True).apply()
         if file_size == "-1":
             print("Can not find the model to download please check the name!")
         else:

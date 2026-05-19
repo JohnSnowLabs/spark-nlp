@@ -529,7 +529,13 @@ object ResourceDownloader {
       name: String,
       language: Option[String] = None,
       folder: String = publicLoc): PipelineModel = {
-    downloadPipeline(ResourceRequest(name, language, folder, annotator = Some("PipelineModel")))
+    downloadPipeline(
+      ResourceRequest(
+        name,
+        language,
+        folder,
+        annotator = Some("PipelineModel"),
+        skipPreferredEngine = true))
   }
 
   def downloadPipeline(request: ResourceRequest): PipelineModel = {
