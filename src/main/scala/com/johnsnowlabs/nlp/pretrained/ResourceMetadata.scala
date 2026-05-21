@@ -109,12 +109,15 @@ object ResourceMetadata {
       candidates: List[ResourceMetadata],
       request: ResourceRequest): Option[ResourceMetadata] = {
 
+    val effectiveSkipPreferredEngine =
+      request.skipPreferredEngine || request.folder != ResourceDownloader.publicLoc
+
     val compatibleCandidates = candidates.filter(item =>
       item.readyToUse &&
         item.libVersion.isDefined &&
         item.sparkVersion.isDefined &&
         item.name == request.name &
-        (request.annotator.isEmpty || item.annotator.isEmpty || request.skipPreferredEngine ||
+        (request.annotator.isEmpty || item.annotator.isEmpty || effectiveSkipPreferredEngine ||
           request.annotator.get.equalsIgnoreCase(item.annotator.get)) &&
         (request.language.isEmpty || item.language.isEmpty ||
           request.language.get == item.language.get) &&
@@ -123,7 +126,7 @@ object ResourceMetadata {
 
     val defaultPriority = Seq("onnx", "tensorflow", "openvino", "unk")
 
-    val finalPriority = if (request.skipPreferredEngine) {
+    val finalPriority = if (effectiveSkipPreferredEngine) {
       defaultPriority
     } else {
       request.engine match {
