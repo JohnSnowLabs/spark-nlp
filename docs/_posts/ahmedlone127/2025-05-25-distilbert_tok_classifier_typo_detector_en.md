@@ -4,7 +4,7 @@ title: English DistilBertForTokenClassification Cased model (from m3hrdadfi)
 author: John Snow Labs
 name: distilbert_tok_classifier_typo_detector
 date: 2025-05-25
-tags: [en, open_source, distilbert, token_classification, ner, onnx, openvino]
+tags: [en, open_source, distilbert, token_classification, ner, openvino]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 5.5.1

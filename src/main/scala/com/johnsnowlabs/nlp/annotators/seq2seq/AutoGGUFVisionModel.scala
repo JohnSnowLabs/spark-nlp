@@ -277,6 +277,7 @@ trait ReadablePretrainedAutoGGUFVisionModel
     with HasPretrained[AutoGGUFVisionModel] {
   override val defaultModelName: Some[String] = Some("Qwen2.5_VL_3B_Instruct_Q4_K_M_gguf")
   override val defaultLang: String = "en"
+  override val skipPreferredEngine: Boolean = true
 
   /** Java compliant-overrides */
   override def pretrained(): AutoGGUFVisionModel = super.pretrained()

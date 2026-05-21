@@ -4,7 +4,7 @@ title: English gemma_2_2b_it_q6_k AutoGGUFModel from lmstudio-community
 author: John Snow Labs
 name: gemma_2_2b_it_q6_k
 date: 2024-10-10
-tags: [en, open_source, onnx, conversational, text_generation, text_to_text, tensorflow]
+tags: [en, open_source, conversational, text_generation, text_to_text, tensorflow]
 task: Text Generation
 language: en
 edition: Spark NLP 5.5.0

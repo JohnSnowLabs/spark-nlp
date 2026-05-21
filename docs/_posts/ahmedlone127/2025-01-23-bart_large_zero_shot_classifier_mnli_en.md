@@ -4,7 +4,7 @@ title: Bart Zero Shot Classifier Large -MNLI (bart_large_zero_shot_classifier_mn
 author: John Snow Labs
 name: bart_large_zero_shot_classifier_mnli
 date: 2025-01-23
-tags: [bart, zero_shot, en, open_source, openvino, onnx]
+tags: [bart, zero_shot, en, open_source, onnx]
 task: Zero-Shot Classification
 language: en
 edition: Spark NLP 5.5.1

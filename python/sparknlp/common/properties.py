@@ -492,6 +492,8 @@ class HasEngine:
                    "Deep Learning engine used for this model",
                    typeConverter=TypeConverters.toString)
 
+    skip_preferred_engine = False
+
     def getEngine(self):
         """
 
@@ -501,6 +503,29 @@ class HasEngine:
            Deep Learning engine used for this model"
         """
         return self.getOrDefault(self.engine)
+
+    @classmethod
+    def pretrainedEngine(cls, name: str = "default", lang: str = "en", remote_loc: str = None, engine="onnx"):
+        """Downloads and loads a pretrained model.
+
+        Parameters
+        ----------
+        name : str, optional
+            The name of the pretrained model, by default "default"
+        lang : str, optional
+            The language of the pretrained model, by default "en"
+        remote_loc : str, optional
+            Remote location of the model, by default None
+        engine : str, optional
+            The Deep Learning engine used for this model, by default "onnx"
+
+        Returns
+        -------
+        AnnotatorModel
+            Pretrained model
+        """
+        from sparknlp.pretrained import ResourceDownloader
+        return ResourceDownloader.downloadModel(cls, name, lang, remote_loc, engine, cls.skip_preferred_engine)
 
 
 class HasCandidateLabelsProperties:

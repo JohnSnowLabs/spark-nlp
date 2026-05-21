@@ -175,7 +175,7 @@ class DeBertaForSequenceClassification(AnnotatorModel,
         return DeBertaForSequenceClassification(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="deberta_base_sequence_classifier_imdb", lang="en", remote_loc=None):
+    def pretrained(name="deberta_v3_xsmall_sequence_classifier_imdb", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters

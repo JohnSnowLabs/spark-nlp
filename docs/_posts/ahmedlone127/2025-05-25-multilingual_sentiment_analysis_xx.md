@@ -4,7 +4,7 @@ title: Multilingual multilingual_sentiment_analysis DistilBertForSequenceClassif
 author: John Snow Labs
 name: multilingual_sentiment_analysis
 date: 2025-05-25
-tags: [xx, open_source, onnx, sequence_classification, distilbert, openvino]
+tags: [xx, open_source, sequence_classification, distilbert, openvino]
 task: Text Classification
 language: xx
 edition: Spark NLP 5.5.1

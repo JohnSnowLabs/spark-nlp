@@ -4,7 +4,7 @@ title: Multilingual xlm_roberta_large_finetuned_conll03_english XlmRoBertaForTok
 author: John Snow Labs
 name: xlm_roberta_large_finetuned_conll03_english
 date: 2025-05-20
-tags: [xx, open_source, onnx, token_classification, xlm_roberta, ner, openvino]
+tags: [xx, open_source, token_classification, xlm_roberta, ner, openvino]
 task: Named Entity Recognition
 language: xx
 edition: Spark NLP 5.5.1

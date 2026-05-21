@@ -4,7 +4,7 @@ title: Indonesian roberta_token_classifier_sayula_popoluca_tagger RoBertaForToke
 author: John Snow Labs
 name: roberta_token_classifier_sayula_popoluca_tagger
 date: 2025-05-21
-tags: [id, open_source, onnx, token_classification, roberta, ner, openvino]
+tags: [id, open_source, token_classification, roberta, ner, openvino]
 task: Named Entity Recognition
 language: id
 edition: Spark NLP 5.5.1

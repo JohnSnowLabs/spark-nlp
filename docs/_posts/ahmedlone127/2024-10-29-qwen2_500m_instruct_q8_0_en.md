@@ -4,7 +4,7 @@ title: English qwen2_500m_instruct_q8_0 AutoGGUFModel from lmstudio-community
 author: John Snow Labs
 name: qwen2_500m_instruct_q8_0
 date: 2024-10-29
-tags: [en, open_source, onnx, conversational, text_generation, text_to_text, llamacpp]
+tags: [en, open_source, conversational, text_generation, text_to_text, llamacpp]
 task: Text Generation
 language: en
 edition: Spark NLP 5.5.1

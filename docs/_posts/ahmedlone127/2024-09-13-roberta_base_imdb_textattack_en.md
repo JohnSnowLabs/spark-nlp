@@ -4,7 +4,7 @@ title: English roberta_base_imdb_textattack RoBertaForSequenceClassification fro
 author: John Snow Labs
 name: roberta_base_imdb_textattack
 date: 2024-09-13
-tags: [roberta, en, open_source, sequence_classification, onnx, openvino]
+tags: [roberta, en, open_source, sequence_classification, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.0

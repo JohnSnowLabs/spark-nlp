@@ -4,7 +4,7 @@ title: English burmese_setfit_classifier_threat MPNetForSequenceClassification f
 author: John Snow Labs
 name: burmese_setfit_classifier_threat
 date: 2025-05-22
-tags: [en, open_source, onnx, sequence_classification, mpnet, openvino]
+tags: [en, open_source, sequence_classification, mpnet, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1

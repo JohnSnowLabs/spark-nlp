@@ -4,7 +4,7 @@ title: English Deberta Embeddings model (from ZZ99)
 author: John Snow Labs
 name: deberta_embeddings_tapt_nbme_v3_base
 date: 2024-09-22
-tags: [deberta, open_source, deberta_embeddings, debertav2formaskedlm, en, onnx, openvino]
+tags: [deberta, open_source, deberta_embeddings, debertav2formaskedlm, en, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.0

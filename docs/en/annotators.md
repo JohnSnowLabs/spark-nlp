@@ -77,6 +77,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="ImageAssembler" summary="Prepares images read by Spark into a format that is processable by Spark NLP."%}
 {% include templates/anno_table_entry.md path="" name="LanguageDetectorDL" summary="Language Identification and Detection by using CNN and RNN architectures in TensorFlow."%}
 {% include templates/anno_table_entry.md path="" name="Lemmatizer" summary="Finds lemmas out of words with the objective of returning a base dictionary word."%}
+{% include templates/anno_table_entry.md path="" name="LateChunkEmbeddings" summary="Produces contextual chunk-level SENTENCE_EMBEDDINGS using the Late Chunking technique (Jin et al., 2024). Pools full-document contextual token embeddings into chunk-level vectors so every chunk embedding benefits from document-wide context."%}
 {% include templates/anno_table_entry.md path="" name="LLMEntityExtractor" summary="End-to-end LLM-based entity extraction using AutoGGUF with BNF grammars for structured entity extraction."%}
 {% include templates/anno_table_entry.md path="" name="MultiClassifierDL" summary="Multi-label Text Classification."%}
 {% include templates/anno_table_entry.md path="" name="MultiDateMatcher" summary="Matches standard date formats into a provided format."%}

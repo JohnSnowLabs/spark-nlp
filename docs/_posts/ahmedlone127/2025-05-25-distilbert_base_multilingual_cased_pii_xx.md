@@ -4,7 +4,7 @@ title: Multilingual distilbert_base_multilingual_cased_pii DistilBertForTokenCla
 author: John Snow Labs
 name: distilbert_base_multilingual_cased_pii
 date: 2025-05-25
-tags: [xx, open_source, onnx, token_classification, distilbert, ner, openvino]
+tags: [xx, open_source, token_classification, distilbert, ner, openvino]
 task: Named Entity Recognition
 language: xx
 edition: Spark NLP 5.5.1

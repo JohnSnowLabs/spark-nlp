@@ -4,7 +4,7 @@ title: Multilingual xlm_v_base XlmRoBertaEmbeddings from facebook
 author: John Snow Labs
 name: xlm_v_base
 date: 2025-05-21
-tags: [xx, open_source, onnx, embeddings, xlm_roberta, openvino]
+tags: [xx, open_source, embeddings, xlm_roberta, openvino]
 task: Embeddings
 language: xx
 edition: Spark NLP 5.5.1

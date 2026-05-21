@@ -4,7 +4,7 @@ title: French cas_biomedical_sayula_popoluca_tagging CamemBertForTokenClassifica
 author: John Snow Labs
 name: cas_biomedical_sayula_popoluca_tagging
 date: 2025-05-27
-tags: [fr, open_source, onnx, token_classification, camembert, ner, openvino]
+tags: [fr, open_source, token_classification, camembert, ner, openvino]
 task: Named Entity Recognition
 language: fr
 edition: Spark NLP 5.5.1

@@ -41,7 +41,8 @@ class Reader2TableTest(unittest.TestCase):
 
         result_df = model.transform(self.empty_df)
 
-        self.assertTrue(result_df.select("document").count() > 0)
+        rows = result_df.select("document").collect()
+        self.assertTrue(len(rows) > 0)
 
 @pytest.mark.fast
 class Reader2TableMixedFilesTest(unittest.TestCase):
@@ -90,4 +91,5 @@ class Reader2TableInputColTest(unittest.TestCase):
 
         result_df = model.transform(self.html_df)
 
-        self.assertTrue(result_df.select("document").count() > 0)
+        rows = result_df.select("document").collect()
+        self.assertTrue(len(rows) > 0)

@@ -4,7 +4,7 @@ title: English xlm_roberta_large_xquad XlmRoBertaForQuestionAnswering from alon-
 author: John Snow Labs
 name: xlm_roberta_large_xquad
 date: 2025-05-21
-tags: [en, open_source, onnx, question_answering, xlm_roberta, openvino]
+tags: [en, open_source, question_answering, xlm_roberta, openvino]
 task: Question Answering
 language: en
 edition: Spark NLP 5.5.1

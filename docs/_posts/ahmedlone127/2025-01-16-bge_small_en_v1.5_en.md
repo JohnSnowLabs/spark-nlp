@@ -4,7 +4,7 @@ title: bge_small_en_v1.5 model from BAAI
 author: John Snow Labs
 name: bge_small_en_v1.5
 date: 2025-01-16
-tags: [en, open_source, openvino, onnx]
+tags: [en, open_source, onnx]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

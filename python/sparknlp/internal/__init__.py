@@ -713,13 +713,15 @@ class _DownloadModelDirectly(ExtendedJavaWrapper):
 
 
 class _DownloadModel(ExtendedJavaWrapper):
-    def __init__(self, reader, name, language, remote_loc, validator):
+    def __init__(self, reader, name, language, remote_loc, engine, skip_preferred_engine, validator):
         super(_DownloadModel, self).__init__(
             "com.johnsnowlabs.nlp.pretrained." + validator + ".downloadModel",
             reader,
             name,
             language,
             remote_loc,
+            engine,
+            skip_preferred_engine
         )
 
 
@@ -775,12 +777,15 @@ class _ConfigLoaderGetter(ExtendedJavaWrapper):
 
 
 class _GetResourceSize(ExtendedJavaWrapper):
-    def __init__(self, name, language, remote_loc):
+    def __init__(self, name, language, remote_loc, annotator, engine, skip_preferred_engine):
         super(_GetResourceSize, self).__init__(
             "com.johnsnowlabs.nlp.pretrained.PythonResourceDownloader.getDownloadSize",
             name,
             language,
             remote_loc,
+            annotator,
+            engine,
+            skip_preferred_engine
         )
 
 
@@ -1204,6 +1209,14 @@ class _E5VEmbeddingsLoader(ExtendedJavaWrapper):
             path,
             jspark,
             use_openvino
+        )
+
+class _BiEncoderMultimodalEmbeddingsLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_BiEncoderMultimodalEmbeddingsLoader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings.loadSavedModel",
+            path,
+            jspark,
         )
 
 class _Phi4Loader(ExtendedJavaWrapper):

@@ -59,7 +59,7 @@ class ResourceDownloader(object):
     """
 
     @staticmethod
-    def downloadModel(reader, name, language, remote_loc=None, j_dwn='PythonResourceDownloader'):
+    def downloadModel(reader, name, language, remote_loc=None, engine="onnx", skip_preferred_engine=False, j_dwn='PythonResourceDownloader'):
         """Downloads and loads a model with the default downloader. Usually this method
         does not need to be called directly, as it is called by the `pretrained()`
         method of the annotator.
@@ -74,6 +74,12 @@ class ResourceDownloader(object):
             Language of the model
         remote_loc : str, optional
             Directory of the Spark NLP Folder, by default None
+        engine : str, optional
+            Preferred Deep Learning engine used to resolve and download the model,
+            by default "onnx"
+        skip_preferred_engine : bool, optional
+            Whether to skip the preferred engine resolution and use the default
+            engine priority, by default False
         j_dwn : str, optional
             Which java downloader to use, by default 'PythonResourceDownloader'
 
@@ -83,7 +89,7 @@ class ResourceDownloader(object):
             Loaded pretrained annotator/pipeline
         """
         print(name + " download started this may take some time.")
-        file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
+        file_size = _internal._GetResourceSize(name, language, remote_loc, reader.name, engine, skip_preferred_engine).apply()
         if file_size == "-1":
             print("Can not find the model to download please check the name!")
         else:
@@ -92,7 +98,7 @@ class ResourceDownloader(object):
             t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
             t1.start()
             try:
-                j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, j_dwn).apply()
+                j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, engine, skip_preferred_engine, j_dwn).apply()
             except Py4JJavaError as e:
                 sys.stdout.write("\n" + str(e))
                 raise e
@@ -138,7 +144,7 @@ class ResourceDownloader(object):
             The loaded pipeline
         """
         print(name + " download started this may take some time.")
-        file_size = _internal._GetResourceSize(name, language, remote_loc).apply()
+        file_size = _internal._GetResourceSize(name, language, remote_loc, annotator="PipelineModel", engine=None, skip_preferred_engine=True).apply()
         if file_size == "-1":
             print("Can not find the model to download please check the name!")
         else:

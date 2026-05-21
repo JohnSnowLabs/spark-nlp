@@ -4,7 +4,7 @@ title: English bce_reranker_base_v1_maidalun1020 XlmRoBertaForSequenceClassifica
 author: John Snow Labs
 name: bce_reranker_base_v1_maidalun1020
 date: 2025-05-20
-tags: [en, open_source, onnx, sequence_classification, xlm_roberta, openvino]
+tags: [en, open_source, sequence_classification, xlm_roberta, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1

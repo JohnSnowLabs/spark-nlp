@@ -496,8 +496,20 @@ object ResourceDownloader {
       reader: DefaultParamsReadable[TModel],
       name: String,
       language: Option[String] = None,
-      folder: String = publicLoc): TModel = {
-    downloadModel(reader, ResourceRequest(name, language, folder))
+      folder: String = publicLoc,
+      preferredEngine: String = "onnx",
+      skipPreferredEngine: Boolean = false): TModel = {
+
+    val annotator = reader.getClass.getSimpleName.replace("$", "")
+    downloadModel(
+      reader,
+      ResourceRequest(
+        name,
+        language,
+        folder,
+        annotator = Some(annotator),
+        engine = Some(preferredEngine),
+        skipPreferredEngine = skipPreferredEngine))
   }
 
   def downloadModel[TModel <: PipelineStage](
@@ -517,7 +529,13 @@ object ResourceDownloader {
       name: String,
       language: Option[String] = None,
       folder: String = publicLoc): PipelineModel = {
-    downloadPipeline(ResourceRequest(name, language, folder))
+    downloadPipeline(
+      ResourceRequest(
+        name,
+        language,
+        folder,
+        annotator = Some("PipelineModel"),
+        skipPreferredEngine = true))
   }
 
   def downloadPipeline(request: ResourceRequest): PipelineModel = {
@@ -575,7 +593,10 @@ case class ResourceRequest(
     language: Option[String] = None,
     folder: String = ResourceDownloader.publicLoc,
     libVersion: Version = ResourceDownloader.libVersion,
-    sparkVersion: Version = ResourceDownloader.sparkVersion)
+    sparkVersion: Version = ResourceDownloader.sparkVersion,
+    annotator: Option[String] = None,
+    engine: Option[String] = None,
+    skipPreferredEngine: Boolean = false)
 
 /* convenience accessor for Py4J calls */
 object PythonResourceDownloader {
@@ -632,7 +653,6 @@ object PythonResourceDownloader {
     "XlnetForTokenClassification" -> XlnetForTokenClassification,
     "AlbertForSequenceClassification" -> AlbertForSequenceClassification,
     "BertForSequenceClassification" -> BertForSequenceClassification,
-    "DeBertaForSequenceClassification" -> DeBertaForSequenceClassification,
     "DistilBertForSequenceClassification" -> DistilBertForSequenceClassification,
     "LongformerForSequenceClassification" -> LongformerForSequenceClassification,
     "RoBertaForSequenceClassification" -> RoBertaForSequenceClassification,
@@ -644,7 +664,6 @@ object PythonResourceDownloader {
     "Word2VecModel" -> Word2VecModel,
     "DeBertaEmbeddings" -> DeBertaEmbeddings,
     "DeBertaForSequenceClassification" -> DeBertaForSequenceClassification,
-    "DeBertaForTokenClassification" -> DeBertaForTokenClassification,
     "CamemBertEmbeddings" -> CamemBertEmbeddings,
     "AlbertForQuestionAnswering" -> AlbertForQuestionAnswering,
     "BertForQuestionAnswering" -> BertForQuestionAnswering,
@@ -724,7 +743,9 @@ object PythonResourceDownloader {
       readerStr: String,
       name: String,
       language: String = null,
-      remoteLoc: String = null): PipelineStage = {
+      remoteLoc: String = null,
+      preferredEngine: String,
+      skipPreferredEngine: Boolean): PipelineStage = {
 
     val reader = keyToReader.getOrElse(
       if (typeMapper.contains(readerStr)) typeMapper(readerStr) else readerStr,
@@ -736,7 +757,9 @@ object PythonResourceDownloader {
       reader.asInstanceOf[DefaultParamsReadable[PipelineStage]],
       name,
       Option(language),
-      correctedFolder)
+      correctedFolder,
+      preferredEngine,
+      skipPreferredEngine)
 
     // Cast the model to the required type. This has to be done for each entry in the typeMapper map
     if (typeMapper.contains(readerStr) && readerStr == "ZeroShotNerModel")
@@ -802,8 +825,21 @@ object PythonResourceDownloader {
     ResourceDownloader.listAvailableAnnotators().mkString("\n")
   }
 
-  def getDownloadSize(name: String, language: String = "en", remoteLoc: String = null): String = {
+  def getDownloadSize(
+      name: String,
+      language: String = "en",
+      remoteLoc: String = null,
+      annotator: String,
+      engine: String,
+      skipPreferredEngine: Boolean): String = {
     val correctedFolder = Option(remoteLoc).getOrElse(ResourceDownloader.publicLoc)
-    ResourceDownloader.getDownloadSize(ResourceRequest(name, Option(language), correctedFolder))
+    ResourceDownloader.getDownloadSize(
+      ResourceRequest(
+        name,
+        Option(language),
+        correctedFolder,
+        annotator = Some(annotator),
+        engine = Option(engine),
+        skipPreferredEngine = skipPreferredEngine))
   }
 }
