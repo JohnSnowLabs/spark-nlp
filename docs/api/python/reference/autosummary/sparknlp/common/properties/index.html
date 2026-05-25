@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.common.properties &#8212; Spark NLP 6.4.0 documentation</title>
+    <title>sparknlp.common.properties &#8212; Spark NLP 6.4.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=2ccb7844"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=88b3fc5d"></script>
     <script src="../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.0 documentation - Home"/>`);</script>
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -1106,6 +1106,11 @@ param map to store parameter values attached to the instance.</p>
 <span class="sig-name descname"><span class="pre">engine</span></span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#HasEngine.engine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasEngine.engine" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.common.properties.HasEngine.skip_preferred_engine">
+<span class="sig-name descname"><span class="pre">skip_preferred_engine</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">False</span></em><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#HasEngine.skip_preferred_engine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasEngine.skip_preferred_engine" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.common.properties.HasEngine.getEngine">
 <span class="sig-name descname"><span class="pre">getEngine</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#HasEngine.getEngine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasEngine.getEngine" title="Permalink to this definition">#</a></dt>
@@ -1113,6 +1118,32 @@ param map to store parameter values attached to the instance.</p>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt>str</dt><dd><p>Deep Learning engine used for this model”</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.common.properties.HasEngine.pretrainedEngine">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pretrainedEngine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'en'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remote_loc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'onnx'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/common/properties.html#HasEngine.pretrainedEngine"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.common.properties.HasEngine.pretrainedEngine" title="Permalink to this definition">#</a></dt>
+<dd><p>Downloads and loads a pretrained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str, optional</span></dt><dd><p>The name of the pretrained model, by default “default”</p>
+</dd>
+<dt><strong>lang</strong><span class="classifier">str, optional</span></dt><dd><p>The language of the pretrained model, by default “en”</p>
+</dd>
+<dt><strong>remote_loc</strong><span class="classifier">str, optional</span></dt><dd><p>Remote location of the model, by default None</p>
+</dd>
+<dt><strong>engine</strong><span class="classifier">str, optional</span></dt><dd><p>The Deep Learning engine used for this model, by default “onnx”</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>AnnotatorModel</dt><dd><p>Pretrained model</p>
 </dd>
 </dl>
 </dd>
@@ -2334,7 +2365,9 @@ budget, or 0 to disable thinking (default: -1)</p>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasEngine"><code class="docutils literal notranslate"><span class="pre">HasEngine</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasEngine.engine"><code class="docutils literal notranslate"><span class="pre">HasEngine.engine</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasEngine.skip_preferred_engine"><code class="docutils literal notranslate"><span class="pre">HasEngine.skip_preferred_engine</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasEngine.getEngine"><code class="docutils literal notranslate"><span class="pre">HasEngine.getEngine()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasEngine.pretrainedEngine"><code class="docutils literal notranslate"><span class="pre">HasEngine.pretrainedEngine()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.common.properties.HasCandidateLabelsProperties"><code class="docutils literal notranslate"><span class="pre">HasCandidateLabelsProperties</span></code></a><ul class="nav section-nav flex-column">

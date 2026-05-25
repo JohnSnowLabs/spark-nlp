@@ -12,6 +12,7 @@ Submodules
    sparknlp.annotator.embeddings.bert_embeddings
    sparknlp.annotator.embeddings.bert_sentence_embeddings
    sparknlp.annotator.embeddings.bge_embeddings
+   sparknlp.annotator.embeddings.bi_encoder_multimodal_embeddings
    sparknlp.annotator.embeddings.camembert_embeddings
    sparknlp.annotator.embeddings.chunk_embeddings
    sparknlp.annotator.embeddings.deberta_embeddings
@@ -21,6 +22,7 @@ Submodules
    sparknlp.annotator.embeddings.e5v_embeddings
    sparknlp.annotator.embeddings.elmo_embeddings
    sparknlp.annotator.embeddings.instructor_embeddings
+   sparknlp.annotator.embeddings.late_chunk_embeddings
    sparknlp.annotator.embeddings.longformer_embeddings
    sparknlp.annotator.embeddings.minilm_embeddings
    sparknlp.annotator.embeddings.modernbert_embeddings

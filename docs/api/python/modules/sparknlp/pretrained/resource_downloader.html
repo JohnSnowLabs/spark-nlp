@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 6.4.0 documentation</title>
+    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 6.4.1 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=2ccb7844"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=88b3fc5d"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.0 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -420,7 +420,7 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="ResourceDownloader.downloadModel"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">downloadModel</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;PythonResourceDownloader&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="ResourceDownloader.downloadModel"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader.downloadModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">downloadModel</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s2">&quot;onnx&quot;</span><span class="p">,</span> <span class="n">skip_preferred_engine</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">j_dwn</span><span class="o">=</span><span class="s1">&#39;PythonResourceDownloader&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a model with the default downloader. Usually this method</span>
 <span class="sd">        does not need to be called directly, as it is called by the `pretrained()`</span>
 <span class="sd">        method of the annotator.</span>
@@ -435,6 +435,12 @@ document.write(`
 <span class="sd">            Language of the model</span>
 <span class="sd">        remote_loc : str, optional</span>
 <span class="sd">            Directory of the Spark NLP Folder, by default None</span>
+<span class="sd">        engine : str, optional</span>
+<span class="sd">            Preferred Deep Learning engine used to resolve and download the model,</span>
+<span class="sd">            by default &quot;onnx&quot;</span>
+<span class="sd">        skip_preferred_engine : bool, optional</span>
+<span class="sd">            Whether to skip the preferred engine resolution and use the default</span>
+<span class="sd">            engine priority, by default False</span>
 <span class="sd">        j_dwn : str, optional</span>
 <span class="sd">            Which java downloader to use, by default &#39;PythonResourceDownloader&#39;</span>
 
@@ -444,7 +450,7 @@ document.write(`
 <span class="sd">            Loaded pretrained annotator/pipeline</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; download started this may take some time.&quot;</span><span class="p">)</span>
-        <span class="n">file_size</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_GetResourceSize</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
+        <span class="n">file_size</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_GetResourceSize</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span> <span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">skip_preferred_engine</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">file_size</span> <span class="o">==</span> <span class="s2">&quot;-1&quot;</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Can not find the model to download please check the name!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -453,7 +459,7 @@ document.write(`
             <span class="n">t1</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">printProgress</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">stop_threads</span><span class="p">,))</span>
             <span class="n">t1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">j_obj</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_DownloadModel</span><span class="p">(</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span> <span class="n">j_dwn</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
+                <span class="n">j_obj</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_DownloadModel</span><span class="p">(</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">skip_preferred_engine</span><span class="p">,</span> <span class="n">j_dwn</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
             <span class="k">except</span> <span class="n">Py4JJavaError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
                 <span class="k">raise</span> <span class="n">e</span>
@@ -499,7 +505,7 @@ document.write(`
 <span class="sd">            The loaded pipeline</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot; download started this may take some time.&quot;</span><span class="p">)</span>
-        <span class="n">file_size</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_GetResourceSize</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
+        <span class="n">file_size</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_GetResourceSize</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span> <span class="n">annotator</span><span class="o">=</span><span class="s2">&quot;PipelineModel&quot;</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skip_preferred_engine</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">file_size</span> <span class="o">==</span> <span class="s2">&quot;-1&quot;</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Can not find the model to download please check the name!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.4.0 ScalaDoc  - com.johnsnowlabs.ml.ai</title>
-          <meta name="description" content="Spark NLP 6.4.0 ScalaDoc - com.johnsnowlabs.ml.ai" />
-          <meta name="keywords" content="Spark NLP 6.4.0 ScalaDoc com.johnsnowlabs.ml.ai" />
+          <title>Spark NLP 6.4.1 ScalaDoc  - com.johnsnowlabs.ml.ai</title>
+          <meta name="description" content="Spark NLP 6.4.1 ScalaDoc - com.johnsnowlabs.ml.ai" />
+          <meta name="keywords" content="Spark NLP 6.4.1 ScalaDoc com.johnsnowlabs.ml.ai" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -546,11 +546,16 @@ embeddingsDF.select(<span class="lit">"embeddings"</span>).show(<span class="kw"
       </span>
       
       <p class="shortcomment cmt">Connector for storing and retrieving embeddings from vector databases.</p><div class="fullcomment"><div class="comment cmt"><p>Connector for storing and retrieving embeddings from vector databases.</p><p>This annotator takes embeddings from previous annotators (like BertEmbeddings,
-SentenceEmbeddings, OpenAIEmbeddings, etc.) and stores them in a vector database for
-similarity search and retrieval. Currently supports Pinecone with more providers planned.</p><h4>Supported Providers</h4><ul><li><b>pinecone</b>: Pinecone vector database (default)</li></ul><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+SentenceEmbeddings, E5VEmbeddings, etc.) and stores them in a vector database for similarity
+search and retrieval. Currently supports Pinecone with more providers planned.</p><p>Supports two modality modes:</p><ul><li>'text' (default): expects <code>DOCUMENT + SENTENCE_EMBEDDINGS</code> input columns. Metadata is
+    augmented with <code>modality=text</code>.</li><li>'image': expects <code>IMAGE + SENTENCE_EMBEDDINGS</code> input columns (e.g. from <code>ImageAssembler</code> +
+    <code>E5VEmbeddings</code>). Metadata is augmented with <code>modality=image</code>, <code>image_origin</code>,
+    <code>image_width</code>, <code>image_height</code>, and <code>image_nChannels</code>. Vector IDs are generated as
+    deterministic UUID-v3 values derived from the image file path (origin), ensuring stable
+    re-indexing.</li></ul><h4>Supported Providers</h4><ul><li><b>pinecone</b>: Pinecone vector database (default)</li></ul><h4>Text Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
-<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.VectorDBConnector
+<span class="kw">import</span> com.johnsnowlabs.ml.ai.VectorDBConnector
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 
 <span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
@@ -582,7 +587,32 @@ similarity search and retrieval. Currently supports Pinecone with more providers
   (<span class="lit">"2"</span>, <span class="lit">"Vector databases enable semantic search"</span>, <span class="lit">"tech"</span>)
 ).toDF(<span class="lit">"id"</span>, <span class="lit">"text"</span>, <span class="lit">"category"</span>)
 
-<span class="kw">val</span> result = pipeline.fit(data).transform(data)</pre></div></div>
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)</pre><h4>Image Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.base.ImageAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.E5VEmbeddings
+<span class="kw">import</span> com.johnsnowlabs.ml.ai.VectorDBConnector
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> imageAssembler = <span class="kw">new</span> ImageAssembler()
+  .setInputCol(<span class="lit">"image"</span>)
+  .setOutputCol(<span class="lit">"image_assembler"</span>)
+
+<span class="kw">val</span> e5vEmbeddings = E5VEmbeddings.pretrained()
+  .setInputCols(<span class="lit">"image_assembler"</span>)
+  .setOutputCol(<span class="lit">"image_embeddings"</span>)
+
+<span class="kw">val</span> vectorDB = <span class="kw">new</span> VectorDBConnector()
+  .setInputCols(<span class="lit">"image_assembler"</span>, <span class="lit">"image_embeddings"</span>)
+  .setOutputCol(<span class="lit">"vectordb_result"</span>)
+  .setProvider(<span class="lit">"pinecone"</span>)
+  .setIndexName(<span class="lit">"my-multimodal-index"</span>)
+  .setModalityMode(<span class="lit">"image"</span>)
+  .setBatchSize(<span class="num">50</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  imageAssembler,
+  e5vEmbeddings,
+  vectorDB
+))</pre></div></div>
     </li></ol>
             </div>
 

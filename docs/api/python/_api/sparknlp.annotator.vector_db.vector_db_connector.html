@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.vector_db.vector_db_connector module &#8212; Spark NLP 6.4.0 documentation</title>
+    <title>sparknlp.annotator.vector_db.vector_db_connector module &#8212; Spark NLP 6.4.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=2ccb7844"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=88b3fc5d"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.1 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -409,6 +409,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bert_embeddings.html">sparknlp.annotator.embeddings.bert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bert_sentence_embeddings.html">sparknlp.annotator.embeddings.bert_sentence_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bge_embeddings.html">sparknlp.annotator.embeddings.bge_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bi_encoder_multimodal_embeddings.html">sparknlp.annotator.embeddings.bi_encoder_multimodal_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.camembert_embeddings.html">sparknlp.annotator.embeddings.camembert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.chunk_embeddings.html">sparknlp.annotator.embeddings.chunk_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.deberta_embeddings.html">sparknlp.annotator.embeddings.deberta_embeddings module</a></li>
@@ -418,6 +419,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.late_chunk_embeddings.html">sparknlp.annotator.embeddings.late_chunk_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.minilm_embeddings.html">sparknlp.annotator.embeddings.minilm_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.modernbert_embeddings.html">sparknlp.annotator.embeddings.modernbert_embeddings module</a></li>
@@ -710,8 +712,18 @@ document.write(`
 <dd><p>Bases: <a class="reference internal" href="../reference/autosummary/sparknlp/common/annotator_model/index.html#sparknlp.common.annotator_model.AnnotatorModel" title="sparknlp.common.annotator_model.AnnotatorModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnnotatorModel</span></code></a></p>
 <p>Connector for storing and retrieving embeddings from vector databases.</p>
 <p>This annotator takes embeddings from previous annotators (like BertEmbeddings,
-SentenceEmbeddings, OpenAIEmbeddings, etc.) and stores them in a vector database for
+SentenceEmbeddings, E5VEmbeddings, etc.) and stores them in a vector database for
 similarity search and retrieval. Currently supports Pinecone with more providers planned.</p>
+<p>Two modality modes are supported via setModalityMode:</p>
+<ul class="simple">
+<li><p><strong>text</strong> (default) – expects DOCUMENT, SENTENCE_EMBEDDINGS input columns.
+Upserted metadata is augmented with modality=text.</p></li>
+<li><p><strong>image</strong> – expects MAGE, SENTENCE_EMBEDDINGS input columns (e.g. from
+ImageAssembler + E5VEmbeddings). Upserted metadata is augmented with
+modality=image, image_origin, image_width, image_height, and
+image_nChannels. Vector IDs are deterministic UUID-v3 values derived from the
+image file-path (origin), ensuring stable re-indexing.</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -721,16 +733,20 @@ similarity search and retrieval. Currently supports Pinecone with more providers
 </dd>
 <dt><strong>namespace</strong></dt><dd><p>Namespace/partition within the index (optional)</p>
 </dd>
-<dt><strong>idColumn</strong></dt><dd><p>Column name to use as vector ID (if not set, generates UUID)</p>
+<dt><strong>idColumn</strong></dt><dd><p>Column name to use as vector ID (if not set, generates UUID; for image mode a
+stable UUID-v3 derived from the image origin path is used)</p>
 </dd>
 <dt><strong>metadataColumns</strong></dt><dd><p>Column names to include as metadata with vectors</p>
 </dd>
 <dt><strong>batchSize</strong></dt><dd><p>Number of vectors to upsert in a single batch</p>
 </dd>
+<dt><strong>modalityMode</strong></dt><dd><p>Modality mode: ‘text’ (default) or ‘image’</p>
+</dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
+<p><strong>Text mode example:</strong></p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.annotator</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
@@ -774,10 +790,51 @@ similarity search and retrieval. Currently supports Pinecone with more providers
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
+<p><strong>Image mode example:</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">imageAssembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;image_assembler&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">e5vEmbeddings</span> <span class="o">=</span> <span class="n">E5VEmbeddings</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;image_assembler&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;image_embeddings&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vectorDB</span> <span class="o">=</span> <span class="n">VectorDBConnector</span><span class="p">()</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s2">&quot;image_assembler&quot;</span><span class="p">,</span> <span class="s2">&quot;image_embeddings&quot;</span><span class="p">])</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s2">&quot;vectordb_result&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setProvider</span><span class="p">(</span><span class="s2">&quot;pinecone&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setIndexName</span><span class="p">(</span><span class="s2">&quot;my-multimodal-index&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setModalityMode</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">)</span> \
+<span class="gp">... </span>    <span class="o">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span><span class="o">.</span><span class="n">setStages</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="n">imageAssembler</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">e5vEmbeddings</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">vectorDB</span>
+<span class="gp">... </span><span class="p">])</span>
+</pre></div>
+</div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.batchSize">
 <span class="sig-name descname"><span class="pre">batchSize</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='batchSize',</span> <span class="pre">doc='Number</span> <span class="pre">of</span> <span class="pre">vectors</span> <span class="pre">to</span> <span class="pre">upsert</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">batch')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/vector_db/vector_db_connector.html#VectorDBConnector.batchSize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.batchSize" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.getModalityMode">
+<span class="sig-name descname"><span class="pre">getModalityMode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/vector_db/vector_db_connector.html#VectorDBConnector.getModalityMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.getModalityMode" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the current modality mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>str</dt><dd><p>‘text’ or ‘image’</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.idColumn">
@@ -797,6 +854,11 @@ similarity search and retrieval. Currently supports Pinecone with more providers
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.metadataColumns">
 <span class="sig-name descname"><span class="pre">metadataColumns</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='metadataColumns',</span> <span class="pre">doc='Column</span> <span class="pre">names</span> <span class="pre">to</span> <span class="pre">include</span> <span class="pre">as</span> <span class="pre">metadata</span> <span class="pre">with</span> <span class="pre">vectors')</span></em><a class="reference internal" href="../modules/sparknlp/annotator/vector_db/vector_db_connector.html#VectorDBConnector.metadataColumns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.metadataColumns" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.modalityMode">
+<span class="sig-name descname"><span class="pre">modalityMode</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Param(parent='undefined',</span> <span class="pre">name='modalityMode',</span> <span class="pre">doc=&quot;Modality</span> <span class="pre">mode</span> <span class="pre">for</span> <span class="pre">indexing.</span> <span class="pre">Supported</span> <span class="pre">values:</span> <span class="pre">'text'</span> <span class="pre">(default),</span> <span class="pre">'image'.&quot;)</span></em><a class="reference internal" href="../modules/sparknlp/annotator/vector_db/vector_db_connector.html#VectorDBConnector.modalityMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.modalityMode" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -876,6 +938,26 @@ similarity search and retrieval. Currently supports Pinecone with more providers
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.setModalityMode">
+<span class="sig-name descname"><span class="pre">setModalityMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/vector_db/vector_db_connector.html#VectorDBConnector.setModalityMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.setModalityMode" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the modality mode for indexing.</p>
+<p>Use ‘text’ (default) for DOCUMENT + SENTENCE_EMBEDDINGS pipelines and
+‘image’ for IMAGE + SENTENCE_EMBEDDINGS pipelines (e.g. ImageAssembler +
+E5VEmbeddings).  In image mode vector IDs are stable UUID-v3 values derived from
+the image origin path, and upserted metadata automatically includes
+modality, image_origin, image_width, image_height, and
+image_nChannels fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">str</span></dt><dd><p>‘text’ or ‘image’</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.setNamespace">
 <span class="sig-name descname"><span class="pre">setNamespace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp/annotator/vector_db/vector_db_connector.html#VectorDBConnector.setNamespace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.setNamespace" title="Permalink to this definition">#</a></dt>
 <dd><p>Sets the namespace/partition within the index.</p>
@@ -935,10 +1017,12 @@ similarity search and retrieval. Currently supports Pinecone with more providers
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.batchSize"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.batchSize</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.getModalityMode"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.getModalityMode()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.idColumn"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.idColumn</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.indexName"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.indexName</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.inputAnnotatorTypes</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.metadataColumns"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.metadataColumns</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.modalityMode"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.modalityMode</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.name"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.name</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.namespace"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.namespace</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.outputAnnotatorType</span></code></a></li>
@@ -947,6 +1031,7 @@ similarity search and retrieval. Currently supports Pinecone with more providers
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.setIdColumn"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.setIdColumn()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.setIndexName"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.setIndexName()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.setMetadataColumns"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.setMetadataColumns()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.setModalityMode"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.setModalityMode()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.setNamespace"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.setNamespace()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.vector_db.vector_db_connector.VectorDBConnector.setProvider"><code class="docutils literal notranslate"><span class="pre">VectorDBConnector.setProvider()</span></code></a></li>
 </ul>

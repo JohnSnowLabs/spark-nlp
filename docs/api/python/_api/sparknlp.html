@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp package &#8212; Spark NLP 6.4.0 documentation</title>
+    <title>sparknlp package &#8212; Spark NLP 6.4.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=2ccb7844"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=88b3fc5d"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.1 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -409,6 +409,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bert_embeddings.html">sparknlp.annotator.embeddings.bert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bert_sentence_embeddings.html">sparknlp.annotator.embeddings.bert_sentence_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bge_embeddings.html">sparknlp.annotator.embeddings.bge_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.bi_encoder_multimodal_embeddings.html">sparknlp.annotator.embeddings.bi_encoder_multimodal_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.camembert_embeddings.html">sparknlp.annotator.embeddings.camembert_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.chunk_embeddings.html">sparknlp.annotator.embeddings.chunk_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.deberta_embeddings.html">sparknlp.annotator.embeddings.deberta_embeddings module</a></li>
@@ -418,6 +419,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.e5v_embeddings.html">sparknlp.annotator.embeddings.e5v_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.elmo_embeddings.html">sparknlp.annotator.embeddings.elmo_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.instructor_embeddings.html">sparknlp.annotator.embeddings.instructor_embeddings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.late_chunk_embeddings.html">sparknlp.annotator.embeddings.late_chunk_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.longformer_embeddings.html">sparknlp.annotator.embeddings.longformer_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.minilm_embeddings.html">sparknlp.annotator.embeddings.minilm_embeddings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.embeddings.modernbert_embeddings.html">sparknlp.annotator.embeddings.modernbert_embeddings module</a></li>
@@ -1289,7 +1291,7 @@ document.write(`
 
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp.start">
-<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apple_silicon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aarch64</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'16G'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_tmp_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">real_time_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp.html#start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.start" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gpu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">apple_silicon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aarch64</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">memory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'16G'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_tmp_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">real_time_output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_sparknlp_maven</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../modules/sparknlp.html#start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.start" title="Permalink to this definition">#</a></dt>
 <dd><p>Starts a PySpark instance with default parameters for Spark NLP.</p>
 <p>The default parameters would result in the equivalent of:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span> \
@@ -1322,7 +1324,9 @@ for WordEmbeddings. By default, this locations is the location of
 <cite>hadoop.tmp.dir</cite> set via Hadoop configuration for Apache Spark. NOTE: <cite>S3</cite> is
 not supported and it must be local, HDFS, or DBFS.</p>
 </dd>
-<dt><strong>params</strong><span class="classifier">dict, optional</span></dt><dd><p>Custom parameters to set for the Spark configuration, by default None.</p>
+<dt><strong>params</strong><span class="classifier">dict, optional</span></dt><dd><p>Custom parameters to set for the Spark configuration, by default None.
+Set <code class="docutils literal notranslate"><span class="pre">skip_sparknlp_maven</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;true&quot;</span></code> to avoid adding the
+default Spark NLP Maven package when a custom Spark NLP jar is provided.</p>
 </dd>
 <dt><strong>cluster_tmp_dir</strong><span class="classifier">str, optional</span></dt><dd><p>The location to save logs from annotators during training. If not set, it will
 be in the users home directory under <cite>annotator_logs</cite>.</p>
@@ -1330,6 +1334,9 @@ be in the users home directory under <cite>annotator_logs</cite>.</p>
 <dt><strong>real_time_output</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to read and print JVM output in real time, by default False</p>
 </dd>
 <dt><strong>output_level</strong><span class="classifier">int, optional</span></dt><dd><p>Output level for logs, by default 1</p>
+</dd>
+<dt><strong>skip_sparknlp_maven</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to avoid adding the default Spark NLP Maven package. Use this
+when providing a custom Spark NLP jar with <code class="docutils literal notranslate"><span class="pre">spark.jars</span></code>.</p>
 </dd>
 </dl>
 </dd>
