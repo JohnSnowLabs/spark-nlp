@@ -740,6 +740,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="#latechunkembeddings">LateChunkEmbeddings</a></td>
+        <td>Produces contextual chunk-level SENTENCE_EMBEDDINGS using the Late Chunking technique (Jin et al., 2024). Pools full-document contextual token embeddings into chunk-level vectors so every chunk embedding benefits from document-wide context.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#llmentityextractor">LLMEntityExtractor</a></td>
         <td>End-to-end LLM-based entity extraction using AutoGGUF with BNF grammars for structured entity extraction.</td>
         <td>Opensource</td>
@@ -6112,7 +6117,7 @@ according to your hardware to avoid out-of-memory errors.</p>
     </thead>
     <tbody>
       <tr>
-        <td><code class="language-plaintext highlighter-rouge">modelName</code></td>
+        <td><code class="language-plaintext highlighter-rouge">pretrained</code></td>
         <td>Name of the AutoGGUF model to load for entity extraction</td>
         <td><code class="language-plaintext highlighter-rouge">"qwen3_4b_bf16_gguf"</code></td>
       </tr>
@@ -6205,9 +6210,9 @@ according to your hardware to avoid out-of-memory errors.</p>
 <span class="p">]</span>
 
 <span class="n">entityExtractor</span> <span class="o">=</span> <span class="n">LLMEntityExtractor</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"qwen3_4b_bf16_gguf"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"entities"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setModelName</span><span class="p">(</span><span class="s">"qwen3_4b_bf16_gguf"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setEntityTypes</span><span class="p">([</span><span class="s">"MEDICATION"</span><span class="p">,</span> <span class="s">"DOSAGE"</span><span class="p">,</span> <span class="s">"ROUTE"</span><span class="p">,</span> <span class="s">"FREQUENCY"</span><span class="p">,</span> <span class="s">"PERSON"</span><span class="p">,</span> <span class="s">"ORGANIZATION"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setFewShotExamples</span><span class="p">(</span><span class="n">medical_examples</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setNPredict</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span> \
@@ -6233,6 +6238,7 @@ according to your hardware to avoid out-of-memory errors.</p>
     <span class="n">F</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="s">"entity.metadata.entity"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"entity_type"</span><span class="p">),</span>
     <span class="n">F</span><span class="p">.</span><span class="n">col</span><span class="p">(</span><span class="s">"entity.metadata.chunk"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"chunk_index"</span><span class="p">)</span>
 <span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
 <span class="o">+-------------------+-----+---+------------+-----------+</span>
 <span class="o">|</span><span class="n">text</span>               <span class="o">|</span><span class="n">begin</span><span class="o">|</span><span class="n">end</span><span class="o">|</span><span class="n">entity_type</span> <span class="o">|</span><span class="n">chunk_index</span><span class="o">|</span>
 <span class="o">+-------------------+-----+---+------------+-----------+</span>
@@ -6270,9 +6276,9 @@ according to your hardware to avoid out-of-memory errors.</p>
 <span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">entityExtractor</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LLMEntityExtractor</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"qwen3_4b_bf16_gguf"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"entities"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setModelName</span><span class="o">(</span><span class="s">"qwen3_4b_bf16_gguf"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setEntityTypes</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"MEDICATION"</span><span class="o">,</span> <span class="s">"DOSAGE"</span><span class="o">,</span> <span class="s">"ROUTE"</span><span class="o">,</span> <span class="s">"FREQUENCY"</span><span class="o">,</span> <span class="s">"PERSON"</span><span class="o">,</span> <span class="s">"ORGANIZATION"</span><span class="o">))</span>
   <span class="o">.</span><span class="py">setFewShotExamples</span><span class="o">(</span><span class="n">medicalExamples</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setNPredict</span><span class="o">(</span><span class="mi">500</span><span class="o">)</span>
@@ -6298,6 +6304,7 @@ according to your hardware to avoid out-of-memory errors.</p>
     <span class="nv">F</span><span class="o">.</span><span class="py">col</span><span class="o">(</span><span class="s">"entity.metadata.entity"</span><span class="o">).</span><span class="py">alias</span><span class="o">(</span><span class="s">"entity_type"</span><span class="o">),</span>
     <span class="nv">F</span><span class="o">.</span><span class="py">col</span><span class="o">(</span><span class="s">"entity.metadata.chunk"</span><span class="o">).</span><span class="py">alias</span><span class="o">(</span><span class="s">"chunk_index"</span><span class="o">)</span>
 <span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span><span class="k">=</span><span class="nc">False</span><span class="o">)</span>
+
 <span class="o">+-------------------+-----+---+------------+-----------+</span>
 <span class="o">|</span><span class="n">text</span>               <span class="o">|</span><span class="n">begin</span><span class="o">|</span><span class="n">end</span><span class="o">|</span><span class="n">entity_type</span> <span class="o">|</span><span class="n">chunk_index</span><span class="o">|</span>
 <span class="o">+-------------------+-----+---+------------+-----------+</span>
@@ -6438,6 +6445,189 @@ And the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/
 <span class="o">|[</span><span class="kt">fr</span><span class="o">]</span>  <span class="o">|</span>
 <span class="o">|[</span><span class="kt">de</span><span class="o">]</span>  <span class="o">|</span>
 <span class="o">+------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="latechunkembeddings">LateChunkEmbeddings</h2>
+
+  <p>Produces contextual chunk-level embeddings using the <strong>Late Chunking</strong> technique described in
+<a href="https://arxiv.org/abs/2409.04701">Jin et al. (2024)</a>.</p>
+
+  <p>Unlike <a href="/docs/en/annotators#chunkembeddings">ChunkEmbeddings</a>, which embeds each chunk in
+isolation, <code class="language-plaintext highlighter-rouge">LateChunkEmbeddings</code> expects that the upstream token-embedding stage (e.g.
+<a href="/docs/en/transformers#modernbertembeddings">ModernBertEmbeddings</a> or
+<a href="/docs/en/transformers#longformerembeddings">LongformerEmbeddings</a>) has already processed the
+<strong>full document</strong> in a single forward pass, producing contextual token representations. This
+annotator then locates the tokens that fall within each chunk’s character span and mean-pools
+them into a single <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code> vector — so every chunk embedding is informed by the
+complete document context rather than being isolated.</p>
+
+  <p>This is especially useful in <strong>RAG (Retrieval-Augmented Generation)</strong> pipelines, where naive
+per-chunk embedding loses cross-sentence context. With late chunking, a chunk mentioning
+<em>“therapy was stopped”</em> still carries contextual signal from an earlier mention of the drug
+name in the same document.</p>
+
+  <p><strong>Ordering requirement:</strong> <code class="language-plaintext highlighter-rouge">LateChunkEmbeddings</code> <strong>must</strong> appear <strong>after</strong> the token-embedding
+stage in the pipeline. Placing it before will raise a runtime error.</p>
+
+  <p><strong>Full-document requirement:</strong> The upstream embedding model <strong>must</strong> process the entire document
+in a single forward pass (i.e. use <code class="language-plaintext highlighter-rouge">DOCUMENT</code>, not <code class="language-plaintext highlighter-rouge">SENTENCE</code>, as its input). If a
+<code class="language-plaintext highlighter-rouge">SentenceDetector</code> is placed before the embedding model, each sentence is embedded independently
+and the contextual benefit of late chunking is lost — the annotator will still run without error
+but will produce embeddings equivalent to naive <code class="language-plaintext highlighter-rouge">ChunkEmbeddings</code>.</p>
+
+  <p><strong>Context-window cap:</strong> The contextual benefit is bounded by the upstream model’s maximum
+sequence length (e.g. 8 192 tokens for <code class="language-plaintext highlighter-rouge">ModernBertEmbeddings</code>). Documents that exceed this
+limit are truncated before embedding, reducing cross-chunk context.</p>
+
+  <p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/embeddings/LateChunkEmbeddingsTestSpec.scala">LateChunkEmbeddingsTestSpec</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, CHUNK, WORD_EMBEDDINGS</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/embeddings/late_chunk_embeddings/index.html#sparknlp.annotator.embeddings.late_chunk_embeddings.LateChunkEmbeddings">LateChunkEmbeddings</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/embeddings/LateChunkEmbeddings">LateChunkEmbeddings</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/embeddings/LateChunkEmbeddings.scala">LateChunkEmbeddings</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([(</span>
+    <span class="s">"AcmeDrug was prescribed for migraine in March. The patient took two doses.</span><span class="se">\n\n</span><span class="s">"</span>
+    <span class="s">"It caused severe nausea the next day, and therapy was stopped."</span><span class="p">,</span>
+    <span class="p">[</span>
+        <span class="s">"AcmeDrug was prescribed for migraine in March. The patient took two doses."</span><span class="p">,</span>
+        <span class="s">"It caused severe nausea the next day, and therapy was stopped."</span>
+    <span class="p">]</span>
+<span class="p">)],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">,</span> <span class="s">"chunks"</span><span class="p">])</span>
+
+<span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">tokenEmbeddings</span> <span class="o">=</span> <span class="n">ModernBertEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"modernbert-base"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token_embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMaxSentenceLength</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span>
+
+<span class="n">chunker</span> <span class="o">=</span> <span class="n">Doc2Chunk</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setChunkCol</span><span class="p">(</span><span class="s">"chunks"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setIsArray</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"chunk"</span><span class="p">)</span>
+
+<span class="n">lateChunkEmbeddings</span> <span class="o">=</span> <span class="n">LateChunkEmbeddings</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"chunk"</span><span class="p">,</span> <span class="s">"token_embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"late_chunk_embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setPoolingStrategy</span><span class="p">(</span><span class="s">"AVERAGE"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setStages</span><span class="p">([</span>
+      <span class="n">documentAssembler</span><span class="p">,</span>
+      <span class="n">tokenizer</span><span class="p">,</span>
+      <span class="n">tokenEmbeddings</span><span class="p">,</span>
+      <span class="n">chunker</span><span class="p">,</span>
+      <span class="n">lateChunkEmbeddings</span>
+    <span class="p">])</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(late_chunk_embeddings) as r"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"r.annotatorType"</span><span class="p">,</span> <span class="s">"r.result"</span><span class="p">,</span> <span class="s">"r.embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+
+<span class="o">+-------------------+--------------------------------------------------------------------------+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span>      <span class="n">annotatorType</span><span class="o">|</span>                                                                    <span class="n">result</span><span class="o">|</span>                                                                      <span class="n">embeddings</span><span class="o">|</span>
+<span class="o">+-------------------+--------------------------------------------------------------------------+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">sentence_embeddings</span><span class="o">|</span><span class="n">AcmeDrug</span> <span class="n">was</span> <span class="n">prescribed</span> <span class="k">for</span> <span class="n">migraine</span> <span class="ow">in</span> <span class="n">March</span><span class="p">.</span> <span class="n">The</span> <span class="n">patient</span> <span class="n">took</span> <span class="n">two</span> <span class="n">doses</span><span class="p">.</span><span class="o">|</span><span class="p">[</span><span class="mf">0.050471008</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.07595207</span><span class="p">,</span> <span class="mf">0.031268876</span><span class="p">,</span> <span class="mf">0.15105441</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.013697156</span><span class="p">,</span> <span class="mf">0.08131724</span><span class="p">,...</span><span class="o">|</span>
+<span class="o">|</span><span class="n">sentence_embeddings</span><span class="o">|</span>            <span class="n">It</span> <span class="n">caused</span> <span class="n">severe</span> <span class="n">nausea</span> <span class="n">the</span> <span class="nb">next</span> <span class="n">day</span><span class="p">,</span> <span class="ow">and</span> <span class="n">therapy</span> <span class="n">was</span> <span class="n">stopped</span><span class="p">.</span><span class="o">|</span><span class="p">[</span><span class="mf">0.0735685</span><span class="p">,</span> <span class="mf">0.0060829176</span><span class="p">,</span> <span class="mf">0.12051964</span><span class="p">,</span> <span class="mf">0.22399232</span><span class="p">,</span> <span class="mf">0.055884164</span><span class="p">,</span> <span class="mf">0.066795066</span><span class="p">,</span> <span class="mf">0.</span><span class="p">..</span><span class="o">|</span>
+<span class="o">+-------------------+--------------------------------------------------------------------------+--------------------------------------------------------------------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">((</span>
+  <span class="s">"AcmeDrug was prescribed for migraine in March. The patient took two doses.\n\n"</span> <span class="o">+</span>
+  <span class="s">"It caused severe nausea the next day, and therapy was stopped."</span><span class="o">,</span>
+  <span class="nc">Array</span><span class="o">(</span>
+    <span class="s">"AcmeDrug was prescribed for migraine in March. The patient took two doses."</span><span class="o">,</span>
+    <span class="s">"It caused severe nausea the next day, and therapy was stopped."</span><span class="o">)</span>
+<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="s">"chunks"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenEmbeddings</span> <span class="k">=</span> <span class="nv">ModernBertEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"modernbert-base"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token_embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMaxSentenceLength</span><span class="o">(</span><span class="mi">8192</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">chunker</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Doc2Chunk</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setChunkCol</span><span class="o">(</span><span class="s">"chunks"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setIsArray</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"chunk"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">lateChunkEmbeddings</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">LateChunkEmbeddings</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"chunk"</span><span class="o">,</span> <span class="s">"token_embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"late_chunk_embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setPoolingStrategy</span><span class="o">(</span><span class="s">"AVERAGE"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+    <span class="n">documentAssembler</span><span class="o">,</span>
+    <span class="n">tokenizer</span><span class="o">,</span>
+    <span class="n">tokenEmbeddings</span><span class="o">,</span>
+    <span class="n">chunker</span><span class="o">,</span>
+    <span class="n">lateChunkEmbeddings</span>
+  <span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(late_chunk_embeddings) as r"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"r.annotatorType"</span><span class="o">,</span> <span class="s">"r.result"</span><span class="o">,</span> <span class="s">"r.embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">80</span><span class="o">)</span>
+
+<span class="o">+-------------------+--------------------------------------------------------------------------+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span>      <span class="n">annotatorType</span><span class="o">|</span>                                                                    <span class="n">result</span><span class="o">|</span>                                                                      <span class="n">embeddings</span><span class="o">|</span>
+<span class="o">+-------------------+--------------------------------------------------------------------------+--------------------------------------------------------------------------------+</span>
+<span class="o">|</span><span class="n">sentence_embeddings</span><span class="o">|</span><span class="nc">AcmeDrug</span> <span class="n">was</span> <span class="n">prescribed</span> <span class="k">for</span> <span class="n">migraine</span> <span class="n">in</span> <span class="nc">March</span><span class="o">.</span> <span class="nc">The</span> <span class="n">patient</span> <span class="n">took</span> <span class="n">two</span> <span class="n">doses</span><span class="o">.|[</span><span class="err">0</span><span class="kt">.</span><span class="err">050471008</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">07595207</span>, <span class="err">0</span><span class="kt">.</span><span class="err">031268876</span>, <span class="err">0</span><span class="kt">.</span><span class="err">15105441</span>, <span class="kt">-</span><span class="err">0</span><span class="kt">.</span><span class="err">013697156</span>, <span class="err">0</span><span class="kt">.</span><span class="err">08131724</span>,<span class="kt">...|</span>
+<span class="kt">|sentence_embeddings|</span>            <span class="kt">It</span> <span class="kt">caused</span> <span class="kt">severe</span> <span class="kt">nausea</span> <span class="kt">the</span> <span class="kt">next</span> <span class="kt">day</span>, <span class="kt">and</span> <span class="kt">therapy</span> <span class="kt">was</span> <span class="kt">stopped.|</span><span class="o">[</span><span class="err">0</span><span class="kt">.</span><span class="err">0735685</span>, <span class="err">0</span><span class="kt">.</span><span class="err">0060829176</span>, <span class="err">0</span><span class="kt">.</span><span class="err">12051964</span>, <span class="err">0</span><span class="kt">.</span><span class="err">22399232</span>, <span class="err">0</span><span class="kt">.</span><span class="err">055884164</span>, <span class="err">0</span><span class="kt">.</span><span class="err">066795066</span>, <span class="err">0</span><span class="kt">...|</span>
+<span class="kt">+-------------------+--------------------------------------------------------------------------+--------------------------------------------------------------------------------+</span>
 </code></pre></div>      </div>
 
     </div>
@@ -8006,7 +8196,7 @@ labels. In addition, it requires the used embedding annotator in the pipeline to
 suitable embedding dimension.</p>
 
   <p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master//home/ducha/Workspace/scala/spark-nlp-feature/examples/python/training/english/dl-ner/ner_dl_graph_checker.ipynb">example notebook</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_dl_graph_checker.ipynb">example notebook</a>
 and the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLGraphCheckerTestSpec.scala">NerDLGraphCheckerTestSpec</a>.</p>
 
@@ -11846,27 +12036,24 @@ and the <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/
 
     <p>Connector for storing and retrieving embeddings from vector databases.</p>
 
-    <p>This annotator takes embeddings from previous annotators (like <code class="language-plaintext highlighter-rouge">BertEmbeddings</code>,
-<code class="language-plaintext highlighter-rouge">SentenceEmbeddings</code>, <code class="language-plaintext highlighter-rouge">OpenAIEmbeddings</code>, etc.) and stores them in a vector database for
+    <p>This annotator takes embeddings from previous annotators (like <code class="language-plaintext highlighter-rouge">BertSentenceEmbeddings</code>,
+<code class="language-plaintext highlighter-rouge">SentenceEmbeddings</code>, <code class="language-plaintext highlighter-rouge">E5VEmbeddings</code>, etc.) and stores them in a vector database for
 similarity search and retrieval. Currently supports <a href="https://app.pinecone.io/"><strong>Pinecone</strong></a> with more providers planned.</p>
 
     <p>The annotator automatically manages vector IDs, metadata, and batch operations, making it easy
 to integrate vector database capabilities into your Spark NLP pipelines without additional
 boilerplate code.</p>
 
-    <p><strong>Key Features:</strong></p>
+    <p><strong>Supports two modality modes:</strong></p>
     <ul>
-      <li><strong>Automatic ID Management</strong>: Generates UUIDs or uses custom ID columns</li>
-      <li><strong>Metadata Support</strong>: Store additional context with vectors (e.g., text, category, source)</li>
-      <li><strong>Batch Processing</strong>: Efficiently upsert vectors to Pinecone with configurable batch sizes</li>
-      <li><strong>Namespace Support</strong>: Organize vectors within index partitions</li>
-      <li><strong>Error Handling</strong>: Graceful handling of connection and processing errors</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">text</code></strong> (default): expects <code class="language-plaintext highlighter-rouge">DOCUMENT + SENTENCE_EMBEDDINGS</code> input columns.</li>
+      <li><strong><code class="language-plaintext highlighter-rouge">image</code></strong>: expects <code class="language-plaintext highlighter-rouge">IMAGE + IMAGE_EMBEDDINGS</code> input columns.</li>
     </ul>
 
     <p>For more extended examples see the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/annotation/text/english/vector-db/VectorDBConnector_Pinecone_Demo.ipynb">VectorDBConnector_Pinecone_Demo.ipynb</a> and <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/ml/ai/VectorDBConnectorTest.scala">VectorDBConnectorTest</a>.</p>
 
-    <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, SENTENCE_EMBEDDINGS</code></p>
+    <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, SENTENCE_EMBEDDINGS or IMAGE, SENTENCE_EMBEDDINGS</code></p>
 
     <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
 
@@ -11889,8 +12076,15 @@ The annotator returns annotations with the vector ID stored in the <code class="
     <p><strong>ID Management:</strong></p>
     <ul>
       <li>If <code class="language-plaintext highlighter-rouge">idColumn</code> is set, values from that column are used as vector IDs</li>
-      <li>If <code class="language-plaintext highlighter-rouge">idColumn</code> is not set, UUIDs are automatically generated</li>
+      <li>In text mode, if <code class="language-plaintext highlighter-rouge">idColumn</code> is not set, random UUIDs are automatically generated</li>
+      <li>In image mode, if <code class="language-plaintext highlighter-rouge">idColumn</code> is not set, a deterministic UUID-v3 derived from the image file path (origin) is used, ensuring stable re-indexing of the same image</li>
       <li>The ID is returned in the output annotation’s <code class="language-plaintext highlighter-rouge">result</code> field</li>
+    </ul>
+
+    <p><strong>Modality Modes:</strong></p>
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">text</code> (default): Pipeline must include a <code class="language-plaintext highlighter-rouge">DocumentAssembler</code> followed by a sentence embeddings annotator. Input columns must be <code class="language-plaintext highlighter-rouge">[document_col, embeddings_col]</code>.</li>
+      <li><code class="language-plaintext highlighter-rouge">image</code>: Pipeline must include an <code class="language-plaintext highlighter-rouge">ImageAssembler</code> followed by an image embeddings annotator (e.g. <code class="language-plaintext highlighter-rouge">E5VEmbeddings</code>). Input columns must be <code class="language-plaintext highlighter-rouge">[image_col, embeddings_col]</code>. Output annotations are synthesized DOCUMENT annotations carrying image metadata (<code class="language-plaintext highlighter-rouge">modality</code>, <code class="language-plaintext highlighter-rouge">image_origin</code>, <code class="language-plaintext highlighter-rouge">image_filename</code>, <code class="language-plaintext highlighter-rouge">image_width</code>, <code class="language-plaintext highlighter-rouge">image_height</code>, <code class="language-plaintext highlighter-rouge">image_nChannels</code>).</li>
     </ul>
 
     <p><strong>Namespace Support:</strong>
@@ -11902,8 +12096,8 @@ Vectors are automatically grouped into batches (default: 100) before being sent 
     <table>
       <tbody>
         <tr>
-          <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/vector_db_connector/index.html">VectorDBConnector</a></td>
-          <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/ml/ai/VectorDBConnector">VectorDBConnector</a></td>
+          <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/vector_db/vector_db_connector/index.html">VectorDBConnector</a></td>
+          <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/ml/ai/VectorDBConnector">VectorDBConnector</a></td>
           <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/ml/ai/VectorDBConnector.scala">VectorDBConnector</a></td>
         </tr>
       </tbody>
@@ -11917,18 +12111,16 @@ Vectors are automatically grouped into batches (default: 100) before being sent 
 
         <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
 
-        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lit</span>
 
+<span class="c1">## Upserted Text Embeddings
+</span>
 <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
-
-<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
-    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
 
 <span class="n">embeddings</span> <span class="o">=</span> <span class="n">BertSentenceEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"sent_small_bert_L2_768"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
@@ -11938,16 +12130,14 @@ Vectors are automatically grouped into batches (default: 100) before being sent 
     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence_embeddings"</span><span class="p">])</span> \
     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"vectordb_result"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setProvider</span><span class="p">(</span><span class="s">"pinecone"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setIndexName</span><span class="p">(</span><span class="s">"my-semantic-index"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">setNamespace</span><span class="p">(</span><span class="s">"production"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setIndexName</span><span class="p">(</span><span class="s">'text-mode'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setNamespace</span><span class="p">(</span><span class="s">'upserted-test-embeddings'</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setIdColumn</span><span class="p">(</span><span class="s">"doc_id"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">setMetadataColumns</span><span class="p">([</span><span class="s">"text"</span><span class="p">,</span> <span class="s">"category"</span><span class="p">])</span> \
-    <span class="p">.</span><span class="n">setBatchSize</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 
 <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">()</span> \
     <span class="p">.</span><span class="n">setStages</span><span class="p">([</span>
       <span class="n">documentAssembler</span><span class="p">,</span>
-      <span class="n">tokenizer</span><span class="p">,</span>
       <span class="n">embeddings</span><span class="p">,</span>
       <span class="n">vectorDB</span>
     <span class="p">])</span>
@@ -11960,28 +12150,56 @@ Vectors are automatically grouped into batches (default: 100) before being sent 
 
 <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
-<span class="c1"># View the output - contains vector IDs returned from Pinecone
-</span><span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"vectordb_result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="o">+-----------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">vectordb_result</span>                                            <span class="o">|</span>
-<span class="o">+-----------------------------------------------------------+</span>
-<span class="o">|</span><span class="p">[[</span><span class="n">document</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="n">doc_001</span><span class="p">,</span> <span class="p">{</span><span class="n">vectordb_status</span> <span class="o">-&gt;</span> <span class="n">upserted</span><span class="p">},</span> <span class="o">|</span>
-<span class="o">|</span><span class="p">[[</span><span class="n">document</span><span class="p">,</span> <span class="mi">31</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">doc_002</span><span class="p">,</span> <span class="p">{</span><span class="n">vectordb_status</span> <span class="o">-&gt;</span> <span class="n">upserted</span><span class="p">},</span><span class="o">|</span>
-<span class="o">|</span><span class="p">[[</span><span class="n">document</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="n">doc_003</span><span class="p">,</span> <span class="p">{</span><span class="n">vectordb_status</span> <span class="o">-&gt;</span> <span class="n">upserted</span><span class="p">},</span><span class="o">|</span>
-<span class="o">+-----------------------------------------------------------+</span>
+<span class="c1">## Upserted Image Embeddings
+</span>
+<span class="n">image_folder</span> <span class="o">=</span> <span class="s">"/content/test_images"</span>
+<span class="n">image_df</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">option</span><span class="p">(</span><span class="s">"dropInvalid"</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">image_folder</span><span class="p">)</span>
+
+<span class="n">image_prompt</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s">"&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s">"</span>
+    <span class="s">"&lt;image&gt;</span><span class="se">\\</span><span class="s">nSummary above image in one word: "</span>
+    <span class="s">"&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span><span class="se">\n\n</span><span class="s">"</span>
+<span class="p">)</span>
+
+<span class="n">test_df</span> <span class="o">=</span> <span class="n">image_df</span><span class="p">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s">"text"</span><span class="p">,</span> <span class="n">lit</span><span class="p">(</span><span class="n">image_prompt</span><span class="p">))</span>
+
+<span class="n">image_assembler</span> <span class="o">=</span> <span class="n">ImageAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"image"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_assembler"</span><span class="p">)</span>
+
+<span class="n">e5v_embeddings</span> <span class="o">=</span> <span class="n">E5VEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"image_assembler"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"image_embeddings"</span><span class="p">)</span>
+
+<span class="n">vector_db</span> <span class="o">=</span> <span class="n">VectorDBConnector</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">'image_assembler'</span><span class="p">,</span> <span class="s">'image_embeddings'</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">'vectordb_result'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setProvider</span><span class="p">(</span><span class="s">'pinecone'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setIndexName</span><span class="p">(</span><span class="s">'e5v-test'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setNamespace</span><span class="p">(</span><span class="s">'image-integration-test-updated-metadata'</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setModalityMode</span><span class="p">(</span><span class="s">'image'</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span>
+    <span class="n">image_assembler</span><span class="p">,</span>
+    <span class="n">e5v_embeddings</span><span class="p">,</span>
+    <span class="n">vector_db</span>
+<span class="p">])</span>
+
+<span class="n">image_result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">test_df</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span>
 </code></pre></div>        </div>
 
-        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">spark.implicits._</span>
-<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp._</span>
+        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
 <span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.lit</span>
+
+<span class="c1">// Upserted Text Embeddings</span>
 
 <span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
-
-<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
-  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BertSentenceEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"sent_small_bert_L2_768"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">))</span>
@@ -11991,37 +12209,64 @@ Vectors are automatically grouped into batches (default: 100) before being sent 
   <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence_embeddings"</span><span class="o">))</span>
   <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"vectordb_result"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setProvider</span><span class="o">(</span><span class="s">"pinecone"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setIndexName</span><span class="o">(</span><span class="s">"my-semantic-index"</span><span class="o">)</span>
-  <span class="o">.</span><span class="py">setNamespace</span><span class="o">(</span><span class="s">"production"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setIndexName</span><span class="o">(</span><span class="s">"text-mode"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setNamespace</span><span class="o">(</span><span class="s">"upserted-test-embeddings"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setIdColumn</span><span class="o">(</span><span class="s">"doc_id"</span><span class="o">)</span>
   <span class="o">.</span><span class="py">setMetadataColumns</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="s">"category"</span><span class="o">))</span>
-  <span class="o">.</span><span class="py">setBatchSize</span><span class="o">(</span><span class="mi">100</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
   <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
     <span class="n">documentAssembler</span><span class="o">,</span>
-    <span class="n">tokenizer</span><span class="o">,</span>
     <span class="n">embeddings</span><span class="o">,</span>
     <span class="n">vectorDB</span>
   <span class="o">))</span>
 
-<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
-  <span class="o">(</span><span class="s">"doc_001"</span><span class="o">,</span> <span class="s">"Spark NLP is a powerful library"</span><span class="o">,</span> <span class="s">"technology"</span><span class="o">),</span>
-  <span class="o">(</span><span class="s">"doc_002"</span><span class="o">,</span> <span class="s">"Vector databases enable semantic search"</span><span class="o">,</span> <span class="s">"technology"</span><span class="o">),</span>
-  <span class="o">(</span><span class="s">"doc_003"</span><span class="o">,</span> <span class="s">"Machine learning requires quality data"</span><span class="o">,</span> <span class="s">"data-science"</span><span class="o">)</span>
-<span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"doc_id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">,</span> <span class="s">"category"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">createDataFrame</span><span class="o">(</span><span class="nc">Seq</span><span class="o">(</span>
+  <span class="o">(</span><span class="s">"doc_001"</span><span class="o">,</span> <span class="s">"Spark NLP is a powerful library"</span><span class="o">,</span>          <span class="s">"technology"</span><span class="o">),</span>
+  <span class="o">(</span><span class="s">"doc_002"</span><span class="o">,</span> <span class="s">"Vector databases enable semantic search"</span><span class="o">,</span>  <span class="s">"technology"</span><span class="o">),</span>
+  <span class="o">(</span><span class="s">"doc_003"</span><span class="o">,</span> <span class="s">"Machine learning requires quality data"</span><span class="o">,</span>   <span class="s">"data-science"</span><span class="o">)</span>
+<span class="o">)).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"doc_id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">,</span> <span class="s">"category"</span><span class="o">)</span>
 
 <span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
 
-<span class="c1">// View the output - contains vector IDs returned from Pinecone</span>
-<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"vectordb_result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
-<span class="o">+-----------------------------------------------------------+</span>
-<span class="o">|</span><span class="n">vectordb_result</span>                                            <span class="o">|</span>
-<span class="o">+-----------------------------------------------------------+</span>
-<span class="o">|[[</span><span class="kt">document</span>, <span class="err">0</span>, <span class="err">29</span>, <span class="kt">doc_001</span>, <span class="o">{</span><span class="kt">vectordb_status</span> <span class="kt">-&gt;</span> <span class="kt">upserted</span><span class="o">}</span>,<span class="k">_</span><span class="kt">|</span>
-<span class="kt">|</span><span class="o">[[</span><span class="kt">document</span>, <span class="err">31</span>, <span class="err">64</span>, <span class="kt">doc_002</span>, <span class="o">{</span><span class="kt">vectordb_status</span> <span class="kt">-&gt;</span> <span class="kt">upserted</span><span class="o">}</span>,<span class="kt">|</span>
-<span class="kt">|</span><span class="o">[[</span><span class="kt">document</span>, <span class="err">65</span>, <span class="err">95</span>, <span class="kt">doc_003</span>, <span class="o">{</span><span class="kt">vectordb_status</span> <span class="kt">-&gt;</span> <span class="kt">upserted</span><span class="o">}</span>,<span class="kt">|</span>
-<span class="kt">+-----------------------------------------------------------+</span>
+<span class="c1">// Upserted Image Embeddings</span>
+
+<span class="k">val</span> <span class="nv">imageFolder</span> <span class="k">=</span> <span class="s">"/content/test_images"</span>
+<span class="k">val</span> <span class="nv">imageDf</span> <span class="k">=</span> <span class="nv">spark</span><span class="o">.</span><span class="py">read</span><span class="o">.</span><span class="py">format</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">option</span><span class="o">(</span><span class="s">"dropInvalid"</span><span class="o">,</span> <span class="n">value</span> <span class="k">=</span> <span class="kc">true</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="n">imageFolder</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">imagePrompt</span> <span class="k">=</span>
+  <span class="s">"&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;\n\n"</span> <span class="o">+</span>
+  <span class="s">"&lt;image&gt;\nSummary above image in one word: "</span> <span class="o">+</span>
+  <span class="s">"&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\n"</span>
+
+<span class="k">val</span> <span class="nv">testDf</span> <span class="k">=</span> <span class="nv">imageDf</span><span class="o">.</span><span class="py">withColumn</span><span class="o">(</span><span class="s">"text"</span><span class="o">,</span> <span class="nf">lit</span><span class="o">(</span><span class="n">imagePrompt</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imageAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ImageAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">e5vEmbeddings</span> <span class="k">=</span> <span class="nv">E5VEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"image_embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">vectorDbImage</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">VectorDBConnector</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="s">"image_assembler"</span><span class="o">,</span> <span class="s">"image_embeddings"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"vectordb_result"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setProvider</span><span class="o">(</span><span class="s">"pinecone"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setIndexName</span><span class="o">(</span><span class="s">"e5v-test"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setNamespace</span><span class="o">(</span><span class="s">"image-integration-test-updated-metadata"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setModalityMode</span><span class="o">(</span><span class="s">"image"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">imagePipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span>
+    <span class="n">imageAssembler</span><span class="o">,</span>
+    <span class="n">e5vEmbeddings</span><span class="o">,</span>
+    <span class="n">vectorDbImage</span>
+  <span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">imageResult</span> <span class="k">=</span> <span class="nv">imagePipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">testDf</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">testDf</span><span class="o">)</span>
 </code></pre></div>        </div>
 
       </div>
