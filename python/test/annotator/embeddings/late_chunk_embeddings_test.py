@@ -203,12 +203,16 @@ class LateChunkEmbeddingsParamTest(unittest.TestCase):
         lce = LateChunkEmbeddings()
         self.assertEqual(lce.getOrDefault("poolingStrategy"), "AVERAGE")
         self.assertTrue(lce.getOrDefault("skipOOV"))
+        self.assertTrue(lce.getOrDefault("sentenceAwareFiltering"))
 
         lce.setPoolingStrategy("SUM")
         self.assertEqual(lce.getOrDefault("poolingStrategy"), "SUM")
 
         lce.setSkipOOV(False)
         self.assertFalse(lce.getOrDefault("skipOOV"))
+
+        lce.setSentenceAwareFiltering(False)
+        self.assertFalse(lce.getOrDefault("sentenceAwareFiltering"))
 
         lce.setPoolingStrategy("MAX")
         self.assertEqual(lce.getOrDefault("poolingStrategy"), "AVERAGE")

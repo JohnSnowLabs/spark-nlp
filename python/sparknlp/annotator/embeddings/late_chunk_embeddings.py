@@ -29,7 +29,10 @@ class LateChunkEmbeddings(AnnotatorModel):
     token representations. This annotator then locates the tokens that fall within
     each chunk's character span and mean-pools them into a single
     ``SENTENCE_EMBEDDINGS`` vector — so every chunk embedding is informed by the
-    complete document context rather than being isolated.
+    complete document context rather than being isolated. By default, token
+    selection is sentence-aware: selected token embeddings must fall inside the
+    chunk span and have the same sentence id as the chunk. Set
+    ``sentenceAwareFiltering`` to ``False`` to use span-only filtering.
 
     .. note::
         ``LateChunkEmbeddings`` **must** appear **after** the token-embedding stage
@@ -57,6 +60,9 @@ class LateChunkEmbeddings(AnnotatorModel):
     skipOOV
         Whether to discard default zero-vectors for OOV tokens from the pool,
         by default ``True``.
+    sentenceAwareFiltering
+        Whether to restrict token embeddings to the same sentence as the chunk
+        when pooling, by default ``True``.
 
     References
     ----------
@@ -134,7 +140,9 @@ class LateChunkEmbeddings(AnnotatorModel):
         super(LateChunkEmbeddings, self).__init__(
             classname="com.johnsnowlabs.nlp.embeddings.LateChunkEmbeddings"
         )
-        self._setDefault(poolingStrategy="AVERAGE", skipOOV=True)
+        self._setDefault(
+            poolingStrategy="AVERAGE", skipOOV=True, sentenceAwareFiltering=True
+        )
 
     poolingStrategy = Param(
         Params._dummy(),
@@ -147,6 +155,13 @@ class LateChunkEmbeddings(AnnotatorModel):
         Params._dummy(),
         "skipOOV",
         "Whether to discard default vectors for OOV words from the aggregation / pooling",
+        typeConverter=TypeConverters.toBoolean,
+    )
+
+    sentenceAwareFiltering = Param(
+        Params._dummy(),
+        "sentenceAwareFiltering",
+        "Whether to restrict token embeddings to the same sentence as the chunk when pooling",
         typeConverter=TypeConverters.toBoolean,
     )
 
@@ -173,4 +188,16 @@ class LateChunkEmbeddings(AnnotatorModel):
             they do not dilute the chunk embedding.
         """
         return self._set(skipOOV=value)
+
+    def setSentenceAwareFiltering(self, value):
+        """Sets whether token filtering should also require matching sentence id.
+
+        Parameters
+        ----------
+        value : bool
+            If ``True`` (default), selected token embeddings must fall within the
+            chunk span and have the same sentence id as the chunk. If ``False``,
+            filtering is span-only.
+        """
+        return self._set(sentenceAwareFiltering=value)
 

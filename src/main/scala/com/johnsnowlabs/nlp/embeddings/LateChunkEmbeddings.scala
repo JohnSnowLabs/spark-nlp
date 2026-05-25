@@ -33,7 +33,9 @@ import org.apache.spark.sql.{DataFrame, Dataset}
   * producing contextual token representations. This annotator then locates the tokens that fall
   * within each chunk's character span and mean-pools them into a single `SENTENCE_EMBEDDINGS`
   * vector — so every chunk embedding is informed by the complete document context rather than
-  * being isolated.
+  * being isolated. By default, token selection is sentence-aware: selected token embeddings must
+  * fall inside the chunk span and have the same sentence id as the chunk. Set
+  * `sentenceAwareFiltering` to `false` to use span-only filtering.
   *
   * ==Ordering requirement==
   * `LateChunkEmbeddings` '''must''' appear '''after''' the token-embedding stage in the pipeline.
@@ -181,6 +183,17 @@ class LateChunkEmbeddings(override val uid: String)
     "skipOOV",
     "Whether to discard default vectors for OOV words from the aggregation / pooling")
 
+  /** Whether to restrict token embeddings to the same sentence as the chunk when pooling
+    * (Default: `true`). When true, selected token embeddings must both fall inside the chunk span
+    * and have the same sentence id as the chunk.
+    *
+    * @group param
+    */
+  val sentenceAwareFiltering = new BooleanParam(
+    this,
+    "sentenceAwareFiltering",
+    "Whether to restrict token embeddings to the same sentence as the chunk when pooling")
+
   /** Sets pooling strategy. Must be `"AVERAGE"` or `"SUM"`.
     *
     * @group setParam
@@ -199,6 +212,12 @@ class LateChunkEmbeddings(override val uid: String)
     */
   def setSkipOOV(value: Boolean): this.type = set(skipOOV, value)
 
+  /** Sets whether token filtering should also require matching sentence id.
+    *
+    * @group setParam
+    */
+  def setSentenceAwareFiltering(value: Boolean): this.type = set(sentenceAwareFiltering, value)
+
   /** Returns the current pooling strategy.
     *
     * @group getParam
@@ -211,11 +230,18 @@ class LateChunkEmbeddings(override val uid: String)
     */
   def getSkipOOV: Boolean = $(skipOOV)
 
+  /** Returns whether token filtering requires matching sentence id.
+    *
+    * @group getParam
+    */
+  def getSentenceAwareFiltering: Boolean = $(sentenceAwareFiltering)
+
   setDefault(
     inputCols -> Array(DOCUMENT, CHUNK, WORD_EMBEDDINGS),
     outputCol -> "late_chunk_embeddings",
     poolingStrategy -> "AVERAGE",
     skipOOV -> true,
+    sentenceAwareFiltering -> true,
     dimension -> 0)
 
   /** Internal constructor to submit a random UID */
@@ -270,18 +296,27 @@ class LateChunkEmbeddings(override val uid: String)
     // is present), not for any algorithmic purpose in this method.
     val chunkAnnotations = annotations.filter(_.annotatorType == CHUNK)
 
-    // Unpack ALL token embeddings from the full document, flattening across sentence buckets.
-    // This is the key difference from ChunkEmbeddings: we never restrict the search to a single
-    // sentence, allowing every chunk to benefit from full-document contextual representations.
+    // Unpack ALL token embeddings from the full document, preserving the original sentence bucket.
+    // With sentenceAwareFiltering=true, candidate tokens come only from the chunk's sentence.
+    // With sentenceAwareFiltering=false, candidate tokens come from the full flattened document.
     val embeddingsSentences = WordpieceEmbeddingsSentence.unpack(annotations)
-    val allTokenEmbeddings = embeddingsSentences.flatMap(_.tokens)
+    lazy val allTokenEmbeddings = embeddingsSentences.flatMap(_.tokens)
+    val tokenEmbeddingsBySentence = embeddingsSentences
+      .map(sentence => sentence.sentenceId -> sentence.tokens.toSeq)
+      .toMap
 
     chunkAnnotations.flatMap { chunk =>
       val sentenceIdx = chunk.metadata.getOrElse("sentence", "0")
       val chunkIdx = chunk.metadata.getOrElse("chunk", "0")
 
-      // Select tokens whose character span falls inside the chunk span
-      val tokensInSpan = allTokenEmbeddings.filter { token =>
+      val candidateTokenEmbeddings =
+        if ($(sentenceAwareFiltering))
+          tokenEmbeddingsBySentence.getOrElse(sentenceIdx.toInt, Seq.empty)
+        else
+          allTokenEmbeddings
+
+      // Select tokens whose character span falls inside the chunk span.
+      val tokensInSpan = candidateTokenEmbeddings.filter { token =>
         token.begin >= chunk.begin && token.end <= chunk.end
       }
 

@@ -16,7 +16,7 @@
 
 package com.johnsnowlabs.nlp.embeddings
 
-import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, SENTENCE_EMBEDDINGS}
+import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT, SENTENCE_EMBEDDINGS, WORD_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.{NGramGenerator, Tokenizer}
 import com.johnsnowlabs.nlp.base.{Doc2Chunk, DocumentAssembler}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
@@ -28,6 +28,79 @@ import org.apache.spark.sql.Row
 import org.scalatest.flatspec.AnyFlatSpec
 
 class LateChunkEmbeddingsTestSpec extends AnyFlatSpec {
+
+  private def mockWordEmbedding(sentenceId: Int, embeddings: Array[Float]): Annotation = {
+    Annotation(
+      WORD_EMBEDDINGS,
+      0,
+      3,
+      "foo",
+      Map(
+        "sentence" -> sentenceId.toString,
+        "token" -> "foo",
+        "pieceId" -> "0",
+        "isWordStart" -> "true",
+        "isOOV" -> "false"),
+      embeddings)
+  }
+
+  private def mockSentenceAwareFilteringAnnotations(
+      wordEmbeddings: Annotation*): Seq[Annotation] = {
+    Seq(
+      Annotation(DOCUMENT, 0, 3, "foo", Map("sentence" -> "0")),
+      Annotation(CHUNK, 0, 3, "foo", Map("sentence" -> "1", "chunk" -> "0"))) ++
+      wordEmbeddings
+  }
+
+  "LateChunkEmbeddings" should "use sentence-aware token filtering by default" taggedAs FastTest in {
+    val annotations = mockSentenceAwareFilteringAnnotations(
+      mockWordEmbedding(sentenceId = 0, embeddings = Array(2.0f, 4.0f)),
+      mockWordEmbedding(sentenceId = 1, embeddings = Array(6.0f, 8.0f)))
+
+    val lateChunkEmbeddings = new LateChunkEmbeddings()
+    val result = lateChunkEmbeddings.annotate(annotations)
+
+    assert(lateChunkEmbeddings.getSentenceAwareFiltering)
+    assert(result.length == 1)
+    assert(result.head.embeddings.sameElements(Array(6.0f, 8.0f)))
+  }
+
+  "LateChunkEmbeddings" should "use span-only token filtering when sentenceAwareFiltering is false" taggedAs FastTest in {
+    val annotations = mockSentenceAwareFilteringAnnotations(
+      mockWordEmbedding(sentenceId = 0, embeddings = Array(2.0f, 4.0f)),
+      mockWordEmbedding(sentenceId = 1, embeddings = Array(6.0f, 8.0f)))
+
+    val result = new LateChunkEmbeddings()
+      .setSentenceAwareFiltering(false)
+      .annotate(annotations)
+
+    assert(result.length == 1)
+    assert(result.head.embeddings.sameElements(Array(4.0f, 6.0f)))
+  }
+
+  "LateChunkEmbeddings" should "filter token embeddings by sentence id when sentenceAwareFiltering is true" taggedAs FastTest in {
+    val annotations = mockSentenceAwareFilteringAnnotations(
+      mockWordEmbedding(sentenceId = 0, embeddings = Array(2.0f, 4.0f)),
+      mockWordEmbedding(sentenceId = 1, embeddings = Array(6.0f, 8.0f)))
+
+    val result = new LateChunkEmbeddings()
+      .setSentenceAwareFiltering(true)
+      .annotate(annotations)
+
+    assert(result.length == 1)
+    assert(result.head.embeddings.sameElements(Array(6.0f, 8.0f)))
+  }
+
+  "LateChunkEmbeddings" should "drop chunks without same-sentence token embeddings when sentenceAwareFiltering is true" taggedAs FastTest in {
+    val annotations = mockSentenceAwareFilteringAnnotations(
+      mockWordEmbedding(sentenceId = 0, embeddings = Array(2.0f, 4.0f)))
+
+    val result = new LateChunkEmbeddings()
+      .setSentenceAwareFiltering(true)
+      .annotate(annotations)
+
+    assert(result.isEmpty)
+  }
 
   "LateChunkEmbeddings" should "produce SENTENCE_EMBEDDINGS with AVERAGE pooling" taggedAs FastTest in {
 
