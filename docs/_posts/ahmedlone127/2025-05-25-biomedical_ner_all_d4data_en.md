@@ -4,7 +4,7 @@ title: English biomedical_ner_all_d4data DistilBertForTokenClassification from d
 author: John Snow Labs
 name: biomedical_ner_all_d4data
 date: 2025-05-25
-tags: [bert, en, open_source, token_classification, onnx, openvino]
+tags: [bert, en, open_source, token_classification, openvino]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 5.5.1

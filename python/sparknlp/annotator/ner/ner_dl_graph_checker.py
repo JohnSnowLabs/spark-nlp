@@ -39,7 +39,7 @@ class NerDLGraphChecker(
     suitable embedding dimension.
 
     For extended examples of usage, see the`Examples 
-    <https://github.com/JohnSnowLabs/spark-nlp/blob/master//home/ducha/Workspace/scala/spark-nlp-feature/examples/python/training/english/dl-ner/ner_dl_graph_checker.ipynb>`__ 
+    <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/training/english/dl-ner/ner_dl_graph_checker.ipynb>`__
     and the `NerDLGraphCheckerTestSpec 
     <https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ner/dl/NerDLGraphCheckerTestSpec.scala>`__.
 

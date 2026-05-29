@@ -4,7 +4,7 @@ title: French finance_sentiment_french_base CamemBertForSequenceClassification f
 author: John Snow Labs
 name: finance_sentiment_french_base
 date: 2025-06-22
-tags: [camembert, fr, open_source, sequence_classification, onnx, openvino]
+tags: [camembert, fr, open_source, sequence_classification, openvino]
 task: Text Classification
 language: fr
 edition: Spark NLP 5.5.1

@@ -4,7 +4,7 @@ title: English multi_qa_mpnet_base_cos_v1_sentence_transformers MPNetEmbeddings 
 author: John Snow Labs
 name: multi_qa_mpnet_base_cos_v1_sentence_transformers
 date: 2025-05-22
-tags: [mpnet, en, open_source, onnx, openvino]
+tags: [mpnet, en, open_source, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

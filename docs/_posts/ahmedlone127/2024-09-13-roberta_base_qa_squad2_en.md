@@ -4,7 +4,7 @@ title: English RoBertaForQuestionAnswering model (from deepset)
 author: John Snow Labs
 name: roberta_base_qa_squad2
 date: 2024-09-13
-tags: [open_source, roberta, question_answering, en, onnx, openvino]
+tags: [open_source, roberta, question_answering, en, openvino]
 task: Question Answering
 language: en
 edition: Spark NLP 5.5.0

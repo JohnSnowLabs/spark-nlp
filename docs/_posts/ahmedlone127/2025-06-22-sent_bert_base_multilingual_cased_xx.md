@@ -4,7 +4,7 @@ title: Multilingual sent_bert_base_multilingual_cased BertSentenceEmbeddings fro
 author: John Snow Labs
 name: sent_bert_base_multilingual_cased
 date: 2025-06-22
-tags: [xx, open_source, onnx, sentence_embeddings, bert, openvino]
+tags: [xx, open_source, sentence_embeddings, bert, openvino]
 task: Embeddings
 language: xx
 edition: Spark NLP 5.5.1

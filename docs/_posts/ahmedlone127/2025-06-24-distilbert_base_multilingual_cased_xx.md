@@ -4,7 +4,7 @@ title: DistilBERT base multilingual model (cased)
 author: John Snow Labs
 name: distilbert_base_multilingual_cased
 date: 2025-06-24
-tags: [distilbert, embeddings, xx, multilingual, open_source, onnx, openvino]
+tags: [distilbert, embeddings, xx, multilingual, open_source, openvino]
 task: Embeddings
 language: xx
 edition: Spark NLP 5.5.1

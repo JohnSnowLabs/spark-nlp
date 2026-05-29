@@ -4,7 +4,7 @@ title: Ukrainian XlmRoBertaForQuestionAnswering model (from robinhad)
 author: John Snow Labs
 name: xlmroberta_qa_ukrainian
 date: 2025-05-21
-tags: [uk, open_source, xlmroberta, question_answering, onnx, openvino]
+tags: [uk, open_source, xlmroberta, question_answering, openvino]
 task: Question Answering
 language: uk
 edition: Spark NLP 5.5.1

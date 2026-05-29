@@ -4,7 +4,7 @@ title: Castilian, Spanish xlm_roberta_large_ner_spanish XlmRoBertaForTokenClassi
 author: John Snow Labs
 name: xlm_roberta_large_ner_spanish
 date: 2025-05-20
-tags: [es, open_source, onnx, token_classification, xlm_roberta, ner, openvino]
+tags: [es, open_source, token_classification, xlm_roberta, ner, openvino]
 task: Named Entity Recognition
 language: es
 edition: Spark NLP 5.5.1

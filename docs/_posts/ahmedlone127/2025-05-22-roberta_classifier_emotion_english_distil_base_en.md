@@ -4,7 +4,7 @@ title: English roberta_classifier_emotion_english_distil_base RoBertaForSequence
 author: John Snow Labs
 name: roberta_classifier_emotion_english_distil_base
 date: 2025-05-22
-tags: [en, open_source, onnx, sequence_classification, roberta, openvino]
+tags: [en, open_source, sequence_classification, roberta, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1

@@ -278,7 +278,7 @@ Output:"""
   }
 
   /** @group getParam */
-  def getFewShotExamples: Array[(String, String)] = $(fewShotExamples)
+  def getFewShotExamples: Array[(String, String)] = getFewShotExamplesSafe
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
@@ -393,6 +393,18 @@ $output
               Some((tuple.productElement(0).toString, tuple.productElement(1).toString))
             case _ => None
           }
+        case arrayList: java.util.ArrayList[_] =>
+          import scala.collection.JavaConverters._
+          arrayList.asScala.flatMap {
+            case inner: java.util.ArrayList[_] =>
+              val items = inner.asScala
+              if (items.size == 2) Some((items(0).toString, items(1).toString))
+              else None
+            case (a: String, b: String) => Some((a, b))
+            case tuple: Product if tuple.productArity == 2 =>
+              Some((tuple.productElement(0).toString, tuple.productElement(1).toString))
+            case _ => None
+          }.toArray
         case _ => Array.empty[(String, String)]
       }
     } catch {

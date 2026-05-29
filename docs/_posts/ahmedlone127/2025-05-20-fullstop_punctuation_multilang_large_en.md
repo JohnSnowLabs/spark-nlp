@@ -4,7 +4,7 @@ title: English fullstop_punctuation_multilang_large XlmRoBertaForTokenClassifica
 author: John Snow Labs
 name: fullstop_punctuation_multilang_large
 date: 2025-05-20
-tags: [en, open_source, onnx, token_classification, xlm_roberta, ner, openvino]
+tags: [en, open_source, token_classification, xlm_roberta, ner, openvino]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 5.5.1

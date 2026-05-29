@@ -4,7 +4,7 @@ title: UAE-Large-V1 for Sentence Embeddings
 author: John Snow Labs
 name: uae_large_v1
 date: 2024-10-13
-tags: [uae, en, sentence, embeddings, open_source, onnx, openvino]
+tags: [uae, en, sentence, embeddings, open_source, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.0

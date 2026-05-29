@@ -4,7 +4,7 @@ title: Multilingual BertForSequenceClassification Base Uncased model (from nlpto
 author: John Snow Labs
 name: bert_classifier_bert_base_multilingual_uncased_sentiment
 date: 2024-09-21
-tags: [sequence_classification, bert, openvino, xx, open_source, onnx]
+tags: [sequence_classification, bert, xx, open_source, onnx]
 task: Zero-Shot Classification
 language: xx
 edition: Spark NLP 5.5.0

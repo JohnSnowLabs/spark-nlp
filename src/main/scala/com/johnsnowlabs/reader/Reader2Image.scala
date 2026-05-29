@@ -211,8 +211,9 @@ class Reader2Image(override val uid: String)
         .drop("content")
 
     } else if (isText) {
+      val requestHeaders = getHeadersAsJava
       val partitionUDF =
-        udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
+        udf((text: String) => partition.partitionStringContent(text, requestHeaders))
 
       datasetWithTextFile(dataset.sparkSession, contentPath)
         .withColumn(partition.getOutputColumn, partitionUDF(col("content")))

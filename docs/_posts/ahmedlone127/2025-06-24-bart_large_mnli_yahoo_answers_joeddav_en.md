@@ -4,7 +4,7 @@ title: English bart_large_mnli_yahoo_answers_joeddav BartForZeroShotClassificati
 author: John Snow Labs
 name: bart_large_mnli_yahoo_answers_joeddav
 date: 2025-06-24
-tags: [en, open_source, onnx, zero_shot, bart, openvino]
+tags: [en, open_source, zero_shot, bart, openvino]
 task: Zero-Shot Classification
 language: en
 edition: Spark NLP 5.5.1

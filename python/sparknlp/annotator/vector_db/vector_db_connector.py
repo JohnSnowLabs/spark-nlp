@@ -19,14 +19,25 @@ class VectorDBConnector(AnnotatorModel):
     """Connector for storing and retrieving embeddings from vector databases.
 
     This annotator takes embeddings from previous annotators (like BertEmbeddings,
-    SentenceEmbeddings, OpenAIEmbeddings, etc.) and stores them in a vector database for
+    SentenceEmbeddings, E5VEmbeddings, etc.) and stores them in a vector database for
     similarity search and retrieval. Currently supports Pinecone with more providers planned.
 
-    ====================== =======================
-    Input Annotation types Output Annotation type
-    ====================== =======================
-    ``DOCUMENT, SENTENCE_EMBEDDINGS`` ``DOCUMENT``
-    ====================== =======================
+    Two modality modes are supported via setModalityMode:
+
+    * **text** (default) – expects DOCUMENT, SENTENCE_EMBEDDINGS input columns.
+      Upserted metadata is augmented with modality=text.
+    * **image** – expects MAGE, SENTENCE_EMBEDDINGS input columns (e.g. from
+      ImageAssembler + E5VEmbeddings). Upserted metadata is augmented with
+      modality=image, image_origin, image_width, image_height, and
+      image_nChannels. Vector IDs are deterministic UUID-v3 values derived from the
+      image file-path (origin), ensuring stable re-indexing.
+
+    ========================= =======================
+    Input Annotation types    Output Annotation type
+    ========================= =======================
+    DOCUMENT, SENTENCE_EMBEDDINGS (text mode)  DOCUMENT
+    IMAGE, SENTENCE_EMBEDDINGS    (image mode) DOCUMENT
+    ========================= =======================
 
     Parameters
     ----------
@@ -37,14 +48,19 @@ class VectorDBConnector(AnnotatorModel):
     namespace
         Namespace/partition within the index (optional)
     idColumn
-        Column name to use as vector ID (if not set, generates UUID)
+        Column name to use as vector ID (if not set, generates UUID; for image mode a
+        stable UUID-v3 derived from the image origin path is used)
     metadataColumns
         Column names to include as metadata with vectors
     batchSize
         Number of vectors to upsert in a single batch
+    modalityMode
+        Modality mode: 'text' (default) or 'image'
 
     Examples
     --------
+    **Text mode example:**
+
     >>> import sparknlp
     >>> from sparknlp.base import *
     >>> from sparknlp.annotator import *
@@ -80,6 +96,30 @@ class VectorDBConnector(AnnotatorModel):
     ... ]).toDF("id", "text", "category")
 
     >>> result = pipeline.fit(data).transform(data)
+
+    **Image mode example:**
+
+    >>> imageAssembler = ImageAssembler() \\
+    ...     .setInputCol("image") \\
+    ...     .setOutputCol("image_assembler")
+
+    >>> e5vEmbeddings = E5VEmbeddings.pretrained() \\
+    ...     .setInputCols(["image_assembler"]) \\
+    ...     .setOutputCol("image_embeddings")
+
+    >>> vectorDB = VectorDBConnector() \\
+    ...     .setInputCols(["image_assembler", "image_embeddings"]) \\
+    ...     .setOutputCol("vectordb_result") \\
+    ...     .setProvider("pinecone") \\
+    ...     .setIndexName("my-multimodal-index") \\
+    ...     .setModalityMode("image") \\
+    ...     .setBatchSize(50)
+
+    >>> pipeline = Pipeline().setStages([
+    ...     imageAssembler,
+    ...     e5vEmbeddings,
+    ...     vectorDB
+    ... ])
     """
 
     name = "VectorDBConnector"
@@ -117,6 +157,11 @@ class VectorDBConnector(AnnotatorModel):
                       "batchSize",
                       "Number of vectors to upsert in a single batch",
                       typeConverter=TypeConverters.toInt)
+
+    modalityMode = Param(Params._dummy(),
+                         "modalityMode",
+                         "Modality mode for indexing. Supported values: 'text' (default), 'image'.",
+                         typeConverter=TypeConverters.toString)
 
     def setProvider(self, value):
         """Sets the vector database provider.
@@ -178,6 +223,33 @@ class VectorDBConnector(AnnotatorModel):
         """
         return self._set(batchSize=value)
 
+    def setModalityMode(self, value):
+        """Sets the modality mode for indexing.
+
+        Use 'text' (default) for DOCUMENT + SENTENCE_EMBEDDINGS pipelines and
+        'image' for IMAGE + SENTENCE_EMBEDDINGS pipelines (e.g. ImageAssembler +
+        E5VEmbeddings).  In image mode vector IDs are stable UUID-v3 values derived from
+        the image origin path, and upserted metadata automatically includes
+        modality, image_origin, image_width, image_height, and
+        image_nChannels fields.
+
+        Parameters
+        ----------
+        value : str
+            'text' or 'image'
+        """
+        return self._set(modalityMode=value)
+
+    def getModalityMode(self):
+        """Gets the current modality mode.
+
+        Returns
+        -------
+        str
+            'text' or 'image'
+        """
+        return self.getOrDefault(self.modalityMode)
+
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.ml.ai.VectorDBConnector", java_model=None):
         super(VectorDBConnector, self).__init__(
@@ -188,5 +260,6 @@ class VectorDBConnector(AnnotatorModel):
             provider="pinecone",
             batchSize=100,
             namespace="",
-            metadataColumns=[]
+            metadataColumns=[],
+            modalityMode="text"
         )

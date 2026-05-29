@@ -4,7 +4,7 @@ title: English alchemistcoder_ds_6.7b_iq4_xs AutoGGUFModel from lmstudio-communi
 author: John Snow Labs
 name: alchemistcoder_ds_6.7b_iq4_xs
 date: 2024-10-30
-tags: [en, open_source, onnx, conversational, text_generation, text_to_text, llamacpp]
+tags: [en, open_source, conversational, text_generation, text_to_text, llamacpp]
 task: Text Generation
 language: en
 edition: Spark NLP 5.5.1

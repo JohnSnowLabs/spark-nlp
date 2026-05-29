@@ -4,7 +4,7 @@ title: English twitter_xlm_roberta_base XlmRoBertaForSequenceClassification from
 author: John Snow Labs
 name: twitter_xlm_roberta_base
 date: 2025-05-21
-tags: [en, open_source, onnx, sequence_classification, xlm_roberta, openvino]
+tags: [en, open_source, sequence_classification, xlm_roberta, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.4.0 ScalaDoc  - com.johnsnowlabs.nlp.embeddings</title>
-          <meta name="description" content="Spark NLP 6.4.0 ScalaDoc - com.johnsnowlabs.nlp.embeddings" />
-          <meta name="keywords" content="Spark NLP 6.4.0 ScalaDoc com.johnsnowlabs.nlp.embeddings" />
+          <title>Spark NLP 6.4.1 ScalaDoc  - com.johnsnowlabs.nlp.embeddings</title>
+          <meta name="description" content="Spark NLP 6.4.1 ScalaDoc - com.johnsnowlabs.nlp.embeddings" />
+          <meta name="keywords" content="Spark NLP 6.4.1 ScalaDoc com.johnsnowlabs.nlp.embeddings" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -170,6 +170,10 @@
                         <a class="class" href="BertSentenceEmbeddings.html" title="Sentence-level embeddings using BERT."></a>
                         <a href="BertSentenceEmbeddings.html" title="Sentence-level embeddings using BERT.">BertSentenceEmbeddings</a>
                       </li><li class="current-entities indented4">
+                        <a class="object" href="BiEncoderMultimodalEmbeddings$.html" title=""></a>
+                        <a class="class" href="BiEncoderMultimodalEmbeddings.html" title="Dual-encoder multimodal embeddings annotator."></a>
+                        <a href="BiEncoderMultimodalEmbeddings.html" title="Dual-encoder multimodal embeddings annotator.">BiEncoderMultimodalEmbeddings</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="CamemBertEmbeddings$.html" title="This is the companion object of CamemBertEmbeddings."></a>
                         <a class="class" href="CamemBertEmbeddings.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot."></a>
                         <a href="CamemBertEmbeddings.html" title="The CamemBERT model was proposed in CamemBERT: a Tasty French Language Model by Louis Martin, Benjamin Muller, Pedro Javier Ortiz Suárez, Yoann Dupont, Laurent Romary, Éric Villemonte de la Clergerie, Djamé Seddah, and Benoît Sagot.">CamemBertEmbeddings</a>
@@ -218,6 +222,10 @@
                         <a class="class" href="InstructorEmbeddings.html" title="Sentence embeddings using INSTRUCTOR."></a>
                         <a href="InstructorEmbeddings.html" title="Sentence embeddings using INSTRUCTOR.">InstructorEmbeddings</a>
                       </li><li class="current-entities indented4">
+                        <a class="object" href="LateChunkEmbeddings$.html" title="This is the companion object of LateChunkEmbeddings."></a>
+                        <a class="class" href="LateChunkEmbeddings.html" title="Produces contextual chunk-level embeddings using the Late Chunking technique described in Jin et al. (2024)."></a>
+                        <a href="LateChunkEmbeddings.html" title="Produces contextual chunk-level embeddings using the Late Chunking technique described in Jin et al. (2024).">LateChunkEmbeddings</a>
+                      </li><li class="current-entities indented4">
                         <a class="object" href="LongformerEmbeddings$.html" title="This is the companion object of LongformerEmbeddings."></a>
                         <a class="class" href="LongformerEmbeddings.html" title="Longformer is a transformer model for long documents."></a>
                         <a href="LongformerEmbeddings.html" title="Longformer is a transformer model for long documents.">LongformerEmbeddings</a>
@@ -265,6 +273,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadBertSentenceDLModel.html" title=""></a>
                         <a href="ReadBertSentenceDLModel.html" title="">ReadBertSentenceDLModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadBiEncoderMultimodalEmbeddingsDLModel.html" title=""></a>
+                        <a href="ReadBiEncoderMultimodalEmbeddingsDLModel.html" title="">ReadBiEncoderMultimodalEmbeddingsDLModel</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadCamemBertDLModel.html" title=""></a>
@@ -369,6 +381,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedBertSentenceModel.html" title=""></a>
                         <a href="ReadablePretrainedBertSentenceModel.html" title="">ReadablePretrainedBertSentenceModel</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedBiEncoderMultimodalEmbeddings.html" title=""></a>
+                        <a href="ReadablePretrainedBiEncoderMultimodalEmbeddings.html" title="">ReadablePretrainedBiEncoderMultimodalEmbeddings</a>
                       </li><li class="current-entities indented4">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedCamemBertModel.html" title=""></a>
@@ -1077,6 +1093,24 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
   for embeddings with a sequence classification layer on top</p></span><span class="cmt"><p>
   <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
   based embeddings</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BiEncoderMultimodalEmbeddingsextendsTransformerwithHasInputAnnotationColswithHasOutputAnnotatorTypewithHasOutputAnnotationColwithHasImageFeaturePropertieswithHasEnginewithWriteOnnxModel"></a><a id="BiEncoderMultimodalEmbeddings:BiEncoderMultimodalEmbeddings"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/BiEncoderMultimodalEmbeddings.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Dual-encoder multimodal embeddings annotator." href="BiEncoderMultimodalEmbeddings.html"><span class="name">BiEncoderMultimodalEmbeddings</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span> with <a href="../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a> with <a href="../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a> with <a href="../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a> with <a href="../HasImageFeatureProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasImageFeatureProperties">HasImageFeatureProperties</a> with <a href="../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a> with <a href="../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Dual-encoder multimodal embeddings annotator.</p><div class="fullcomment"><div class="comment cmt"><p>Dual-encoder multimodal embeddings annotator.</p><p>The output is written to two derived columns based on <code>outputCol</code>:
+<code>${outputCol}_doc_embeddings</code> and <code>${outputCol}_image_embeddings</code>.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="CamemBertEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings]withWriteTensorflowModelwithWriteSentencePieceModelwithWriteOnnxModelwithWriteOpenvinoModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitivePropertieswithHasEngine"></a><a id="CamemBertEmbeddings:CamemBertEmbeddings"></a>
       <span class="permalink">
@@ -1845,6 +1879,96 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
 +--------------------------------------------------------------------------------+</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
   <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
   based embeddings</p></span></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.LateChunkEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="LateChunkEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.LateChunkEmbeddings]withHasSimpleAnnotate[com.johnsnowlabs.nlp.embeddings.LateChunkEmbeddings]withHasEmbeddingsPropertieswithHasStorageRef"></a><a id="LateChunkEmbeddings:LateChunkEmbeddings"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/LateChunkEmbeddings.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Produces contextual chunk-level embeddings using the Late Chunking technique described in Jin et al. (2024)." href="LateChunkEmbeddings.html"><span class="name">LateChunkEmbeddings</span></a><span class="result"> extends <a href="../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="LateChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.LateChunkEmbeddings">LateChunkEmbeddings</a>] with <a href="../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="LateChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.LateChunkEmbeddings">LateChunkEmbeddings</a>] with <a href="HasEmbeddingsProperties.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.HasEmbeddingsProperties">HasEmbeddingsProperties</a> with <a href="../../storage/HasStorageRef.html" class="extype" name="com.johnsnowlabs.storage.HasStorageRef">HasStorageRef</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Produces contextual chunk-level embeddings using the Late Chunking technique described in
+<a href="https://arxiv.org/abs/2409.04701" target="_blank">Jin et al. (2024)</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Produces contextual chunk-level embeddings using the Late Chunking technique described in
+<a href="https://arxiv.org/abs/2409.04701" target="_blank">Jin et al. (2024)</a>.</p><p>Unlike <a href="ChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ChunkEmbeddings">ChunkEmbeddings</a>, which embeds each chunk in isolation, <code>LateChunkEmbeddings</code>
+expects that the upstream token-embedding stage (e.g. <code>ModernBertEmbeddings</code> or
+<code>LongformerEmbeddings</code>) has already processed the **full document** in a single forward pass,
+producing contextual token representations. This annotator then locates the tokens that fall
+within each chunk's character span and mean-pools them into a single <code>SENTENCE_EMBEDDINGS</code>
+vector — so every chunk embedding is informed by the complete document context rather than
+being isolated. By default, token selection is sentence-aware: selected token embeddings must
+fall inside the chunk span and have the same sentence id as the chunk. Set
+<code>sentenceAwareFiltering</code> to <code>false</code> to use span-only filtering.</p><h4>Ordering requirement</h4><p><code>LateChunkEmbeddings</code> <b>must</b> appear <b>after</b> the token-embedding stage in the pipeline.
+Placing it before the embedding stage will raise a runtime error.</p><h4>Context-window limitation</h4><p>The contextual benefit is bounded by the upstream model's maximum sequence length (e.g. 8 192
+tokens for <code>ModernBertEmbeddings</code>). Documents that exceed this limit are truncated before
+embedding, reducing cross-chunk context for tokens near the end of very long documents.</p><h4>Warning: upstream model must process the full document</h4><p>The upstream embedding stage <b>must</b> use <code>DOCUMENT</code> (not <code>SENTENCE</code>) as its input
+annotation type, processing the entire document in a single forward pass. If a
+<code>SentenceDetector</code> is placed before the embedding model, each sentence is embedded
+independently and the contextual benefit of late chunking is lost — the annotator will still
+run without error but will produce embeddings equivalent to naive <code>ChunkEmbeddings</code>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base.{DocumentAssembler, Doc2Chunk}
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.Tokenizer
+<span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.{ModernBertEmbeddings, LateChunkEmbeddings}
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> tokenEmbeddings = ModernBertEmbeddings.pretrained(<span class="lit">"modernbert-base"</span>, <span class="lit">"en"</span>)
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"token_embeddings"</span>)
+  .setMaxSentenceLength(<span class="num">8192</span>)
+
+<span class="kw">val</span> chunker = <span class="kw">new</span> Doc2Chunk()
+  .setInputCols(<span class="std">Array</span>(<span class="lit">"document"</span>))
+  .setChunkCol(<span class="lit">"chunks"</span>)
+  .setIsArray(<span class="kw">true</span>)
+  .setOutputCol(<span class="lit">"chunk"</span>)
+
+<span class="kw">val</span> lateChunkEmbeddings = <span class="kw">new</span> LateChunkEmbeddings()
+  .setInputCols(<span class="lit">"document"</span>, <span class="lit">"chunk"</span>, <span class="lit">"token_embeddings"</span>)
+  .setOutputCol(<span class="lit">"late_chunk_embeddings"</span>)
+  .setPoolingStrategy(<span class="lit">"AVERAGE"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline()
+  .setStages(<span class="std">Array</span>(
+    documentAssembler,
+    tokenizer,
+    tokenEmbeddings,
+    chunker,
+    lateChunkEmbeddings
+  ))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>((
+  <span class="lit">"AcmeDrug was prescribed for migraine in March. The patient took two doses.\n\n"</span> +
+  <span class="lit">"It caused severe nausea the next day, and therapy was stopped."</span>,
+  <span class="std">Array</span>(
+    <span class="lit">"AcmeDrug was prescribed for migraine in March. The patient took two doses."</span>,
+    <span class="lit">"It caused severe nausea the next day, and therapy was stopped."</span>)
+)).toDF(<span class="lit">"text"</span>, <span class="lit">"chunks"</span>)
+
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.selectExpr(<span class="lit">"explode(late_chunk_embeddings) as r"</span>)
+  .select(<span class="lit">"r.annotatorType"</span>, <span class="lit">"r.result"</span>, <span class="lit">"r.embeddings"</span>)
+  .show(<span class="num">5</span>, <span class="num">80</span>)
+<span class="cmt">// +-------------------+--------------------------------------------------------------------------+--------------------------------------------------------------------------------+</span>
+<span class="cmt">// |      annotatorType|                                                                    result|                                                                      embeddings|</span>
+<span class="cmt">// +-------------------+--------------------------------------------------------------------------+--------------------------------------------------------------------------------+</span>
+<span class="cmt">// |sentence_embeddings|AcmeDrug was prescribed for migraine in March. The patient took two doses.|[0.050471008, -0.07595207, 0.031268876, 0.15105441, -0.013697156, 0.08131724,...|</span>
+<span class="cmt">// |sentence_embeddings|            It caused severe nausea the next day, and therapy was stopped.|[0.0735685, 0.0060829176, 0.12051964, 0.22399232, 0.055884164, 0.066795066, 0...|</span>
+<span class="cmt">// +-------------------+--------------------------------------------------------------------------+--------------------------------------------------------------------------------+</span></pre></div></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="LongformerEmbeddingsextendsAnnotatorModel[com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings]withHasBatchedAnnotate[com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings]withWriteTensorflowModelwithHasEmbeddingsPropertieswithHasStorageRefwithHasCaseSensitivePropertieswithHasEngine"></a><a id="LongformerEmbeddings:LongformerEmbeddings"></a>
       <span class="permalink">
@@ -2355,6 +2479,22 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.embeddings.ReadBiEncoderMultimodalEmbeddingsDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadBiEncoderMultimodalEmbeddingsDLModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings]"></a><a id="ReadBiEncoderMultimodalEmbeddingsDLModel:ReadBiEncoderMultimodalEmbeddingsDLModel"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/ReadBiEncoderMultimodalEmbeddingsDLModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadBiEncoderMultimodalEmbeddingsDLModel.html"><span class="name">ReadBiEncoderMultimodalEmbeddingsDLModel</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="BiEncoderMultimodalEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings">BiEncoderMultimodalEmbeddings</a>]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.embeddings.ReadCamemBertDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadCamemBertDLModelextendsReadTensorflowModelwithReadSentencePieceModelwithReadOnnxModelwithReadOpenvinoModel"></a><a id="ReadCamemBertDLModel:ReadCamemBertDLModel"></a>
       <span class="permalink">
@@ -2768,6 +2908,22 @@ result.selectExpr(<span class="lit">"explode(finished_embeddings) as result"</sp
       </span>
       <span class="symbol">
         <a title="" href="ReadablePretrainedBertSentenceModel.html"><span class="name">ReadablePretrainedBertSentenceModel</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>] with <a href="../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.embeddings.ReadablePretrainedBiEncoderMultimodalEmbeddings" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedBiEncoderMultimodalEmbeddingsextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings]withHasPretrained[com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings]"></a><a id="ReadablePretrainedBiEncoderMultimodalEmbeddings:ReadablePretrainedBiEncoderMultimodalEmbeddings"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/ReadablePretrainedBiEncoderMultimodalEmbeddings.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedBiEncoderMultimodalEmbeddings.html"><span class="name">ReadablePretrainedBiEncoderMultimodalEmbeddings</span></a><span class="result"> extends <a href="../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="BiEncoderMultimodalEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings">BiEncoderMultimodalEmbeddings</a>] with <a href="../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="BiEncoderMultimodalEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings">BiEncoderMultimodalEmbeddings</a>]</span>
       </span>
       
       
@@ -4347,6 +4503,22 @@ documentation.
       <p class="shortcomment cmt">This is the companion object of <a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="BertSentenceEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings">BertSentenceEmbeddings</a>. Please refer to that class for the
 documentation.
 </p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.BiEncoderMultimodalEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="BiEncoderMultimodalEmbeddings"></a><a id="BiEncoderMultimodalEmbeddings:BiEncoderMultimodalEmbeddings"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/BiEncoderMultimodalEmbeddings$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="BiEncoderMultimodalEmbeddings$.html"><span class="name">BiEncoderMultimodalEmbeddings</span></a><span class="result"> extends <a href="ReadablePretrainedBiEncoderMultimodalEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ReadablePretrainedBiEncoderMultimodalEmbeddings">ReadablePretrainedBiEncoderMultimodalEmbeddings</a> with <a href="ReadBiEncoderMultimodalEmbeddingsDLModel.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.ReadBiEncoderMultimodalEmbeddingsDLModel">ReadBiEncoderMultimodalEmbeddingsDLModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.embeddings.CamemBertEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="CamemBertEmbeddings"></a><a id="CamemBertEmbeddings:CamemBertEmbeddings"></a>
       <span class="permalink">
@@ -4523,6 +4695,24 @@ documentation.
       </span>
       
       <p class="shortcomment cmt">This is the companion object of <a href="InstructorEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.InstructorEmbeddings">InstructorEmbeddings</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="InstructorEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.InstructorEmbeddings">InstructorEmbeddings</a>. Please refer to that class for the
+documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.embeddings.LateChunkEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="LateChunkEmbeddings"></a><a id="LateChunkEmbeddings:LateChunkEmbeddings"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/nlp/embeddings/LateChunkEmbeddings$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of LateChunkEmbeddings." href="LateChunkEmbeddings$.html"><span class="name">LateChunkEmbeddings</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="LateChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.LateChunkEmbeddings">LateChunkEmbeddings</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="LateChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.LateChunkEmbeddings">LateChunkEmbeddings</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="LateChunkEmbeddings.html" class="extype" name="com.johnsnowlabs.nlp.embeddings.LateChunkEmbeddings">LateChunkEmbeddings</a>. Please refer to that class for the
 documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.embeddings.LongformerEmbeddings" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">

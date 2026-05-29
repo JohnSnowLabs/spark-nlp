@@ -4,7 +4,7 @@ title: ASR HubertForCTC - asr_hubert_large_ls960
 author: John Snow Labs
 name: asr_hubert_large_ls960
 date: 2024-10-16
-tags: [hubert, en, open_source, onnx, openvino]
+tags: [hubert, en, open_source, openvino]
 task: Automatic Speech Recognition
 language: en
 edition: Spark NLP 5.5.0

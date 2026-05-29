@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.4.0 ScalaDoc  - com.johnsnowlabs.ml.ai.VectorDBConnector</title>
-          <meta name="description" content="Spark NLP 6.4.0 ScalaDoc - com.johnsnowlabs.ml.ai.VectorDBConnector" />
-          <meta name="keywords" content="Spark NLP 6.4.0 ScalaDoc com.johnsnowlabs.ml.ai.VectorDBConnector" />
+          <title>Spark NLP 6.4.1 ScalaDoc  - com.johnsnowlabs.ml.ai.VectorDBConnector</title>
+          <meta name="description" content="Spark NLP 6.4.1 ScalaDoc - com.johnsnowlabs.ml.ai.VectorDBConnector" />
+          <meta name="keywords" content="Spark NLP 6.4.1 ScalaDoc com.johnsnowlabs.ml.ai.VectorDBConnector" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.4.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.4.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -252,11 +252,16 @@
 
       
           <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Connector for storing and retrieving embeddings from vector databases.</p><p>This annotator takes embeddings from previous annotators (like BertEmbeddings,
-SentenceEmbeddings, OpenAIEmbeddings, etc.) and stores them in a vector database for
-similarity search and retrieval. Currently supports Pinecone with more providers planned.</p><h4>Supported Providers</h4><ul><li><b>pinecone</b>: Pinecone vector database (default)</li></ul><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+SentenceEmbeddings, E5VEmbeddings, etc.) and stores them in a vector database for similarity
+search and retrieval. Currently supports Pinecone with more providers planned.</p><p>Supports two modality modes:</p><ul><li>'text' (default): expects <code>DOCUMENT + SENTENCE_EMBEDDINGS</code> input columns. Metadata is
+    augmented with <code>modality=text</code>.</li><li>'image': expects <code>IMAGE + SENTENCE_EMBEDDINGS</code> input columns (e.g. from <code>ImageAssembler</code> +
+    <code>E5VEmbeddings</code>). Metadata is augmented with <code>modality=image</code>, <code>image_origin</code>,
+    <code>image_width</code>, <code>image_height</code>, and <code>image_nChannels</code>. Vector IDs are generated as
+    deterministic UUID-v3 values derived from the image file path (origin), ensuring stable
+    re-indexing.</li></ul><h4>Supported Providers</h4><ul><li><b>pinecone</b>: Pinecone vector database (default)</li></ul><h4>Text Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
 <span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.BertSentenceEmbeddings
-<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.VectorDBConnector
+<span class="kw">import</span> com.johnsnowlabs.ml.ai.VectorDBConnector
 <span class="kw">import</span> org.apache.spark.ml.Pipeline
 
 <span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
@@ -288,7 +293,32 @@ similarity search and retrieval. Currently supports Pinecone with more providers
   (<span class="lit">"2"</span>, <span class="lit">"Vector databases enable semantic search"</span>, <span class="lit">"tech"</span>)
 ).toDF(<span class="lit">"id"</span>, <span class="lit">"text"</span>, <span class="lit">"category"</span>)
 
-<span class="kw">val</span> result = pipeline.fit(data).transform(data)</pre></div><div class="toggleContainer block">
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)</pre><h4>Image Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.base.ImageAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.embeddings.E5VEmbeddings
+<span class="kw">import</span> com.johnsnowlabs.ml.ai.VectorDBConnector
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> imageAssembler = <span class="kw">new</span> ImageAssembler()
+  .setInputCol(<span class="lit">"image"</span>)
+  .setOutputCol(<span class="lit">"image_assembler"</span>)
+
+<span class="kw">val</span> e5vEmbeddings = E5VEmbeddings.pretrained()
+  .setInputCols(<span class="lit">"image_assembler"</span>)
+  .setOutputCol(<span class="lit">"image_embeddings"</span>)
+
+<span class="kw">val</span> vectorDB = <span class="kw">new</span> VectorDBConnector()
+  .setInputCols(<span class="lit">"image_assembler"</span>, <span class="lit">"image_embeddings"</span>)
+  .setOutputCol(<span class="lit">"vectordb_result"</span>)
+  .setProvider(<span class="lit">"pinecone"</span>)
+  .setIndexName(<span class="lit">"my-multimodal-index"</span>)
+  .setModalityMode(<span class="lit">"image"</span>)
+  .setBatchSize(<span class="num">50</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(
+  imageAssembler,
+  e5vEmbeddings,
+  vectorDB
+))</pre></div><div class="toggleContainer block">
           <span class="toggle">
             Linear Supertypes
           </span>
@@ -636,7 +666,8 @@ that belong to the same original row !! (challenging)</p></dd></dl><dl class="at
       </span>
       
       <p class="shortcomment cmt">Override batchProcess to get direct access to Row data.</p><div class="fullcomment"><div class="comment cmt"><p>Override batchProcess to get direct access to Row data.</p><p>This is necessary because we need access to additional columns (idColumn, metadataColumns)
-beyond just the annotations. The standard batchAnnotate only receives annotations.
+beyond just the annotations. The standard batchAnnotate only receives annotations.</p><p>Branches on <code>modalityMode</code>: in &quot;text&quot; mode the first input column is expected to carry
+DOCUMENT annotations; in &quot;image&quot; mode it carries IMAGE annotations (AnnotationImage).
 </p></div><dl class="paramcmts block"><dt class="param">rows</dt><dd class="cmt"><p>
   Iterator of rows to process</p></dd><dt>returns</dt><dd class="cmt"><p>
   Iterator of processed rows with output annotation</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.ml.ai.VectorDBConnector">VectorDBConnector</a> → <a href="../../nlp/HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a></dd></dl></div>
@@ -1191,6 +1222,22 @@ beyond just the annotations. The standard batchAnnotate only receives annotation
       </span>
       
       <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.ml.ai.VectorDBConnector#getModalityMode" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getModalityMode:String"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/ai/VectorDBConnector.html#getModalityMode:String" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getModalityMode</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.ml.ai.VectorDBConnector#getNamespace" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getNamespace:String"></a>
       <span class="permalink">
@@ -1402,7 +1449,7 @@ beyond just the annotations. The standard batchAnnotate only receives annotation
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
-    </li><li name="com.johnsnowlabs.ml.ai.VectorDBConnector#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.ml.ai.VectorDBConnector#inputAnnotatorTypes" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="anno">
       <a id="inputAnnotatorTypes:Array[String]"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/ml/ai/VectorDBConnector.html#inputAnnotatorTypes:Array[String]" title="Permalink">
@@ -1417,8 +1464,7 @@ beyond just the annotations. The standard batchAnnotate only receives annotation
         <span class="name">inputAnnotatorTypes</span><span class="result">: <span class="extype" name="scala.Array">Array</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Annotator reference id.</p><div class="fullcomment"><div class="comment cmt"><p>Annotator reference id. Used to identify elements in metadata or to refer to this annotator
-type
+      <p class="shortcomment cmt">Input annotator types.</p><div class="fullcomment"><div class="comment cmt"><p>Input annotator types.</p><p>In 'text' mode (default): <code>DOCUMENT, SENTENCE_EMBEDDINGS</code></p><p>In 'image' mode: <code>IMAGE, SENTENCE_EMBEDDINGS</code>
 </p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.ml.ai.VectorDBConnector">VectorDBConnector</a> → <a href="../../nlp/HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#inputCols" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="inputCols:org.apache.spark.ml.param.StringArrayParam"></a><a id="inputCols:StringArrayParam"></a>
@@ -1728,6 +1774,26 @@ as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt">Metadata columns to include with vectors</p>
+    </li><li name="com.johnsnowlabs.ml.ai.VectorDBConnector#modalityMode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="modalityMode:org.apache.spark.ml.param.Param[String]"></a><a id="modalityMode:Param[String]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/ai/VectorDBConnector.html#modalityMode:org.apache.spark.ml.param.Param[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">modalityMode</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.Param">Param</span>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Modality mode for indexing: &quot;text&quot; (default) or &quot;image&quot;.</p><div class="fullcomment"><div class="comment cmt"><p>Modality mode for indexing: &quot;text&quot; (default) or &quot;image&quot;.</p><p>Set to &quot;image&quot; when the first input column contains IMAGE annotations (e.g. from
+<code>ImageAssembler</code> + <code>E5VEmbeddings</code>). In image mode vector IDs are stable UUID-v3 values
+derived from the image origin path and upserted records carry image-specific metadata
+fields.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
       <span class="permalink">
@@ -2310,6 +2376,22 @@ as input and output columns if not specified
       </span>
       
       <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.ml.ai.VectorDBConnector#setModalityMode" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setModalityMode(value:String):VectorDBConnector.this.type"></a><a id="setModalityMode(String):VectorDBConnector.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/ml/ai/VectorDBConnector.html#setModalityMode(value:String):VectorDBConnector.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setModalityMode</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.ml.ai.VectorDBConnector">VectorDBConnector</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.ml.ai.VectorDBConnector#setNamespace" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setNamespace(value:String):VectorDBConnector.this.type"></a><a id="setNamespace(String):VectorDBConnector.this.type"></a>
       <span class="permalink">
@@ -2528,7 +2610,7 @@ information outside its content
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.ml.ai.VectorDBConnector">VectorDBConnector</a> → Identifiable</dd></dl></div>
-    </li><li name="com.johnsnowlabs.nlp.RawAnnotator#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.ml.ai.VectorDBConnector#validate" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="validate(schema:org.apache.spark.sql.types.StructType):Boolean"></a><a id="validate(StructType):Boolean"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/ml/ai/VectorDBConnector.html#validate(schema:org.apache.spark.sql.types.StructType):Boolean" title="Permalink">
@@ -2543,10 +2625,11 @@ information outside its content
         <span class="name">validate</span><span class="params">(<span name="schema">schema: <span class="extype" name="org.apache.spark.sql.types.StructType">StructType</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      <p class="shortcomment cmt">takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.</p><div class="fullcomment"><div class="comment cmt"><p>takes a <span class="extype" name="Dataset">Dataset</span> and checks to see if all the required annotation types are present.
-</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
+      <p class="shortcomment cmt">Override schema validation to accept IMAGE in the first input column when modalityMode is
+set to &quot;image&quot;, while still requiring SENTENCE_EMBEDDINGS in the second input column.</p><div class="fullcomment"><div class="comment cmt"><p>Override schema validation to accept IMAGE in the first input column when modalityMode is
+set to &quot;image&quot;, while still requiring SENTENCE_EMBEDDINGS in the second input column.</p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
   to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
-  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../nlp/RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
+  True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.ml.ai.VectorDBConnector">VectorDBConnector</a> → <a href="../../nlp/RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -2709,6 +2792,10 @@ information outside its content
               <div class="comment cmt"><p>
   A list of (hyper-)parameter keys this annotator can take. Users can set and get the
   parameter values through setters and getters, respectively.</p></div>
+            </div><div class="group" name="anno">
+              <h3>Annotator types</h3>
+              <div class="comment cmt"><p>
+  Required input and expected output annotator types</p></div>
             </div><div class="group" name="Ungrouped">
               <h3>Members</h3>
               

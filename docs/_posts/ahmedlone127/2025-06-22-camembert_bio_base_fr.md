@@ -4,7 +4,7 @@ title: French camembert_bio_base CamemBertEmbeddings from almanach
 author: John Snow Labs
 name: camembert_bio_base
 date: 2025-06-22
-tags: [fr, open_source, onnx, embeddings, camembert, openvino]
+tags: [fr, open_source, embeddings, camembert, openvino]
 task: Embeddings
 language: fr
 edition: Spark NLP 5.5.1

@@ -4,7 +4,7 @@ title: English twitter_roberta_base_sentiment RoBertaForSequenceClassification f
 author: John Snow Labs
 name: twitter_roberta_base_sentiment
 date: 2025-05-22
-tags: [en, open_source, onnx, sequence_classification, roberta, openvino]
+tags: [en, open_source, sequence_classification, roberta, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1

@@ -4,7 +4,7 @@ title: Persian xlmr_large_qa_persian_farsi XlmRoBertaForQuestionAnswering from m
 author: John Snow Labs
 name: xlmr_large_qa_persian_farsi
 date: 2025-05-21
-tags: [fa, open_source, onnx, question_answering, xlm_roberta, openvino]
+tags: [fa, open_source, question_answering, xlm_roberta, openvino]
 task: Question Answering
 language: fa
 edition: Spark NLP 5.5.1

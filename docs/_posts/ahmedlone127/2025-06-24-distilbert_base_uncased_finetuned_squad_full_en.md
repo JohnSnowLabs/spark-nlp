@@ -4,7 +4,7 @@ title: English distilbert_base_uncased_finetuned_squad_full DistilBertForQuestio
 author: John Snow Labs
 name: distilbert_base_uncased_finetuned_squad_full
 date: 2025-06-24
-tags: [en, open_source, onnx, question_answering, distilbert, openvino]
+tags: [en, open_source, question_answering, distilbert, openvino]
 task: Question Answering
 language: en
 edition: Spark NLP 5.5.1

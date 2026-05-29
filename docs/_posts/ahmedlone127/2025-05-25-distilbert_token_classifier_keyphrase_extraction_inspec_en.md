@@ -4,7 +4,7 @@ title: English DistilBertForTokenClassification Cased model (from ml6team)
 author: John Snow Labs
 name: distilbert_token_classifier_keyphrase_extraction_inspec
 date: 2025-05-25
-tags: [en, open_source, distilbert, token_classification, ner, onnx, openvino]
+tags: [en, open_source, distilbert, token_classification, ner, openvino]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 5.5.1

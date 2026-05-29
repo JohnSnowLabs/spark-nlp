@@ -4,7 +4,7 @@ title: RoBERTa large model
 author: John Snow Labs
 name: roberta_large
 date: 2025-05-22
-tags: [en, english, embeddings, roberta, open_source, onnx, openvino]
+tags: [en, english, embeddings, roberta, open_source, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

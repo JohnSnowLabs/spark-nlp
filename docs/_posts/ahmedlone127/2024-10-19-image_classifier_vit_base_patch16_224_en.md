@@ -4,7 +4,7 @@ title: English image_classifier_vit_base_patch16_224 ViTForImageClassification f
 author: John Snow Labs
 name: image_classifier_vit_base_patch16_224
 date: 2024-10-19
-tags: [vit, image_classification, en, open_source, onnx, openvino]
+tags: [vit, image_classification, en, open_source, openvino]
 task: Image Classification
 language: en
 edition: Spark NLP 5.5.0

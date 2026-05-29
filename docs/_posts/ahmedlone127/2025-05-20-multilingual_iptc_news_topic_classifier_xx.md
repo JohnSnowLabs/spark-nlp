@@ -4,7 +4,7 @@ title: Multilingual multilingual_iptc_news_topic_classifier XlmRoBertaForSequenc
 author: John Snow Labs
 name: multilingual_iptc_news_topic_classifier
 date: 2025-05-20
-tags: [xx, open_source, onnx, sequence_classification, xlm_roberta, openvino]
+tags: [xx, open_source, sequence_classification, xlm_roberta, openvino]
 task: Text Classification
 language: xx
 edition: Spark NLP 5.5.1

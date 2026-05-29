@@ -48,3 +48,9 @@ class CamemBertEmbeddingsTestSpec(unittest.TestCase, HasMaxSentenceLengthTests):
 
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
+
+    def test_perferred_engine(self):
+        model_onnx = CamemBertEmbeddings.pretrainedEngine("camembert_base","fr",engine= "onnx")
+        model_tensorflow = CamemBertEmbeddings.pretrainedEngine("camembert_base","fr",engine= "tensorflow")
+        self.assertEqual(model_onnx.getEngine(), "onnx")
+        self.assertEqual(model_tensorflow.getEngine(), "tensorflow")

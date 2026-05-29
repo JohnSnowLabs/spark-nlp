@@ -324,7 +324,7 @@ class Gemma3ForMultiModal(AnnotatorModel,
         return Gemma3ForMultiModal(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="gemma3_4b_it_int4", lang="en", remote_loc=None):
+    def pretrained(name="gemma_3_4b_it_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters

@@ -4,7 +4,7 @@ title: English mmarco_mminilmv2_l12_h384_v1_nreimers XlmRoBertaForSequenceClassi
 author: John Snow Labs
 name: mmarco_mminilmv2_l12_h384_v1_nreimers
 date: 2025-05-20
-tags: [en, open_source, onnx, sequence_classification, xlm_roberta, openvino]
+tags: [en, open_source, sequence_classification, xlm_roberta, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1

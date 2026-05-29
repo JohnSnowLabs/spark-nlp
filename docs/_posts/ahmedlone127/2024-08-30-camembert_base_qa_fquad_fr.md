@@ -4,7 +4,7 @@ title: French CamemBertForQuestionAnswering Base squadFR (camembert_base_qa_fqua
 author: John Snow Labs
 name: camembert_base_qa_fquad
 date: 2024-08-30
-tags: [fr, french, question_answering, camembert, open_source, onnx, openvino]
+tags: [fr, french, question_answering, camembert, open_source, openvino]
 task: Question Answering
 language: fr
 edition: Spark NLP 5.4.2

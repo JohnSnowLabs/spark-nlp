@@ -4,7 +4,7 @@ title: English sent_infoxlm_large XlmRoBertaSentenceEmbeddings from microsoft
 author: John Snow Labs
 name: sent_infoxlm_large
 date: 2025-05-20
-tags: [en, open_source, onnx, sentence_embeddings, xlm_roberta, openvino]
+tags: [en, open_source, sentence_embeddings, xlm_roberta, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

@@ -4,7 +4,7 @@ title: Image Caption with VisionEncoderDecoder ViT GPT2
 author: John Snow Labs
 name: image_captioning_vit_gpt2
 date: 2024-12-15
-tags: [en, image_classification, vit, gpt2, captioning, open_source, openvino, onnx]
+tags: [en, image_classification, vit, gpt2, captioning, open_source, onnx]
 task: Image Captioning
 language: en
 edition: Spark NLP 5.5.1

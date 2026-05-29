@@ -4,7 +4,7 @@ title: MPNet Base For Question Answering - Squad2
 author: John Snow Labs
 name: mpnet_base_question_answering_squad2
 date: 2024-09-12
-tags: [mpnet, base, qa, question, answer, answering, squad, en, open_source, onnx, openvino]
+tags: [mpnet, base, qa, question, answer, answering, squad, en, open_source, openvino]
 task: Question Answering
 language: en
 edition: Spark NLP 5.5.0

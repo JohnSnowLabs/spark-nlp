@@ -4,7 +4,7 @@ title: English asr_wav2vec2_base_960h TFWav2Vec2ForCTC from facebook
 author: John Snow Labs
 name: asr_wav2vec2_base_960h
 date: 2024-10-17
-tags: [wav2vec2, en, open_source, onnx, openvino]
+tags: [wav2vec2, en, open_source, openvino]
 task: Automatic Speech Recognition
 language: en
 edition: Spark NLP 5.5.0

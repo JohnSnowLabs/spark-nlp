@@ -4,7 +4,7 @@ title: English distilbert_finetuned_ai4privacy_v2 DistilBertForTokenClassificati
 author: John Snow Labs
 name: distilbert_finetuned_ai4privacy_v2
 date: 2025-05-25
-tags: [en, open_source, onnx, token_classification, distilbert, ner, openvino]
+tags: [en, open_source, token_classification, distilbert, ner, openvino]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 5.5.1

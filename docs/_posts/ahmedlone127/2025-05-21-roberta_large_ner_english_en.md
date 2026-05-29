@@ -4,7 +4,7 @@ title: English roberta_large_ner_english RoBertaForTokenClassification from Jean
 author: John Snow Labs
 name: roberta_large_ner_english
 date: 2025-05-21
-tags: [en, open_source, onnx, token_classification, roberta, ner, openvino]
+tags: [en, open_source, token_classification, roberta, ner, openvino]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 5.5.1

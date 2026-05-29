@@ -4,7 +4,7 @@ title: English nli_mpnet_base_v2 MPNetEmbeddings from sentence-transformers
 author: John Snow Labs
 name: nli_mpnet_base_v2
 date: 2025-05-22
-tags: [mpnet, en, open_source, onnx, openvino]
+tags: [mpnet, en, open_source, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

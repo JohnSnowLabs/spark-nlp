@@ -4,7 +4,7 @@ title: MPNet Sequence Classification - UKR Message Classifier
 author: John Snow Labs
 name: mpnet_sequence_classifier_ukr_message
 date: 2024-09-12
-tags: [en, mpnet, sequence, classification, open_source, onnx, openvino]
+tags: [en, mpnet, sequence, classification, open_source, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.0

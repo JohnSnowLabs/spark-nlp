@@ -4,7 +4,7 @@ title: Italian feel_italian_italian_sentiment CamemBertForSequenceClassification
 author: John Snow Labs
 name: feel_italian_italian_sentiment
 date: 2025-06-22
-tags: [camembert, it, open_source, sequence_classification, onnx, openvino]
+tags: [camembert, it, open_source, sequence_classification, openvino]
 task: Text Classification
 language: it
 edition: Spark NLP 5.5.1

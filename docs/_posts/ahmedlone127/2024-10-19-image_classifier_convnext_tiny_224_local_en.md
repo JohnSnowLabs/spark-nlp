@@ -4,7 +4,7 @@ title: English image_classifier_convnext_tiny_224_local ConvNextForImageClassifi
 author: John Snow Labs
 name: image_classifier_convnext_tiny_224_local
 date: 2024-10-19
-tags: [imagenet, image_classification, en, open_source, onnx, openvino]
+tags: [imagenet, image_classification, en, open_source, openvino]
 task: Image Classification
 language: en
 edition: Spark NLP 5.5.0

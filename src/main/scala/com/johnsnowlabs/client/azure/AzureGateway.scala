@@ -63,7 +63,12 @@ class AzureGateway(
         .getBlobClient(destinationPath)
         .getBlockBlobClient
 
-      val streamSize = inputStream.available()
+      val streamSize = inputStream match {
+        case fileInputStream: FileInputStream =>
+          fileInputStream.getChannel.size() - fileInputStream.getChannel.position()
+        case _ =>
+          inputStream.available().toLong
+      }
       blockBlobClient.upload(inputStream, streamSize)
     }
   }

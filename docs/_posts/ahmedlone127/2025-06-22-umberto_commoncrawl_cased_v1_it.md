@@ -4,7 +4,7 @@ title: Italian umberto_commoncrawl_cased_v1 CamemBertEmbeddings from Musixmatch
 author: John Snow Labs
 name: umberto_commoncrawl_cased_v1
 date: 2025-06-22
-tags: [it, open_source, onnx, embeddings, camembert, openvino]
+tags: [it, open_source, embeddings, camembert, openvino]
 task: Embeddings
 language: it
 edition: Spark NLP 5.5.1

@@ -4,7 +4,7 @@ title: English distilbert_nsfw_text_classifier DistilBertForSequenceClassificati
 author: John Snow Labs
 name: distilbert_nsfw_text_classifier
 date: 2025-05-25
-tags: [en, open_source, onnx, sequence_classification, distilbert, openvino]
+tags: [en, open_source, sequence_classification, distilbert, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1

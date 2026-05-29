@@ -41,7 +41,8 @@ class Reader2DocTest(unittest.TestCase):
 
         result_df = model.transform(self.empty_df)
 
-        self.assertTrue(result_df.select("document").count() > 0)
+        rows = result_df.select("document").collect()
+        self.assertTrue(len(rows) > 0)
 
 
 @pytest.mark.fast
@@ -67,7 +68,8 @@ class Reader2DocTokenTest(unittest.TestCase):
 
         result_df = model.transform(self.empty_df)
 
-        self.assertTrue(result_df.select("document").count() > 0)
+        rows = result_df.select("document").collect()
+        self.assertTrue(len(rows) > 0)
 
 
 @pytest.mark.fast
@@ -89,7 +91,8 @@ class Reader2DocPdfTest(unittest.TestCase):
 
         result_df = model.transform(self.empty_df)
 
-        self.assertTrue(result_df.select("document").count() > 0)
+        rows = result_df.select("document").collect()
+        self.assertTrue(len(rows) > 0)
 
 
 @pytest.mark.fast
@@ -157,7 +160,8 @@ class Reader2DocTestInputColumn(unittest.TestCase):
 
         result_df = model.transform(self.html_df)
 
-        self.assertTrue(result_df.select("document").count() > 0)
+        rows = result_df.select("document").collect()
+        self.assertTrue(len(rows) > 0)
 
 
 @pytest.mark.fast

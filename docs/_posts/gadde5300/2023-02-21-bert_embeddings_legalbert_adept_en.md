@@ -4,7 +4,7 @@ title: English Legal BERT Embeddings
 author: John Snow Labs
 name: bert_embeddings_legalbert_adept
 date: 2023-02-21
-tags: [bert, en, english, embeddings, transformer, open_source]
+tags: [bert, en, english, embeddings, transformer, open_source, tensorflow]
 task: Embeddings
 language: en
 nav_key: models

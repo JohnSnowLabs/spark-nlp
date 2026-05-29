@@ -4,7 +4,7 @@ title: English distilbert_ner_dslim DistilBertForTokenClassification from dslim
 author: John Snow Labs
 name: distilbert_ner_dslim
 date: 2025-05-25
-tags: [en, open_source, onnx, token_classification, distilbert, ner, openvino]
+tags: [en, open_source, token_classification, distilbert, ner, openvino]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 5.5.1

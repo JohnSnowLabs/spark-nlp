@@ -4,7 +4,7 @@ title: English sent_twitter_xlm_roberta_base XlmRoBertaSentenceEmbeddings from c
 author: John Snow Labs
 name: sent_twitter_xlm_roberta_base
 date: 2025-05-20
-tags: [en, open_source, onnx, sentence_embeddings, xlm_roberta, openvino]
+tags: [en, open_source, sentence_embeddings, xlm_roberta, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

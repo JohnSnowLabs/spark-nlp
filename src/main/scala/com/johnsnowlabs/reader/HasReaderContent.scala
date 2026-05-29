@@ -123,8 +123,9 @@ trait HasReaderContent extends HasReaderProperties with HasTagsReaderProperties 
         if (isDelimitedContentType($(contentType)) || isDelimitedExtension(ext)) {
           partitionDelimitedContent(partition, contentPath, $(contentType), ext)
         } else {
+          val requestHeaders = getHeadersAsJava
           val partitionUDF =
-            udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
+            udf((text: String) => partition.partitionStringContent(text, requestHeaders))
           datasetWithTextFile(dataset.sparkSession, contentPath)
             .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
         }
@@ -172,8 +173,9 @@ trait HasReaderContent extends HasReaderProperties with HasTagsReaderProperties 
       partition: Partition,
       dataset: Dataset[_],
       inputCol: String): DataFrame = {
+    val requestHeaders = getHeadersAsJava
     val partitionUDF =
-      udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
+      udf((text: String) => partition.partitionStringContent(text, requestHeaders))
 
     dataset
       .withColumn(partition.getOutputColumn, partitionUDF(col(inputCol)))

@@ -4,7 +4,7 @@ title: Thai wangchanberta_finetuned_sentiment CamemBertForSequenceClassification
 author: John Snow Labs
 name: wangchanberta_finetuned_sentiment
 date: 2025-06-22
-tags: [camembert, th, open_source, sequence_classification, onnx, openvino]
+tags: [camembert, th, open_source, sequence_classification, openvino]
 task: Text Classification
 language: th
 edition: Spark NLP 5.5.1

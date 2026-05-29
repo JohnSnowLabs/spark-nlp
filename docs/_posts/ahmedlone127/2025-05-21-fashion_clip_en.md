@@ -4,7 +4,7 @@ title: English fashion_clip CLIPForZeroShotClassification from patrickjohncyh
 author: John Snow Labs
 name: fashion_clip
 date: 2025-05-21
-tags: [en, open_source, onnx, zero_shot, clip, image, openvino]
+tags: [en, open_source, zero_shot, clip, image, openvino]
 task: Zero-Shot Classification
 language: en
 edition: Spark NLP 5.5.1

@@ -109,15 +109,57 @@ object ResourceMetadata {
       candidates: List[ResourceMetadata],
       request: ResourceRequest): Option[ResourceMetadata] = {
 
-    val compatibleCandidates = candidates
-      .filter(item =>
-        item.readyToUse && item.libVersion.isDefined && item.sparkVersion.isDefined
-          && item.name == request.name
-          && (request.language.isEmpty || item.language.isEmpty || request.language.get == item.language.get)
-          && Version.isCompatible(request.libVersion, item.libVersion)
-          && Version.isCompatible(request.sparkVersion, item.sparkVersion))
+    val effectiveSkipPreferredEngine =
+      request.skipPreferredEngine || request.folder != ResourceDownloader.publicLoc
 
-    val sortedResult = compatibleCandidates.sorted
+    val compatibleCandidates = candidates.filter(item =>
+      item.readyToUse &&
+        item.libVersion.isDefined &&
+        item.sparkVersion.isDefined &&
+        item.name == request.name &
+        (request.annotator.isEmpty || item.annotator.isEmpty || effectiveSkipPreferredEngine ||
+          request.annotator.get.equalsIgnoreCase(item.annotator.get)) &&
+        (request.language.isEmpty || item.language.isEmpty ||
+          request.language.get == item.language.get) &&
+        Version.isCompatible(request.libVersion, item.libVersion) &&
+        Version.isCompatible(request.sparkVersion, item.sparkVersion))
+
+    val defaultPriority = Seq("onnx", "tensorflow", "openvino", "unk")
+
+    val finalPriority = if (effectiveSkipPreferredEngine) {
+      defaultPriority
+    } else {
+      request.engine match {
+        case Some(pref) =>
+          val p = pref.toLowerCase // incase user types ONNX instead of onnx
+          (Seq(p) ++ defaultPriority.filterNot(_ == p)).distinct
+        case None =>
+          defaultPriority
+      }
+    }
+
+    def enginePriority(engineOpt: Option[String]): Int = {
+      val engine = engineOpt.map(_.toLowerCase).getOrElse("unk")
+      finalPriority.indexOf(engine) match {
+        case -1 =>
+          finalPriority.length // unknown engine → lowest priority ( therefore highest numerical value )
+        case idx => idx
+      }
+    }
+
+    // Sort candidates by engine priority first, then fall back to Spark → lib → time.
+    val sortedResult = compatibleCandidates.sortWith { (leftCandidate, rightCandidate) =>
+      // returns true when leftCandidate should come AFTER rightCandidate in the ascending list.
+      // The winner is always sortedResult.lastOption — i.e. the candidate that sorts last.
+      // Therefore we want the higher-priority candidate (lower engine score) to sort last.
+      val engineComp =
+        enginePriority(leftCandidate.engine) compare enginePriority(rightCandidate.engine)
+      if (engineComp != 0)
+        engineComp > 0 // left's engine score is higher (worse priority) → left goes after right → left wins
+      else
+        leftCandidate < rightCandidate // same engine → fall back to original Spark → lib → time sort
+    }
+
     sortedResult.lastOption
   }
 

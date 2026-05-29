@@ -56,7 +56,7 @@ class Phi4Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     ...     .setInputCols(["document"]) \
     ...     .setOutputCol("generation")
 
-    The default model is ``"phi-4"``, if no name is provided. For available pretrained models please see the `Models Hub <https://huggingface.co/microsoft/phi-4>`__.
+    The default model is ``"phi_4_mini_instruct_int8_openvino"``, if no name is provided. For available pretrained models please see the `Models Hub <https://huggingface.co/microsoft/phi-4>`__.
 
     Note
     ----
@@ -117,7 +117,7 @@ class Phi4Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
     >>> documentAssembler = DocumentAssembler() \
     ...     .setInputCol("text") \
     ...     .setOutputCol("documents")
-    >>> phi4 = Phi4Transformer.pretrained("phi-4") \
+    >>> phi4 = Phi4Transformer.pretrained("phi_4_mini_instruct_int8_openvino") \
     ...     .setInputCols(["documents"]) \
     ...     .setMaxOutputLength(60) \
     ...     .setOutputCol("generation")
@@ -365,13 +365,13 @@ class Phi4Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return Phi4Transformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="phi-4", lang="en", remote_loc=None):
+    def pretrained(name="phi_4_mini_instruct_int8_openvino", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "phi-4"
+            Name of the pretrained model, by default "phi_4_mini_instruct_int8_openvino"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
@@ -384,4 +384,4 @@ class Phi4Transformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
             The restored model
         """
         from sparknlp.pretrained import ResourceDownloader
-        return ResourceDownloader.downloadModel(Phi4Transformer, name, lang, remote_loc) 
+        return ResourceDownloader.downloadModel(Phi4Transformer, name, lang, remote_loc)

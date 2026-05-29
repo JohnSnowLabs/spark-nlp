@@ -4,7 +4,7 @@ title: English efficient_splade_vietnamese_bt_large_doc DistilBertEmbeddings fro
 author: John Snow Labs
 name: efficient_splade_vietnamese_bt_large_doc
 date: 2025-06-24
-tags: [en, open_source, onnx, embeddings, distilbert, openvino]
+tags: [en, open_source, embeddings, distilbert, openvino]
 task: Embeddings
 language: en
 edition: Spark NLP 5.5.1

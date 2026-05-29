@@ -4,7 +4,7 @@ title: English roberta_large_tweetner7_all RoBertaForTokenClassification from tn
 author: John Snow Labs
 name: roberta_large_tweetner7_all
 date: 2025-05-21
-tags: [roberta, en, open_source, token_classification, onnx, openvino]
+tags: [roberta, en, open_source, token_classification, openvino]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 5.5.1

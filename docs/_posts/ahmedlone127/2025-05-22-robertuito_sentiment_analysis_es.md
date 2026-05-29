@@ -4,7 +4,7 @@ title: Castilian, Spanish robertuito_sentiment_analysis RoBertaForSequenceClassi
 author: John Snow Labs
 name: robertuito_sentiment_analysis
 date: 2025-05-22
-tags: [es, open_source, onnx, sequence_classification, roberta, openvino]
+tags: [es, open_source, sequence_classification, roberta, openvino]
 task: Text Classification
 language: es
 edition: Spark NLP 5.5.1

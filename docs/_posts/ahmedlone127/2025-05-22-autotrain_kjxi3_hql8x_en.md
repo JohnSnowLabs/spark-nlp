@@ -4,7 +4,7 @@ title: English autotrain_kjxi3_hql8x MPNetForQuestionAnswering from Ai4des
 author: John Snow Labs
 name: autotrain_kjxi3_hql8x
 date: 2025-05-22
-tags: [en, open_source, onnx, question_answering, mpnet, openvino]
+tags: [en, open_source, question_answering, mpnet, openvino]
 task: Question Answering
 language: en
 edition: Spark NLP 5.5.1

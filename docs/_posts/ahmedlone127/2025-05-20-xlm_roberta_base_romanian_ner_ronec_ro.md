@@ -4,7 +4,7 @@ title: Moldavian, Moldovan, Romanian xlm_roberta_base_romanian_ner_ronec XlmRoBe
 author: John Snow Labs
 name: xlm_roberta_base_romanian_ner_ronec
 date: 2025-05-20
-tags: [ro, open_source, onnx, token_classification, xlm_roberta, ner, openvino]
+tags: [ro, open_source, token_classification, xlm_roberta, ner, openvino]
 task: Named Entity Recognition
 language: ro
 edition: Spark NLP 5.5.1

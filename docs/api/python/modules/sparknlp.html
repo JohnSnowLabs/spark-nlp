@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp &#8212; Spark NLP 6.4.0 documentation</title>
+    <title>sparknlp &#8212; Spark NLP 6.4.1 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=2ccb7844"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=88b3fc5d"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.0 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.0 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.1 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -424,7 +424,7 @@ document.write(`
 <div class="viewcode-block" id="annotators"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.annotators">[docs]</a><span class="n">annotators</span> <span class="o">=</span> <span class="n">annotator</span></div>
 <div class="viewcode-block" id="embeddings"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.embeddings">[docs]</a><span class="n">embeddings</span> <span class="o">=</span> <span class="n">annotator</span></div>
 
-<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;6.4.0&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;6.4.1&quot;</span>
 
 
 <div class="viewcode-block" id="start"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.start">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -436,7 +436,8 @@ document.write(`
           <span class="n">cluster_tmp_dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
           <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
           <span class="n">real_time_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-          <span class="n">output_level</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+          <span class="n">output_level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+          <span class="n">skip_sparknlp_maven</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Starts a PySpark instance with default parameters for Spark NLP.</span>
 
 <span class="sd">    The default parameters would result in the equivalent of:</span>
@@ -473,6 +474,8 @@ document.write(`
 <span class="sd">        not supported and it must be local, HDFS, or DBFS.</span>
 <span class="sd">    params : dict, optional</span>
 <span class="sd">        Custom parameters to set for the Spark configuration, by default None.</span>
+<span class="sd">        Set ``skip_sparknlp_maven`` to ``True`` or ``&quot;true&quot;`` to avoid adding the</span>
+<span class="sd">        default Spark NLP Maven package when a custom Spark NLP jar is provided.</span>
 <span class="sd">    cluster_tmp_dir : str, optional</span>
 <span class="sd">        The location to save logs from annotators during training. If not set, it will</span>
 <span class="sd">        be in the users home directory under `annotator_logs`.</span>
@@ -480,6 +483,9 @@ document.write(`
 <span class="sd">        Whether to read and print JVM output in real time, by default False</span>
 <span class="sd">    output_level : int, optional</span>
 <span class="sd">        Output level for logs, by default 1</span>
+<span class="sd">    skip_sparknlp_maven : bool, optional</span>
+<span class="sd">        Whether to avoid adding the default Spark NLP Maven package. Use this</span>
+<span class="sd">        when providing a custom Spark NLP jar with ``spark.jars``.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -493,6 +499,7 @@ document.write(`
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">current_version</span> <span class="o">=</span> <span class="n">__version__</span>
+    <span class="n">maven_version</span> <span class="o">=</span> <span class="n">current_version</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;+&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
@@ -502,6 +509,18 @@ document.write(`
 
     <span class="k">if</span> <span class="s1">&#39;_instantiatedSession&#39;</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">SparkSession</span><span class="p">)</span> <span class="ow">and</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">_instantiatedSession</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Warning::Spark Session already created, some configs may not take.&#39;</span><span class="p">)</span>
+
+    <span class="n">skip_sparknlp_maven_param</span> <span class="o">=</span> <span class="s2">&quot;skip_sparknlp_maven&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_skip_sparknlp_maven_enabled</span><span class="p">():</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">skip_sparknlp_maven_param</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">skip_sparknlp_maven</span><span class="p">)</span> <span class="ow">or</span> <span class="n">value</span>
+
+    <span class="n">skip_sparknlp_maven</span> <span class="o">=</span> <span class="n">is_skip_sparknlp_maven_enabled</span><span class="p">()</span>
 
     <span class="n">driver_cores</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -517,12 +536,12 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">serializer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">serializer_max_buffer</span> <span class="o">=</span> <span class="s2">&quot;org.apache.spark.serializer.KryoSerializer&quot;</span><span class="p">,</span> <span class="s2">&quot;2000M&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">driver_max_result_size</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
             <span class="c1"># Spark NLP on CPU or GPU</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">maven_spark3</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">maven_gpu_spark3</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">maven_spark3</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">maven_version</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">maven_gpu_spark3</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">maven_version</span><span class="p">)</span>
             <span class="c1"># Spark NLP on Apple Silicon</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">maven_silicon</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">maven_silicon</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">maven_version</span><span class="p">)</span>
             <span class="c1"># Spark NLP on Linux Aarch64</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">maven_aarch64</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">current_version</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">maven_aarch64</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">maven_version</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">start_without_realtime_output</span><span class="p">():</span>
         <span class="n">builder</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span> \
@@ -549,17 +568,21 @@ document.write(`
         <span class="k">if</span> <span class="n">cluster_tmp_dir</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
             <span class="n">builder</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jsl.settings.storage.cluster_tmp_dir&quot;</span><span class="p">,</span> <span class="n">cluster_tmp_dir</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_sparknlp_maven</span> <span class="ow">and</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">builder</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="n">spark_jars_packages</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">skip_sparknlp_maven_param</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;spark.jars.packages&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">skip_sparknlp_maven</span><span class="p">:</span>
                 <span class="n">packages</span> <span class="o">=</span> <span class="n">spark_jars_packages</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="n">value</span>
                 <span class="n">builder</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">packages</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">builder</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+        <span class="n">spark_session</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+        <span class="n">apply_hadoop_params</span><span class="p">(</span><span class="n">spark_session</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">spark_session</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">start_with_realtime_output</span><span class="p">():</span>
 
@@ -590,11 +613,13 @@ document.write(`
                 <span class="k">if</span> <span class="n">cluster_tmp_dir</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
                     <span class="n">spark_conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.jsl.settings.storage.cluster_tmp_dir&quot;</span><span class="p">,</span> <span class="n">cluster_tmp_dir</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_sparknlp_maven</span> <span class="ow">and</span> <span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">spark_conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="n">spark_jars_packages</span><span class="p">)</span>
 
                 <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">skip_sparknlp_maven_param</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;spark.jars.packages&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">skip_sparknlp_maven</span><span class="p">:</span>
                         <span class="n">packages</span> <span class="o">=</span> <span class="n">spark_jars_packages</span> <span class="o">+</span> <span class="s2">&quot;,&quot;</span> <span class="o">+</span> <span class="n">value</span>
                         <span class="n">spark_conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">packages</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
@@ -613,6 +638,7 @@ document.write(`
                 <span class="c1"># Use the gateway we launched</span>
                 <span class="n">spark_context</span> <span class="o">=</span> <span class="n">SparkContext</span><span class="p">(</span><span class="n">gateway</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gateway</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">spark_session</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">(</span><span class="n">spark_context</span><span class="p">)</span>
+                <span class="n">apply_hadoop_params</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spark_session</span><span class="p">)</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">out_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">output_reader</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">error_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">error_reader</span><span class="p">)</span>
@@ -645,6 +671,13 @@ document.write(`
                 <span class="bp">self</span><span class="o">.</span><span class="n">error_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">SparkWithCustomGateway</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply_hadoop_params</span><span class="p">(</span><span class="n">spark_session</span><span class="p">):</span>
+        <span class="n">hadoop_prefix</span> <span class="o">=</span> <span class="s2">&quot;spark.hadoop.&quot;</span>
+        <span class="n">hadoop_configuration</span> <span class="o">=</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">_jsc</span><span class="o">.</span><span class="n">hadoopConfiguration</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">hadoop_prefix</span><span class="p">):</span>
+                <span class="n">hadoop_configuration</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">hadoop_prefix</span><span class="p">):],</span> <span class="n">value</span><span class="p">)</span>
 
     <span class="n">spark_nlp_config</span> <span class="o">=</span> <span class="n">SparkNLPConfig</span><span class="p">()</span>
 

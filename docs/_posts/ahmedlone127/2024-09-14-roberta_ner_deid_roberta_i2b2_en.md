@@ -4,7 +4,7 @@ title: English RobertaForTokenClassification Cased model (from obi)
 author: John Snow Labs
 name: roberta_ner_deid_roberta_i2b2
 date: 2024-09-14
-tags: [bert, ner, open_source, en, onnx, openvino]
+tags: [bert, ner, open_source, en, openvino]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 5.5.0

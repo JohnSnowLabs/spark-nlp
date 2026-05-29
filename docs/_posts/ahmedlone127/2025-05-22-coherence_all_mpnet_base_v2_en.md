@@ -4,7 +4,7 @@ title: English coherence_all_mpnet_base_v2 MPNetForSequenceClassification from e
 author: John Snow Labs
 name: coherence_all_mpnet_base_v2
 date: 2025-05-22
-tags: [en, open_source, onnx, sequence_classification, mpnet, openvino]
+tags: [en, open_source, sequence_classification, mpnet, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1

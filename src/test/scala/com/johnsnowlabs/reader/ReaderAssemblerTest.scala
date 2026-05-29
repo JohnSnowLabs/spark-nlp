@@ -309,4 +309,27 @@ class ReaderAssemblerTest extends AnyFlatSpec with SparkSessionTest {
     assert(actualImages.nonEmpty)
   }
 
+  it should "work for HTML and include paragraph metadata" taggedAs FastTest in {
+    val reader = new ReaderAssembler()
+      .setContentPath(s"$htmlFilesDirectory/table-image.html")
+      .setContentType("text/html")
+      .setOutputCol("document")
+      .setOutputAsDocument(false)
+
+    val pipeline = new Pipeline().setStages(Array(reader))
+    val resultDf = pipeline.fit(emptyDataSet).transform(emptyDataSet)
+
+    val rows = resultDf.collect()
+    assert(rows.nonEmpty)
+
+    val textResult = AssertAnnotations.getActualResult(resultDf, "document_text").flatten
+    val imageResult = AssertAnnotations.getActualImageResult(resultDf, "document_image").flatten
+
+    assert(textResult.nonEmpty)
+    assert(imageResult.nonEmpty)
+    assert(textResult.forall(_.metadata.contains("paragraph_index")))
+    assert(textResult.forall(_.metadata.contains("paragraph_y")))
+    assert(textResult.forall(_.metadata.contains("page_y")))
+  }
+
 }

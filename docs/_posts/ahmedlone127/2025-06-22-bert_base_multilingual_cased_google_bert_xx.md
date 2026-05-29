@@ -4,7 +4,7 @@ title: Multilingual bert_base_multilingual_cased_google_bert BertEmbeddings from
 author: John Snow Labs
 name: bert_base_multilingual_cased_google_bert
 date: 2025-06-22
-tags: [xx, open_source, onnx, embeddings, bert, openvino]
+tags: [xx, open_source, embeddings, bert, openvino]
 task: Embeddings
 language: xx
 edition: Spark NLP 5.5.1

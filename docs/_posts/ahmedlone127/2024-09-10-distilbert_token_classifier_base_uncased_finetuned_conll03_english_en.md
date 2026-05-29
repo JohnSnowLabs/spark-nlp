@@ -4,7 +4,7 @@ title: English DistilBertForTokenClassification Base Uncased model (from elastic
 author: John Snow Labs
 name: distilbert_token_classifier_base_uncased_finetuned_conll03_english
 date: 2024-09-10
-tags: [en, open_source, distilbert, token_classification, ner, onnx, openvino]
+tags: [en, open_source, distilbert, token_classification, ner, openvino]
 task: Named Entity Recognition
 language: en
 edition: Spark NLP 5.5.0

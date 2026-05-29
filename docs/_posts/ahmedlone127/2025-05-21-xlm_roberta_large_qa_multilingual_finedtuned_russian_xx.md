@@ -4,7 +4,7 @@ title: Multilingual xlm_roberta_large_qa_multilingual_finedtuned_russian XlmRoBe
 author: John Snow Labs
 name: xlm_roberta_large_qa_multilingual_finedtuned_russian
 date: 2025-05-21
-tags: [xx, open_source, onnx, question_answering, xlm_roberta, openvino]
+tags: [xx, open_source, question_answering, xlm_roberta, openvino]
 task: Question Answering
 language: xx
 edition: Spark NLP 5.5.1

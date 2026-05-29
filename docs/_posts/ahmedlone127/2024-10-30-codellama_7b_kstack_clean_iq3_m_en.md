@@ -4,7 +4,7 @@ title: English codellama_7b_kstack_clean_iq3_m AutoGGUFModel from lmstudio-commu
 author: John Snow Labs
 name: codellama_7b_kstack_clean_iq3_m
 date: 2024-10-30
-tags: [en, open_source, onnx, conversational, text_generation, text_to_text, llamacpp]
+tags: [en, open_source, conversational, text_generation, text_to_text, llamacpp]
 task: Text Generation
 language: en
 edition: Spark NLP 5.5.1

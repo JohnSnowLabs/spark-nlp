@@ -4,7 +4,7 @@ title: Russian rubert_base_cased_nli_threeway BertForZeroShotClassification from
 author: John Snow Labs
 name: rubert_base_cased_nli_threeway
 date: 2025-05-27
-tags: [ru, open_source, onnx, zero_shot, bert, openvino]
+tags: [ru, open_source, zero_shot, bert, openvino]
 task: Zero-Shot Classification
 language: ru
 edition: Spark NLP 5.5.1

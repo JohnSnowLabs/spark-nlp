@@ -171,8 +171,9 @@ class PartitionTransformer(override val uid: String)
     partitionInstance.setOutputColumn(inputColum)
 
     val partitionDf = if (isStringContent($(contentType))) {
-      val partitionUDF = udf((text: String) =>
-        partitionInstance.partitionStringContent(text, $(this.headers).asJava))
+      val requestHeaders = getHeadersAsJava
+      val partitionUDF =
+        udf((text: String) => partitionInstance.partitionStringContent(text, requestHeaders))
       val schemaFieldOpt = dataset.schema.find(_.name == inputColum)
 
       schemaFieldOpt match {

@@ -250,12 +250,13 @@ class Phi4Transformer(override val uid: String)
 trait ReadablePretrainedPhi4TransformerModel
     extends ParamsAndFeaturesReadable[Phi4Transformer]
     with HasPretrained[Phi4Transformer] {
-  override val defaultModelName: Some[String] = Some("phi-4")
+  override val defaultModelName: Some[String] = Some("phi_4_mini_instruct_int8_openvino")
 
   override def pretrained(): Phi4Transformer = super.pretrained()
   override def pretrained(name: String): Phi4Transformer = super.pretrained(name)
   override def pretrained(name: String, lang: String): Phi4Transformer =
     super.pretrained(name, lang)
+
   override def pretrained(name: String, lang: String, remoteLoc: String): Phi4Transformer =
     super.pretrained(name, lang, remoteLoc)
 }

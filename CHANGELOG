@@ -1,4 +1,22 @@
 =======
+6.4.1
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+* Adding perfered engine to pretrained and minor fixes #14689
+* fix tags #14695
+* Update llama_cpp_in_Spark_NLP_LLMEntityExtractor.ipynb #14756
+* Add multimodal image support to VectorDBConnector #14760
+* updated GetFewShotexamples to handle multiple cases in MedicalLLMEnti… #14762
+* [SPARKNLP-1369] Fix cloud pretrained cache handling for large models #14763
+* Add LateChunkEmbeddings annotator #14764
+* [SPARKNLP-1359] Implement BiEncoderMultimodalEmbeddings #14767
+* Update ResourceDownloader.scala #14769
+* [SPARKNLP-1378] HTMLReader Default Headers Error #14770
+* [SPARKNLP-1385] Add sentenceAwareFiltering param #14772
+
+=======
 6.4.0
 =======
 ---------------------------

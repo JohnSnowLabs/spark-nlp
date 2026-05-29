@@ -4,7 +4,7 @@ title: Multilingual sent_xlm_roberta_large XlmRoBertaSentenceEmbeddings from Fac
 author: John Snow Labs
 name: sent_xlm_roberta_large
 date: 2025-05-20
-tags: [xx, open_source, onnx, sentence_embeddings, xlm_roberta, openvino]
+tags: [xx, open_source, sentence_embeddings, xlm_roberta, openvino]
 task: Embeddings
 language: xx
 edition: Spark NLP 5.5.1

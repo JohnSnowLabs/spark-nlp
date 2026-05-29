@@ -37,6 +37,26 @@ trait HasHTMLReaderProperties extends ParamsAndFeaturesWritable {
     setHeaders(headers.asScala.toMap)
   }
 
+  protected def getHeadersAsJava: java.util.Map[String, String] = {
+    val headersCopy = new java.util.HashMap[String, String]()
+    val rawHeaders = getOrDefault(headers.asInstanceOf[Param[Any]])
+    rawHeaders match {
+      case null =>
+      case javaHeaders: java.util.Map[_, _] =>
+        javaHeaders.asScala.foreach { case (key, value) =>
+          if (key != null && value != null) headersCopy.put(key.toString, value.toString)
+        }
+      case scalaHeaders: scala.collection.Map[_, _] =>
+        scalaHeaders.foreach { case (key, value) =>
+          if (key != null && value != null) headersCopy.put(key.toString, value.toString)
+        }
+      case other =>
+        throw new IllegalArgumentException(
+          s"headers must be a Map[String, String], but got ${other.getClass.getName}")
+    }
+    headersCopy
+  }
+
   val includeTitleTag = new Param[Boolean](
     this,
     "includeTitleTag",

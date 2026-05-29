@@ -4,7 +4,7 @@ title: English information_content_model MPNetForSequenceClassification from ony
 author: John Snow Labs
 name: information_content_model
 date: 2025-05-22
-tags: [en, open_source, onnx, sequence_classification, mpnet, openvino]
+tags: [en, open_source, sequence_classification, mpnet, openvino]
 task: Text Classification
 language: en
 edition: Spark NLP 5.5.1
