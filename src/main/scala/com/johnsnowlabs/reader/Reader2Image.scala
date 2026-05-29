@@ -40,7 +40,7 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Column, DataFrame, Dataset, Row}
 
-import scala.jdk.CollectionConverters.mapAsJavaMapConverter
+import scala.jdk.CollectionConverters._
 import scala.util.control.NonFatal
 
 /** The Reader2Image annotator allows you to use the reading files with images more smoothly
@@ -211,9 +211,8 @@ class Reader2Image(override val uid: String)
         .drop("content")
 
     } else if (isText) {
-      val requestHeaders = getHeadersAsJava
       val partitionUDF =
-        udf((text: String) => partition.partitionStringContent(text, requestHeaders))
+        udf((text: String) => partition.partitionStringContent(text, $(this.headers).asJava))
 
       datasetWithTextFile(dataset.sparkSession, contentPath)
         .withColumn(partition.getOutputColumn, partitionUDF(col("content")))

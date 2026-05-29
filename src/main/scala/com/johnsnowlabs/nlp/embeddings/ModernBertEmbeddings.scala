@@ -496,17 +496,17 @@ trait ReadModernBertDLModel
       }
 
       // extract added_tokens from tokenizer.json (added_tokens)
-      val addedTokens = (tokenizerConfig \ "added_tokens")
+      val addedTokens: Map[String, Int] = (tokenizerConfig \ "added_tokens")
         .extract[List[Map[String, Any]]]
         .map { token =>
-          val id = token("id").asInstanceOf[BigInt].intValue()
+          val id = token("id").asInstanceOf[BigInt].toInt
           val content = token("content").asInstanceOf[String]
           (content, id)
         }
         .toMap
       // Add the added tokens to the vocabulary
       addedTokens.foreach { case (content, id) =>
-        vocabs += (content -> id)
+        vocabs = vocabs.updated(content, id)
       }
 
       // Also extract special tokens from post_processor (e.g. [UNK] which may not be in added_tokens)
@@ -530,7 +530,7 @@ trait ReadModernBertDLModel
           case _ => Map.empty[String, Int]
         }
       postProcessorSpecialTokens.foreach { case (content, id) =>
-        if (!vocabs.contains(content)) vocabs += (content -> id)
+        if (!vocabs.contains(content)) vocabs = vocabs.updated(content, id)
       }
 
       (vocabs, addedTokens, bytePairs)

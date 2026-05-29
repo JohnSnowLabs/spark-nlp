@@ -16,6 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.util.AnnotationRowUtils.extractAnnotationRows
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util._
@@ -23,7 +24,7 @@ import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.types.{Metadata, MetadataBuilder, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
-import scala.collection.Map
+import scala.collection.{Map, immutable}
 
 /** LayoutAlignerForText rebuilds final text by combining document chunks and generated image
   * captions produced by multimodal models.
@@ -335,10 +336,6 @@ class LayoutAlignerForText(override val uid: String)
       preservedCaptions = left.preservedCaptions ++ right.preservedCaptions)
   }
 
-  /** Extracts raw annotation rows from a row/column index, returning empty on null. */
-  private def extractAnnotationRows(row: Row, columnIndex: Int): Seq[Row] =
-    Option(row.getAs[Seq[Row]](columnIndex)).getOrElse(Seq.empty)
-
   /** Pairs all docs with captions using paragraph index when available, then positional fallback.
     *
     * This prevents dropping document chunks when captions are fewer than documents.
@@ -357,7 +354,7 @@ class LayoutAlignerForText(override val uid: String)
       }.toMap
 
       val captionsByDocIndex =
-        captions.zipWithIndex.foldLeft(Map.empty[Int, Vector[Annotation]]) {
+        captions.zipWithIndex.foldLeft(immutable.Map.empty[Int, Vector[Annotation]]) {
           case (acc, (caption, captionIndex)) =>
             val captionMetadata: Map[String, String] =
               Option(caption.metadata).getOrElse(Map.empty)

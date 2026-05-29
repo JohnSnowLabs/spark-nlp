@@ -161,5 +161,9 @@ object Dependencies {
 
   val json4sVersion = "3.7.0-M11"
   val json4sNative = "org.json4s" %% "json4s-native" % json4sVersion
+
+  val scalaParallelCollectionsVersion = "1.2.0"
+  val scalaParallelCollections =
+    "org.scala-lang.modules" %% "scala-parallel-collections" % scalaParallelCollectionsVersion
   /** ------- Dependencies end  ------- */
 }

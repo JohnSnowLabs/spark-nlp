@@ -22,6 +22,7 @@ import org.apache.spark.ml.{PipelineModel, Transformer}
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 import scala.collection.JavaConverters._
+import scala.collection.parallel.CollectionConverters._
 import scala.util.{Failure, Success, Try}
 
 class LightPipeline(
@@ -186,7 +187,8 @@ class LightPipeline(
           processRecursiveAnnotator(recursiveAnnotator, annotations)
         case annotatorModel: AnnotatorModel[_] =>
           processAnnotatorModel(annotatorModel, annotations, metadata)
-        case finisher: Finisher => annotations.filterKeys(finisher.getInputCols.contains)
+        case finisher: Finisher =>
+          annotations.filter { case (key, _) => finisher.getInputCols.contains(key) }
         case graphFinisher: GraphFinisher => processGraphFinisher(graphFinisher, annotations)
         case rawModel: RawAnnotator[_] => processRowAnnotator(rawModel, annotations)
         case pipeline: PipelineModel =>
@@ -441,21 +443,13 @@ class LightPipeline(
   }
 
   def fullAnnotateJava(target: String): java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotate(target)
-      .mapValues(_.map { annotation =>
-        castToJavaAnnotation(annotation)
-      }.asJava)
-      .asJava
+    toJavaAnnotationMap(fullAnnotate(target), cast = true)
   }
 
   def fullAnnotateJava(
       target: String,
       optionalTarget: String): java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotate(target, optionalTarget)
-      .mapValues(_.map { annotation =>
-        castToJavaAnnotation(annotation)
-      }.asJava)
-      .asJava
+    toJavaAnnotationMap(fullAnnotate(target, optionalTarget), cast = true)
   }
 
   private def toScalaMetadata(
@@ -467,9 +461,23 @@ class LightPipeline(
       target: String,
       metadata: java.util.Map[String, java.util.List[String]])
       : java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotateWithMeta(target, toScalaMetadata(metadata))
-      .mapValues(_.map(castToJavaAnnotation).asJava)
-      .asJava
+    toJavaAnnotationMap(fullAnnotateWithMeta(target, toScalaMetadata(metadata)), cast = true)
+  }
+
+  private def toJavaAnnotationMap(
+      annotations: Map[String, Seq[IAnnotation]],
+      cast: Boolean): java.util.Map[String, java.util.List[IAnnotation]] = {
+    annotations.map { case (key, values) =>
+      val javaValues =
+        if (cast) values.map(castToJavaAnnotation).asJava
+        else values.asJava
+      key -> javaValues
+    }.asJava
+  }
+
+  private def toJavaStringMap(
+      annotations: Map[String, Seq[String]]): java.util.Map[String, java.util.List[String]] = {
+    annotations.map { case (key, values) => key -> values.asJava }.asJava
   }
 
   private def castToJavaAnnotation(annotation: IAnnotation): IAnnotation = {
@@ -509,7 +517,7 @@ class LightPipeline(
 
     fullAnnotateWithMeta(scalaTargets, scalaMetas)
       .map { annotations =>
-        annotations.mapValues(_.map(castToJavaAnnotation).asJava).asJava
+        toJavaAnnotationMap(annotations, cast = true)
       }
       .toList
       .asJava
@@ -529,7 +537,7 @@ class LightPipeline(
 
   def fullAnnotateImageJava(
       pathToImage: String): java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotateImage(pathToImage).mapValues(_.asJava).asJava
+    toJavaAnnotationMap(fullAnnotateImage(pathToImage), cast = false)
   }
 
   def fullAnnotateImageJava(
@@ -539,7 +547,7 @@ class LightPipeline(
     if (texts.isEmpty) {
       pathToImages.asScala.par
         .map { imageFilePath =>
-          fullAnnotateInternal(imageFilePath).mapValues(_.asJava).asJava
+          toJavaAnnotationMap(fullAnnotateInternal(imageFilePath), cast = false)
         }
         .toList
         .asJava
@@ -553,7 +561,7 @@ class LightPipeline(
 
       imageTextPairs
         .map { case (imageFilePath, text) =>
-          fullAnnotateImage(imageFilePath, text).mapValues(_.asJava).asJava
+          toJavaAnnotationMap(fullAnnotateImage(imageFilePath, text), cast = false)
         }
         .toList
         .asJava
@@ -562,14 +570,14 @@ class LightPipeline(
 
   def fullAnnotateSingleAudioJava(
       audio: java.util.ArrayList[Double]): java.util.Map[String, java.util.List[IAnnotation]] = {
-    fullAnnotate(audio.asScala.toArray).mapValues(_.asJava).asJava
+    toJavaAnnotationMap(fullAnnotate(audio.asScala.toArray), cast = false)
   }
 
   def fullAnnotateAudiosJava(audios: java.util.ArrayList[java.util.ArrayList[Double]])
       : java.util.List[java.util.Map[String, java.util.List[IAnnotation]]] = {
     audios.asScala.par
       .map { audio =>
-        fullAnnotate(audio.asScala.toArray).mapValues(_.asJava).asJava
+        toJavaAnnotationMap(fullAnnotate(audio.asScala.toArray), cast = false)
       }
       .toList
       .asJava
@@ -584,7 +592,7 @@ class LightPipeline(
     val scalaTexts = texts.asScala.toArray
     fullAnnotate(scalaIds, scalaTexts)
       .map { annotations: Map[String, Seq[IAnnotation]] =>
-        annotations.mapValues(_.map(castToJavaAnnotation).asJava).asJava
+        toJavaAnnotationMap(annotations, cast = true)
       }
       .toList
       .asJava
@@ -598,16 +606,18 @@ class LightPipeline(
 
   def annotate(target: String, optionalTarget: String = ""): Map[String, Seq[String]] = {
     val annotations = fullAnnotate(target, optionalTarget)
-    annotations.mapValues(_.map {
-      case annotation: Annotation =>
-        annotation.annotatorType match {
-          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
-              if parseEmbeddings =>
-            annotation.embeddings.mkString(" ")
-          case _ => annotation.result
-        }
-      case _ => ""
-    })
+    annotations.view
+      .mapValues(_.map {
+        case annotation: Annotation =>
+          annotation.annotatorType match {
+            case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
+                if parseEmbeddings =>
+              annotation.embeddings.mkString(" ")
+            case _ => annotation.result
+          }
+        case _ => ""
+      })
+      .toMap
   }
 
   def annotate(
@@ -650,16 +660,18 @@ class LightPipeline(
       target: String,
       metadata: Map[String, Seq[String]]): Map[String, Seq[String]] = {
     val annotations = fullAnnotateWithMeta(target, metadata)
-    annotations.mapValues(_.map {
-      case annotation: Annotation =>
-        annotation.annotatorType match {
-          case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
-              if parseEmbeddings =>
-            annotation.embeddings.mkString(" ")
-          case _ => annotation.result
-        }
-      case _ => ""
-    })
+    annotations.view
+      .mapValues(_.map {
+        case annotation: Annotation =>
+          annotation.annotatorType match {
+            case AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS
+                if parseEmbeddings =>
+              annotation.embeddings.mkString(" ")
+            case _ => annotation.result
+          }
+        case _ => ""
+      })
+      .toMap
   }
 
   def annotateWithMeta(
@@ -672,20 +684,20 @@ class LightPipeline(
   }
 
   def annotateJava(target: String): java.util.Map[String, java.util.List[String]] = {
-    annotate(target).mapValues(_.asJava).asJava
+    toJavaStringMap(annotate(target))
   }
 
   def annotateJava(
       target: String,
       optionalTarget: String): java.util.Map[String, java.util.List[String]] = {
-    annotate(target, optionalTarget).mapValues(_.asJava).asJava
+    toJavaStringMap(annotate(target, optionalTarget))
   }
 
   def annotateWithMetaJava(
       target: String,
       metadata: java.util.Map[String, java.util.List[String]])
       : java.util.Map[String, java.util.List[String]] = {
-    annotateWithMeta(target, toScalaMetadata(metadata)).mapValues(_.asJava).asJava
+    toJavaStringMap(annotateWithMeta(target, toScalaMetadata(metadata)))
   }
 
   def annotateJava(targets: java.util.ArrayList[String])
@@ -718,7 +730,7 @@ class LightPipeline(
 
     annotateWithMeta(scalaTargets, scalaMetas)
       .map { results =>
-        results.mapValues(_.asJava).asJava
+        toJavaStringMap(results)
       }
       .toList
       .asJava
@@ -732,7 +744,7 @@ class LightPipeline(
 
     annotate(scalaIds, scalaTexts)
       .map { results =>
-        results.mapValues(_.asJava).asJava
+        toJavaStringMap(results)
       }
       .toList
       .asJava

@@ -54,7 +54,7 @@ trait HasBatchedAnnotateTextImage[M <: Model[M]] {
 
     // Assuming we only have one annotation per field
     val inputAnnotations: Array[Row] =
-      getInputCols.map(row.fieldIndex).map(i => row.getAs[Seq[Row]](i).head)
+      getInputCols.map(row.fieldIndex).map(i => row.getAs[scala.collection.Seq[Row]](i).head)
 
     val (documentStruct: Row, imageStruct: Row) =
       if (inputAnnotations.head.getString(0) == AnnotatorType.DOCUMENT) {

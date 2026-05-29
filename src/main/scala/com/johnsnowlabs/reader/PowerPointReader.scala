@@ -170,7 +170,7 @@ class PowerPointReader(
     val state = PptxState()
     val elements = assignParagraphMetadata(slides.asScala.flatMap { slide =>
       slide.extractHSLFSlideContent.map(withSlideIndex(_, slide.getSlideNumber))
-    })
+    }.toSeq)
     val images = extractImages(ppt, state)
 
     ppt.close()
@@ -201,7 +201,7 @@ class PowerPointReader(
           HTMLElement(elem.elementType, elem.content, newMeta, elem.binaryContent)
         }
 
-    })
+    }.toSeq)
 
     val images = extractImages(pptx, state)
 
@@ -253,7 +253,7 @@ class PowerPointReader(
           metadata = metadata,
           binaryContent = Some(picture.getPictureData.getData))
       }
-    }
+    }.toSeq
   }
 
   private def extractImages(ppt: HSLFSlideShow, state: PptxState): Seq[HTMLElement] = {
@@ -277,7 +277,7 @@ class PowerPointReader(
             metadata = metadata,
             binaryContent = Some(picture.getPictureData.getData))
       }
-    }
+    }.toSeq
   }
 
 }

@@ -189,7 +189,7 @@ class WordReader(
         processTable(table, state, paragraphIndex)
 
       case _ => None
-    }
+    }.toSeq
   }
 
   private def processParagraph(
@@ -281,7 +281,7 @@ class WordReader(
             processParagraph(paragraph, "table", paragraphIndex, tableLocation)
           }
         }
-    }
+    }.toSeq
 
     tableElements ++ tableElement.toSeq
   }
@@ -315,7 +315,7 @@ class WordReader(
       }
     }
 
-    elements
+    elements.toSeq
   }
 
   /** Extracts images and computed coordinates (x, y, width, height) from a Word (.docx) document
@@ -397,7 +397,7 @@ class WordReader(
       }
     }
 
-    images
+    images.toSeq
   }
 
   private def parseXY(
@@ -563,7 +563,7 @@ class WordReader(
         content = imageName,
         metadata = metadata,
         binaryContent = Some(pic.getContent))
-    }
+    }.toSeq
   }
 
 }

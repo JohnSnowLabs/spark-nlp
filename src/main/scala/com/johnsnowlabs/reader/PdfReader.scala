@@ -170,13 +170,17 @@ class PdfReader(
     textStripper.setStartPage(1)
     textStripper.setEndPage(pdfDoc.getNumberOfPages)
     textStripper.getText(pdfDoc)
-    collectedElements
+    collectedElements.toSeq
   }
 
   private def groupTextPositionsByLine(
       textPositions: java.util.List[TextPosition]): Seq[(Int, Seq[TextPosition])] = {
     val yTolerance = 2f // Potential parameter, since needs to experiment to fit your PDFs
-    textPositions.asScala.groupBy(tp => (tp.getY / yTolerance).round).toSeq.sortBy(_._1)
+    textPositions.asScala
+      .groupBy(tp => (tp.getY / yTolerance).round)
+      .toSeq
+      .map { case (line, positions) => line -> positions.toSeq }
+      .sortBy(_._1)
   }
 
   private def classifyLineElement(

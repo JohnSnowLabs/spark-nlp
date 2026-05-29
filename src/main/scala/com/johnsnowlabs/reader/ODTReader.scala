@@ -666,7 +666,7 @@ class ODTReader(
 
   private def childElements(node: Node): Seq[Elem] = node.child.collect { case elem: Elem =>
     elem
-  }
+  }.toSeq
 
   private def attr(node: Node, key: String): Option[String] = {
     node.attributes.asAttrMap

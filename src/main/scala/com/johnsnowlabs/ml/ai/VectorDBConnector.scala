@@ -32,6 +32,8 @@ import org.apache.spark.sql.{Dataset, Row, SparkSession}
 import java.time.Instant
 import java.util.UUID
 
+import scala.collection.immutable.Seq
+
 /** Connector for storing and retrieving embeddings from vector databases.
   *
   * This annotator takes embeddings from previous annotators (like BertEmbeddings,
@@ -615,8 +617,8 @@ class VectorDBConnector(override val uid: String)
   private def getAnnotationsFromRow(row: Row, column: String): Seq[Annotation] = {
     try {
       val colIdx = row.fieldIndex(column)
-      val annotations = row.getAs[Seq[Row]](colIdx)
-      if (annotations != null) annotations.map(Annotation(_)) else Seq.empty
+      val annotations = row.getAs[scala.collection.Seq[Row]](colIdx)
+      if (annotations != null) annotations.iterator.map(Annotation(_)).toVector else Seq.empty
     } catch {
       case _: Exception => Seq.empty[Annotation]
     }
@@ -634,8 +636,9 @@ class VectorDBConnector(override val uid: String)
   private def getImageAnnotationsFromRow(row: Row, column: String): Seq[AnnotationImage] = {
     try {
       val colIdx = row.fieldIndex(column)
-      val annotations = row.getAs[Seq[Row]](colIdx)
-      if (annotations != null) annotations.map(AnnotationImage(_)) else Seq.empty
+      val annotations = row.getAs[scala.collection.Seq[Row]](colIdx)
+      if (annotations != null) annotations.iterator.map(AnnotationImage(_)).toVector
+      else Seq.empty
     } catch {
       case _: Exception => Seq.empty[AnnotationImage]
     }

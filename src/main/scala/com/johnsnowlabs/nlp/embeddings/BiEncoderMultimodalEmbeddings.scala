@@ -31,6 +31,7 @@ import com.johnsnowlabs.ml.util.ONNX
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, IMAGE, SENTENCE_EMBEDDINGS}
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.serialization.MapFeature
+import com.johnsnowlabs.nlp.util.AnnotationRowUtils.extractAnnotationRows
 import com.johnsnowlabs.nlp.util.SparkNlpConfig
 import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.util.ZipArchiveUtil
@@ -38,6 +39,8 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param, ParamMap}
+
+import scala.collection.immutable.Seq
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.functions.col
@@ -458,8 +461,8 @@ class BiEncoderMultimodalEmbeddings(override val uid: String)
       imageInputIndex: Int,
       docInputCol: String,
       imageInputCol: String): RowBatchInput = {
-    val documentAnnotations = toTextAnnotations(row.getAs[Seq[Row]](docInputIndex))
-    val imageAnnotations = toImageAnnotations(row.getAs[Seq[Row]](imageInputIndex))
+    val documentAnnotations = toTextAnnotations(extractAnnotationRows(row, docInputIndex))
+    val imageAnnotations = toImageAnnotations(extractAnnotationRows(row, imageInputIndex))
 
     require(
       documentAnnotations.length == imageAnnotations.length,
@@ -556,11 +559,11 @@ class BiEncoderMultimodalEmbeddings(override val uid: String)
       keys: Seq[String]): Option[String] =
     firstPresentMetadata(metadata, keys)
 
-  private def toTextAnnotations(rows: Seq[Row]): Seq[Annotation] =
-    Option(rows).getOrElse(Seq.empty).map(Annotation(_))
+  private def toTextAnnotations(rows: scala.collection.Seq[Row]): Seq[Annotation] =
+    Option(rows).getOrElse(scala.collection.Seq.empty).iterator.map(Annotation(_)).toVector
 
-  private def toImageAnnotations(rows: Seq[Row]): Seq[AnnotationImage] =
-    Option(rows).getOrElse(Seq.empty).map(AnnotationImage(_))
+  private def toImageAnnotations(rows: scala.collection.Seq[Row]): Seq[AnnotationImage] =
+    Option(rows).getOrElse(scala.collection.Seq.empty).iterator.map(AnnotationImage(_)).toVector
 
   private def annotationToRow(annotation: Annotation): Row =
     Row(
@@ -605,12 +608,12 @@ trait ReadBiEncoderMultimodalEmbeddingsDLModel
         .extractOpt[List[Map[String, Any]]]
         .getOrElse(Nil)
         .map { token =>
-          token("content").asInstanceOf[String] -> token("id").asInstanceOf[BigInt].intValue()
+          token("content").asInstanceOf[String] -> token("id").asInstanceOf[BigInt].toInt
         }
         .toMap
 
       addedTokens.foreach { case (content, id) =>
-        vocab += (content -> id)
+        vocab = vocab.updated(content, id)
       }
 
       (vocab, addedTokens, merges)
@@ -623,13 +626,13 @@ trait ReadBiEncoderMultimodalEmbeddingsDLModel
         if (new File(addedTokensPath).exists()) {
           parse(loadJsonStringAsset(localModelPath, "added_tokens.json"))
             .extract[Map[String, BigInt]]
-            .map { case (token, id) => token -> id.intValue() }
+            .map { case (token, id) => token -> id.toInt }
         } else {
           Map.empty[String, Int]
         }
 
       addedTokens.foreach { case (content, id) =>
-        vocab += (content -> id)
+        vocab = vocab.updated(content, id)
       }
 
       val merges = loadTextAsset(localModelPath, "merges.txt")

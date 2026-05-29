@@ -30,7 +30,7 @@ class TSVReaderTest extends AnyFlatSpec {
     val reader = new TSVReader(inferTableStructure = false)
     val tsvDf = reader.tsv(filePath)
 
-    val elements = tsvDf.head.getAs[Seq[Row]]("tsv")
+    val elements = tsvDf.head.getAs[scala.collection.Seq[Row]]("tsv")
     val plainText = elements.head.getAs[String]("content")
     val expectedText = "Blues STL 1 Flyers PHI 2 Maple Leafs TOR 13"
 

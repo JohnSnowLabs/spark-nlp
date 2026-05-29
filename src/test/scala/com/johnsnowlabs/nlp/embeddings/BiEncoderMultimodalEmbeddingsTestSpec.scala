@@ -169,9 +169,9 @@ class BiEncoderMultimodalEmbeddingsTestSpec extends AnyFlatSpec with SparkSessio
         AnnotatorType.SENTENCE_EMBEDDINGS)
 
     val firstRowDocEmbeddings =
-      collected.head.getAs[Seq[Row]]("mm_doc_embeddings").map(Annotation(_))
+      collected.head.getAs[scala.collection.Seq[Row]]("mm_doc_embeddings").map(Annotation(_))
     val firstRowImageEmbeddings =
-      collected.head.getAs[Seq[Row]]("mm_image_embeddings").map(Annotation(_))
+      collected.head.getAs[scala.collection.Seq[Row]]("mm_image_embeddings").map(Annotation(_))
     assert(firstRowDocEmbeddings.length == 1)
     assert(firstRowImageEmbeddings.length == 1)
     assert(firstRowDocEmbeddings.head.result == "Finding one")
@@ -184,9 +184,9 @@ class BiEncoderMultimodalEmbeddingsTestSpec extends AnyFlatSpec with SparkSessio
     assert(firstRowImageEmbeddings.head.metadata("item_id").contains("img_1.png"))
 
     val secondRowDocEmbeddings =
-      collected(1).getAs[Seq[Row]]("mm_doc_embeddings").map(Annotation(_))
+      collected(1).getAs[scala.collection.Seq[Row]]("mm_doc_embeddings").map(Annotation(_))
     val secondRowImageEmbeddings =
-      collected(1).getAs[Seq[Row]]("mm_image_embeddings").map(Annotation(_))
+      collected(1).getAs[scala.collection.Seq[Row]]("mm_image_embeddings").map(Annotation(_))
     assert(secondRowDocEmbeddings.length == 2)
     assert(secondRowImageEmbeddings.length == 2)
     assert(secondRowDocEmbeddings.map(_.metadata("modality")).forall(_ == "text"))

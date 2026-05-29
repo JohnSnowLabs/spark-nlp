@@ -83,7 +83,8 @@ lazy val utilDependencies = Seq(
   pdfBox,
   flexmark,
   tagSoup,
-  json4sNative)
+  json4sNative,
+  scalaParallelCollections)
 
 lazy val typedDependencyParserDependencies = Seq(junit)
 

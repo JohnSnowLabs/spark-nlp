@@ -16,6 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.util.AnnotationRowUtils.extractAnnotationRows
 import com.johnsnowlabs.nlp.util.SparkNlpConfig
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param._
@@ -26,7 +27,9 @@ import org.apache.spark.sql.types.{Metadata, MetadataBuilder, StructField, Struc
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 import org.json4s.NoTypeHints
 import org.json4s.jackson.Serialization
+
 import scala.collection.Map
+import scala.collection.immutable.Seq
 
 /** LayoutAlignerForVision aligns document chunks with nearby images and emits paired outputs: one
   * document annotation column, one image annotation column, and one prompt annotation column.
@@ -174,8 +177,8 @@ class LayoutAlignerForVision(override val uid: String)
 
     val mappedDataFrame = inputDataFrame.mapPartitions { rows =>
       rows.flatMap { row =>
-        val textRows = Option(row.getAs[Seq[Row]](docInputIndex)).getOrElse(Seq.empty)
-        val imageRows = Option(row.getAs[Seq[Row]](imageInputIndex)).getOrElse(Seq.empty)
+        val textRows = extractAnnotationRows(row, docInputIndex)
+        val imageRows = extractAnnotationRows(row, imageInputIndex)
         val textAnnotations = toTextAnnotations(textRows)
         val pairs = alignPairs(textAnnotations, toImageAnnotations(imageRows))
         val neighborTextByParagraph = buildNeighborTextByParagraph(textAnnotations)
@@ -651,11 +654,11 @@ class LayoutAlignerForVision(override val uid: String)
       metadata = Map("prompt_source" -> "LayoutAlignerForVision"))
   }
 
-  private def toTextAnnotations(rows: Seq[Row]): Seq[Annotation] =
-    Option(rows).getOrElse(Seq.empty).map(Annotation(_))
+  private def toTextAnnotations(rows: scala.collection.Seq[Row]): Seq[Annotation] =
+    Option(rows).getOrElse(scala.collection.Seq.empty).iterator.map(Annotation(_)).toVector
 
-  private def toImageAnnotations(rows: Seq[Row]): Seq[AnnotationImage] =
-    Option(rows).getOrElse(Seq.empty).map(AnnotationImage(_))
+  private def toImageAnnotations(rows: scala.collection.Seq[Row]): Seq[AnnotationImage] =
+    Option(rows).getOrElse(scala.collection.Seq.empty).iterator.map(AnnotationImage(_)).toVector
 
   private def annotationToRow(annotation: Annotation): Row =
     Row(

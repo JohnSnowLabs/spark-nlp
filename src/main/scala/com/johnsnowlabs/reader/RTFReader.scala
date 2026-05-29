@@ -179,7 +179,7 @@ class RTFReader(storeContent: Boolean = false, titleLengthSize: Int = 50) extend
       }
     }
 
-    elements
+    elements.toSeq
   }
 
   private def extractParagraphText(
