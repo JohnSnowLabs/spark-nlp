@@ -24,36 +24,38 @@ import org.apache.spark.ml.{Pipeline, Transformer}
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 import org.slf4j.LoggerFactory
 
-/** DocumentTranslator reads documents from any supported file type and translates them using a
-  * [[MarianTransformer]] model – all in a single Pipeline stage.
+/** DocumentTranslator reads documents from any supported file type and translates them using an
+  * [[M2M100Transformer]] model – all in a single Pipeline stage.
   *   1. A [[Reader2Doc]] stage that reads files from `contentPath` (or from a DataFrame column
   *      set via `inputCol`) and converts them to Spark NLP `DOCUMENT` annotations. Every file
   *      format that [[Reader2Doc]] supports is accepted: PDF, Word (.doc/.docx), ODT, Excel
   *      (.xls/.xlsx), PowerPoint (.ppt/.pptx), HTML, plain-text, RTF, Markdown, XML, CSV, and
-  *      email (.eml/.msg). 2. A [[MarianTransformer]] loaded via
+  *      email (.eml/.msg). 2. An [[M2M100Transformer]] loaded via
   *      [[DocumentTranslator.pretrained]] that translates the resulting document annotations.
   *
   * The output column contains standard Spark NLP `DOCUMENT` annotations holding the translated
   * text, making it fully composable with any downstream Spark NLP annotator.
   *
   * Load a model using the companion object's `pretrained` method, passing the
-  * [[MarianTransformer]] model name and language. Hundreds of language-pair models are available
+  * [[M2M100Transformer]] model name and language. Hundreds of language-pair models are available
   * from the [[https://sparknlp.org/models?task=Translation Models Hub]].
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val translator = DocumentTranslator.pretrained("opus_mt_en_fr", "xx")
+  * val translator = DocumentTranslator.pretrained("m2m100_418M", "xx")
   *   .setContentPath("src/test/resources/reader/html/")
   *   .setContentType("text/html")
+  *   .setSrcLang("en")
+  *   .setTgtLang("fr")
   *   .setOutputCol("translation")
   * }}}
-  * The default model is `"opus_mt_en_fr"`, default language is `"xx"` (multi-lingual), if no
+  * The default model is `"m2m100_418M"`, default language is `"xx"` (multi-lingual), if no
   * values are provided.
   *
-  * For available pretrained MarianNMT models please see the
+  * For available pretrained M2M100 models please see the
   * [[https://sparknlp.org/models?task=Translation Models Hub]].
   *
   * ==Example==
@@ -62,9 +64,11 @@ import org.slf4j.LoggerFactory
   * import org.apache.spark.ml.Pipeline
   * import com.johnsnowlabs.util.PipelineModels
   *
-  * val translator = DocumentTranslator.pretrained("opus_mt_en_fr", "xx")
+  * val translator = DocumentTranslator.pretrained("m2m100_418M", "xx")
   *   .setContentPath("src/test/resources/reader/html/")
   *   .setContentType("text/html")
+  *   .setSrcLang("en")
+  *   .setTgtLang("fr")
   *   .setOutputCol("translation")
   *
   * val pipeline = new Pipeline().setStages(Array(translator))
@@ -181,7 +185,7 @@ class DocumentTranslator(override val uid: String)
   /** @group getParam */
   def getJoinString: String = $(joinString)
 
-  /** Maximum number of tokens per chunk passed to the [[MarianTransformer]]. The document is
+  /** Maximum number of tokens per chunk passed to the [[M2M100Transformer]]. The document is
     * first split into sentences by [[com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel]], then whole sentences are greedily packed
     * into chunks that stay under this token limit (Default: `400`).
     *
@@ -191,14 +195,11 @@ class DocumentTranslator(override val uid: String)
     new IntParam(
       this,
       "chunkSize",
-      "Maximum number of tokens per chunk sent to the MarianTransformer (Default: 400). " +
-        "Must be <= 512 (the hard limit of MarianTransformer).")
+      "Maximum number of tokens per chunk sent to the M2M100Transformer (Default: 400).")
 
   /** @group setParam */
   def setChunkSize(value: Int): this.type = {
-    require(
-      value > 0 && value <= 512,
-      "chunkSize must be between 1 and 512 (MarianTransformer hard limit).")
+    require(value > 0, "chunkSize must be > 0.")
     set(chunkSize, value)
   }
 
@@ -213,44 +214,80 @@ class DocumentTranslator(override val uid: String)
     joinString -> "\n",
     chunkSize -> 400)
 
-  /** The [[MarianTransformer]] model used for translation. Set by
+  /** The [[M2M100Transformer]] model used for translation. Set by
     * [[DocumentTranslator.pretrained]] via [[setModel]] and not exposed as a public Spark ML
     * param because the model object itself is not serialisable as a param value.
     */
-  private var _model: Option[MarianTransformer] = None
+  private var _model: Option[M2M100Transformer] = None
 
-  /** Stores the downloaded [[MarianTransformer]] model inside this annotator. Called exclusively
+  /** Stores the downloaded [[M2M100Transformer]] model inside this annotator. Called exclusively
     * by the companion object's `pretrained` factory methods.
     */
-  private[seq2seq] def setModel(value: MarianTransformer): this.type = {
+  private[seq2seq] def setModel(value: M2M100Transformer): this.type = {
     _model = Some(value)
     this
   }
 
-  /** Returns the [[MarianTransformer]] model, throwing [[IllegalStateException]] if
+  /** Returns the [[M2M100Transformer]] model, throwing [[IllegalStateException]] if
     * [[DocumentTranslator.pretrained]] has not been called yet.
     */
-  def getModel: MarianTransformer =
+  def getModel: M2M100Transformer =
     _model.getOrElse(
       throw new IllegalStateException(
-        s"[$uid] No MarianTransformer model is loaded. " +
+        s"[$uid] No M2M100Transformer model is loaded. " +
           "Use DocumentTranslator.pretrained(name, lang) to obtain a configured instance."))
 
-  /** Controls the maximum length for encoder inputs (source language texts).
+  // ── M2M100-specific language parameters ───────────────────────────────────
+
+  /** Source language code for the M2M100 model (e.g. `"en"`).
+    * @group setParam
+    */
+  def setSrcLang(value: String): this.type = { getModel.setSrcLang(value); this }
+
+  /** @group getParam */
+  def getSrcLang: String = getModel.getOrDefault(getModel.srcLang)
+
+  /** Target language code for the M2M100 model (e.g. `"fr"`).
+    * @group setParam
+    */
+  def setTgtLang(value: String): this.type = { getModel.setTgtLang(value); this }
+
+  /** @group getParam */
+  def getTgtLang: String = getModel.getOrDefault(getModel.tgtLang)
+
+  // ── Generation parameters delegated to HasGeneratorProperties ─────────────
+
+  /** Maximum length of the input sequence.
     * @group setParam
     */
   def setMaxInputLength(value: Int): this.type = { getModel.setMaxInputLength(value); this }
 
   /** @group getParam */
-  def getMaxInputLength: Int = getModel.getMaxInputLength
+  def getMaxInputLength: Int = getModel.getOrDefault(getModel.maxInputLength)
 
-  /** Controls the maximum length for decoder outputs (target language texts).
+  /** Maximum length of the generated (translated) sequence.
     * @group setParam
     */
   def setMaxOutputLength(value: Int): this.type = { getModel.setMaxOutputLength(value); this }
 
   /** @group getParam */
   def getMaxOutputLength: Int = getModel.getMaxOutputLength
+
+  /** Minimum length of the generated sequence.
+    * @group setParam
+    */
+  def setMinOutputLength(value: Int): this.type = { getModel.setMinOutputLength(value); this }
+
+  /** @group getParam */
+  def getMinOutputLength: Int = getModel.getMinOutputLength
+
+  /** Whether to use sampling; use greedy decoding otherwise (Default: `false`).
+    * @group setParam
+    */
+  def setDoSample(value: Boolean): this.type = { getModel.setDoSample(value); this }
+
+  /** @group getParam */
+  def getDoSample: Boolean = getModel.getDoSample
 
   /** The value used to module the next token probabilities (Default: `1.0`).
     * @group setParam
@@ -260,8 +297,7 @@ class DocumentTranslator(override val uid: String)
   /** @group getParam */
   def getTemperature: Double = getModel.getTemperature
 
-  /** The number of highest probability vocabulary tokens to keep for top-k-filtering (Default:
-    * `50`).
+  /** The number of highest probability vocabulary tokens to keep for top-k-filtering (Default: `50`).
     * @group setParam
     */
   def setTopK(value: Int): this.type = { getModel.setTopK(value); this }
@@ -296,6 +332,16 @@ class DocumentTranslator(override val uid: String)
   /** @group getParam */
   def getNoRepeatNgramSize: Int = getModel.getNoRepeatNgramSize
 
+  /** A list of token ids which are ignored in the decoder's output (Default: `Array()`).
+    * @group setParam
+    */
+  def setIgnoreTokenIds(tokenIds: Array[Int]): this.type = {
+    getModel.setIgnoreTokenIds(tokenIds); this
+  }
+
+  /** @group getParam */
+  def getIgnoreTokenIds: Array[Int] = getModel.getIgnoreTokenIds
+
   private val internalDocCol: String      = s"__${uid}_doc__"
   private val internalSentenceCol: String = s"__${uid}_sentence__"
   private val internalChunkCol: String    = s"__${uid}_chunk__"
@@ -317,11 +363,11 @@ class DocumentTranslator(override val uid: String)
     val reader = buildReader2Doc()
 
     val sentenceDetector = SentenceDetectorDLModel
-      .pretrained("sentence_detector_dl", "en")
+      .pretrained("sentence_detector_dl", "xx")
       .setInputCols(Array(internalDocCol))
       .setOutputCol(internalSentenceCol)
 
-    val marian = getModel
+    val m2m100 = getModel
       .setInputCols(Array(internalChunkCol))
       .setOutputCol(getOutputCol)
 
@@ -345,20 +391,21 @@ class DocumentTranslator(override val uid: String)
     val withChunks = spark.createDataFrame(
       spark.sparkContext.parallelize(packedRows), schemaWithChunks)
 
-    // Step 4: translate — MarianTransformer reads internalChunkCol, writes getOutputCol
-    val translated = marian.transform(withChunks)
+    // Step 4: translate — M2M100Transformer reads internalChunkCol, writes getOutputCol
+    val translated = m2m100.transform(withChunks)
 
     // Step 5: merge translated chunk annotations into one annotation per row
+    val outputColIdx = translated.schema.fieldIndex(getOutputCol)
     val mergedRows = translated.collect().map { row =>
       val chunks = row.getAs[Seq[org.apache.spark.sql.Row]](getOutputCol).map(Annotation(_))
       val merged = mergeChunks(chunks)
       val mergedAsRow = org.apache.spark.sql.Row(
         merged.annotatorType, merged.begin, merged.end,
         merged.result, merged.metadata, merged.embeddings)
-      val withoutOutput = row.toSeq.zipWithIndex
-        .filterNot { case (_, i) => row.schema.fieldIndex(getOutputCol) == i }
-        .map(_._1)
-      org.apache.spark.sql.Row.fromSeq(withoutOutput :+ Seq(mergedAsRow))
+      val newValues = row.toSeq.zipWithIndex.map { case (v, i) =>
+        if (i == outputColIdx) Seq(mergedAsRow) else v
+      }
+      org.apache.spark.sql.Row.fromSeq(newValues)
     }
 
     val finalDf = spark.createDataFrame(
@@ -377,7 +424,11 @@ class DocumentTranslator(override val uid: String)
     var tokens = 0
     var begin  = sentences.head.begin
 
-    def tokenCount(s: String): Int = s.split("\\s+").count(_.nonEmpty)
+    // M2M100 uses SentencePiece subword tokenisation which produces significantly more
+    // tokens than whitespace splitting. A character-based estimate (÷ 4) is a much
+    // closer approximation of the actual subword token count and avoids OOM errors in
+    // the ONNX decoder when chunks are larger than the model's positional embedding size.
+    def tokenCount(s: String): Int = math.max(1, (s.length / 4.0).ceil.toInt)
 
     def flush(end: Int, meta: scala.collection.Map[String, String]): Unit =
       if (texts.nonEmpty) {
@@ -391,7 +442,7 @@ class DocumentTranslator(override val uid: String)
       if (n > maxTokens) {
         logger.warn(
           s"[$uid] Sentence with $n tokens exceeds chunkSize=$maxTokens. " +
-            s"MarianTransformer will truncate at 512 tokens. Sentence: [${ann.result}]")
+            s"Sentence: [${ann.result}]")
         flush(ann.begin - 1, ann.metadata)
         result += Annotation(DOCUMENT, ann.begin, ann.end, ann.result, ann.metadata)
         begin   = ann.end + 1
@@ -437,13 +488,9 @@ class DocumentTranslator(override val uid: String)
   }
 }
 
-/** This is the companion object of [[DocumentTranslator]]. Please refer to that class for the
-  * documentation.
-  */
-object DocumentTranslator extends DefaultParamsReadable[DocumentTranslator] {
+trait ReadablePretrainedDocumentTranslator extends DefaultParamsReadable[DocumentTranslator] {
 
-  val defaultModelName: String = "opus_mt_en_fr"
-
+  val defaultModelName: String = "m2m100_418M"
   val defaultLang: String = "xx"
 
   def pretrained(): DocumentTranslator =
@@ -453,13 +500,34 @@ object DocumentTranslator extends DefaultParamsReadable[DocumentTranslator] {
     pretrained(name, defaultLang)
 
   def pretrained(name: String, lang: String): DocumentTranslator = {
-    val marian = MarianTransformer.pretrained(name, lang)
-    new DocumentTranslator().setModel(marian)
+    val m2m100 = M2M100Transformer.pretrained(name, lang)
+    new DocumentTranslator().setModel(m2m100)
   }
 
-  def pretrained(name: String, lang: String, remoteLoc: String): DocumentTranslator = {
-    val marian = MarianTransformer.pretrained(name, lang, remoteLoc)
-    new DocumentTranslator().setModel(marian)
+  def pretrained(
+      name: String,
+      lang: String,
+      remoteLoc: String): DocumentTranslator = {
+    val m2m100 = M2M100Transformer.pretrained(name, lang, remoteLoc)
+    new DocumentTranslator().setModel(m2m100)
   }
 }
+
+trait ReadDocumentTranslatorModel {
+
+  def loadSavedModel(
+      modelPath: String,
+      spark: SparkSession,
+      useOpenvino: Boolean = false): DocumentTranslator = {
+    val m2m100 = M2M100Transformer.loadSavedModel(modelPath, spark, useOpenvino)
+    new DocumentTranslator().setModel(m2m100)
+  }
+}
+
+/** This is the companion object of [[DocumentTranslator]]. Please refer to that class for the
+  * documentation.
+  */
+object DocumentTranslator
+    extends ReadablePretrainedDocumentTranslator
+    with ReadDocumentTranslatorModel
 

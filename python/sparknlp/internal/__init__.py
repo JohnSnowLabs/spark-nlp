@@ -378,6 +378,7 @@ class _M2M100Loader(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer.loadSavedModel",
             path,
             jspark,
+            use_openvino
         )
 
 
