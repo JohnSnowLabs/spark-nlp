@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp
 
+import org.apache.spark.sql.api.java.UDF1
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types._
@@ -222,63 +223,96 @@ object Annotation {
       .take(howMany)
   }
 
+  private def annotationResult(
+      row: Row,
+      valueSeparator: String,
+      parseEmbeddings: Boolean): String = {
+    row.getString(0) match {
+      case (AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS)
+          if parseEmbeddings =>
+        row.getSeq[Float](5).mkString(valueSeparator)
+      case _ => row.getString(3)
+    }
+  }
+
+  private def flattenAnnotationRows(
+      annotations: scala.collection.Seq[Row],
+      valueSeparator: String,
+      annotationSeparator: String,
+      parseEmbeddings: Boolean): String = {
+    Option(annotations)
+      .map(
+        _.map(row => annotationResult(row, valueSeparator, parseEmbeddings)).mkString(
+          annotationSeparator))
+      .getOrElse("")
+  }
+
+  private def flattenAnnotationRowsDetail(
+      annotations: scala.collection.Seq[Row],
+      valueSeparator: String,
+      annotationSeparator: String,
+      parseEmbeddings: Boolean): String = {
+    Option(annotations)
+      .map(_.map { row =>
+        val metadataWithResult = row.getMap[String, String](4) ++ Map(RESULT -> row.getString(3))
+        val metadata = row.getString(0) match {
+          case (AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS)
+              if parseEmbeddings =>
+            metadataWithResult ++ Map(EMBEDDINGS -> row.getSeq[Float](5).mkString(valueSeparator))
+          case _ => metadataWithResult
+        }
+        metadata.mkString(valueSeparator).replace(" -> ", "->")
+      }.mkString(annotationSeparator))
+      .getOrElse("")
+  }
+
+  private def flattenAnnotationRowsAsArray(
+      annotations: scala.collection.Seq[Row],
+      parseEmbeddings: Boolean): scala.collection.Seq[String] = {
+    Option(annotations)
+      .map(_.map(row => annotationResult(row, " ", parseEmbeddings)))
+      .getOrElse(Seq.empty[String])
+  }
+
+  private def flattenAnnotationRowsMetadata(
+      annotations: scala.collection.Seq[Row]): Map[String, String] = {
+    Option(annotations).map(_.flatMap(_.getMap[String, String](4)).toMap).getOrElse(Map.empty)
+  }
+
   /** dataframe annotation flatmap of results into strings */
   def flatten(vSep: String, aSep: String, parseEmbeddings: Boolean): UserDefinedFunction = {
-    udf { annotations: Seq[Row] =>
-      annotations
-        .map(r =>
-          r.getString(0) match {
-            case (AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS)
-                if (parseEmbeddings) =>
-              r.getSeq[Float](5).mkString(vSep)
-            case _ => r.getString(3)
-          })
-        .mkString(aSep)
+    val func = new UDF1[scala.collection.Seq[Row], String] {
+      override def call(annotations: scala.collection.Seq[Row]): String =
+        flattenAnnotationRows(annotations, vSep, aSep, parseEmbeddings)
     }
+    udf(func, StringType)
   }
 
   /** dataframe annotation flatmap of results and metadata key values into strings */
   def flattenDetail(vSep: String, aSep: String, parseEmbeddings: Boolean): UserDefinedFunction = {
-    udf { annotations: Seq[Row] =>
-      annotations
-        .map(r =>
-          r.getString(0) match {
-            case (AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS)
-                if (parseEmbeddings) =>
-              (r.getMap[String, String](4) ++
-                Map(RESULT -> r.getString(3)) ++
-                Map(EMBEDDINGS -> r.getSeq[Float](5).mkString(vSep)))
-                .mkString(vSep)
-                .replace(" -> ", "->")
-            case _ =>
-              (r.getMap[String, String](4) ++ Map(RESULT -> r.getString(3)))
-                .mkString(vSep)
-                .replace(" -> ", "->")
-          })
-        .mkString(aSep)
+    val func = new UDF1[scala.collection.Seq[Row], String] {
+      override def call(annotations: scala.collection.Seq[Row]): String =
+        flattenAnnotationRowsDetail(annotations, vSep, aSep, parseEmbeddings)
     }
+    udf(func, StringType)
   }
 
   /** dataframe annotation flatmap of result values as ArrayType */
   def flattenArray(parseEmbeddings: Boolean): UserDefinedFunction = {
-    udf { annotations: Seq[Row] =>
-      annotations.map(r =>
-        r.getString(0) match {
-          case (AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS)
-              if (parseEmbeddings) =>
-            r.getSeq[Float](5).mkString(" ")
-          case _ => r.getString(3)
-        })
+    val func = new UDF1[scala.collection.Seq[Row], scala.collection.Seq[String]] {
+      override def call(annotations: scala.collection.Seq[Row]): scala.collection.Seq[String] =
+        flattenAnnotationRowsAsArray(annotations, parseEmbeddings)
     }
+    udf(func, ArrayType(StringType))
   }
 
   /** dataframe annotation flatmap of metadata values as ArrayType */
   def flattenArrayMetadata: UserDefinedFunction = {
-    udf { annotations: Seq[Row] =>
-      annotations.flatMap(r => {
-        r.getMap[String, String](4)
-      })
+    val func = new UDF1[scala.collection.Seq[Row], Map[String, String]] {
+      override def call(annotations: scala.collection.Seq[Row]): Map[String, String] =
+        flattenAnnotationRowsMetadata(annotations)
     }
+    udf(func, MapType(StringType, StringType))
   }
 
   private def isInside(a: Annotation, begin: Int, end: Int): Boolean = {

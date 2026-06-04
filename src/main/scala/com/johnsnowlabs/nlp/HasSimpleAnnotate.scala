@@ -43,9 +43,14 @@ trait HasSimpleAnnotate[M <: Model[M]] {
     *   udf function to be applied to [[inputCols]] using this annotator's annotate function as
     *   part of ML transformation
     */
+  private[nlp] def annotateColumnGroups(
+      annotationProperties: immutable.Seq[AnnotationContent]): immutable.Seq[Annotation] = {
+    annotate(annotationProperties.flatMap(_.map(Annotation(_))))
+  }
+
   def dfAnnotate: UserDefinedFunction = udf {
     annotationProperties: immutable.Seq[AnnotationContent] =>
-      annotate(annotationProperties.flatMap(_.map(Annotation(_))))
+      annotateColumnGroups(annotationProperties)
   }
 
 }

@@ -15,9 +15,12 @@
  */
 package com.johnsnowlabs.partition
 
+import com.johnsnowlabs.nlp.util.{AnnotationRowUtils, SparkNlpConfig}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.{HTMLElement, SparkNLPReader}
-import org.apache.spark.sql.DataFrame
+import com.johnsnowlabs.util.Version
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
+import org.apache.spark.sql.{DataFrame, Row}
 
 import scala.collection.JavaConverters._
 import scala.util.Try
@@ -149,11 +152,38 @@ class Partition(params: java.util.Map[String, String] = new java.util.HashMap())
     val partitionResult = reader(path)
     if (hasChunkerStrategy) {
       val chunker = new PartitionChunker(params.asScala.toMap)
-      partitionResult.withColumn(
-        "chunks",
-        chunker.chunkUDF()(partitionResult(sparkNLPReader.getOutputColumn)))
+      if (isSpark4OrNewer(partitionResult)) {
+        chunkWithRows(partitionResult, chunker, sparkNLPReader.getOutputColumn)
+      } else {
+        partitionResult.withColumn(
+          "chunks",
+          chunker.chunkUDF()(partitionResult(sparkNLPReader.getOutputColumn)))
+      }
     } else partitionResult
   }
+
+  private def chunkWithRows(
+      partitionResult: DataFrame,
+      chunker: PartitionChunker,
+      inputColumn: String): DataFrame = {
+    val inputDataFrame = partitionResult.toDF()
+    val inputColumnIndex = inputDataFrame.schema.fieldIndex(inputColumn)
+    val outputSchema =
+      inputDataFrame.schema.add("chunks", inputDataFrame.schema(inputColumn).dataType)
+
+    implicit val encoder: ExpressionEncoder[Row] =
+      SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
+
+    inputDataFrame.mapPartitions { rows =>
+      rows.map { row =>
+        val elements = AnnotationRowUtils.extractAnnotationRows(row, inputColumnIndex)
+        Row.fromSeq(row.toSeq :+ chunker.chunkRows(elements.toVector).toVector)
+      }
+    }
+  }
+
+  private def isSpark4OrNewer(dataFrame: DataFrame): Boolean =
+    Version.parse(dataFrame.sparkSession.version).toFloat >= 4.0f
 
   def partitionStringContent(
       input: String,

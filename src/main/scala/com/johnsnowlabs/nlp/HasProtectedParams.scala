@@ -11,7 +11,8 @@ import org.apache.spark.ml.param.{Param, Params}
 trait HasProtectedParams {
   this: Params =>
   implicit class ProtectedParam[T](baseParam: Param[T])
-      extends Param[T](baseParam.parent, baseParam.name, baseParam.doc, baseParam.isValid) {
+      extends Param[T](baseParam.parent, baseParam.name, baseParam.doc, baseParam.isValid)(
+        baseParam.paramValueClassTag) {
 
     var isProtected = false
 

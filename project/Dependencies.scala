@@ -4,12 +4,13 @@ object Dependencies {
 
   /** ------- Spark version start ------- */
   /* default spark version to base the APIS */
-  val spark34Ver = "3.4.0"
+  val spark40Ver = "4.0.0"
   /* only used in unit tests */
   val spark30Ver = "3.0.3"
   val spark31Ver = "3.1.3"
   val spark32Ver = "3.2.3"
   val spark33Ver = "3.3.1"
+  val spark34Ver = "3.4.0"
   val spark35Ver = "3.5.0"
 
   /* required for different hardware */
@@ -23,11 +24,32 @@ object Dependencies {
   val is_spark31: String = System.getProperty("is_spark31", "false")
   val is_spark32: String = System.getProperty("is_spark32", "false")
   val is_spark33: String = System.getProperty("is_spark33", "false")
-  val is_spark34: String = System.getProperty("is_spark34", "true")
+  val is_spark34: String = System.getProperty("is_spark34", "false")
   val is_spark35: String = System.getProperty("is_spark35", "false")
+  val is_spark40: String = System.getProperty("is_spark40", "false")
+
+  private val enabledSparkProfiles = Seq(
+    is_spark30,
+    is_spark31,
+    is_spark32,
+    is_spark33,
+    is_spark34,
+    is_spark35,
+    is_spark40).count(_.equals("true"))
+
+  require(
+    enabledSparkProfiles <= 1,
+    "Select at most one Spark profile: -Dis_spark30=true, -Dis_spark31=true, -Dis_spark32=true, -Dis_spark33=true, -Dis_spark34=true, -Dis_spark35=true, or -Dis_spark40=true")
 
   val sparkVer: String =
-    getSparkVersion(is_spark30, is_spark31, is_spark32, is_spark33, is_spark34, is_spark35)
+    getSparkVersion(
+      is_spark30,
+      is_spark31,
+      is_spark32,
+      is_spark33,
+      is_spark34,
+      is_spark35,
+      is_spark40)
 
   /** ------- Spark version end ------- */
 
@@ -50,7 +72,8 @@ object Dependencies {
       is_spark32: String,
       is_spark33: String,
       is_spark34: String,
-      is_spark35: String): String = {
+      is_spark35: String,
+      is_spark40: String): String = {
     if (is_spark30.equals("true")) {
       spark30Ver
     } else if (is_spark31.equals("true")) {
@@ -59,11 +82,15 @@ object Dependencies {
       spark32Ver
     } else if (is_spark33.equals("true")) {
       spark33Ver
+    } else if (is_spark34.equals("true")) {
+      spark34Ver
     } else if (is_spark35.equals("true")) {
       spark35Ver
+    } else if (is_spark40.equals("true")) {
+      spark40Ver
     } else {
       /* default spark version */
-      spark34Ver
+      spark40Ver
     }
   }
 
@@ -159,7 +186,7 @@ object Dependencies {
   val pineconeScalaClient = "io.cequence" %% "pinecone-scala-client" % "1.3.2"
 
 
-  val json4sVersion = "3.7.0-M11"
+  val json4sVersion = "4.0.7"
   val json4sNative = "org.json4s" %% "json4s-native" % json4sVersion
 
   val scalaParallelCollectionsVersion = "1.2.0"

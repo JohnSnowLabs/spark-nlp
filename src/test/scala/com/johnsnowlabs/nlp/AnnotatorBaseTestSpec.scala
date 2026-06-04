@@ -79,6 +79,20 @@ class AnnotatorBaseTestSpec extends AnyFlatSpec {
         result.columns.contains(demandingDummyAnnotator.getOutputCol))
   }
 
+  "dummy annotator" should "replace an existing output column without duplicating its name" taggedAs FastTest in {
+    val firstDummy = new DummyAnnotatorModel().setOutputCol("dummy")
+    val replacingDummy = new DummyAnnotatorModel().setOutputCol("dummy")
+
+    val result = replacingDummy.transform(firstDummy.transform(dummyData))
+
+    assert(result.columns.count(_ == "dummy") == 1)
+    val schemaMetadata = result.select("dummy").schema.fields.head.metadata
+    assert(
+      schemaMetadata.contains("annotatorType") &&
+        schemaMetadata.getString("annotatorType") == replacingDummy.outputAnnotatorType)
+    assert(result.select("dummy").count() == dummyData.count())
+  }
+
   "dummy annotators" should "transform data with changed params" taggedAs FastTest in {
     dummyAnnotator
       .setOutputCol("demand")

@@ -24,12 +24,15 @@ import com.johnsnowlabs.nlp.annotators.ner.NerTagsEncoding
 import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
 import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
-import com.johnsnowlabs.nlp.util.GraphBuilder
+import com.johnsnowlabs.nlp.util.{AnnotationRowUtils, GraphBuilder, SparkNlpConfig}
+import com.johnsnowlabs.util.Version
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, StringArrayParam}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.functions.array
-import org.apache.spark.sql.{DataFrame, Dataset}
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
+import org.apache.spark.sql.functions.{array, col}
+import org.apache.spark.sql.types.{StructField, StructType}
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 /** Extracts a dependency graph between entities.
   *
@@ -346,6 +349,53 @@ class GraphExtraction(override val uid: String)
   private var pretrainedTypedDependencyParser: Option[TypedDependencyParserModel] =
     None
 
+  private def isSpark4OrNewer(dataset: Dataset[_]): Boolean =
+    Version.parse(dataset.sparkSession.version).toFloat >= 4.0f
+
+  private def outputSchemaWithReplacement(inputSchema: StructType): StructType = {
+    val outputField = StructField(getOutputCol, Annotation.arrayType, nullable = true)
+    val outputIndex = inputSchema.fieldNames.indexOf(getOutputCol)
+
+    if (outputIndex >= 0) StructType(inputSchema.fields.updated(outputIndex, outputField))
+    else StructType(inputSchema.fields :+ outputField)
+  }
+
+  private def transformWithDependencyRows(
+      dataset: Dataset[_],
+      inputCols: Array[String]): DataFrame = {
+    val inputDataFrame = dataset.toDF()
+    val outputSchema = outputSchemaWithReplacement(inputDataFrame.schema)
+    val inputIndexes = inputCols.map(inputDataFrame.schema.fieldIndex)
+    val outputIndex = inputDataFrame.schema.fieldNames.indexOf(getOutputCol)
+
+    implicit val encoder: ExpressionEncoder[Row] =
+      SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
+
+    val mappedDataFrame = inputDataFrame.mapPartitions { rows =>
+      rows.map { row =>
+        val annotationProperties = inputIndexes.map { inputIndex =>
+          AnnotationRowUtils.extractAnnotationRows(row, inputIndex).toVector
+        }.toVector
+
+        val outputAnnotations = annotateColumnGroups(annotationProperties)
+        val outputRows = AnnotationRowUtils.annotationsToRows(outputAnnotations).toVector
+        val outputValues =
+          if (outputIndex >= 0) row.toSeq.updated(outputIndex, outputRows)
+          else row.toSeq :+ outputRows
+
+        Row.fromSeq(outputValues)
+      }
+    }
+
+    val withInputMetadata = inputDataFrame.schema.fields
+      .filter(field => mappedDataFrame.columns.contains(field.name))
+      .foldLeft(mappedDataFrame)((dataFrame, field) => {
+        dataFrame.withColumn(field.name, dataFrame.col(field.name).as(field.name, field.metadata))
+      })
+
+    withInputMetadata.withColumn(getOutputCol, wrapColumnMetadata(col(getOutputCol)))
+  }
+
   override def _transform(
       dataset: Dataset[_],
       recursivePipeline: Option[PipelineModel]): DataFrame = {
@@ -365,10 +415,14 @@ class GraphExtraction(override val uid: String)
 
       val columnNames = structFields.map(structField => structField.name)
       val inputCols = getInputCols ++ columnNames
-      val processedDataset = dataset.withColumn(
-        getOutputCol,
-        wrapColumnMetadata(dfAnnotate(array(inputCols.map(c => dataset.col(c)): _*))))
-      processedDataset
+      if (isSpark4OrNewer(dataset)) {
+        transformWithDependencyRows(dataset, inputCols)
+      } else {
+        val processedDataset = dataset.withColumn(
+          getOutputCol,
+          wrapColumnMetadata(dfAnnotate(array(inputCols.map(c => dataset.col(c)): _*))))
+        processedDataset
+      }
     }
   }
 

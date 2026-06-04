@@ -17,6 +17,7 @@ package com.johnsnowlabs.partition
 
 import com.johnsnowlabs.nlp.AnnotatorType.{CHUNK, DOCUMENT}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorModel, HasSimpleAnnotate}
+import com.johnsnowlabs.nlp.util.{AnnotationRowUtils, SparkNlpConfig}
 import com.johnsnowlabs.partition.util.PartitionHelper.{
   datasetWithBinaryFile,
   datasetWithTextFile,
@@ -24,8 +25,10 @@ import com.johnsnowlabs.partition.util.PartitionHelper.{
 }
 import com.johnsnowlabs.reader.util.HasPdfToTextProperties
 import com.johnsnowlabs.reader.{HTMLElement, PdfToText}
+import com.johnsnowlabs.util.Version
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.functions.{col, explode, udf}
 import org.apache.spark.sql.types.{ArrayType, StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset, Encoders, Row}
@@ -223,14 +226,19 @@ class PartitionTransformer(override val uid: String)
     }
 
     // Transform each matching column
-    val transformedDf = htmlElementColumns.foldLeft(partitionDf) { (df, colName) =>
-      df.withColumn(getOutputCol, wrapColumnMetadata(convertToAnnotations(col(colName))))
-    }
+    val transformedDf =
+      if (isSpark4OrNewer(partitionDf)) {
+        convertToAnnotationsWithRows(partitionDf, htmlElementColumns)
+      } else {
+        htmlElementColumns.foldLeft(partitionDf) { (df, colName) =>
+          df.withColumn(getOutputCol, wrapColumnMetadata(convertToAnnotations(col(colName))))
+        }
+      }
     transformedDf
   }
 
-  private def convertToAnnotations = udf { elements: Seq[Row] =>
-    elements.map { row =>
+  private def convertElementsToAnnotations(elements: Seq[Row]): Seq[Annotation] = {
+    Option(elements).getOrElse(Seq.empty).map { row =>
       val content = row.getAs[String]("content")
       val metadata = row.getAs[Map[String, String]]("metadata")
 
@@ -246,6 +254,54 @@ class PartitionTransformer(override val uid: String)
         embeddings = Array.emptyFloatArray)
     }
   }
+
+  private def convertToAnnotations = udf { elements: Seq[Row] =>
+    convertElementsToAnnotations(elements)
+  }
+
+  private def convertToAnnotationsWithRows(
+      partitionDf: DataFrame,
+      htmlElementColumns: Seq[String]): DataFrame = {
+    val inputDataFrame = partitionDf.toDF()
+    val htmlElementColumnIndex = inputDataFrame.schema.fieldIndex(htmlElementColumns.last)
+    val outputColumnIndex = inputDataFrame.schema.fieldNames.indexOf(getOutputCol) match {
+      case -1 => None
+      case index => Some(index)
+    }
+    val outputField = StructField(getOutputCol, Annotation.arrayType, nullable = false)
+    val outputSchema = outputColumnIndex match {
+      case Some(index) => StructType(inputDataFrame.schema.fields.updated(index, outputField))
+      case None => inputDataFrame.schema.add(outputField)
+    }
+
+    implicit val encoder: ExpressionEncoder[Row] =
+      SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
+
+    val mappedDataFrame = inputDataFrame.mapPartitions { rows =>
+      rows.map { row =>
+        val elements = AnnotationRowUtils.extractAnnotationRows(row, htmlElementColumnIndex)
+        val annotations = AnnotationRowUtils
+          .annotationsToRows(convertElementsToAnnotations(elements.toVector))
+          .toVector
+        val values = outputColumnIndex match {
+          case Some(index) => row.toSeq.updated(index, annotations)
+          case None => row.toSeq :+ annotations
+        }
+        Row.fromSeq(values)
+      }
+    }
+
+    val withInputMetadata = inputDataFrame.schema.fields
+      .filter(field => field.name != getOutputCol && mappedDataFrame.columns.contains(field.name))
+      .foldLeft(mappedDataFrame)((dataFrame, field) => {
+        dataFrame.withColumn(field.name, dataFrame.col(field.name).as(field.name, field.metadata))
+      })
+
+    withInputMetadata.withColumn(getOutputCol, wrapColumnMetadata(col(getOutputCol)))
+  }
+
+  private def isSpark4OrNewer(dataFrame: DataFrame): Boolean =
+    Version.parse(dataFrame.sparkSession.version).toFloat >= 4.0f
 
   private def findHTMLElementColumns(dataFrame: DataFrame): Seq[String] = {
     val htmlElementSchema = Encoders.product[HTMLElement].schema

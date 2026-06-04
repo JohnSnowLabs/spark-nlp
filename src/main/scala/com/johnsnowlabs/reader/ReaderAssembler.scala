@@ -16,6 +16,7 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, IMAGE}
+import com.johnsnowlabs.nlp.util.{AnnotationRowUtils, SparkNlpConfig}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{
   Annotation,
@@ -29,12 +30,14 @@ import com.johnsnowlabs.partition.util.PartitionHelper.{
   isStringContent
 }
 import com.johnsnowlabs.partition.{HasBinaryReaderProperties, HasTextReaderProperties, Partition}
+import com.johnsnowlabs.util.Version
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{Column, DataFrame, Dataset}
+import org.apache.spark.sql.{Column, DataFrame, Dataset, Row}
 
 import java.io.File
 import scala.collection.mutable
@@ -203,22 +206,27 @@ class ReaderAssembler(override val uid: String)
       structureDf
     } else {
 
-      val annotatedDf = structureDf
-        .withColumn(
-          reader2DocOutputCol,
-          wrapDocColumn(
-            reader2Doc.partitionToAnnotation(col("partition_text"), col("fileName")),
-            reader2DocOutputCol))
-        .withColumn(
-          reader2TableOutputCol,
-          wrapTableColumn(
-            reader2Table.partitionToAnnotation(col("partition_table"), col("fileName")),
-            reader2TableOutputCol))
-        .withColumn(
-          reader2ImageOutputCol,
-          wrapImageColumn(
-            reader2Image.partitionToAnnotation(col("partition_image"), col("fileName")),
-            reader2ImageOutputCol))
+      val annotatedDf =
+        if (isSpark4OrNewer(structureDf)) {
+          annotateStructureWithRows(structureDf)
+        } else {
+          structureDf
+            .withColumn(
+              reader2DocOutputCol,
+              wrapDocColumn(
+                reader2Doc.partitionToAnnotation(col("partition_text"), col("fileName")),
+                reader2DocOutputCol))
+            .withColumn(
+              reader2TableOutputCol,
+              wrapTableColumn(
+                reader2Table.partitionToAnnotation(col("partition_table"), col("fileName")),
+                reader2TableOutputCol))
+            .withColumn(
+              reader2ImageOutputCol,
+              wrapImageColumn(
+                reader2Image.partitionToAnnotation(col("partition_image"), col("fileName")),
+                reader2ImageOutputCol))
+        }
 
       afterAnnotate(annotatedDf)
         .select(
@@ -314,6 +322,63 @@ class ReaderAssembler(override val uid: String)
     } else {
       dataset
     }
+  }
+
+  private def isSpark4OrNewer(dataset: Dataset[_]): Boolean =
+    Version.parse(dataset.sparkSession.version).toFloat >= 4.0f
+
+  private def annotateStructureWithRows(structureDf: DataFrame): DataFrame = {
+    val inputDataFrame = structureDf.toDF()
+    val outputSchema = transformSchema(inputDataFrame.schema)
+    val partitionTextIndex = inputDataFrame.schema.fieldIndex("partition_text")
+    val partitionTableIndex = inputDataFrame.schema.fieldIndex("partition_table")
+    val partitionImageIndex = inputDataFrame.schema.fieldIndex("partition_image")
+    val fileNameIndex = inputDataFrame.schema.fieldIndex("fileName")
+
+    implicit val encoder: ExpressionEncoder[Row] =
+      SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
+
+    val mappedDataFrame = inputDataFrame.mapPartitions { rows =>
+      rows.map { row =>
+        val fileName = if (row.isNullAt(fileNameIndex)) null else row.getString(fileNameIndex)
+        val textPartitions =
+          AnnotationRowUtils.extractAnnotationRows(row, partitionTextIndex).toVector
+        val tablePartitions =
+          AnnotationRowUtils.extractAnnotationRows(row, partitionTableIndex).toVector
+        val imagePartitions =
+          AnnotationRowUtils.extractAnnotationRows(row, partitionImageIndex).toVector
+
+        val textAnnotations =
+          reader2Doc.partitionToAnnotations(textPartitions, fileName)
+        val tableAnnotations =
+          reader2Table.partitionToAnnotations(tablePartitions, fileName)
+        val imageAnnotations =
+          reader2Image.partitionToAnnotations(imagePartitions, fileName)
+
+        Row.fromSeq(
+          row.toSeq ++ Seq(
+            AnnotationRowUtils.annotationsToRows(textAnnotations).toVector,
+            AnnotationRowUtils.annotationsToRows(tableAnnotations).toVector,
+            AnnotationRowUtils.annotationImagesToRows(imageAnnotations).toVector))
+      }
+    }
+
+    val withInputMetadata = inputDataFrame.schema.fields
+      .filter(field => mappedDataFrame.columns.contains(field.name))
+      .foldLeft(mappedDataFrame)((dataFrame, field) => {
+        dataFrame.withColumn(field.name, dataFrame.col(field.name).as(field.name, field.metadata))
+      })
+
+    withInputMetadata
+      .withColumn(
+        reader2DocOutputCol,
+        wrapDocColumn(col(reader2DocOutputCol), reader2DocOutputCol))
+      .withColumn(
+        reader2TableOutputCol,
+        wrapTableColumn(col(reader2TableOutputCol), reader2TableOutputCol))
+      .withColumn(
+        reader2ImageOutputCol,
+        wrapImageColumn(col(reader2ImageOutputCol), reader2ImageOutputCol))
   }
 
   private def partitionTextBuilder: Partition =
