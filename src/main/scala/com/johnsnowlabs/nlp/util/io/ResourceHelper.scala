@@ -209,7 +209,9 @@ object ResourceHelper {
         val pathWithProtocol: String =
           if (URI.create(path).getScheme == null) new File(path).toURI.toURL.toString else path
         val resource = SourceStream(pathWithProtocol)
-        resource.copyToLocal()
+        val localTmpPath = resource.copyToLocal()
+        resource.close()
+        localTmpPath
       }
 
     new File(localUri).getAbsolutePath // Platform independent path
