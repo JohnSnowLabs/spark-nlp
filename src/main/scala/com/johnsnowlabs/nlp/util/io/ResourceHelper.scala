@@ -176,6 +176,7 @@ object ResourceHelper {
 
     def close(): Unit = {
       openBuffers.foreach(_.close())
+      fileSystem.foreach(_.close())
       pipe.foreach(_.close)
     }
   }
