@@ -39,4 +39,5 @@ object AnnotatorType {
   val TABLE = "table"
   val DUMMY = "dummy"
   val DOC_SIMILARITY_RANKINGS = "doc_similarity_rankings"
+  val BM25_RANKINGS = "bm25_rankings"
 }
