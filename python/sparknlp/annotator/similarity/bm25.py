@@ -314,6 +314,27 @@ class BM25Model(AnnotatorModel):
         """
         return self._set(b=value)
 
+    def setCaseSensitive(self, value):
+        """``caseSensitive`` is read-only on a fitted ``BM25Model`` and cannot be set.
+
+        It is fixed when the corpus statistics are computed by :class:`BM25Approach` and is baked
+        into the IDF vocabulary keys. Changing it on a fitted model would desynchronize the
+        query/document terms from the stored vocabulary and silently corrupt every score, so set
+        it on :class:`BM25Approach` before ``fit()`` instead.
+
+        This method is defined only to override the setter that Spark NLP would otherwise generate
+        automatically for every parameter; calling it always raises.
+
+        Raises
+        ------
+        AttributeError
+            Always, because ``caseSensitive`` is read-only on the model.
+        """
+        raise AttributeError(
+            "caseSensitive is read-only on a fitted BM25Model: it is fixed when the corpus "
+            "statistics are computed by BM25Approach and baked into the IDF vocabulary. Set it on "
+            "BM25Approach before fit() instead.")
+
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.similarity.BM25Model",
                  java_model=None):
         super(BM25Model, self).__init__(

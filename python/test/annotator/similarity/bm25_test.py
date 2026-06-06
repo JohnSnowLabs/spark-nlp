@@ -140,6 +140,11 @@ class BM25TestSpec(unittest.TestCase):
 
 @pytest.mark.fast
 class BM25QueryTokensTestSpec(BM25TestSpec):
+    """Pre-analyzed queries (setQueryTokens) and the read-only caseSensitive lockdown.
+
+    Reuses the corpus and pipeline stages built by BM25TestSpec.setUp / _fit / _ranked.
+    """
+
     def runTest(self):
         pipeline_model = self._fit()
         bm25_model = pipeline_model.stages[-1]
@@ -155,5 +160,58 @@ class BM25QueryTokensTestSpec(BM25TestSpec):
         ranked = self._ranked(pipeline_model)
         self.assertEqual({ranked[0]["id"], ranked[1]["id"]}, {1, 7})
 
-        # caseSensitive is fixed at fit time: the fitted model must not expose a setter for it.
-        self.assertFalse(hasattr(bm25_model, "setCaseSensitive"))
+        # caseSensitive is fixed at fit time and baked into the IDF vocabulary: the getter still
+        # works (reflecting the value learned during fit), but the setter must refuse to mutate it.
+        self.assertFalse(bm25_model.getCaseSensitive())
+        with self.assertRaises(AttributeError):
+            bm25_model.setCaseSensitive(True)
+
+
+@pytest.mark.fast
+class BM25ExactScoreTestSpec(unittest.TestCase):
+    """Hand-computed BM25 verification mirroring the Scala BM25TestSpec, so the Python -> JVM
+    parameter round-trip is checked against exact numbers, not just ranking order."""
+
+    def setUp(self):
+        self.spark = SparkSessionForTest.spark
+        # A tiny corpus with no stop words, so tokens are fully predictable.
+        self.data = self.spark.createDataFrame(
+            [(1, "apple apple banana"), (2, "banana cherry"), (3, "cherry")], ["id", "text"])
+        self.document_assembler = DocumentAssembler() \
+            .setInputCol("text").setOutputCol("document")
+        self.tokenizer = Tokenizer().setInputCols(["document"]).setOutputCol("token")
+
+    def runTest(self):
+        import math
+
+        bm25 = BM25Approach().setInputCols(["token"]).setOutputCol("bm25_rankings")
+        model = Pipeline(stages=[self.document_assembler, self.tokenizer, bm25]).fit(self.data)
+        bm25_model = model.stages[-1]
+
+        # N = 3 documents, lengths 3 + 2 + 1 = 6 -> avgdl = 2.0
+        self.assertEqual(bm25_model.getNumDocuments(), 3)
+        self.assertAlmostEqual(bm25_model.getAvgDocLength(), 2.0, places=9)
+
+        bm25_model.setQuery("apple banana")
+        scored = {
+            row["id"]: (row["score"], row["matched"])
+            for row in (
+                model.transform(self.data)
+                .select(
+                    col("id"),
+                    col("bm25_rankings.metadata")[0]["bm25_score"].cast("double").alias("score"),
+                    col("bm25_rankings.metadata")[0]["num_query_terms_matched"].cast("int").alias("matched"))
+                .collect())
+        }
+
+        # Hand-computed BM25 for document 1 ("apple apple banana", len 3, avgdl 2, k1=1.2, b=0.75):
+        #   lengthNorm = 1.2 * (1 - 0.75 + 0.75 * 3/2) = 1.65
+        #   df(apple)=1, df(banana)=2 ; idf(t) = ln(1 + (N - df + 0.5) / (df + 0.5))
+        length_norm = 1.2 * (1.0 - 0.75 + 0.75 * 3.0 / 2.0)
+        expected_doc1 = (
+            math.log(1.0 + 2.5 / 1.5) * (2 * 2.2) / (2 + length_norm)
+            + math.log(1.6) * (1 * 2.2) / (1 + length_norm))
+        self.assertAlmostEqual(scored[1][0], expected_doc1, places=9)
+        self.assertEqual(scored[1][1], 2)       # both query terms matched in document 1
+        self.assertEqual(scored[3][0], 0.0)     # document 3 ("cherry") has neither query term
+        self.assertEqual(scored[3][1], 0)

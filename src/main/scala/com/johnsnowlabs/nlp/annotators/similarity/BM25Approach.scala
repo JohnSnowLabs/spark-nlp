@@ -48,9 +48,15 @@ import org.apache.spark.sql.{Dataset, Row}
   *     idf(t) * (tf(t, D) * (k1 + 1)) / (tf(t, D) + k1 * (1 - b + b * |D| / avgdl))
   * }}}
   *
-  * The input is a column of `TOKEN` annotations, so BM25 is normally placed after a [[Tokenizer]]
-  * (optionally followed by a [[Normalizer]] and/or [[StopWordsCleaner]]). For the produced model
+  * The input is a column of `TOKEN` annotations, so BM25 is normally placed after a
+  * [[com.johnsnowlabs.nlp.annotators.Tokenizer Tokenizer]] (optionally followed by a
+  * [[com.johnsnowlabs.nlp.annotators.Normalizer Normalizer]] and/or
+  * [[com.johnsnowlabs.nlp.annotators.StopWordsCleaner StopWordsCleaner]]). For the produced model
   * and usage examples see [[BM25Model]].
+  *
+  * The learned vocabulary (document frequencies and IDF) is collected to the driver during
+  * `fit()`. For corpora with a very large number of distinct terms, raise [[minDocFreq]] to prune
+  * rare terms and keep the driver-side vocabulary bounded.
   *
   * ==Example==
   * {{{
