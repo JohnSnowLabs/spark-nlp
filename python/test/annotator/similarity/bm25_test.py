@@ -136,3 +136,24 @@ class BM25TestSpec(unittest.TestCase):
 
         custom_model.setQuery("vitamin")
         self.assertTrue(all(r["bm25_score"] == 0.0 for r in self._ranked(custom_pipeline_model)))
+
+
+@pytest.mark.fast
+class BM25QueryTokensTestSpec(BM25TestSpec):
+    def runTest(self):
+        pipeline_model = self._fit()
+        bm25_model = pipeline_model.stages[-1]
+
+        # Pre-analyzed tokens are scored just like the equivalent raw query.
+        bm25_model.setQueryTokens(["vitamin", "c", "health", "benefits", "fruits"])
+        ranked = self._ranked(pipeline_model)
+        self.assertEqual({ranked[0]["id"], ranked[1]["id"]}, {1, 7})
+
+        # When both are set, queryTokens take precedence over the raw query string.
+        bm25_model.setQuery("neural networks deep learning")
+        bm25_model.setQueryTokens(["vitamin", "c"])
+        ranked = self._ranked(pipeline_model)
+        self.assertEqual({ranked[0]["id"], ranked[1]["id"]}, {1, 7})
+
+        # caseSensitive is fixed at fit time: the fitted model must not expose a setter for it.
+        self.assertFalse(hasattr(bm25_model, "setCaseSensitive"))

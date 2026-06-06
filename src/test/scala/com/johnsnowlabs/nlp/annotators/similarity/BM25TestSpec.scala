@@ -16,7 +16,8 @@
 
 package com.johnsnowlabs.nlp.annotators.similarity
 
-import com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
+import com.johnsnowlabs.nlp.LightPipeline
+import com.johnsnowlabs.nlp.annotators.{Stemmer, StopWordsCleaner, Tokenizer}
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
@@ -273,5 +274,78 @@ class BM25TestSpec extends AnyFlatSpec {
     intercept[IllegalArgumentException](new BM25Approach().setB(2.0))
     intercept[IllegalArgumentException](new BM25Approach().setK1(-1.0))
     intercept[IllegalArgumentException](new BM25Approach().setMinDocFreq(0))
+  }
+
+  "BM25 with a token-transforming pipeline" should
+    "match an analyzed query that a raw-string query would miss" taggedAs FastTest in {
+      // The corpus is stemmed, so the IDF vocabulary only ever contains stems. A raw-string query
+      // is NOT stemmed by the model -- this is exactly the analyzer-asymmetry trap. Pre-analyzing
+      // the query with the same pipeline (setQueryTokens) is the cure.
+      val docs = Seq((1, "running runs"), (2, "jumping jumps")).toDF("id", "text")
+
+      val stemmer = new Stemmer().setInputCols("token").setOutputCol("stem")
+
+      // Analyze the query with exactly the stages used for the documents.
+      val analyzer = new Pipeline()
+        .setStages(Array(documentAssembler, tokenizer, stemmer))
+        .fit(docs)
+      val analyzedQuery = new LightPipeline(analyzer).annotate("running")("stem").toArray
+      // The stemmer actually transforms the surface form, which is what creates the asymmetry.
+      assert(analyzedQuery.nonEmpty && !analyzedQuery.contains("running"))
+
+      val bm25 = new BM25Approach().setInputCols("stem").setOutputCol("bm25_rankings")
+      val model = new Pipeline()
+        .setStages(Array(documentAssembler, tokenizer, stemmer, bm25))
+        .fit(docs)
+      val bm25Model = model.stages.last.asInstanceOf[BM25Model]
+
+      // The vocabulary is built from stems, so the surface form "running" is never a key, but the
+      // analyzed query terms are.
+      assert(analyzedQuery.forall(bm25Model.getIdf.contains))
+      assert(!bm25Model.getIdf.contains("running"))
+
+      def scoreOfDoc1(): Double =
+        model
+          .transform(docs)
+          .where(col("id") === 1)
+          .select(col("bm25_rankings.metadata")(0)("bm25_score").cast("double"))
+          .as[Double]
+          .head()
+
+      // Raw-string query bypasses the stemmer -> "running" misses the vocabulary -> 0.
+      bm25Model.setQuery("running")
+      assert(scoreOfDoc1() == 0.0)
+
+      // Pre-analyzed query (same pipeline) -> matches the stemmed vocabulary -> > 0. queryTokens
+      // also takes precedence over the still-set raw query.
+      bm25Model.setQueryTokens(analyzedQuery)
+      assert(scoreOfDoc1() > 0.0)
+    }
+
+  it should "score identically whether the query is a raw string or pre-analyzed tokens" taggedAs FastTest in {
+    val tiny =
+      Seq((1, "apple apple banana"), (2, "banana cherry"), (3, "cherry")).toDF("id", "text")
+    val bm25 = new BM25Approach().setInputCols("token").setOutputCol("bm25_rankings")
+    val model = new Pipeline()
+      .setStages(Array(documentAssembler, tokenizer, bm25))
+      .fit(tiny)
+    val bm25Model = model.stages.last.asInstanceOf[BM25Model]
+
+    def scores(): Map[Int, Double] =
+      model
+        .transform(tiny)
+        .select(
+          col("id"),
+          col("bm25_rankings.metadata")(0)("bm25_score").cast("double").alias("s"))
+        .as[(Int, Double)]
+        .collect()
+        .toMap
+
+    bm25Model.setQuery("apple banana")
+    val viaString = scores()
+    // The same terms supplied as pre-analyzed tokens must reproduce the scores exactly.
+    bm25Model.setQueryTokens(Array("apple", "banana"))
+    val viaTokens = scores()
+    viaString.foreach { case (id, s) => assert(math.abs(viaTokens(id) - s) < 1e-9) }
   }
 }

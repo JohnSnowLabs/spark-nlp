@@ -26,7 +26,14 @@ import com.johnsnowlabs.nlp.{
   ParamsAndFeaturesReadable,
   ParamsAndFeaturesWritable
 }
-import org.apache.spark.ml.param.{BooleanParam, DoubleParam, LongParam, Param, ParamValidators}
+import org.apache.spark.ml.param.{
+  BooleanParam,
+  DoubleParam,
+  LongParam,
+  Param,
+  ParamValidators,
+  StringArrayParam
+}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.Dataset
 
@@ -34,10 +41,14 @@ import org.apache.spark.sql.Dataset
   * average document length and document count) and scores every document in a dataset against a
   * user-provided query using the Okapi BM25 ranking function.
   *
-  * The query is provided at transform time with `setQuery(...)`, so the same fitted model can be
-  * reused for many different queries ("fit once, query many times"). For every input document the
-  * model emits a single `BM25_RANKINGS` annotation whose `result` is the BM25 score and whose
-  * metadata contains:
+  * The query is provided at transform time, so the same fitted model can be reused for many
+  * different queries ("fit once, query many times"). Provide it either as a raw string with
+  * `setQuery(...)` (the model splits it on non-word characters) or — recommended when the corpus
+  * was analyzed by a non-trivial pipeline — as already-analyzed tokens with
+  * `setQueryTokens(...)`, so the query and the documents are tokenized/normalized identically
+  * (see the analyzer-symmetry note on the `query` parameter). For every input document the model
+  * emits a single `BM25_RANKINGS` annotation whose `result` is the BM25 score and whose metadata
+  * contains:
   *
   *   - `bm25_score` — the BM25 relevance score of the document for the current query
   *   - `num_query_terms_matched` — how many distinct query terms occur in the document
@@ -172,7 +183,11 @@ class BM25Model(override val uid: String)
   /** @group getParam */
   def getB: Double = $(b)
 
-  /** Whether tokens are treated case-sensitively (carried over from [[BM25Approach]]). The query
+  /** Whether tokens are treated case-sensitively. This is '''fixed when the corpus statistics are
+    * computed''' by [[BM25Approach]] and carried onto the model: the IDF vocabulary keys are
+    * stored with that exact case handling. Changing it on a fitted model would desynchronize the
+    * query/document terms from the stored vocabulary and silently corrupt the scores, so it is
+    * deliberately '''read-only''' here — there is no `setCaseSensitive` on the model. The query
     * is normalized with the same setting before scoring.
     *
     * @group param
@@ -180,16 +195,27 @@ class BM25Model(override val uid: String)
   val caseSensitive = new BooleanParam(
     this,
     "caseSensitive",
-    "Whether to treat tokens case-sensitively when scoring")
-
-  /** @group setParam */
-  def setCaseSensitive(value: Boolean): this.type = set(caseSensitive, value)
+    "Whether to treat tokens case-sensitively when scoring (read-only; fixed at fit time)")
 
   /** @group getParam */
   def getCaseSensitive: Boolean = $(caseSensitive)
 
-  /** The query that documents are scored against. Set this at query time; the same fitted model
-    * can be re-queried by calling `setQuery` again (Default: empty).
+  /** The query that documents are scored against, as a raw string. This is a '''convenience''':
+    * the model tokenizes it itself by splitting on non-word characters (`\W+`) and applying the
+    * model's case handling — it does '''not''' run the query through the same annotator pipeline
+    * used for the corpus.
+    *
+    * '''Analyzer-symmetry warning.''' BM25 only scores a query term when it matches a key in the
+    * learned IDF vocabulary, and those keys were produced by the pipeline placed in front of
+    * [[BM25Approach]] (e.g. [[com.johnsnowlabs.nlp.annotators.Tokenizer Tokenizer]],
+    * [[com.johnsnowlabs.nlp.annotators.Normalizer Normalizer]], a stemmer/lemmatizer, ...). If
+    * that pipeline ''transforms'' tokens (stemming, lemmatization, punctuation stripping, ...), a
+    * raw-string query analyzed only by `\W+` + lowercasing can fail to match and silently
+    * contribute nothing to the score. For anything beyond plain tokenization, analyze the query
+    * with the '''same''' pipeline and pass the resulting tokens via [[setQueryTokens]].
+    *
+    * Either `query` or `queryTokens` must be set before `transform`; when both are set,
+    * `queryTokens` takes precedence (Default: empty).
     *
     * @group param
     */
@@ -201,22 +227,48 @@ class BM25Model(override val uid: String)
   /** @group getParam */
   def getQuery: String = $(query)
 
+  /** The query as a list of '''already-analyzed''' terms. This is the recommended way to query
+    * when the corpus was built with a non-trivial pipeline: run the query string through the very
+    * same stages used for the documents (for example with a
+    * [[com.johnsnowlabs.nlp.LightPipeline LightPipeline]]) and pass the resulting tokens here, so
+    * the query and the documents are analyzed identically. When non-empty, `queryTokens`
+    * overrides [[query]]. The model still applies its (read-only) case handling to these tokens
+    * so they line up with the stored IDF keys (Default: empty).
+    *
+    * @group param
+    */
+  val queryTokens = new StringArrayParam(
+    this,
+    "queryTokens",
+    "Pre-analyzed query terms; when non-empty they override the raw query string")
+
+  /** @group setParam */
+  def setQueryTokens(value: Array[String]): this.type = set(queryTokens, value)
+
+  /** @group getParam */
+  def getQueryTokens: Array[String] = $(queryTokens)
+
   setDefault(
     inputCols -> Array(TOKEN),
     outputCol -> BM25_RANKINGS,
     k1 -> 1.2,
     b -> 0.75,
     caseSensitive -> false,
-    query -> "")
+    query -> "",
+    queryTokens -> Array.empty[String])
 
-  /** Splits a raw query string into normalized terms, applying the same case handling that was
-    * used when the corpus statistics were computed. The `(?U)` flag makes `\W` Unicode-aware so
-    * accented and other non-ASCII letters are kept as part of a term rather than used as
-    * delimiters.
+  /** Resolves the effective query terms, applying the same case handling that was used when the
+    * corpus statistics were computed so the terms line up with the stored IDF keys. Pre-analyzed
+    * [[queryTokens]] take precedence when set; otherwise the raw [[query]] string is split on
+    * non-word characters. The `(?U)` flag makes `\W` Unicode-aware so accented and other
+    * non-ASCII letters are kept as part of a term rather than used as delimiters.
     */
   private def queryTerms: Array[String] = {
-    val rawTerms = $(query).split("(?U)\\W+").filter(_.nonEmpty)
-    if ($(caseSensitive)) rawTerms else rawTerms.map(_.toLowerCase)
+    val rawTerms =
+      if ($(queryTokens).nonEmpty) $(queryTokens)
+      else $(query).split("(?U)\\W+")
+    val nonEmpty = rawTerms.filter(_.nonEmpty)
+    if ($(caseSensitive)) nonEmpty else nonEmpty.map(_.toLowerCase)
   }
 
   override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
@@ -225,8 +277,10 @@ class BM25Model(override val uid: String)
       "BM25Model is missing its learned statistics. Produce the model with BM25Approach.fit(...) " +
         "or load a previously fitted model before calling transform.")
     require(
-      $(query).trim.nonEmpty,
-      "BM25Model requires a query. Set one with setQuery(\"...\") before calling transform.")
+      $(query).trim.nonEmpty || $(queryTokens).exists(_.trim.nonEmpty),
+      "BM25Model requires a query. Set one with setQuery(\"...\") for a quick raw-string query, or " +
+        "setQueryTokens(Array(...)) with the query analyzed by the same pipeline as the corpus " +
+        "(recommended) before calling transform.")
     dataset
   }
 
@@ -267,6 +321,10 @@ class BM25Model(override val uid: String)
       }
     }
 
+    // Report whichever query representation was actually used for scoring.
+    val effectiveQuery =
+      if ($(queryTokens).nonEmpty) $(queryTokens).mkString(" ") else $(query)
+
     val begin = annotations.headOption.map(_.begin).getOrElse(0)
     val end = annotations.lastOption.map(_.end).getOrElse(0)
 
@@ -279,7 +337,7 @@ class BM25Model(override val uid: String)
         metadata = Map(
           "bm25_score" -> score.toString,
           "num_query_terms_matched" -> matched.toString,
-          "query" -> $(query),
+          "query" -> effectiveQuery,
           "doc_len" -> docLength.toString),
         embeddings = Array.emptyFloatArray))
   }

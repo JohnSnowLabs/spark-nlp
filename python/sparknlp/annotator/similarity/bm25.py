@@ -173,13 +173,28 @@ class BM25Model(AnnotatorModel):
     It holds the corpus-level statistics (IDF map, average document length and
     document count) and scores every document in a dataset against a query
     using the Okapi BM25 ranking function. The query is provided at transform
-    time with ``setQuery(...)``, so the same fitted model can be reused for many
-    different queries ("fit once, query many times").
+    time, so the same fitted model can be reused for many different queries
+    ("fit once, query many times"). Provide it either as a raw string with
+    ``setQuery(...)`` or — recommended when the corpus was analyzed by a
+    non-trivial pipeline — as already-analyzed tokens with
+    ``setQueryTokens(...)`` (see the analyzer-symmetry warning below).
 
     For every input document the model emits a single ``BM25_RANKINGS``
     annotation whose ``result`` is the BM25 score and whose ``metadata``
     contains ``bm25_score``, ``num_query_terms_matched``, ``query`` and
     ``doc_len``.
+
+    .. warning::
+        **Analyzer symmetry.** BM25 only scores a query term when it matches a
+        key in the learned IDF vocabulary, and those keys were produced by the
+        pipeline placed in front of ``BM25Approach`` (``Tokenizer``,
+        ``Normalizer``, a stemmer/lemmatizer, ...). A raw-string ``setQuery``
+        is only split on non-word characters and lowercased; if your corpus
+        pipeline *transforms* tokens (stemming, lemmatization, punctuation
+        stripping, ...), a raw query can silently fail to match. In that case
+        run the query through the **same** pipeline (e.g. with a
+        :class:`LightPipeline`) and pass the resulting tokens to
+        ``setQueryTokens``.
 
     ====================== ================
     Input Annotation types Output Annotation type
@@ -190,13 +205,21 @@ class BM25Model(AnnotatorModel):
     Parameters
     ----------
     query
-        The query to score every document against. Set this at query time.
+        The query to score every document against, as a raw string. The model
+        splits it on non-word characters; prefer ``queryTokens`` for non-trivial
+        pipelines (see the analyzer-symmetry warning above).
+    queryTokens
+        The query as a list of already-analyzed terms. When non-empty it
+        overrides ``query``. Obtain these by running the query through the same
+        pipeline used for the corpus, so query and documents match.
     k1
         Term-frequency saturation parameter (carried over from the approach)
     b
         Length-normalization parameter (carried over from the approach)
     caseSensitive
-        Whether tokens are treated case-sensitively (carried over from the approach)
+        Whether tokens are treated case-sensitively. Read-only: it is fixed when
+        the corpus statistics are computed and must not be changed on a fitted
+        model, so there is no ``setCaseSensitive`` here.
 
     Examples
     --------
@@ -214,6 +237,11 @@ class BM25Model(AnnotatorModel):
                   "The query to score every document against",
                   typeConverter=TypeConverters.toString)
 
+    queryTokens = Param(Params._dummy(),
+                        "queryTokens",
+                        "Pre-analyzed query terms; when non-empty they override the raw query string",
+                        typeConverter=TypeConverters.toListString)
+
     k1 = Param(Params._dummy(),
                "k1",
                "BM25 term-frequency saturation parameter (typical range [1.0, 2.0])",
@@ -226,7 +254,7 @@ class BM25Model(AnnotatorModel):
 
     caseSensitive = Param(Params._dummy(),
                           "caseSensitive",
-                          "Whether to treat tokens case-sensitively when scoring",
+                          "Whether to treat tokens case-sensitively when scoring (read-only; fixed at fit time)",
                           typeConverter=TypeConverters.toBoolean)
 
     avgDocLength = Param(Params._dummy(),
@@ -251,6 +279,21 @@ class BM25Model(AnnotatorModel):
         """
         return self._set(query=value)
 
+    def setQueryTokens(self, value):
+        """Sets the query as a list of already-analyzed terms.
+
+        When non-empty these override the raw ``query`` string. Obtain them by
+        running the query through the same pipeline used for the corpus (for
+        example with a :class:`LightPipeline`) so that the query and the
+        documents are analyzed identically.
+
+        Parameters
+        ----------
+        value : List[str]
+            Pre-analyzed query terms
+        """
+        return self._set(queryTokens=value)
+
     def setK1(self, value):
         """Sets the term-frequency saturation parameter k1.
 
@@ -271,16 +314,6 @@ class BM25Model(AnnotatorModel):
         """
         return self._set(b=value)
 
-    def setCaseSensitive(self, value):
-        """Sets whether to treat tokens case-sensitively when scoring.
-
-        Parameters
-        ----------
-        value : bool
-            Whether to treat tokens case-sensitively when scoring
-        """
-        return self._set(caseSensitive=value)
-
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.similarity.BM25Model",
                  java_model=None):
         super(BM25Model, self).__init__(
@@ -292,6 +325,7 @@ class BM25Model(AnnotatorModel):
         # numDocuments) are intentionally left unset; they only come from a fitted model.
         self._setDefault(
             query="",
+            queryTokens=[],
             k1=1.2,
             b=0.75,
             caseSensitive=False
