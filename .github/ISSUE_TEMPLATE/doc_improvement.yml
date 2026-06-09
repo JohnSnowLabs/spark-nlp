@@ -1,7 +1,7 @@
 name: Documentation Improvement
 description: File an issue to suggest edits to the documentation.
 labels: [documentation]
-assignees: "DevinTDHa"
+assignees: "danilojsl"
 
 body:
   - type: textarea
