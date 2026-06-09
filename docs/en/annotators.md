@@ -52,6 +52,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="AutoGGUFVisionModel" summary="Multimodal annotator that uses the llama.cpp library to generate text completions with large language models."%}
 {% include templates/anno_table_entry.md path="" name="BGEEmbeddings" summary="Sentence embeddings using BGE."%}
 {% include templates/anno_table_entry.md path="" name="BigTextMatcher" summary="Annotator to match exact phrases (by token) provided in a file against a Document."%}
+{% include templates/anno_table_entry.md path="" name="BM25" summary="Okapi BM25 lexical ranker that scores documents against a query using corpus-level statistics (IDF and average document length) learned during fit."%}
 {% include templates/anno_table_entry.md path="" name="Chunk2Doc" summary="Converts a `CHUNK` type column back into `DOCUMENT`. Useful when trying to re-tokenize or do further analysis on a `CHUNK` result."%}
 {% include templates/anno_table_entry.md path="" name="ChunkEmbeddings" summary="This annotator utilizes WordEmbeddings, BertEmbeddings etc. to generate chunk embeddings from either Chunker, NGramGenerator, or NerConverter outputs."%}
 {% include templates/anno_table_entry.md path="" name="ChunkTokenizer" summary="Tokenizes and flattens extracted NER chunks."%}

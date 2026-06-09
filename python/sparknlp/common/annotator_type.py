@@ -36,3 +36,4 @@ class AnnotatorType(object):
     TABLE = "table"
     DUMMY = "dummy"
     DOC_SIMILARITY_RANKINGS = "doc_similarity_rankings"
+    BM25_RANKINGS = "bm25_rankings"
