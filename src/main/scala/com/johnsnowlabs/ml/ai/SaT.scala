@@ -145,6 +145,12 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     *   `"hat"` (edge tokens trusted less) or `"uniform"` overlap weighting
     * @param trimWhitespace
     *   strip leading/trailing whitespace from each detected sentence
+    * @param minSentenceLength
+    *   if `> 0`, switches to length-constrained (Viterbi) decoding with this minimum segment
+    *   length in characters; when active, `threshold` is ignored entirely
+    * @param maxSentenceLength
+    *   if `> 0`, switches to length-constrained (Viterbi) decoding with this maximum segment
+    *   length in characters; when active, `threshold` is ignored entirely
     * @return
     *   ordered, non-overlapping list of [[SentenceSpan]]s covering the whole document
     */
@@ -155,7 +161,9 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
       stride: Int,
       batchSize: Int,
       weighting: String,
-      trimWhitespace: Boolean): Seq[SentenceSpan] = {
+      trimWhitespace: Boolean,
+      minSentenceLength: Int = 0,
+      maxSentenceLength: Int = 0): Seq[SentenceSpan] = {
 
     require(blockSize >= 1 && blockSize <= 510, "blockSize must be in [1, 510] for XLM-R/SaT.")
 
@@ -178,8 +186,21 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     // 4. Project the per-token logits onto per-character boundary probabilities.
     val charProbs = tokenLogitsToCharProbs(text, mergedLogits, tokenized.offsets)
 
-    // 5. Cut the text wherever the probability crosses the threshold.
-    charProbsToSentenceSpans(text, charProbs, threshold, trimWhitespace)
+    // 5. Turn per-character probabilities into spans. If a length constraint is active, run the
+    //    length-constrained Viterbi decode + constraint post-pass (which ignores `threshold`,
+    //    matching wtpsplit); otherwise keep the original threshold cut path exactly as it was.
+    if (minSentenceLength > 0 || maxSentenceLength > 0) {
+      // DP returns 1-based end positions; the reference converts them to 0-based last-char indices.
+      val boundaries = constrainedSegmentation(charProbs, minSentenceLength, maxSentenceLength)
+      val indices = boundaries.map(_ - 1)
+      enforceSegmentConstraints(
+        text,
+        indices,
+        math.max(minSentenceLength, 1),
+        if (maxSentenceLength > 0) Some(maxSentenceLength) else None,
+        trimWhitespace)
+    } else
+      charProbsToSentenceSpans(text, charProbs, threshold, trimWhitespace)
   }
 
   // ── 1. Tokenisation (encoding) ──────────────────────────────────────────────────
@@ -545,6 +566,301 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     if (s < e) buf += SentenceSpan(begin = s, end = e - 1, text = text.substring(s, e))
   }
 
+  /** Length-constrained boundary search via dynamic programming (Viterbi).
+    *
+    * This is a direct port of wtpsplit's `constrained_segmentation` (viterbi branch,
+    * `wtpsplit/utils/constraints.py`). It is used whenever the caller sets a minimum and/or
+    * maximum sentence length; the `threshold` plays no part here.
+    *
+    * The DP runs over cut positions `i ∈ [0, n]`, where a segment from cut `j` to cut `i` covers
+    * `text[j, i)` and must satisfy `minLen <= i - j <= maxLen`:
+    * {{{
+    *   best(0) = 0
+    *   best(i) = max over valid j of  best(j) + log(prior(i - j)) + log(probs(i - 1))   for i < n
+    *   best(n) = max over valid j of  best(j) + log(prior(n - j))      // no boundary term at end
+    * }}}
+    * Each transition adds exactly two terms: the segment-length log-prior
+    * ([[segmentLengthPrior]], `0` for the uniform prior) and the boundary log-probability
+    * `log(probs(i-1))` at the segment's last character. The terminal position `i == n` adds NO
+    * boundary term, because end-of-text is always a boundary and has no model prediction. Because
+    * `log(probs) < 0` for `probs < 1`, every extra cut lowers the score, which is what prevents
+    * over-segmentation (no interior `log(1-p)` term is needed – matching wtpsplit exactly).
+    *
+    * After filling the tables we backtrack from `n`, drop the terminal `n`, and run
+    * [[handleShortFinalSegment]]. If the DP cannot reach the end (no segmentation satisfies the
+    * bounds) we fall back to [[fallbackGreedySegmentation]], exactly as the reference does.
+    *
+    * @return
+    *   ordered split boundaries as 1-based end positions in `[1, n)` (terminal `n` excluded), to
+    *   be converted to 0-based last-character indices by the caller
+    */
+  private def constrainedSegmentation(
+      charProbs: Array[Float],
+      minSentenceLength: Int,
+      maxSentenceLength: Int): Seq[Int] = {
+
+    val n = charProbs.length
+    val minLen = math.max(if (minSentenceLength > 0) minSentenceLength else 1, 1)
+    val maxLen = if (maxSentenceLength > 0) maxSentenceLength else n
+    if (n == 0) return Seq.empty
+
+    val best = Array.fill(n + 1)(Double.NegativeInfinity)
+    val back = Array.fill(n + 1)(0)
+    best(0) = 0.0
+
+    var i = 1
+    while (i <= n) {
+      val lo = math.max(0, i - maxLen) // earliest start: segment <= maxLen
+      val hi = i - minLen // latest start:   segment >= minLen
+      if (hi >= lo) {
+        // log(probs(i-1)); untouched characters have prob 0 -> log = -inf -> no cut there.
+        val logBoundary = if (i < n) math.log(charProbs(i - 1).toDouble) else 0.0
+        var j = lo
+        while (j <= hi) {
+          if (best(j) > Double.NegativeInfinity) {
+            val logPrior = segmentLengthPrior(i - j) // log-space; -inf = forbidden length
+            if (logPrior > Double.NegativeInfinity) {
+              val cand = best(j) + logBoundary + logPrior
+              if (cand > best(i)) {
+                best(i) = cand
+                back(i) = j
+              }
+            }
+          }
+          j += 1
+        }
+      }
+      i += 1
+    }
+
+    // DP failure: no path reaches the end -> greedy fallback (matches the reference).
+    if (best(n) == Double.NegativeInfinity)
+      return fallbackGreedySegmentation(n, minLen, maxLen)
+
+    // Backtrack; prepending yields ascending cut positions, ending with n.
+    var cuts = List.empty[Int]
+    var p = n
+    while (p > 0) {
+      cuts = p :: cuts
+      p = back(p)
+    }
+    // Drop the terminal boundary n (always a boundary, not a split), then fix a short final chunk.
+    val result = if (cuts.nonEmpty && cuts.last == n) cuts.dropRight(1) else cuts
+    handleShortFinalSegment(result, n, minLen, maxLen)
+  }
+
+  /** Segment-length log-prior, added to each DP transition.
+    *
+    * '''Convention: this returns a value in LOG space''' (the DP adds it directly). The uniform
+    * prior is `log(1.0) = 0.0`, so only the hard `[minLen, maxLen]` bounds shape the result –
+    * this matches wtpsplit's `uniform` prior.
+    *
+    * Extension point: wtpsplit's other priors (`gaussian`, `clipped_polynomial`, `lognormal`) are
+    * defined in '''probability''' space and the DP adds `log(prior)`. So any such prior added
+    * here must either return `math.log(probability)` directly, or be wrapped in `math.log(...)`
+    * at this call site. A forbidden length should return `Double.NegativeInfinity` (i.e.
+    * `log(0)`).
+    */
+  private def segmentLengthPrior(len: Int): Double = 0.0
+
+  /** Port of wtpsplit's `_handle_short_final_segment`: if the trailing segment is shorter than
+    * `minLen`, either merge it into the previous one (when the result fits `maxLen`) or move the
+    * last split point so the final chunk reaches `minLen`.
+    *
+    * Operates on 1-based end positions (the same representation [[constrainedSegmentation]]
+    * uses).
+    */
+  private def handleShortFinalSegment(
+      indices: Seq[Int],
+      n: Int,
+      minLen: Int,
+      maxLen: Int): Seq[Int] = {
+    if (indices.isEmpty) return indices
+    if (n - indices.last >= minLen) return indices // final chunk already long enough
+
+    val buf = indices.toBuffer
+    if (buf.length > 1) {
+      val prevSplit = buf(buf.length - 2)
+      if (n - prevSplit <= maxLen) {
+        buf.remove(buf.length - 1) // merge final chunk into the previous one
+      } else {
+        val adjusted = math.max(n - minLen, prevSplit + 1) // move split to give final >= minLen
+        if (adjusted - prevSplit <= maxLen) buf(buf.length - 1) = adjusted
+      }
+    } else {
+      if (n <= maxLen) return Seq.empty // whole text fits -> single segment
+      val desired = n - minLen
+      if (desired >= minLen) buf(buf.length - 1) = desired
+    }
+    buf.toSeq
+  }
+
+  /** Port of wtpsplit's `_fallback_greedy_segmentation`, used only when the Viterbi DP cannot
+    * reach the end. Greedily takes `maxLen`-sized chunks, then applies
+    * [[handleShortFinalSegment]].
+    */
+  private def fallbackGreedySegmentation(n: Int, minLen: Int, maxLen: Int): Seq[Int] = {
+    val indices = scala.collection.mutable.ArrayBuffer.empty[Int]
+    var curr = 0
+    while (curr < n) {
+      val nextSplit = math.min(curr + maxLen, n)
+      if (nextSplit >= curr + minLen) indices += nextSplit
+      curr = nextSplit
+    }
+    handleShortFinalSegment(indices.toSeq, n, minLen, maxLen)
+  }
+
+  /** Port of wtpsplit's `_enforce_segment_constraints`: turn the DP's cut indices into final
+    * [[SentenceSpan]]s while STRICTLY enforcing the length bounds.
+    *
+    * This post-pass is necessary because the Viterbi DP cuts on raw character indices, but real
+    * segments extend over trailing whitespace (which can push a segment past `maxLen`). The
+    * steps, mirroring the reference:
+    *   1. build contiguous segment ranges from the cut indices, extending each end over trailing
+    *      whitespace;
+    *   1. '''strict max:''' hard-split any range longer than `maxLen`, preferring a whitespace
+    *      split point within the last ~20 characters, carrying the remainder forward;
+    *   1. '''min merge:''' merge a range shorter than `minLen` with following ranges, but only
+    *      while the merged length stays within `maxLen`;
+    *   1. fix a leftover prefix and a short final segment.
+    *
+    * Spans are kept as exact character offsets into `text`. With `trimWhitespace = false` the
+    * union of all spans reproduces `text` exactly (wtpsplit's `"".join(segments) == text`
+    * invariant); with trimming on, segment ends are trimmed like the threshold path (via
+    * [[addSpan]]) and lengths are measured on the trimmed content, matching the reference's
+    * `strip_whitespace` mode.
+    *
+    * @param indices
+    *   0-based last-character indices of each non-terminal boundary (i.e. DP boundaries minus 1)
+    * @param maxLen
+    *   `Some(limit)` for a hard ceiling, or `None` for no maximum
+    */
+  private def enforceSegmentConstraints(
+      text: String,
+      indices: Seq[Int],
+      minLen: Int,
+      maxLen: Option[Int],
+      trimWhitespace: Boolean): Seq[SentenceSpan] = {
+
+    val n = text.length
+    if (n == 0) return Seq.empty
+
+    // Whitespace-only text: nothing to keep when trimming, otherwise preserve (chunked by maxLen).
+    if (text.trim.isEmpty) {
+      if (trimWhitespace) return Seq.empty
+      val spans = scala.collection.mutable.ArrayBuffer.empty[SentenceSpan]
+      maxLen match {
+        case Some(m) if n > m =>
+          var s = 0
+          while (s < n) {
+            val e = math.min(s + m, n); addSpan(text, s, e, trim = false, spans); s = e
+          }
+        case _ => addSpan(text, 0, n, trim = false, spans)
+      }
+      return spans.toSeq
+    }
+
+    // Effective length of a range, measuring trimmed content when trimWhitespace is on.
+    def effLen(a: Int, b: Int): Int =
+      if (!trimWhitespace) b - a
+      else {
+        var s = a; var e = b
+        while (s < e && text.charAt(s).isWhitespace) s += 1
+        while (e > s && text.charAt(e - 1).isWhitespace) e -= 1
+        e - s
+      }
+
+    // 1. Build contiguous segment ranges, extending each end over trailing whitespace.
+    val boundaries = scala.collection.mutable.ArrayBuffer.empty[(Int, Int)]
+    var offset = 0
+    for (idx <- indices) {
+      var end = idx + 1
+      while (end < n && text.charAt(end).isWhitespace) end += 1
+      if (end > offset) boundaries += ((offset, end))
+      offset = end
+    }
+    if (offset < n) boundaries += ((offset, n))
+    if (boundaries.isEmpty) boundaries += ((0, n))
+
+    // 2-4. Process ranges, enforcing strict max and best-effort min. `result` holds raw, contiguous
+    //      ranges; final trimming/empty-dropping happens once at the end via addSpan.
+    val result = scala.collection.mutable.ArrayBuffer.empty[(Int, Int)]
+    var pending: Option[(Int, Int)] = None // remainder carried forward from a hard-split
+    var i = 0
+    while (i < boundaries.length) {
+      val (bStart, bEnd) = boundaries(i)
+      val segStart =
+        pending.map(_._1).getOrElse(bStart) // pending is contiguous with this boundary
+      val segEnd = bEnd
+      pending = None
+
+      if (maxLen.exists(m => segEnd - segStart > m)) {
+        // Strict max: hard-split into <= maxLen chunks.
+        val m = maxLen.get
+        var s = segStart
+        while (segEnd - s > m) {
+          var splitAt =
+            m // offset within [s, segEnd) to cut at; prefer whitespace near the limit.
+          var j = m - 1
+          var found = false
+          while (j >= math.max(0, m - 20) && !found) {
+            if (text.charAt(s + j).isWhitespace) { splitAt = j + 1; found = true }
+            j -= 1
+          }
+          result += ((s, s + splitAt))
+          s += splitAt
+        }
+        if (s < segEnd) {
+          if (i + 1 < boundaries.length) pending = Some((s, segEnd)) // merge with next segment
+          else result += ((s, segEnd))
+        }
+        i += 1
+      } else if (effLen(segStart, segEnd) < minLen && i + 1 < boundaries.length) {
+        // Min merge: grow the segment with following boundaries while it stays within maxLen.
+        var curEnd = segEnd
+        var curLen = effLen(segStart, segEnd)
+        var j = i + 1
+        var stop = false
+        while (j < boundaries.length && curLen < minLen && !stop) {
+          val nextEnd = boundaries(j)._2
+          val mergedLen = effLen(segStart, nextEnd)
+          if (maxLen.exists(m => mergedLen > m)) stop = true
+          else { curEnd = nextEnd; curLen = mergedLen; j += 1 }
+        }
+        result += ((segStart, curEnd))
+        i = j
+      } else {
+        result += ((segStart, segEnd))
+        i += 1
+      }
+    }
+
+    // Handle any leftover carried prefix (defensive; normally consumed within the loop).
+    pending.foreach { case (ps, pe) =>
+      if (result.nonEmpty) {
+        val (ls, _) = result.last
+        if (maxLen.forall(pe - ls <= _)) result(result.length - 1) = (ls, pe)
+        else result += ((ps, pe))
+      } else result += ((ps, pe))
+    }
+
+    // Final cleanup: merge a too-short last segment into the previous one if it still fits maxLen.
+    if (result.length > 1) {
+      val (ls, le) = result.last
+      if (effLen(ls, le) < minLen) {
+        val (ps, _) = result(result.length - 2)
+        if (maxLen.forall(le - ps <= _)) {
+          result(result.length - 2) = (ps, le)
+          result.remove(result.length - 1)
+        }
+      }
+    }
+
+    // Emit spans (addSpan applies trimming + drops empties, exactly like the threshold path).
+    val spans = scala.collection.mutable.ArrayBuffer.empty[SentenceSpan]
+    for ((s, e) <- result) addSpan(text, s, e, trimWhitespace, spans)
+    spans.toSeq
+  }
 
   /** Reshape a flat row-major array into a `rows x cols` 2-D array for ONNX tensor creation. */
   private def to2DLong(flat: Array[Long], rows: Int, cols: Int): Array[Array[Long]] =
@@ -552,7 +868,5 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
 
   private def to2DFloat(flat: Array[Float], rows: Int, cols: Int): Array[Array[Float]] =
     Array.tabulate(rows)(r => flat.slice(r * cols, (r + 1) * cols))
-
-
 
 }

@@ -597,6 +597,15 @@ class _XlmRoBertaTokenClassifierLoader(ExtendedJavaWrapper):
         )
 
 
+class _SentenceDetectorSaTLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_SentenceDetectorSaTLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.sbd.sat.SentenceDetectorSaTModel.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
 class _XlmRoBertaQuestionAnsweringLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_XlmRoBertaQuestionAnsweringLoader, self).__init__(

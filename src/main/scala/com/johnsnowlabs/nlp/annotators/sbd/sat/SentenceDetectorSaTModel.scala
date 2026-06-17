@@ -33,7 +33,7 @@ import com.johnsnowlabs.nlp._
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{DataFrame, SparkSession}
 
 /** Spark NLP sentence detection annotator based on the wtpsplit / SaT transformer models.
   *
@@ -195,24 +195,58 @@ class SentenceDetectorSaTModel(override val uid: String)
   /** @group getParam */
   def getTrimWhitespace: Boolean = $(trimWhitespace)
 
-  /** Return one DOCUMENT annotation per sentence (vs. all sentences in a single annotation).
+  /** Whether to split each detected sentence into its own Dataset row (Default: `true`).
     *
-    * Keeping `explodeSentences = true` (default) mirrors the behaviour of the existing
-    * `SentenceDetectorDLModel` and makes downstream annotators work correctly.
+    * Each sentence is always emitted as a separate DOCUMENT annotation. This flag only controls
+    * the row layout, mirroring the behaviour of `SentenceDetectorDLModel`:
+    *   - `true` - the output column is exploded so every sentence lands on its own row (the array
+    *     on each row then holds a single sentence). Useful for higher parallelism on fat rows.
+    *   - `false` - all sentences for a document stay together in a single array on one row.
     *
     * @group param
     */
   val explodeSentences: BooleanParam =
-    new BooleanParam(
-      this,
-      "explodeSentences",
-      "Emit one DOCUMENT annotation per sentence (default true)")
+    new BooleanParam(this, "explodeSentences", "Split sentences in separate rows")
 
   /** @group setParam */
   def setExplodeSentences(value: Boolean): this.type = set(explodeSentences, value)
 
   /** @group getParam */
   def getExplodeSentences: Boolean = $(explodeSentences)
+
+  /** Minimum sentence length in characters (Default: `0` = no minimum).
+    *
+    * When `minSentenceLength` or [[maxSentenceLength]] is `> 0`, the model switches to
+    * length-constrained (Viterbi) segmentation and the [[threshold]] is ignored: it instead finds
+    * the globally highest-probability set of boundaries such that every sentence falls within
+    * `[minSentenceLength, maxSentenceLength]` characters.
+    *
+    * @group param
+    */
+  val minSentenceLength: IntParam =
+    new IntParam(this, "minSentenceLength", "Minimum sentence length in characters (0 = unset)")
+
+  /** @group setParam */
+  def setMinSentenceLength(value: Int): this.type = set(minSentenceLength, value)
+
+  /** @group getParam */
+  def getMinSentenceLength: Int = $(minSentenceLength)
+
+  /** Maximum sentence length in characters (Default: `0` = no maximum).
+    *
+    * See [[minSentenceLength]]: setting either bound activates length-constrained segmentation
+    * and disables the [[threshold]].
+    *
+    * @group param
+    */
+  val maxSentenceLength: IntParam =
+    new IntParam(this, "maxSentenceLength", "Maximum sentence length in characters (0 = unset)")
+
+  /** @group setParam */
+  def setMaxSentenceLength(value: Int): this.type = set(maxSentenceLength, value)
+
+  /** @group getParam */
+  def getMaxSentenceLength: Int = $(maxSentenceLength)
 
   setDefault(
     threshold -> 0.25f,
@@ -221,7 +255,9 @@ class SentenceDetectorSaTModel(override val uid: String)
     satBatchSize -> 8,
     weighting -> "hat",
     trimWhitespace -> true,
-    explodeSentences -> true,
+    explodeSentences -> false,
+    minSentenceLength -> 0,
+    maxSentenceLength -> 0,
     batchSize -> 4,
     engine -> ONNX.name)
 
@@ -265,31 +301,22 @@ class SentenceDetectorSaTModel(override val uid: String)
               stride = $(stride),
               batchSize = $(satBatchSize),
               weighting = $(weighting),
-              trimWhitespace = $(trimWhitespace))
+              trimWhitespace = $(trimWhitespace),
+              minSentenceLength = $(minSentenceLength),
+              maxSentenceLength = $(maxSentenceLength))
             val docOffset = doc.begin
-            if ($(explodeSentences)) {
-              for ((span, idx) <- spans.zipWithIndex) {
-                results += Annotation(
-                  annotatorType = DOCUMENT,
-                  begin = docOffset + span.begin,
-                  end = docOffset + span.end,
-                  result = span.text,
-                  metadata = doc.metadata ++ Map(
-                    "sentence" -> idx.toString,
-                    "threshold" -> $(threshold).toString),
-                  embeddings = Array.emptyFloatArray)
-              }
-            } else {
-              val combinedText = spans.map(_.text).mkString("\n")
-              val beginOff = if (spans.nonEmpty) docOffset + spans.head.begin else docOffset
-              val endOff = if (spans.nonEmpty) docOffset + spans.last.end else docOffset
+            // Always emit one annotation per sentence. Whether these end up on separate
+            // Dataset rows is decided later by `explodeSentences` in `afterAnnotate`,
+            // matching the behaviour of SentenceDetectorDLModel.
+            for ((span, idx) <- spans.zipWithIndex) {
               results += Annotation(
                 annotatorType = DOCUMENT,
-                begin = beginOff,
-                end = endOff,
-                result = combinedText,
-                metadata =
-                  doc.metadata ++ Map("sentence" -> "0", "threshold" -> $(threshold).toString),
+                begin = docOffset + span.begin,
+                end = docOffset + span.end,
+                result = span.text,
+                metadata = doc.metadata ++ Map(
+                  "sentence" -> idx.toString,
+                  "threshold" -> $(threshold).toString),
                 embeddings = Array.emptyFloatArray)
             }
           }
@@ -297,6 +324,24 @@ class SentenceDetectorSaTModel(override val uid: String)
         results.toSeq
       }
     }
+  }
+
+  /** When `explodeSentences` is `true`, explode the output column so each sentence annotation
+    * lands on its own Dataset row. Mirrors `SentenceDetectorDLModel.afterAnnotate`.
+    */
+  override protected def afterAnnotate(dataset: DataFrame): DataFrame = {
+    import org.apache.spark.sql.functions.{array, col, explode}
+
+    if ($(explodeSentences)) {
+      dataset
+        .select(dataset.columns.filterNot(_ == getOutputCol).map(col) :+ explode(
+          col(getOutputCol)).as("_tmp"): _*)
+        .withColumn(
+          getOutputCol,
+          array(col("_tmp"))
+            .as(getOutputCol, dataset.schema.fields.find(_.name == getOutputCol).get.metadata))
+        .drop("_tmp")
+    } else dataset
   }
 
   // ── serialization ─────────────────────────────────────────────────────────
@@ -377,7 +422,4 @@ trait ReadSaTDLModel extends ReadOnnxModel with ReadSentencePieceModel {
   }
 }
 
-object SentenceDetectorSaTModel extends ReadablePretrainedSaTModel with ReadSaTDLModel {
-  override val onnxFile: String = "sat_onnx"
-  override val sppFile: String = "sat_spp"
-}
+object SentenceDetectorSaTModel extends ReadablePretrainedSaTModel with ReadSaTDLModel
