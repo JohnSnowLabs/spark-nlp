@@ -15,3 +15,4 @@
 """Module of annotators for sentence detection."""
 from sparknlp.annotator.sentence.sentence_detector import *
 from sparknlp.annotator.sentence.sentence_detector_dl import *
+from sparknlp.annotator.sentence.sentence_detector_sat import *

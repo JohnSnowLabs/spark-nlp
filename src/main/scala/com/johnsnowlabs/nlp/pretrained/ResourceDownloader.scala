@@ -29,6 +29,7 @@ import com.johnsnowlabs.nlp.annotators.parser.dep.DependencyParserModel
 import com.johnsnowlabs.nlp.annotators.parser.typdep.TypedDependencyParserModel
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.PerceptronModel
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
+import com.johnsnowlabs.nlp.annotators.sbd.sat.SentenceDetectorSaTModel
 import com.johnsnowlabs.nlp.annotators.sda.pragmatic.SentimentDetectorModel
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ViveknSentimentModel
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
@@ -735,7 +736,8 @@ object PythonResourceDownloader {
     "AutoGGUFReranker" -> AutoGGUFReranker,
     "ModernBertEmbeddings" -> ModernBertEmbeddings,
     "LLMEntityExtractor" -> LLMEntityExtractor,
-    "BiEncoderMultimodalEmbeddings" -> BiEncoderMultimodalEmbeddings)
+    "BiEncoderMultimodalEmbeddings" -> BiEncoderMultimodalEmbeddings,
+    "SentenceDetectorSaTModel" -> SentenceDetectorSaTModel)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")

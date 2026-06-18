@@ -35,6 +35,7 @@ import com.johnsnowlabs.nlp.annotators.ner.dl.{LLMEntityExtractor, _}
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
 import com.johnsnowlabs.nlp.annotators.parser.typdep.ReadablePretrainedTypedDependency
 import com.johnsnowlabs.nlp.annotators.pos.perceptron.ReadablePretrainedPerceptron
+import com.johnsnowlabs.nlp.annotators.sbd.sat.{ReadSaTDLModel, ReadablePretrainedSaTModel}
 import com.johnsnowlabs.nlp.annotators.sda.vivekn.ReadablePretrainedVivekn
 import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.{
   ReadablePretrainedSentenceDetectorDL,
@@ -871,5 +872,9 @@ package object annotator {
   object LLMEntityExtractor
       extends ReadablePretrainedLLMEntityExtractor
       with ReadLLMEntityExtractor
+
+  type SentenceDetectorSaTModel = com.johnsnowlabs.nlp.annotators.sbd.sat.SentenceDetectorSaTModel
+
+  object SentenceDetectorSaTModel extends ReadablePretrainedSaTModel with ReadSaTDLModel
 
 }
