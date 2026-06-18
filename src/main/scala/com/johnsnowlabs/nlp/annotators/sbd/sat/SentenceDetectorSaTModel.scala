@@ -84,8 +84,6 @@ class SentenceDetectorSaTModel(override val uid: String)
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT)
   override val outputAnnotatorType: String = DOCUMENT
 
-  // ── parameters ──────────────────────────────────────────────────────────────
-  // Defaults below are calibrated for the `sat-12l-sm` model.
 
   /** Boundary probability threshold (Default: `0.25` for sat-12l-sm).
     *
@@ -196,13 +194,6 @@ class SentenceDetectorSaTModel(override val uid: String)
   def getTrimWhitespace: Boolean = $(trimWhitespace)
 
   /** Whether to split each detected sentence into its own Dataset row (Default: `true`).
-    *
-    * Each sentence is always emitted as a separate DOCUMENT annotation. This flag only controls
-    * the row layout, mirroring the behaviour of `SentenceDetectorDLModel`:
-    *   - `true` - the output column is exploded so every sentence lands on its own row (the array
-    *     on each row then holds a single sentence). Useful for higher parallelism on fat rows.
-    *   - `false` - all sentences for a document stay together in a single array on one row.
-    *
     * @group param
     */
   val explodeSentences: BooleanParam =
@@ -261,7 +252,6 @@ class SentenceDetectorSaTModel(override val uid: String)
     batchSize -> 4,
     engine -> ONNX.name)
 
-  // ── internal broadcast model ──────────────────────────────────────────────
 
   private var _model: Option[Broadcast[SaT]] = None
 
@@ -281,7 +271,6 @@ class SentenceDetectorSaTModel(override val uid: String)
   def getModelIfNotSet: SaT =
     _model.getOrElse(throw new IllegalStateException("SaT model is not loaded.")).value
 
-  // ── batched annotation ────────────────────────────────────────────────────
 
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     val satModel = getModelIfNotSet
@@ -305,9 +294,6 @@ class SentenceDetectorSaTModel(override val uid: String)
               minSentenceLength = $(minSentenceLength),
               maxSentenceLength = $(maxSentenceLength))
             val docOffset = doc.begin
-            // Always emit one annotation per sentence. Whether these end up on separate
-            // Dataset rows is decided later by `explodeSentences` in `afterAnnotate`,
-            // matching the behaviour of SentenceDetectorDLModel.
             for ((span, idx) <- spans.zipWithIndex) {
               results += Annotation(
                 annotatorType = DOCUMENT,
@@ -344,7 +330,6 @@ class SentenceDetectorSaTModel(override val uid: String)
     } else dataset
   }
 
-  // ── serialization ─────────────────────────────────────────────────────────
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
@@ -354,10 +339,6 @@ class SentenceDetectorSaTModel(override val uid: String)
     writeSentencePieceModel(path, spark, m.spp, "_sat", SentenceDetectorSaTModel.sppFile)
   }
 }
-
-// ═════════════════════════════════════════════════════════════════════════════
-// Companion object – pretrained + loadSavedModel
-// ═════════════════════════════════════════════════════════════════════════════
 
 trait ReadablePretrainedSaTModel
     extends ParamsAndFeaturesReadable[SentenceDetectorSaTModel]
@@ -392,14 +373,7 @@ trait ReadSaTDLModel extends ReadOnnxModel with ReadSentencePieceModel {
 
   /** Load a SaT model from a local folder exported by the Hugging Face / ONNX export script.
     *
-    * Expected folder layout:
-    * {{{
-    * <modelPath>/
-    *   assets/
-    *     sentencepiece.bpe.model
-    *   model.onnx
-    * }}}
-    *
+
     * @param modelPath
     *   Local or remote (HDFS / S3 / GCS) path to the model folder.
     * @param spark

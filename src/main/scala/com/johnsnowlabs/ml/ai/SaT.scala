@@ -22,9 +22,6 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 
 import scala.collection.JavaConverters._
 
-// ═══════════════════════════════════════════════════════════════════════════════
-//  Data types used by the SaT inference pipeline
-// ═══════════════════════════════════════════════════════════════════════════════
 
 /** Result of tokenising a document with the XLM-R SentencePiece model.
   *
@@ -39,14 +36,6 @@ case class TokenizedText(inputIds: Array[Int], offsets: Array[(Int, Int)])
 
 /** One overlapping slice of the document that is fed to the model in a single forward pass.
   *
-  * @param tokenStart
-  *   index (into the document-level token array) of the first real token in this window
-  * @param tokenEnd
-  *   index just past the last real token in this window (exclusive)
-  * @param inputIds
-  *   the token ids actually sent to ONNX: `CLS + realTokens + SEP`
-  * @param attentionMask
-  *   `1.0f` for every position in `inputIds` (padding to the batch width is added at run time)
   */
 case class SaTWindow(
     tokenStart: Int,
@@ -56,34 +45,18 @@ case class SaTWindow(
 
 /** A detected sentence, expressed in the original document's character space.
   *
-  * @param begin
-  *   first character index (inclusive)
-  * @param end
-  *   last character index (inclusive – Spark NLP's annotation convention)
-  * @param text
-  *   the substring of the document this span covers
   */
 case class SentenceSpan(begin: Int, end: Int, text: String)
 
 /** One piece parsed out of a SentencePiece serialized proto.
   *
-  * @param id
-  *   the raw SentencePiece id (before the XLM-R `+1` shift)
-  * @param begin
-  *   byte offset (inclusive) of the piece in the UTF-8 encoding of the original text
-  * @param end
-  *   byte offset (exclusive) of the piece in the UTF-8 encoding of the original text
   */
 case class SppPiece(id: Int, begin: Int, end: Int)
 
-// ═══════════════════════════════════════════════════════════════════════════════
-//  Inference engine
-// ═══════════════════════════════════════════════════════════════════════════════
 
 /** Under-the-hood inference engine for the SaT (Segment-any-Text / wtpsplit) sentence boundary
   * model.
   *
-  * This class owns the whole pipeline that turns raw text into sentence spans:
   *
   *   1. '''Tokenise''' the text with the XLM-R SentencePiece model, keeping the exact character
   *      offset of every sub-word token ([[encodeWithOffsets]]).
@@ -96,10 +69,6 @@ case class SppPiece(id: Int, begin: Int, end: Int)
   *   1. '''Decode''': sigmoid the logits, push each token's probability onto the last character
   *      of its span ([[tokenLogitsToCharProbs]]), then cut the text wherever the probability
   *      crosses the threshold ([[charProbsToSentenceSpans]]).
-  *
-  * It mirrors the design of the other `ml.ai` engines (e.g. [[XlmRoberta]]): it is constructed
-  * with the raw [[OnnxWrapper]] and [[SentencePieceWrapper]], resolves the ONNX session options
-  * once on the driver, and is broadcast to the executors by the annotator.
   *
   * @param onnxWrapper
   *   loaded SaT ONNX model (`model.onnx`)
@@ -115,45 +84,12 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
 
   /** HuggingFace's XLM-R tokenizer shifts every raw SentencePiece id by `+1` (`<s>=0, <pad>=1,
     * </s>=2, <unk>=3`, then real pieces start at `sp_id + 1`). Raw SentencePiece ids must
-    * therefore be offset before being fed to the ONNX graph, exactly like
-    * [[com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencepieceEncoder]] does with
-    * `pieceIdOffset = 1`.
+    * therefore be offset before being fed to the ONNX graph
     */
   private val FairseqOffset = 1
-
-  /** ONNX session options, resolved once on the driver at construction time (same pattern as
-    * [[XlmRoberta]]). The resulting plain `Map[String, String]` is serializable and is carried
-    * inside the broadcast without touching the native ORT runtime on executor threads.
-    */
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
-  // ── Public API ────────────────────────────────────────────────────────────────
 
-  /** Split a single document into sentence spans.
-    *
-    * @param text
-    *   document text of any length
-    * @param threshold
-    *   a boundary is placed after a character once its probability is `>= threshold`
-    * @param blockSize
-    *   number of real tokens per ONNX window (must be `<= 510` for XLM-R)
-    * @param stride
-    *   how many tokens to advance between consecutive windows (smaller = more overlap)
-    * @param batchSize
-    *   how many windows to send to ONNX in a single forward pass
-    * @param weighting
-    *   `"hat"` (edge tokens trusted less) or `"uniform"` overlap weighting
-    * @param trimWhitespace
-    *   strip leading/trailing whitespace from each detected sentence
-    * @param minSentenceLength
-    *   if `> 0`, switches to length-constrained (Viterbi) decoding with this minimum segment
-    *   length in characters; when active, `threshold` is ignored entirely
-    * @param maxSentenceLength
-    *   if `> 0`, switches to length-constrained (Viterbi) decoding with this maximum segment
-    *   length in characters; when active, `threshold` is ignored entirely
-    * @return
-    *   ordered, non-overlapping list of [[SentenceSpan]]s covering the whole document
-    */
   def split(
       text: String,
       threshold: Float,
@@ -172,7 +108,7 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     // 1. Tokenise with character offsets.
     val tokenized = encodeWithOffsets(text)
 
-    // Degenerate input (e.g. only whitespace the tokenizer dropped): return the text as-is.
+    // Degenerate input
     if (tokenized.inputIds.isEmpty)
       return Seq(SentenceSpan(0, text.length - 1, text))
 
@@ -203,15 +139,13 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
       charProbsToSentenceSpans(text, charProbs, threshold, trimWhitespace)
   }
 
-  // ── 1. Tokenisation (encoding) ──────────────────────────────────────────────────
 
   /** Encode `text` into XLM-R token ids together with the exact character span of every token.
     *
     * Both the ids and the offsets come from the SentencePiece *serialized proto*
     * (`encodeAsSerializedProto`), which records the original-text byte span (`begin`/`end`) of
     * each piece – the same information HuggingFace's fast tokenizer exposes via
-    * `return_offsets_mapping=True`. This is robust to SentencePiece normalisation and arbitrary
-    * whitespace, unlike walking the piece surfaces by hand.
+    * `return_offsets_mapping=True`.
     *
     *   1. raw SentencePiece ids are shifted by [[FairseqOffset]] to match the XLM-R vocabulary,
     *      and
@@ -236,11 +170,6 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
       ids(i) = rawId + FairseqOffset
       val rawStart = if (beginByte >= 0 && beginByte <= numBytes) byteToChar(beginByte) else 0
       val end = if (endByte >= 0 && endByte <= numBytes) byteToChar(endByte) else rawStart
-
-      // SentencePiece's `begin` includes the leading whitespace that the `▁` metaspace stands for,
-      // whereas HuggingFace's offset_mapping points at the first real character. Skip the leading
-      // whitespace to match HF. (This only moves `start`; SaT decodes off `end`, so behaviour is
-      // unchanged either way.) If the token is whitespace-only, keep the raw span.
       var start = rawStart
       while (start < end && text.charAt(start).isWhitespace) start += 1
       if (start >= end) start = rawStart
@@ -251,15 +180,7 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     TokenizedText(ids, offsets)
   }
 
-  /** Parse a serialized `SentencePieceText` protobuf into the pieces we need.
-    *
-    * Only the relevant fields are read; everything else is skipped. The (stable) wire layout is:
-    *   - `SentencePieceText`: `pieces` = field 2 (repeated, length-delimited sub-message)
-    *   - `SentencePiece`: `id` = field 2 (varint), `begin` = field 4 (varint), `end` = field 5
-    *     (varint), where `begin`/`end` are byte offsets into the original input text.
-    *
-    * Reading the wire format directly avoids depending on a generated protobuf class.
-    */
+
   private def parseSppPieces(buf: Array[Byte]): Array[SppPiece] = {
     val pieces = scala.collection.mutable.ArrayBuffer.empty[SppPiece]
     var pos = 0
@@ -332,13 +253,7 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     (result, pos)
   }
 
-  /** Build a lookup from UTF-8 byte offset to Java (UTF-16) character index.
-    *
-    * `result(b)` is the character index of the code point whose UTF-8 encoding starts at byte
-    * `b`; the trailing sentinel `result(numBytes) == text.length` lets an exclusive `end` byte
-    * offset resolve cleanly. SentencePiece offsets always fall on code-point boundaries, so only
-    * those byte positions are ever looked up.
-    */
+
   private def buildByteToCharMap(text: String): Array[Int] = {
     val map = scala.collection.mutable.ArrayBuffer.empty[Int]
     var charPos = 0
@@ -357,11 +272,9 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     map.toArray
   }
 
-  /** Number of bytes a single code point occupies in UTF-8. */
   private def utf8Length(cp: Int): Int =
     if (cp < 0x80) 1 else if (cp < 0x800) 2 else if (cp < 0x10000) 3 else 4
 
-  // ── 2. Windowing ───────────────────────────────────────────────────────────────
 
   /** Slice the flat token array into overlapping windows of at most `blockSize` real tokens.
     *
@@ -398,8 +311,6 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
 
     windows.toSeq
   }
-
-  // ── 3 + 4. ONNX forward pass and overlap merging ────────────────────────────────
 
   /** Run the model over all windows (in batches) and merge their overlapping per-token logits.
     *
@@ -492,7 +403,6 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
       }
     } else Array.fill(n)(1.0f)
 
-  // ── 5. Decoding (logits -> sentence spans) ──────────────────────────────────────
 
   /** Numerically-stable logistic sigmoid, computed in double precision. */
   private def sigmoid(x: Float): Float = (1.0 / (1.0 + math.exp(-x.toDouble))).toFloat
@@ -568,31 +478,6 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
 
   /** Length-constrained boundary search via dynamic programming (Viterbi).
     *
-    * This is a direct port of wtpsplit's `constrained_segmentation` (viterbi branch,
-    * `wtpsplit/utils/constraints.py`). It is used whenever the caller sets a minimum and/or
-    * maximum sentence length; the `threshold` plays no part here.
-    *
-    * The DP runs over cut positions `i ∈ [0, n]`, where a segment from cut `j` to cut `i` covers
-    * `text[j, i)` and must satisfy `minLen <= i - j <= maxLen`:
-    * {{{
-    *   best(0) = 0
-    *   best(i) = max over valid j of  best(j) + log(prior(i - j)) + log(probs(i - 1))   for i < n
-    *   best(n) = max over valid j of  best(j) + log(prior(n - j))      // no boundary term at end
-    * }}}
-    * Each transition adds exactly two terms: the segment-length log-prior
-    * ([[segmentLengthPrior]], `0` for the uniform prior) and the boundary log-probability
-    * `log(probs(i-1))` at the segment's last character. The terminal position `i == n` adds NO
-    * boundary term, because end-of-text is always a boundary and has no model prediction. Because
-    * `log(probs) < 0` for `probs < 1`, every extra cut lowers the score, which is what prevents
-    * over-segmentation (no interior `log(1-p)` term is needed – matching wtpsplit exactly).
-    *
-    * After filling the tables we backtrack from `n`, drop the terminal `n`, and run
-    * [[handleShortFinalSegment]]. If the DP cannot reach the end (no segmentation satisfies the
-    * bounds) we fall back to [[fallbackGreedySegmentation]], exactly as the reference does.
-    *
-    * @return
-    *   ordered split boundaries as 1-based end positions in `[1, n)` (terminal `n` excluded), to
-    *   be converted to 0-based last-character indices by the caller
     */
   private def constrainedSegmentation(
       charProbs: Array[Float],
@@ -633,43 +518,21 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
       i += 1
     }
 
-    // DP failure: no path reaches the end -> greedy fallback (matches the reference).
     if (best(n) == Double.NegativeInfinity)
       return fallbackGreedySegmentation(n, minLen, maxLen)
 
-    // Backtrack; prepending yields ascending cut positions, ending with n.
     var cuts = List.empty[Int]
     var p = n
     while (p > 0) {
       cuts = p :: cuts
       p = back(p)
     }
-    // Drop the terminal boundary n (always a boundary, not a split), then fix a short final chunk.
     val result = if (cuts.nonEmpty && cuts.last == n) cuts.dropRight(1) else cuts
     handleShortFinalSegment(result, n, minLen, maxLen)
   }
 
-  /** Segment-length log-prior, added to each DP transition.
-    *
-    * '''Convention: this returns a value in LOG space''' (the DP adds it directly). The uniform
-    * prior is `log(1.0) = 0.0`, so only the hard `[minLen, maxLen]` bounds shape the result –
-    * this matches wtpsplit's `uniform` prior.
-    *
-    * Extension point: wtpsplit's other priors (`gaussian`, `clipped_polynomial`, `lognormal`) are
-    * defined in '''probability''' space and the DP adds `log(prior)`. So any such prior added
-    * here must either return `math.log(probability)` directly, or be wrapped in `math.log(...)`
-    * at this call site. A forbidden length should return `Double.NegativeInfinity` (i.e.
-    * `log(0)`).
-    */
   private def segmentLengthPrior(len: Int): Double = 0.0
 
-  /** Port of wtpsplit's `_handle_short_final_segment`: if the trailing segment is shorter than
-    * `minLen`, either merge it into the previous one (when the result fits `maxLen`) or move the
-    * last split point so the final chunk reaches `minLen`.
-    *
-    * Operates on 1-based end positions (the same representation [[constrainedSegmentation]]
-    * uses).
-    */
   private def handleShortFinalSegment(
       indices: Seq[Int],
       n: Int,
@@ -695,10 +558,7 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     buf.toSeq
   }
 
-  /** Port of wtpsplit's `_fallback_greedy_segmentation`, used only when the Viterbi DP cannot
-    * reach the end. Greedily takes `maxLen`-sized chunks, then applies
-    * [[handleShortFinalSegment]].
-    */
+
   private def fallbackGreedySegmentation(n: Int, minLen: Int, maxLen: Int): Seq[Int] = {
     val indices = scala.collection.mutable.ArrayBuffer.empty[Int]
     var curr = 0
@@ -710,31 +570,6 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     handleShortFinalSegment(indices.toSeq, n, minLen, maxLen)
   }
 
-  /** Port of wtpsplit's `_enforce_segment_constraints`: turn the DP's cut indices into final
-    * [[SentenceSpan]]s while STRICTLY enforcing the length bounds.
-    *
-    * This post-pass is necessary because the Viterbi DP cuts on raw character indices, but real
-    * segments extend over trailing whitespace (which can push a segment past `maxLen`). The
-    * steps, mirroring the reference:
-    *   1. build contiguous segment ranges from the cut indices, extending each end over trailing
-    *      whitespace;
-    *   1. '''strict max:''' hard-split any range longer than `maxLen`, preferring a whitespace
-    *      split point within the last ~20 characters, carrying the remainder forward;
-    *   1. '''min merge:''' merge a range shorter than `minLen` with following ranges, but only
-    *      while the merged length stays within `maxLen`;
-    *   1. fix a leftover prefix and a short final segment.
-    *
-    * Spans are kept as exact character offsets into `text`. With `trimWhitespace = false` the
-    * union of all spans reproduces `text` exactly (wtpsplit's `"".join(segments) == text`
-    * invariant); with trimming on, segment ends are trimmed like the threshold path (via
-    * [[addSpan]]) and lengths are measured on the trimmed content, matching the reference's
-    * `strip_whitespace` mode.
-    *
-    * @param indices
-    *   0-based last-character indices of each non-terminal boundary (i.e. DP boundaries minus 1)
-    * @param maxLen
-    *   `Some(limit)` for a hard ceiling, or `None` for no maximum
-    */
   private def enforceSegmentConstraints(
       text: String,
       indices: Seq[Int],
