@@ -29,25 +29,23 @@ import com.johnsnowlabs.ml.util.LoadExternalModel.{
 }
 import com.johnsnowlabs.ml.util.ONNX
 import com.johnsnowlabs.nlp.AnnotatorType.{DOCUMENT, IMAGE, SENTENCE_EMBEDDINGS}
+import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.cv.feature_extractor.Preprocessor
 import com.johnsnowlabs.nlp.serialization.MapFeature
 import com.johnsnowlabs.nlp.util.AnnotationRowUtils.extractAnnotationRows
 import com.johnsnowlabs.nlp.util.SparkNlpConfig
-import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.util.ZipArchiveUtil
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{IntArrayParam, IntParam, Param, ParamMap}
-
-import scala.collection.immutable.Seq
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.types.{Metadata, MetadataBuilder, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
-import org.json4s.{DefaultFormats, JValue}
 import org.json4s.jackson.JsonMethods.parse
+import org.json4s.{DefaultFormats, JValue}
 
 import java.io.File
 import java.nio.file.Files
