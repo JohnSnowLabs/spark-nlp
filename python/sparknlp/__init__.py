@@ -55,12 +55,14 @@ sys.modules['com.johnsnowlabs.nlp.annotators.spell.context'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ld'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ld.dl'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.sentence_detector_dl'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.sbd.sat'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.seq2seq'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ws'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.er'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.coref'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.cv'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.audio'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.similarity'] = annotator
 sys.modules['com.johnsnowlabs.ml.ai'] = annotator
 
 annotators = annotator

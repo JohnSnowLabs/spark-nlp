@@ -176,6 +176,7 @@ object ResourceHelper {
 
     def close(): Unit = {
       openBuffers.foreach(_.close())
+      fileSystem.foreach(_.close())
       pipe.foreach(_.close)
     }
   }
@@ -209,7 +210,9 @@ object ResourceHelper {
         val pathWithProtocol: String =
           if (URI.create(path).getScheme == null) new File(path).toURI.toURL.toString else path
         val resource = SourceStream(pathWithProtocol)
-        resource.copyToLocal()
+        val localTmpPath = resource.copyToLocal()
+        resource.close()
+        localTmpPath
       }
 
     new File(localUri).getAbsolutePath // Platform independent path

@@ -64,6 +64,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyspark==3.4.0 numpy pytest
       - uses: sbt/setup-sbt@v1
+        with:
+          disk-cache: false
       - name: Build Spark NLP on Apache Spark 3.4.0
         run: |
           sbt -mem 4096 -Dis_spark34=true clean assemblyAndCopy
@@ -106,6 +108,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyspark==3.5.0 numpy pytest
       - uses: sbt/setup-sbt@v1
+        with:
+          disk-cache: false
       - name: Build Spark NLP on Apache Spark 3.5.0
         run: |
           sbt -mem 4096 -Dis_spark35=true clean assemblyAndCopy
@@ -144,6 +148,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyspark==3.3.1 numpy pytest
       - uses: sbt/setup-sbt@v1
+        with:
+          disk-cache: false
       - name: Build Spark NLP on Apache Spark 3.3.1
         run: |
           sbt -mem 4096 -Dis_spark33=true clean assemblyAndCopy
