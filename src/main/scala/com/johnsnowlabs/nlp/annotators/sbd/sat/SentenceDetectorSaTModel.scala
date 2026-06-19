@@ -84,7 +84,6 @@ class SentenceDetectorSaTModel(override val uid: String)
   override val inputAnnotatorTypes: Array[String] = Array(DOCUMENT)
   override val outputAnnotatorType: String = DOCUMENT
 
-
   /** Boundary probability threshold (Default: `0.25` for sat-12l-sm).
     *
     * A token boundary is emitted when sigmoid(logit) >= threshold. Typical values:
@@ -252,7 +251,6 @@ class SentenceDetectorSaTModel(override val uid: String)
     batchSize -> 4,
     engine -> ONNX.name)
 
-
   private var _model: Option[Broadcast[SaT]] = None
 
   /** Set the fully-initialised [[SaT]] inference object. Called by [[loadSavedModel]] and by the
@@ -270,7 +268,6 @@ class SentenceDetectorSaTModel(override val uid: String)
 
   def getModelIfNotSet: SaT =
     _model.getOrElse(throw new IllegalStateException("SaT model is not loaded.")).value
-
 
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     val satModel = getModelIfNotSet
@@ -330,7 +327,6 @@ class SentenceDetectorSaTModel(override val uid: String)
     } else dataset
   }
 
-
   override def onWrite(path: String, spark: SparkSession): Unit = {
     super.onWrite(path, spark)
     val m =
@@ -373,7 +369,6 @@ trait ReadSaTDLModel extends ReadOnnxModel with ReadSentencePieceModel {
 
   /** Load a SaT model from a local folder exported by the Hugging Face / ONNX export script.
     *
-
     * @param modelPath
     *   Local or remote (HDFS / S3 / GCS) path to the model folder.
     * @param spark

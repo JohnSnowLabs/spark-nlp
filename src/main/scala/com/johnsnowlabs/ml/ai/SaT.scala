@@ -22,7 +22,6 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.SentencePieceWrapper
 
 import scala.collection.JavaConverters._
 
-
 /** Result of tokenising a document with the XLM-R SentencePiece model.
   *
   * @param inputIds
@@ -34,29 +33,21 @@ import scala.collection.JavaConverters._
   */
 case class TokenizedText(inputIds: Array[Int], offsets: Array[(Int, Int)])
 
-/** One overlapping slice of the document that is fed to the model in a single forward pass.
-  *
-  */
+/** One overlapping slice of the document that is fed to the model in a single forward pass. */
 case class SaTWindow(
     tokenStart: Int,
     tokenEnd: Int,
     inputIds: Array[Long],
     attentionMask: Array[Float])
 
-/** A detected sentence, expressed in the original document's character space.
-  *
-  */
+/** A detected sentence, expressed in the original document's character space. */
 case class SentenceSpan(begin: Int, end: Int, text: String)
 
-/** One piece parsed out of a SentencePiece serialized proto.
-  *
-  */
+/** One piece parsed out of a SentencePiece serialized proto. */
 case class SppPiece(id: Int, begin: Int, end: Int)
-
 
 /** Under-the-hood inference engine for the SaT (Segment-any-Text / wtpsplit) sentence boundary
   * model.
-  *
   *
   *   1. '''Tokenise''' the text with the XLM-R SentencePiece model, keeping the exact character
   *      offset of every sub-word token ([[encodeWithOffsets]]).
@@ -88,7 +79,6 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     */
   private val FairseqOffset = 1
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
-
 
   def split(
       text: String,
@@ -139,7 +129,6 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
       charProbsToSentenceSpans(text, charProbs, threshold, trimWhitespace)
   }
 
-
   /** Encode `text` into XLM-R token ids together with the exact character span of every token.
     *
     * Both the ids and the offsets come from the SentencePiece *serialized proto*
@@ -179,7 +168,6 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
 
     TokenizedText(ids, offsets)
   }
-
 
   private def parseSppPieces(buf: Array[Byte]): Array[SppPiece] = {
     val pieces = scala.collection.mutable.ArrayBuffer.empty[SppPiece]
@@ -253,7 +241,6 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     (result, pos)
   }
 
-
   private def buildByteToCharMap(text: String): Array[Int] = {
     val map = scala.collection.mutable.ArrayBuffer.empty[Int]
     var charPos = 0
@@ -274,7 +261,6 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
 
   private def utf8Length(cp: Int): Int =
     if (cp < 0x80) 1 else if (cp < 0x800) 2 else if (cp < 0x10000) 3 else 4
-
 
   /** Slice the flat token array into overlapping windows of at most `blockSize` real tokens.
     *
@@ -403,7 +389,6 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
       }
     } else Array.fill(n)(1.0f)
 
-
   /** Numerically-stable logistic sigmoid, computed in double precision. */
   private def sigmoid(x: Float): Float = (1.0 / (1.0 + math.exp(-x.toDouble))).toFloat
 
@@ -476,9 +461,7 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     if (s < e) buf += SentenceSpan(begin = s, end = e - 1, text = text.substring(s, e))
   }
 
-  /** Length-constrained boundary search via dynamic programming (Viterbi).
-    *
-    */
+  /** Length-constrained boundary search via dynamic programming (Viterbi). */
   private def constrainedSegmentation(
       charProbs: Array[Float],
       minSentenceLength: Int,
@@ -557,7 +540,6 @@ private[johnsnowlabs] class SaT(val onnxWrapper: OnnxWrapper, val spp: SentenceP
     }
     buf.toSeq
   }
-
 
   private def fallbackGreedySegmentation(n: Int, minLen: Int, maxLen: Int): Seq[Int] = {
     val indices = scala.collection.mutable.ArrayBuffer.empty[Int]

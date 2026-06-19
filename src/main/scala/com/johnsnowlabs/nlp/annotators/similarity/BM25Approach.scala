@@ -17,11 +17,12 @@
 package com.johnsnowlabs.nlp.annotators.similarity
 
 import com.johnsnowlabs.nlp.AnnotatorType.{BM25_RANKINGS, TOKEN}
-import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach, AnnotatorType}
+import com.johnsnowlabs.nlp.util.AnnotationRowUtils.extractAnnotationRows
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorApproach}
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.ml.param.{BooleanParam, DoubleParam, IntParam, ParamValidators}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.Dataset
 
 /** Trains a BM25 (Okapi BM25) lexical ranker over a corpus of tokenized documents.
   *
@@ -205,7 +206,7 @@ class BM25Approach(override val uid: String) extends AnnotatorApproach[BM25Model
       .select(inputCol)
       .rdd
       .map { row =>
-        Option(row.getAs[Seq[Row]](0)).getOrElse(Seq.empty).map { annotationRow =>
+        extractAnnotationRows(row, 0).map { annotationRow =>
           val term = Annotation(annotationRow).result
           if (isCaseSensitive) term else term.toLowerCase
         }
