@@ -16,71 +16,68 @@
 
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
+import com.johnsnowlabs.ml.gguf.GGUFWrapper
+import com.johnsnowlabs.ml.util.LlamaCPP
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
-import com.johnsnowlabs.nlp.{Annotation, HasOutputAnnotationCol, HasOutputAnnotatorType}
-import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
+import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.annotators.sbd.sat.SentenceDetectorSaTModel
+import com.johnsnowlabs.nlp.llama.LlamaExtensions
+import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.reader.Reader2Doc
-import org.apache.spark.ml.{Pipeline, Transformer}
-import org.apache.spark.ml.param.{BooleanParam, IntParam, Param, ParamMap}
-import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
+import de.kherud.llama.{InferenceParameters, LlamaException, LlamaModel}
+import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.Transformer
+import org.apache.spark.ml.param.{BooleanParam, FloatParam, IntParam, Param, ParamMap}
+import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.sql.functions.monotonically_increasing_id
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
-import org.slf4j.LoggerFactory
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 
-/** DocumentTranslator reads documents from any supported file type and translates them using an
-  * [[M2M100Transformer]] model – all in a single Pipeline stage.
-  *   1. A [[Reader2Doc]] stage that reads files from `contentPath` (or from a DataFrame column
-  *      set via `inputCol`) and converts them to Spark NLP `DOCUMENT` annotations. Every file
-  *      format that [[Reader2Doc]] supports is accepted: PDF, Word (.doc/.docx), ODT, Excel
-  *      (.xls/.xlsx), PowerPoint (.ppt/.pptx), HTML, plain-text, RTF, Markdown, XML, CSV, and
-  *      email (.eml/.msg). 2. An [[M2M100Transformer]] loaded via
-  *      [[DocumentTranslator.pretrained]] that translates the resulting document annotations.
+/** DocumentTranslator reads documents from any supported file type and translates them with a
+  * llama.cpp GGUF large-language-model – all in a single Pipeline stage.
   *
-  * The output column contains standard Spark NLP `DOCUMENT` annotations holding the translated
-  * text, making it fully composable with any downstream Spark NLP annotator.
+  *   1. A [[Reader2Doc]] stage reads files from `contentPath` (or from a DataFrame column set via
+  *      `inputCol`) and converts them to Spark NLP `DOCUMENT` annotations. Every file format that
+  *      [[Reader2Doc]] supports is accepted: PDF, Word (.doc/.docx), ODT, Excel (.xls/.xlsx),
+  *      PowerPoint (.ppt/.pptx), HTML, plain-text, RTF, Markdown, XML, CSV, and email
+  *      (.eml/.msg).
+  *   1. A [[SentenceDetectorSaTModel]] splits each document into sentences. Setting
+  *      [[minSentenceLength]] / [[maxSentenceLength]] (characters) makes the SaT model emit
+  *      length-bounded segments directly, so DocumentTranslator never has to pack/merge chunks.
+  *   1. The GGUF model translates the sentences. Each sentence is embedded into
+  *      [[promptTemplate]] (with [[srcLang]] / [[tgtLang]]) and completed with the same
+  *      `multiComplete` batch logic used by [[AutoGGUFModel]]. Every sentence from every
+  *      collected document is flattened into one batch and translated with up to [[batchSize]]
+  *      sentences decoding concurrently (llama.cpp parallel slots), keeping the model fully
+  *      utilised regardless of how the sentences are distributed across documents.
+  *   1. The translated sentences are regrouped per document and merged back into one `DOCUMENT`
+  *      annotation.
   *
-  * Load a model using the companion object's `pretrained` method, passing the
-  * [[M2M100Transformer]] model name and language. Hundreds of language-pair models are available
-  * from the [[https://sparknlp.org/models?task=Translation Models Hub]].
+  * All llama.cpp model / inference parameters are inherited from [[HasLlamaCppModelProperties]]
+  * and [[HasLlamaCppInferenceProperties]] – the same parameters exposed by [[AutoGGUFModel]] – so
+  * e.g. `setNCtx`, `setNPredict`, `setTemperature`, `setTopK`, `setReasoningBudget`,
+  * `setSystemPrompt` are available directly.
   *
   * Pretrained models can be loaded with `pretrained` of the companion object:
   * {{{
-  * val translator = DocumentTranslator.pretrained("m2m100_418M", "xx")
+  * val translator = DocumentTranslator.pretrained()
   *   .setContentPath("src/test/resources/reader/html/")
   *   .setContentType("text/html")
-  *   .setSrcLang("en")
-  *   .setTgtLang("fr")
+  *   .setSrcLang("English")
+  *   .setTgtLang("French")
+  *   .setMaxSentenceLength(600)
   *   .setOutputCol("translation")
   * }}}
-  * The default model is `"m2m100_418M"`, default language is `"xx"` (multi-lingual), if no
+  * The default model is `"Phi_4_mini_instruct_Q4_K_M_gguf"`, default language is `"en"`, if no
   * values are provided.
   *
-  * For available pretrained M2M100 models please see the
-  * [[https://sparknlp.org/models?task=Translation Models Hub]].
+  * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
-  * ==Example==
-  * {{{
-  * import com.johnsnowlabs.nlp.annotators.seq2seq.DocumentTranslator
-  * import org.apache.spark.ml.Pipeline
-  * import com.johnsnowlabs.util.PipelineModels
-  *
-  * val translator = DocumentTranslator.pretrained("m2m100_418M", "xx")
-  *   .setContentPath("src/test/resources/reader/html/")
-  *   .setContentType("text/html")
-  *   .setSrcLang("en")
-  *   .setTgtLang("fr")
-  *   .setOutputCol("translation")
-  *
-  * val pipeline = new Pipeline().setStages(Array(translator))
-  * val result = pipeline
-  *   .fit(PipelineModels.dummyDataset)
-  *   .transform(PipelineModels.dummyDataset)
-  *
-  * result.select("fileName", "translation.result").show(truncate = false)
-  * }}}
-  *
-  * '''Note:''' Translation is computationally expensive. The use of an accelerator (GPU) is
-  * recommended for large documents or large batches.
+  * '''Note:''' Translation is computationally expensive; a GPU is recommended. With parallel
+  * decoding the total context `nCtx` (in tokens) is split across the [[batchSize]] slots, so the
+  * per-sentence budget is `nCtx / batchSize` and must cover the prompt plus the generated
+  * translation. Size it as `nCtx >= batchSize * (promptTokens + nPredict)`; raise [[setNCtx]]
+  * when raising [[setBatchSize]], [[setMaxSentenceLength]] or [[setNPredict]].
   *
   * @param uid
   *   required uid for storing annotator to disk
@@ -102,19 +99,23 @@ import org.slf4j.LoggerFactory
   */
 class DocumentTranslator(override val uid: String)
     extends Transformer
-    with DefaultParamsWritable
     with HasOutputAnnotatorType
-    with HasOutputAnnotationCol {
+    with HasOutputAnnotationCol
+    with HasEngine
+    with HasLlamaCppModelProperties
+    with HasLlamaCppInferenceProperties
+    with HasProtectedParams
+    with CompletionPostProcessing {
 
   def this() = this(Identifiable.randomUID("DOCUMENT_TRANSLATOR"))
-
-  private val logger = LoggerFactory.getLogger(getClass)
 
   /** Output Annotator Type: DOCUMENT
     *
     * @group anno
     */
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
+
+  // ── Reader2Doc parameters ─────────────────────────────────────────────────
 
   val contentPath: Param[String] =
     new Param[String](this, "contentPath", "Path to the file or directory to read documents from")
@@ -150,9 +151,8 @@ class DocumentTranslator(override val uid: String)
   def getInputCol: String = $(inputCol)
 
   /** When `true` (default) [[Reader2Doc]] merges all extracted elements from a single file into
-    * one `DOCUMENT` annotation before translation. When `false` every extracted element
-    * (paragraph, title, table cell, …) becomes its own `DOCUMENT` annotation and is translated
-    * independently.
+    * one `DOCUMENT` annotation before translation. When `false` every extracted element becomes
+    * its own `DOCUMENT` annotation and is translated independently.
     *
     * @group param
     */
@@ -185,26 +185,144 @@ class DocumentTranslator(override val uid: String)
   /** @group getParam */
   def getJoinString: String = $(joinString)
 
-  /** Maximum number of tokens per chunk passed to the [[M2M100Transformer]]. The document is
-    * first split into sentences by [[com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel]], then whole sentences are greedily packed
-    * into chunks that stay under this token limit (Default: `400`).
+  // ── SentenceDetectorSaTModel parameters ───────────────────────────────────
+
+  /** Minimum sentence length in characters used by the [[SentenceDetectorSaTModel]] (Default: `0`
+    * \= no minimum). When [[minSentenceLength]] or [[maxSentenceLength]] is `> 0`, the SaT model
+    * switches to length-constrained segmentation.
     *
     * @group param
     */
-  val chunkSize: IntParam =
+  val minSentenceLength: IntParam =
     new IntParam(
       this,
-      "chunkSize",
-      "Maximum number of tokens per chunk sent to the M2M100Transformer (Default: 400).")
+      "minSentenceLength",
+      "Minimum sentence length in characters for SentenceDetectorSaTModel (0 = unset)")
 
   /** @group setParam */
-  def setChunkSize(value: Int): this.type = {
-    require(value > 0, "chunkSize must be > 0.")
-    set(chunkSize, value)
+  def setMinSentenceLength(value: Int): this.type = {
+    require(value >= 0, "minSentenceLength must be >= 0.")
+    set(minSentenceLength, value)
   }
 
   /** @group getParam */
-  def getChunkSize: Int = $(chunkSize)
+  def getMinSentenceLength: Int = $(minSentenceLength)
+
+  /** Maximum sentence length in characters used by the [[SentenceDetectorSaTModel]] (Default: `0`
+    * \= no maximum). See [[minSentenceLength]].
+    *
+    * @group param
+    */
+  val maxSentenceLength: IntParam =
+    new IntParam(
+      this,
+      "maxSentenceLength",
+      "Maximum sentence length in characters for SentenceDetectorSaTModel (0 = unset)")
+
+  /** @group setParam */
+  def setMaxSentenceLength(value: Int): this.type = {
+    require(value >= 0, "maxSentenceLength must be >= 0.")
+    set(maxSentenceLength, value)
+  }
+
+  /** @group getParam */
+  def getMaxSentenceLength: Int = $(maxSentenceLength)
+
+  /** Boundary probability threshold for the [[SentenceDetectorSaTModel]] (Default: `0.25`).
+    * Ignored when length-constrained segmentation is active.
+    *
+    * @group param
+    */
+  val sentenceThreshold: FloatParam =
+    new FloatParam(
+      this,
+      "sentenceThreshold",
+      "Boundary probability threshold for SentenceDetectorSaTModel (default 0.25)")
+
+  /** @group setParam */
+  def setSentenceThreshold(value: Float): this.type = set(sentenceThreshold, value)
+
+  /** @group getParam */
+  def getSentenceThreshold: Float = $(sentenceThreshold)
+
+  // ── Translation prompt parameters ─────────────────────────────────────────
+
+  /** Source language interpolated into [[promptTemplate]] (e.g. `"English"`).
+    * @group param
+    */
+  val srcLang: Param[String] =
+    new Param[String](this, "srcLang", "Source language used to build the translation prompt")
+
+  /** @group setParam */
+  def setSrcLang(value: String): this.type = set(srcLang, value)
+
+  /** @group getParam */
+  def getSrcLang: String = $(srcLang)
+
+  /** Target language interpolated into [[promptTemplate]] (e.g. `"French"`).
+    * @group param
+    */
+  val tgtLang: Param[String] =
+    new Param[String](this, "tgtLang", "Target language used to build the translation prompt")
+
+  /** @group setParam */
+  def setTgtLang(value: String): this.type = set(tgtLang, value)
+
+  /** @group getParam */
+  def getTgtLang: String = $(tgtLang)
+
+  /** Per-sentence translation prompt template. Three placeholders are interpolated per sentence:
+    *   - `{srcLang}` -> [[srcLang]]
+    *   - `{tgtLang}` -> [[tgtLang]]
+    *   - `{text}` -> the sentence to translate
+    *
+    * The filled-in prompt becomes the model's completion input, so the source text is part of the
+    * prompt itself. The default mirrors the few-shot completion format expected by
+    * translation-tuned GGUF models, e.g.:
+    * {{{
+    * Translate the following text from Portuguese into English.
+    * Portuguese: Um grupo de investigadores lançou um novo modelo.
+    * English:
+    * }}}
+    *
+    * @group param
+    */
+  val promptTemplate: Param[String] =
+    new Param[String](
+      this,
+      "promptTemplate",
+      "Per-sentence translation prompt template; {srcLang}, {tgtLang} and {text} are interpolated")
+
+  /** @group setParam */
+  def setPromptTemplate(value: String): this.type = set(promptTemplate, value)
+
+  /** @group getParam */
+  def getPromptTemplate: String = $(promptTemplate)
+
+  /** Number of sentences translated concurrently (Default: `4`). This is the llama.cpp
+    * parallel-decoding slot count (`n_parallel`): sentences from all documents are flattened into
+    * one batch and up to `batchSize` of them decode at once. The total context [[nCtx]] is split
+    * across these slots, so `nCtx / batchSize` must cover one sentence's prompt plus
+    * [[nPredict]].
+    *
+    * @group param
+    */
+  val batchSize: IntParam =
+    new IntParam(this, "batchSize", "Number of sentences translated concurrently (llama slots)")
+
+  /** @group setParam */
+  def setBatchSize(value: Int): this.type = {
+    require(value > 0, "batchSize must be > 0.")
+    set(batchSize, value)
+  }
+
+  /** @group getParam */
+  def getBatchSize: Int = $(batchSize)
+
+  /** Alias for [[setBatchSize]] (number of llama.cpp parallel decoding slots).
+    * @group setParam
+    */
+  def setNParallel(value: Int): this.type = setBatchSize(value)
 
   setDefault(
     contentPath -> "",
@@ -212,139 +330,67 @@ class DocumentTranslator(override val uid: String)
     inputCol -> "",
     outputAsDocument -> true,
     joinString -> "\n",
-    chunkSize -> 400)
+    minSentenceLength -> 0,
+    maxSentenceLength -> 0,
+    sentenceThreshold -> 0.25f,
+    srcLang -> "English",
+    tgtLang -> "French",
+    promptTemplate ->
+      ("Translate the following text from {srcLang} into {tgtLang}.\n" +
+        "{srcLang}: {text}\n{tgtLang}:"),
+    batchSize -> 4,
+    // Inherited llama.cpp params – translation-tuned defaults.
+    // nCtx is the TOTAL token budget split across the batchSize parallel slots, so
+    // nCtx / batchSize must cover one sentence's prompt + nPredict. 4096 / 4 = 1024 tokens/slot.
+    engine -> LlamaCPP.name,
+    useChatTemplate -> true,
+    nCtx -> 8192,
+    nBatch -> 512,
+    nPredict -> 512,
+    nGpuLayers -> 99,
+    reasoningBudget -> 0,
+    systemPrompt -> "You are a helpful assistant.")
 
-  /** The [[M2M100Transformer]] model used for translation. Set by
-    * [[DocumentTranslator.pretrained]] via [[setModel]] and not exposed as a public Spark ML
-    * param because the model object itself is not serialisable as a param value.
-    */
-  private var _model: Option[M2M100Transformer] = None
+  // ── GGUF model (held + broadcast, mirrors AutoGGUFModel) ──────────────────
 
-  /** Stores the downloaded [[M2M100Transformer]] model inside this annotator. Called exclusively
-    * by the companion object's `pretrained` factory methods.
-    */
-  private[seq2seq] def setModel(value: M2M100Transformer): this.type = {
-    _model = Some(value)
+  private var _model: Option[Broadcast[GGUFWrapper]] = None
+
+  /** @group getParam */
+  def getModelIfNotSet: GGUFWrapper = _model.get.value
+
+  /** @group setParam */
+  def setModelIfNotSet(spark: SparkSession, wrapper: GGUFWrapper): this.type = {
+    if (_model.isEmpty) _model = Some(spark.sparkContext.broadcast(wrapper))
     this
   }
 
-  /** Returns the [[M2M100Transformer]] model, throwing [[IllegalStateException]] if
-    * [[DocumentTranslator.pretrained]] has not been called yet.
-    */
-  def getModel: M2M100Transformer =
-    _model.getOrElse(
-      throw new IllegalStateException(
-        s"[$uid] No M2M100Transformer model is loaded. " +
-          "Use DocumentTranslator.pretrained(name, lang) to obtain a configured instance."))
+  /** Closes the llama.cpp model backend, freeing resources. Reloaded on next use. */
+  def close(): Unit = GGUFWrapper.closeBroadcastModel(_model)
 
-  // ── M2M100-specific language parameters ───────────────────────────────────
+  private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
-  /** Source language code for the M2M100 model (e.g. `"en"`).
+  private var _satModel: Option[SentenceDetectorSaTModel] = None
+
+  /** Provide a custom [[SentenceDetectorSaTModel]] for sentence splitting.
     * @group setParam
     */
-  def setSrcLang(value: String): this.type = { getModel.setSrcLang(value); this }
-
-  /** @group getParam */
-  def getSrcLang: String = getModel.getOrDefault(getModel.srcLang)
-
-  /** Target language code for the M2M100 model (e.g. `"fr"`).
-    * @group setParam
-    */
-  def setTgtLang(value: String): this.type = { getModel.setTgtLang(value); this }
-
-  /** @group getParam */
-  def getTgtLang: String = getModel.getOrDefault(getModel.tgtLang)
-
-  // ── Generation parameters delegated to HasGeneratorProperties ─────────────
-
-  /** Maximum length of the input sequence.
-    * @group setParam
-    */
-  def setMaxInputLength(value: Int): this.type = { getModel.setMaxInputLength(value); this }
-
-  /** @group getParam */
-  def getMaxInputLength: Int = getModel.getOrDefault(getModel.maxInputLength)
-
-  /** Maximum length of the generated (translated) sequence.
-    * @group setParam
-    */
-  def setMaxOutputLength(value: Int): this.type = { getModel.setMaxOutputLength(value); this }
-
-  /** @group getParam */
-  def getMaxOutputLength: Int = getModel.getMaxOutputLength
-
-  /** Minimum length of the generated sequence.
-    * @group setParam
-    */
-  def setMinOutputLength(value: Int): this.type = { getModel.setMinOutputLength(value); this }
-
-  /** @group getParam */
-  def getMinOutputLength: Int = getModel.getMinOutputLength
-
-  /** Whether to use sampling; use greedy decoding otherwise (Default: `false`).
-    * @group setParam
-    */
-  def setDoSample(value: Boolean): this.type = { getModel.setDoSample(value); this }
-
-  /** @group getParam */
-  def getDoSample: Boolean = getModel.getDoSample
-
-  /** The value used to module the next token probabilities (Default: `1.0`).
-    * @group setParam
-    */
-  def setTemperature(value: Double): this.type = { getModel.setTemperature(value); this }
-
-  /** @group getParam */
-  def getTemperature: Double = getModel.getTemperature
-
-  /** The number of highest probability vocabulary tokens to keep for top-k-filtering (Default: `50`).
-    * @group setParam
-    */
-  def setTopK(value: Int): this.type = { getModel.setTopK(value); this }
-
-  /** @group getParam */
-  def getTopK: Int = getModel.getTopK
-
-  /** If set to float < `1.0`, only the most probable tokens with probabilities that add up to
-    * `topP` or higher are kept for generation (Default: `1.0`).
-    * @group setParam
-    */
-  def setTopP(value: Double): this.type = { getModel.setTopP(value); this }
-
-  /** @group getParam */
-  def getTopP: Double = getModel.getTopP
-
-  /** The parameter for repetition penalty (Default: `1.0`). `1.0` means no penalty.
-    * @group setParam
-    */
-  def setRepetitionPenalty(value: Double): this.type = {
-    getModel.setRepetitionPenalty(value); this
+  def setSatModel(value: SentenceDetectorSaTModel): this.type = {
+    _satModel = Some(value)
+    this
   }
 
-  /** @group getParam */
-  def getRepetitionPenalty: Double = getModel.getRepetitionPenalty
-
-  /** If set to int > `0`, all ngrams of that size can only occur once (Default: `0`).
-    * @group setParam
+  /** Returns the held [[SentenceDetectorSaTModel]], lazily downloading the default SaT model the
+    * first time it is needed.
     */
-  def setNoRepeatNgramSize(value: Int): this.type = { getModel.setNoRepeatNgramSize(value); this }
-
-  /** @group getParam */
-  def getNoRepeatNgramSize: Int = getModel.getNoRepeatNgramSize
-
-  /** A list of token ids which are ignored in the decoder's output (Default: `Array()`).
-    * @group setParam
-    */
-  def setIgnoreTokenIds(tokenIds: Array[Int]): this.type = {
-    getModel.setIgnoreTokenIds(tokenIds); this
+  def getSatModel: SentenceDetectorSaTModel = _satModel.getOrElse {
+    val model = SentenceDetectorSaTModel.pretrained()
+    _satModel = Some(model)
+    model
   }
 
-  /** @group getParam */
-  def getIgnoreTokenIds: Array[Int] = getModel.getIgnoreTokenIds
-
-  private val internalDocCol: String      = s"__${uid}_doc__"
+  private val internalDocCol: String = s"__${uid}_doc__"
   private val internalSentenceCol: String = s"__${uid}_sentence__"
-  private val internalChunkCol: String    = s"__${uid}_chunk__"
+  private val internalDocIdCol: String = s"__${uid}_docId__"
 
   private lazy val columnMetadata: Metadata = {
     val metadataBuilder: MetadataBuilder = new MetadataBuilder()
@@ -358,116 +404,147 @@ class DocumentTranslator(override val uid: String)
     StructType(outputFields)
   }
 
+  /** Fills [[promptTemplate]] for a single sentence. */
+  private def fillPrompt(template: String, src: String, tgt: String, text: String): String =
+    template
+      .replace("{srcLang}", src)
+      .replace("{tgtLang}", tgt)
+      .replace("{text}", text)
+
   override def transform(dataset: Dataset[_]): DataFrame = {
-    val spark  = dataset.sparkSession
+    val spark = dataset.sparkSession
     val reader = buildReader2Doc()
 
-    val sentenceDetector = SentenceDetectorDLModel
-      .pretrained("sentence_detector_dl", "xx")
-      .setInputCols(Array(internalDocCol))
-      .setOutputCol(internalSentenceCol)
+    // Step 1: read documents into one DOCUMENT annotation per file and tag each with a stable id.
+    val docDf = reader
+      .transform(dataset)
+      .withColumn(internalDocIdCol, monotonically_increasing_id())
+      .persist()
+    docDf.count() // force materialization so the document ids stay stable
 
-    val m2m100 = getModel
-      .setInputCols(Array(internalChunkCol))
-      .setOutputCol(getOutputCol)
+    try {
+      // Step 2: split every document into length-bounded sentences (kept as an array per row).
+      val sentenceDf = getSatModel
+        .setInputCols(Array(internalDocCol))
+        .setOutputCol(internalSentenceCol)
+        .setMinSentenceLength($(minSentenceLength))
+        .setMaxSentenceLength($(maxSentenceLength))
+        .setThreshold($(sentenceThreshold))
+        .setExplodeSentences(false)
+        .transform(docDf)
+        .select(internalDocIdCol, internalSentenceCol)
 
-    // Step 1 & 2: read documents and split into sentences via a mini-pipeline
-    val sentencePipeline = new Pipeline().setStages(Array(reader, sentenceDetector))
-    val withSentences    = sentencePipeline.fit(dataset).transform(dataset)
-
-    // Step 3: greedy sentence packing — runs on the driver, returns rows with chunk column
-    val schemaWithChunks = withSentences.schema
-      .add(internalChunkCol, ArrayType(Annotation.dataType), nullable = false, columnMetadata)
-
-    val packedRows = withSentences.collect().map { row =>
-      val sentences = row.getAs[Seq[org.apache.spark.sql.Row]](internalSentenceCol)
-        .map(Annotation(_))
-      val chunks = packSentences(sentences, $(chunkSize)).map { a =>
-        org.apache.spark.sql.Row(a.annotatorType, a.begin, a.end, a.result, a.metadata, a.embeddings)
+      // Collect the per-document sentences to the driver for the LLM step.
+      val perDocument: Array[(Long, Seq[Annotation])] = sentenceDf.collect().map { row =>
+        val docId = row.getLong(0)
+        val sentences = Option(row.getAs[Seq[Row]](1))
+          .getOrElse(Seq.empty[Row])
+          .map(Annotation(_))
+        docId -> sentences
       }
-      org.apache.spark.sql.Row.fromSeq(row.toSeq :+ chunks)
-    }
 
-    val withChunks = spark.createDataFrame(
-      spark.sparkContext.parallelize(packedRows), schemaWithChunks)
-
-    // Step 4: translate — M2M100Transformer reads internalChunkCol, writes getOutputCol
-    val translated = m2m100.transform(withChunks)
-
-    // Step 5: merge translated chunk annotations into one annotation per row
-    val outputColIdx = translated.schema.fieldIndex(getOutputCol)
-    val mergedRows = translated.collect().map { row =>
-      val chunks = row.getAs[Seq[org.apache.spark.sql.Row]](getOutputCol).map(Annotation(_))
-      val merged = mergeChunks(chunks)
-      val mergedAsRow = org.apache.spark.sql.Row(
-        merged.annotatorType, merged.begin, merged.end,
-        merged.result, merged.metadata, merged.embeddings)
-      val newValues = row.toSeq.zipWithIndex.map { case (v, i) =>
-        if (i == outputColIdx) Seq(mergedAsRow) else v
+      // Step 3: build the per-sentence translation prompts for each document.
+      val template = $(promptTemplate)
+      val src = $(srcLang)
+      val tgt = $(tgtLang)
+      val documentPrompts: Seq[Seq[String]] = perDocument.toSeq.map { case (_, sentences) =>
+        sentences.map(_.result).filter(_.trim.nonEmpty).map(fillPrompt(template, src, tgt, _))
       }
-      org.apache.spark.sql.Row.fromSeq(newValues)
+
+      // Step 4: translate – all sentences are flattened into one batch and decoded with up to
+      // batchSize sentences concurrently, then regrouped per document.
+      val documentTranslations: Seq[Seq[String]] = translateDocuments(documentPrompts)
+
+      // Step 5: merge each document's translated sentences into one paragraph.
+      val mergedByDoc: Map[Long, Annotation] =
+        perDocument.toSeq
+          .zip(documentTranslations)
+          .map { case ((docId, sentences), translations) =>
+            docId -> mergeTranslations(translations, sentences.headOption.map(_.metadata))
+          }
+          .toMap
+
+      // Step 6: attach the merged translation to every original document row.
+      val finalSchema = docDf.schema
+        .add(getOutputCol, ArrayType(Annotation.dataType), nullable = false, columnMetadata)
+      val docIdIdx = docDf.schema.fieldIndex(internalDocIdCol)
+
+      val finalRows = docDf.collect().map { row =>
+        val merged =
+          mergedByDoc.getOrElse(row.getLong(docIdIdx), Annotation(DOCUMENT, 0, 0, "", Map.empty))
+        val mergedAsRow = Row(
+          merged.annotatorType,
+          merged.begin,
+          merged.end,
+          merged.result,
+          merged.metadata,
+          merged.embeddings)
+        Row.fromSeq(row.toSeq :+ Seq(mergedAsRow))
+      }
+
+      val finalDf = spark.createDataFrame(spark.sparkContext.parallelize(finalRows), finalSchema)
+
+      finalDf.drop(internalDocCol, internalDocIdCol)
+    } finally {
+      docDf.unpersist()
     }
-
-    val finalDf = spark.createDataFrame(
-      spark.sparkContext.parallelize(mergedRows), translated.schema)
-
-    finalDf.drop(internalDocCol, internalSentenceCol, internalChunkCol)
   }
 
-  /** Greedily packs whole sentences into chunks whose whitespace-token count stays ≤ maxTokens.
-    * Sentences already over the limit are passed as-is with a warning.
+  /** Translates the sentences of a batch of documents with llama.cpp, reusing [[AutoGGUFModel]]'s
+    * `multiComplete` logic. Every sentence of every document is flattened into a single batch and
+    * submitted in one call with `setParallel(batchSize)`, so llama.cpp keeps [[batchSize]]
+    * sentences decoding concurrently (refilling a slot as soon as one finishes) regardless of how
+    * the sentences are distributed across documents. The flat results are then scattered back
+    * into per-document buffers, preserving order.
+    *
+    * @param documents
+    *   one inner sequence of sentence prompts per document
+    * @return
+    *   one inner sequence of translated sentences per document, aligned with `documents`
     */
-  private def packSentences(sentences: Seq[Annotation], maxTokens: Int): Seq[Annotation] = {
-    if (sentences.isEmpty) return Seq.empty
-    val result = scala.collection.mutable.ArrayBuffer.empty[Annotation]
-    var texts  = scala.collection.mutable.ArrayBuffer.empty[String]
-    var tokens = 0
-    var begin  = sentences.head.begin
-
-    // M2M100 uses SentencePiece subword tokenisation which produces significantly more
-    // tokens than whitespace splitting. A character-based estimate (÷ 4) is a much
-    // closer approximation of the actual subword token count and avoids OOM errors in
-    // the ONNX decoder when chunks are larger than the model's positional embedding size.
-    def tokenCount(s: String): Int = math.max(1, (s.length / 4.0).ceil.toInt)
-
-    def flush(end: Int, meta: scala.collection.Map[String, String]): Unit =
-      if (texts.nonEmpty) {
-        result += Annotation(DOCUMENT, begin, end, texts.mkString(" "), meta)
-        texts   = scala.collection.mutable.ArrayBuffer.empty[String]
-        tokens  = 0
-      }
-
-    for (ann <- sentences) {
-      val n = tokenCount(ann.result)
-      if (n > maxTokens) {
-        logger.warn(
-          s"[$uid] Sentence with $n tokens exceeds chunkSize=$maxTokens. " +
-            s"Sentence: [${ann.result}]")
-        flush(ann.begin - 1, ann.metadata)
-        result += Annotation(DOCUMENT, ann.begin, ann.end, ann.result, ann.metadata)
-        begin   = ann.end + 1
-      } else {
-        if (texts.nonEmpty && tokens + n > maxTokens) {
-          flush(ann.begin - 1, ann.metadata)
-          begin = ann.begin
-        }
-        texts  += ann.result
-        tokens += n
-      }
+  private def translateDocuments(documents: Seq[Seq[String]]): Seq[Seq[String]] = {
+    // Flatten all sentences across all documents, remembering where each one came from.
+    val flattened: Seq[(Int, Int)] = documents.zipWithIndex.flatMap { case (sentences, docIdx) =>
+      sentences.indices.map(sentenceIdx => (docIdx, sentenceIdx))
     }
-    flush(sentences.last.end, sentences.last.metadata)
-    result
+    if (flattened.isEmpty) return documents.map(_ => Seq.empty[String])
+
+    val modelParams = getModelParameters.setParallel(math.max(1, getBatchSize))
+    val inferenceParams = getInferenceParameters
+    val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
+    val systemPrompt = getSystemPrompt
+
+    val prompts: Array[String] = flattened.map { case (d, s) => documents(d)(s) }.toArray
+    val completed: Array[String] =
+      try
+        processCompletions(
+          LlamaExtensions.multiComplete(model, inferenceParams, systemPrompt, prompts))
+      catch {
+        case e: LlamaException =>
+          logger.error("Error in llama.cpp batch completion", e)
+          Array.fill(prompts.length)("")
+      }
+
+    // Scatter the flat completions back into per-document, per-sentence order.
+    val results: Array[Array[String]] = documents.map(d => Array.fill(d.length)("")).toArray
+    flattened.zip(completed).foreach { case ((docIdx, sentenceIdx), text) =>
+      results(docIdx)(sentenceIdx) = text
+    }
+    results.map(_.toSeq).toSeq
   }
 
-  /** Merges translated chunk annotations into a single annotation by joining results with newline. */
-  private def mergeChunks(chunks: Seq[Annotation]): Annotation =
-    if (chunks.isEmpty) Annotation(DOCUMENT, 0, 0, "", Map.empty)
-    else Annotation(
+  /** Merges translated sentences into a single `DOCUMENT` annotation (one paragraph). */
+  private def mergeTranslations(
+      translations: Seq[String],
+      metadata: Option[scala.collection.Map[String, String]]): Annotation = {
+    val mergedText = translations.map(_.trim).filter(_.nonEmpty).mkString(" ")
+    Annotation(
       DOCUMENT,
-      chunks.head.begin,
-      chunks.last.end,
-      chunks.map(_.result).mkString("\n"),
-      chunks.head.metadata)
+      0,
+      math.max(0, mergedText.length - 1),
+      mergedText,
+      metadata.map(_.toMap).getOrElse(Map.empty))
+  }
 
   private def buildReader2Doc(): Reader2Doc = {
     val r = new Reader2Doc()
@@ -483,15 +560,16 @@ class DocumentTranslator(override val uid: String)
 
   override def copy(extra: ParamMap): Transformer = {
     val copied = defaultCopy[DocumentTranslator](extra)
-    _model.foreach(copied.setModel)
+    copied._model = _model
+    _satModel.foreach(copied.setSatModel)
     copied
   }
 }
 
-trait ReadablePretrainedDocumentTranslator extends DefaultParamsReadable[DocumentTranslator] {
+trait ReadablePretrainedDocumentTranslator extends ParamsAndFeaturesReadable[DocumentTranslator] {
 
-  val defaultModelName: String = "m2m100_418M"
-  val defaultLang: String = "xx"
+  val defaultModelName: String = "Phi_4_mini_instruct_Q4_K_M_gguf"
+  val defaultLang: String = "en"
 
   def pretrained(): DocumentTranslator =
     pretrained(defaultModelName, defaultLang)
@@ -499,28 +577,36 @@ trait ReadablePretrainedDocumentTranslator extends DefaultParamsReadable[Documen
   def pretrained(name: String): DocumentTranslator =
     pretrained(name, defaultLang)
 
-  def pretrained(name: String, lang: String): DocumentTranslator = {
-    val m2m100 = M2M100Transformer.pretrained(name, lang)
-    new DocumentTranslator().setModel(m2m100)
-  }
+  def pretrained(name: String, lang: String): DocumentTranslator =
+    fromAutoGGUF(AutoGGUFModel.pretrained(name, lang))
 
-  def pretrained(
-      name: String,
-      lang: String,
-      remoteLoc: String): DocumentTranslator = {
-    val m2m100 = M2M100Transformer.pretrained(name, lang, remoteLoc)
-    new DocumentTranslator().setModel(m2m100)
+  def pretrained(name: String, lang: String, remoteLoc: String): DocumentTranslator =
+    fromAutoGGUF(AutoGGUFModel.pretrained(name, lang, remoteLoc))
+
+  /** Wraps a downloaded [[AutoGGUFModel]]'s GGUF model in a [[DocumentTranslator]]. */
+  private def fromAutoGGUF(autoGGUF: AutoGGUFModel): DocumentTranslator = {
+    val translator = new DocumentTranslator()
+      .setModelIfNotSet(ResourceHelper.spark, autoGGUF.getModelIfNotSet)
+      .setEngine(LlamaCPP.name)
+    scala.util
+      .Try(autoGGUF.getMetadata)
+      .toOption
+      .filter(_.nonEmpty)
+      .foreach(translator.setMetadata)
+    translator
   }
 }
 
 trait ReadDocumentTranslatorModel {
 
-  def loadSavedModel(
-      modelPath: String,
-      spark: SparkSession,
-      useOpenvino: Boolean = false): DocumentTranslator = {
-    val m2m100 = M2M100Transformer.loadSavedModel(modelPath, spark, useOpenvino)
-    new DocumentTranslator().setModel(m2m100)
+  def loadSavedModel(modelPath: String, spark: SparkSession): DocumentTranslator = {
+    val localPath: String = ResourceHelper.copyToLocal(modelPath)
+    val translator = new DocumentTranslator()
+      .setModelIfNotSet(spark, GGUFWrapper.read(spark, localPath))
+      .setEngine(LlamaCPP.name)
+    val metadata = LlamaExtensions.getMetadataFromFile(localPath)
+    if (metadata.nonEmpty) translator.setMetadata(metadata)
+    translator
   }
 }
 
@@ -530,4 +616,3 @@ trait ReadDocumentTranslatorModel {
 object DocumentTranslator
     extends ReadablePretrainedDocumentTranslator
     with ReadDocumentTranslatorModel
-

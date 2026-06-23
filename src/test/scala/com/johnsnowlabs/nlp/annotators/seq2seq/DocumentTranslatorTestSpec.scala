@@ -17,9 +17,8 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.annotators.SparkSessionTest
-import com.johnsnowlabs.nlp.annotators.sentence_detector_dl.SentenceDetectorDLModel
+import com.johnsnowlabs.nlp.annotators.sbd.sat.SentenceDetectorSaTModel
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.reader.Reader2Doc
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
@@ -30,18 +29,18 @@ class DocumentTranslatorTestSpec extends AnyFlatSpec with SparkSessionTest {
   val pdfDirectory = "src/test/resources/reader/pdf"
   val txtDirectory = "src/test/resources/reader/txt"
 
-  "DocumentTranslator" should "translate an HTML document from English to French"  in {
+  "DocumentTranslator" should "translate an HTML document from English to French" taggedAs SlowTest in {
 
     val documentTranslator = DocumentTranslator
       .loadSavedModel("1", ResourceHelper.spark)
       .setContentType("text/html")
       .setContentPath(s"$htmlDirectory/fake-html.html")
       .setOutputCol("translation")
-      .setMaxInputLength(1000)
-      .setMaxOutputLength(1000)
-      .setChunkSize(600)
-      .setSrcLang("en")
-      .setTgtLang("fr")
+      .setMaxSentenceLength(250)
+      .setNPredict(512)
+      .setNGpuLayers(99)
+      .setSrcLang("English")
+      .setTgtLang("French")
 
     val pipeline = new Pipeline().setStages(Array(documentTranslator))
 
@@ -60,11 +59,11 @@ class DocumentTranslatorTestSpec extends AnyFlatSpec with SparkSessionTest {
       .setContentType("application/pdf")
       .setContentPath(s"$pdfDirectory/pdf-title.pdf")
       .setOutputCol("translation")
-      .setMaxInputLength(1000)
-      .setMaxOutputLength(1000)
-      .setChunkSize(800)
-      .setSrcLang("en")
-      .setTgtLang("fr")
+      .setMaxSentenceLength(800)
+      .setNPredict(512)
+      .setNGpuLayers(99)
+      .setSrcLang("English")
+      .setTgtLang("French")
 
     val pipeline = new Pipeline().setStages(Array(documentTranslator))
 
@@ -76,16 +75,19 @@ class DocumentTranslatorTestSpec extends AnyFlatSpec with SparkSessionTest {
     assert(translationResults.nonEmpty)
   }
 
-  it should "translate a plain-text document from English to French" taggedAs SlowTest in {
+
+  it should "translate a plain-text document with length-bounded sentences" taggedAs SlowTest in {
 
     val documentTranslator = DocumentTranslator
       .loadSavedModel("1", ResourceHelper.spark)
       .setContentType("text/plain")
       .setContentPath(s"$txtDirectory/long-text.txt")
       .setOutputCol("translation")
-      .setMaxInputLength(510)
-      .setMaxOutputLength(510)
-      .setChunkSize(450)
+      .setMinSentenceLength(50)
+      .setMaxSentenceLength(450)
+      .setNPredict(512)
+      .setSrcLang("English")
+      .setTgtLang("French")
 
     val pipeline = new Pipeline().setStages(Array(documentTranslator))
 
@@ -97,6 +99,7 @@ class DocumentTranslatorTestSpec extends AnyFlatSpec with SparkSessionTest {
     resultDf.show(truncate = false)
     assert(translationResults.nonEmpty)
   }
+
 
 
 }
