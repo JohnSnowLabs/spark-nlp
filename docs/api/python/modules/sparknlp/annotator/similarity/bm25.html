@@ -1,0 +1,792 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.annotator.similarity.bm25 &#8212; Spark NLP 6.4.2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=bf4b7637"></script>
+    <script src="../../../../static/doctools.js?v=888ff710"></script>
+    <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/similarity/bm25';</script>
+    <link rel="icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.2 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.2 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for sparknlp.annotator.similarity.bm25</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2025 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Contains classes for the BM25 lexical document ranker.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark</span><span class="w"> </span><span class="kn">import</span> <span class="n">keyword_only</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.param</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeConverters</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">Param</span>
+
+
+<div class="viewcode-block" id="BM25Approach"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Approach">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BM25Approach</span><span class="p">(</span><span class="n">AnnotatorApproach</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trains a BM25 (Okapi BM25) lexical ranker over a corpus of tokenized</span>
+<span class="sd">    documents.</span>
+
+<span class="sd">    BM25 is a bag-of-words retrieval function that ranks documents against a</span>
+<span class="sd">    query based on the query terms appearing in each document. Because a</span>
+<span class="sd">    document&#39;s score depends on corpus-level statistics (how many documents</span>
+<span class="sd">    contain a term, and the average document length), BM25 is implemented as a</span>
+<span class="sd">    two-phase Estimator/Model pair:</span>
+
+<span class="sd">    - ``BM25Approach`` (this class) scans the full corpus once during ``fit()``</span>
+<span class="sd">      and learns the document count ``N``, the document frequency ``df(t)`` of</span>
+<span class="sd">      every term, the average document length ``avgdl`` and the inverse document</span>
+<span class="sd">      frequency ``idf(t)`` of every term.</span>
+<span class="sd">    - :class:`BM25Model` reuses those statistics to score every document against</span>
+<span class="sd">      a user-provided query.</span>
+
+<span class="sd">    The input is a column of ``TOKEN`` annotations, so BM25 is normally placed</span>
+<span class="sd">    after a ``Tokenizer`` (optionally followed by a ``Normalizer`` and/or</span>
+<span class="sd">    ``StopWordsCleaner``).</span>
+
+<span class="sd">    ====================== ================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ================</span>
+<span class="sd">    ``TOKEN``              ``BM25_RANKINGS``</span>
+<span class="sd">    ====================== ================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    k1</span>
+<span class="sd">        Term-frequency saturation parameter (typical range [1.0, 2.0]),</span>
+<span class="sd">        by default 1.2</span>
+<span class="sd">    b</span>
+<span class="sd">        Length-normalization parameter (range [0.0, 1.0]), by default 0.75</span>
+<span class="sd">    minDocFreq</span>
+<span class="sd">        Drop terms that appear in fewer than this many documents, by default 1</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether to treat tokens case-sensitively when computing statistics,</span>
+<span class="sd">        by default False</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; document_assembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;text&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;document&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; tokenizer = Tokenizer() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;document&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;token&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; stop_words_cleaner = StopWordsCleaner() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;token&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;clean_token&quot;) \\</span>
+<span class="sd">    ...     .setCaseSensitive(False)</span>
+<span class="sd">    &gt;&gt;&gt; bm25 = BM25Approach() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;clean_token&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;bm25_rankings&quot;) \\</span>
+<span class="sd">    ...     .setK1(1.2) \\</span>
+<span class="sd">    ...     .setB(0.75) \\</span>
+<span class="sd">    ...     .setMinDocFreq(1) \\</span>
+<span class="sd">    ...     .setCaseSensitive(False)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline(stages=[</span>
+<span class="sd">    ...     document_assembler, tokenizer, stop_words_cleaner, bm25])</span>
+<span class="sd">    &gt;&gt;&gt; model = pipeline.fit(corpus)</span>
+<span class="sd">    &gt;&gt;&gt; model.stages[-1].setQuery(&quot;vitamin C health benefits fruits&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; model.transform(corpus).selectExpr(&quot;explode(bm25_rankings) as r&quot;).show()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BM25Approach.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Approach.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="BM25Approach.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Approach.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">BM25_RANKINGS</span></div>
+
+<div class="viewcode-block" id="BM25Approach.k1"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Approach.k1">[docs]</a>    <span class="n">k1</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+               <span class="s2">&quot;k1&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;BM25 term-frequency saturation parameter (typical range [1.0, 2.0])&quot;</span><span class="p">,</span>
+               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Approach.b"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Approach.b">[docs]</a>    <span class="n">b</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+              <span class="s2">&quot;b&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;BM25 length-normalization parameter (range [0.0, 1.0])&quot;</span><span class="p">,</span>
+              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Approach.minDocFreq"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Approach.minDocFreq">[docs]</a>    <span class="n">minDocFreq</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                       <span class="s2">&quot;minDocFreq&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;Drop terms that appear in fewer than this many documents&quot;</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Approach.caseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Approach.caseSensitive">[docs]</a>    <span class="n">caseSensitive</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                          <span class="s2">&quot;caseSensitive&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Whether to treat tokens case-sensitively when computing statistics&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Approach.setK1"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Approach.setK1">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setK1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the term-frequency saturation parameter k1, by default 1.2.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            Term-frequency saturation parameter (typical range [1.0, 2.0])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">k1</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Approach.setB"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Approach.setB">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the length-normalization parameter b, by default 0.75.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            Length-normalization parameter (range [0.0, 1.0])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Approach.setMinDocFreq"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Approach.setMinDocFreq">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinDocFreq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the minimum document frequency for a term to be kept, by default 1.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Drop terms that appear in fewer than this many documents</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minDocFreq</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Approach.setCaseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Approach.setCaseSensitive">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCaseSensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether to treat tokens case-sensitively, by default False.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to treat tokens case-sensitively when computing statistics</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">caseSensitive</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BM25Approach</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.similarity.BM25Approach&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">k1</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+            <span class="n">b</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+            <span class="n">minDocFreq</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_create_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">java_model</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">BM25Model</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BM25Model"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BM25Model</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fitted model produced by :class:`BM25Approach`.</span>
+
+<span class="sd">    It holds the corpus-level statistics (IDF map, average document length and</span>
+<span class="sd">    document count) and scores every document in a dataset against a query</span>
+<span class="sd">    using the Okapi BM25 ranking function. The query is provided at transform</span>
+<span class="sd">    time, so the same fitted model can be reused for many different queries</span>
+<span class="sd">    (&quot;fit once, query many times&quot;). Provide it either as a raw string with</span>
+<span class="sd">    ``setQuery(...)`` or — recommended when the corpus was analyzed by a</span>
+<span class="sd">    non-trivial pipeline — as already-analyzed tokens with</span>
+<span class="sd">    ``setQueryTokens(...)`` (see the analyzer-symmetry warning below).</span>
+
+<span class="sd">    For every input document the model emits a single ``BM25_RANKINGS``</span>
+<span class="sd">    annotation whose ``result`` is the BM25 score and whose ``metadata``</span>
+<span class="sd">    contains ``bm25_score``, ``num_query_terms_matched``, ``query`` and</span>
+<span class="sd">    ``doc_len``.</span>
+
+<span class="sd">    .. warning::</span>
+<span class="sd">        **Analyzer symmetry.** BM25 only scores a query term when it matches a</span>
+<span class="sd">        key in the learned IDF vocabulary, and those keys were produced by the</span>
+<span class="sd">        pipeline placed in front of ``BM25Approach`` (``Tokenizer``,</span>
+<span class="sd">        ``Normalizer``, a stemmer/lemmatizer, ...). A raw-string ``setQuery``</span>
+<span class="sd">        is only split on non-word characters and lowercased; if your corpus</span>
+<span class="sd">        pipeline *transforms* tokens (stemming, lemmatization, punctuation</span>
+<span class="sd">        stripping, ...), a raw query can silently fail to match. In that case</span>
+<span class="sd">        run the query through the **same** pipeline (e.g. with a</span>
+<span class="sd">        :class:`LightPipeline`) and pass the resulting tokens to</span>
+<span class="sd">        ``setQueryTokens``.</span>
+
+<span class="sd">    ====================== ================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ================</span>
+<span class="sd">    ``TOKEN``              ``BM25_RANKINGS``</span>
+<span class="sd">    ====================== ================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    query</span>
+<span class="sd">        The query to score every document against, as a raw string. The model</span>
+<span class="sd">        splits it on non-word characters; prefer ``queryTokens`` for non-trivial</span>
+<span class="sd">        pipelines (see the analyzer-symmetry warning above).</span>
+<span class="sd">    queryTokens</span>
+<span class="sd">        The query as a list of already-analyzed terms. When non-empty it</span>
+<span class="sd">        overrides ``query``. Obtain these by running the query through the same</span>
+<span class="sd">        pipeline used for the corpus, so query and documents match.</span>
+<span class="sd">    k1</span>
+<span class="sd">        Term-frequency saturation parameter (carried over from the approach)</span>
+<span class="sd">    b</span>
+<span class="sd">        Length-normalization parameter (carried over from the approach)</span>
+<span class="sd">    caseSensitive</span>
+<span class="sd">        Whether tokens are treated case-sensitively. Read-only: it is fixed when</span>
+<span class="sd">        the corpus statistics are computed and must not be changed on a fitted</span>
+<span class="sd">        model, so there is no ``setCaseSensitive`` here.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import BM25Model</span>
+<span class="sd">    &gt;&gt;&gt; loaded = BM25Model.load(&quot;/tmp/bm25_corpus_model&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; loaded.setQuery(&quot;neural networks deep learning&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BM25Model.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BM25Model&quot;</span></div>
+<div class="viewcode-block" id="BM25Model.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">TOKEN</span><span class="p">]</span></div>
+<div class="viewcode-block" id="BM25Model.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">BM25_RANKINGS</span></div>
+
+<div class="viewcode-block" id="BM25Model.query"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.query">[docs]</a>    <span class="n">query</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                  <span class="s2">&quot;query&quot;</span><span class="p">,</span>
+                  <span class="s2">&quot;The query to score every document against&quot;</span><span class="p">,</span>
+                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Model.queryTokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.queryTokens">[docs]</a>    <span class="n">queryTokens</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                        <span class="s2">&quot;queryTokens&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Pre-analyzed query terms; when non-empty they override the raw query string&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Model.k1"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.k1">[docs]</a>    <span class="n">k1</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+               <span class="s2">&quot;k1&quot;</span><span class="p">,</span>
+               <span class="s2">&quot;BM25 term-frequency saturation parameter (typical range [1.0, 2.0])&quot;</span><span class="p">,</span>
+               <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Model.b"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.b">[docs]</a>    <span class="n">b</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+              <span class="s2">&quot;b&quot;</span><span class="p">,</span>
+              <span class="s2">&quot;BM25 length-normalization parameter (range [0.0, 1.0])&quot;</span><span class="p">,</span>
+              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Model.caseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.caseSensitive">[docs]</a>    <span class="n">caseSensitive</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                          <span class="s2">&quot;caseSensitive&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Whether to treat tokens case-sensitively when scoring (read-only; fixed at fit time)&quot;</span><span class="p">,</span>
+                          <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Model.avgDocLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.avgDocLength">[docs]</a>    <span class="n">avgDocLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                         <span class="s2">&quot;avgDocLength&quot;</span><span class="p">,</span>
+                         <span class="s2">&quot;Average document length (in tokens) of the training corpus&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Model.numDocuments"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.numDocuments">[docs]</a>    <span class="n">numDocuments</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                         <span class="s2">&quot;numDocuments&quot;</span><span class="p">,</span>
+                         <span class="s2">&quot;Total number of documents in the training corpus&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Model.setQuery"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.setQuery">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setQuery</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the query that every document is scored against.</span>
+
+<span class="sd">        The same fitted model can be re-queried by calling ``setQuery`` again.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            The query string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Model.setQueryTokens"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.setQueryTokens">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setQueryTokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the query as a list of already-analyzed terms.</span>
+
+<span class="sd">        When non-empty these override the raw ``query`` string. Obtain them by</span>
+<span class="sd">        running the query through the same pipeline used for the corpus (for</span>
+<span class="sd">        example with a :class:`LightPipeline`) so that the query and the</span>
+<span class="sd">        documents are analyzed identically.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : List[str]</span>
+<span class="sd">            Pre-analyzed query terms</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">queryTokens</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Model.setK1"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.setK1">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setK1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the term-frequency saturation parameter k1.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            Term-frequency saturation parameter (typical range [1.0, 2.0])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">k1</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Model.setB"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.setB">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the length-normalization parameter b.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            Length-normalization parameter (range [0.0, 1.0])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BM25Model.setCaseSensitive"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model.setCaseSensitive">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCaseSensitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;``caseSensitive`` is read-only on a fitted ``BM25Model`` and cannot be set.</span>
+
+<span class="sd">        It is fixed when the corpus statistics are computed by :class:`BM25Approach` and is baked</span>
+<span class="sd">        into the IDF vocabulary keys. Changing it on a fitted model would desynchronize the</span>
+<span class="sd">        query/document terms from the stored vocabulary and silently corrupt every score, so set</span>
+<span class="sd">        it on :class:`BM25Approach` before ``fit()`` instead.</span>
+
+<span class="sd">        This method is defined only to override the setter that Spark NLP would otherwise generate</span>
+<span class="sd">        automatically for every parameter; calling it always raises.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        AttributeError</span>
+<span class="sd">            Always, because ``caseSensitive`` is read-only on the model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+            <span class="s2">&quot;caseSensitive is read-only on a fitted BM25Model: it is fixed when the corpus &quot;</span>
+            <span class="s2">&quot;statistics are computed by BM25Approach and baked into the IDF vocabulary. Set it on &quot;</span>
+            <span class="s2">&quot;BM25Approach before fit() instead.&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.similarity.BM25Model&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BM25Model</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="c1"># Mirror the Scala-side defaults so the Python params are populated even for a model</span>
+        <span class="c1"># constructed outside the fit()/load() paths. Learned statistics (idf, avgDocLength,</span>
+        <span class="c1"># numDocuments) are intentionally left unset; they only come from a fitted model.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">query</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">queryTokens</span><span class="o">=</span><span class="p">[],</span>
+            <span class="n">k1</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
+            <span class="n">b</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span>
+            <span class="n">caseSensitive</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026 John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

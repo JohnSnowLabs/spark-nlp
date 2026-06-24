@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.4.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.similarity</title>
-          <meta name="description" content="Spark NLP 6.4.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.similarity" />
-          <meta name="keywords" content="Spark NLP 6.4.1 ScalaDoc com.johnsnowlabs.nlp.annotators.similarity" />
+          <title>Spark NLP 6.4.2 ScalaDoc  - com.johnsnowlabs.nlp.annotators.similarity</title>
+          <meta name="description" content="Spark NLP 6.4.2 ScalaDoc - com.johnsnowlabs.nlp.annotators.similarity" />
+          <meta name="keywords" content="Spark NLP 6.4.2 ScalaDoc com.johnsnowlabs.nlp.annotators.similarity" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.4.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 6.4.2 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -438,6 +438,14 @@
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators">annotators</a></dd></dl></div>
     </li><li class="current-entities indented5">
+                        <a class="object" href="BM25Approach$.html" title="This is the companion object of BM25Approach."></a>
+                        <a class="class" href="BM25Approach.html" title="Trains a BM25 (Okapi BM25) lexical ranker over a corpus of tokenized documents."></a>
+                        <a href="BM25Approach.html" title="Trains a BM25 (Okapi BM25) lexical ranker over a corpus of tokenized documents.">BM25Approach</a>
+                      </li><li class="current-entities indented5">
+                        <a class="object" href="BM25Model$.html" title="This is the companion object of BM25Model."></a>
+                        <a class="class" href="BM25Model.html" title="Fitted model produced by BM25Approach."></a>
+                        <a href="BM25Model.html" title="Fitted model produced by BM25Approach.">BM25Model</a>
+                      </li><li class="current-entities indented5">
                         <a class="object" href="DocumentSimilarityRankerApproach$.html" title="This is the companion object of DocumentSimilarityRankerApproach."></a>
                         <a class="class" href="DocumentSimilarityRankerApproach.html" title="Annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest neighbors search on top of sentence embeddings."></a>
                         <a href="DocumentSimilarityRankerApproach.html" title="Annotator that uses LSH techniques present in Spark ML lib to execute approximate nearest neighbors search on top of sentence embeddings.">DocumentSimilarityRankerApproach</a>
@@ -465,6 +473,10 @@
                         <span class="separator"></span>
                         <a class="class" href="NeighborsResultSet.html" title=""></a>
                         <a href="NeighborsResultSet.html" title="">NeighborsResultSet</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadableBM25Model.html" title=""></a>
+                        <a href="ReadableBM25Model.html" title="">ReadableBM25Model</a>
                       </li><li class="current-entities indented5">
                         <span class="separator"></span>
                         <a class="trait" href="ReadableDocumentSimilarityRanker.html" title=""></a>
@@ -596,7 +608,111 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+              <ol><li name="com.johnsnowlabs.nlp.annotators.similarity.BM25Approach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BM25ApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.similarity.BM25Model]"></a><a id="BM25Approach:BM25Approach"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/BM25Approach.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Trains a BM25 (Okapi BM25) lexical ranker over a corpus of tokenized documents." href="BM25Approach.html"><span class="name">BM25Approach</span></a><span class="result"> extends <a href="../../AnnotatorApproach.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorApproach">AnnotatorApproach</a>[<a href="BM25Model.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Model">BM25Model</a>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Trains a BM25 (Okapi BM25) lexical ranker over a corpus of tokenized documents.</p><div class="fullcomment"><div class="comment cmt"><p>Trains a BM25 (Okapi BM25) lexical ranker over a corpus of tokenized documents.</p><p>BM25 is a bag-of-words retrieval function that ranks documents against a query based on the
+query terms appearing in each document. Because the score of a document depends on
+corpus-level statistics (how many documents contain a term, and the average document length),
+BM25 has to be implemented as a two-phase Estimator/Model pair:</p><ul><li><a href="BM25Approach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Approach">BM25Approach</a> (this class) scans the full corpus once during <code>fit()</code> and learns:<ul><li>the total document count <code>N</code></li><li>the document frequency <code>df(t)</code> of every vocabulary term</li><li>the average document length <code>avgdl</code></li><li>the inverse document frequency <code>idf(t)</code> of every term</li></ul></li><li><a href="BM25Model.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Model">BM25Model</a> reuses those statistics at query time to score every document against a
+    user-provided query, emitting a <code>BM25_RANKINGS</code> annotation with the relevance score.</li></ul><p>The IDF uses the non-negative (Lucene / Elasticsearch) variant:</p><pre>idf(t) = ln(<span class="num">1</span> + (N - df(t) + <span class="num">0.5</span>) / (df(t) + <span class="num">0.5</span>))</pre><p>and each document is scored as:</p><pre>score(D, Q) = sum over t in Q of
+  idf(t) * (tf(t, D) * (k1 + <span class="num">1</span>)) / (tf(t, D) + k1 * (<span class="num">1</span> - b + b * |D| / avgdl))</pre><p>The input is a column of <code>TOKEN</code> annotations, so BM25 is normally placed after a
+<a href="../Tokenizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Tokenizer">Tokenizer</a> (optionally followed by a
+<a href="../Normalizer.html" class="extype" name="com.johnsnowlabs.nlp.annotators.Normalizer">Normalizer</a> and/or
+<a href="../StopWordsCleaner.html" class="extype" name="com.johnsnowlabs.nlp.annotators.StopWordsCleaner">StopWordsCleaner</a>). For the produced model
+and usage examples see <a href="BM25Model.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Model">BM25Model</a>.</p><p>The learned vocabulary (document frequencies and IDF) is collected to the driver during
+<code>fit()</code>. For corpora with a very large number of distinct terms, raise <a href="BM25Approach.html#minDocFreq:org.apache.spark.ml.param.IntParam" class="extmbr" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Approach#minDocFreq">minDocFreq</a> to prune
+rare terms and keep the driver-side vocabulary bounded.</p><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.similarity.BM25Approach
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler()
+  .setInputCol(<span class="lit">"text"</span>)
+  .setOutputCol(<span class="lit">"document"</span>)
+
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer()
+  .setInputCols(<span class="lit">"document"</span>)
+  .setOutputCol(<span class="lit">"token"</span>)
+
+<span class="kw">val</span> stopWords = <span class="kw">new</span> StopWordsCleaner()
+  .setInputCols(<span class="lit">"token"</span>)
+  .setOutputCol(<span class="lit">"clean_token"</span>)
+  .setCaseSensitive(<span class="kw">false</span>)
+
+<span class="kw">val</span> bm25 = <span class="kw">new</span> BM25Approach()
+  .setInputCols(<span class="lit">"clean_token"</span>)
+  .setOutputCol(<span class="lit">"bm25_rankings"</span>)
+  .setK1(<span class="num">1.2</span>)
+  .setB(<span class="num">0.75</span>)
+  .setMinDocFreq(<span class="num">1</span>)
+  .setCaseSensitive(<span class="kw">false</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(
+  <span class="std">Array</span>(documentAssembler, tokenizer, stopWords, bm25))
+
+<span class="kw">val</span> model = pipeline.fit(corpus)
+model.stages.last.asInstanceOf[BM25Model].setQuery(<span class="lit">"vitamin C health benefits fruits"</span>)
+model.transform(corpus).selectExpr(<span class="lit">"explode(bm25_rankings) as ranking"</span>).show(<span class="kw">false</span>)</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.similarity.BM25Model" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BM25ModelextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.similarity.BM25Model]withHasSimpleAnnotate[com.johnsnowlabs.nlp.annotators.similarity.BM25Model]withParamsAndFeaturesWritable"></a><a id="BM25Model:BM25Model"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/BM25Model.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="Fitted model produced by BM25Approach." href="BM25Model.html"><span class="name">BM25Model</span></a><span class="result"> extends <a href="../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="BM25Model.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Model">BM25Model</a>] with <a href="../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="BM25Model.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Model">BM25Model</a>] with <a href="../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">Fitted model produced by <a href="BM25Approach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Approach">BM25Approach</a>.</p><div class="fullcomment"><div class="comment cmt"><p>Fitted model produced by <a href="BM25Approach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Approach">BM25Approach</a>. It holds the corpus-level statistics (IDF map,
+average document length and document count) and scores every document in a dataset against a
+user-provided query using the Okapi BM25 ranking function.</p><p>The query is provided at transform time, so the same fitted model can be reused for many
+different queries (&quot;fit once, query many times&quot;). Provide it either as a raw string with
+<code>setQuery(...)</code> (the model splits it on non-word characters) or — recommended when the corpus
+was analyzed by a non-trivial pipeline — as already-analyzed tokens with
+<code>setQueryTokens(...)</code>, so the query and the documents are tokenized/normalized identically
+(see the analyzer-symmetry note on the <code>query</code> parameter). For every input document the model
+emits a single <code>BM25_RANKINGS</code> annotation whose <code>result</code> is the BM25 score and whose metadata
+contains:</p><ul><li><code>bm25_score</code> — the BM25 relevance score of the document for the current query</li><li><code>num_query_terms_matched</code> — how many distinct query terms occur in the document</li><li><code>query</code> — the query the document was scored against</li><li><code>doc_len</code> — the number of tokens in the document</li></ul><h4>Example</h4><pre><span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.{StopWordsCleaner, Tokenizer}
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotators.similarity.{BM25Approach, BM25Model}
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+<span class="kw">import</span> org.apache.spark.sql.functions.{col, explode}
+
+<span class="kw">val</span> documentAssembler = <span class="kw">new</span> DocumentAssembler().setInputCol(<span class="lit">"text"</span>).setOutputCol(<span class="lit">"document"</span>)
+<span class="kw">val</span> tokenizer = <span class="kw">new</span> Tokenizer().setInputCols(<span class="lit">"document"</span>).setOutputCol(<span class="lit">"token"</span>)
+<span class="kw">val</span> stopWords = <span class="kw">new</span> StopWordsCleaner().setInputCols(<span class="lit">"token"</span>).setOutputCol(<span class="lit">"clean_token"</span>)
+<span class="kw">val</span> bm25 = <span class="kw">new</span> BM25Approach().setInputCols(<span class="lit">"clean_token"</span>).setOutputCol(<span class="lit">"bm25_rankings"</span>)
+
+<span class="kw">val</span> model = <span class="kw">new</span> Pipeline()
+  .setStages(<span class="std">Array</span>(documentAssembler, tokenizer, stopWords, bm25))
+  .fit(corpus)
+
+<span class="kw">val</span> bm25Model = model.stages.last.asInstanceOf[BM25Model]
+bm25Model.setQuery(<span class="lit">"vitamin C health benefits fruits"</span>)
+
+model.transform(corpus)
+  .select(explode(col(<span class="lit">"bm25_rankings"</span>)).alias(<span class="lit">"ranking"</span>))
+  .select(col(<span class="lit">"ranking.metadata"</span>)(<span class="lit">"bm25_score"</span>).alias(<span class="lit">"bm25_score"</span>))
+  .show(<span class="kw">false</span>)</pre></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DocumentSimilarityRankerApproachextendsAnnotatorApproach[com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel]withHasEnableCachingProperties"></a><a id="DocumentSimilarityRankerApproach:DocumentSimilarityRankerApproach"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/DocumentSimilarityRankerApproach.html" title="Permalink">
@@ -768,6 +884,22 @@ documentation of the main class.
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.similarity.ReadableBM25Model" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadableBM25ModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.similarity.BM25Model]"></a><a id="ReadableBM25Model:ReadableBM25Model"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/ReadableBM25Model.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadableBM25Model.html"><span class="name">ReadableBM25Model</span></a><span class="result"> extends <a href="../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="BM25Model.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Model">BM25Model</a>]</span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.similarity.ReadableDocumentSimilarityRanker" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadableDocumentSimilarityRankerextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerModel]"></a><a id="ReadableDocumentSimilarityRanker:ReadableDocumentSimilarityRanker"></a>
       <span class="permalink">
@@ -792,7 +924,43 @@ documentation of the main class.
         <div class="values members">
               <h3>Value Members</h3>
               <ol>
-                <li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+                <li name="com.johnsnowlabs.nlp.annotators.similarity.BM25Approach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BM25Approach"></a><a id="BM25Approach:BM25Approach"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/BM25Approach$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of BM25Approach." href="BM25Approach$.html"><span class="name">BM25Approach</span></a><span class="result"> extends <span class="extype" name="org.apache.spark.ml.util.DefaultParamsReadable">DefaultParamsReadable</span>[<a href="BM25Approach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Approach">BM25Approach</a>] with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="BM25Approach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Approach">BM25Approach</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="BM25Approach.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Approach">BM25Approach</a>. Please refer to that class for the
+documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.similarity.BM25Model" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="BM25Model"></a><a id="BM25Model:BM25Model"></a>
+      <span class="permalink">
+      <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/BM25Model$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of BM25Model." href="BM25Model$.html"><span class="name">BM25Model</span></a><span class="result"> extends <a href="ReadableBM25Model.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.ReadableBM25Model">ReadableBM25Model</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="BM25Model.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Model">BM25Model</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="BM25Model.html" class="extype" name="com.johnsnowlabs.nlp.annotators.similarity.BM25Model">BM25Model</a>. Please refer to that class for the
+documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.similarity.DocumentSimilarityRankerApproach" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DocumentSimilarityRankerApproach"></a><a id="DocumentSimilarityRankerApproach:DocumentSimilarityRankerApproach"></a>
       <span class="permalink">
       <a href="../../../../../com/johnsnowlabs/nlp/annotators/similarity/DocumentSimilarityRankerApproach$.html" title="Permalink">

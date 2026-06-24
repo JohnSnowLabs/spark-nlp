@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.sentence package &#8212; Spark NLP 6.4.1 documentation</title>
+    <title>sparknlp.annotator.sentence package &#8212; Spark NLP 6.4.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=88b3fc5d"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=bf4b7637"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.2 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -487,6 +487,7 @@ document.write(`
 <li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">sparknlp.annotator.sentence package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-17" name="toctree-checkbox-17" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-17"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector.html">sparknlp.annotator.sentence.sentence_detector module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_dl.html">sparknlp.annotator.sentence.sentence_detector_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html">sparknlp.annotator.sentence.sentence_detector_sat module</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.sentiment.html">sparknlp.annotator.sentiment package</a><input class="toctree-checkbox" id="toctree-checkbox-18" name="toctree-checkbox-18" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-18"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -518,6 +519,7 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.similarity.html">sparknlp.annotator.similarity package</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-20"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.similarity.bm25.html">sparknlp.annotator.similarity.bm25 module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.similarity.document_similarity_ranker.html">sparknlp.annotator.similarity.document_similarity_ranker module</a></li>
 </ul>
 </li>
@@ -779,6 +781,44 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.setUseCustomBoundsOnly"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.setUseCustomBoundsOnly()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.splitLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.splitLength</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_dl.html#sparknlp.annotator.sentence.sentence_detector_dl.SentenceDetectorDLModel.useCustomBoundsOnly"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorDLModel.useCustomBoundsOnly</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html">sparknlp.annotator.sentence.sentence_detector_sat module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.blockSize"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.blockSize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.explodeSentences"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.explodeSentences</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getBlockSize"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.getBlockSize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getExplodeSentences"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.getExplodeSentences()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getMaxSentenceLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.getMaxSentenceLength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getMinSentenceLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.getMinSentenceLength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getSatBatchSize"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.getSatBatchSize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getStride"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.getStride()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getThreshold"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.getThreshold()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getTrimWhitespace"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.getTrimWhitespace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getWeighting"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.getWeighting()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.inputAnnotatorTypes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.loadSavedModel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.maxSentenceLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.maxSentenceLength</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.minSentenceLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.minSentenceLength</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.name"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.outputAnnotatorType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.pretrained"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.pretrained()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.satBatchSize"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.satBatchSize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setBlockSize"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.setBlockSize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setExplodeSentences"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.setExplodeSentences()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setMaxSentenceLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.setMaxSentenceLength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setMinSentenceLength"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.setMinSentenceLength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setSatBatchSize"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.setSatBatchSize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setStride"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.setStride()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setThreshold"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.setThreshold()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setTrimWhitespace"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.setTrimWhitespace()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setWeighting"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.setWeighting()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.stride"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.stride</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.threshold"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.threshold</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.trimWhitespace"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.trimWhitespace</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.sentence.sentence_detector_sat.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.weighting"><code class="docutils literal notranslate"><span class="pre">SentenceDetectorSaTModel.weighting</span></code></a></li>
 </ul>
 </li>
 </ul>
