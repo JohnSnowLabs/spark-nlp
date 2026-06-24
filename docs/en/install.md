@@ -279,7 +279,7 @@ If you are using `DependencyParserModel` or `TextMatcherModel` in your pipelines
 
 ```sh
 # Load Spark NLP with Spark Submit
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.2
 ```
 
 See our [cheat sheet](#spark-nlp-cheatsheet) for more examples.
@@ -1267,7 +1267,7 @@ Spark NLP {{ site.sparknlp_version }} has been tested and is compatible with the
 - emr-6.2.0
 - emr-6.3.0
 - emr-6.3.1
-- emr-6.4.1
+- emr-6.4.2
 - emr-6.5.0
 - emr-6.6.0
 - emr-6.7.0

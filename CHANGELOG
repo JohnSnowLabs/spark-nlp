@@ -1,4 +1,16 @@
 =======
+6.4.2
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+* Properly close stream and avoid warning #14774
+* [SPARKNLP-1384] Add Hugging Face to Spark NLP model conversion notebooks (ONNX, OpenVINO, GGUF) #14775
+* [SPARKNLP-1145] Add BM25 lexical retrieval annotator (Approach + Model) #14776
+* [SPARKNLP-1395] Updating git notifications and bumping jsl-llama version #14777
+* Sparknlp 1396 introduce new sentence detection annotator #14782
+
+=======
 6.4.1
 =======
 ---------------------------
