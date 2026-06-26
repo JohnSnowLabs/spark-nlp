@@ -32,7 +32,7 @@ class DocumentTranslatorTestSpec extends AnyFlatSpec with SparkSessionTest {
   "DocumentTranslator" should "translate an HTML document from English to French" taggedAs SlowTest in {
 
     val documentTranslator = DocumentTranslator
-      .loadSavedModel("1", ResourceHelper.spark)
+      .pretrained()
       .setContentType("text/html")
       .setContentPath(s"$htmlDirectory/fake-html.html")
       .setOutputCol("translation")
@@ -75,11 +75,10 @@ class DocumentTranslatorTestSpec extends AnyFlatSpec with SparkSessionTest {
     assert(translationResults.nonEmpty)
   }
 
-
   it should "translate a plain-text document with length-bounded sentences" taggedAs SlowTest in {
 
     val documentTranslator = DocumentTranslator
-      .loadSavedModel("1", ResourceHelper.spark)
+      .pretrained()
       .setContentType("text/plain")
       .setContentPath(s"$txtDirectory/long-text.txt")
       .setOutputCol("translation")
@@ -99,7 +98,5 @@ class DocumentTranslatorTestSpec extends AnyFlatSpec with SparkSessionTest {
     resultDf.show(truncate = false)
     assert(translationResults.nonEmpty)
   }
-
-
 
 }

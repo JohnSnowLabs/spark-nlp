@@ -115,8 +115,6 @@ class DocumentTranslator(override val uid: String)
     */
   override val outputAnnotatorType: AnnotatorType = DOCUMENT
 
-  // ── Reader2Doc parameters ─────────────────────────────────────────────────
-
   val contentPath: Param[String] =
     new Param[String](this, "contentPath", "Path to the file or directory to read documents from")
 
@@ -185,8 +183,6 @@ class DocumentTranslator(override val uid: String)
   /** @group getParam */
   def getJoinString: String = $(joinString)
 
-  // ── SentenceDetectorSaTModel parameters ───────────────────────────────────
-
   /** Minimum sentence length in characters used by the [[SentenceDetectorSaTModel]] (Default: `0`
     * \= no minimum). When [[minSentenceLength]] or [[maxSentenceLength]] is `> 0`, the SaT model
     * switches to length-constrained segmentation.
@@ -245,8 +241,6 @@ class DocumentTranslator(override val uid: String)
   /** @group getParam */
   def getSentenceThreshold: Float = $(sentenceThreshold)
 
-  // ── Translation prompt parameters ─────────────────────────────────────────
-
   /** Source language interpolated into [[promptTemplate]] (e.g. `"English"`).
     * @group param
     */
@@ -271,22 +265,6 @@ class DocumentTranslator(override val uid: String)
   /** @group getParam */
   def getTgtLang: String = $(tgtLang)
 
-  /** Per-sentence translation prompt template. Three placeholders are interpolated per sentence:
-    *   - `{srcLang}` -> [[srcLang]]
-    *   - `{tgtLang}` -> [[tgtLang]]
-    *   - `{text}` -> the sentence to translate
-    *
-    * The filled-in prompt becomes the model's completion input, so the source text is part of the
-    * prompt itself. The default mirrors the few-shot completion format expected by
-    * translation-tuned GGUF models, e.g.:
-    * {{{
-    * Translate the following text from Portuguese into English.
-    * Portuguese: Um grupo de investigadores lançou um novo modelo.
-    * English:
-    * }}}
-    *
-    * @group param
-    */
   val promptTemplate: Param[String] =
     new Param[String](
       this,
@@ -339,9 +317,6 @@ class DocumentTranslator(override val uid: String)
       ("Translate the following text from {srcLang} into {tgtLang}.\n" +
         "{srcLang}: {text}\n{tgtLang}:"),
     batchSize -> 4,
-    // Inherited llama.cpp params – translation-tuned defaults.
-    // nCtx is the TOTAL token budget split across the batchSize parallel slots, so
-    // nCtx / batchSize must cover one sentence's prompt + nPredict. 4096 / 4 = 1024 tokens/slot.
     engine -> LlamaCPP.name,
     useChatTemplate -> true,
     nCtx -> 8192,
@@ -350,8 +325,6 @@ class DocumentTranslator(override val uid: String)
     nGpuLayers -> 99,
     reasoningBudget -> 0,
     systemPrompt -> "You are a helpful assistant.")
-
-  // ── GGUF model (held + broadcast, mirrors AutoGGUFModel) ──────────────────
 
   private var _model: Option[Broadcast[GGUFWrapper]] = None
 
@@ -583,8 +556,10 @@ trait ReadablePretrainedDocumentTranslator extends ParamsAndFeaturesReadable[Doc
   def pretrained(name: String, lang: String, remoteLoc: String): DocumentTranslator =
     fromAutoGGUF(AutoGGUFModel.pretrained(name, lang, remoteLoc))
 
-  /** Wraps a downloaded [[AutoGGUFModel]]'s GGUF model in a [[DocumentTranslator]]. */
-  private def fromAutoGGUF(autoGGUF: AutoGGUFModel): DocumentTranslator = {
+  /** Wraps a downloaded [[AutoGGUFModel]]'s GGUF model in a [[DocumentTranslator]]. Public so the
+    * Python API can reuse an already-loaded [[AutoGGUFModel]] and wrap it on the JVM side.
+    */
+  def fromAutoGGUF(autoGGUF: AutoGGUFModel): DocumentTranslator = {
     val translator = new DocumentTranslator()
       .setModelIfNotSet(ResourceHelper.spark, autoGGUF.getModelIfNotSet)
       .setEngine(LlamaCPP.name)

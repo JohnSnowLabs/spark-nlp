@@ -1,0 +1,112 @@
+#  Copyright 2017-2025 John Snow Labs
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+import os
+import unittest
+
+import pytest
+
+from sparknlp.annotator import *
+from sparknlp.base import *
+from test.util import SparkContextForTest
+
+HTML_DIRECTORY = os.getcwd() + "/../src/test/resources/reader/html"
+PDF_DIRECTORY = os.getcwd() + "/../src/test/resources/reader/pdf"
+TXT_DIRECTORY = os.getcwd() + "/../src/test/resources/reader/txt"
+
+
+@pytest.mark.slow
+class DocumentTranslatorHtmlTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        document_translator = (
+            DocumentTranslator.pretrained()
+            .setContentType("text/html")
+            .setContentPath(f"{HTML_DIRECTORY}/fake-html.html")
+            .setOutputCol("translation")
+            .setMaxSentenceLength(250)
+            .setNPredict(512)
+            .setNGpuLayers(99)
+            .setSrcLang("English")
+            .setTgtLang("French")
+        )
+
+        pipeline = Pipeline().setStages([document_translator])
+
+        empty_data = self.spark.createDataFrame([[""]]).toDF("text")
+        result_df = pipeline.fit(empty_data).transform(empty_data)
+        result_df.show(truncate=False)
+
+        self.assertEqual(result_df.count(), 1)
+        translations = result_df.select("translation.result").head()[0]
+        self.assertTrue(len(translations) > 0)
+
+
+@pytest.mark.slow
+class DocumentTranslatorPdfTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        document_translator = (
+            DocumentTranslator.pretrained()
+            .setContentType("application/pdf")
+            .setContentPath(f"{PDF_DIRECTORY}/pdf-title.pdf")
+            .setOutputCol("translation")
+            .setMaxSentenceLength(800)
+            .setNPredict(512)
+            .setNGpuLayers(99)
+            .setSrcLang("English")
+            .setTgtLang("French")
+        )
+
+        pipeline = Pipeline().setStages([document_translator])
+
+        empty_data = self.spark.createDataFrame([[""]]).toDF("text")
+        result_df = pipeline.fit(empty_data).transform(empty_data)
+        result_df.show(truncate=False)
+
+        self.assertEqual(result_df.count(), 1)
+        translations = result_df.select("translation.result").head()[0]
+        self.assertTrue(len(translations) > 0)
+
+
+@pytest.mark.slow
+class DocumentTranslatorPlainTextTestSpec(unittest.TestCase):
+    def setUp(self):
+        self.spark = SparkContextForTest.spark
+
+    def runTest(self):
+        document_translator = (
+            DocumentTranslator.pretrained()
+            .setContentType("text/plain")
+            .setContentPath(f"{TXT_DIRECTORY}/long-text.txt")
+            .setOutputCol("translation")
+            .setMinSentenceLength(50)
+            .setMaxSentenceLength(450)
+            .setNPredict(512)
+            .setSrcLang("English")
+            .setTgtLang("French")
+        )
+
+        pipeline = Pipeline().setStages([document_translator])
+
+        empty_data = self.spark.createDataFrame([[""]]).toDF("text")
+        result_df = pipeline.fit(empty_data).transform(empty_data)
+        result_df.show(truncate=False)
+
+        self.assertEqual(result_df.count(), 1)
+        translations = result_df.select("translation.result").head()[0]
+        self.assertTrue(len(translations) > 0)
