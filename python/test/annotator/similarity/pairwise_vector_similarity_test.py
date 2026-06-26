@@ -194,7 +194,7 @@ class PairwiseVectorSimilarityTestSpec(unittest.TestCase):
         df = _make_df(self.spark,
                       [_se("a", [1.0, 0.0])],
                       [_se("b", [0.0, 1.0])])
-        with self.assertRaises(Exception):
+        with self.assertRaisesRegex(Exception, "similarityMethod|invalid"):
             (PairwiseVectorSimilarity()
              .setInputCols(["emb_a", "emb_b"])
              .setOutputCol("similarity")

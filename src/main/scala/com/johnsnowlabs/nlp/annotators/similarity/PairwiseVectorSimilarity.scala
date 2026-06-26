@@ -145,19 +145,36 @@ class PairwiseVectorSimilarity(override val uid: String)
     outputCol -> VECTOR_SIMILARITY,
     similarityMethod -> "cosine")
 
-  /** Verifies that both named input columns exist in the schema with the correct annotator type.
+  /** Verifies that exactly two named input columns are present, each carrying the
+    * SENTENCE_EMBEDDINGS annotator type.
     *
     * The base `RawAnnotator.validate` uses `exists` (any column of the right type satisfies each
     * entry in `inputAnnotatorTypes`), which would pass validation even when only one
-    * SENTENCE_EMBEDDINGS column is present. This override checks each column by name.
+    * SENTENCE_EMBEDDINGS column is present, and the generic failure message only mentions
+    * annotator types. This override checks each column by name and raises a specific error so the
+    * "two distinct columns" requirement is clear, rather than returning `false` and surfacing the
+    * generic base message.
     */
-  override protected def validate(schema: StructType): Boolean =
-    getInputCols.forall { colName =>
-      schema.exists(f =>
+  override protected def validate(schema: StructType): Boolean = {
+    val inputColNames = getInputCols
+    require(
+      inputColNames.length == 2,
+      s"PairwiseVectorSimilarity requires exactly two input columns (got ${inputColNames.length}). " +
+        "Set both with setInputCols(Array(colA, colB)), each a distinct SENTENCE_EMBEDDINGS column " +
+        "(e.g. query embeddings and document embeddings).")
+    inputColNames.foreach { colName =>
+      val isEmbeddingsCol = schema.fields.exists(f =>
         f.name == colName &&
           f.metadata.contains("annotatorType") &&
           f.metadata.getString("annotatorType") == SENTENCE_EMBEDDINGS)
+      require(
+        isEmbeddingsCol,
+        s"PairwiseVectorSimilarity input column '$colName' must be a SENTENCE_EMBEDDINGS column " +
+          "produced by an embeddings annotator. Provide two distinct SENTENCE_EMBEDDINGS columns " +
+          "(e.g. query embeddings and document embeddings).")
     }
+    true
+  }
 
   /** Scores all N×M pairs between the two input annotation sets.
     *
