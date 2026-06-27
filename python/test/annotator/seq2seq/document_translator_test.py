@@ -96,7 +96,7 @@ class DocumentTranslatorHtmlTestSpec(unittest.TestCase):
             .setMaxSentenceLength(1500)
             .setMinSentenceLength(800)
             .setNPredict(-1)
-            .setNCtx(14000)z
+            .setNCtx(14000)
             .setBatchSize(4)
             .setNGpuLayers(0)
             .setSrcLang("English")
