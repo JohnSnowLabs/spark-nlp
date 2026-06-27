@@ -227,8 +227,15 @@ class DocumentTranslator(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWri
             sentenceThreshold=0.25,
             srcLang="English",
             tgtLang="French",
-            promptTemplate="Translate the following text from {srcLang} into {tgtLang}.\n"
-                           "{srcLang}: {text}\n{tgtLang}:",
+            promptTemplate=(
+                "/no_think\n"
+                "Translate the following text from {srcLang} into {tgtLang}.\n"
+                "Return only the final {tgtLang} translation.\n"
+                "Do not include reasoning, explanations, analysis, notes, markdown, labels, or <think> tags.\n"
+                "Do not repeat the source text.\n"
+                "{srcLang}: {text}\n"
+                "{tgtLang}:"
+            ),
             batchSize=4,
             useChatTemplate=True,
             nCtx=8192,
@@ -236,7 +243,9 @@ class DocumentTranslator(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWri
             nPredict=512,
             nGpuLayers=99,
             reasoningBudget=0,
-            systemPrompt="You are a helpful assistant."
+            systemPrompt=   ("You are a professional document translation engine. "
+                                 "Output only the final translation in the target language. "
+                                 "Do not include reasoning, explanations, analysis, notes, markdown, labels, or <think> tags.")
         )
 
     @staticmethod

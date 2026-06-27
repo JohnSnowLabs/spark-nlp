@@ -314,8 +314,15 @@ class DocumentTranslator(override val uid: String)
     srcLang -> "English",
     tgtLang -> "French",
     promptTemplate ->
-      ("Translate the following text from {srcLang} into {tgtLang}.\n" +
-        "{srcLang}: {text}\n{tgtLang}:"),
+      (
+        "/no_think\n"+
+  "Translate the following text from {srcLang} into {tgtLang}.\n"+
+  "Return only the final {tgtLang} translation.\n"+
+  "Do not include reasoning, explanations, analysis, notes, markdown, labels, or <think> tags.\n"+
+  "Do not repeat the source text.\n"+
+  "{srcLang}: {text}\n"+
+  "{tgtLang}:"
+  ),
     batchSize -> 4,
     engine -> LlamaCPP.name,
     useChatTemplate -> true,
@@ -324,7 +331,9 @@ class DocumentTranslator(override val uid: String)
     nPredict -> 512,
     nGpuLayers -> 99,
     reasoningBudget -> 0,
-    systemPrompt -> "You are a helpful assistant.")
+    systemPrompt ->   ("You are a professional document translation engine. "+
+  "Output only the final translation in the target language. "+
+  "Do not include reasoning, explanations, analysis, notes, markdown, labels, or <think> tags."))
 
   private var _model: Option[Broadcast[GGUFWrapper]] = None
 
@@ -463,6 +472,14 @@ class DocumentTranslator(override val uid: String)
     }
   }
 
+  private def cleanTranslationOutput(text: String): String = {
+    text
+      .replaceAll("(?s)<think>.*?</think>\\s*", "")
+      .replaceAll("(?s)^\\s*<think>.*", "") // fallback if model never closes </think>
+      .replaceAll("(?m)^\\s*(French|Français|Translation|Traduction)\\s*:\\s*", "")
+      .trim
+  }
+
   /** Translates the sentences of a batch of documents with llama.cpp, reusing [[AutoGGUFModel]]'s
     * `multiComplete` logic. Every sentence of every document is flattened into a single batch and
     * submitted in one call with `setParallel(batchSize)`, so llama.cpp keeps [[batchSize]]
@@ -501,7 +518,7 @@ class DocumentTranslator(override val uid: String)
     // Scatter the flat completions back into per-document, per-sentence order.
     val results: Array[Array[String]] = documents.map(d => Array.fill(d.length)("")).toArray
     flattened.zip(completed).foreach { case ((docIdx, sentenceIdx), text) =>
-      results(docIdx)(sentenceIdx) = text
+      results(docIdx)(sentenceIdx) = cleanTranslationOutput(text)
     }
     results.map(_.toSeq).toSeq
   }
