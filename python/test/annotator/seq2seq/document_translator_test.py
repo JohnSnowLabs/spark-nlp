@@ -23,6 +23,7 @@ from test.util import SparkContextForTest
 HTML_DIRECTORY = os.getcwd() + "/../src/test/resources/reader/html"
 PDF_DIRECTORY = os.getcwd() + "/../src/test/resources/reader/pdf"
 TXT_DIRECTORY = os.getcwd() + "/../src/test/resources/reader/txt"
+MIXED_DIRECTORY  = os.getcwd() + "/../src/test/resources/reader/mixed"
 
 
 @pytest.mark.slow
@@ -30,15 +31,18 @@ class DocumentTranslatorHtmlTestSpec(unittest.TestCase):
     def setUp(self):
         self.spark = SparkContextForTest.spark
 
-    def runTest(self):
+    def test_html(self):
         document_translator = (
             DocumentTranslator.pretrained()
             .setContentType("text/html")
             .setContentPath(f"{HTML_DIRECTORY}/fake-html.html")
             .setOutputCol("translation")
-            .setMaxSentenceLength(250)
-            .setNPredict(512)
-            .setNGpuLayers(99)
+            .setMaxSentenceLength(1500)
+            .setMinSentenceLength(800)
+            .setNPredict(-1)
+            .setNCtx(14000)
+            .setBatchSize(4)
+            .setNGpuLayers(0)
             .setSrcLang("English")
             .setTgtLang("French")
         )
@@ -54,20 +58,19 @@ class DocumentTranslatorHtmlTestSpec(unittest.TestCase):
         self.assertTrue(len(translations) > 0)
 
 
-@pytest.mark.slow
-class DocumentTranslatorPdfTestSpec(unittest.TestCase):
-    def setUp(self):
-        self.spark = SparkContextForTest.spark
 
-    def runTest(self):
+    def test_pdf(self):
         document_translator = (
             DocumentTranslator.pretrained()
             .setContentType("application/pdf")
             .setContentPath(f"{PDF_DIRECTORY}/pdf-title.pdf")
             .setOutputCol("translation")
-            .setMaxSentenceLength(800)
-            .setNPredict(512)
-            .setNGpuLayers(99)
+            .setMaxSentenceLength(1500)
+            .setMinSentenceLength(800)
+            .setNPredict(-1)
+            .setNCtx(14000)
+            .setBatchSize(4)
+            .setNGpuLayers(0)
             .setSrcLang("English")
             .setTgtLang("French")
         )
@@ -83,20 +86,19 @@ class DocumentTranslatorPdfTestSpec(unittest.TestCase):
         self.assertTrue(len(translations) > 0)
 
 
-@pytest.mark.slow
-class DocumentTranslatorPlainTextTestSpec(unittest.TestCase):
-    def setUp(self):
-        self.spark = SparkContextForTest.spark
 
-    def runTest(self):
+    def test_txt(self):
         document_translator = (
             DocumentTranslator.pretrained()
             .setContentType("text/plain")
             .setContentPath(f"{TXT_DIRECTORY}/long-text.txt")
             .setOutputCol("translation")
-            .setMinSentenceLength(50)
-            .setMaxSentenceLength(450)
-            .setNPredict(512)
+            .setMaxSentenceLength(1500)
+            .setMinSentenceLength(800)
+            .setNPredict(-1)
+            .setNCtx(14000)z
+            .setBatchSize(4)
+            .setNGpuLayers(0)
             .setSrcLang("English")
             .setTgtLang("French")
         )
@@ -110,3 +112,26 @@ class DocumentTranslatorPlainTextTestSpec(unittest.TestCase):
         self.assertEqual(result_df.count(), 1)
         translations = result_df.select("translation.result").head()[0]
         self.assertTrue(len(translations) > 0)
+
+
+    def test_multiple_documents(self):
+        document_translator = (
+            DocumentTranslator.pretrained()
+            .setContentPath(f"{MIXED_DIRECTORY}/")
+            .setOutputCol("translation")
+            .setMaxSentenceLength(1500)
+            .setMinSentenceLength(800)
+            .setNPredict(-1)
+            .setNCtx(14000)
+            .setBatchSize(4)
+            .setNGpuLayers(0)
+            .setSrcLang("English")
+            .setTgtLang("French")
+        )
+
+        pipeline = Pipeline().setStages([document_translator])
+
+        empty_data = self.spark.createDataFrame([[""]]).toDF("text")
+        result_df = pipeline.fit(empty_data).transform(empty_data)
+        result_df.show(truncate=False)
+

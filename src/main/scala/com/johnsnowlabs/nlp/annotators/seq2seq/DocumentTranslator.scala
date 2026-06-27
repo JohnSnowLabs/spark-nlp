@@ -68,8 +68,8 @@ import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
   *   .setMaxSentenceLength(600)
   *   .setOutputCol("translation")
   * }}}
-  * The default model is `"Phi_4_mini_instruct_Q4_K_M_gguf"`, default language is `"en"`, if no
-  * values are provided.
+  * The default model is `"qwen3_4b_q8_0_gguf"`, default language is `"en"`, if no values are
+  * provided.
   *
   * For available pretrained models please see the [[https://sparknlp.org/models Models Hub]].
   *
@@ -541,7 +541,7 @@ class DocumentTranslator(override val uid: String)
 
 trait ReadablePretrainedDocumentTranslator extends ParamsAndFeaturesReadable[DocumentTranslator] {
 
-  val defaultModelName: String = "Phi_4_mini_instruct_Q4_K_M_gguf"
+  val defaultModelName: String = "qwen3_4b_q8_0_gguf"
   val defaultLang: String = "en"
 
   def pretrained(): DocumentTranslator =

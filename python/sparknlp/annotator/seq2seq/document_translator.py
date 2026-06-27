@@ -43,7 +43,7 @@ class DocumentTranslator(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWri
     ...     .setTgtLang("French") \\
     ...     .setOutputCol("translation")
 
-    The default model is ``"Phi_4_mini_instruct_Q4_K_M_gguf"``, default language is ``"en"``.
+    The default model is ``"qwen3_4b_q8_0_gguf"``, default language is ``"en"``.
 
     ====================== ======================
     Input Annotation types Output Annotation type
@@ -273,7 +273,7 @@ class DocumentTranslator(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWri
         return DocumentTranslator._fromAutoGGUF(auto_gguf)
 
     @staticmethod
-    def pretrained(name="Phi_4_mini_instruct_Q4_K_M_gguf", lang="en", remote_loc=None):
+    def pretrained(name="qwen3_4b_q8_0_gguf", lang="en", remote_loc=None):
         """Downloads and loads a pretrained GGUF model.
 
         Internally this downloads an :class:`AutoGGUFModel` and wraps it, since the translator is
@@ -282,7 +282,7 @@ class DocumentTranslator(JavaModel, _internal.AnnotatorJavaMLReadable, JavaMLWri
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "Phi_4_mini_instruct_Q4_K_M_gguf"
+            Name of the pretrained model, by default "qwen3_4b_q8_0_gguf"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
