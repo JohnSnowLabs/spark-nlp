@@ -26,7 +26,7 @@ object Dependencies {
   val is_spark33: String = System.getProperty("is_spark33", "false")
   val is_spark34: String = System.getProperty("is_spark34", "false")
   val is_spark35: String = System.getProperty("is_spark35", "false")
-  val is_spark40: String = System.getProperty("is_spark40", "false")
+  val is_spark40: String = System.getProperty("is_spark40", "true")
 
   private val enabledSparkProfiles = Seq(
     is_spark30,
