@@ -64,24 +64,30 @@ class Reader2Table(override val uid: String) extends Reader2Doc {
     super.transform(dataset)
   }
 
+  override private[reader] def partitionToAnnotations(
+      partitions: Seq[Row],
+      fileName: String): Seq[Annotation] = {
+    if (partitions == null) Nil
+    else {
+      val outputFormatValue = $(outputFormat)
+      val asDocument = $(outputAsDocument)
+      val acceptedTypes = getAcceptedTypes(fileName)
+      val elements = partitions.flatMap { partition =>
+        val elementType = partition.getAs[String]("elementType")
+        if (acceptedTypes.contains(elementType))
+          Some((elementType, partition.getAs[String]("content")))
+        else None
+      }
+      if (asDocument)
+        mergeElementsAsDocument(elements, outputFormatValue)
+      else
+        elementsAsIndividualAnnotations(partitions, acceptedTypes)
+    }
+  }
+
   override def partitionToAnnotation: UserDefinedFunction = udf {
     (partitions: Seq[Row], fileName: String) =>
-      if (partitions == null) Nil
-      else {
-        val outputFormatValue = $(outputFormat)
-        val asDocument = $(outputAsDocument)
-        val acceptedTypes = getAcceptedTypes(fileName)
-        val elements = partitions.flatMap { partition =>
-          val elementType = partition.getAs[String]("elementType")
-          if (acceptedTypes.contains(elementType))
-            Some((elementType, partition.getAs[String]("content")))
-          else None
-        }
-        if (asDocument)
-          mergeElementsAsDocument(elements, outputFormatValue)
-        else
-          elementsAsIndividualAnnotations(partitions, acceptedTypes)
-      }
+      partitionToAnnotations(partitions, fileName)
   }
 
   private def getAcceptedTypes(fileName: String): Set[String] = {

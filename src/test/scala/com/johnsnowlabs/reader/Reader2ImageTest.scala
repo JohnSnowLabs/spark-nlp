@@ -32,6 +32,7 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
   val mdDirectory = "src/test/resources/reader/md"
   val mixDirectory = "src/test/resources/reader/mix-files"
   val unsupportedFiles = "src/test/resources/reader/unsupported-files"
+  val exceptionFiles = "src/test/resources/reader/exception-files"
   val emailDirectory = "src/test/resources/reader/email/"
   val wordDirectory = "src/test/resources/reader/doc/"
   val odtDirectory = "src/test/resources/reader/odt/"
@@ -144,7 +145,7 @@ class Reader2ImageTest extends AnyFlatSpec with SparkSessionTest {
 
   it should "display error on exception column" taggedAs FastTest in {
     val reader2Image = new Reader2Image()
-      .setContentPath(unsupportedFiles)
+      .setContentPath(exceptionFiles)
       .setOutputCol("image")
       .setIgnoreExceptions(false)
 

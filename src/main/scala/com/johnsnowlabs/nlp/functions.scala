@@ -16,37 +16,156 @@
 
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.util.{AnnotationRowUtils, SparkNlpConfig}
+import com.johnsnowlabs.util.Version
+import org.apache.spark.sql.api.java.UDF1
+import org.apache.spark.sql.catalyst.ScalaReflection
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.{array, col, explode, udf}
-import org.apache.spark.sql.types.MetadataBuilder
+import org.apache.spark.sql.types.{
+  BooleanType,
+  DataType,
+  MetadataBuilder,
+  StructField,
+  StructType
+}
 import org.apache.spark.sql.{DataFrame, Row}
-import com.johnsnowlabs.nlp.Annotation
 
-import scala.reflect.runtime.universe._
+import scala.reflect.runtime.universe.{typeOf, TypeTag}
 
 object functions {
+
+  private def isSpark4OrNewer(dataset: DataFrame): Boolean =
+    Version.parse(dataset.sparkSession.version).toFloat >= 4.0f
+
+  private def annotationsFromRows(rows: scala.collection.Seq[Row]): Seq[Annotation] = {
+    Option(rows).map(_.map(Annotation(_)).toSeq).getOrElse(Seq.empty[Annotation])
+  }
+
+  private def annotationRowsFromFunction(
+      function: Seq[Annotation] => Seq[Annotation],
+      rows: scala.collection.Seq[Row]): scala.collection.Seq[Row] = {
+    AnnotationRowUtils.annotationsToRows(function(annotationsFromRows(rows))).toVector
+  }
+
+  private def annotationUdf(function: Seq[Annotation] => Seq[Annotation]): UserDefinedFunction = {
+    val func = new UDF1[scala.collection.Seq[Row], scala.collection.Seq[Row]] {
+      override def call(rows: scala.collection.Seq[Row]): scala.collection.Seq[Row] = {
+        annotationRowsFromFunction(function, rows)
+      }
+    }
+    udf(func, Annotation.arrayType)
+  }
+
+  private def outputDataType[T: TypeTag]: DataType = {
+    val tpe = typeOf[T]
+    if (tpe <:< typeOf[Seq[Annotation]] || tpe <:< typeOf[Array[Annotation]]) {
+      Annotation.arrayType
+    } else {
+      ScalaReflection.schemaFor[T].dataType
+    }
+  }
+
+  private def normalizeOutput(value: Any, dataType: DataType): Any = {
+    if (dataType == Annotation.arrayType) {
+      value match {
+        case annotations: scala.collection.Seq[_] =>
+          AnnotationRowUtils
+            .annotationsToRows(annotations.asInstanceOf[scala.collection.Seq[Annotation]])
+            .toVector
+        case annotations: Array[_] =>
+          AnnotationRowUtils
+            .annotationsToRows(annotations.toSeq.asInstanceOf[scala.collection.Seq[Annotation]])
+            .toVector
+        case null => scala.collection.Seq.empty[Row]
+        case other => other
+      }
+    } else {
+      value
+    }
+  }
+
+  private def outputSchemaWithReplacement(
+      inputSchema: StructType,
+      outputCol: String,
+      dataType: DataType,
+      metadataBuilder: MetadataBuilder): StructType = {
+    val outputField = StructField(outputCol, dataType, nullable = true, metadataBuilder.build())
+    val outputIndex = inputSchema.fieldNames.indexOf(outputCol)
+
+    if (outputIndex >= 0) StructType(inputSchema.fields.updated(outputIndex, outputField))
+    else StructType(inputSchema.fields :+ outputField)
+  }
+
+  private def mapAnnotationsColWithRows[T: TypeTag](
+      dataset: DataFrame,
+      columns: Seq[String],
+      outputCol: String,
+      annotatorType: String,
+      function: Seq[Annotation] => T): DataFrame = {
+    val inputDataFrame = dataset.toDF()
+    val metadataBuilder = new MetadataBuilder().putString("annotatorType", annotatorType)
+    val dataType = outputDataType[T]
+    val outputSchema =
+      outputSchemaWithReplacement(inputDataFrame.schema, outputCol, dataType, metadataBuilder)
+    val inputIndexes = columns.map(inputDataFrame.schema.fieldIndex)
+    val outputIndex = inputDataFrame.schema.fieldNames.indexOf(outputCol)
+
+    implicit val encoder: ExpressionEncoder[Row] =
+      SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
+
+    inputDataFrame
+      .mapPartitions { rows =>
+        rows.map { row =>
+          val annotations = inputIndexes
+            .flatMap(inputIndex => AnnotationRowUtils.extractAnnotationRows(row, inputIndex))
+            .map(Annotation(_))
+            .toSeq
+          val outputValue = normalizeOutput(function(annotations), dataType)
+          val outputValues =
+            if (outputIndex >= 0) row.toSeq.updated(outputIndex, outputValue)
+            else row.toSeq :+ outputValue
+          Row.fromSeq(outputValues)
+        }
+      }
+      .toDF()
+  }
 
   implicit class FilterAnnotations(dataset: DataFrame) {
     def filterByAnnotationsCol(
         column: String,
         function: Seq[Annotation] => Boolean): DataFrame = {
-      val meta = dataset.schema(column).metadata
-      val func = udf { annotatorProperties: Seq[Row] =>
-        function(annotatorProperties.map(Annotation(_)))
+      if (isSpark4OrNewer(dataset)) {
+        val inputDataFrame = dataset.toDF()
+        val inputIndex = inputDataFrame.schema.fieldIndex(column)
+        implicit val encoder: ExpressionEncoder[Row] =
+          SparkNlpConfig.getEncoder(inputDataFrame, inputDataFrame.schema)
+
+        inputDataFrame
+          .mapPartitions { rows =>
+            rows.filter { row =>
+              val annotations =
+                annotationsFromRows(AnnotationRowUtils.extractAnnotationRows(row, inputIndex))
+              function(annotations)
+            }
+          }
+          .toDF()
+      } else {
+        val meta = dataset.schema(column).metadata
+        val func = udf { annotatorProperties: Seq[Row] =>
+          function(annotationsFromRows(annotatorProperties))
+        }
+        dataset.filter(func(col(column)).as(column, meta))
       }
-      dataset.filter(func(col(column)).as(column, meta))
     }
   }
 
   def mapAnnotations(function: Seq[Annotation] => Seq[Annotation]): UserDefinedFunction =
-    udf { annotatorProperties: Seq[Row] =>
-      function(annotatorProperties.map(Annotation(_)))
-    }
+    annotationUdf(function)
 
   def mapAnnotationsStrict(function: Seq[Annotation] => Seq[Annotation]): UserDefinedFunction =
-    udf { annotatorProperties: Seq[Row] =>
-      function(annotatorProperties.map(Annotation(_)))
-    }
+    annotationUdf(function)
 
   implicit class MapAnnotations(dataset: DataFrame) {
     def mapAnnotationsCol[T: TypeTag](
@@ -54,12 +173,16 @@ object functions {
         outputCol: String,
         annotatorType: String,
         function: Seq[Annotation] => T): DataFrame = {
-      val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-      val meta = metadataBuilder.putString("annotatorType", annotatorType).build()
-      val func = udf { annotatorProperties: Seq[Row] =>
-        function(annotatorProperties.map(Annotation(_)))
+      if (isSpark4OrNewer(dataset)) {
+        mapAnnotationsColWithRows(dataset, Seq(column), outputCol, annotatorType, function)
+      } else {
+        val metadataBuilder: MetadataBuilder = new MetadataBuilder()
+        val meta = metadataBuilder.putString("annotatorType", annotatorType).build()
+        val func = udf { annotatorProperties: Seq[Row] =>
+          function(annotationsFromRows(annotatorProperties))
+        }
+        dataset.withColumn(outputCol, func(col(column)).as(outputCol, meta))
       }
-      dataset.withColumn(outputCol, func(col(column)).as(outputCol, meta))
     }
 
     def mapAnnotationsCol[T: TypeTag](
@@ -67,15 +190,19 @@ object functions {
         outputCol: String,
         annotatorType: String,
         function: Seq[Annotation] => T): DataFrame = {
-      val metadataBuilder: MetadataBuilder = new MetadataBuilder()
-      val meta = metadataBuilder.putString("annotatorType", annotatorType).build()
-      val func = udf { (cols: Seq[Seq[Row]]) =>
-        function {
-          cols.flatMap(aa => aa.map(Annotation(_)))
+      if (isSpark4OrNewer(dataset)) {
+        mapAnnotationsColWithRows(dataset, cols, outputCol, annotatorType, function)
+      } else {
+        val metadataBuilder: MetadataBuilder = new MetadataBuilder()
+        val meta = metadataBuilder.putString("annotatorType", annotatorType).build()
+        val func = udf { (cols: Seq[Seq[Row]]) =>
+          function {
+            cols.flatMap(aa => annotationsFromRows(aa))
+          }
         }
+        val inputCols = cols.map(col)
+        dataset.withColumn(outputCol, func(array(inputCols: _*)).as(outputCol, meta))
       }
-      val inputCols = cols.map(col)
-      dataset.withColumn(outputCol, func(array(inputCols: _*)).as(outputCol, meta))
     }
 
   }
@@ -99,5 +226,4 @@ object functions {
         .withColumn(outputCol, array(col(outputCol)).as(outputCol, meta))
     }
   }
-
 }

@@ -23,6 +23,7 @@ import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization.write
 
 import java.util.{Date, TimeZone}
+import scala.reflect.ClassTag
 
 /** Structure to guideline a writable non-standard PARAM for any annotator Uses json4s jackson for
   * serialization
@@ -40,7 +41,9 @@ import java.util.{Date, TimeZone}
   * @tparam B
   *   Any kind of serialized figure, of writable type
   */
-class AnnotatorParam[A <: WritableAnnotatorComponent, B <: SerializedAnnotatorComponent[_ <: A]](
+class AnnotatorParam[
+    A <: WritableAnnotatorComponent: ClassTag,
+    B <: SerializedAnnotatorComponent[_ <: A]](
     identifiable: Identifiable,
     name: String,
     description: String)(implicit m: Manifest[B])

@@ -16,12 +16,14 @@
 
 package com.johnsnowlabs.nlp
 
-import com.johnsnowlabs.nlp.util.FinisherUtil
+import com.johnsnowlabs.nlp.util.{AnnotationRowUtils, FinisherUtil, SparkNlpConfig}
+import com.johnsnowlabs.util.Version
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.types._
-import org.apache.spark.sql.{Dataset, Row}
+import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 /** Converts annotation results into a format that easier to use. It is useful to extract the
   * results from Spark NLP Pipelines. The Finisher outputs annotation(s) values into `String`.
@@ -272,6 +274,90 @@ class Finisher(override val uid: String) extends Transformer with DefaultParamsW
     StructType(cleanFields)
   }
 
+  private def isSpark4OrNewer(dataset: Dataset[_]): Boolean =
+    Version.parse(dataset.sparkSession.version).toFloat >= 4.0f
+
+  private def outputSchemaWithReplacement(inputSchema: StructType): StructType = {
+    var outputFields = inputSchema.fields
+
+    FinisherUtil.getOutputFields(getOutputCols, $(outputAsArray)).foreach { outputField =>
+      val outputIndex = outputFields.indexWhere(_.name == outputField.name)
+      outputFields =
+        if (outputIndex >= 0) outputFields.updated(outputIndex, outputField)
+        else outputFields :+ outputField
+    }
+
+    val metadataFields =
+      if ($(outputAsArray) && $(includeMetadata))
+        FinisherUtil.getMetadataFields(getOutputCols, outputAsArray = true)
+      else Array.empty[StructField]
+
+    metadataFields.foreach { metadataField =>
+      val metadataIndex = outputFields.indexWhere(_.name == metadataField.name)
+      outputFields =
+        if (metadataIndex >= 0) outputFields.updated(metadataIndex, metadataField)
+        else outputFields :+ metadataField
+    }
+
+    StructType(FinisherUtil.getCleanFields($(cleanAnnotations), outputFields))
+  }
+
+  private def transformWithRows(dataset: Dataset[_]): DataFrame = {
+    val inputDataFrame = dataset.toDF()
+    val outputSchema = outputSchemaWithReplacement(inputDataFrame.schema)
+    val inputIndexes = getInputCols.map(inputDataFrame.schema.fieldIndex)
+    val inputFieldNames = inputDataFrame.schema.fieldNames
+    val outputAsArrayValue = $(outputAsArray)
+    val includeMetadataValue = $(includeMetadata)
+    val parseEmbeddingsValue = $(parseEmbeddingsVectors)
+    val valueSplitSymbolValue = $(valueSplitSymbol)
+    val annotationSplitSymbolValue = $(annotationSplitSymbol)
+    val inputOutputPairs = getInputCols.zip(getOutputCols).zip(inputIndexes)
+
+    implicit val encoder: ExpressionEncoder[Row] =
+      SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
+
+    inputDataFrame
+      .mapPartitions { rows =>
+        rows.map { row =>
+          val inputValuesByName = inputFieldNames.zip(row.toSeq).toMap
+          val outputValuesByName = inputOutputPairs.foldLeft(Map.empty[String, Any]) {
+            case (outputValues, ((_, outputCol), inputIndex)) =>
+              val annotationRows = AnnotationRowUtils.extractAnnotationRows(row, inputIndex)
+              val outputValue =
+                if (outputAsArrayValue)
+                  Finisher.flattenAnnotationRowsAsArray(annotationRows, parseEmbeddingsValue)
+                else if (!includeMetadataValue)
+                  Finisher.flattenAnnotationRows(
+                    annotationRows,
+                    valueSplitSymbolValue,
+                    annotationSplitSymbolValue,
+                    parseEmbeddingsValue)
+                else
+                  Finisher.flattenAnnotationRowsDetail(
+                    annotationRows,
+                    valueSplitSymbolValue,
+                    annotationSplitSymbolValue,
+                    parseEmbeddingsValue)
+
+              val withOutput = outputValues + (outputCol -> outputValue)
+              if (outputAsArrayValue && includeMetadataValue) {
+                withOutput +
+                  (s"${outputCol}_metadata" -> Finisher.flattenAnnotationRowsMetadata(
+                    annotationRows))
+              } else {
+                withOutput
+              }
+          }
+
+          Row.fromSeq(outputSchema.fields.toIndexedSeq.map { field =>
+            outputValuesByName.getOrElse(field.name, inputValuesByName(field.name))
+          })
+        }
+      }
+      .toDF()
+  }
+
   override def transform(dataset: Dataset[_]): Dataset[Row] = {
     /*For some reason, Dataset[_] -> Dataset[Row] is not accepted through foldRight
     val flattened = getInputCols.foldRight(dataset)((inputCol, data) =>
@@ -281,35 +367,39 @@ class Finisher(override val uid: String) extends Transformer with DefaultParamsW
     require(
       getInputCols.length == getOutputCols.length,
       "inputCols and outputCols length must match")
-    val cols = getInputCols.zip(getOutputCols)
-    var flattened = dataset
-    cols.foreach { case (inputCol, outputCol) =>
-      flattened = {
-        flattened.withColumn(
-          outputCol, {
-            if ($(outputAsArray))
-              Annotation.flattenArray($(parseEmbeddingsVectors))(flattened.col(inputCol))
-            else if (! $(includeMetadata))
-              Annotation.flatten(
-                $(valueSplitSymbol),
-                $(annotationSplitSymbol),
-                $(parseEmbeddingsVectors))(flattened.col(inputCol))
-            else
-              Annotation.flattenDetail(
-                $(valueSplitSymbol),
-                $(annotationSplitSymbol),
-                $(parseEmbeddingsVectors))(flattened.col(inputCol))
-          })
-      }
-    }
-    if ($(outputAsArray) && $(includeMetadata))
+    if (isSpark4OrNewer(dataset)) {
+      transformWithRows(dataset)
+    } else {
+      val cols = getInputCols.zip(getOutputCols)
+      var flattened = dataset
       cols.foreach { case (inputCol, outputCol) =>
-        flattened = flattened.withColumn(
-          outputCol + "_metadata",
-          Annotation.flattenArrayMetadata(flattened.col(inputCol)))
+        flattened = {
+          flattened.withColumn(
+            outputCol, {
+              if ($(outputAsArray))
+                Annotation.flattenArray($(parseEmbeddingsVectors))(flattened.col(inputCol))
+              else if (! $(includeMetadata))
+                Annotation.flatten(
+                  $(valueSplitSymbol),
+                  $(annotationSplitSymbol),
+                  $(parseEmbeddingsVectors))(flattened.col(inputCol))
+              else
+                Annotation.flattenDetail(
+                  $(valueSplitSymbol),
+                  $(annotationSplitSymbol),
+                  $(parseEmbeddingsVectors))(flattened.col(inputCol))
+            })
+        }
       }
+      if ($(outputAsArray) && $(includeMetadata))
+        cols.foreach { case (inputCol, outputCol) =>
+          flattened = flattened.withColumn(
+            outputCol + "_metadata",
+            Annotation.flattenArrayMetadata(flattened.col(inputCol)))
+        }
 
-    FinisherUtil.cleaningAnnotations($(cleanAnnotations), flattened.toDF())
+      FinisherUtil.cleaningAnnotations($(cleanAnnotations), flattened.toDF())
+    }
   }
 
 }
@@ -317,4 +407,65 @@ class Finisher(override val uid: String) extends Transformer with DefaultParamsW
 /** This is the companion object of [[Finisher]]. Please refer to that class for the
   * documentation.
   */
-object Finisher extends DefaultParamsReadable[Finisher]
+object Finisher extends DefaultParamsReadable[Finisher] {
+
+  private val ResultKey = "result"
+  private val EmbeddingsKey = "embeddings"
+
+  private def annotationResult(
+      annotation: Row,
+      valueSplitSymbol: String,
+      parseEmbeddings: Boolean): String = {
+    annotation.getString(0) match {
+      case (AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS)
+          if parseEmbeddings =>
+        annotation.getSeq[Float](5).mkString(valueSplitSymbol)
+      case _ => annotation.getString(3)
+    }
+  }
+
+  private def annotationMetadata(annotation: Row): Map[String, String] =
+    annotation.getMap[String, String](4).toMap
+
+  private[nlp] def flattenAnnotationRows(
+      annotations: scala.collection.Seq[Row],
+      valueSplitSymbol: String,
+      annotationSplitSymbol: String,
+      parseEmbeddings: Boolean): String = {
+    annotations
+      .map(annotation => annotationResult(annotation, valueSplitSymbol, parseEmbeddings))
+      .mkString(annotationSplitSymbol)
+  }
+
+  private[nlp] def flattenAnnotationRowsDetail(
+      annotations: scala.collection.Seq[Row],
+      valueSplitSymbol: String,
+      annotationSplitSymbol: String,
+      parseEmbeddings: Boolean): String = {
+    annotations
+      .map { annotation =>
+        val metadataWithResult =
+          annotationMetadata(annotation) + (ResultKey -> annotation.getString(3))
+        val metadata = annotation.getString(0) match {
+          case (AnnotatorType.WORD_EMBEDDINGS | AnnotatorType.SENTENCE_EMBEDDINGS)
+              if parseEmbeddings =>
+            metadataWithResult +
+              (EmbeddingsKey -> annotation.getSeq[Float](5).mkString(valueSplitSymbol))
+          case _ => metadataWithResult
+        }
+        metadata.mkString(valueSplitSymbol).replace(" -> ", "->")
+      }
+      .mkString(annotationSplitSymbol)
+  }
+
+  private[nlp] def flattenAnnotationRowsAsArray(
+      annotations: scala.collection.Seq[Row],
+      parseEmbeddings: Boolean): scala.collection.Seq[String] = {
+    annotations.map(annotation => annotationResult(annotation, " ", parseEmbeddings))
+  }
+
+  private[nlp] def flattenAnnotationRowsMetadata(
+      annotations: scala.collection.Seq[Row]): Map[String, String] = {
+    annotations.flatMap(annotationMetadata).toMap
+  }
+}

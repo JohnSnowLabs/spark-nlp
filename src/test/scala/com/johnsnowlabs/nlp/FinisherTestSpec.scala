@@ -144,4 +144,30 @@ class FinisherTestSpec extends AnyFlatSpec {
 
   }
 
+  "A Finisher with array output and metadata" should "return metadata columns" taggedAs FastTest in {
+
+    val finisher = new Finisher()
+      .setInputCols("token", "embeddings")
+      .setOutputCols("token_out", "embeddings_out")
+      .setOutputAsArray(true)
+      .setIncludeMetadata(true)
+
+    val pipeline = new Pipeline()
+      .setStages(Array(documentAssembler, tokenizer, embeddings, finisher))
+
+    val result = pipeline.fit(data).transform(data)
+
+    assert(
+      result.columns.length == 7,
+      "because finisher did not return finished metadata columns")
+    assert(result.columns.contains("token_out_metadata"))
+    assert(result.columns.contains("embeddings_out_metadata"))
+
+    result
+      .select("token_out_metadata")
+      .collect()
+      .foreach(row => assert(row.getMap[String, String](0).nonEmpty))
+
+  }
+
 }

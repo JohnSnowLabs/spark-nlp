@@ -16,14 +16,17 @@
 package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
+import com.johnsnowlabs.nlp.util.{AnnotationRowUtils, SparkNlpConfig}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, HasOutputAnnotationCol, HasOutputAnnotatorType}
 import com.johnsnowlabs.partition._
 import com.johnsnowlabs.partition.util.PartitionHelper.isStringContent
+import com.johnsnowlabs.util.Version
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap, StringArrayParam}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
 import org.apache.spark.sql._
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
@@ -127,15 +130,62 @@ class Reader2Doc(override val uid: String)
       partitionContent(partitionBuilder, $(contentPath), isStringContent(getContentType), dataset)
     }
     if (!structuredDf.isEmpty) {
-      val annotatedDf = structuredDf
-        .withColumn(
-          getOutputCol,
-          wrapColumnMetadata(partitionToAnnotation(col("partition"), col("fileName"))))
+      val annotatedDf =
+        if (isSpark4OrNewer(structuredDf)) {
+          annotateWithRows(structuredDf)
+        } else {
+          structuredDf
+            .withColumn(
+              getOutputCol,
+              wrapColumnMetadata(partitionToAnnotation(col("partition"), col("fileName"))))
+        }
 
       afterAnnotate(annotatedDf).select("fileName", getOutputCol, "exception")
     } else {
       structuredDf
     }
+  }
+
+  private def isSpark4OrNewer(dataset: Dataset[_]): Boolean =
+    Version.parse(dataset.sparkSession.version).toFloat >= 4.0f
+
+  private def outputSchemaWithReplacement(inputSchema: StructType): StructType = {
+    val outputField =
+      StructField(getOutputCol, ArrayType(Annotation.dataType), nullable = false, columnMetadata)
+    val outputIndex = inputSchema.fields.indexWhere(_.name == getOutputCol)
+    val outputFields =
+      if (outputIndex >= 0) inputSchema.fields.updated(outputIndex, outputField)
+      else inputSchema.fields :+ outputField
+    StructType(outputFields)
+  }
+
+  private def annotateWithRows(structuredDf: DataFrame): DataFrame = {
+    val inputDataFrame = structuredDf.toDF()
+    val outputSchema = outputSchemaWithReplacement(inputDataFrame.schema)
+    val partitionIndex = inputDataFrame.schema.fieldIndex("partition")
+    val fileNameIndex = inputDataFrame.schema.fieldIndex("fileName")
+    val inputFieldNames = inputDataFrame.schema.fieldNames
+
+    implicit val encoder: ExpressionEncoder[Row] =
+      SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
+
+    inputDataFrame
+      .mapPartitions { rows =>
+        rows.map { row =>
+          val fileName = if (row.isNullAt(fileNameIndex)) null else row.getString(fileNameIndex)
+          val partitions = AnnotationRowUtils.extractAnnotationRows(row, partitionIndex).toVector
+          val annotations = partitionToAnnotations(partitions, fileName)
+          val outputRows = AnnotationRowUtils.annotationsToRows(annotations).toVector
+          val inputValuesByName = inputFieldNames.zip(row.toSeq).toMap
+          val outputValuesByName = Map(getOutputCol -> outputRows)
+
+          Row.fromSeq(outputSchema.fields.toIndexedSeq.map { field =>
+            outputValuesByName.getOrElse(field.name, inputValuesByName(field.name))
+          })
+        }
+      }
+      .toDF()
+      .withColumn(getOutputCol, wrapColumnMetadata(col(getOutputCol)))
   }
 
   protected def partitionBuilder: Partition = {
@@ -190,14 +240,20 @@ class Reader2Doc(override val uid: String)
       "Only 'plain-text' outputFormat is supported for this operation.")
   }
 
+  private[reader] def partitionToAnnotations(
+      partitions: Seq[Row],
+      fileName: String): Seq[Annotation] = {
+    if (partitions == null) Nil
+    else if ($(outputAsDocument)) {
+      mergeElementsAsDocument(partitions)
+    } else {
+      elementsAsIndividualAnnotations(partitions)
+    }
+  }
+
   def partitionToAnnotation: UserDefinedFunction = udf {
     (partitions: Seq[Row], fileName: String) =>
-      if (partitions == null) Nil
-      else if ($(outputAsDocument)) {
-        mergeElementsAsDocument(partitions)
-      } else {
-        elementsAsIndividualAnnotations(partitions)
-      }
+      partitionToAnnotations(partitions, fileName)
   }
 
   private def isTableElement(row: Row): Boolean = {

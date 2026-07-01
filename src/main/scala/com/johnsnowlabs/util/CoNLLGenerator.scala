@@ -18,7 +18,7 @@ package com.johnsnowlabs.util
 
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 
 import org.apache.commons.text.StringEscapeUtils.escapeJava
 import scala.collection.mutable.ArrayBuffer
@@ -84,7 +84,13 @@ object CoNLLGenerator {
 
     val newPOSDataset = dfWithNER
       .select("finished_token", "finished_pos", "finished_token_metadata", "finished_ner")
-      .as[(Array[String], Array[String], Array[(String, String)], Array[String])]
+      .map(row => {
+        (
+          row.getSeq[String](0).toArray,
+          row.getSeq[String](1).toArray,
+          metadataPairs(row.get(2)),
+          row.getSeq[String](3).toArray)
+      })
     val CoNLLDataset = makeConLLFormat(newPOSDataset, metadataSentenceKey)
     CoNLLDataset
       .coalesce(1)
@@ -93,6 +99,23 @@ object CoNLLGenerator {
       .format("com.databricks.spark.csv")
       .options(scala.collection.Map("delimiter" -> " ", "emptyValue" -> ""))
       .save(outputPath)
+  }
+
+  private def metadataPairs(metadata: Any): Array[(String, String)] = {
+    metadata match {
+      case metadataMap: scala.collection.Map[_, _] =>
+        metadataMap.map { case (key, value) => key.toString -> value.toString }.toArray
+      case metadataRows: scala.collection.Seq[_] =>
+        metadataRows.flatMap {
+          case row: Row if row.length >= 2 => Some(row.getString(0) -> row.getString(1))
+          case (key: String, value: String) => Some(key -> value)
+          case product: Product if product.productArity >= 2 =>
+            Some(product.productElement(0).toString -> product.productElement(1).toString)
+          case _ => None
+        }.toArray
+      case null => Array.empty[(String, String)]
+      case _ => Array.empty[(String, String)]
+    }
   }
 
   def makeConLLFormat(

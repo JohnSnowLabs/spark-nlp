@@ -28,34 +28,48 @@ import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 
 import scala.collection.mutable
+import scala.util.Try
 
 class PartitionChunker(chunkerOptions: Map[String, String]) extends Serializable {
 
+  private[partition] def chunk(elements: Seq[Row]): Seq[HTMLElement] = {
+    val htmlElements = elements.map { row =>
+      val elementType = row.getAs[String]("elementType")
+      val content = row.getAs[String]("content")
+      val metadata = Option(row.getAs[Map[String, String]]("metadata")).getOrElse(Map.empty)
+      val binaryContent = Try(Option(row.getAs[Array[Byte]]("binaryContent"))).getOrElse(None)
+      HTMLElement(elementType, content, mutable.Map.empty ++ metadata, binaryContent)
+    }.toList
+
+    val chunks = getChunkerStrategy match {
+      case "basic" => chunkBasic(htmlElements, getMaxCharacters, getNewAfterNChars, getOverlap)
+      case "byTitle" | "by_title" =>
+        chunkByTitle(
+          htmlElements,
+          getMaxCharacters,
+          getCombineTextUnderNChars,
+          getOverlap,
+          getNewAfterNChars,
+          getOverlapAll)
+      case _ =>
+        throw new IllegalArgumentException(s"Unknown chunker strategy: $getChunkerStrategy")
+    }
+
+    chunks.flatMap(_.elements)
+  }
+
+  private[partition] def chunkRows(elements: Seq[Row]): Seq[Row] = {
+    chunk(elements).map { element =>
+      Row(
+        element.elementType,
+        element.content,
+        element.metadata.toMap,
+        element.binaryContent.orNull)
+    }
+  }
+
   def chunkUDF(): UserDefinedFunction = {
-    udf((elements: Seq[Row]) => {
-      val htmlElements = elements.map { row =>
-        val elementType = row.getAs[String]("elementType")
-        val content = row.getAs[String]("content")
-        val metadata = row.getAs[Map[String, String]]("metadata")
-        HTMLElement(elementType, content, mutable.Map.empty ++ metadata)
-      }.toList
-
-      val chunks = getChunkerStrategy match {
-        case "basic" => chunkBasic(htmlElements, getMaxCharacters, getNewAfterNChars, getOverlap)
-        case "byTitle" | "by_title" =>
-          chunkByTitle(
-            htmlElements,
-            getMaxCharacters,
-            getCombineTextUnderNChars,
-            getOverlap,
-            getNewAfterNChars,
-            getOverlapAll)
-        case _ =>
-          throw new IllegalArgumentException(s"Unknown chunker strategy: $getChunkerStrategy")
-      }
-
-      chunks.flatMap(_.elements)
-    })
+    udf((elements: Seq[Row]) => chunk(elements))
   }
 
   private def getMaxCharacters: Int = {

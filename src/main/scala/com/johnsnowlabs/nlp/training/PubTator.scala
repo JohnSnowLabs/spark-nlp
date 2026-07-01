@@ -17,8 +17,11 @@
 package com.johnsnowlabs.nlp.training
 
 import com.johnsnowlabs.nlp.annotator.{PerceptronModel, SentenceDetector, Tokenizer}
+import com.johnsnowlabs.nlp.util.{AnnotationRowUtils, SparkNlpConfig}
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DocumentAssembler, Finisher}
+import com.johnsnowlabs.util.Version
 import org.apache.spark.ml.Pipeline
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
@@ -46,6 +49,75 @@ import org.apache.spark.sql.{DataFrame, Row, SparkSession}
   * }}}
   */
 case class PubTator() {
+
+  private def isSpark4OrNewer(spark: SparkSession): Boolean =
+    Version.parse(spark.version).toFloat >= 4.0f
+
+  private def iobTaggingAnnotations(
+      tokens: scala.collection.Seq[Row],
+      chunkLabels: scala.collection.Seq[Row],
+      isPaddedToken: Boolean): Seq[Annotation] = {
+    val tokenAnnotations = tokens.map(Annotation(_))
+    val labelAnnotations = chunkLabels.map(Annotation(_))
+    tokenAnnotations
+      .map(ta => {
+        val tokenLabel = labelAnnotations.find(la => la.begin <= ta.begin && la.end >= ta.end)
+        val tokenTag = {
+          if (tokenLabel.isEmpty) "O"
+          else {
+            val tokenCSV = tokenLabel.get.metadata("entity")
+            if (tokenCSV == "UnknownType") "O"
+            else {
+              val tokenPrefix = if (ta.begin == tokenLabel.get.begin) "B-" else "I-"
+              val token = if (isPaddedToken) {
+                "T" + "%03d".format(tokenCSV.split(",")(0).slice(1, 4).toInt)
+              } else tokenCSV
+              tokenPrefix + token
+            }
+          }
+        }
+
+        Annotation(
+          AnnotatorType.NAMED_ENTITY,
+          ta.begin,
+          ta.end,
+          tokenTag,
+          Map("word" -> ta.result))
+      })
+      .toSeq
+  }
+
+  private def tagWithRows(
+      alignedDf: DataFrame,
+      labelMeta: Metadata,
+      isPaddedToken: Boolean): DataFrame = {
+    val inputDataFrame = alignedDf.toDF()
+    val outputSchema = StructType(
+      inputDataFrame.schema.fields :+
+        StructField("label", Annotation.arrayType, nullable = true, labelMeta))
+    val tokenIndex = inputDataFrame.schema.fieldIndex("token")
+    val chunkIndex = inputDataFrame.schema.fieldIndex("chunk")
+
+    implicit val encoder: ExpressionEncoder[Row] =
+      SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
+
+    val mappedDataFrame = inputDataFrame
+      .mapPartitions { rows =>
+        rows.map { row =>
+          val tokens = AnnotationRowUtils.extractAnnotationRows(row, tokenIndex)
+          val chunkLabels = AnnotationRowUtils.extractAnnotationRows(row, chunkIndex)
+          val labelRows = AnnotationRowUtils
+            .annotationsToRows(iobTaggingAnnotations(tokens, chunkLabels, isPaddedToken))
+            .toVector
+          Row.fromSeq(row.toSeq :+ labelRows)
+        }
+      }
+      .toDF()
+
+    outputSchema.fields.foldLeft(mappedDataFrame)((dataFrame, field) => {
+      dataFrame.withColumn(field.name, dataFrame.col(field.name).as(field.name, field.metadata))
+    })
+  }
 
   def readDataset(spark: SparkSession, path: String, isPaddedToken: Boolean = true): DataFrame = {
     val pubtator = spark.sparkContext.textFile(path)
@@ -89,37 +161,18 @@ case class PubTator() {
     val alignedDf =
       nlpDf.join(annDf, Seq("doc_id")).selectExpr("doc_id", "sentence", "token", "chunk")
     val iobTagging = udf((tokens: Seq[Row], chunkLabels: Seq[Row]) => {
-      val tokenAnnotations = tokens.map(Annotation(_))
-      val labelAnnotations = chunkLabels.map(Annotation(_))
-      tokenAnnotations.map(ta => {
-        val tokenLabel = labelAnnotations.find(la => la.begin <= ta.begin && la.end >= ta.end)
-        val tokenTag = {
-          if (tokenLabel.isEmpty) "O"
-          else {
-            val tokenCSV = tokenLabel.get.metadata("entity")
-            if (tokenCSV == "UnknownType") "O"
-            else {
-              val tokenPrefix = if (ta.begin == tokenLabel.get.begin) "B-" else "I-"
-              val token = if (isPaddedToken) {
-                "T" + "%03d".format(tokenCSV.split(",")(0).slice(1, 4).toInt)
-              } else tokenCSV
-              tokenPrefix + token
-            }
-          }
-        }
-
-        Annotation(
-          AnnotatorType.NAMED_ENTITY,
-          ta.begin,
-          ta.end,
-          tokenTag,
-          Map("word" -> ta.result))
-      })
+      iobTaggingAnnotations(tokens, chunkLabels, isPaddedToken)
     })
     val labelMeta =
       new MetadataBuilder().putString("annotatorType", AnnotatorType.NAMED_ENTITY).build()
     val taggedDf =
-      alignedDf.withColumn("label", iobTagging(col("token"), col("chunk")).as("label", labelMeta))
+      if (isSpark4OrNewer(spark)) {
+        tagWithRows(alignedDf, labelMeta, isPaddedToken)
+      } else {
+        alignedDf.withColumn(
+          "label",
+          iobTagging(col("token"), col("chunk")).as("label", labelMeta))
+      }
 
     val pos =
       PerceptronModel.pretrained().setInputCols(Array("sentence", "token")).setOutputCol("pos")

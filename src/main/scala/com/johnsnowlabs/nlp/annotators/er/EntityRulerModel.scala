@@ -68,7 +68,7 @@ class EntityRulerModel(override val uid: String)
   def this() = this(Identifiable.randomUID("ENTITY_RULER_MODEL"))
 
   @transient
-  private val logger: Logger = LoggerFactory.getLogger("EntityRulerModel")
+  private lazy val logger: Logger = LoggerFactory.getLogger("EntityRulerModel")
 
   // Keeping this parameter for backward compatibility
   private[er] val enablePatternRegex =

@@ -16,8 +16,11 @@
 
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.nlp.util.{AnnotationRowUtils, SparkNlpConfig}
+import com.johnsnowlabs.util.Version
 import org.apache.spark.ml.param.{BooleanParam, Param}
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.functions.{col, udf}
 import org.apache.spark.sql.types.{ArrayType, StringType, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
@@ -286,7 +289,7 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk] {
       ._2
   }
 
-  private def convertDocumentToChunk = udf { document: Seq[Row] =>
+  private def convertDocumentToChunkAnnotations(document: Seq[Row]): Seq[Annotation] = {
     val annotations = document.map(Annotation(_))
     annotations.map { annotation =>
       Annotation(
@@ -298,7 +301,9 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk] {
     }
   }
 
-  private def assembleChunks = udf { (annotationProperties: Seq[Row], chunks: Seq[String]) =>
+  private def assembleChunksAnnotations(
+      annotationProperties: Seq[Row],
+      chunks: Seq[String]): Seq[Annotation] = {
     val annotations = annotationProperties.map(Annotation(_))
     annotations.flatMap(annotation => {
       chunks.zipWithIndex.flatMap { case (chunk, idx) =>
@@ -307,26 +312,94 @@ class Doc2Chunk(override val uid: String) extends RawAnnotator[Doc2Chunk] {
     })
   }
 
-  private def assembleChunk = udf { (annotationProperties: Seq[Row], chunk: String) =>
+  private def assembleChunkAnnotations(
+      annotationProperties: Seq[Row],
+      chunk: String): Seq[Annotation] = {
     val annotations = annotationProperties.map(Annotation(_))
     annotations.flatMap(annotation => {
       buildFromChunk(annotation, chunk, 0, 0)
     })
   }
 
+  private def assembleChunkWithStartAnnotations(
+      annotationProperties: Seq[Row],
+      chunk: String,
+      start: Int): Seq[Annotation] = {
+    val annotations = annotationProperties.map(Annotation(_))
+    annotations.flatMap(annotation => {
+      if ($(startColByTokenIndex))
+        buildFromChunk(annotation, chunk, tokenIndexToCharIndex(annotation.result, start), 0)
+      else
+        buildFromChunk(annotation, chunk, start, 0)
+    })
+  }
+
+  private def convertDocumentToChunk = udf { document: Seq[Row] =>
+    convertDocumentToChunkAnnotations(document)
+  }
+
+  private def assembleChunks = udf { (annotationProperties: Seq[Row], chunks: Seq[String]) =>
+    assembleChunksAnnotations(annotationProperties, chunks)
+  }
+
+  private def assembleChunk = udf { (annotationProperties: Seq[Row], chunk: String) =>
+    assembleChunkAnnotations(annotationProperties, chunk)
+  }
+
   private def assembleChunkWithStart = udf {
     (annotationProperties: Seq[Row], chunk: String, start: Int) =>
-      val annotations = annotationProperties.map(Annotation(_))
-      annotations.flatMap(annotation => {
-        if ($(startColByTokenIndex))
-          buildFromChunk(annotation, chunk, tokenIndexToCharIndex(annotation.result, start), 0)
-        else
-          buildFromChunk(annotation, chunk, start, 0)
+      assembleChunkWithStartAnnotations(annotationProperties, chunk, start)
+  }
+
+  private def isSpark4OrNewer(dataset: Dataset[_]): Boolean =
+    Version.parse(dataset.sparkSession.version).toFloat >= 4.0f
+
+  private def transformWithRows(dataset: Dataset[_]): DataFrame = {
+    val inputDataFrame = dataset.toDF()
+    val outputSchema = inputDataFrame.schema.add($(outputCol), Annotation.arrayType)
+    val documentIndex = inputDataFrame.schema.fieldIndex(getInputCols.head)
+    val chunkIndex = get(chunkCol).map(inputDataFrame.schema.fieldIndex)
+    val startIndex = get(startCol).map(inputDataFrame.schema.fieldIndex)
+
+    implicit val encoder: ExpressionEncoder[Row] =
+      SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
+
+    val mappedDataFrame = inputDataFrame.mapPartitions { rows =>
+      rows.map { row =>
+        val annotationProperties =
+          AnnotationRowUtils.extractAnnotationRows(row, documentIndex).toVector
+
+        val outputAnnotations =
+          if (get(chunkCol).isEmpty) {
+            convertDocumentToChunkAnnotations(annotationProperties)
+          } else if ($(isArray)) {
+            assembleChunksAnnotations(annotationProperties, row.getSeq[String](chunkIndex.get))
+          } else if (startIndex.isDefined) {
+            assembleChunkWithStartAnnotations(
+              annotationProperties,
+              row.getString(chunkIndex.get),
+              row.getInt(startIndex.get))
+          } else {
+            assembleChunkAnnotations(annotationProperties, row.getString(chunkIndex.get))
+          }
+
+        Row.fromSeq(row.toSeq :+ AnnotationRowUtils.annotationsToRows(outputAnnotations).toVector)
+      }
+    }
+
+    val withInputMetadata = inputDataFrame.schema.fields
+      .filter(field => mappedDataFrame.columns.contains(field.name))
+      .foldLeft(mappedDataFrame)((dataFrame, field) => {
+        dataFrame.withColumn(field.name, dataFrame.col(field.name).as(field.name, field.metadata))
       })
+
+    withInputMetadata.withColumn($(outputCol), wrapColumnMetadata(col($(outputCol))))
   }
 
   override def transform(dataset: Dataset[_]): DataFrame = {
-    if (get(chunkCol).isEmpty)
+    if (isSpark4OrNewer(dataset)) {
+      transformWithRows(dataset)
+    } else if (get(chunkCol).isEmpty)
       dataset.withColumn(
         $(outputCol),
         wrapColumnMetadata(convertDocumentToChunk(col(getInputCols.head))))

@@ -16,6 +16,25 @@ import com.johnsnowlabs.util.TestUtils.captureOutput
 import scala.collection.mutable
 import scala.util.{Failure, Success, Try}
 
+class MockWordEmbeddingsModel(embeddingsModel: WordEmbeddingsModel) extends WordEmbeddingsModel {
+
+  setDimension(embeddingsModel.getDimension)
+  setInputCols(embeddingsModel.getInputCols)
+  setOutputCol(embeddingsModel.getOutputCol)
+  setStorageRef(embeddingsModel.getStorageRef)
+
+  override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
+    throw new AssertionError("Embeddings should not be evaluated.")
+  }
+}
+
+class MockNerDLApproach extends NerDLApproach {
+  override def beforeTraining(spark: SparkSession): Unit = {
+    throw new AssertionError(
+      "Should not be called during this test. The graph should've been checked and an exception thrown before.")
+  }
+}
+
 class NerDLGraphCheckerTestSpec extends AnyFlatSpec with BeforeAndAfterEach {
 
   lazy private val conll = CoNLL(explodeSentences = false)
@@ -30,19 +49,6 @@ class NerDLGraphCheckerTestSpec extends AnyFlatSpec with BeforeAndAfterEach {
     nerDLGraphChecker
   }
 
-  class MockWordEmbeddingsModel(val embeddingsModel: WordEmbeddingsModel)
-      extends WordEmbeddingsModel {
-
-    setDimension(embeddingsModel.getDimension)
-    setInputCols(embeddingsModel.getInputCols)
-    setOutputCol(embeddingsModel.getOutputCol)
-    setStorageRef(embeddingsModel.getStorageRef)
-
-    override def annotate(annotations: Seq[Annotation]): Seq[Annotation] = {
-      fail("Embeddings should not be evaluated.")
-    }
-  }
-
   lazy private val originalEmbeddings = AnnotatorBuilder.getGLoveEmbeddings(testingData.toDF())
   lazy private val embeddings = new MockWordEmbeddingsModel(originalEmbeddings)
 
@@ -54,13 +60,6 @@ class NerDLGraphCheckerTestSpec extends AnyFlatSpec with BeforeAndAfterEach {
       .setOutputCol("embeddings")
       .setStorageRef("embeddings_ner_100_invalid")
       .fit(testingData))
-
-  class MockNerDLApproach extends NerDLApproach {
-    override def beforeTraining(spark: SparkSession): Unit = {
-      fail(
-        "Should not be called during this test. The graph should've been checked and an exception thrown before.")
-    }
-  }
 
   lazy val mockNer: NerDLApproach = new MockNerDLApproach()
     .setInputCols("sentence", "token", "embeddings")
@@ -83,7 +82,7 @@ class NerDLGraphCheckerTestSpec extends AnyFlatSpec with BeforeAndAfterEach {
   it should "find the right graphs" taggedAs FastTest in {
     val nerDLGraphChecker = getGraphChecker(embeddings)
 
-    val pipeline = new Pipeline().setStages(Array(embeddings, nerDLGraphChecker))
+    val pipeline = new Pipeline().setStages(Array(nerDLGraphChecker, embeddings))
 
     val output = captureOutput {
       pipeline.fit(testingData)
@@ -96,7 +95,7 @@ class NerDLGraphCheckerTestSpec extends AnyFlatSpec with BeforeAndAfterEach {
   it should "throw an exception if the graph is not found" taggedAs FastTest in {
     val nerDLGraphChecker = getGraphChecker(embeddingsInvalid)
 
-    val invalidPipeline = new Pipeline().setStages(Array(embeddingsInvalid, nerDLGraphChecker))
+    val invalidPipeline = new Pipeline().setStages(Array(nerDLGraphChecker, embeddingsInvalid))
 
     Try {
       invalidPipeline.fit(testingData)
@@ -128,7 +127,7 @@ class NerDLGraphCheckerTestSpec extends AnyFlatSpec with BeforeAndAfterEach {
     val nerDLGraphChecker: NerDLGraphChecker = getGraphChecker(embeddingsInvalid)
 
     val invalidPipeline =
-      new Pipeline().setStages(Array(embeddingsInvalid, nerDLGraphChecker, mockNer))
+      new Pipeline().setStages(Array(nerDLGraphChecker, embeddingsInvalid, mockNer))
 
     Try {
       invalidPipeline.fit(testingData)
@@ -197,7 +196,7 @@ class NerDLGraphCheckerTestSpec extends AnyFlatSpec with BeforeAndAfterEach {
   it should "fill column metadata with extracted params" taggedAs FastTest in {
     val embeddings = AnnotatorBuilder.getGLoveEmbeddings(testingData.toDF())
     val nerDLGraphChecker = getGraphChecker(embeddings)
-    val pipeline = new Pipeline().setStages(Array(embeddings, nerDLGraphChecker))
+    val pipeline = new Pipeline().setStages(Array(nerDLGraphChecker, embeddings))
     val fitted = pipeline.fit(testingData)
     val result = fitted.transform(testingData)
 

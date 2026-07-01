@@ -17,13 +17,15 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.nlp.AnnotatorType.NODE
-import com.johnsnowlabs.nlp.util.FinisherUtil
+import com.johnsnowlabs.nlp.util.{AnnotationRowUtils, FinisherUtil, SparkNlpConfig}
+import com.johnsnowlabs.util.Version
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
-import org.apache.spark.sql.types.StructType
+import org.apache.spark.sql.types.{ArrayType, StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
 
 /** Helper class to convert the knowledge graph from GraphExtraction into a generic format, such
@@ -158,19 +160,90 @@ class GraphFinisher(override val uid: String) extends Transformer {
   private val METADATA_STRUCT_INDEX = 4
 
   override def transform(dataset: Dataset[_]): DataFrame = {
-    var flattenedDataSet = dataset.withColumn(
-      $(outputCol), {
-        if ($(outputAsArray)) flattenPathsAsArray(dataset.col($(inputCol)))
-        else flattenPaths(dataset.col($(inputCol)))
-      })
+    if (isSpark4OrNewer(dataset)) {
+      transformWithRows(dataset)
+    } else {
+      var flattenedDataSet = dataset.withColumn(
+        $(outputCol), {
+          if ($(outputAsArray)) flattenPathsAsArray(dataset.col($(inputCol)))
+          else flattenPaths(dataset.col($(inputCol)))
+        })
+
+      if ($(includeMetadata)) {
+        flattenedDataSet = flattenedDataSet.withColumn(
+          $(outputCol) + "_metadata",
+          flattenMetadata(dataset.col($(inputCol))))
+      }
+
+      FinisherUtil.cleaningAnnotations($(cleanAnnotations), flattenedDataSet)
+    }
+  }
+
+  private def isSpark4OrNewer(dataset: Dataset[_]): Boolean =
+    Version.parse(dataset.sparkSession.version).toFloat >= 4.0f
+
+  private def outputSchemaWithReplacement(inputSchema: StructType): StructType = {
+    val outputField =
+      if ($(outputAsArray))
+        StructField(
+          getOutputCol,
+          ArrayType(ArrayType(ArrayType(StringType, containsNull = true), containsNull = true)),
+          nullable = false)
+      else
+        StructField(
+          getOutputCol,
+          ArrayType(ArrayType(StringType, containsNull = true), containsNull = true),
+          nullable = true)
+
+    var outputFields = inputSchema.fields
+    val outputIndex = outputFields.indexWhere(_.name == outputField.name)
+    outputFields =
+      if (outputIndex >= 0) outputFields.updated(outputIndex, outputField)
+      else outputFields :+ outputField
 
     if ($(includeMetadata)) {
-      flattenedDataSet = flattenedDataSet.withColumn(
-        $(outputCol) + "_metadata",
-        flattenMetadata(dataset.col($(inputCol))))
+      val metadataField =
+        StructField(getOutputCol + "_metadata", ArrayType(StringType), nullable = false)
+      val metadataIndex = outputFields.indexWhere(_.name == metadataField.name)
+      outputFields =
+        if (metadataIndex >= 0) outputFields.updated(metadataIndex, metadataField)
+        else outputFields :+ metadataField
     }
 
-    FinisherUtil.cleaningAnnotations($(cleanAnnotations), flattenedDataSet)
+    StructType(FinisherUtil.getCleanFields($(cleanAnnotations), outputFields))
+  }
+
+  private def transformWithRows(dataset: Dataset[_]): DataFrame = {
+    val inputDataFrame = dataset.toDF()
+    val outputSchema = outputSchemaWithReplacement(inputDataFrame.schema)
+    val inputIndex = inputDataFrame.schema.fieldIndex(getInputCol)
+    val inputFieldNames = inputDataFrame.schema.fieldNames
+
+    implicit val encoder: ExpressionEncoder[Row] =
+      SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
+
+    inputDataFrame
+      .mapPartitions { rows =>
+        rows.map { row =>
+          val annotationRows = AnnotationRowUtils.extractAnnotationRows(row, inputIndex)
+          val inputValuesByName = inputFieldNames.zip(row.toSeq).toMap
+          val outputValue =
+            if ($(outputAsArray)) flattenPathRowsAsArray(annotationRows)
+            else flattenPathRows(annotationRows)
+          val baseValues = Map(getOutputCol -> outputValue)
+          val outputValuesByName =
+            if ($(includeMetadata)) {
+              baseValues + (getOutputCol + "_metadata" -> flattenMetadataRows(annotationRows))
+            } else {
+              baseValues
+            }
+
+          Row.fromSeq(outputSchema.fields.toIndexedSeq.map { field =>
+            outputValuesByName.getOrElse(field.name, inputValuesByName(field.name))
+          })
+        }
+      }
+      .toDF()
   }
 
   private def buildPathsAsArray(metadata: Map[String, String]): List[List[List[String]]] = {
@@ -207,22 +280,35 @@ class GraphFinisher(override val uid: String) extends Transformer {
   }
 
   private def flattenPathsAsArray: UserDefinedFunction = udf { annotations: Seq[Row] =>
-    annotations.flatMap { row =>
-      val metadata = row.getMap[String, String](METADATA_STRUCT_INDEX)
-      val pathsInRDFFormat = buildPathsAsArray(metadata.toMap)
-      pathsInRDFFormat
-    }
+    flattenPathRowsAsArray(annotations)
   }
 
   private def flattenPaths: UserDefinedFunction = udf { annotations: Seq[Row] =>
-    annotations.flatMap { row =>
-      val metadata = row.getMap[String, String](METADATA_STRUCT_INDEX)
-      val pathsInRDFFormat = buildPaths(metadata.toMap)
-      pathsInRDFFormat
-    }
+    flattenPathRows(annotations)
   }
 
   private def flattenMetadata: UserDefinedFunction = udf { annotations: Seq[Row] =>
+    flattenMetadataRows(annotations)
+  }
+
+  private def flattenPathRowsAsArray(
+      annotations: scala.collection.Seq[Row]): scala.collection.Seq[List[List[String]]] = {
+    annotations.flatMap { row =>
+      val metadata = row.getMap[String, String](METADATA_STRUCT_INDEX)
+      buildPathsAsArray(metadata.toMap)
+    }
+  }
+
+  private def flattenPathRows(
+      annotations: scala.collection.Seq[Row]): scala.collection.Seq[List[String]] = {
+    annotations.flatMap { row =>
+      val metadata = row.getMap[String, String](METADATA_STRUCT_INDEX)
+      buildPaths(metadata.toMap)
+    }
+  }
+
+  private def flattenMetadataRows(
+      annotations: scala.collection.Seq[Row]): scala.collection.Seq[String] = {
     annotations.flatMap { row =>
       val metadata = row.getMap[String, String](4)
       val relationships = metadata.flatMap { case (key, value) =>

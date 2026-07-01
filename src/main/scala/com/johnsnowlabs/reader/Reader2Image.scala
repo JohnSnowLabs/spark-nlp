@@ -17,6 +17,7 @@ package com.johnsnowlabs.reader
 
 import com.johnsnowlabs.nlp.AnnotatorType.IMAGE
 import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
+import com.johnsnowlabs.nlp.util.{AnnotationRowUtils, SparkNlpConfig}
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{
   Annotation,
@@ -32,9 +33,11 @@ import com.johnsnowlabs.partition.util.PartitionHelper.{
 }
 import com.johnsnowlabs.partition.{HasBinaryReaderProperties, Partition}
 import com.johnsnowlabs.reader.util.{ImageParser, ImagePromptTemplate}
+import com.johnsnowlabs.util.Version
 import org.apache.spark.ml.Transformer
 import org.apache.spark.ml.param.{BooleanParam, Param, ParamMap}
 import org.apache.spark.ml.util.{DefaultParamsReadable, DefaultParamsWritable, Identifiable}
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
@@ -162,10 +165,16 @@ class Reader2Image(override val uid: String)
     }
 
     val resultDf = if (!structuredDf.isEmpty) {
-      val annotatedDf = structuredDf
-        .withColumn(
-          getOutputCol,
-          wrapColumnMetadata(partitionToAnnotation(col(partition.getOutputColumn), col("path"))))
+      val annotatedDf =
+        if (isSpark4OrNewer(structuredDf)) {
+          annotateWithRows(structuredDf, partition.getOutputColumn)
+        } else {
+          structuredDf
+            .withColumn(
+              getOutputCol,
+              wrapColumnMetadata(
+                partitionToAnnotation(col(partition.getOutputColumn), col("path"))))
+        }
 
       afterAnnotate(annotatedDf).select("fileName", getOutputCol, "exception")
     } else {
@@ -179,6 +188,52 @@ class Reader2Image(override val uid: String)
           buildPromptAnnotationUdf(element_at(col(getOutputCol), 1)("text"))))
     } else resultDf
 
+  }
+
+  private def isSpark4OrNewer(dataset: Dataset[_]): Boolean =
+    Version.parse(dataset.sparkSession.version).toFloat >= 4.0f
+
+  private def outputSchemaWithReplacement(inputSchema: StructType): StructType = {
+    val outputField =
+      StructField(
+        getOutputCol,
+        ArrayType(AnnotationImage.dataType),
+        nullable = false,
+        columnMetadata)
+    val outputIndex = inputSchema.fields.indexWhere(_.name == getOutputCol)
+    val outputFields =
+      if (outputIndex >= 0) inputSchema.fields.updated(outputIndex, outputField)
+      else inputSchema.fields :+ outputField
+    StructType(outputFields)
+  }
+
+  private def annotateWithRows(structuredDf: DataFrame, partitionCol: String): DataFrame = {
+    val inputDataFrame = structuredDf.toDF()
+    val outputSchema = outputSchemaWithReplacement(inputDataFrame.schema)
+    val partitionIndex = inputDataFrame.schema.fieldIndex(partitionCol)
+    val pathIndex = inputDataFrame.schema.fieldIndex("path")
+    val inputFieldNames = inputDataFrame.schema.fieldNames
+
+    implicit val encoder: ExpressionEncoder[Row] =
+      SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
+
+    inputDataFrame
+      .mapPartitions { rows =>
+        rows.map { row =>
+          val path = if (row.isNullAt(pathIndex)) null else row.getString(pathIndex)
+          val partitions = AnnotationRowUtils.extractAnnotationRows(row, partitionIndex).toVector
+          val annotations = partitionToAnnotations(partitions, path)
+          val outputRows = AnnotationRowUtils.annotationImagesToRows(annotations).toVector
+          val inputValuesByName = inputFieldNames.zip(row.toSeq).toMap
+          val outputValuesByName = Map(getOutputCol -> outputRows)
+
+          Row.fromSeq(outputSchema.fields.toIndexedSeq.map { field =>
+            outputValuesByName.getOrElse(field.name, inputValuesByName(field.name))
+          })
+        }
+      }
+      .toDF()
+      .withColumn(getOutputCol, wrapColumnMetadata(col(getOutputCol)))
   }
 
   override def partitionContent(
@@ -226,19 +281,17 @@ class Reader2Image(override val uid: String)
 
       import org.apache.spark.sql.functions._
 
+      val errorMessages = org.apache.spark.sql.functions.transform(
+        filter(col(partition.getOutputColumn), x => x.getField("elementType") === lit("Error")),
+        x => x.getField("content"))
+
       val dfWithException = datasetWithBinaryFile(dataset.sparkSession, contentPath)
         .withColumn(partition.getOutputColumn, partitionUDF(col("content")))
         .withColumn("fileName", getFileName(col("path")))
         .withColumn(
           "exception",
-          element_at(
-            org.apache.spark.sql.functions.transform(
-              filter(
-                col(partition.getOutputColumn),
-                x => x.getField("elementType") === lit("Error")),
-              x => x.getField("content")),
-            1 // Spark arrays are 1-based
-          ))
+          when(size(errorMessages) > 0, element_at(errorMessages, 1)).otherwise(
+            lit(null: String)))
         .drop("content")
 
       dfWithException
@@ -267,9 +320,14 @@ class Reader2Image(override val uid: String)
     "gif" -> ("image/raw", false),
     "pdf" -> ("application/pdf", false))
 
+  private[reader] def partitionToAnnotations(
+      partitions: Seq[Row],
+      path: String): Seq[AnnotationImage] = {
+    if (partitions == null) Nil else elementsAsIndividualAnnotations(partitions, path)
+  }
+
   def partitionToAnnotation: UserDefinedFunction = {
-    udf((partitions: Seq[Row], path: String) =>
-      elementsAsIndividualAnnotations(partitions, path: String))
+    udf((partitions: Seq[Row], path: String) => partitionToAnnotations(partitions, path))
   }
 
   private def elementsAsIndividualAnnotations(

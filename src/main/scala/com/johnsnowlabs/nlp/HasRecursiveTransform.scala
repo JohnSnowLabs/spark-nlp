@@ -21,15 +21,23 @@ import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.{DataFrame, Dataset}
 
+import scala.collection.immutable
+
 trait HasRecursiveTransform[M <: Model[M]] {
 
   this: AnnotatorModel[M] =>
 
   def annotate(annotations: Seq[Annotation], recursivePipeline: PipelineModel): Seq[Annotation]
 
+  private[nlp] def recAnnotateColumnGroups(
+      annotationProperties: immutable.Seq[AnnotationContent],
+      recursivePipeline: PipelineModel): immutable.Seq[Annotation] = {
+    annotate(annotationProperties.flatMap(_.map(Annotation(_))), recursivePipeline)
+  }
+
   def dfRecAnnotate(recursivePipeline: PipelineModel): UserDefinedFunction = udf {
-    annotationProperties: Seq[AnnotationContent] =>
-      annotate(annotationProperties.flatMap(_.map(Annotation(_))), recursivePipeline)
+    annotationProperties: immutable.Seq[AnnotationContent] =>
+      recAnnotateColumnGroups(annotationProperties, recursivePipeline)
   }
 
   def recursiveTransform(dataset: Dataset[_], recursivePipeline: PipelineModel): DataFrame = {

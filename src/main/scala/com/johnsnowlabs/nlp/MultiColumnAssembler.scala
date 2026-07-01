@@ -22,6 +22,8 @@ import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types.StructType
 
+import scala.collection.immutable
+
 /** Merges multiple annotation columns into a single annotation column.
   *
   * This is useful when multiple annotators produce separate annotation columns (e.g.,
@@ -200,23 +202,27 @@ class MultiColumnAssembler(override val uid: String)
     * per-column annotation sequences with `getInputCols` to tag each annotation's metadata with
     * its true `source_column` name.
     */
-  override def dfAnnotate: UserDefinedFunction = {
+  override private[nlp] def annotateColumnGroups(
+      annotationProperties: immutable.Seq[AnnotationContent]): immutable.Seq[Annotation] = {
     val inputCols = getInputCols
     val targetType = $(outputAsAnnotatorType)
     val doSort = $(sortByBegin)
 
-    udf { annotationProperties: Seq[AnnotationContent] =>
-      val merged = annotationProperties.zip(inputCols).flatMap { case (colAnnotations, colName) =>
-        colAnnotations.map { row =>
-          val annotation = Annotation(row)
-          annotation.copy(
-            annotatorType = targetType,
-            metadata = annotation.metadata + ("source_column" -> colName))
-        }
+    val merged = annotationProperties.zip(inputCols).flatMap { case (colAnnotations, colName) =>
+      colAnnotations.map { row =>
+        val annotation = Annotation(row)
+        annotation.copy(
+          annotatorType = targetType,
+          metadata = annotation.metadata + ("source_column" -> colName))
       }
-      if (doSort) merged.sortBy(_.begin)
-      else merged
     }
+    if (doSort) merged.sortBy(_.begin)
+    else merged
+  }
+
+  override def dfAnnotate: UserDefinedFunction = udf {
+    annotationProperties: immutable.Seq[AnnotationContent] =>
+      annotateColumnGroups(annotationProperties)
   }
 
 }
