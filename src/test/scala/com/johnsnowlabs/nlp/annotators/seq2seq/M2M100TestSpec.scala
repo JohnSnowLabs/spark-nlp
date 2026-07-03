@@ -36,7 +36,7 @@ class M2M100TestSpec extends AnyFlatSpec {
       .setOutputCol("documents")
 
     val m2m100 = M2M100Transformer
-      .loadSavedModel("1", ResourceHelper.spark)
+      .pretrained()
       .setInputCols(Array("documents"))
       .setSrcLang("zh")
       .setTgtLang("en")
