@@ -122,7 +122,7 @@ class MarianTransformerTestSpec extends AnyFlatSpec {
       .setOutputCol("sentence")
 
     val marian = MarianTransformer
-      .loadSavedModel("1", ResourceHelper.spark)
+      .pretrained()
       .setInputCols("document")
       .setOutputCol("translation")
       .setMaxInputLength(512)
