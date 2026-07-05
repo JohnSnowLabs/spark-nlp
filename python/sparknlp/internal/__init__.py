@@ -105,6 +105,15 @@ class _BertSequenceClassifierLoader(ExtendedJavaWrapper):
         )
 
 
+class _CrossEncoderForSequenceClassificationLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CrossEncoderForSequenceClassificationLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoderForSequenceClassification.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
 class _BertTokenClassifierLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_BertTokenClassifierLoader, self).__init__(
