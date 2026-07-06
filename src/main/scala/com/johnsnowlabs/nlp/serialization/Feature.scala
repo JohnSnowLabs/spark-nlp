@@ -32,13 +32,18 @@ import java.io.ObjectStreamClass
 import scala.reflect.ClassTag
 import scala.util.{Failure, Success, Using}
 
+private[serialization] object Feature {
+  val NoOpLegacyClassResolver: ObjectStreamClass => ObjectStreamClass =
+    (_: ObjectStreamClass) => null
+}
+
 abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
-    model: HasFeatures,
+    @transient private val model: HasFeatures,
     val name: String)
     extends Serializable {
   model.features.append(this)
 
-  private val spark: SparkSession = ResourceHelper.spark
+  @transient private val spark: SparkSession = ResourceHelper.spark
   protected lazy val logger: Logger = LoggerFactory.getLogger(s"${this.getClass.getName}-$name")
 
   val serializationMode: String =
@@ -190,6 +195,8 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
   protected def deserializeWithFallback[ObjectType: ClassTag](
       spark: SparkSession,
       path: String): RDD[ObjectType] = {
+    val legacyClassResolver = Feature.NoOpLegacyClassResolver
+
     spark.sparkContext
       .sequenceFile(
         path,
@@ -211,7 +218,7 @@ abstract class Feature[Serializable1, Serializable2, TComplete: ClassTag](
           case _: java.lang.reflect.InvocationTargetException =>
             LegacyObjectInputStream.deserializeArray[ObjectType](
               x._2.getBytes,
-              resolveCustomDescriptor = resolveCustomLegacyClasses)
+              resolveCustomDescriptor = legacyClassResolver)
         })
   }
 }

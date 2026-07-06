@@ -35,8 +35,6 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
       model,
       name) {
 
-  implicit val encoder: Encoder[SpecialClassParser] = Encoders.kryo[SpecialClassParser]
-
   override def serializeObject(
       spark: SparkSession,
       path: String,
@@ -69,7 +67,7 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
       var result = Seq[SpecialClassParser]()
       elements.foreach { element =>
         val path = element.getPath()
-        val sc = spark.sparkContext.objectFile[SpecialClassParser](path.toString).collect().head
+        val sc = deserializeWithFallback[SpecialClassParser](spark, path.toString).collect().head
         result = result :+ sc
       }
 
@@ -106,6 +104,7 @@ class TransducerSeqFeature(model: HasFeatures, override val name: String)
       spark: SparkSession,
       path: String,
       field: String): Option[Seq[SpecialClassParser]] = {
+    implicit val encoder: Encoder[SpecialClassParser] = Encoders.kryo[SpecialClassParser]
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs: FileSystem = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val dataPath = getFieldPath(path, field)

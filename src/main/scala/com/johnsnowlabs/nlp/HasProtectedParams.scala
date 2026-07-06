@@ -2,6 +2,8 @@ package com.johnsnowlabs.nlp
 
 import org.apache.spark.ml.param.{Param, Params}
 
+import scala.reflect.ClassTag
+
 /** Enables a class to protect a parameter, which means that it can only be set once.
   *
   * This trait will enable a implicit conversion from Param to ProtectedParam. In addition, the
@@ -10,9 +12,8 @@ import org.apache.spark.ml.param.{Param, Params}
   */
 trait HasProtectedParams {
   this: Params =>
-  implicit class ProtectedParam[T](baseParam: Param[T])
-      extends Param[T](baseParam.parent, baseParam.name, baseParam.doc, baseParam.isValid)(
-        baseParam.paramValueClassTag) {
+  implicit class ProtectedParam[T: ClassTag](baseParam: Param[T])
+      extends Param[T](baseParam.parent, baseParam.name, baseParam.doc, baseParam.isValid) {
 
     var isProtected = false
 
