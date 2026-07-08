@@ -163,7 +163,8 @@ object ZipArchiveUtil {
         FileUtils.copyInputStreamToFile(zip.getInputStream(entry), new File(destDir, entryPath))
       }
     } finally {
-      try{zip.close()} catch{case _: Throwable => }
+      try { zip.close() }
+      catch { case _: Throwable => }
     }
     destDir.getPath
   }

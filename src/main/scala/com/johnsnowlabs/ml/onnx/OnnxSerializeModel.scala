@@ -125,16 +125,17 @@ trait ReadOnnxModel {
         dataFileSuffix = dataFilePostfix)
 
     // 4. Delete localTmpFolder
-    if (tmpFolder.isEmpty) {
-      try {
-        FileUtils.deleteDirectory(new File(localTmpFolder))
-      } catch {
-        case e: Exception => // ignore
-      }
-    }
-
+    if (tmpFolder.isEmpty) deleteTmpDirectory(localTmpFolder)
     onnxWrapper
 
+  }
+
+  private def deleteTmpDirectory(tmpFolder: String): Unit = {
+    try {
+      FileUtils.deleteDirectory(new File(tmpFolder))
+    } catch {
+      case e: Exception => // ignore
+    }
   }
 
   private def getFileSystem(path: String, sparkSession: SparkSession): FileSystem = {
@@ -177,6 +178,9 @@ trait ReadOnnxModel {
         Option(dataFilePostfix))
       (modelName, onnxWrapper)
     }).toMap
+
+    // delete tmp
+    deleteTmpDirectory(tmpFolder.get)
 
     wrappers
   }
