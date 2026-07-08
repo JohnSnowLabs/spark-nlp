@@ -152,6 +152,13 @@ object OnnxWrapper {
     val dataFileDirectory = if (onnxDataFileExist) Some(onnxDataFile.toString) else None
     val onnxWrapper = new OnnxWrapper(onnxFileName, dataFileDirectory)
 
+    import org.apache.commons.io.FileUtils
+    try { // don't delete immediately, executors will use models
+      FileUtils.forceDeleteOnExit(new File(tmpFolder))
+    } catch {
+      case e: Exception => // ignored
+    }
+
     onnxWrapper
   }
 
