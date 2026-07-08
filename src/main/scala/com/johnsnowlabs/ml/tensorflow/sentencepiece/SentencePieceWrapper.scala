@@ -107,6 +107,10 @@ trait ReadSentencePieceModel {
 
     val byteArray = Files.readAllBytes(Paths.get(sppModelFilePath.toString))
     val sppWrapper = new SentencePieceWrapper(byteArray)
+
+    // Delete tmp dir
+    FileUtils.deleteDirectory(new File(tmpFolder))
+
     sppWrapper
   }
 }
