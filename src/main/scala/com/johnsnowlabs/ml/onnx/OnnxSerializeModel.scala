@@ -124,6 +124,15 @@ trait ReadOnnxModel {
         onnxFileSuffix = Some(suffix),
         dataFileSuffix = dataFilePostfix)
 
+    // 4. Delete localTmpFolder
+    if (tmpFolder.isEmpty) {
+      try {
+        FileUtils.deleteDirectory(new File(localTmpFolder))
+      } catch {
+        case e: Exception => // ignore
+      }
+    }
+
     onnxWrapper
 
   }
