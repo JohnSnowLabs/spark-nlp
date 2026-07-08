@@ -134,34 +134,37 @@ object ZipArchiveUtil {
     destDir.mkdirs()
 
     val zip = new ZipFile(file)
-    zip.entries.asScala foreach { entry =>
-      val entryName = buildEntryName(entry, suffix)
-      val entryPath = {
-        if (entryName.startsWith(basename))
-          entryName.substring(0, basename.length)
-        else
-          entryName
-      }
-
-      // create output directory if it doesn't exist already
-      val toDrop = if (entry.isDirectory) 0 else 1
-      val splitPath = entryName.split(File.separator.replace("\\", "/")).dropRight(toDrop)
-
-      val dirBuilder = new StringBuilder(destDir.getPath)
-      for (part <- splitPath) {
-        dirBuilder.append(File.separator)
-        dirBuilder.append(part)
-        val path = dirBuilder.toString
-
-        if (!new File(path).exists) {
-          new File(path).mkdir
+    try {
+      zip.entries.asScala foreach { entry =>
+        val entryName = buildEntryName(entry, suffix)
+        val entryPath = {
+          if (entryName.startsWith(basename))
+            entryName.substring(0, basename.length)
+          else
+            entryName
         }
+
+        // create output directory if it doesn't exist already
+        val toDrop = if (entry.isDirectory) 0 else 1
+        val splitPath = entryName.split(File.separator.replace("\\", "/")).dropRight(toDrop)
+
+        val dirBuilder = new StringBuilder(destDir.getPath)
+        for (part <- splitPath) {
+          dirBuilder.append(File.separator)
+          dirBuilder.append(part)
+          val path = dirBuilder.toString
+
+          if (!new File(path).exists) {
+            new File(path).mkdir
+          }
+        }
+
+        // write file to dest
+        FileUtils.copyInputStreamToFile(zip.getInputStream(entry), new File(destDir, entryPath))
       }
-
-      // write file to dest
-      FileUtils.copyInputStreamToFile(zip.getInputStream(entry), new File(destDir, entryPath))
+    } finally {
+      try{zip.close()} catch{case _: Throwable => }
     }
-
     destDir.getPath
   }
 
