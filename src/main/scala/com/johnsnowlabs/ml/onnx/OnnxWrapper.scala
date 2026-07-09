@@ -114,52 +114,55 @@ object OnnxWrapper {
       .toAbsolutePath
       .toString
 
-    // 2. Unpack archive
-    val randomSuffix = generateRandomSuffix(onnxFileSuffix)
-    val folder =
-      if (zipped)
-        ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder), randomSuffix)
-      else
-        modelPath
+    try { // make sure to delete tmp folder
 
-    val onnxFile =
-      if (useBundle) Paths.get(modelPath, s"$modelName.onnx").toString
-      else Paths.get(folder, new File(folder).list().head).toString
+      // 2. Unpack archive
+      val randomSuffix = generateRandomSuffix(onnxFileSuffix)
+      val folder =
+        if (zipped)
+          ZipArchiveUtil.unzip(new File(modelPath), Some(tmpFolder), randomSuffix)
+        else
+          modelPath
 
-    var onnxDataFile: File = null
+      val onnxFile =
+        if (useBundle) Paths.get(modelPath, s"$modelName.onnx").toString
+        else Paths.get(folder, new File(folder).list().head).toString
 
-    // see if the onnx model has a .onnx_data file
-    // get parent directory of onnx file if modelPath is a file
-    val parentDir = if (zipped) Paths.get(modelPath).getParent.toString else modelPath
+      var onnxDataFile: File = null
 
-    val onnxDataFileExist: Boolean = {
-      if (onnxFileSuffix.isDefined && dataFileSuffix.isDefined) {
-        var modelNameWithoutSuffix = modelName.replace(".onnx", "")
-        val onnxDataFilePath =
-          s"${onnxFileSuffix.get}_$modelNameWithoutSuffix${dataFileSuffix.get}"
-        onnxDataFile = Paths.get(parentDir, onnxDataFilePath).toFile
-        onnxDataFile.exists()
-      } else false
+      // see if the onnx model has a .onnx_data file
+      // get parent directory of onnx file if modelPath is a file
+      val parentDir = if (zipped) Paths.get(modelPath).getParent.toString else modelPath
+
+      val onnxDataFileExist: Boolean = {
+        if (onnxFileSuffix.isDefined && dataFileSuffix.isDefined) {
+          var modelNameWithoutSuffix = modelName.replace(".onnx", "")
+          val onnxDataFilePath =
+            s"${onnxFileSuffix.get}_$modelNameWithoutSuffix${dataFileSuffix.get}"
+          onnxDataFile = Paths.get(parentDir, onnxDataFilePath).toFile
+          onnxDataFile.exists()
+        } else false
+      }
+
+      if (onnxDataFileExist) {
+        sparkSession.sparkContext.addFile(onnxDataFile.toString)
+      }
+
+      sparkSession.sparkContext.addFile(onnxFile)
+
+      val onnxFileName = Some(new File(onnxFile).getName)
+      val dataFileDirectory = if (onnxDataFileExist) Some(onnxDataFile.toString) else None
+      // return OnnxWrapper
+      new OnnxWrapper(onnxFileName, dataFileDirectory)
+
+    } finally {
+      import org.apache.commons.io.FileUtils
+      try { // don't delete immediately, executors will use models
+        FileUtils.forceDeleteOnExit(new File(tmpFolder))
+      } catch {
+        case e: Exception => // ignored
+      }
     }
-
-    if (onnxDataFileExist) {
-      sparkSession.sparkContext.addFile(onnxDataFile.toString)
-    }
-
-    sparkSession.sparkContext.addFile(onnxFile)
-
-    val onnxFileName = Some(new File(onnxFile).getName)
-    val dataFileDirectory = if (onnxDataFileExist) Some(onnxDataFile.toString) else None
-    val onnxWrapper = new OnnxWrapper(onnxFileName, dataFileDirectory)
-
-    import org.apache.commons.io.FileUtils
-    try { // don't delete immediately, executors will use models
-      FileUtils.forceDeleteOnExit(new File(tmpFolder))
-    } catch {
-      case e: Exception => // ignored
-    }
-
-    onnxWrapper
   }
 
   private def generateRandomSuffix(fileSuffix: Option[String]): Option[String] = {
