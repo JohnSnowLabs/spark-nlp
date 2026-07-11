@@ -19,7 +19,7 @@ from sparknlp.annotator.classifier_dl.albert_for_question_answering import *
 from sparknlp.annotator.classifier_dl.bert_for_sequence_classification import *
 from sparknlp.annotator.classifier_dl.bert_for_token_classification import *
 from sparknlp.annotator.classifier_dl.bert_for_question_answering import *
-from sparknlp.annotator.classifier_dl.cross_encoder_for_sequence_classification import *
+from sparknlp.annotator.classifier_dl.cross_encoder import *
 from sparknlp.annotator.classifier_dl.classifier_dl import *
 from sparknlp.annotator.classifier_dl.deberta_for_sequence_classification import *
 from sparknlp.annotator.classifier_dl.deberta_for_token_classification import *

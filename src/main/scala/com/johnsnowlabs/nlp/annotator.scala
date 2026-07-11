@@ -467,12 +467,10 @@ package object annotator {
       extends ReadablePretrainedBertForSequenceModel
       with ReadBertForSequenceDLModel
 
-  type CrossEncoderForSequenceClassification =
-    com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoderForSequenceClassification
+  type CrossEncoder =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder
 
-  object CrossEncoderForSequenceClassification
-      extends ReadablePretrainedCrossEncoderForSequenceModel
-      with ReadCrossEncoderForSequenceDLModel
+  object CrossEncoder extends ReadablePretrainedCrossEncoderModel with ReadCrossEncoderDLModel
 
   type Doc2VecApproach = com.johnsnowlabs.nlp.embeddings.Doc2VecApproach
 

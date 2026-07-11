@@ -21,10 +21,9 @@ from test.util import SparkContextForTest
 
 
 @pytest.mark.slow
-class CrossEncoderForSequenceClassificationTestSpec(unittest.TestCase):
+class CrossEncoderTestSpec(unittest.TestCase):
     def setUp(self):
         self.query = "How many people live in Berlin?"
-        # One query duplicated against several passages: the reranking layout is built upstream.
         self.passages = [
             "Berlin has a population of 3,520,031 registered inhabitants in an area of 891.82 km2.",
             "Berlin is well known for its museums.",
@@ -36,7 +35,7 @@ class CrossEncoderForSequenceClassificationTestSpec(unittest.TestCase):
             .setInputCols(["query", "passage"]) \
             .setOutputCols(["document1", "document2"])
 
-        cross_encoder = CrossEncoderForSequenceClassification.pretrained() \
+        cross_encoder = CrossEncoder.pretrained() \
             .setInputCols(["document1", "document2"]) \
             .setOutputCol("score") \
             .setBatchSize(2)
@@ -51,12 +50,9 @@ class CrossEncoderForSequenceClassificationTestSpec(unittest.TestCase):
         result.select("score.result", "score.metadata").show(truncate=False)
 
         rows = result.select("score").collect()
-        # One score annotation per input row, no cross-row interaction.
         self.assertEqual(len(rows), len(self.passages))
         for row in rows:
             self.assertEqual(len(row["score"]), 1)
-
-    def test_activation_setter(self):
-        cross_encoder = CrossEncoderForSequenceClassification.pretrained() \
-            .setActivation("identity")
-        self.assertEqual(cross_encoder.getOrDefault("activation"), "identity")
+            score = float(row["score"][0].result)
+            self.assertGreaterEqual(score, 0.0)
+            self.assertLessEqual(score, 1.0)

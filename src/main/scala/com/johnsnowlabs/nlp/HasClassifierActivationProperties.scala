@@ -105,6 +105,5 @@ object ActivationFunction {
 
   val softmax = "softmax"
   val sigmoid = "sigmoid"
-  val identity = "identity"
 
 }

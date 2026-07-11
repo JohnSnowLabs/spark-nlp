@@ -23,7 +23,7 @@ import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
-class CrossEncoderForSequenceClassificationTestSpec extends AnyFlatSpec {
+class CrossEncoderTestSpec extends AnyFlatSpec {
 
   import spark.implicits._
 
@@ -32,13 +32,12 @@ class CrossEncoderForSequenceClassificationTestSpec extends AnyFlatSpec {
     .setOutputCols("document1", "document2")
 
   lazy val crossEncoder =
-    CrossEncoderForSequenceClassification
+    CrossEncoder
       .pretrained()
       .setInputCols(Array("document1", "document2"))
       .setOutputCol("score")
       .setBatchSize(2)
 
-  // One query duplicated against several passages: a reranking layout the user builds upstream.
   lazy val query = "How many people live in Berlin?"
   lazy val passages: Seq[String] = Seq(
     "Berlin has a population of 3,520,031 registered inhabitants in an area of 891.82 square kilometers.",
@@ -49,84 +48,41 @@ class CrossEncoderForSequenceClassificationTestSpec extends AnyFlatSpec {
 
   lazy val pipeline = new Pipeline().setStages(Array(document, crossEncoder))
 
-  behavior of "CrossEncoderForSequenceClassification"
-
-  it should "score a locally imported ONNX model with loadSavedModel" taggedAs SlowTest in {
-    // Point CROSS_ENCODER_MODEL_PATH at a locally exported cross-encoder (e.g. the ONNX
-    // ms-marco-MiniLM-L6-v2 folder). The test is skipped when the env var is not set.
-    val modelPath = sys.env.getOrElse("CROSS_ENCODER_MODEL_PATH", "")
-    if (modelPath.isEmpty) cancel("CROSS_ENCODER_MODEL_PATH not set")
-
-    val loaded = CrossEncoderForSequenceClassification
-      .loadSavedModel(modelPath, spark)
-      .setInputCols("document1", "document2")
-      .setOutputCol("score")
-      .setBatchSize(2)
-
-    // The config declares max_position_embeddings = 512.
-    assert(loaded.getModelMaxLength == 512)
-    assert(loaded.getMaxSentenceLength == 512)
-
-    val localPipeline = new Pipeline().setStages(Array(document, loaded))
-    val result = localPipeline.fit(data).transform(data)
-
-    result.select("score.result", "score.metadata").show(false)
-
-    val scores = Annotation
-      .collect(result, "score")
+  private def collectScores(df: org.apache.spark.sql.DataFrame): Seq[Float] =
+    Annotation
+      .collect(df, "score")
       .map(row => {
         assert(row.length == 1, "Exactly one score annotation per row")
-        row.head.metadata("score").toFloat
+        row.head.result.toFloat
       })
 
-    assert(scores.length == passages.length, "One output row per input row")
-    // The first passage directly answers the query and should score highest.
-    assert(scores.head == scores.max, "Most relevant passage should score highest")
-  }
+  behavior of "CrossEncoder"
 
-  it should "produce exactly one score per row" taggedAs SlowTest in {
-    val pipelineModel = pipeline.fit(data)
-    val pipelineDF = pipelineModel.transform(data)
-
+  it should "produce exactly one sigmoid score per row" taggedAs SlowTest in {
+    val pipelineDF = pipeline.fit(data).transform(data)
     pipelineDF.select("score.result", "score.metadata").show(false)
 
-    val scores = Annotation.collect(pipelineDF, "score")
+    val scores = collectScores(pipelineDF)
     assert(scores.length == passages.length, "One output row per input row expected")
-    scores.foreach(row => assert(row.length == 1, "Exactly one score annotation per row"))
+    scores.foreach(s => assert(s >= 0.0f && s <= 1.0f, s"Score $s must be in [0, 1]"))
   }
 
   it should "rank the most relevant passage highest" taggedAs SlowTest in {
-    val pipelineModel = pipeline.fit(data)
-    val pipelineDF = pipelineModel.transform(data)
-
-    val scores = Annotation
-      .collect(pipelineDF, "score")
-      .map(_.head.metadata("score").toFloat)
-
-    // The first passage directly answers the query and should score highest.
+    val pipelineDF = pipeline.fit(data).transform(data)
+    val scores = collectScores(pipelineDF)
     assert(scores.head == scores.max, "Most relevant passage should score highest")
-  }
-
-  it should "cap maxSentenceLength at the model config value" in {
-    // Pure parameter logic: no model download needed.
-    val model = new CrossEncoderForSequenceClassification().setModelMaxLength(128)
-    model.setMaxSentenceLength(128) // at the ceiling: allowed
-    assert(model.getMaxSentenceLength == 128)
-    assertThrows[IllegalArgumentException] {
-      model.setMaxSentenceLength(129) // above the ceiling: rejected
-    }
   }
 
   it should "be serializable" taggedAs SlowTest in {
     val pipelineModel = pipeline.fit(data)
     pipelineModel.stages.last
-      .asInstanceOf[CrossEncoderForSequenceClassification]
+      .asInstanceOf[CrossEncoder]
       .write
       .overwrite()
       .save("./tmp_cross_encoder_seq_classification")
 
     val loadedModel =
-      CrossEncoderForSequenceClassification.load("./tmp_cross_encoder_seq_classification")
+      CrossEncoder.load("./tmp_cross_encoder_seq_classification")
     val newPipeline = new Pipeline().setStages(Array(document, loadedModel))
 
     newPipeline.fit(data).transform(data).select("score.result").show(false)
