@@ -375,7 +375,7 @@ class Summarization(override val uid: String)
     */
   override val outputAnnotatorType: String = DOCUMENT
 
-  private val logger = LoggerFactory.getLogger("Summarization")
+  private val logger = LoggerFactory.getLogger(classOf[Summarization])
 
   private def warnIgnored(): Unit = {
     val m = $(method)

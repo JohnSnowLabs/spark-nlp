@@ -17,6 +17,15 @@ This is the instantiated model of the `Summarization` estimator. To build one, f
 `Summarization` stage (see the documentation of that class).
 
 **Note:** As a DataFrame level orchestrator, this annotator is not supported in `LightPipeline`.
+
+**Note:** The `encoder_decoder` method pins inference to a single Spark partition (the BART
+backend is not thread-safe); the `llm` and `extractive` methods keep the input partitioning. A
+single fitted model instance is not safe for concurrent `transform` calls, since `transform`
+configures the shared delegate in place — use one instance per concurrent caller.
+
+**Note:** With the `llm` method the document text is embedded into the prompt, so a document
+containing instructions can influence its own summary (prompt injection). The built-in system
+prompt reduces but does not eliminate this.
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}

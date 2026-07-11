@@ -364,3 +364,10 @@ class SummarizationModel(AnnotatorModel, _SummarizationParams):
             Resolved pretrained model name
         """
         return self.getOrDefault(self.resolvedModel)
+
+    def close(self):
+        """Frees the llama.cpp native resources held by the ``llm`` delegate.
+
+        No-op for the ``encoder_decoder`` and ``extractive`` methods.
+        """
+        return self._java_obj.close()

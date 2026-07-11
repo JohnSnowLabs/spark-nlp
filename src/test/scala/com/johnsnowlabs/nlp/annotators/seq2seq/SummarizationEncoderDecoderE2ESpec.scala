@@ -139,4 +139,32 @@ class SummarizationEncoderDecoderE2ESpec extends AnyFlatSpec with SummarizationE
     assert(ann.result.nonEmpty)
     assert(ann.metadata("numChunks").toInt > 1)
   }
+
+  // Gap #10 — a genuinely empty input annotation array must yield an empty output array, while a
+  // real document in the same batch is still summarized (empty in -> empty out).
+  it should "return an empty summary array for an empty input annotation array" taggedAs SlowTest in {
+    val model =
+      summarizationStage(fit(summarizer("encoder_decoder").setMaxSummaryLength(30), df(shortDoc)))
+    val data = documentsDF(Seq.empty[String], Seq(shortDoc)) // row 0 empty, row 1 one document
+    val sizes = model
+      .transform(data)
+      .select("summary")
+      .collect()
+      .map(r => Option(r.getSeq[org.apache.spark.sql.Row](0)).getOrElse(Seq.empty).length)
+    assert(sizes.toSeq == Seq(0, 1), s"expected [0, 1] summaries per row, got ${sizes.toSeq}")
+  }
+
+  // Gap #11 — hierarchical chunking with a positive sentence overlap must run end-to-end and
+  // still produce a summary (exercises packChunks overlap seeding in the generative path).
+  it should "chunk long documents with sentence overlap between chunks" taggedAs SlowTest in {
+    val summ = summarizer("encoder_decoder")
+      .setMaxSummaryLength(40)
+      .setChunkSize(150)
+      .setChunkOverlap(2)
+      .setLongDocumentStrategy("hierarchical")
+    val fitted = fit(summ, df(wikiDoc))
+    val ann = annotations(fitted.transform(df(wikiDoc))).head
+    assert(ann.result.nonEmpty, "overlapped-chunk summary must not be empty")
+    assert(ann.metadata("numChunks").toInt > 1, "document must be chunked")
+  }
 }

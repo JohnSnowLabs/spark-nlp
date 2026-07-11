@@ -77,6 +77,30 @@ class SummarizationTestSpec extends AnyFlatSpec {
     assert(chunks.length == 1)
   }
 
+  it should "carry overlap sentences between consecutive chunks" taggedAs FastTest in {
+    val sentences = Array("Alpha one.", "Bravo two.", "Charlie three.", "Delta four.")
+    val chunks = ExtractiveSummarizationRanker.packChunks(sentences, budgetChars = 22, 1)
+    assert(chunks.length >= 2)
+    // the second chunk is seeded with the last sentence of the first (overlap continuity)
+    assert(
+      chunks(1).startsWith("Bravo two."),
+      s"expected overlap 'Bravo two.' to seed the second chunk, got '${chunks(1)}'")
+  }
+
+  it should "not emit a trailing chunk that only repeats the previous overlap" taggedAs FastTest in {
+    val sentences = (1 to 12).map(i => s"Sentence number $i ends here.").toArray
+    for (budget <- Seq(20, 30, 45, 60); overlap <- Seq(1, 2)) {
+      val chunks = ExtractiveSummarizationRanker.packChunks(sentences, budget, overlap)
+      chunks.sliding(2).foreach {
+        case Array(prev, next) =>
+          assert(
+            !prev.endsWith(next),
+            s"trailing all-overlap chunk not dropped (budget=$budget, overlap=$overlap)")
+        case _ => // single-chunk window, nothing to compare
+      }
+    }
+  }
+
   it should "rank lead and central sentences higher" taggedAs FastTest in {
     // sentence 0 and 1 similar (recurring topic), sentence 2 orthogonal
     val embs = Array(Array(1.0f, 0.1f, 0.0f), Array(0.9f, 0.2f, 0.0f), Array(0.0f, 0.0f, 1.0f))

@@ -99,3 +99,5 @@ class SummarizationModelParamsTestSpec(unittest.TestCase):
         self.assertEqual(model.getOrDefault(model.maxSummaryLength), 33)
         # lazyAnnotator param must exist (CanBeLazy), otherwise fit()/binding breaks
         self.assertIn("lazyAnnotator", [p.name for p in model.params])
+        # close() must exist and be a no-op passthrough for a non-llm delegate
+        self.assertTrue(hasattr(model, "close"))

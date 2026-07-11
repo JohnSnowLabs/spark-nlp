@@ -19,6 +19,7 @@ import com.johnsnowlabs.nlp.LightPipeline
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.Row
 import org.scalatest.flatspec.AnyFlatSpec
 
 /** Exhaustive extractive-method validation (model: all_mpnet_base_v2). Runs independently of the
@@ -145,6 +146,56 @@ class SummarizationExtractiveE2ESpec extends AnyFlatSpec with SummarizationE2EBa
     assert(lm.getPositionBias == 0.8f)
     assert(lm.getMethod == "extractive")
     assert(annotations(loaded.transform(df(shortDoc))).head.result.nonEmpty)
+  }
+
+  // Gap #10 — several DOCUMENT annotations in one row that share character offsets (all begin at
+  // 0) must not bleed sentences into each other's summary. Guards the per-document isolation of
+  // the extractive path.
+  it should "not mix sentences across DOCUMENT annotations that share offsets" taggedAs SlowTest in {
+    val climate =
+      "Average surface temperatures keep climbing across every measured region on the planet. " +
+        "Coastal areas report shifting precipitation patterns and far more frequent flooding. " +
+        "Agricultural yields are projected to fall sharply in several of the affected regions. " +
+        "Governments have started funding adaptation and coastal resilience programmes."
+    val finance =
+      "The central bank held its benchmark interest rate unchanged at the latest meeting. " +
+        "Analysts expect consumer inflation to ease gradually over the coming few quarters."
+
+    val model =
+      summarizationStage(fit(summarizer("extractive").setMaxSummaryLength(40), df(shortDoc)))
+    val data = documentsDF(Seq(climate, finance)) // one row, two overlapping-offset documents
+    val anns = annotations(model.transform(data))
+    assert(anns.length == 2, s"expected one summary per document, got ${anns.length}")
+
+    val norm = (s: String) => s.replaceAll("\\s+", " ").trim
+    val climateNorm = norm(climate)
+    val financeNorm = norm(finance)
+
+    // annotations come back ordered by annotation index: 0 = climate, 1 = finance
+    ExtractiveSummarizationRanker.splitSentences(anns.head.result).foreach { s =>
+      assert(
+        climateNorm.contains(norm(s)),
+        s"first document's summary must contain only its own sentences: '${norm(s)}'")
+    }
+    ExtractiveSummarizationRanker.splitSentences(anns(1).result).foreach { s =>
+      assert(
+        financeNorm.contains(norm(s)),
+        s"second document's summary must contain only its own sentences: '${norm(s)}'")
+    }
+  }
+
+  // Gap #11 — a genuinely empty input annotation array must yield an empty output array (empty in
+  // -> empty out), while a real document in the same batch is still summarized.
+  it should "return an empty summary array for an empty input annotation array" taggedAs SlowTest in {
+    val model =
+      summarizationStage(fit(summarizer("extractive").setMaxSummaryLength(30), df(shortDoc)))
+    val data = documentsDF(Seq.empty[String], Seq(shortDoc)) // row 0 empty, row 1 one document
+    val sizes = model
+      .transform(data)
+      .select("summary")
+      .collect()
+      .map(r => Option(r.getSeq[Row](0)).getOrElse(Seq.empty).length)
+    assert(sizes.toSeq == Seq(0, 1), s"expected [0, 1] summaries per row, got ${sizes.toSeq}")
   }
 
   // Gap #5 — DataFrame-only contract: LightPipeline must not fabricate a summary.
