@@ -47,8 +47,16 @@ import org.slf4j.LoggerFactory
   *     explanatory error; fit a new [[Summarization]] stage instead. All other task parameters
   *     (lengths, style, focus, strategy, ...) can be changed freely after fit.
   *   - As a DataFrame-level orchestrator this annotator is not supported in LightPipeline.
-  *   - Generative transforms cache the input row ids and the computed summaries for the lifetime
-  *     of the returned DataFrame (inference intermediates are released eagerly).
+  *   - `transform` configures the shared delegate (input/output columns, generation settings) in
+  *     place, so a single model instance is not safe for concurrent `transform` calls; use one
+  *     instance per concurrent caller.
+  *   - Transforms cache the input row ids and the computed summaries for the lifetime of the
+  *     returned DataFrame (generative inference intermediates are released eagerly). The
+  *     encoder_decoder method pins inference to a single partition (the BART backend is not
+  *     thread-safe); the llm and extractive methods keep the input partitioning.
+  *   - For the `llm` method the document text is embedded into the prompt, so a document
+  *     containing instructions can influence its own summary (prompt injection); the system
+  *     prompt reduces but does not eliminate this.
   *
   * @param uid
   *   required uid for storing annotator to disk
@@ -82,7 +90,7 @@ class SummarizationModel(override val uid: String)
     */
   override val outputAnnotatorType: String = DOCUMENT
 
-  private val logger = LoggerFactory.getLogger("SummarizationModel")
+  private val logger = LoggerFactory.getLogger(classOf[SummarizationModel])
 
   /** Name of the pretrained model resolved at fit time (for transparency metadata).
     * @group param
@@ -166,6 +174,7 @@ class SummarizationModel(override val uid: String)
   private val pairsCol = s"__${uid}_pairs"
   private val sentCol = s"__${uid}_sentences"
   private val embCol = s"__${uid}_sentEmbeddings"
+  private val singleDocCol = s"__${uid}_singleDoc"
   private val resultCol = s"__${uid}_resultAnns"
 
   private def internalColumns: Seq[String] = Seq(
@@ -185,6 +194,7 @@ class SummarizationModel(override val uid: String)
     pairsCol,
     sentCol,
     embCol,
+    singleDocCol,
     resultCol)
 
   private def documentColMetadata: Metadata = {
@@ -311,8 +321,12 @@ class SummarizationModel(override val uid: String)
       val src =
         if (isReduce) "the following partial summaries of a longer document"
         else "the following text"
+      // task params are mutable on the fitted model, so minWords can exceed maxWords here even
+      // though the estimator rejects that at fit; clamp to keep the prompt coherent
+      val effMin = math.max(0, math.min(minWords, maxWords))
       val lengthClause =
-        if (minWords > 0) s"The summary must be between $minWords and $maxWords words."
+        if (effMin > 0 && effMin < maxWords)
+          s"The summary must be between $effMin and $maxWords words."
         else s"The summary must be at most $maxWords words."
       s"$style$focusHint $lengthClause Summarize $src:\n\n$text\n\nSummary:"
     }
@@ -371,12 +385,14 @@ class SummarizationModel(override val uid: String)
     val withId = df.withColumn(rowIdCol, monotonically_increasing_id()).persist()
     withId.count() // pin row ids
 
-    // one work row per input DOCUMENT annotation
+    // one work row per input DOCUMENT annotation; posexplode (not posexplode_outer) so a row
+    // whose input annotation array is empty/null produces no work row and, via the closing left
+    // join, an empty output array (empty in -> empty out, matching the extractive path)
     var pending: DataFrame = withId
-      .select(col(rowIdCol), posexplode_outer(col(getInputCols.head)).as(Seq(annIdxCol, "__ann")))
+      .select(col(rowIdCol), posexplode(col(getInputCols.head)).as(Seq(annIdxCol, "__ann")))
       .select(
         col(rowIdCol),
-        coalesce(col(annIdxCol), lit(0)).as(annIdxCol),
+        col(annIdxCol),
         coalesce(col("__ann.result"), lit("")).as(textCol),
         coalesce(col("__ann.metadata"), typedLit(Map.empty[String, String])).as(srcMetaCol))
       .withColumn(origLenCol, length(col(textCol)))
@@ -407,14 +423,16 @@ class SummarizationModel(override val uid: String)
         // The encoder-decoder (BART) backend keeps mutable per-instance decoder tensors that are
         // not thread-safe; running it across several Spark partitions lets concurrent tasks share
         // one broadcast model and corrupt each other's decode state (TF shape mismatches). Pin the
-        // generative delegate stage to a single partition so inference is single-threaded. Lane
-        // level parallelism (one method per JVM) still keeps the machine busy.
-        val prompted = exploded
+        // BART delegate stage to a single partition so inference is single-threaded. The llm
+        // (llama.cpp) delegate has no such constraint, so it keeps the input partitioning and its
+        // cluster parallelism. Lane-level parallelism (one method per JVM) still keeps the machine
+        // busy in the pinned case.
+        val promptedBase = exploded
           .withColumn(
             delegateInCol,
             mkDocUdf(promptUdf(col(chunkTextCol), lit(round > 0)))
               .as(delegateInCol, documentColMetadata))
-          .coalesce(1)
+        val prompted = if (isLlm) promptedBase else promptedBase.coalesce(1)
 
         val summarized = delegate
           .transform(prompted)
@@ -426,7 +444,8 @@ class SummarizationModel(override val uid: String)
         val perAnnotation = summarized
           .groupBy(col(rowIdCol), col(annIdxCol))
           .agg(
-            sort_array(collect_list(struct(col(chunkIdxCol), col(summaryTextCol)))).as(pairsCol),
+            // joinPairsUdf re-sorts by chunk index, so no sort_array is needed here
+            collect_list(struct(col(chunkIdxCol), col(summaryTextCol))).as(pairsCol),
             first(col(srcMetaCol)).as(srcMetaCol),
             first(col(origLenCol)).as(origLenCol),
             first(col(totalChunksCol)).as(totalChunksCol),
@@ -529,17 +548,6 @@ class SummarizationModel(override val uid: String)
   // ------------------------------------------------------------------------------------------
 
   private def transformExtractive(df: DataFrame): DataFrame = {
-    val embeddings = getEmbeddingsDelegate
-      .setInputCols(sentCol)
-      .setOutputCol(embCol)
-
-    val sentenceDetector = new SentenceDetector()
-      .setInputCols(getInputCols.head)
-      .setOutputCol(sentCol)
-
-    val withSentences = sentenceDetector.transform(df)
-    val withEmbeddings = embeddings.transform(withSentences)
-
     val budgetWords = $(maxSummaryLength)
     val lambda = $(mmrLambda).toDouble
     val posBias = $(positionBias).toDouble
@@ -548,58 +556,106 @@ class SummarizationModel(override val uid: String)
     val engine = engineName
     val cpt = charsPerToken
 
+    val withId = df.withColumn(rowIdCol, monotonically_increasing_id()).persist()
+    withId.count() // pin row ids for the closing join
+
+    // Rebuild each input annotation as its own single-DOCUMENT row before sentence detection.
+    // Sentence detectors reset character offsets per document, so several DOCUMENT annotations in
+    // one row (e.g. from MultiDocumentAssembler, where every document begins at offset 0) would
+    // otherwise overlap and a begin/end containment match could pull one document's sentences
+    // into another's summary. Scoping ranking to one document per row removes that ambiguity.
+    val mkSingleDocUdf = udf { (text: String, meta: Map[String, String]) =>
+      val t = Option(text).getOrElse("")
+      Seq(
+        Annotation(DOCUMENT, 0, math.max(0, t.length - 1), t, Option(meta).getOrElse(Map.empty)))
+    }
+
+    val exploded = withId
+      .select(col(rowIdCol), posexplode(col(getInputCols.head)).as(Seq(annIdxCol, "__ann")))
+      .withColumn(textCol, coalesce(col("__ann.result"), lit("")))
+      .withColumn(
+        srcMetaCol,
+        coalesce(col("__ann.metadata"), typedLit(Map.empty[String, String])))
+      .withColumn(
+        singleDocCol,
+        mkSingleDocUdf(col(textCol), col(srcMetaCol)).as(singleDocCol, documentColMetadata))
+      .drop("__ann")
+
+    val sentenceDetector = new SentenceDetector()
+      .setInputCols(singleDocCol)
+      .setOutputCol(sentCol)
+    val embeddings = getEmbeddingsDelegate
+      .setInputCols(sentCol)
+      .setOutputCol(embCol)
+
+    val withSentences = sentenceDetector.transform(exploded)
+    val withEmbeddings = embeddings.transform(withSentences)
+
+    // Rank the sentences of exactly one document (this row) into a single summary annotation.
+    // Sentence and embedding annotations are aligned 1:1 by index within the row.
     val rankUdf = udf { (docAnns: Seq[Row], sentAnns: Seq[Row], embAnns: Seq[Row]) =>
-      val docs = Option(docAnns).getOrElse(Seq.empty).map(Annotation(_))
-      val sents = Option(sentAnns).getOrElse(Seq.empty).map(Annotation(_))
-      val embs = Option(embAnns).getOrElse(Seq.empty).map(Annotation(_))
+      val doc = Option(docAnns).getOrElse(Seq.empty).map(Annotation(_)).headOption
+      val sents = Option(sentAnns).getOrElse(Seq.empty).map(Annotation(_)).toArray
+      val embs = Option(embAnns).getOrElse(Seq.empty).map(Annotation(_)).toArray
 
-      docs.map { doc =>
-        // sentences (and aligned embeddings) belonging to this document annotation
-        val indexed = sents.zipWithIndex.filter { case (s, _) =>
-          s.begin >= doc.begin && s.end <= doc.end
-        }
-        val sentTexts = indexed.map(_._1.result).toArray
-        val sentEmbs = indexed.map { case (_, i) =>
-          if (i < embs.length) embs(i).embeddings else Array.emptyFloatArray
-        }.toArray
+      val docText = doc.map(_.result).getOrElse("")
+      val docMeta = doc.map(_.metadata).getOrElse(Map.empty[String, String])
+      val sentTexts = sents.map(_.result)
+      val sentEmbs = sentTexts.indices.map { i =>
+        if (i < embs.length) embs(i).embeddings else Array.emptyFloatArray
+      }.toArray
 
-        if (sentTexts.isEmpty || doc.result.trim.isEmpty) {
-          Annotation(
-            DOCUMENT,
-            0,
-            0,
-            "",
-            Map("method" -> methodName, "model" -> modelName, "engine" -> engine))
-        } else {
-          val scores =
-            ExtractiveSummarizationRanker.centralityScores(sentEmbs, positionBias = posBias)
-          val wordCounts = sentTexts.map(ExtractiveSummarizationRanker.countWords)
-          val selected = ExtractiveSummarizationRanker.mmrSelect(
-            sentEmbs,
-            scores,
-            wordCounts,
-            budgetWords,
-            lambda)
-          val summary = selected.map(sentTexts(_)).mkString(" ")
-          // source metadata first so this stage's keys win on collision
-          val metadata = doc.metadata ++ Map(
-            "method" -> methodName,
-            "model" -> modelName,
-            "engine" -> engine,
-            "longDocumentStrategy" -> "native",
-            "sentencesSelected" -> selected.length.toString,
-            "sentencesTotal" -> sentTexts.length.toString,
-            "originalTokensEst" -> (doc.result.length / cpt).toString,
-            "summaryTokensEst" -> (summary.length / cpt).toString)
-          Annotation(DOCUMENT, 0, math.max(0, summary.length - 1), summary, metadata)
-        }
+      // source metadata first so this stage's keys win on collision (e.g. chained summarizers)
+      val baseMeta = docMeta ++ Map(
+        "method" -> methodName,
+        "model" -> modelName,
+        "engine" -> engine,
+        "longDocumentStrategy" -> "native")
+
+      if (sentTexts.isEmpty || docText.trim.isEmpty) {
+        Annotation(DOCUMENT, 0, 0, "", baseMeta)
+      } else {
+        val scores =
+          ExtractiveSummarizationRanker.centralityScores(sentEmbs, positionBias = posBias)
+        val wordCounts = sentTexts.map(ExtractiveSummarizationRanker.countWords)
+        val selected = ExtractiveSummarizationRanker.mmrSelect(
+          sentEmbs,
+          scores,
+          wordCounts,
+          budgetWords,
+          lambda)
+        val summary = selected.map(sentTexts(_)).mkString(" ")
+        val metadata = baseMeta ++ Map(
+          "sentencesSelected" -> selected.length.toString,
+          "sentencesTotal" -> sentTexts.length.toString,
+          "originalTokensEst" -> (docText.length / cpt).toString,
+          "summaryTokensEst" -> (summary.length / cpt).toString)
+        Annotation(DOCUMENT, 0, math.max(0, summary.length - 1), summary, metadata)
       }
     }
 
-    withEmbeddings
+    val ranked = withEmbeddings
+      .withColumn(resultCol, rankUdf(col(singleDocCol), col(sentCol), col(embCol)))
+
+    // annotation structs contain a map field and are not orderable, so ordering by annotation
+    // index must happen inside a UDF rather than via sort_array
+    val sortAnnotationsUdf = udf { pairs: Seq[Row] =>
+      pairs
+        .sortBy(_.getInt(0))
+        .map(r => Annotation(r.getStruct(1)))
+    }
+
+    val resultPerRow = ranked
+      .groupBy(col(rowIdCol))
+      .agg(collect_list(struct(col(annIdxCol), col(resultCol))).as(pairsCol))
+      .withColumn(resultCol, sortAnnotationsUdf(col(pairsCol)))
+      .select(col(rowIdCol), col(resultCol))
+
+    withId
+      .join(resultPerRow, Seq(rowIdCol), "left")
       .withColumn(
         getOutputCol,
-        wrapColumnMetadata(rankUdf(col(getInputCols.head), col(sentCol), col(embCol))))
+        wrapColumnMetadata(coalesce(col(resultCol), typedLit(Seq.empty[Annotation]))))
       .drop(internalColumns: _*)
   }
 

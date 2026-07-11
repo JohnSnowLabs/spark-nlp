@@ -86,4 +86,16 @@ class SummarizationLlmE2ESpec extends AnyFlatSpec with SummarizationE2EBase {
     assert(ann.result.nonEmpty)
     assert(ann.metadata("method") == "llm")
   }
+
+  // Gap #12 — task params are mutable on the fitted model, so minSummaryLength can be pushed
+  // above maxSummaryLength after fit (the estimator only rejects it at fit time). The prompt
+  // builder must clamp instead of emitting an incoherent "between 400 and 60 words" instruction.
+  it should "tolerate minSummaryLength greater than maxSummaryLength on the fitted model" taggedAs SlowTest in {
+    val fitted = fit(llm.setMaxSummaryLength(60), df(shortDoc))
+    val model = summarizationStage(fitted)
+    model.setMinSummaryLength(400) // exceeds max; must be clamped in the prompt, not crash
+    val ann = annotations(fitted.transform(df(shortDoc))).head
+    assert(ann.result.nonEmpty, "summary must still be produced when min > max")
+    model.setMinSummaryLength(20)
+  }
 }

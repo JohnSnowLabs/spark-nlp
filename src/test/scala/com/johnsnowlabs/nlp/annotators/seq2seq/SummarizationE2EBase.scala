@@ -16,9 +16,12 @@
 package com.johnsnowlabs.nlp.annotators.seq2seq
 
 import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.nlp.AnnotatorType.DOCUMENT
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import org.apache.spark.ml.{Pipeline, PipelineModel}
+import org.apache.spark.sql.functions.{col, udf}
+import org.apache.spark.sql.types.{Metadata, MetadataBuilder}
 import org.apache.spark.sql.{DataFrame, Row}
 
 /** Shared fixtures/helpers for the split per-method Summarization end-to-end specs. Each concrete
@@ -75,6 +78,27 @@ trait SummarizationE2EBase {
       "through at least midday tomorrow."
 
   protected def df(texts: String*): DataFrame = texts.toDF("text")
+
+  /** Column-metadata marking a hand-built column as DOCUMENT annotations. */
+  protected val docColMetadata: Metadata =
+    new MetadataBuilder().putString("annotatorType", DOCUMENT).build()
+
+  /** Builds a DataFrame with a ready-made `document` column from raw annotation texts. Each
+    * argument is one row's list of DOCUMENT annotations; every annotation starts at offset 0 (so
+    * annotations within a row share/overlap character ranges) and an empty list yields a row with
+    * a genuinely empty annotation array. Used to exercise multi-document and empty-input paths
+    * without a DocumentAssembler (which always emits exactly one non-empty-array annotation).
+    */
+  protected def documentsDF(rows: Seq[String]*): DataFrame = {
+    val toDocs = udf { texts: Seq[String] =>
+      texts.map(t =>
+        Annotation(DOCUMENT, 0, math.max(0, t.length - 1), t, Map.empty[String, String]))
+    }
+    rows.toSeq
+      .map(_.toSeq)
+      .toDF("texts")
+      .withColumn("document", toDocs(col("texts")).as("document", docColMetadata))
+  }
 
   protected def documentAssembler: DocumentAssembler =
     new DocumentAssembler().setInputCol("text").setOutputCol("document")
