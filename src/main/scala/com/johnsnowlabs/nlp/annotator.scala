@@ -819,6 +819,14 @@ package object annotator {
   type AutoGGUFModel = com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
   object AutoGGUFModel extends ReadablePretrainedAutoGGUFModel with ReadAutoGGUFModel
 
+  type Summarization = com.johnsnowlabs.nlp.annotators.seq2seq.Summarization
+  object Summarization extends DefaultParamsReadable[Summarization]
+
+  type SummarizationModel = com.johnsnowlabs.nlp.annotators.seq2seq.SummarizationModel
+  object SummarizationModel
+      extends ParamsAndFeaturesReadable[SummarizationModel]
+      with ReadSummarizationDelegate
+
   type MxbaiEmbeddings =
     com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings
 
