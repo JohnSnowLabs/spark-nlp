@@ -80,12 +80,6 @@ private[seq2seq] object ExtractiveSummarizationRanker {
     }
     if (current.nonEmpty) chunks += current.mkString(" ")
 
-    // Guard: if overlap seeding produced a trailing chunk that is a strict subset of the
-    // previous chunk (all-overlap chunk), drop it.
-    if (chunks.length > 1 && chunks.last.nonEmpty && chunks(chunks.length - 2).endsWith(
-        chunks.last))
-      chunks.remove(chunks.length - 1)
-
     chunks.toArray
   }
 
