@@ -164,6 +164,24 @@ trait SummarizationParams extends Params {
   /** @group getParam */
   def getNumBeams: Int = $(numBeams)
 
+  /** Size of n-grams that may not repeat in the generated summary (Default: `3`). Only applies to
+    * the `encoder_decoder` method; `0` disables the constraint.
+    * @group param
+    */
+  val noRepeatNgramSize = new IntParam(
+    this,
+    "noRepeatNgramSize",
+    "Forbid repeating this n-gram size (encoder_decoder method only, 0 = disabled)")
+
+  /** @group setParam */
+  def setNoRepeatNgramSize(value: Int): this.type = {
+    require(value >= 0, "noRepeatNgramSize must be >= 0")
+    set(noRepeatNgramSize, value)
+  }
+
+  /** @group getParam */
+  def getNoRepeatNgramSize: Int = $(noRepeatNgramSize)
+
   /** Generation temperature (Default: `0.2`). Applies to the `llm` method.
     * @group param
     */
@@ -280,6 +298,7 @@ trait SummarizationParams extends Params {
     focus -> "",
     longDocumentStrategy -> "auto",
     numBeams -> 4,
+    noRepeatNgramSize -> 3,
     temperature -> 0.2f,
     topP -> 0.9f,
     chunkSize -> 0,
@@ -394,6 +413,10 @@ class Summarization(override val uid: String)
     if (m != "encoder_decoder" && isSet(numBeams))
       logger.warn(
         s"Parameter 'numBeams' only applies to method 'encoder_decoder' and is ignored for '$m'")
+    if (m != "encoder_decoder" && isSet(noRepeatNgramSize))
+      logger.warn(
+        "Parameter 'noRepeatNgramSize' only applies to method 'encoder_decoder' " +
+          s"and is ignored for '$m'")
     if (m != "extractive") {
       if (isSet(mmrLambda))
         logger.warn(

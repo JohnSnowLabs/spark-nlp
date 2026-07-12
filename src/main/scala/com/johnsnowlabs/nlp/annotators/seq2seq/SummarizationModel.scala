@@ -264,6 +264,8 @@ class SummarizationModel(override val uid: String)
       .setSystemPrompt(systemPromptText)
       .setTemperature($(temperature))
       .setTopP($(topP))
+      .setRepeatPenalty(1.1f)
+      .setRepeatLastN(64)
       .setNPredict(math.max(64, $(maxSummaryLength) * 2))
       .setNGpuLayers($(gpuLayers))
       .setReasoningBudget(0)
@@ -278,6 +280,7 @@ class SummarizationModel(override val uid: String)
       .setMinOutputLength(math.max(0, math.min($(minSummaryLength), $(maxSummaryLength) - 1)))
       .setBeamSize($(numBeams))
       .setDoSample(false)
+      .setNoRepeatNgramSize($(noRepeatNgramSize))
   }
 
   // ------------------------------------------------------------------------------------------
