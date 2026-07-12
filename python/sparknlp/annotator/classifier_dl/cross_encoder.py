@@ -26,10 +26,7 @@ class CrossEncoder(AnnotatorModel,
     It takes two row-aligned document columns, jointly encodes each row's pair as a single
     sequence ``[CLS] text_a [SEP] text_b [SEP]``, runs one forward pass through a BERT-family
     transformer with a single-logit regression head, and writes one score per row to a single
-    output column. The logit is squashed with a sigmoid, so every score lands in ``[0, 1]``. Row
-    ``i`` of the first column and row ``i`` of the second column produce row ``i`` of the output —
-    there is no cross-row interaction. Any 1-query-vs-N-candidates reranking use case is a
-    ``crossJoin``/``explode`` the user performs upstream.
+    output column. The logit is squashed with a sigmoid, so every score lands in ``[0, 1]``
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion object:
 
