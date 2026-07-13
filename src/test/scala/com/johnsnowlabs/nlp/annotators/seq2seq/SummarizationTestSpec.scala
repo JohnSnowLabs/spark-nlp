@@ -114,6 +114,21 @@ class SummarizationTestSpec extends AnyFlatSpec {
     assert(SummarizationModel.unwrapJsonStringLiteral(plain) == plain)
   }
 
+  it should "keep quotes on a summary that merely starts and ends with a quotation mark" taggedAs FastTest in {
+    // quoted speech, not a JSON-string literal: no escape sequences inside the quotes
+    val quoted = "\"We will reduce the risk of wildfires,\" the utility said."
+    assert(SummarizationModel.unwrapJsonStringLiteral(quoted) == quoted)
+    val fullyQuoted = "\"The utility scheduled blackouts to reduce wildfire risk.\""
+    assert(SummarizationModel.unwrapJsonStringLiteral(fullyQuoted) == fullyQuoted)
+  }
+
+  it should "not turn an escaped backslash followed by n into a newline" taggedAs FastTest in {
+    // the JSON escape \\n denotes a literal backslash followed by the letter n
+    val wrapped = "\"path C:\\\\new stays literal.\\nSecond line.\""
+    val unwrapped = SummarizationModel.unwrapJsonStringLiteral(wrapped)
+    assert(unwrapped == "path C:\\new stays literal.\nSecond line.")
+  }
+
   it should "rank lead and central sentences higher" taggedAs FastTest in {
     // sentence 0 and 1 similar (recurring topic), sentence 2 orthogonal
     val embs = Array(Array(1.0f, 0.1f, 0.0f), Array(0.9f, 0.2f, 0.0f), Array(0.0f, 0.0f, 1.0f))

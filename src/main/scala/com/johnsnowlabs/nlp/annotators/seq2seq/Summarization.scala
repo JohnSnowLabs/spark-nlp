@@ -129,7 +129,9 @@ trait SummarizationParams extends Params {
 
   /** Strategy for documents longer than the model context: `auto`, `truncate` or `hierarchical`
     * (Default: `auto`). `auto` summarizes directly when the document fits and falls back to
-    * hierarchical chunk-then-combine summarization when it does not.
+    * hierarchical chunk-then-combine summarization when it does not. Since `hierarchical` also
+    * summarizes a fitting document in a single pass, `auto` and `hierarchical` currently behave
+    * identically; only `truncate` differs (it cuts the document to the context budget).
     * @group param
     */
   val longDocumentStrategy = new Param[String](

@@ -38,6 +38,7 @@ class SummarizationParamsTestSpec(unittest.TestCase):
         self.assertEqual(summ.getOrDefault(summ.summaryStyle), "concise")
         self.assertEqual(summ.getOrDefault(summ.longDocumentStrategy), "auto")
         self.assertEqual(summ.getOrDefault(summ.numBeams), 4)
+        self.assertEqual(summ.getOrDefault(summ.noRepeatNgramSize), 3)
         self.assertAlmostEqual(summ.getOrDefault(summ.mmrLambda), 0.7, places=5)
         self.assertEqual(summ.getOrDefault(summ.gpuLayers), 99)
 
@@ -57,6 +58,7 @@ class SummarizationParamsTestSpec(unittest.TestCase):
                 .setFocus("main findings")
                 .setLongDocumentStrategy("truncate")
                 .setNumBeams(3)
+                .setNoRepeatNgramSize(2)
                 .setTemperature(0.5)
                 .setTopP(0.8)
                 .setChunkSize(512)
@@ -73,6 +75,7 @@ class SummarizationParamsTestSpec(unittest.TestCase):
         self.assertEqual(summ.getOrDefault(summ.focus), "main findings")
         self.assertEqual(summ.getOrDefault(summ.longDocumentStrategy), "truncate")
         self.assertEqual(summ.getOrDefault(summ.numBeams), 3)
+        self.assertEqual(summ.getOrDefault(summ.noRepeatNgramSize), 2)
         self.assertAlmostEqual(summ.getOrDefault(summ.temperature), 0.5, places=5)
         self.assertAlmostEqual(summ.getOrDefault(summ.topP), 0.8, places=5)
         self.assertEqual(summ.getOrDefault(summ.chunkSize), 512)
