@@ -101,6 +101,19 @@ class SummarizationTestSpec extends AnyFlatSpec {
     }
   }
 
+  it should "unwrap a JSON-string-literal shaped llm response" taggedAs FastTest in {
+    val wrapped = "\"- First point.  \\n- Second point.  \\n- Third point.\""
+    val unwrapped = SummarizationModel.unwrapJsonStringLiteral(wrapped)
+    assert(unwrapped == "- First point.  \n- Second point.  \n- Third point.")
+    assert(!unwrapped.contains("\\n"), "literal backslash-n must become a real newline")
+    assert(!unwrapped.startsWith("\""), "wrapping quote must be stripped")
+  }
+
+  it should "leave plain (non-wrapped) llm responses unchanged" taggedAs FastTest in {
+    val plain = "- First point.\n- Second point."
+    assert(SummarizationModel.unwrapJsonStringLiteral(plain) == plain)
+  }
+
   it should "rank lead and central sentences higher" taggedAs FastTest in {
     // sentence 0 and 1 similar (recurring topic), sentence 2 orthogonal
     val embs = Array(Array(1.0f, 0.1f, 0.0f), Array(0.9f, 0.2f, 0.0f), Array(0.0f, 0.0f, 1.0f))

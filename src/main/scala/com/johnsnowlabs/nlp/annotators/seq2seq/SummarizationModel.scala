@@ -371,9 +371,11 @@ class SummarizationModel(override val uid: String)
       var stripped = raw.replaceAll("(?s)<think>.*?</think>", "")
       val openIdx = stripped.indexOf("<think>")
       if (openIdx >= 0) stripped = stripped.substring(0, openIdx)
-      if (isLlm)
-        stripped.replaceAll("(?im)^\\s*(summary|here is (a|the) summary)\\s*:?\\s*", "").trim
-      else stripped.trim
+      if (isLlm) {
+        val withoutLabel =
+          stripped.replaceAll("(?im)^\\s*(summary|here is (a|the) summary)\\s*:?\\s*", "").trim
+        SummarizationModel.unwrapJsonStringLiteral(withoutLabel)
+      } else stripped.trim
     }
 
     val joinPairsUdf = udf { pairs: Seq[Row] =>
@@ -713,4 +715,19 @@ object SummarizationModel
     with ReadSummarizationDelegate {
 
   private[seq2seq] val delegateDir = "summarization_delegate"
+
+  /** Some instruction-tuned models occasionally emit the summary as a JSON-string literal
+    * (wrapped in double quotes, with `\n` written out as a literal backslash-n) instead of raw
+    * text. Unwrap that shape back into plain text; text that isn't wrapped is returned unchanged.
+    */
+  private[seq2seq] def unwrapJsonStringLiteral(text: String): String = {
+    if (text.length >= 2 && text.head == '"' && text.last == '"') {
+      text
+        .substring(1, text.length - 1)
+        .replace("\\n", "\n")
+        .replace("\\\"", "\"")
+        .replace("\\\\", "\\")
+        .trim
+    } else text
+  }
 }
