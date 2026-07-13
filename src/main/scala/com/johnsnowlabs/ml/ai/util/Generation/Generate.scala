@@ -118,8 +118,8 @@ trait Generate {
         noRepeatNgramSize = noRepeatNgramSize,
         vocabSize = vocabSize))
 
-//    logitProcessorList.addProcess(
-//      new MinLengthLogitProcessor(eosTokenId, minOutputLength, vocabSize))
+    logitProcessorList.addProcess(
+      new MinLengthLogitProcessor(eosTokenId, minOutputLength, vocabSize))
 
     logitProcessorList.addProcess(new TemperatureLogitWarper(temperature))
 
