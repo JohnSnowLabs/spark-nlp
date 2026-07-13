@@ -52,6 +52,10 @@ class _SummarizationParams:
                      "Number of beams (encoder_decoder method only)",
                      typeConverter=TypeConverters.toInt)
 
+    noRepeatNgramSize = Param(Params._dummy(), "noRepeatNgramSize",
+                              "Forbid repeating this n-gram size (encoder_decoder method only, 0 = disabled)",
+                              typeConverter=TypeConverters.toInt)
+
     temperature = Param(Params._dummy(), "temperature",
                         "Generation temperature",
                         typeConverter=TypeConverters.toFloat)
@@ -143,6 +147,10 @@ class _SummarizationParams:
     def setLongDocumentStrategy(self, value):
         """Sets the long-document strategy: ``auto``, ``truncate`` or ``hierarchical``.
 
+        ``auto`` and ``hierarchical`` currently behave identically (a document
+        that fits is summarized in a single pass either way); only ``truncate``
+        differs, cutting the document to the context budget.
+
         Parameters
         ----------
         value : str
@@ -159,6 +167,17 @@ class _SummarizationParams:
             Number of beams
         """
         return self._set(numBeams=value)
+
+    def setNoRepeatNgramSize(self, value):
+        """Sets the n-gram size that may not repeat in the generated summary
+        (encoder_decoder only, 0 = disabled).
+
+        Parameters
+        ----------
+        value : int
+            Forbidden n-gram size
+        """
+        return self._set(noRepeatNgramSize=value)
 
     def setTemperature(self, value):
         """Sets the generation temperature (llm only).
@@ -309,6 +328,7 @@ class Summarization(AnnotatorApproach, _SummarizationParams):
             focus="",
             longDocumentStrategy="auto",
             numBeams=4,
+            noRepeatNgramSize=3,
             temperature=0.2,
             topP=0.9,
             chunkSize=0,

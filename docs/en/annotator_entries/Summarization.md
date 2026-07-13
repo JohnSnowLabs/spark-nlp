@@ -26,6 +26,10 @@ configures the shared delegate in place — use one instance per concurrent call
 **Note:** With the `llm` method the document text is embedded into the prompt, so a document
 containing instructions can influence its own summary (prompt injection). The built-in system
 prompt reduces but does not eliminate this.
+
+**Note:** `transform` caches the input row ids and the computed summaries to keep the returned
+DataFrame consistent. These caches cannot be released through this API; they are freed when the
+SparkSession ends or via `spark.catalog.clearCache()` (which clears all cached data).
 {%- endcapture -%}
 
 {%- capture model_input_anno -%}
@@ -114,7 +118,9 @@ Three summarization methods are supported, each with an automatically selected d
 Documents longer than the model context are handled automatically
 (`setLongDocumentStrategy("auto" | "truncate" | "hierarchical")`): the document is split at
 sentence boundaries into overlapping chunks, each chunk is summarized, and the intermediate
-summaries are combined and summarized again.
+summaries are combined and summarized again. `auto` and `hierarchical` currently behave
+identically (a document that fits is summarized in a single pass either way); only `truncate`
+differs, cutting the document to the context budget.
 
 The public API exposes summarization concepts rather than model concepts:
 

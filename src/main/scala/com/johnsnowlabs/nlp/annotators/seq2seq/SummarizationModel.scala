@@ -51,9 +51,11 @@ import org.slf4j.LoggerFactory
   *     place, so a single model instance is not safe for concurrent `transform` calls; use one
   *     instance per concurrent caller.
   *   - Transforms cache the input row ids and the computed summaries for the lifetime of the
-  *     returned DataFrame (generative inference intermediates are released eagerly). The
-  *     encoder_decoder method pins inference to a single partition (the BART backend is not
-  *     thread-safe); the llm and extractive methods keep the input partitioning.
+  *     returned DataFrame (generative inference intermediates are released eagerly). These caches
+  *     back the returned DataFrame and cannot be unpersisted through this API; they are freed
+  *     when the SparkSession ends or via `spark.catalog.clearCache()` (which clears all cached
+  *     data). The encoder_decoder method pins inference to a single partition (the BART backend
+  *     is not thread-safe); the llm and extractive methods keep the input partitioning.
   *   - For the `llm` method the document text is embedded into the prompt, so a document
   *     containing instructions can influence its own summary (prompt injection); the system
   *     prompt reduces but does not eliminate this.
@@ -719,15 +721,37 @@ object SummarizationModel
   /** Some instruction-tuned models occasionally emit the summary as a JSON-string literal
     * (wrapped in double quotes, with `\n` written out as a literal backslash-n) instead of raw
     * text. Unwrap that shape back into plain text; text that isn't wrapped is returned unchanged.
+    *
+    * Quotes alone are not proof of the JSON shape (a summary may legitimately open and close with
+    * a quotation mark), so unwrapping additionally requires at least one JSON escape sequence
+    * inside the quotes.
     */
   private[seq2seq] def unwrapJsonStringLiteral(text: String): String = {
-    if (text.length >= 2 && text.head == '"' && text.last == '"') {
-      text
-        .substring(1, text.length - 1)
-        .replace("\\n", "\n")
-        .replace("\\\"", "\"")
-        .replace("\\\\", "\\")
-        .trim
-    } else text
+    val looksWrapped = text.length >= 2 && text.head == '"' && text.last == '"'
+    if (!looksWrapped) return text
+    val inner = text.substring(1, text.length - 1)
+    val hasEscapes =
+      inner.contains("\\n") || inner.contains("\\\"") || inner.contains("\\t")
+    if (!hasEscapes) return text
+
+    // decode in a single pass so an escaped backslash cannot recombine with the character
+    // after it (sequential replace() calls would turn the literal \\n into a newline)
+    val sb = new StringBuilder(inner.length)
+    var i = 0
+    while (i < inner.length) {
+      if (inner(i) == '\\' && i + 1 < inner.length) {
+        inner(i + 1) match {
+          case 'n' => sb.append('\n'); i += 2
+          case 't' => sb.append('\t'); i += 2
+          case '"' => sb.append('"'); i += 2
+          case '\\' => sb.append('\\'); i += 2
+          case _ => sb.append(inner(i)); i += 1
+        }
+      } else {
+        sb.append(inner(i))
+        i += 1
+      }
+    }
+    sb.toString.trim
   }
 }
