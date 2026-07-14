@@ -13,8 +13,6 @@
 #  limitations under the License.
 """Contains classes for NerDL."""
 
-from pyspark.ml.util import JavaMLReadable
-
 import sparknlp.internal as _internal
 from sparknlp.common import *
 
@@ -22,6 +20,7 @@ from sparknlp.common import *
 class NerDLGraphChecker(
     JavaEstimator,
     JavaMLWritable,
+    _internal.AnnotatorJavaMLReadable,
     _internal.ParamsGettersSetters,
 ):
     """Checks whether a suitable NerDL graph is available for the given training dataset, before any
@@ -211,7 +210,7 @@ class NerDLGraphChecker(
 class NerDLGraphCheckerModel(
     JavaModel,
     JavaMLWritable,
-    JavaMLReadable,
+    _internal.AnnotatorJavaMLReadable,
     _internal.ParamsGettersSetters,
 ):
     """Resulting model from `NerDLGraphChecker`, that updates dataframe metadata (label column)

@@ -39,6 +39,9 @@ class LegacyObjectInputStream(
     resolveCustomDescriptor: ObjectStreamClass => ObjectStreamClass)
     extends ObjectInputStream(in) {
 
+  private def hasField(classDescriptor: ObjectStreamClass, fieldName: String): Boolean =
+    classDescriptor.getFields.exists(_.getName == fieldName)
+
   /** Checks for explicit mappings of old serialized class names to replacement classes such as
     * Scala 2.12 collection serialization proxies and Spark NLP legacy classes.
     *
@@ -63,6 +66,8 @@ class LegacyObjectInputStream(
         ObjectStreamClass.lookup(classOf[LegacyListSerializationProxy])
       case "scala.collection.immutable.ListSerializeEnd$" =>
         ObjectStreamClass.lookup(LegacyListSerializeEnd.getClass)
+      case "scala.math.BigInt" if hasField(classDescriptor, "bigInteger") =>
+        ObjectStreamClass.lookup(classOf[LegacyBigInt])
       case _ => // No replacement class found, delegate to subclass
         resolveCustomDescriptor(classDescriptor)
     }
