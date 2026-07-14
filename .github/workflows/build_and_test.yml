@@ -97,11 +97,13 @@ jobs:
 
       - name: Test Spark NLP in Scala - Apache Spark ${{ matrix.spark }}
         if: ${{ !matrix.coverage }}
+        timeout-minutes: 60
         run: |
           sbt -mem 4096 -Dspark.version=${{ matrix.spark }} test
 
       - name: Test Spark NLP in Scala with coverage - Apache Spark ${{ matrix.spark }}
         if: matrix.coverage
+        timeout-minutes: 90
         run: |
           sbt -mem 4096 -Dspark.version=${{ matrix.spark }} coverage test
 

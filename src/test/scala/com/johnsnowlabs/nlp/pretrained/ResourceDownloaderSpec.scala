@@ -17,7 +17,7 @@
 package com.johnsnowlabs.nlp.pretrained
 
 import com.johnsnowlabs.nlp.embeddings.BertEmbeddings
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import com.johnsnowlabs.util.{TrainingHelper, Version}
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -103,15 +103,15 @@ class ResourceDownloaderSpec extends AnyFlatSpec {
     assert(found.isDefined)
   }
 
-  "Pretrained" should "allow download of BERT Tiny from public S3 Bucket" in {
+  "Pretrained" should "allow download of BERT Tiny from public S3 Bucket" taggedAs SlowTest in {
     BertEmbeddings.pretrained("small_bert_L2_128", lang = "en")
   }
 
-  "Pretrained" should "allow download of BERT Tiny from community S3 Bucket" in {
+  "Pretrained" should "allow download of BERT Tiny from community S3 Bucket" taggedAs SlowTest in {
     BertEmbeddings.pretrained("small_bert_L2_128_test", lang = "en", remoteLoc = "@maziyarpanahi")
   }
 
-  "Pretrained" should "allow download of BERT Tiny from public and community S3 Buckets" in {
+  "Pretrained" should "allow download of BERT Tiny from public and community S3 Buckets" taggedAs SlowTest in {
     val bertModel = BertEmbeddings.pretrained(
       "small_bert_L2_128_test",
       lang = "en",
