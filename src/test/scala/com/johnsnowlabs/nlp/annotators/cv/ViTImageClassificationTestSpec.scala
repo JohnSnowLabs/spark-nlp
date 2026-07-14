@@ -154,8 +154,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
 
       val prediction = lightPipeline.fullAnnotateImage("./image")
 
-      assert(prediction("image_assembler").isEmpty)
-      assert(prediction("class").isEmpty)
+      assert(prediction.isEmpty)
 
       val images =
         Array("src/test/resources/image/hen.JPEG", "src/test/resources/image/missing_file.mf")
@@ -163,14 +162,11 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
 
       assert(predictions(0)("image_assembler").nonEmpty)
       assert(predictions(0)("class").nonEmpty)
-      assert(predictions(1)("image_assembler").isEmpty)
-      assert(predictions(1)("class").isEmpty)
+      assert(predictions(1).isEmpty)
 
       val predictionsFullAnnotate = lightPipeline.fullAnnotate(images)
       assert(predictionsFullAnnotate(0)("image_assembler").nonEmpty)
       assert(predictionsFullAnnotate(0)("class").nonEmpty)
-      assert(predictionsFullAnnotate(1)("image_assembler").isEmpty)
-      assert(predictionsFullAnnotate(1)("class").isEmpty)
     }
 
     it should "work for mix inputs" taggedAs SlowTest in {
@@ -180,8 +176,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
 
       val prediction = lightPipeline.fullAnnotateImage("./image")
 
-      assert(prediction("image_assembler").isEmpty)
-      assert(prediction("class").isEmpty)
+      assert(prediction.isEmpty)
 
       val images =
         Array("src/test/resources/image/hen.JPEG", "this is a text")
@@ -189,8 +184,7 @@ trait ViTForImageClassificationBehaviors { this: AnyFlatSpec =>
 
       assert(predictions(0)("image_assembler").nonEmpty)
       assert(predictions(0)("class").nonEmpty)
-      assert(predictions(1)("image_assembler").isEmpty)
-      assert(predictions(1)("class").isEmpty)
+      assert(predictions(1).isEmpty)
     }
 
   }

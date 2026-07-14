@@ -1,3 +1,18 @@
+/*
+ * Copyright 2017-2026 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.johnsnowlabs.nlp.serialization
 
 import java.io.{ByteArrayInputStream, IOException, ObjectInputStream, ObjectStreamClass}
@@ -24,6 +39,9 @@ class LegacyObjectInputStream(
     resolveCustomDescriptor: ObjectStreamClass => ObjectStreamClass)
     extends ObjectInputStream(in) {
 
+  private def hasField(classDescriptor: ObjectStreamClass, fieldName: String): Boolean =
+    classDescriptor.getFields.exists(_.getName == fieldName)
+
   /** Checks for explicit mappings of old serialized class names to replacement classes such as
     * Scala 2.12 collection serialization proxies and Spark NLP legacy classes.
     *
@@ -38,10 +56,18 @@ class LegacyObjectInputStream(
         ObjectStreamClass.lookup(classOf[LegacyHashMapSerializationProxy])
       case "scala.collection.immutable.HashSet$SerializationProxy" =>
         ObjectStreamClass.lookup(classOf[LegacyHashSetSerializationProxy])
+      case "scala.collection.mutable.HashSet" =>
+        ObjectStreamClass.lookup(classOf[LegacyMutableHashSet[_]])
+      case "scala.collection.mutable.HashMap" =>
+        ObjectStreamClass.lookup(classOf[LegacyMutableHashMap[_, _]])
+      case "scala.collection.immutable.Vector" =>
+        ObjectStreamClass.lookup(classOf[LegacyVector[_]])
       case "scala.collection.immutable.List$SerializationProxy" =>
         ObjectStreamClass.lookup(classOf[LegacyListSerializationProxy])
       case "scala.collection.immutable.ListSerializeEnd$" =>
         ObjectStreamClass.lookup(LegacyListSerializeEnd.getClass)
+      case "scala.math.BigInt" if hasField(classDescriptor, "bigInteger") =>
+        ObjectStreamClass.lookup(classOf[LegacyBigInt])
       case _ => // No replacement class found, delegate to subclass
         resolveCustomDescriptor(classDescriptor)
     }
@@ -70,18 +96,22 @@ class LegacyObjectInputStream(
 
     // Ignore all serialVersionUIDs, if they are not array
     if (!resultClassDescriptor.getName.startsWith("[")) {
+      val legacyClassDescriptor = resolveLegacyDescriptor(resultClassDescriptor)
       val classForName = Try {
         Class.forName(resultClassDescriptor.getName, false, getClass.getClassLoader)
       }
-      val localClassDescriptor: ObjectStreamClass = classForName match {
-        case Success(clazz) => ObjectStreamClass.lookup(clazz)
-        case Failure(_) => resolveLegacyDescriptor(resultClassDescriptor) // Manual mapping case
-      }
+      val localClassDescriptor: ObjectStreamClass =
+        if (legacyClassDescriptor != null) legacyClassDescriptor
+        else
+          classForName match {
+            case Success(clazz) => ObjectStreamClass.lookup(clazz)
+            case Failure(_) => null
+          }
 
       if (localClassDescriptor != null) {
         val localSUID = localClassDescriptor.getSerialVersionUID
         val streamSUID = resultClassDescriptor.getSerialVersionUID
-        if (streamSUID != localSUID) { // check for serialVersionUID mismatch.
+        if (legacyClassDescriptor != null || streamSUID != localSUID) { // check for explicit legacy mapping or serialVersionUID mismatch.
           // Use local class descriptor for deserialization
           resultClassDescriptor = localClassDescriptor
         }

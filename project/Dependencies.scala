@@ -3,15 +3,21 @@ import sbt._
 object Dependencies {
 
   /** ------- Spark version start ------- */
-  /* default spark version to base the APIS */
-  val spark40Ver = "4.0.0"
-  /* only used in unit tests */
-  val spark30Ver = "3.0.3"
-  val spark31Ver = "3.1.3"
-  val spark32Ver = "3.2.3"
-  val spark33Ver = "3.3.1"
-  val spark34Ver = "3.4.0"
-  val spark35Ver = "3.5.0"
+  val spark400Ver = "4.0.0"
+  val spark401Ver = "4.0.1"
+  val spark410Ver = "4.1.0"
+  val spark411Ver = "4.1.1"
+  val spark412Ver = "4.1.2"
+
+  val spark4Versions: Seq[String] = Seq(
+    spark400Ver,
+    spark401Ver,
+    spark410Ver,
+    spark411Ver,
+    spark412Ver)
+
+  /* Default Spark 4 baseline. Use -Dspark.version=<version> for a specific Spark 4.x lane. */
+  val spark4DefaultVer = spark401Ver
 
   /* required for different hardware */
   val is_gpu: String = System.getProperty("is_gpu", "false")
@@ -19,37 +25,41 @@ object Dependencies {
   val is_silicon: String = System.getProperty("is_silicon", "false")
   val is_aarch64: String = System.getProperty("is_aarch64", "false")
 
-  /* only used for unit tests */
-  val is_spark30: String = System.getProperty("is_spark30", "false")
-  val is_spark31: String = System.getProperty("is_spark31", "false")
-  val is_spark32: String = System.getProperty("is_spark32", "false")
-  val is_spark33: String = System.getProperty("is_spark33", "false")
-  val is_spark34: String = System.getProperty("is_spark34", "false")
-  val is_spark35: String = System.getProperty("is_spark35", "false")
-  val is_spark40: String = System.getProperty("is_spark40", "true")
+  /* only used for unit tests and compatibility lanes */
+  val is_spark400: String = System.getProperty("is_spark400", "false")
+  val is_spark401: String = System.getProperty("is_spark401", "false")
+  val is_spark410: String = System.getProperty("is_spark410", "false")
+  val is_spark411: String = System.getProperty("is_spark411", "false")
+  val is_spark412: String = System.getProperty("is_spark412", "false")
 
-  private val enabledSparkProfiles = Seq(
-    is_spark30,
-    is_spark31,
-    is_spark32,
-    is_spark33,
-    is_spark34,
-    is_spark35,
-    is_spark40).count(_.equals("true"))
+  private val sparkVersionOverride = System.getProperty("spark.version", "").trim
+
+  private val sparkProfiles = Seq(
+    "-Dis_spark400=true" -> spark400Ver,
+    "-Dis_spark401=true" -> spark401Ver,
+    "-Dis_spark410=true" -> spark410Ver,
+    "-Dis_spark411=true" -> spark411Ver,
+    "-Dis_spark412=true" -> spark412Ver)
+
+  private val selectedSparkProfiles = sparkProfiles
+    .zip(
+      Seq(
+        is_spark400,
+        is_spark401,
+        is_spark410,
+        is_spark411,
+        is_spark412))
+    .collect { case ((profile, version), "true") => profile -> version }
 
   require(
-    enabledSparkProfiles <= 1,
-    "Select at most one Spark profile: -Dis_spark30=true, -Dis_spark31=true, -Dis_spark32=true, -Dis_spark33=true, -Dis_spark34=true, -Dis_spark35=true, or -Dis_spark40=true")
+    selectedSparkProfiles.size <= 1,
+    s"Select at most one Spark 4 profile: ${sparkProfiles.map(_._1).mkString(", ")}")
 
-  val sparkVer: String =
-    getSparkVersion(
-      is_spark30,
-      is_spark31,
-      is_spark32,
-      is_spark33,
-      is_spark34,
-      is_spark35,
-      is_spark40)
+  require(
+    sparkVersionOverride.isEmpty || selectedSparkProfiles.isEmpty,
+    "Use either -Dspark.version=<Spark 4.x version> or a Spark profile flag, not both")
+
+  val sparkVer: String = getSparkVersion(sparkVersionOverride, selectedSparkProfiles)
 
   /** ------- Spark version end ------- */
 
@@ -67,39 +77,17 @@ object Dependencies {
   }
 
   def getSparkVersion(
-      is_spark30: String,
-      is_spark31: String,
-      is_spark32: String,
-      is_spark33: String,
-      is_spark34: String,
-      is_spark35: String,
-      is_spark40: String): String = {
-    if (is_spark30.equals("true")) {
-      spark30Ver
-    } else if (is_spark31.equals("true")) {
-      spark31Ver
-    } else if (is_spark32.equals("true")) {
-      spark32Ver
-    } else if (is_spark33.equals("true")) {
-      spark33Ver
-    } else if (is_spark34.equals("true")) {
-      spark34Ver
-    } else if (is_spark35.equals("true")) {
-      spark35Ver
-    } else if (is_spark40.equals("true")) {
-      spark40Ver
-    } else {
-      /* default spark version */
-      spark40Ver
-    }
-  }
+      sparkVersionOverride: String,
+      selectedSparkProfiles: Seq[(String, String)]): String = {
+    val selectedVersion =
+      if (sparkVersionOverride.nonEmpty) sparkVersionOverride
+      else selectedSparkProfiles.headOption.map(_._2).getOrElse(spark4DefaultVer)
 
-  def getJavaTarget(is_spark33: String): String = {
-    if (is_spark33.equals("true")) {
-      "-target:jvm-1.8"
-    } else {
-      ""
-    }
+    require(
+      spark4Versions.contains(selectedVersion),
+      s"Unsupported Spark version '$selectedVersion'. Supported Spark 4 versions: ${spark4Versions.mkString(", ")}")
+
+    selectedVersion
   }
 
   /** ------- Scala version start ------- */

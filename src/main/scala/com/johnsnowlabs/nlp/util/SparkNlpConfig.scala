@@ -16,7 +16,6 @@
 
 package com.johnsnowlabs.nlp.util
 
-import com.johnsnowlabs.util.Version
 import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{Dataset, Row}
@@ -25,24 +24,10 @@ import org.apache.spark.sql.{Dataset, Row}
 object SparkNlpConfig {
 
   def getEncoder(inputDataset: Dataset[_], newStructType: StructType): ExpressionEncoder[Row] = {
-    val sparkVersion = Version.parse(inputDataset.sparkSession.version).toFloat
-    if (sparkVersion >= 3.5f) {
-      val expressionEncoderClass =
-        Class.forName("org.apache.spark.sql.catalyst.encoders.ExpressionEncoder")
-      val applyMethod = expressionEncoderClass.getMethod("apply", classOf[StructType])
-      applyMethod.invoke(null, newStructType).asInstanceOf[ExpressionEncoder[Row]]
-    } else {
-      try {
-        // Use reflection to access RowEncoder.apply in older Spark versions
-        val rowEncoderClass = Class.forName("org.apache.spark.sql.catalyst.encoders.RowEncoder")
-        val applyMethod = rowEncoderClass.getMethod("apply", classOf[StructType])
-        applyMethod.invoke(null, newStructType).asInstanceOf[ExpressionEncoder[Row]]
-      } catch {
-        case _: Throwable =>
-          throw new UnsupportedOperationException(
-            "RowEncoder.apply is not supported in this Spark version.")
-      }
-    }
+    val expressionEncoderClass =
+      Class.forName("org.apache.spark.sql.catalyst.encoders.ExpressionEncoder")
+    val applyMethod = expressionEncoderClass.getMethod("apply", classOf[StructType])
+    applyMethod.invoke(null, newStructType).asInstanceOf[ExpressionEncoder[Row]]
   }
 
 }
