@@ -24,7 +24,7 @@ import org.apache.spark.ml.param.{Param, ParamMap}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.{Metadata, MetadataBuilder, StructType}
-import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 import org.slf4j.LoggerFactory
 
 /** Fitted model produced by [[Summarization]].
@@ -363,10 +363,10 @@ class SummarizationModel(override val uid: String)
       else text
     }
 
-    val extractSummaryUdf = udf { anns: Seq[Row] =>
+    val extractSummaryUdf = udf { anns: Seq[Annotation] =>
       val raw =
         if (anns == null || anns.isEmpty) ""
-        else Annotation(anns.head).result
+        else anns.head.result
       // remove complete <think>...</think> blocks first, then any dangling unclosed <think>
       // (Qwen and similar reasoning models can emit an opening tag whose closing tag was cut
       // off by the generation budget; strip from the opening tag to the end of the output)
@@ -380,9 +380,8 @@ class SummarizationModel(override val uid: String)
       } else stripped.trim
     }
 
-    val joinPairsUdf = udf { pairs: Seq[Row] =>
+    val joinPairsUdf = udf { pairs: Seq[(Int, String)] =>
       pairs
-        .map(r => (r.getInt(0), r.getString(1)))
         .sortBy(_._1)
         .map(_._2)
         .filter(_.nonEmpty)
@@ -521,10 +520,8 @@ class SummarizationModel(override val uid: String)
 
     // annotation structs contain a map field and are not orderable, so ordering by annotation
     // index must happen inside a UDF rather than via sort_array
-    val sortAnnotationsUdf = udf { pairs: Seq[Row] =>
-      pairs
-        .sortBy(_.getInt(0))
-        .map(r => Annotation(r.getStruct(1)))
+    val sortAnnotationsUdf = udf { pairs: Seq[(Int, Annotation)] =>
+      pairs.sortBy(_._1).map(_._2)
     }
 
     val resultPerRow = summaries
@@ -600,17 +597,18 @@ class SummarizationModel(override val uid: String)
 
     // Rank the sentences of exactly one document (this row) into a single summary annotation.
     // Sentence and embedding annotations are aligned 1:1 by index within the row.
-    val rankUdf = udf { (docAnns: Seq[Row], sentAnns: Seq[Row], embAnns: Seq[Row]) =>
-      val doc = Option(docAnns).getOrElse(Seq.empty).map(Annotation(_)).headOption
-      val sents = Option(sentAnns).getOrElse(Seq.empty).map(Annotation(_)).toArray
-      val embs = Option(embAnns).getOrElse(Seq.empty).map(Annotation(_)).toArray
+    val rankUdf = udf {
+      (docAnns: Seq[Annotation], sentAnns: Seq[Annotation], embAnns: Seq[Annotation]) =>
+        val doc = Option(docAnns).getOrElse(Seq.empty).headOption
+        val sents = Option(sentAnns).getOrElse(Seq.empty).toArray
+        val embs = Option(embAnns).getOrElse(Seq.empty).toArray
 
-      val docText = doc.map(_.result).getOrElse("")
-      val docMeta = doc.map(_.metadata).getOrElse(Map.empty[String, String])
-      val sentTexts = sents.map(_.result)
-      val sentEmbs = sentTexts.indices.map { i =>
-        if (i < embs.length) embs(i).embeddings else Array.emptyFloatArray
-      }.toArray
+        val docText = doc.map(_.result).getOrElse("")
+        val docMeta = doc.map(_.metadata).getOrElse(Map.empty[String, String])
+        val sentTexts = sents.map(_.result)
+        val sentEmbs = sentTexts.indices.map { i =>
+          if (i < embs.length) embs(i).embeddings else Array.emptyFloatArray
+        }.toArray
 
       // source metadata first so this stage's keys win on collision (e.g. chained summarizers)
       val baseMeta = docMeta ++ Map(
@@ -646,10 +644,8 @@ class SummarizationModel(override val uid: String)
 
     // annotation structs contain a map field and are not orderable, so ordering by annotation
     // index must happen inside a UDF rather than via sort_array
-    val sortAnnotationsUdf = udf { pairs: Seq[Row] =>
-      pairs
-        .sortBy(_.getInt(0))
-        .map(r => Annotation(r.getStruct(1)))
+    val sortAnnotationsUdf = udf { pairs: Seq[(Int, Annotation)] =>
+      pairs.sortBy(_._1).map(_._2)
     }
 
     val resultPerRow = ranked
