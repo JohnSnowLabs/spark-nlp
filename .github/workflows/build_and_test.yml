@@ -98,12 +98,16 @@ jobs:
       - name: Test Spark NLP in Scala - Apache Spark ${{ matrix.spark }}
         if: ${{ !matrix.coverage }}
         timeout-minutes: 60
+        env:
+          LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libstdc++.so.6
         run: |
           sbt -mem 4096 -Dspark.version=${{ matrix.spark }} test
 
       - name: Test Spark NLP in Scala with coverage - Apache Spark ${{ matrix.spark }}
         if: matrix.coverage
         timeout-minutes: 90
+        env:
+          LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libstdc++.so.6
         run: |
           sbt -mem 4096 -Dspark.version=${{ matrix.spark }} coverage test
 
