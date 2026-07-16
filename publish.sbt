@@ -50,40 +50,15 @@ sonaUploadRequestTimeout := 60.minutes
     email = "danilo@johnsnowlabs.com",
     url = url("https://github.com/danilojsl")),
   Developer(
-    id = "rohit13k",
-    name = "Rohit Kumar",
-    email = "rohit@johnsnowlabs.com",
-    url = url("https://github.com/rohit13k")),
-  Developer(
-    id = "aleksei-ai",
-    name = "Aleksei Alekseev",
-    email = "aleksei@pacific.ai",
-    url = url("https://github.com/aleksei-ai")),
-  Developer(
-    id = "showy",
-    name = "Eduardo Muñoz",
-    email = "eduardo@johnsnowlabs.com",
-    url = url("https://github.com/showy")),
-  Developer(
     id = "C-K-Loan",
     name = "Christian Kasim Loan",
     email = "christian@johnsnowlabs.com",
     url = url("https://github.com/C-K-Loan")),
   Developer(
-    id = "wolliq",
-    name = "Stefano Lori",
-    email = "stefano@johnsnowlabs.com",
-    url = url("https://github.com/wolliq")),
-  Developer(
     id = "vankov",
     name = "Ivan Vankov",
     email = "ivan@johnsnowlabs.com",
     url = url("https://github.com/vankov")),
-  Developer(
-    id = "alinapetukhova",
-    name = "Alina Petukhova",
-    email = "alina@johnsnowlabs.com",
-    url = url("https://github.com/alinapetukhova")),
   Developer(
     id = "DevinTDHa",
     name = "Devin Ha",
@@ -93,4 +68,9 @@ sonaUploadRequestTimeout := 60.minutes
     id = "ahmedlone127",
     name = "Khawja Ahmed Lone",
     email = "lone@johnsnowlabs.com",
-    url = url("https://github.com/ahmedlone127")))
+    url = url("https://github.com/ahmedlone127")),
+  Developer(
+    id = "AbdullahMubeenAnwar",
+    name = "Muhammad Abdullah",
+    email = "abdullah@johnsnowlabs.com",
+    url = url("https://github.com/AbdullahMubeenAnwar")))
