@@ -889,4 +889,10 @@ package object annotator {
 
   object SentenceDetectorSaTModel extends ReadablePretrainedSaTModel with ReadSaTDLModel
 
+  type DocumentTranslator = com.johnsnowlabs.nlp.annotators.seq2seq.DocumentTranslator
+
+  object DocumentTranslator
+      extends ReadablePretrainedDocumentTranslator
+      with ReadDocumentTranslatorModel
+
 }
