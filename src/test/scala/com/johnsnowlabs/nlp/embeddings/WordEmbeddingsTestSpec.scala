@@ -32,7 +32,7 @@ class WordEmbeddingsTestSpec extends AnyFlatSpec with SparkSessionTest {
     .option("header", "true")
     .csv("src/test/resources/embeddings/clinical_words.txt")
 
-  "Word Embeddings" should "Should not repeat tokens" taggedAs FastTest in {
+  "Word Embeddings" should "Should not repeat tokens" taggedAs SlowTest in {
 
     val loaded = spark.read.parquet("src/test/resources/word-embedding/test-repeated-tokens")
 

@@ -21,7 +21,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 @pytest.mark.skip(reason="needs 2.13 custom serialization")
 class ContextSpellCheckerModelTestSpec(unittest.TestCase):
 
