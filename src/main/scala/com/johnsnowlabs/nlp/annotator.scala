@@ -30,6 +30,10 @@ import com.johnsnowlabs.nlp.annotators.ld.dl.{
   ReadLanguageDetectorDLTensorflowModel,
   ReadablePretrainedLanguageDetectorDLModel
 }
+import com.johnsnowlabs.nlp.annotators.matcher.{
+  RuleBasedMatcher => RuleBasedMatcherAnnotator,
+  RuleBasedMatcherModel => RuleBasedMatcherAnnotatorModel
+}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{LLMEntityExtractor, _}
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
@@ -123,6 +127,14 @@ package object annotator {
   type RegexMatcherModel = com.johnsnowlabs.nlp.annotators.RegexMatcherModel
 
   object RegexMatcherModel extends ParamsAndFeaturesReadable[RegexMatcherModel]
+
+  type RuleBasedMatcher = RuleBasedMatcherAnnotator
+
+  object RuleBasedMatcher extends DefaultParamsReadable[RuleBasedMatcher]
+
+  type RuleBasedMatcherModel = RuleBasedMatcherAnnotatorModel
+
+  object RuleBasedMatcherModel extends ParamsAndFeaturesReadable[RuleBasedMatcherModel]
 
   type Chunker = com.johnsnowlabs.nlp.annotators.Chunker
 
