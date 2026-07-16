@@ -59,6 +59,7 @@ sys.modules['com.johnsnowlabs.nlp.annotators.sbd.sat'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.seq2seq'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.ws'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.er'] = annotator
+sys.modules['com.johnsnowlabs.nlp.annotators.matcher'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.coref'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.cv'] = annotator
 sys.modules['com.johnsnowlabs.nlp.annotators.audio'] = annotator
