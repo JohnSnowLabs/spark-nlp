@@ -8,9 +8,8 @@ on:
       - "scripts/**"
       - "examples/**"
       - "**.md"
-      # Temporarily allow workflow-only changes to trigger CI while validating the Spark 4 matrix.
-      # - "**.yaml"
-      # - "**.yml"
+      - "**.yaml"
+      - "**.yml"
       - "**.ipynb"
     branches:
       - "master"
@@ -25,9 +24,8 @@ on:
       - "scripts/**"
       - "examples/**"
       - "**.md"
-      # Temporarily allow workflow-only changes to trigger CI while validating the Spark 4 matrix.
-      # - "**.yaml"
-      # - "**.yml"
+      - "**.yaml"
+      - "**.yml"
       - "**.ipynb"
     branches:
       - "master"
