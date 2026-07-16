@@ -47,15 +47,21 @@ jobs:
       matrix:
         include:
           - spark: "4.0.0"
+            profile: spark400
+            variant: cpu
             coverage: false
           - spark: "4.0.1"
+            profile: spark4
+            variant: cpu
             coverage: true
           - spark: "4.1.2"
+            profile: spark4
+            variant: cpu
             coverage: false
     env:
       TF_CPP_MIN_LOG_LEVEL: 3
       JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
-    name: Build and Test on Apache Spark ${{ matrix.spark }}
+    name: Build and Test ${{ matrix.profile }}/${{ matrix.variant }} on Apache Spark ${{ matrix.spark }}
 
     steps:
       - uses: actions/checkout@v4
@@ -87,11 +93,24 @@ jobs:
           python --version
           python -c "import pyspark; print(f'PySpark {pyspark.__version__}')"
           echo "Requested Apache Spark version: ${{ matrix.spark }}"
-          sbt -mem 4096 -Dspark.version=${{ matrix.spark }} 'show scalaVersion'
+          sbt -mem 4096 \
+            -Dspark.build.profile=${{ matrix.profile }} \
+            -Dspark.build.variant=${{ matrix.variant }} \
+            -Dspark.version=${{ matrix.spark }} \
+            'show selectedSparkBuildProfile' \
+            'show selectedSparkBuildVariant' \
+            'show selectedSparkVersion' \
+            'show selectedSparkArtifact' \
+            'show scalaVersion' \
+            'show projectID'
 
       - name: Build Spark NLP on Apache Spark ${{ matrix.spark }}
         run: |
-          sbt -mem 4096 -Dspark.version=${{ matrix.spark }} clean assemblyAndCopy
+          sbt -mem 4096 \
+            -Dspark.build.profile=${{ matrix.profile }} \
+            -Dspark.build.variant=${{ matrix.variant }} \
+            -Dspark.version=${{ matrix.spark }} \
+            clean assemblyAndCopy
 
       - name: Test Spark NLP in Scala - Apache Spark ${{ matrix.spark }}
         if: ${{ !matrix.coverage }}
@@ -99,7 +118,11 @@ jobs:
         env:
           LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libstdc++.so.6
         run: |
-          sbt -mem 4096 -Dspark.version=${{ matrix.spark }} test
+          sbt -mem 4096 \
+            -Dspark.build.profile=${{ matrix.profile }} \
+            -Dspark.build.variant=${{ matrix.variant }} \
+            -Dspark.version=${{ matrix.spark }} \
+            test
 
       - name: Test Spark NLP in Scala with coverage - Apache Spark ${{ matrix.spark }}
         if: matrix.coverage
@@ -107,12 +130,20 @@ jobs:
         env:
           LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libstdc++.so.6
         run: |
-          sbt -mem 4096 -Dspark.version=${{ matrix.spark }} coverage test
+          sbt -mem 4096 \
+            -Dspark.build.profile=${{ matrix.profile }} \
+            -Dspark.build.variant=${{ matrix.variant }} \
+            -Dspark.version=${{ matrix.spark }} \
+            coverage test
 
       - name: Upload coverage data to Coveralls
         if: matrix.coverage
         run: |
-          sbt -mem 4096 -Dspark.version=${{ matrix.spark }} coverageReport coveralls
+          sbt -mem 4096 \
+            -Dspark.build.profile=${{ matrix.profile }} \
+            -Dspark.build.variant=${{ matrix.variant }} \
+            -Dspark.version=${{ matrix.spark }} \
+            coverageReport coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERALLS_FLAG_NAME: Apache Spark ${{ matrix.spark }} - Scala 2.13

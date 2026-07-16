@@ -2,7 +2,22 @@ import Dependencies.*
 import M2Resolvers.m2Resolvers
 import sbtassembly.MergeStrategy
 
-name := getPackageName(is_silicon, is_gpu, is_aarch64)
+lazy val selectedSparkBuildProfile =
+  settingKey[String]("Selected Spark build profile").withRank(KeyRanks.Invisible)
+lazy val selectedSparkBuildVariant =
+  settingKey[String]("Selected Spark build variant").withRank(KeyRanks.Invisible)
+lazy val selectedSparkVersion =
+  settingKey[String]("Selected Spark compile or validation version").withRank(KeyRanks.Invisible)
+lazy val selectedSparkArtifact =
+  settingKey[String]("Selected Spark NLP artifact base name").withRank(KeyRanks.Invisible)
+
+selectedSparkBuildProfile := sparkBuildProfile.id
+selectedSparkBuildVariant := sparkBuildVariant.id
+selectedSparkVersion := sparkVer
+selectedSparkArtifact := sparkArtifactBaseName
+
+name := sparkArtifactBaseName
+moduleName := sparkArtifactBaseName
 
 organization := "com.johnsnowlabs.nlp"
 
@@ -90,34 +105,23 @@ lazy val utilDependencies = Seq(
 lazy val typedDependencyParserDependencies = Seq(junit)
 
 val tensorflowDependencies: Seq[sbt.ModuleID] =
-  if (is_gpu.equals("true"))
-    Seq(tensorflowGPU)
-  else if (is_silicon.equals("true"))
-    Seq(tensorflowM1)
-  else if (is_aarch64.equals("true"))
-    Seq(tensorflowLinuxAarch64)
-  else
-    Seq(tensorflowCPU)
+  sparkBuildVariant.id match {
+    case "gpu" => Seq(tensorflowGPU)
+    case "silicon" => Seq(tensorflowM1)
+    case "aarch64" => Seq(tensorflowLinuxAarch64)
+    case "cpu" => Seq(tensorflowCPU)
+  }
 
 val onnxDependencies: Seq[sbt.ModuleID] =
-  if (is_gpu.equals("true"))
-    Seq(onnxGPU)
-  else if (is_silicon.equals("true"))
-    Seq(onnxCPU)
-  else if (is_aarch64.equals("true"))
-    Seq(onnxCPU)
-  else
-    Seq(onnxCPU)
+  if (sparkBuildVariant.isGpu) Seq(onnxGPU) else Seq(onnxCPU)
 
 val llamaCppDependencies =
-  if (is_gpu.equals("true"))
-    Seq(llamaCppGPU)
-  else if (is_silicon.equals("true"))
-    Seq(llamaCppSilicon)
-  else if (is_aarch64.equals("true"))
-    Seq(llamaCppAarch64)
-  else
-    Seq(llamaCppCPU)
+  sparkBuildVariant.id match {
+    case "gpu" => Seq(llamaCppGPU)
+    case "silicon" => Seq(llamaCppSilicon)
+    case "aarch64" => Seq(llamaCppAarch64)
+    case "cpu" => Seq(llamaCppCPU)
+  }
 
 val openVinoDependencies: Seq[sbt.ModuleID] = Seq(openVinoCPU)
 
@@ -148,7 +152,7 @@ lazy val root = (project in file("."))
         typedDependencyParserDependencies,
     // TODO potentially improve this?
     mavenProps := {
-      sys.props("javacpp.platform.extension") = if (is_gpu.equals("true")) "-gpu" else ""
+      sys.props("javacpp.platform.extension") = if (sparkBuildVariant.isGpu) "-gpu" else ""
     })
 
 (assembly / assemblyShadeRules) := Seq(

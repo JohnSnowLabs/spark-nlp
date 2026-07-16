@@ -3,97 +3,87 @@ import sbt._
 object Dependencies {
 
   /** ------- Spark version start ------- */
+  final case class SparkBuildProfile(
+      id: String,
+      compileBaseline: String,
+      artifactSuffix: String,
+      supportedVersions: Seq[String])
+
+  final case class SparkBuildVariant(id: String, artifactBaseName: String) {
+    def isGpu: Boolean = id == "gpu"
+  }
+
   val spark400Ver = "4.0.0"
   val spark401Ver = "4.0.1"
   val spark410Ver = "4.1.0"
   val spark411Ver = "4.1.1"
   val spark412Ver = "4.1.2"
 
-  val spark4Versions: Seq[String] = Seq(
-    spark400Ver,
-    spark401Ver,
-    spark410Ver,
-    spark411Ver,
-    spark412Ver)
+  val spark400Profile = SparkBuildProfile(
+    id = "spark400",
+    compileBaseline = spark400Ver,
+    artifactSuffix = "-spark400",
+    supportedVersions = Seq(spark400Ver))
 
-  /* Default Spark 4 baseline. Use -Dspark.version=<version> for a specific Spark 4.x lane. */
-  val spark4DefaultVer = spark401Ver
+  val spark4Profile = SparkBuildProfile(
+    id = "spark4",
+    compileBaseline = spark401Ver,
+    artifactSuffix = "",
+    supportedVersions = Seq(spark401Ver, spark410Ver, spark411Ver, spark412Ver))
 
-  /* required for different hardware */
-  val is_gpu: String = System.getProperty("is_gpu", "false")
-  val is_opt: String = System.getProperty("is_opt", "false")
-  val is_silicon: String = System.getProperty("is_silicon", "false")
-  val is_aarch64: String = System.getProperty("is_aarch64", "false")
+  val sparkBuildProfiles: Map[String, SparkBuildProfile] =
+    Seq(spark400Profile, spark4Profile).map(profile => profile.id -> profile).toMap
 
-  /* only used for unit tests and compatibility lanes */
-  val is_spark400: String = System.getProperty("is_spark400", "false")
-  val is_spark401: String = System.getProperty("is_spark401", "false")
-  val is_spark410: String = System.getProperty("is_spark410", "false")
-  val is_spark411: String = System.getProperty("is_spark411", "false")
-  val is_spark412: String = System.getProperty("is_spark412", "false")
+  val sparkBuildProfileId: String =
+    System.getProperty("spark.build.profile", spark4Profile.id).trim.toLowerCase
+
+  val sparkBuildProfile: SparkBuildProfile = sparkBuildProfiles.getOrElse(
+    sparkBuildProfileId,
+    throw new IllegalArgumentException(
+      s"Unsupported Spark build profile '$sparkBuildProfileId'. " +
+        s"Supported profiles: ${sparkBuildProfiles.keys.toSeq.sorted.mkString(", ")}"))
+
+  val cpuVariant = SparkBuildVariant("cpu", "spark-nlp")
+  val gpuVariant = SparkBuildVariant("gpu", "spark-nlp-gpu")
+  val siliconVariant = SparkBuildVariant("silicon", "spark-nlp-silicon")
+  val aarch64Variant = SparkBuildVariant("aarch64", "spark-nlp-aarch64")
+
+  val sparkBuildVariants: Map[String, SparkBuildVariant] =
+    Seq(cpuVariant, gpuVariant, siliconVariant, aarch64Variant)
+      .map(variant => variant.id -> variant)
+      .toMap
+
+  val sparkBuildVariantId: String =
+    System.getProperty("spark.build.variant", cpuVariant.id).trim.toLowerCase
+
+  val sparkBuildVariant: SparkBuildVariant = sparkBuildVariants.getOrElse(
+    sparkBuildVariantId,
+    throw new IllegalArgumentException(
+      s"Unsupported Spark build variant '$sparkBuildVariantId'. " +
+        s"Supported variants: ${sparkBuildVariants.keys.toSeq.sorted.mkString(", ")}"))
 
   private val sparkVersionOverride = System.getProperty("spark.version", "").trim
 
-  private val sparkProfiles = Seq(
-    "-Dis_spark400=true" -> spark400Ver,
-    "-Dis_spark401=true" -> spark401Ver,
-    "-Dis_spark410=true" -> spark410Ver,
-    "-Dis_spark411=true" -> spark411Ver,
-    "-Dis_spark412=true" -> spark412Ver)
-
-  private val selectedSparkProfiles = sparkProfiles
-    .zip(
-      Seq(
-        is_spark400,
-        is_spark401,
-        is_spark410,
-        is_spark411,
-        is_spark412))
-    .collect { case ((profile, version), "true") => profile -> version }
+  val sparkVer: String =
+    if (sparkVersionOverride.nonEmpty) sparkVersionOverride
+    else sparkBuildProfile.compileBaseline
 
   require(
-    selectedSparkProfiles.size <= 1,
-    s"Select at most one Spark 4 profile: ${sparkProfiles.map(_._1).mkString(", ")}")
+    sparkBuildProfile.supportedVersions.contains(sparkVer),
+    s"Spark version '$sparkVer' is not supported by build profile '${sparkBuildProfile.id}'. " +
+      s"Supported versions: ${sparkBuildProfile.supportedVersions.mkString(", ")}")
 
-  require(
-    sparkVersionOverride.isEmpty || selectedSparkProfiles.isEmpty,
-    "Use either -Dspark.version=<Spark 4.x version> or a Spark profile flag, not both")
+  val sparkArtifactBaseName: String =
+    sparkBuildVariant.artifactBaseName + sparkBuildProfile.artifactSuffix
 
-  val sparkVer: String = getSparkVersion(sparkVersionOverride, selectedSparkProfiles)
+  val isPublishBaseline: Boolean = sparkVer == sparkBuildProfile.compileBaseline
 
   /** ------- Spark version end ------- */
-
-  /** Package attributes */
-  def getPackageName(is_silicon: String, is_gpu: String, is_aarch64: String): String = {
-    if (is_gpu.equals("true")) {
-      "spark-nlp-gpu"
-    } else if (is_silicon.equals("true")) {
-      "spark-nlp-silicon"
-    } else if (is_aarch64.equals("true")) {
-      "spark-nlp-aarch64"
-    } else {
-      "spark-nlp"
-    }
-  }
-
-  def getSparkVersion(
-      sparkVersionOverride: String,
-      selectedSparkProfiles: Seq[(String, String)]): String = {
-    val selectedVersion =
-      if (sparkVersionOverride.nonEmpty) sparkVersionOverride
-      else selectedSparkProfiles.headOption.map(_._2).getOrElse(spark4DefaultVer)
-
-    require(
-      spark4Versions.contains(selectedVersion),
-      s"Unsupported Spark version '$selectedVersion'. Supported Spark 4 versions: ${spark4Versions.mkString(", ")}")
-
-    selectedVersion
-  }
 
   /** ------- Scala version start ------- */
   lazy val scalaVer: String = "2.13.16"
 
-  lazy val supportedScalaVersions: Seq[String] = List(scalaVer)
+  lazy val supportedScalaVersions: Seq[String] = Seq(scalaVer)
 
   val scalaTestVersion = "3.2.19"
 
