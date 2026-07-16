@@ -40,4 +40,5 @@ object AnnotatorType {
   val DUMMY = "dummy"
   val DOC_SIMILARITY_RANKINGS = "doc_similarity_rankings"
   val BM25_RANKINGS = "bm25_rankings"
+  val VECTOR_SIMILARITY = "vector_similarity"
 }

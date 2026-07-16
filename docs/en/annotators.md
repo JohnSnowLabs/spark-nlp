@@ -90,6 +90,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="NerOverwriter" summary="Overwrites entities of specified strings."%}
 {% include templates/anno_table_entry.md path="" name="Normalizer" summary="Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary."%}
 {% include templates/anno_table_entry.md path="" name="NorvigSweeting Spellchecker" summary="Retrieves tokens and makes corrections automatically if not found in an English dictionary."%}
+{% include templates/anno_table_entry.md path="" name="PairwiseVectorSimilarity" summary="Computes pairwise cosine, dot-product, or euclidean similarity between two sets of sentence embeddings."%}
 {% include templates/anno_table_entry.md path="" name="POSTagger (Part of speech tagger)" summary="Averaged Perceptron model to tag words part-of-speech."%}
 {% include templates/anno_table_entry.md path="" name="PromptAssembler" summary="Assembles a sequence of messages into a single string using a template."%}
 {% include templates/anno_table_entry.md path="" name="Reader2Doc" summary="Reads documents from files or directories and outputs structured text for NLP pipelines."%}
