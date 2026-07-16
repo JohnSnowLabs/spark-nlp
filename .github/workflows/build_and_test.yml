@@ -120,6 +120,9 @@ jobs:
           COVERALLS_FLAG_NAME: Apache Spark ${{ matrix.spark }} - Scala 2.13
 
       - name: Test Spark NLP in Python - Apache Spark ${{ matrix.spark }}
+        timeout-minutes: 60
+        env:
+          LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libstdc++.so.6
         run: |
           cd python
           python -m pytest -v -m fast
