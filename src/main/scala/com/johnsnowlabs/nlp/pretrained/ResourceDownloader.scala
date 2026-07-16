@@ -124,7 +124,9 @@ object ResourceDownloader {
   /** Reset the cache and recreate ResourceDownloader S3 credentials */
   def resetResourceDownloader(): Unit = {
     cache.clear()
-    this.privateDownloader = new S3ResourceDownloader(s3Bucket, s3Path, cacheFolder, "private")
+    this.privateDownloader = new S3ResourceDownloader(
+      s3Bucket, s3Path, cacheFolder, "private"
+    )
   }
 
   /** List all pretrained models in public name_lang */

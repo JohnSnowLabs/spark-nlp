@@ -766,7 +766,7 @@ trait WithGraphResolver {
         return files(i)
     }
 
-    throw new IllegalStateException("Code shouldn't pass here")
+    throw new IllegalStateException("Code shouldn't pass here. Retry it")
   }
 
   private def getFiles(localGraphPath: Option[String]): Seq[String] = {
