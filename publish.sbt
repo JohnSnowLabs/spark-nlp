@@ -70,6 +70,11 @@ sonaUploadRequestTimeout := 60.minutes
     email = "lone@johnsnowlabs.com",
     url = url("https://github.com/ahmedlone127")),
   Developer(
+    id = "mehmetbutgul",
+    name = "Mehmet Butgul",
+    email = "mehmet@johnsnowlabs.com",
+    url = url("https://github.com/mehmetbutgul")),
+  Developer(
     id = "AbdullahMubeenAnwar",
     name = "Muhammad Abdullah",
     email = "abdullah@johnsnowlabs.com",
