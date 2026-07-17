@@ -18,6 +18,16 @@ ThisBuild / credentials += Credentials(Path.userHome / ".sbt" / "sonatype_centra
 ThisBuild / pomIncludeRepository := { _ => false }
 ThisBuild / publishMavenStyle := true
 
+publish / skip := {
+  if (!Dependencies.isPublishBaseline) {
+    throw new MessageOnlyException(
+      s"Publishing profile '${Dependencies.sparkBuildProfile.id}' is only allowed with its " +
+        s"Spark ${Dependencies.sparkBuildProfile.compileBaseline} compile baseline. " +
+        s"Selected Spark version: ${Dependencies.sparkVer}.")
+  }
+  false
+}
+
 // new setting for the Central Portal
 ThisBuild / publishTo := {
   val centralSnapshots = "https://central.sonatype.com/repository/maven-snapshots/"

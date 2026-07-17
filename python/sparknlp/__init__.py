@@ -16,12 +16,14 @@ import subprocess
 import sys
 import threading
 
+from pyspark import __version__ as pyspark_version
 from pyspark.conf import SparkConf
 from pyspark.context import SparkContext
 from pyspark.java_gateway import launch_gateway
 from pyspark.sql import SparkSession
 
 from sparknlp import annotator
+from sparknlp._maven import resolve_spark_nlp_coordinate
 # Must be declared here one by one or else PretrainedPipeline will fail with AttributeError
 from sparknlp.base import DocumentAssembler, MultiDocumentAssembler, Finisher, EmbeddingsFinisher, TokenAssembler, \
     Doc2Chunk, AudioAssembler, GraphFinisher, ImageAssembler, TableAssembler, MultiColumnAssembler
@@ -81,8 +83,7 @@ def start(gpu=False,
           params=None,
           real_time_output=False,
           output_level=1,
-          skip_sparknlp_maven=False,
-          scala213=False):
+          skip_sparknlp_maven=False):
     """Starts a PySpark instance with default parameters for Spark NLP.
 
     The default parameters would result in the equivalent of:
@@ -96,7 +97,7 @@ def start(gpu=False,
             .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \\
             .config("spark.kryoserializer.buffer.max", "2000M") \\
             .config("spark.driver.maxResultSize", "0") \\
-            .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:|release|") \\
+            .config("spark.jars.packages", "<resolved Spark NLP Maven coordinate>") \\
             .getOrCreate()
 
     Parameters
@@ -131,13 +132,12 @@ def start(gpu=False,
     skip_sparknlp_maven : bool, optional
         Whether to avoid adding the default Spark NLP Maven package. Use this
         when providing a custom Spark NLP jar with ``spark.jars``.
-    scala213 : bool, optional
-        Whether to use Scala 2.13 build of Spark NLP, by default False (Scala 2.12)
 
     Notes
     -----
-    Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
-    python version, consider sticking to lower versions of Spark.
+    The Maven artifact is selected from the installed PySpark version. Spark 3.x
+    uses Scala 2.12. Spark 4.0.0 uses the dedicated ``spark400`` Scala 2.13
+    artifact. Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2 use the default Scala 2.13 artifact.
 
     Returns
     -------
@@ -169,6 +169,16 @@ def start(gpu=False,
 
     skip_sparknlp_maven = is_skip_sparknlp_maven_enabled()
 
+    spark_jars_packages = ""
+    if not skip_sparknlp_maven:
+        spark_jars_packages = resolve_spark_nlp_coordinate(
+            pyspark_version,
+            maven_version,
+            gpu=gpu,
+            apple_silicon=apple_silicon,
+            aarch64=aarch64,
+        )
+
     driver_cores = "*"
     for key, value in params.items():
         if key == "spark.driver.cores":
@@ -182,14 +192,6 @@ def start(gpu=False,
             self.master, self.app_name = "local[{}]".format(driver_cores), "Spark NLP"
             self.serializer, self.serializer_max_buffer = "org.apache.spark.serializer.KryoSerializer", "2000M"
             self.driver_max_result_size = "0"
-            # Spark NLP on CPU or GPU
-            scala_version = "2.13" if scala213 else "2.12"
-            self.maven_spark3 = f"com.johnsnowlabs.nlp:spark-nlp_{scala_version}:{maven_version}"
-            self.maven_gpu_spark3 = f"com.johnsnowlabs.nlp:spark-nlp-gpu_{scala_version}:{maven_version}"
-            # Spark NLP on Apple Silicon
-            self.maven_silicon = f"com.johnsnowlabs.nlp:spark-nlp-silicon_{scala_version}:{current_version}"
-            # Spark NLP on Linux Aarch64
-            self.maven_aarch64 = f"com.johnsnowlabs.nlp:spark-nlp-aarch64_{scala_version}:{current_version}"
 
     def start_without_realtime_output():
         builder = SparkSession.builder \
@@ -199,15 +201,6 @@ def start(gpu=False,
             .config("spark.serializer", spark_nlp_config.serializer) \
             .config("spark.kryoserializer.buffer.max", spark_nlp_config.serializer_max_buffer) \
             .config("spark.driver.maxResultSize", spark_nlp_config.driver_max_result_size)
-
-        if apple_silicon:
-            spark_jars_packages = spark_nlp_config.maven_silicon
-        elif aarch64:
-            spark_jars_packages = spark_nlp_config.maven_aarch64
-        elif gpu:
-            spark_jars_packages = spark_nlp_config.maven_gpu_spark3
-        else:
-            spark_jars_packages = spark_nlp_config.maven_spark3
 
         if cache_folder != '':
             builder.config("spark.jsl.settings.pretrained.cache_folder", cache_folder)
@@ -244,15 +237,6 @@ def start(gpu=False,
                 spark_conf.set("spark.serializer", spark_nlp_config.serializer)
                 spark_conf.set("spark.kryoserializer.buffer.max", spark_nlp_config.serializer_max_buffer)
                 spark_conf.set("spark.driver.maxResultSize", spark_nlp_config.driver_max_result_size)
-
-                if apple_silicon:
-                    spark_jars_packages = spark_nlp_config.maven_silicon
-                elif aarch64:
-                    spark_jars_packages = spark_nlp_config.maven_aarch64
-                elif gpu:
-                    spark_jars_packages = spark_nlp_config.maven_gpu_spark3
-                else:
-                    spark_jars_packages = spark_nlp_config.maven_spark3
 
                 if cache_folder != '':
                     spark_conf.set("spark.jsl.settings.pretrained.cache_folder", cache_folder)
