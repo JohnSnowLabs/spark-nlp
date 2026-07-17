@@ -313,7 +313,7 @@ class StarCoderTransformer(AnnotatorModel, HasBatchedAnnotate, HasEngine):
         return StarCoderTransformer(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="starcoder", lang="en", remote_loc=None):
+    def pretrained(name="starcoder2_3b_int4", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters

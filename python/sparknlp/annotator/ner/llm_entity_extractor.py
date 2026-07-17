@@ -245,7 +245,7 @@ class LLMEntityExtractor(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperti
         """Downloads and loads a pretrained model."""
         from sparknlp.pretrained import ResourceDownloader
 
-        return ResourceDownloader.downloadModel(cls, name, lang, remote_loc)
+        return ResourceDownloader.downloadModel(cls, name, lang, remote_loc, skip_preferred_engine=True)
 
     def close(self):
         """Closes the underlying llama.cpp model backend freeing resources."""

@@ -103,7 +103,7 @@ class ClassifierDLTestSpec extends AnyFlatSpec {
 
   }
 
-  "ClassifierDL" should "correctly download and load pre-trained model" taggedAs FastTest in {
+  "ClassifierDL" should "correctly download and load pre-trained model" taggedAs SlowTest in {
     val classifierDL = ClassifierDLModel.pretrained("classifierdl_use_trec50")
     classifierDL.getClasses.foreach(x => print(x + ", "))
   }

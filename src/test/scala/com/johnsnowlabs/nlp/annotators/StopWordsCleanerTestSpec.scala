@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp.AnnotatorType.TOKEN
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.functions.size
 import org.scalatest.flatspec.AnyFlatSpec
@@ -85,7 +85,7 @@ class StopWordsCleanerTestSpec extends AnyFlatSpec {
 
   }
 
-  "StopWordsCleaner" should "successfully downloads pretrained models" taggedAs FastTest in {
+  "StopWordsCleaner" should "successfully downloads pretrained models" taggedAs SlowTest in {
 
     val testData = ResourceHelper.spark
       .createDataFrame(

@@ -23,14 +23,14 @@ import com.johnsnowlabs.nlp.annotators.{NGramGenerator, StopWordsCleaner, Tokeni
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorBuilder, EmbeddingsFinisher, Finisher}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.Row
 import org.scalatest.flatspec.AnyFlatSpec
 
 class ChunkEmbeddingsTestSpec extends AnyFlatSpec {
 
-  "ChunkEmbeddings" should "correctly calculate chunk embeddings from Chunker" taggedAs FastTest in {
+  "ChunkEmbeddings" should "correctly calculate chunk embeddings from Chunker" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")
@@ -194,7 +194,7 @@ class ChunkEmbeddingsTestSpec extends AnyFlatSpec {
         .count() > 1)
   }
 
-  "ChunkEmbeddings" should "correctly work with empty tokens" taggedAs FastTest in {
+  "ChunkEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
     val smallCorpus = ResourceHelper.spark.read
       .option("header", "true")
@@ -268,7 +268,7 @@ class ChunkEmbeddingsTestSpec extends AnyFlatSpec {
 
   }
 
-  "ChunkEmbeddings" should "return chunk metadata at output" taggedAs FastTest in {
+  "ChunkEmbeddings" should "return chunk metadata at output" taggedAs SlowTest in {
     import com.johnsnowlabs.nlp.AnnotationUtils._
     val document = "Record: Bush Blue, ZIPCODE: XYZ84556222, phone: (911) 45 88".toRow()
 
