@@ -5,7 +5,7 @@ seotitle: Spark NLP - Installation
 title: Spark NLP - Installation
 permalink: /docs/en/install
 key: docs-install
-modify_date: "2024-07-04"
+modify_date: "2026-07-16"
 show_nav: true
 sidebar:
     nav: sparknlp
@@ -45,23 +45,21 @@ Spark NLP {{ site.sparknlp_version }} is built with ONNX 1.17.0 and TensorFlow 2
 
 </div><div class="h3-box" markdown="1">
 
-### Scala 2.13
+### Spark 4 and Scala 2.13
 
-**NOTE**: PySpark from PyPI is based on Scala 2.12 by default, and you can use our Scala 2.12 version. If you need to start a Scala 2.13 instance, you can set the `SPARK_HOME` environment variable to a Spark Scala 2.13 installation, or install PySpark from the official Spark archives.
+Spark 4 uses Scala 2.13. Spark 4.0.0 has a dedicated artifact because its Spark ML `Param[T]` ABI is not binary-compatible with Spark 4.0.1 and later validated Spark 4 releases.
 
 ```bash
-# Load Spark NLP with Spark Shell
-spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}
+# Spark 4.0.0 only
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:{{ site.sparknlp_version }}
 
-# Load Spark NLP with PySpark
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}
-
-# Load Spark NLP with Spark Submit
+# Spark 4.0.1 and later validated Spark 4 versions
 spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}
-
-# Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`
-spark-shell --jars spark-nlp-assembly-{{ site.sparknlp_version }}.jar
 ```
+
+The same naming rule applies to GPU, Apple Silicon, and Linux AArch64 artifacts, for example `spark-nlp-gpu-spark400_2.13` for Spark 4.0.0 and `spark-nlp-gpu_2.13` for the forward Spark 4 lane.
+
+Spark 3.x with Scala 2.13 and Spark 4.x with Scala 2.12 are not supported.
 
 ## Python
 
@@ -107,6 +105,18 @@ import sparknlp
 spark = sparknlp.start()
 ```
 
+The same Python wheel supports the declared Spark 3 and Spark 4 runtime lanes. `sparknlp.start()` detects the installed PySpark version and selects the Maven artifact automatically:
+
+| Installed PySpark | Selected artifact |
+|---|---|
+| Spark 3.x | `spark-nlp_2.12` |
+| Spark 4.0.0 | `spark-nlp-spark400_2.13` |
+| Spark 4.0.1, 4.1.0, 4.1.1, or 4.1.2 | `spark-nlp_2.13` |
+
+The selected hardware option is applied to the same lane. For example, `sparknlp.start(gpu=True)` selects the corresponding `spark-nlp-gpu` artifact. Only one of `gpu`, `apple_silicon`, or `aarch64` may be enabled.
+
+Migration note: the release line that introduces this mapping removes the experimental `scala213` argument from `sparknlp.start()`. Do not pass a Scala selector; install the supported PySpark runtime and let Spark NLP resolve the matching artifact.
+
 If you need to manually start SparkSession because you have other configurations and `sparknlp.start()` is not including them,
 you can manually start the SparkSession with:
 
@@ -121,6 +131,8 @@ spark = SparkSession.builder \
     .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}") \
     .getOrCreate()
 ```
+
+The manual example above is for Spark 3.x. For Spark 4.0.0 use `spark-nlp-spark400_2.13`; for Spark 4.0.1, 4.1.0, 4.1.1, or 4.1.2 use `spark-nlp_2.13`.
 
 If using local jars, you can use `spark.jars` instead for comma-delimited jar files. For cluster setups, of course,
 you'll have to put the jars in a reachable location for all driver and executor nodes.
@@ -179,14 +191,14 @@ result = pipeline.annotate('The Mona Lisa is a 16th century oil painting created
 
 ## Scala and Java
 
-To use Spark NLP you need the following requirements:
+Select the Java and Scala line that matches the Spark runtime:
 
-- Java 8 and 11
-- Apache Spark 3.5.x, 3.4.x, 3.3.x, 3.2.x, 3.1.x, 3.0.x
+- Spark 3.x: Scala 2.12 and the existing Java 8/11 support baseline
+- Spark 4.x: Scala 2.13 and Java 17
 
 #### Maven
 
-**spark-nlp** on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x
+**spark-nlp** on Apache Spark 3.x
 
 The `spark-nlp` has been published to
 the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp).
@@ -237,7 +249,7 @@ the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/s
 
 #### SBT
 
-**spark-nlp** on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x
+**spark-nlp** on Apache Spark 3.x
 
 ```scala
 // https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp
@@ -269,24 +281,32 @@ Maven Central: [https://mvnrepository.com/artifact/com.johnsnowlabs.nlp](https:/
 
 If you are interested, there is a simple SBT project for Spark NLP to guide you on how to use it in your projects [Spark NLP SBT Starter](https://github.com/maziyarpanahi/spark-nlp-starter)
 
-### Scala 2.13 Support
+### Spark 4 / Scala 2.13 Support
 
-**NOTE**: PyPi installed Pyspark only runs on Scala 2.12, so the following section will not apply for it. If you need to start a Scala 2.13 instance, you can set the `SPARK_HOME` environment variable to a Spark Scala 2.13 installation, or install PySpark from the official Spark archives.
+Spark 4 is supported with Scala 2.13 only. Spark 3.x remains on Scala 2.12 and is not supported with Scala 2.13 in this release line.
 
-If you are using `DependencyParserModel` or `TextMatcherModel` in your pipelines and wish to import from the Scala 2.12 version to 2.13, then you will need to export them manually. For this, please see the example notebook [Converting Spark NLP Scala 2.12 models to Scala 2.13](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/scala213/converting_models_from_212.ipynb).
+Spark 4.0.0 requires a dedicated artifact because its Spark ML parameter ABI differs from Spark 4.0.1 and later validated Spark 4 releases.
 
-`spark-nlp` with Scala 2.13 support has been published to [Maven Central](https://central.sonatype.com/artifact/com.johnsnowlabs.nlp/spark-nlp_2.13). You can use these coordinates to set up your Spark instance with config `--packages` or download the jar directly. For example:
+When migrating pipelines that contain `DependencyParserModel` or `TextMatcherModel` from Spark 3/Scala 2.12 to Spark 4/Scala 2.13, export those models manually. See [Converting Spark NLP Scala 2.12 models to Scala 2.13](https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/scala213/converting_models_from_212.ipynb).
 
-```sh
-# Load Spark NLP with Spark Submit
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.2
+| Spark runtime | CPU artifact | GPU artifact |
+|---|---|---|
+| Spark 4.0.0 | `spark-nlp-spark400_2.13` | `spark-nlp-gpu-spark400_2.13` |
+| Spark 4.0.1, 4.1.0, 4.1.1, or 4.1.2 | `spark-nlp_2.13` | `spark-nlp-gpu_2.13` |
+
+The same profile suffix applies to `spark-nlp-silicon` and `spark-nlp-aarch64`.
+
+**Spark 4.0.0 Maven dependency:**
+
+```xml
+<dependency>
+    <groupId>com.johnsnowlabs.nlp</groupId>
+    <artifactId>spark-nlp-spark400_2.13</artifactId>
+    <version>{{ site.sparknlp_version }}</version>
+</dependency>
 ```
 
-See our [cheat sheet](#spark-nlp-cheatsheet) for more examples.
-
-To use spark-nlp Scala 2.13 as a dependency, change the `2.12` string in our dependencies to `2.13`.
-
-**spark-nlp:**
+**Validated forward Spark 4 Maven dependency (4.0.1, 4.1.0, 4.1.1, and 4.1.2):**
 
 ```xml
 <dependency>
@@ -296,61 +316,7 @@ To use spark-nlp Scala 2.13 as a dependency, change the `2.12` string in our dep
 </dependency>
 ```
 
-**spark-nlp-gpu:**
-
-```xml
-<dependency>
-    <groupId>com.johnsnowlabs.nlp</groupId>
-    <artifactId>spark-nlp-gpu_2.13</artifactId>
-    <version>{{ site.sparknlp_version }}</version>
-</dependency>
-```
-
-**spark-nlp-silicon:**
-
-```xml
-<dependency>
-    <groupId>com.johnsnowlabs.nlp</groupId>
-    <artifactId>spark-nlp-silicon_2.13</artifactId>
-    <version>{{ site.sparknlp_version }}</version>
-</dependency>
-```
-
-**spark-nlp-aarch64:**
-
-```xml
-<dependency>
-    <groupId>com.johnsnowlabs.nlp</groupId>
-    <artifactId>spark-nlp-aarch64_2.13</artifactId>
-    <version>{{ site.sparknlp_version }}</version>
-</dependency>
-```
-
-If you are running an sbt project in Scala 2.13, then you you don't require any changes, as the sbt syntax handles it automatically:
-
-**spark-nlp:**
-
-```scala
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp" % "{{ site.sparknlp_version }}"
-```
-
-**spark-nlp-gpu:**
-
-```scala
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-gpu" % "{{ site.sparknlp_version }}"
-```
-
-**spark-nlp-silicon:**
-
-```scala
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-silicon" % "{{ site.sparknlp_version }}"
-```
-
-**spark-nlp-aarch64:**
-
-```scala
-libraryDependencies += "com.johnsnowlabs.nlp" %% "spark-nlp-aarch64" % "{{ site.sparknlp_version }}"
-```
+In Python, prefer `sparknlp.start()` so the installed PySpark version selects the correct lane automatically.
 
 </div><div class="h3-box" markdown="1">
 
@@ -1193,7 +1159,14 @@ gcloud dataproc clusters create ${CLUSTER_NAME} \
 
 ## Apache Spark Support
 
-Spark NLP *{{ site.sparknlp_version }}* has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
+Spark NLP supports Spark 3.x with Scala 2.12 and the following Spark 4/Scala 2.13 lanes:
+
+| Spark runtime | Scala | Java | Maven artifact |
+|---|---:|---:|---|
+| Spark 4.0.0 | 2.13 | 17 | `spark-nlp-spark400_2.13` |
+| Spark 4.0.1, 4.1.0, 4.1.1, or 4.1.2 | 2.13 | 17 | `spark-nlp_2.13` |
+
+Spark 3.x with Scala 2.13 and Spark 4.x with Scala 2.12 are not supported. The table below records historical Spark NLP 4.x and 5.x compatibility.
 
 {:.table-model-big}
 
@@ -1212,7 +1185,9 @@ Spark NLP *{{ site.sparknlp_version }}* has been built on top of Apache Spark 3.
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
 
-## Scala and Python Support
+## Historical Scala and Python Support
+
+The current Spark 3 line uses Scala 2.12 and the Spark 4 line uses Scala 2.13. Supported Python versions follow the selected Apache Spark runtime. The table below records historical Spark NLP 4.x and 5.x compatibility.
 
 {:.table-model-big}
 
@@ -1267,7 +1242,7 @@ Spark NLP {{ site.sparknlp_version }} has been tested and is compatible with the
 - emr-6.2.0
 - emr-6.3.0
 - emr-6.3.1
-- emr-6.4.2
+- emr-6.4.1
 - emr-6.5.0
 - emr-6.6.0
 - emr-6.7.0
