@@ -19,14 +19,14 @@ package com.johnsnowlabs.nlp.annotators.pos.perceptron
 import com.johnsnowlabs.nlp.ContentProvider
 import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.SlowTest
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.Pipeline
 import org.scalatest.flatspec.AnyFlatSpec
 
 class DistributedPos extends AnyFlatSpec with PerceptronApproachBehaviors {
 
-  "distributed pos" should "successfully work" taggedAs FastTest in {
+  "distributed pos" should "successfully work" taggedAs SlowTest in {
 
     import com.johnsnowlabs.nlp.util.io.ResourceHelper.spark.implicits._
 
