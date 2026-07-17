@@ -19,6 +19,9 @@ import pytest
 import sparknlp
 
 
+SPARK_NLP_MAVEN_VERSION = sparknlp.__version__.split("-")[0].split("+")[0]
+
+
 class FakeHadoopConfiguration:
     def set(self, key, value):
         pass
@@ -119,9 +122,11 @@ def resolve_coordinate(*args, **kwargs):
     ],
 )
 def test_resolves_cpu_artifact_from_pyspark_version(spark_version, expected_artifact):
-    coordinate = resolve_coordinate(spark_version, "6.4.1")
+    coordinate = resolve_coordinate(spark_version, SPARK_NLP_MAVEN_VERSION)
 
-    assert coordinate == f"com.johnsnowlabs.nlp:{expected_artifact}:6.4.1"
+    assert coordinate == (
+        f"com.johnsnowlabs.nlp:{expected_artifact}:{SPARK_NLP_MAVEN_VERSION}"
+    )
 
 
 @pytest.mark.fast
@@ -135,9 +140,12 @@ def test_resolves_cpu_artifact_from_pyspark_version(spark_version, expected_arti
     ],
 )
 def test_resolves_all_spark3_hardware_variants(variant_flags, expected_base_artifact):
-    coordinate = resolve_coordinate("3.5.8", "6.4.1", **variant_flags)
+    coordinate = resolve_coordinate("3.5.8", SPARK_NLP_MAVEN_VERSION, **variant_flags)
 
-    assert coordinate == f"com.johnsnowlabs.nlp:{expected_base_artifact}_2.12:6.4.1"
+    assert coordinate == (
+        f"com.johnsnowlabs.nlp:{expected_base_artifact}_2.12:"
+        f"{SPARK_NLP_MAVEN_VERSION}"
+    )
 
 
 @pytest.mark.fast
@@ -151,10 +159,11 @@ def test_resolves_all_spark3_hardware_variants(variant_flags, expected_base_arti
     ],
 )
 def test_resolves_all_spark400_hardware_variants(variant_flags, expected_base_artifact):
-    coordinate = resolve_coordinate("4.0.0", "6.4.1", **variant_flags)
+    coordinate = resolve_coordinate("4.0.0", SPARK_NLP_MAVEN_VERSION, **variant_flags)
 
     assert coordinate == (
-        f"com.johnsnowlabs.nlp:{expected_base_artifact}-spark400_2.13:6.4.1"
+        f"com.johnsnowlabs.nlp:{expected_base_artifact}-spark400_2.13:"
+        f"{SPARK_NLP_MAVEN_VERSION}"
     )
 
 
@@ -171,9 +180,12 @@ def test_resolves_all_spark400_hardware_variants(variant_flags, expected_base_ar
 def test_resolves_all_forward_spark4_hardware_variants(
     variant_flags, expected_base_artifact
 ):
-    coordinate = resolve_coordinate("4.1.2", "6.4.1", **variant_flags)
+    coordinate = resolve_coordinate("4.1.2", SPARK_NLP_MAVEN_VERSION, **variant_flags)
 
-    assert coordinate == f"com.johnsnowlabs.nlp:{expected_base_artifact}_2.13:6.4.1"
+    assert coordinate == (
+        f"com.johnsnowlabs.nlp:{expected_base_artifact}_2.13:"
+        f"{SPARK_NLP_MAVEN_VERSION}"
+    )
 
 
 @pytest.mark.fast
@@ -183,7 +195,7 @@ def test_resolves_all_forward_spark4_hardware_variants(
 )
 def test_rejects_unsupported_or_unvalidated_pyspark_versions(spark_version):
     with pytest.raises(ValueError, match="Unsupported PySpark version"):
-        resolve_coordinate(spark_version, "6.4.1")
+        resolve_coordinate(spark_version, SPARK_NLP_MAVEN_VERSION)
 
 
 @pytest.mark.fast
@@ -192,8 +204,9 @@ def test_normalizes_version_like_objects_before_comparison():
         def __str__(self):
             return "4.0.0"
 
-    assert resolve_coordinate(VersionLike(), "6.4.1") == (
-        "com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:6.4.1"
+    assert resolve_coordinate(VersionLike(), SPARK_NLP_MAVEN_VERSION) == (
+        "com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:"
+        f"{SPARK_NLP_MAVEN_VERSION}"
     )
 
 
@@ -204,7 +217,10 @@ def test_start_does_not_expose_manual_scala_selector():
 
 @pytest.mark.fast
 def test_start_uses_resolver_coordinate_for_standard_session(monkeypatch):
-    coordinate = "com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:6.4.1"
+    coordinate = (
+        "com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:"
+        f"{SPARK_NLP_MAVEN_VERSION}"
+    )
     calls = []
 
     def fake_resolver(*args, **kwargs):
@@ -220,7 +236,7 @@ def test_start_uses_resolver_coordinate_for_standard_session(monkeypatch):
 
     assert calls == [
         (
-            ("4.0.0", "6.4.1"),
+            ("4.0.0", SPARK_NLP_MAVEN_VERSION),
             {
                 "gpu": False,
                 "apple_silicon": False,
@@ -233,7 +249,10 @@ def test_start_uses_resolver_coordinate_for_standard_session(monkeypatch):
 
 @pytest.mark.fast
 def test_start_uses_resolver_coordinate_for_realtime_session(monkeypatch):
-    coordinate = "com.johnsnowlabs.nlp:spark-nlp-gpu_2.13:6.4.1"
+    coordinate = (
+        "com.johnsnowlabs.nlp:spark-nlp-gpu_2.13:"
+        f"{SPARK_NLP_MAVEN_VERSION}"
+    )
     calls = []
 
     def fake_resolver(*args, **kwargs):
@@ -258,7 +277,7 @@ def test_start_uses_resolver_coordinate_for_realtime_session(monkeypatch):
 
     assert calls == [
         (
-            ("4.1.2", "6.4.1"),
+            ("4.1.2", SPARK_NLP_MAVEN_VERSION),
             {
                 "gpu": True,
                 "apple_silicon": False,
@@ -312,7 +331,7 @@ def test_skip_maven_param_bypasses_runtime_resolution(monkeypatch):
 
 @pytest.mark.fast
 def test_start_merges_resolved_coordinate_with_caller_packages(monkeypatch):
-    coordinate = "com.johnsnowlabs.nlp:spark-nlp_2.13:6.4.1"
+    coordinate = f"com.johnsnowlabs.nlp:spark-nlp_2.13:{SPARK_NLP_MAVEN_VERSION}"
     caller_package = "org.example:extra-package_2.13:1.0.0"
 
     FakeSparkSession.builder = FakeBuilder()
@@ -334,4 +353,6 @@ def test_start_merges_resolved_coordinate_with_caller_packages(monkeypatch):
 @pytest.mark.fast
 def test_rejects_conflicting_hardware_variants():
     with pytest.raises(ValueError, match="Only one Spark NLP hardware variant"):
-        resolve_coordinate("4.0.1", "6.4.1", gpu=True, apple_silicon=True)
+        resolve_coordinate(
+            "4.0.1", SPARK_NLP_MAVEN_VERSION, gpu=True, apple_silicon=True
+        )
