@@ -27,7 +27,6 @@ import com.johnsnowlabs.nlp.{
 }
 import org.apache.spark.ml.param.{Param, ParamValidators}
 import org.apache.spark.ml.util.Identifiable
-import org.apache.spark.sql.Row
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.udf
 import org.apache.spark.sql.types.StructType
@@ -250,14 +249,23 @@ class PairwiseVectorSimilarity(override val uid: String)
     -math.sqrt(sum)
   }
 
-  /** Overrides the default `dfAnnotate` so the two input columns are kept separate rather than
-    * being flattened into a single Seq. The first element of `rows` corresponds to col A (index 0
-    * in `getInputCols`) and the second to col B (index 1).
+  /** Overrides the default `annotateColumnGroups` so the two input columns are kept separate
+    * rather than being flattened into a single Seq (the trait default flattens both columns and
+    * delegates to `annotate`, which this class deliberately does not support). The first element
+    * of `annotationProperties` corresponds to col A (index 0 in `getInputCols`) and the second to
+    * col B (index 1). This path is used directly on Spark 4+ (see `AnnotatorModel._transform`)
+    * and via `dfAnnotate` below on Spark 3.x.
     */
-  override def dfAnnotate: UserDefinedFunction = udf { rows: Seq[Seq[Row]] =>
-    val setA = rows.headOption.map(_.map(Annotation(_))).getOrElse(Seq.empty)
-    val setB = rows.lift(1).map(_.map(Annotation(_))).getOrElse(Seq.empty)
+  override private[nlp] def annotateColumnGroups(
+      annotationProperties: Seq[AnnotationContent]): Seq[Annotation] = {
+    val setA = annotationProperties.headOption.map(_.map(Annotation(_))).getOrElse(Seq.empty)
+    val setB = annotationProperties.lift(1).map(_.map(Annotation(_))).getOrElse(Seq.empty)
     computeSimilarities(setA, setB)
+  }
+
+  override def dfAnnotate: UserDefinedFunction = udf {
+    annotationProperties: Seq[AnnotationContent] =>
+      annotateColumnGroups(annotationProperties)
   }
 
   /** Not supported — `LightPipeline` flattens both input columns into a single Seq, making it
