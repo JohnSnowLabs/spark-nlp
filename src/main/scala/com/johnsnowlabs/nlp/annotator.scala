@@ -30,6 +30,10 @@ import com.johnsnowlabs.nlp.annotators.ld.dl.{
   ReadLanguageDetectorDLTensorflowModel,
   ReadablePretrainedLanguageDetectorDLModel
 }
+import com.johnsnowlabs.nlp.annotators.matcher.{
+  RuleBasedMatcher => RuleBasedMatcherAnnotator,
+  RuleBasedMatcherModel => RuleBasedMatcherAnnotatorModel
+}
 import com.johnsnowlabs.nlp.annotators.ner.crf.ReadablePretrainedNerCrf
 import com.johnsnowlabs.nlp.annotators.ner.dl.{LLMEntityExtractor, _}
 import com.johnsnowlabs.nlp.annotators.parser.dep.ReadablePretrainedDependency
@@ -123,6 +127,14 @@ package object annotator {
   type RegexMatcherModel = com.johnsnowlabs.nlp.annotators.RegexMatcherModel
 
   object RegexMatcherModel extends ParamsAndFeaturesReadable[RegexMatcherModel]
+
+  type RuleBasedMatcher = RuleBasedMatcherAnnotator
+
+  object RuleBasedMatcher extends DefaultParamsReadable[RuleBasedMatcher]
+
+  type RuleBasedMatcherModel = RuleBasedMatcherAnnotatorModel
+
+  object RuleBasedMatcherModel extends ParamsAndFeaturesReadable[RuleBasedMatcherModel]
 
   type Chunker = com.johnsnowlabs.nlp.annotators.Chunker
 
@@ -466,6 +478,11 @@ package object annotator {
   object BertForSequenceClassification
       extends ReadablePretrainedBertForSequenceModel
       with ReadBertForSequenceDLModel
+
+  type CrossEncoder =
+    com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder
+
+  object CrossEncoder extends ReadablePretrainedCrossEncoderModel with ReadCrossEncoderDLModel
 
   type Doc2VecApproach = com.johnsnowlabs.nlp.embeddings.Doc2VecApproach
 
@@ -884,5 +901,11 @@ package object annotator {
   type SentenceDetectorSaTModel = com.johnsnowlabs.nlp.annotators.sbd.sat.SentenceDetectorSaTModel
 
   object SentenceDetectorSaTModel extends ReadablePretrainedSaTModel with ReadSaTDLModel
+
+  type DocumentTranslator = com.johnsnowlabs.nlp.annotators.seq2seq.DocumentTranslator
+
+  object DocumentTranslator
+      extends ReadablePretrainedDocumentTranslator
+      with ReadDocumentTranslatorModel
 
 }

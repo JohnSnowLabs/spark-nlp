@@ -34,3 +34,4 @@ from sparknlp.annotator.seq2seq.olmo_transformer import *
 from sparknlp.annotator.seq2seq.phi4_transformer import *
 from sparknlp.annotator.seq2seq.auto_gguf_reranker import *
 from sparknlp.annotator.seq2seq.summarization import *
+from sparknlp.annotator.seq2seq.document_translator import *
