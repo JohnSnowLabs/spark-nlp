@@ -111,21 +111,33 @@ class RuleBasedMatcherModel(override val uid: String)
     annotateByColumn(annotationsByColumn)
   }
 
-  override def dfAnnotate: UserDefinedFunction = {
-    val inputCols = getInputCols
-    udf { annotationProperties: Seq[AnnotationContent] =>
-      val annotationsByColumn = annotationProperties
-        .zip(inputCols)
-        .map { case (annotationRows, colName) =>
-          val annotations = annotationRows.map { row =>
-            val annotation = Annotation(row)
-            annotation.copy(metadata = annotation.metadata + ("source_column" -> colName))
-          }
-          colName -> annotations
+  /** Overrides the default `annotateColumnGroups` so each input column's annotations are tagged
+    * with their source column by position (via `getInputCols`) rather than flattened and
+    * reconstructed afterwards. The trait default flattens all columns and delegates to
+    * `annotate`, which then has to infer source columns from `getInputColumnTypes` -- that
+    * inference requires the model to have been fit (so `inputColumnTypes` is populated) and
+    * requires each input column to have a distinct annotator type, neither of which always holds
+    * for models built or tested directly. This path is used directly on Spark 4+ (see
+    * `AnnotatorModel._transform`) and via `dfAnnotate` below on Spark 3.x.
+    */
+  override private[nlp] def annotateColumnGroups(
+      annotationProperties: Seq[AnnotationContent]): Seq[Annotation] = {
+    val annotationsByColumn = annotationProperties
+      .zip(getInputCols)
+      .map { case (annotationRows, colName) =>
+        val annotations = annotationRows.map { row =>
+          val annotation = Annotation(row)
+          annotation.copy(metadata = annotation.metadata + ("source_column" -> colName))
         }
-        .toMap
-      annotateByColumn(annotationsByColumn)
-    }
+        colName -> annotations
+      }
+      .toMap
+    annotateByColumn(annotationsByColumn)
+  }
+
+  override def dfAnnotate: UserDefinedFunction = udf {
+    annotationProperties: Seq[AnnotationContent] =>
+      annotateColumnGroups(annotationProperties)
   }
 
   private def annotateByColumn(
