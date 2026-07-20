@@ -108,6 +108,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="SentimentDetector" summary="Rule based sentiment detector, which calculates a score based on predefined keywords."%}
 {% include templates/anno_table_entry.md path="" name="Stemmer" summary="Returns hard-stems out of words with the objective of retrieving the meaningful part of the word."%}
 {% include templates/anno_table_entry.md path="" name="StopWordsCleaner" summary="This annotator takes a sequence of strings (e.g. the output of a Tokenizer, Normalizer, Lemmatizer, and Stemmer) and drops all the stop words from the input sequences."%}
+{% include templates/anno_table_entry.md path="" name="Summarization" summary="Task oriented, zero configuration document summarization with a choice of llm, encoder_decoder, or extractive methods and automatic long document handling."%}
 {% include templates/anno_table_entry.md path="" name="SymmetricDelete Spellchecker" summary="Symmetric Delete spelling correction algorithm."%}
 {% include templates/anno_table_entry.md path="" name="TextMatcher" summary="Matches exact phrases (by token) provided in a file against a Document."%}
 {% include templates/anno_table_entry.md path="" name="Token2Chunk" summary="Converts `TOKEN` type Annotations to `CHUNK` type."%}
