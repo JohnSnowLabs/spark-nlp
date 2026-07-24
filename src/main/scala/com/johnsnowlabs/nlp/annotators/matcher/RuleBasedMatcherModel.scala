@@ -68,7 +68,7 @@ class RuleBasedMatcherModel(override val uid: String)
   def setInputColumnTypes(value: Array[String]): this.type = set(inputColumnTypes, value)
 
   def getInputColumnTypes: Map[String, String] =
-    parseKeyValueEntries($(inputColumnTypes), "inputColumnTypes")
+    parseKeyValueEntries($(inputColumnTypes), "inputColumnTypes", normalizeKeys = false)
 
   override protected def validate(schema: StructType): Boolean = {
     validateInputColumnsOrThrow(schema)
