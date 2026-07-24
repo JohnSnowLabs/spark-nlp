@@ -100,6 +100,17 @@ class RuleBasedMatcherTestSpec extends AnyFlatSpec {
     assert(matches.map(_.result) == Seq("Dogs", "Dogs bark"))
   }
 
+  it should "infer the base token column automatically without an explicit attributeColumns mapping" taggedAs FastTest in {
+    val dataset = simpleDataset("dogs bark")
+    val matcher = new RuleBasedMatcher()
+      .setInputCols("sentence", "token")
+      .setOutputCol("matches")
+      .setRules("""[{"id":"dogs_rule","patterns":[[{"TEXT":"dogs"}]]}]""")
+
+    val matches = collectMatches(matcher.fit(dataset).transform(dataset))
+    assert(matches.map(_.result) == Seq("dogs"))
+  }
+
   it should "support wildcard, optional, star, plus, bounded, regex, and multi-predicate rules" taggedAs FastTest in {
     val dataset = simpleDataset("red very big car", Seq("ADJ", "ADV", "ADJ", "NOUN"))
     val rules =
