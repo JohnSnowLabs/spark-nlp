@@ -51,4 +51,34 @@ class AnnotationRowUtilsTest extends AnyFlatSpec with SparkSessionTest {
     assert(row.getMap[String, String](4) == Map("sentence" -> "0"))
     assert(row.getAs[Array[Float]](5).sameElements(Array(1.0f, 2.0f)))
   }
+
+  it should "round-trip annotations with primitive-array embeddings" in {
+    val original = com.johnsnowlabs.nlp.Annotation(
+      annotatorType = "word_embeddings",
+      begin = 0,
+      end = 4,
+      result = "alpha",
+      metadata = Map("sentence" -> "0", "token" -> "alpha"),
+      embeddings = Array(1.0f, 2.0f))
+
+    val row = AnnotationRowUtils.annotationToRow(original)
+    val restored = com.johnsnowlabs.nlp.Annotation(row)
+
+    assert(restored == original)
+    assert(!(restored.embeddings eq original.embeddings))
+  }
+
+  it should "convert annotations with sequence embeddings" in {
+    val row = Row(
+      "word_embeddings",
+      0,
+      4,
+      "alpha",
+      Map("sentence" -> "0", "token" -> "alpha"),
+      Seq(1.0f, 2.0f))
+
+    val annotation = com.johnsnowlabs.nlp.Annotation(row)
+
+    assert(annotation.embeddings.sameElements(Array(1.0f, 2.0f)))
+  }
 }

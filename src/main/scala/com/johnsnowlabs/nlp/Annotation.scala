@@ -150,6 +150,12 @@ object Annotation {
 
   val arrayType = new ArrayType(dataType, true)
 
+  private def getEmbeddings(row: Row): Array[Float] =
+    row.get(5) match {
+      case embeddings: Array[Float] => embeddings.clone()
+      case _ => row.getSeq[Float](5).toArray
+    }
+
   /** This method converts a [[org.apache.spark.sql.Row]] into an [[Annotation]]
     *
     * @param row
@@ -164,7 +170,7 @@ object Annotation {
       row.getInt(2),
       row.getString(3),
       row.getMap[String, String](4),
-      row.getSeq[Float](5).toArray)
+      getEmbeddings(row))
   }
 
   def apply(rawText: String): Annotation =
