@@ -30,7 +30,7 @@ import org.apache.spark.sql.types.{
   StructField,
   StructType
 }
-import org.apache.spark.sql.{DataFrame, Row}
+import org.apache.spark.sql.{Column, DataFrame, Row}
 
 import scala.reflect.runtime.universe.{typeOf, TypeTag}
 
@@ -98,6 +98,20 @@ object functions {
     else StructType(inputSchema.fields :+ outputField)
   }
 
+  private def exactColumn(dataFrame: DataFrame, columnName: String): Column = {
+    val escapedColumnName = columnName.replace("`", "``")
+    dataFrame.col(s"`$escapedColumnName`")
+  }
+
+  private def restoreSchemaMetadata(
+      dataFrame: DataFrame,
+      intendedSchema: StructType): DataFrame = {
+    val columnsWithMetadata = intendedSchema.fields.map { field =>
+      exactColumn(dataFrame, field.name).as(field.name, field.metadata)
+    }
+    dataFrame.select(columnsWithMetadata.toIndexedSeq: _*)
+  }
+
   private def mapAnnotationsColWithRows[T: TypeTag](
       dataset: DataFrame,
       columns: Seq[String],
@@ -115,7 +129,7 @@ object functions {
     implicit val encoder: ExpressionEncoder[Row] =
       SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
 
-    inputDataFrame
+    val mappedDataFrame = inputDataFrame
       .mapPartitions { rows =>
         rows.map { row =>
           val annotations = inputIndexes
@@ -130,6 +144,8 @@ object functions {
         }
       }
       .toDF()
+
+    restoreSchemaMetadata(mappedDataFrame, outputSchema)
   }
 
   implicit class FilterAnnotations(dataset: DataFrame) {
@@ -142,7 +158,7 @@ object functions {
         implicit val encoder: ExpressionEncoder[Row] =
           SparkNlpConfig.getEncoder(inputDataFrame, inputDataFrame.schema)
 
-        inputDataFrame
+        val filteredDataFrame = inputDataFrame
           .mapPartitions { rows =>
             rows.filter { row =>
               val annotations =
@@ -151,6 +167,8 @@ object functions {
             }
           }
           .toDF()
+
+        restoreSchemaMetadata(filteredDataFrame, inputDataFrame.schema)
       } else {
         val meta = dataset.schema(column).metadata
         val func = udf { annotatorProperties: Seq[Row] =>

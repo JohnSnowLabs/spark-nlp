@@ -21,7 +21,8 @@ import com.johnsnowlabs.nlp.training.POS
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
-import org.apache.spark.sql.types.ArrayType
+import org.apache.spark.sql.functions.{col, lit}
+import org.apache.spark.sql.types.{ArrayType, MetadataBuilder}
 import org.junit.Assert.assertEquals
 import org.scalatest.flatspec.AnyFlatSpec
 
@@ -151,6 +152,76 @@ class FunctionsTestSpec extends AnyFlatSpec {
     assertEquals(tail_annotation(1).result, "tres tristes tigres")
     assertEquals(tail_annotation(2).result, "un clavito chiquitillo")
     assertEquals(tail_annotation.last.result, "comian trigo en un trigal")
+  }
+
+  "A mapAnnotationsCol" should "preserve schema metadata and exact top-level columns" in {
+    import SparkAccessor.spark.implicits._
+    import functions._
+
+    val documentMetadata = new MetadataBuilder()
+      .putString("annotatorType", AnnotatorType.DOCUMENT)
+      .putString("custom", "document-metadata")
+      .build()
+    val specialColumnMetadata = new MetadataBuilder()
+      .putString("custom", "special-column-metadata")
+      .build()
+
+    val input = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+      .transform(Seq("Metadata must survive").toDF("text"))
+      .withColumn("document", col("document").as("document", documentMetadata))
+      .withColumn("patient.id", lit("patient").as("patient.id", specialColumnMetadata))
+      .withColumn("note`id", lit("note").as("note`id", specialColumnMetadata))
+
+    val mapped = input.mapAnnotationsCol[Seq[Annotation]](
+      "document",
+      "tail_document",
+      AnnotatorType.DOCUMENT,
+      identity)
+
+    assert(mapped.schema("document").metadata.getString("custom") == "document-metadata")
+    assert(
+      mapped
+        .schema("tail_document")
+        .metadata
+        .getString("annotatorType") == AnnotatorType.DOCUMENT)
+    assert(mapped.schema("patient.id").metadata.getString("custom") == "special-column-metadata")
+    assert(mapped.schema("note`id").metadata.getString("custom") == "special-column-metadata")
+
+    val specialColumnValues =
+      mapped.select(mapped.col("`patient.id`"), mapped.col("`note``id`")).head()
+    assert(specialColumnValues.getString(0) == "patient")
+    assert(specialColumnValues.getString(1) == "note")
+    assert(
+      Annotation.collect(mapped, "tail_document").flatten.map(_.result).toSeq ==
+        Seq("Metadata must survive"))
+  }
+
+  "A filterByAnnotationsCol" should "preserve schema metadata" in {
+    import SparkAccessor.spark.implicits._
+    import functions._
+
+    val documentMetadata = new MetadataBuilder()
+      .putString("annotatorType", AnnotatorType.DOCUMENT)
+      .putString("custom", "document-metadata")
+      .build()
+
+    val input = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+      .transform(Seq("Metadata must survive filtering").toDF("text"))
+      .withColumn("document", col("document").as("document", documentMetadata))
+
+    val filtered = input.filterByAnnotationsCol("document", _.nonEmpty)
+
+    assert(
+      filtered.schema("document").metadata.getString("annotatorType") ==
+        AnnotatorType.DOCUMENT)
+    assert(filtered.schema("document").metadata.getString("custom") == "document-metadata")
+    assert(
+      Annotation.collect(filtered, "document").flatten.map(_.result).toSeq ==
+        Seq("Metadata must survive filtering"))
   }
 
 }
