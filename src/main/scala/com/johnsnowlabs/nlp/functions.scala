@@ -103,7 +103,7 @@ object functions {
     dataFrame.col(s"`$escapedColumnName`")
   }
 
-  private def restoreSchemaMetadata(
+  private[nlp] def restoreSchemaMetadata(
       dataFrame: DataFrame,
       intendedSchema: StructType): DataFrame = {
     val columnsWithMetadata = intendedSchema.fields.map { field =>

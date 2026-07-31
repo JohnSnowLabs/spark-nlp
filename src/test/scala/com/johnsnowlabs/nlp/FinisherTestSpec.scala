@@ -21,6 +21,8 @@ import com.johnsnowlabs.nlp.embeddings.WordEmbeddings
 import com.johnsnowlabs.tags.FastTest
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.feature.StopWordsRemover
+import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.types.MetadataBuilder
 import org.scalatest.flatspec.AnyFlatSpec
 
 class FinisherTestSpec extends AnyFlatSpec {
@@ -119,6 +121,25 @@ class FinisherTestSpec extends AnyFlatSpec {
       .collect
       .foreach(s => assert(s.contains("->"), "because -> key value was not found"))
 
+  }
+
+  "A Finisher that keeps annotations" should "preserve inherited schema metadata" taggedAs FastTest in {
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, tokenizer))
+    val annotated = pipeline.fit(data).transform(data)
+    val customMetadata = new MetadataBuilder().putString("customMetadata", "kept").build()
+    val input = annotated.withColumn("text", col("text").as("text", customMetadata))
+
+    val finisher = new Finisher()
+      .setInputCols("token")
+      .setOutputCols("token_out")
+      .setCleanAnnotations(false)
+
+    val result = finisher.transform(input)
+
+    result.select("token_out").collect()
+    input.schema.fields.foreach { field =>
+      assert(result.schema(field.name).metadata == field.metadata)
+    }
   }
 
   "A Finisher with array output" should "behave accordingly with SparkML StopWords" taggedAs FastTest in {

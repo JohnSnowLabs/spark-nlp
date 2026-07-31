@@ -317,7 +317,7 @@ class Finisher(override val uid: String) extends Transformer with DefaultParamsW
     implicit val encoder: ExpressionEncoder[Row] =
       SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
 
-    inputDataFrame
+    val transformedDataFrame = inputDataFrame
       .mapPartitions { rows =>
         rows.map { row =>
           val inputValuesByName = inputFieldNames.zip(row.toSeq).toMap
@@ -356,6 +356,8 @@ class Finisher(override val uid: String) extends Transformer with DefaultParamsW
         }
       }
       .toDF()
+
+    functions.restoreSchemaMetadata(transformedDataFrame, outputSchema)
   }
 
   override def transform(dataset: Dataset[_]): Dataset[Row] = {
