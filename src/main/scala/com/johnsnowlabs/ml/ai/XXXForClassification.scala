@@ -76,53 +76,31 @@ private[johnsnowlabs] trait XXXForClassification {
     val wordPieceTokenizedSentences =
       tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
 
-    /*Run calculation by batches*/
-    wordPieceTokenizedSentences
-      .zip(sentences)
-      .zipWithIndex
-      .grouped(batchSize)
-      .flatMap { batch =>
-        val tokensBatch = batch.map(x => (x._1._1, x._2))
-        val encoded = encode(tokensBatch, maxSentenceLength)
-        val logits = tagSequence(encoded, activation)
-        activation match {
-          case ActivationFunction.softmax =>
-            if (coalesceSentences) {
-              val scores = logits.transpose.map(_.sum / logits.length)
-              val label = scoresToLabelForSequenceClassifier(tags, scores)
-              val meta = constructMetaForSequenceClassifier(tags, scores)
-              Array(constructAnnotationForSequenceClassifier(sentences.head, label, meta))
-            } else {
-              sentences.zip(logits).map { case (sentence, scores) =>
-                val label = scoresToLabelForSequenceClassifier(tags, scores)
-                val meta = constructMetaForSequenceClassifier(tags, scores)
-                constructAnnotationForSequenceClassifier(sentence, label, meta)
-              }
-            }
+    if (sentences.isEmpty) return Seq.empty[Annotation]
 
-          case ActivationFunction.sigmoid =>
-            if (coalesceSentences) {
-              val scores = logits.transpose.map(_.sum / logits.length)
-              val labels = scores.zipWithIndex
-                .filter(x => x._1 > sigmoidThreshold)
-                .flatMap(x => tags.filter(_._2 == x._2))
-              val meta = constructMetaForSequenceClassifier(tags, scores)
-              labels.map(label =>
-                constructAnnotationForSequenceClassifier(sentences.head, label._1, meta))
-            } else {
-              sentences.zip(logits).flatMap { case (sentence, scores) =>
-                val labels = scores.zipWithIndex
-                  .filter(x => x._1 > sigmoidThreshold)
-                  .flatMap(x => tags.filter(_._2 == x._2))
-                val meta = constructMetaForSequenceClassifier(tags, scores)
-                labels.map(label =>
-                  constructAnnotationForSequenceClassifier(sentence, label._1, meta))
-              }
-            }
-
+    /* Stage 1: run inference batch by batch, pairing each sentence with its OWN batch's
+     * logits (not the full outer `sentences` list, which would misalign past the first batch) */
+    val sentencesWithScores: Seq[(Sentence, Array[Float])] =
+      wordPieceTokenizedSentences
+        .zip(sentences)
+        .zipWithIndex
+        .grouped(batchSize)
+        .flatMap { batch =>
+          val tokensBatch = batch.map(x => (x._1._1, x._2))
+          val encoded = encode(tokensBatch, maxSentenceLength)
+          val logits = tagSequence(encoded, activation)
+          batch.map(_._1._2).zip(logits)
         }
-      }
-      .toSeq
+        .toSeq
+
+    /* Stage 2: aggregate once over every sentence collected across all batches */
+    aggregateSequenceScores(
+      sentencesWithScores,
+      coalesceSentences,
+      activation,
+      tags,
+      sentences.head,
+      sigmoidThreshold)
 
   }
 
@@ -142,77 +120,60 @@ private[johnsnowlabs] trait XXXForClassification {
     val wordPieceTokenizedSentences =
       tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
 
+    if (sentences.isEmpty) return Seq.empty[Annotation]
+
     val candidateLabelsKeyValue = candidateLabels.zipWithIndex.toMap
     val contradiction_id: Int = if (entailmentId == 0) contradictionId else 0
 
     val labelsTokenized =
       tokenizeSeqString(candidateLabels, maxSentenceLength, caseSensitive)
 
-    /*Run calculation by batches*/
-    wordPieceTokenizedSentences
-      .zip(sentences)
-      .zipWithIndex
-      .grouped(batchSize)
-      .flatMap { batch =>
-        val tokensBatch = batch.map(x => (x._1._1, x._2))
+    /* Stage 1: run inference batch by batch, pairing each sentence with its OWN batch's
+     * scores (not the full outer `sentences` list, which would misalign past the first batch) */
+    val sentencesWithScores: Seq[(Sentence, Array[Float])] =
+      wordPieceTokenizedSentences
+        .zip(sentences)
+        .zipWithIndex
+        .grouped(batchSize)
+        .flatMap { batch =>
+          val tokensBatch = batch.map(x => (x._1._1, x._2))
 
-        /* Start internal batching for zero shot */
-        val encodedTokensLabels = tokensBatch.map { sent =>
-          labelsTokenized.flatMap(labels =>
-            encodeSequence(Seq(sent._1), Seq(labels), maxSentenceLength))
+          /* Start internal batching for zero shot */
+          val encodedTokensLabels = tokensBatch.map { sent =>
+            labelsTokenized.flatMap(labels =>
+              encodeSequence(Seq(sent._1), Seq(labels), maxSentenceLength))
+          }
+
+          val logits = encodedTokensLabels.map { encodedSeq =>
+            tagZeroShotSequence(encodedSeq, entailmentId, contradictionId, activation)
+          }
+
+          val multiClassScores =
+            logits.map(scores => calculateSoftmax(scores.map(x => x(entailmentId))))
+          val multiLabelScores =
+            logits
+              .map(scores =>
+                scores
+                  .map(x => calculateSoftmax(Array(x(contradiction_id), x(entailmentId))))
+                  .map(_.last))
+
+          val scoresForActivation = activation match {
+            case ActivationFunction.softmax => multiClassScores
+            case ActivationFunction.sigmoid => multiLabelScores
+          }
+
+          batch.map(_._1._2).zip(scoresForActivation)
         }
+        .toSeq
 
-        val logits = encodedTokensLabels.map { encodedSeq =>
-          tagZeroShotSequence(encodedSeq, entailmentId, contradictionId, activation)
-        }
-
-        val multiClassScores =
-          logits.map(scores => calculateSoftmax(scores.map(x => x(entailmentId)))).toArray
-        val multiLabelScores =
-          logits
-            .map(scores =>
-              scores
-                .map(x => calculateSoftmax(Array(x(contradiction_id), x(entailmentId))))
-                .map(_.last))
-            .toArray
-
-        activation match {
-          case ActivationFunction.softmax =>
-            if (coalesceSentences) {
-              val scores = multiClassScores.transpose.map(_.sum / multiClassScores.length)
-              val label = scoresToLabelForSequenceClassifier(candidateLabelsKeyValue, scores)
-              val meta = constructMetaForSequenceClassifier(candidateLabelsKeyValue, scores)
-              Array(constructAnnotationForSequenceClassifier(sentences.head, label, meta))
-            } else {
-              sentences.zip(multiClassScores).map { case (sentence, scores) =>
-                val label = scoresToLabelForSequenceClassifier(candidateLabelsKeyValue, scores)
-                val meta = constructMetaForSequenceClassifier(candidateLabelsKeyValue, scores)
-                constructAnnotationForSequenceClassifier(sentence, label, meta)
-              }
-            }
-
-          case ActivationFunction.sigmoid =>
-            if (coalesceSentences) {
-              val scores = multiLabelScores.transpose.map(_.sum / multiLabelScores.length)
-              val labels = scores.zipWithIndex
-                .filter(x => x._1 > 0.5)
-                .flatMap(x => candidateLabelsKeyValue.filter(_._2 == x._2))
-              val meta = constructMetaForSequenceClassifier(candidateLabelsKeyValue, scores)
-              labels.map(label =>
-                constructAnnotationForSequenceClassifier(sentences.head, label._1, meta))
-            } else {
-              sentences.zip(multiLabelScores).flatMap { case (sentence, scores) =>
-                val labels = scores.zipWithIndex
-                  .filter(x => x._1 > 0.5)
-                  .flatMap(x => candidateLabelsKeyValue.filter(_._2 == x._2))
-                val meta = constructMetaForSequenceClassifier(candidateLabelsKeyValue, scores)
-                labels.map(label =>
-                  constructAnnotationForSequenceClassifier(sentence, label._1, meta))
-              }
-            }
-        }
-      }
-      .toSeq
+    /* Stage 2: aggregate once over every sentence collected across all batches */
+    aggregateSequenceScores(
+      sentencesWithScores,
+      coalesceSentences,
+      activation,
+      candidateLabelsKeyValue,
+      sentences.head,
+      sigmoidThreshold = 0.5f)
 
   }
 
@@ -239,6 +200,66 @@ private[johnsnowlabs] trait XXXForClassification {
       result = label,
       metadata = Map("sentence" -> sentence.index.toString) ++ meta)
 
+  }
+
+  /** Aggregates per-sentence classification scores into annotations.
+    *
+    * When `coalesceSentences` is true, scores are averaged across every sentence passed in (i.e.
+    * across the whole document, not per inference batch) and a single annotation is returned
+    * anchored at `documentAnchor`. Otherwise one annotation is returned per sentence.
+    *
+    * Shared by [[predictSequence]] and [[predictSequenceWithZeroShot]] so both aggregate over the
+    * full collected result set rather than per-batch.
+    */
+  protected def aggregateSequenceScores(
+      sentencesWithScores: Seq[(Sentence, Array[Float])],
+      coalesceSentences: Boolean,
+      activation: String,
+      tags: Map[String, Int],
+      documentAnchor: Sentence,
+      sigmoidThreshold: Float): Seq[Annotation] = {
+
+    if (sentencesWithScores.isEmpty) return Seq.empty[Annotation]
+
+    val allScores = sentencesWithScores.map(_._2).toArray
+
+    activation match {
+      case ActivationFunction.softmax =>
+        if (coalesceSentences) {
+          val scores = allScores.transpose.map(_.sum / allScores.length)
+          val label = scoresToLabelForSequenceClassifier(tags, scores)
+          val meta = constructMetaForSequenceClassifier(tags, scores)
+          Seq(constructAnnotationForSequenceClassifier(documentAnchor, label, meta))
+        } else {
+          sentencesWithScores.map { case (sentence, scores) =>
+            val label = scoresToLabelForSequenceClassifier(tags, scores)
+            val meta = constructMetaForSequenceClassifier(tags, scores)
+            constructAnnotationForSequenceClassifier(sentence, label, meta)
+          }
+        }
+
+      case ActivationFunction.sigmoid =>
+        if (coalesceSentences) {
+          val scores = allScores.transpose.map(_.sum / allScores.length)
+          val labels = scores.zipWithIndex
+            .filter(x => x._1 > sigmoidThreshold)
+            .flatMap(x => tags.filter(_._2 == x._2))
+          val meta = constructMetaForSequenceClassifier(tags, scores)
+          labels
+            .map(label =>
+              constructAnnotationForSequenceClassifier(documentAnchor, label._1, meta))
+            .toSeq
+        } else {
+          sentencesWithScores.flatMap { case (sentence, scores) =>
+            val labels = scores.zipWithIndex
+              .filter(x => x._1 > sigmoidThreshold)
+              .flatMap(x => tags.filter(_._2 == x._2))
+            val meta = constructMetaForSequenceClassifier(tags, scores)
+            labels.map(label =>
+              constructAnnotationForSequenceClassifier(sentence, label._1, meta))
+          }
+        }
+    }
   }
 
   def predictSpan(
