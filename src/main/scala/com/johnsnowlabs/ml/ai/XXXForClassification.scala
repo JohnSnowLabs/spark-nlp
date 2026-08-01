@@ -584,6 +584,125 @@ private[johnsnowlabs] trait XXXForClassification {
 
   }
 
+  /** One row's worth of input to [[predictSpanGrouped]]: the row's own tokenized question/context
+    * plus that row's (unpadded) encoded sequence, tagged with its row index.
+    */
+  private case class SpanExample(
+      rowIndex: Int,
+      wordPieceTokenizedQuestion: Seq[WordpieceTokenizedSentence],
+      wordPieceTokenizedContext: Seq[WordpieceTokenizedSentence],
+      encoded: Array[Int])
+
+  /** Batches question-answering span prediction across every row in ONE pass, instead of the
+    * caller invoking [[predictSpan]] once per row (which has no `batchSize` at all today).
+    *
+    * Three things [[predictSpan]] gets away with only because it is always called with exactly
+    * one example, which this method can no longer assume:
+    *
+    *   1. `startLogits.transpose.map(_.sum / startLogits.length)` looks like it "unwraps" a batch
+    *      dimension, but it is actually an AVERAGE across the batch. With one example that
+    *      average is a no-op; with several it would blend different questions' answer-position
+    *      scores together. This method indexes `startScores(i)`/`endScores(i)` per example
+    *      instead. 2. `tagSpan`'s ONNX path builds a rectangular tensor from the raw encoded
+    *      arrays (`OnnxTensor.createTensor` on a `batch.map(...).toArray)`), which requires every
+    *      row to be the same length - fine for a batch of 1, which is trivially rectangular
+    *      regardless of its own length, but not for a real multi-example batch. This method pads
+    *      every example in a batch to that batch's own max length with `sentencePadTokenId`
+    *      before calling `tagSpan`. 3. Padding must use each model family's own
+    *      `sentencePadTokenId` (NOT a hardcoded 0 - for example XLM-RoBERTa and MPNet use 1),
+    *      since every concrete `tagSpan` implementation derives its attention mask by comparing
+    *      against that same field.
+    *
+    * @return
+    *   one `Seq[Annotation]` per row, in the same order as `rowsOfDocuments`.
+    */
+  def predictSpanGrouped(
+      rowsOfDocuments: Seq[Seq[Annotation]],
+      batchSize: Int,
+      maxSentenceLength: Int,
+      caseSensitive: Boolean,
+      mergeTokenStrategy: String = MergeTokenStrategy.vocab,
+      engine: String = TensorFlow.name): Seq[Seq[Annotation]] = {
+
+    val examples: Seq[SpanExample] = rowsOfDocuments.zipWithIndex.flatMap {
+      case (documents, rowIndex) =>
+        if (documents.isEmpty) None
+        else {
+          val questionAnnot = Seq(documents.head)
+          val contextAnnot = documents.drop(1)
+          val wordPieceTokenizedQuestion =
+            tokenizeDocument(questionAnnot, maxSentenceLength, caseSensitive)
+          val wordPieceTokenizedContext =
+            tokenizeDocument(contextAnnot, maxSentenceLength, caseSensitive)
+          val encoded = encodeSequence(
+            wordPieceTokenizedQuestion,
+            wordPieceTokenizedContext,
+            maxSentenceLength).head
+          Some(
+            SpanExample(rowIndex, wordPieceTokenizedQuestion, wordPieceTokenizedContext, encoded))
+        }
+    }
+
+    if (examples.isEmpty) return rowsOfDocuments.map(_ => Seq.empty[Annotation])
+
+    val resultsWithRow: Seq[(Annotation, Int)] =
+      batchByLength[SpanExample, (Annotation, Int)](examples, batchSize, _.encoded.length) {
+        batch =>
+          val maxLen = batch.map(_.encoded.length).max
+          val paddedEncoded = batch.map { example =>
+            example.encoded ++ Array.fill(maxLen - example.encoded.length)(sentencePadTokenId)
+          }
+          val (startScores, endScores) = tagSpan(paddedEncoded)
+
+          batch.zipWithIndex.map { case (example, i) =>
+            val startIndex = startScores(i).zipWithIndex.maxBy(_._1)
+            val endIndex = endScores(i).zipWithIndex.maxBy(_._1)
+
+            val offsetStartIndex = if (engine == TensorFlow.name) 2 else 1
+            val offsetEndIndex = if (engine == TensorFlow.name) 1 else 0
+
+            val allTokenPieces =
+              example.wordPieceTokenizedQuestion.head.tokens ++
+                example.wordPieceTokenizedContext.flatMap(x => x.tokens)
+            val decodedAnswer =
+              allTokenPieces.slice(startIndex._2 - offsetStartIndex, endIndex._2 - offsetEndIndex)
+            val content =
+              mergeTokenStrategy match {
+                case MergeTokenStrategy.vocab =>
+                  decodedAnswer.filter(_.isWordStart).map(x => x.token).mkString(" ")
+                case MergeTokenStrategy.sentencePiece =>
+                  val token = ""
+                  decodedAnswer
+                    .map(x =>
+                      if (x.isWordStart) " " + token + x.token
+                      else token + x.token)
+                    .mkString("")
+                    .trim
+              }
+
+            val annotation = Annotation(
+              annotatorType = AnnotatorType.CHUNK,
+              begin = 0,
+              end = if (content.isEmpty) 0 else content.length - 1,
+              result = content,
+              metadata = Map(
+                "sentence" -> "0",
+                "chunk" -> "0",
+                "start" -> startIndex._2.toString,
+                "start_score" -> startIndex._1.toString,
+                "end" -> endIndex._2.toString,
+                "end_score" -> endIndex._1.toString,
+                "score" -> ((startIndex._1 + endIndex._1) / 2).toString))
+
+            (annotation, example.rowIndex)
+          }
+      }
+
+    val byRow =
+      resultsWithRow.groupBy(_._2).map { case (rowIndex, pairs) => rowIndex -> pairs.map(_._1) }
+    rowsOfDocuments.indices.map(rowIndex => byRow.getOrElse(rowIndex, Seq.empty[Annotation]))
+  }
+
   def predictSpanMultipleChoice(
       documents: Seq[Annotation],
       choicesDelimiter: String,
