@@ -186,6 +186,80 @@ private[johnsnowlabs] trait XXXForClassification {
 
   }
 
+  /** Batches sequence-classification inference across every sentence from every row in ONE pass,
+    * instead of the caller invoking [[predictSequence]] once per row - which would otherwise
+    * leave `batchSize` capped at a single row's sentence count.
+    *
+    * Unlike token classification, sequence classification doesn't need row-local positional
+    * indexing - each result is anchored to its own `Sentence` object (which already carries its
+    * row-local `.index`/`.start`/`.end`), so sentences can be freely flattened across rows for
+    * inference. The one thing that DOES need to stay row-scoped is `coalesceSentences`: it means
+    * "average every sentence into one annotation for the document", and once inference spans
+    * multiple rows in a single call, "the document" is no longer implicitly "the call" - it has
+    * to mean "the row". So scores are grouped back by row before calling the (unmodified)
+    * [[aggregateSequenceScores]] once per row, rather than once for the whole batch.
+    *
+    * @return
+    *   one `Seq[Annotation]` per row, in the same order as `rowsOfTokenizedSentences`.
+    */
+  def predictSequenceGrouped(
+      rowsOfTokenizedSentences: Seq[Seq[TokenizedSentence]],
+      rowsOfSentences: Seq[Seq[Sentence]],
+      batchSize: Int,
+      maxSentenceLength: Int,
+      caseSensitive: Boolean,
+      coalesceSentences: Boolean = false,
+      tags: Map[String, Int],
+      activation: String = ActivationFunction.softmax): Seq[Seq[Annotation]] = {
+
+    // (wordpiece-tokenized sentence, its own Sentence, its row index)
+    val items: Seq[(WordpieceTokenizedSentence, Sentence, Int)] =
+      rowsOfTokenizedSentences.zip(rowsOfSentences).zipWithIndex.flatMap {
+        case ((tokenizedSentences, sentences), rowIndex) =>
+          tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
+            .zip(sentences)
+            .map { case (wordpieceTokenizedSentence, sentence) =>
+              (wordpieceTokenizedSentence, sentence, rowIndex)
+            }
+      }
+
+    if (items.isEmpty) return rowsOfTokenizedSentences.map(_ => Seq.empty[Annotation])
+
+    // Stage 1: run inference batch by batch (length-bucketed), carrying each sentence's own row
+    // index through so coalescing can be resolved per row afterward.
+    val sentencesWithScoresAndRow: Seq[(Sentence, Array[Float], Int)] =
+      batchByLength[(WordpieceTokenizedSentence, Sentence, Int), (Sentence, Array[Float], Int)](
+        items,
+        batchSize,
+        { case (wordpieceTokenizedSentence, _, _) => wordpieceTokenizedSentence.tokens.length }) {
+        batch =>
+          val encoded = encode(batch.map { case (wpts, _, _) => (wpts, 0) }, maxSentenceLength)
+          val logits = tagSequence(encoded, activation)
+          batch.zip(logits).map { case ((_, sentence, rowIndex), scores) =>
+            (sentence, scores, rowIndex)
+          }
+      }
+
+    // Stage 2: aggregate per row, so coalesceSentences averages within a row, not across rows
+    val byRow = sentencesWithScoresAndRow.groupBy(_._3)
+    rowsOfTokenizedSentences.indices.map { rowIndex =>
+      byRow.get(rowIndex) match {
+        case None => Seq.empty[Annotation]
+        case Some(rowItems) =>
+          val sentencesWithScores = rowItems.map { case (sentence, scores, _) =>
+            (sentence, scores)
+          }
+          aggregateSequenceScores(
+            sentencesWithScores,
+            coalesceSentences,
+            activation,
+            tags,
+            sentencesWithScores.head._1,
+            sigmoidThreshold)
+      }
+    }
+  }
+
   def predictSequenceWithZeroShot(
       tokenizedSentences: Seq[TokenizedSentence],
       sentences: Seq[Sentence],
