@@ -123,12 +123,7 @@ val llamaCppDependencies =
     case "cpu" => Seq(llamaCppCPU)
   }
 
-val openVinoDependencies: Seq[sbt.ModuleID] =
-  sparkBuildVariant.id match {
-    case "gpu" => Seq(openVinoGPU)
-    case "silicon" => Seq(openVinoSilicon)
-    case _ => Seq(openVinoCPU)
-  }
+val openVinoDependencies: Seq[sbt.ModuleID] = Seq(openVinoCPU)
 
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 

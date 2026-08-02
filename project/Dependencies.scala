@@ -124,7 +124,6 @@ object Dependencies {
   val openVinoRuntimeVersion = "0.2.0"
   val openVinoCPU = "com.johnsnowlabs.nlp" % "jsl-openvino-cpu_2.12" % openVinoRuntimeVersion
   val openVinoGPU = "com.johnsnowlabs.nlp" % "jsl-openvino-gpu_2.12" % openVinoRuntimeVersion
-  val openVinoSilicon = "com.johnsnowlabs.nlp" % "jsl-openvino-silicon_2.12" % openVinoRuntimeVersion
 
   val gcpStorageVersion = "2.20.1"
   val gcpStorage = "com.google.cloud" % "google-cloud-storage" % gcpStorageVersion
