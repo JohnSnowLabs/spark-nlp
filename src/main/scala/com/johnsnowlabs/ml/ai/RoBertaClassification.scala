@@ -838,4 +838,111 @@ private[johnsnowlabs] class RoBertaClassification(
 
   }
 
+  /** Batched counterpart of [[predictSpan]], carrying over the same RoBERTa-specific handling
+    * that the shared trait's generic `predictSpanGrouped` does not know about: masking question
+    * and EOS positions before taking the argmax (`processLogits`), RoBERTa's own 3-special-token
+    * offset (`<s> Q </s></s> C </s>` has one more separator than the generic BERT-style
+    * encoding), a product (not average) score, and character-position (not model-position)
+    * start/end metadata.
+    */
+  override def predictSpanGrouped(
+      rowsOfDocuments: Seq[Seq[Annotation]],
+      batchSize: Int,
+      maxSentenceLength: Int,
+      caseSensitive: Boolean,
+      mergeTokenStrategy: String = MergeTokenStrategy.vocab,
+      engine: String = TensorFlow.name): Seq[Seq[Annotation]] = {
+
+    val examples: Seq[SpanExample] = rowsOfDocuments.zipWithIndex.flatMap {
+      case (documents, rowIndex) =>
+        if (documents.isEmpty) None
+        else {
+          val questionAnnot = Seq(documents.head)
+          val contextAnnot = documents.drop(1)
+          val wordPieceTokenizedQuestion =
+            tokenizeDocument(questionAnnot, maxSentenceLength, caseSensitive)
+          val wordPieceTokenizedContext =
+            tokenizeDocument(contextAnnot, maxSentenceLength, caseSensitive)
+          val encoded = encodeSequence(
+            wordPieceTokenizedQuestion,
+            wordPieceTokenizedContext,
+            maxSentenceLength).head
+          Some(
+            SpanExample(rowIndex, wordPieceTokenizedQuestion, wordPieceTokenizedContext, encoded))
+        }
+    }
+
+    if (examples.isEmpty) return rowsOfDocuments.map(_ => Seq.empty[Annotation])
+
+    val resultsWithRow: Seq[(Annotation, Int)] =
+      batchByLength[SpanExample, (Annotation, Int)](examples, batchSize, _.encoded.length) {
+        batch =>
+          val maxLen = batch.map(_.encoded.length).max
+          val paddedEncoded = batch.map { example =>
+            example.encoded ++ Array.fill(maxLen - example.encoded.length)(sentencePadTokenId)
+          }
+          val (rawStartLogits, rawEndLogits) = tagSpan(paddedEncoded)
+
+          batch.zipWithIndex.map { case (example, i) =>
+            val questionLength = example.wordPieceTokenizedQuestion.head.tokens.length
+            val contextLength = example.wordPieceTokenizedContext.head.tokens.length
+            val (startScores, endScores) =
+              processLogits(rawStartLogits(i), rawEndLogits(i), questionLength, contextLength)
+
+            // Drop BOS token from valid results
+            val startIndex = startScores.zipWithIndex.drop(1).maxBy(_._1)
+            val endIndex = endScores.zipWithIndex.drop(1).maxBy(_._1)
+
+            val offsetStartIndex = 3 // 3 added special tokens
+            val offsetEndIndex = offsetStartIndex - 1
+
+            val allTokenPieces =
+              example.wordPieceTokenizedQuestion.head.tokens ++
+                example.wordPieceTokenizedContext.flatMap(x => x.tokens)
+            val decodedAnswer =
+              allTokenPieces.slice(startIndex._2 - offsetStartIndex, endIndex._2 - offsetEndIndex)
+            val content =
+              mergeTokenStrategy match {
+                case MergeTokenStrategy.vocab =>
+                  decodedAnswer.filter(_.isWordStart).map(x => x.token).mkString(" ")
+                case MergeTokenStrategy.sentencePiece =>
+                  val token = ""
+                  decodedAnswer
+                    .map(x =>
+                      if (x.isWordStart) " " + token + x.token
+                      else token + x.token)
+                    .mkString("")
+                    .trim
+              }
+
+            val totalScore = startIndex._1 * endIndex._1
+            // decodedAnswer can legitimately be empty (invalid start/end span after masking, e.g.
+            // a genuinely unanswerable question) - fall back to the raw model-position indices
+            // for start/end metadata rather than crashing on decodedAnswer.head/.last.
+            val (startMeta, endMeta) =
+              if (decodedAnswer.isEmpty) (startIndex._2.toString, endIndex._2.toString)
+              else (decodedAnswer.head.begin.toString, decodedAnswer.last.end.toString)
+            val annotation = Annotation(
+              annotatorType = AnnotatorType.CHUNK,
+              begin = 0,
+              end = if (content.isEmpty) 0 else content.length - 1,
+              result = content,
+              metadata = Map(
+                "sentence" -> "0",
+                "chunk" -> "0",
+                "start" -> startMeta,
+                "start_score" -> startIndex._1.toString,
+                "end" -> endMeta,
+                "end_score" -> endIndex._1.toString,
+                "score" -> totalScore.toString))
+
+            (annotation, example.rowIndex)
+          }
+      }
+
+    val byRow =
+      resultsWithRow.groupBy(_._2).map { case (rowIndex, pairs) => rowIndex -> pairs.map(_._1) }
+    rowsOfDocuments.indices.map(rowIndex => byRow.getOrElse(rowIndex, Seq.empty[Annotation]))
+  }
+
 }
