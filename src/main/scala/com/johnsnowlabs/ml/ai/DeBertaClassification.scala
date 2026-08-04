@@ -539,7 +539,11 @@ private[johnsnowlabs] class DeBertaClassification(
     val batchLength = batch.length
     val maxSentenceLength = batch.map(_.length).max
     val (tokenTensors, maskTensors) =
-      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+      PrepareEmbeddings.prepareOvLongBatchTensors(
+        batch,
+        maxSentenceLength,
+        batchLength,
+        sentencePadTokenId = sentencePadTokenId)
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("input_ids", tokenTensors)
@@ -576,7 +580,9 @@ private[johnsnowlabs] class DeBertaClassification(
     val maskTensors =
       OnnxTensor.createTensor(
         env,
-        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
+        batch
+          .map(sentence => sentence.map(x => if (x == sentencePadTokenId) 0L else 1L))
+          .toArray)
 
     val inputs =
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
