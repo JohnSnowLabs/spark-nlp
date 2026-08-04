@@ -1638,23 +1638,25 @@ PipelineModel.load("/tmp/explain_document_dl_en_2.0.2_2.4_1556530585689/")
 
 #### spark-nlp
 
-- FAT-JAR for CPU on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
+- FAT-JAR for CPU
 
 ```bash
-sbt assembly
+sbt -Dspark.build.profile=spark4 -Dspark.build.variant=cpu -Dspark.version=4.1.2 clean assemblyAndCopy
 ```
 
-- FAT-JAR for GPU on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
+- FAT-JAR for GPU
 
 ```bash
-sbt -Dis_gpu=true assembly
+sbt -Dspark.build.profile=spark4 -Dspark.build.variant=gpu -Dspark.version=4.1.2 clean assemblyAndCopy
 ```
 
-- FAT-JAR for M! on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x
+- FAT-JAR for Apple Silicon (M1/M2/M3/M4)
 
 ```bash
-sbt -Dis_silicon=true assembly
+sbt -Dspark.build.profile=spark4 -Dspark.build.variant=silicon -Dspark.version=4.1.2 clean assemblyAndCopy
 ```
+
+`-Dspark.build.variant` also accepts `aarch64`. `-Dis_gpu=true`/`-Dis_silicon=true` (the flags used on other branches) have no effect here — this branch selects the build variant via `-Dspark.build.variant` instead (see `project/Dependencies.scala` and `build.sbt`).
 
 </div><div class="h3-box" markdown="1">
 
