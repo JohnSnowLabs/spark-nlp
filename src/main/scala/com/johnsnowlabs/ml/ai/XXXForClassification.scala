@@ -587,7 +587,7 @@ private[johnsnowlabs] trait XXXForClassification {
   /** One row's worth of input to [[predictSpanGrouped]]: the row's own tokenized question/context
     * plus that row's (unpadded) encoded sequence, tagged with its row index.
     */
-  private case class SpanExample(
+  protected case class SpanExample(
       rowIndex: Int,
       wordPieceTokenizedQuestion: Seq[WordpieceTokenizedSentence],
       wordPieceTokenizedContext: Seq[WordpieceTokenizedSentence],
