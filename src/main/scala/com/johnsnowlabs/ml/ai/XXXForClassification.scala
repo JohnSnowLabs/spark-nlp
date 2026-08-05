@@ -63,6 +63,88 @@ private[johnsnowlabs] trait XXXForClassification {
 
   }
 
+  /** Groups items into batches of similar length (to minimise padding waste, since `encode` pads
+    * every item in a batch to that batch's own max length) then restores the caller's original
+    * ordering once inference is done.
+    *
+    * `f` is handed one length-homogeneous batch and MUST return exactly one result per input
+    * element, in the same order as that batch.
+    */
+  protected def batchByLength[T, R](items: Seq[T], batchSize: Int, lengthOf: T => Int)(
+      f: Seq[T] => Seq[R]): Seq[R] = {
+    items.zipWithIndex
+      .sortBy { case (item, _) => lengthOf(item) }
+      .grouped(batchSize)
+      .flatMap { batch => f(batch.map(_._1)).zip(batch.map(_._2)) }
+      .toSeq
+      .sortBy(_._2)
+      .map(_._1)
+  }
+
+  /** Batches token-classification inference across every sentence from every row in ONE pass,
+    * instead of the caller invoking [[predict]] once per row - which would otherwise leave
+    * `batchSize` capped at a single row's sentence count (typically 1-3), making it a no-op for
+    * the common case.
+    *
+    * `tokenizedSentences` is still supplied per row (not flattened) because
+    * [[wordAndSpanLevelAlignmentWithTokenizer]] / [[findIndexedToken]] resolve a sentence's
+    * original tokens by indexing directly into that row's own list
+    * (`tokenizedSentences(sentence._2)`) - that indexing must stay row-local, so only the
+    * inference step is batched across rows, not the alignment step.
+    *
+    * @return
+    *   one `Seq[Annotation]` per row, in the same order as `rowsOfTokenizedSentences`, with each
+    *   row's own sentence/token order preserved regardless of how batches were grouped for
+    *   inference.
+    */
+  def predictGrouped(
+      rowsOfTokenizedSentences: Seq[Seq[TokenizedSentence]],
+      batchSize: Int,
+      maxSentenceLength: Int,
+      caseSensitive: Boolean,
+      tags: Map[String, Int]): Seq[Seq[Annotation]] = {
+
+    // (wordpiece-tokenized sentence, its row index, its row-LOCAL sentence index)
+    val items: Seq[(WordpieceTokenizedSentence, Int, Int)] =
+      rowsOfTokenizedSentences.zipWithIndex.flatMap { case (tokenizedSentences, rowIndex) =>
+        tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive).zipWithIndex
+          .map { case (wordpieceTokenizedSentence, localIndex) =>
+            (wordpieceTokenizedSentence, rowIndex, localIndex)
+          }
+      }
+
+    if (items.isEmpty) return rowsOfTokenizedSentences.map(_ => Seq.empty[Annotation])
+
+    // one Seq[Annotation] (that single sentence's own token annotations) per item, in items' order
+    val perSentenceAnnotations: Seq[Seq[Annotation]] =
+      batchByLength[(WordpieceTokenizedSentence, Int, Int), Seq[Annotation]](
+        items,
+        batchSize,
+        { case (wordpieceTokenizedSentence, _, _) => wordpieceTokenizedSentence.tokens.length }) {
+        batch =>
+          // encode's second tuple element is unused by encode itself; it only exists so callers
+          // of `predict` can carry a position through, which we don't need here.
+          val encoded = encode(batch.map { case (wpts, _, _) => (wpts, 0) }, maxSentenceLength)
+          val logits = tag(encoded)
+          batch.zip(logits).map {
+            case ((wordpieceTokenizedSentence, rowIndex, localIndex), tokenVectors) =>
+              val tokenLength = wordpieceTokenizedSentence.tokens.length
+              val tokenLogits: Array[Array[Float]] = tokenVectors.slice(1, tokenLength + 1)
+              wordAndSpanLevelAlignmentWithTokenizer(
+                tokenLogits,
+                rowsOfTokenizedSentences(rowIndex),
+                (wordpieceTokenizedSentence, localIndex),
+                tags)
+          }
+      }
+
+    val byRow = Array.fill(rowsOfTokenizedSentences.length)(Seq.empty[Annotation])
+    items.zip(perSentenceAnnotations).foreach { case ((_, rowIndex, _), sentenceAnnotations) =>
+      byRow(rowIndex) = byRow(rowIndex) ++ sentenceAnnotations
+    }
+    byRow.toSeq
+  }
+
   def predictSequence(
       tokenizedSentences: Seq[TokenizedSentence],
       sentences: Seq[Sentence],
