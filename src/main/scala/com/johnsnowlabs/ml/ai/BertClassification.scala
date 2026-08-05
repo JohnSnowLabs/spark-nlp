@@ -572,7 +572,7 @@ private[johnsnowlabs] class BertClassification(
       .foreach { case (sentence, idx) =>
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
         var firstSeq = true
         segmentBuffers
           .offset(offset)
