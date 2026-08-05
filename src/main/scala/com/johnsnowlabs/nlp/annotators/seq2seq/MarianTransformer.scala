@@ -508,9 +508,7 @@ class MarianTransformer(override val uid: String)
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
-    val nonEmptyBatch = batchedAnnotations.filter(_.nonEmpty)
-
-    val allAnnotations = nonEmptyBatch.zipWithIndex
+    val allAnnotations = batchedAnnotations.zipWithIndex
       .flatMap { case (annotations, i) =>
         annotations.filter(_.result.nonEmpty).map(x => (x, i))
       }
