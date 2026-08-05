@@ -621,7 +621,11 @@ private[johnsnowlabs] class RoBertaClassification(
     val batchLength = batch.length
     val maxSentenceLength = batch.map(_.length).max
     val (tokenTensors, maskTensors) =
-      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+      PrepareEmbeddings.prepareOvLongBatchTensors(
+        batch,
+        maxSentenceLength,
+        batchLength,
+        sentencePadTokenId = sentencePadTokenId)
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("input_ids", tokenTensors)
@@ -655,7 +659,9 @@ private[johnsnowlabs] class RoBertaClassification(
     val tokenTensors =
       OnnxTensor.createTensor(env, batch.map(x => x.map(x => x.toLong)).toArray)
     val maskTensors =
-      OnnxTensor.createTensor(env, batch.map(sentence => Array.fill(sentence.length)(1L)).toArray)
+      OnnxTensor.createTensor(
+        env,
+        batch.map(sentence => sentence.map(x => if (x == sentencePadTokenId) 0L else 1L)).toArray)
 
     val inputs =
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
@@ -744,10 +750,17 @@ private[johnsnowlabs] class RoBertaClassification(
       startLogits: Array[Float],
       endLogits: Array[Float],
       questionLength: Int,
-      contextLength: Int): (Array[Float], Array[Float]) = {
+      contextLength: Int,
+      validLength: Int): (Array[Float], Array[Float]) = {
 
     /** Sets log-logits to (almost) 0 for question and padding tokens so they can't contribute to
       * the final softmax score.
+      *
+      * `validLength` is this example's own unpadded length. When a batch mixes lengths, `scores`
+      * is as wide as the batch's longest example, so the trailing slots are padding belonging to
+      * no example - the real end-of-sequence sits at `validLength - 1`, not at `scores.length -
+      * 1`. Deriving both from `validLength` keeps the mask (and therefore the renormalised
+      * softmax below) identical to what an unbatched, unpadded call would produce.
       *
       * @param scores
       *   Logits of the combined sequences
@@ -756,12 +769,12 @@ private[johnsnowlabs] class RoBertaClassification(
       */
     def maskUndesiredTokens(scores: Array[Float]): Array[Float] = {
       val numSpecialTokens = 4 // 4 added special tokens in encoded sequence (1 bos, 2 eos, 1 eos)
-      val totalLength = scores.length
       scores.zipWithIndex.map { case (score, i) =>
         val inQuestionTokens = i > 0 && i < questionLength + numSpecialTokens
-        val isEosToken = i == totalLength - 1
+        val isEosToken = i == validLength - 1
+        val isPadding = i >= validLength
 
-        if (inQuestionTokens || isEosToken) -10000.0f
+        if (inQuestionTokens || isEosToken || isPadding) -10000.0f
         else score
       }
     }
@@ -793,7 +806,12 @@ private[johnsnowlabs] class RoBertaClassification(
       encodeSequence(wordPieceTokenizedQuestion, wordPieceTokenizedContext, maxSentenceLength)
     val (rawStartLogits, rawEndLogits) = tagSpan(encodedInput)
     val (startScores, endScores) =
-      processLogits(rawStartLogits.head, rawEndLogits.head, questionLength, contextLength)
+      processLogits(
+        rawStartLogits.head,
+        rawEndLogits.head,
+        questionLength,
+        contextLength,
+        validLength = rawStartLogits.head.length)
 
     // Drop BOS token from valid results
     val startIndex = startScores.zipWithIndex.drop(1).maxBy(_._1)
@@ -886,12 +904,19 @@ private[johnsnowlabs] class RoBertaClassification(
           batch.zipWithIndex.map { case (example, i) =>
             val questionLength = example.wordPieceTokenizedQuestion.head.tokens.length
             val contextLength = example.wordPieceTokenizedContext.head.tokens.length
+            // This example's own unpadded width - the batch may be wider (see processLogits).
+            val validLength = example.encoded.length
             val (startScores, endScores) =
-              processLogits(rawStartLogits(i), rawEndLogits(i), questionLength, contextLength)
+              processLogits(
+                rawStartLogits(i),
+                rawEndLogits(i),
+                questionLength,
+                contextLength,
+                validLength)
 
-            // Drop BOS token from valid results
-            val startIndex = startScores.zipWithIndex.drop(1).maxBy(_._1)
-            val endIndex = endScores.zipWithIndex.drop(1).maxBy(_._1)
+            // Drop BOS token from valid results, and never let a padding slot win the argmax.
+            val startIndex = startScores.take(validLength).zipWithIndex.drop(1).maxBy(_._1)
+            val endIndex = endScores.take(validLength).zipWithIndex.drop(1).maxBy(_._1)
 
             val offsetStartIndex = 3 // 3 added special tokens
             val offsetEndIndex = offsetStartIndex - 1

@@ -63,6 +63,22 @@ private[johnsnowlabs] trait XXXForClassification {
 
   }
 
+  /** Restricts a span score row produced over a padded batch back to the example's own unpadded
+    * length, renormalising so the retained scores sum to 1 again.
+    *
+    * `tagSpan` softmaxes across the full padded width, so padding positions hold a share of the
+    * probability mass and are themselves eligible for an argmax. Dropping them and dividing by
+    * the retained sum is exactly equivalent to having softmaxed over the unpadded row alone
+    * (`exp(x_i) / sum_{j in valid} exp(x_j)`), which keeps a row's answer and reported scores
+    * independent of whichever other rows happened to share its batch.
+    */
+  protected def unpaddedScores(scores: Array[Float], validLength: Int): Array[Float] = {
+    if (validLength >= scores.length) return scores
+    val valid = scores.take(validLength)
+    val total = valid.sum
+    if (total <= 0f) valid else valid.map(_ / total)
+  }
+
   /** Groups items into batches of similar length (to minimise padding waste, since `encode` pads
     * every item in a batch to that batch's own max length) then restores the caller's original
     * ordering once inference is done.
@@ -138,11 +154,14 @@ private[johnsnowlabs] trait XXXForClassification {
           }
       }
 
-    val byRow = Array.fill(rowsOfTokenizedSentences.length)(Seq.empty[Annotation])
+    // Accumulate into per-row builders rather than repeatedly `++`-ing an immutable Seq, which
+    // would be quadratic in a row's sentence count.
+    val byRow =
+      Array.fill(rowsOfTokenizedSentences.length)(Seq.newBuilder[Annotation])
     items.zip(perSentenceAnnotations).foreach { case ((_, rowIndex, _), sentenceAnnotations) =>
-      byRow(rowIndex) = byRow(rowIndex) ++ sentenceAnnotations
+      byRow(rowIndex) ++= sentenceAnnotations
     }
-    byRow.toSeq
+    byRow.map(_.result()).toSeq
   }
 
   def predictSequence(
@@ -596,22 +615,31 @@ private[johnsnowlabs] trait XXXForClassification {
   /** Batches question-answering span prediction across every row in ONE pass, instead of the
     * caller invoking [[predictSpan]] once per row (which has no `batchSize` at all today).
     *
-    * Three things [[predictSpan]] gets away with only because it is always called with exactly
-    * one example, which this method can no longer assume:
+    * Four things [[predictSpan]] gets away with only because it is always called with exactly one
+    * example, which this method can no longer assume:
     *
     *   1. `startLogits.transpose.map(_.sum / startLogits.length)` looks like it "unwraps" a batch
     *      dimension, but it is actually an AVERAGE across the batch. With one example that
     *      average is a no-op; with several it would blend different questions' answer-position
     *      scores together. This method indexes `startScores(i)`/`endScores(i)` per example
-    *      instead. 2. `tagSpan`'s ONNX path builds a rectangular tensor from the raw encoded
-    *      arrays (`OnnxTensor.createTensor` on a `batch.map(...).toArray)`), which requires every
-    *      row to be the same length - fine for a batch of 1, which is trivially rectangular
-    *      regardless of its own length, but not for a real multi-example batch. This method pads
-    *      every example in a batch to that batch's own max length with `sentencePadTokenId`
-    *      before calling `tagSpan`. 3. Padding must use each model family's own
-    *      `sentencePadTokenId` (NOT a hardcoded 0 - for example XLM-RoBERTa and MPNet use 1),
-    *      since every concrete `tagSpan` implementation derives its attention mask by comparing
-    *      against that same field.
+    *      instead.
+    *   1. `tagSpan`'s ONNX path builds a rectangular tensor from the raw encoded arrays
+    *      (`OnnxTensor.createTensor` on a `batch.map(...).toArray)`), which requires every row to
+    *      be the same length - fine for a batch of 1, which is trivially rectangular regardless
+    *      of its own length, but not for a real multi-example batch. This method pads every
+    *      example in a batch to that batch's own max length with `sentencePadTokenId` before
+    *      calling `tagSpan`.
+    *   1. Padding must use each model family's own `sentencePadTokenId` (NOT a hardcoded 0 - for
+    *      example RoBERTa and MPNet use 1), because that is the value the concrete `tagSpan`
+    *      implementations compare against when deriving their attention mask. Note this was NOT
+    *      uniformly true before this method existed: several span paths hardcoded `x == 0` or
+    *      built an all-ones mask, which was harmless only because a batch of 1 is never padded.
+    *      Those were fixed alongside this method.
+    *   1. `tagSpan` softmaxes over the FULL padded width, so a short example's scores would be
+    *      diluted by whatever longer example shared its batch, and its argmax could even land on
+    *      a padding position. This method restricts both to the example's own unpadded length and
+    *      renormalises, which is exactly equivalent to softmaxing over the unpadded row - so a
+    *      given row's answer and scores do not depend on which other rows it was batched with.
     *
     * @return
     *   one `Seq[Annotation]` per row, in the same order as `rowsOfDocuments`.
@@ -655,8 +683,11 @@ private[johnsnowlabs] trait XXXForClassification {
           val (startScores, endScores) = tagSpan(paddedEncoded)
 
           batch.zipWithIndex.map { case (example, i) =>
-            val startIndex = startScores(i).zipWithIndex.maxBy(_._1)
-            val endIndex = endScores(i).zipWithIndex.maxBy(_._1)
+            // Confine argmax/scores to this example's own unpadded region - see point 4 above.
+            val startIndex =
+              unpaddedScores(startScores(i), example.encoded.length).zipWithIndex.maxBy(_._1)
+            val endIndex =
+              unpaddedScores(endScores(i), example.encoded.length).zipWithIndex.maxBy(_._1)
 
             val offsetStartIndex = if (engine == TensorFlow.name) 2 else 1
             val offsetEndIndex = if (engine == TensorFlow.name) 1 else 0
