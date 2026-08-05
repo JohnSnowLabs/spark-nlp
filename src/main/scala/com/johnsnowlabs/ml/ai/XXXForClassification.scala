@@ -333,6 +333,109 @@ private[johnsnowlabs] trait XXXForClassification {
 
   }
 
+  /** Batches zero-shot classification inference across every sentence from every row in ONE pass,
+    * instead of the caller invoking [[predictSequenceWithZeroShot]] once per row.
+    *
+    * Same row-handling as [[predictSequenceGrouped]]: sentences flatten freely across rows for
+    * inference (no positional-index constraint, since results are anchored to their own
+    * `Sentence` object), and `coalesceSentences` is resolved per row via a groupBy before the
+    * (unmodified) [[aggregateSequenceScores]], so "coalesce the document" means "coalesce the
+    * row" even though a single inference batch may now span several rows.
+    *
+    * The per-sentence loop over candidate labels (`tagZeroShotSequence` called once per sentence,
+    * batched only across that sentence's own labels) is unchanged from
+    * [[predictSequenceWithZeroShot]] - flattening that into a single batch of sentence x label
+    * pairs is a further optimisation left for a separate change, not bundled here.
+    *
+    * @return
+    *   one `Seq[Annotation]` per row, in the same order as `rowsOfTokenizedSentences`.
+    */
+  def predictSequenceWithZeroShotGrouped(
+      rowsOfTokenizedSentences: Seq[Seq[TokenizedSentence]],
+      rowsOfSentences: Seq[Seq[Sentence]],
+      candidateLabels: Array[String],
+      entailmentId: Int,
+      contradictionId: Int,
+      batchSize: Int,
+      maxSentenceLength: Int,
+      caseSensitive: Boolean,
+      coalesceSentences: Boolean = false,
+      tags: Map[String, Int],
+      activation: String = ActivationFunction.softmax): Seq[Seq[Annotation]] = {
+
+    val candidateLabelsKeyValue = candidateLabels.zipWithIndex.toMap
+    val contradiction_id: Int = if (entailmentId == 0) contradictionId else 0
+    val labelsTokenized =
+      tokenizeSeqString(candidateLabels, maxSentenceLength, caseSensitive)
+
+    // (wordpiece-tokenized sentence, its own Sentence, its row index)
+    val items: Seq[(WordpieceTokenizedSentence, Sentence, Int)] =
+      rowsOfTokenizedSentences.zip(rowsOfSentences).zipWithIndex.flatMap {
+        case ((tokenizedSentences, sentences), rowIndex) =>
+          tokenizeWithAlignment(tokenizedSentences, maxSentenceLength, caseSensitive)
+            .zip(sentences)
+            .map { case (wordpieceTokenizedSentence, sentence) =>
+              (wordpieceTokenizedSentence, sentence, rowIndex)
+            }
+      }
+
+    if (items.isEmpty) return rowsOfTokenizedSentences.map(_ => Seq.empty[Annotation])
+
+    val sentencesWithScoresAndRow: Seq[(Sentence, Array[Float], Int)] =
+      batchByLength[(WordpieceTokenizedSentence, Sentence, Int), (Sentence, Array[Float], Int)](
+        items,
+        batchSize,
+        { case (wordpieceTokenizedSentence, _, _) => wordpieceTokenizedSentence.tokens.length }) {
+        batch =>
+          /* Start internal batching for zero shot: one tagZeroShotSequence call per sentence,
+           * batched across that sentence's own candidate labels */
+          val encodedTokensLabels = batch.map { case (wordpieceTokenizedSentence, _, _) =>
+            labelsTokenized.flatMap(labels =>
+              encodeSequence(Seq(wordpieceTokenizedSentence), Seq(labels), maxSentenceLength))
+          }
+
+          val logits = encodedTokensLabels.map { encodedSeq =>
+            tagZeroShotSequence(encodedSeq, entailmentId, contradictionId, activation)
+          }
+
+          val multiClassScores =
+            logits.map(scores => calculateSoftmax(scores.map(x => x(entailmentId))))
+          val multiLabelScores =
+            logits.map(scores =>
+              scores
+                .map(x => calculateSoftmax(Array(x(contradiction_id), x(entailmentId))))
+                .map(_.last))
+
+          val scoresForActivation = activation match {
+            case ActivationFunction.softmax => multiClassScores
+            case ActivationFunction.sigmoid => multiLabelScores
+          }
+
+          batch
+            .map { case (_, sentence, rowIndex) => (sentence, rowIndex) }
+            .zip(scoresForActivation)
+            .map { case ((sentence, rowIndex), scores) => (sentence, scores, rowIndex) }
+      }
+
+    val byRow = sentencesWithScoresAndRow.groupBy(_._3)
+    rowsOfTokenizedSentences.indices.map { rowIndex =>
+      byRow.get(rowIndex) match {
+        case None => Seq.empty[Annotation]
+        case Some(rowItems) =>
+          val sentencesWithScores = rowItems.map { case (sentence, scores, _) =>
+            (sentence, scores)
+          }
+          aggregateSequenceScores(
+            sentencesWithScores,
+            coalesceSentences,
+            activation,
+            candidateLabelsKeyValue,
+            sentencesWithScores.head._1,
+            sigmoidThreshold = 0.5f)
+      }
+    }
+  }
+
   def scoresToLabelForSequenceClassifier(tags: Map[String, Int], scores: Array[Float]): String = {
     tags.find(_._2 == scores.zipWithIndex.maxBy(_._1)._2).map(_._1).getOrElse("NA")
   }
