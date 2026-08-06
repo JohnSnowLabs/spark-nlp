@@ -128,7 +128,9 @@ object Dependencies {
   val azureIdentity = "com.azure" % "azure-identity" % azureIdentityVersion % Provided
   val azureStorage = "com.azure" % "azure-storage-blob" % azureStorageVersion % Provided
 
-  val llamaCppVersion = "2.0.3"
+  // TODO revert to published "2.0.3" before opening a PR - "2.0.4" is only installed locally
+  // (~/.m2) from a jsl-llama.cpp build off SPARKNLP-1210, pending an actual Maven Central release
+  val llamaCppVersion = "2.0.4"
   val llamaCppCPU = "com.johnsnowlabs.nlp" % "jsl-llamacpp-cpu" % llamaCppVersion
   val llamaCppGPU = "com.johnsnowlabs.nlp" % "jsl-llamacpp-gpu" % llamaCppVersion
   val llamaCppSilicon = "com.johnsnowlabs.nlp" % "jsl-llamacpp-silicon" % llamaCppVersion
