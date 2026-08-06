@@ -36,6 +36,14 @@ the number of GPU layers with the `setNGpuLayers` method.
 
 When using larger models, we recommend adjusting GPU usage with `setNCtx` and `setNGpuLayers`
 according to your hardware to avoid out-of-memory errors.
+
+**Note**: `setNumSamples(n)` samples `n` answers per input document (decoded in parallel),
+producing `n` output annotations distinguished by a `sample_index` metadata key, for black-box
+uncertainty-estimation methods such as `LLMUncertaintyEstimator`'s `semanticEntropy` and
+`eccentricity`. `setOutputLogProbs(true)` (together with `setNProbs(k)`) attaches the verbatim
+per-token log-probability JSON returned by llama.cpp as `completion_probabilities` metadata, for
+white-box methods such as `mars`, `meanLogProb`, `perplexity` and `predictiveEntropy`. See
+[LLMUncertaintyEstimator](LLMUncertaintyEstimator).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
