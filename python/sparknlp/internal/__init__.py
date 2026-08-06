@@ -1250,3 +1250,13 @@ class _ModernBertEmbeddingsLoader(ExtendedJavaWrapper):
             jspark,
             use_openvino,
         )
+
+class _MarsTokenImportanceLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_MarsTokenImportanceLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.uncertainty.MarsTokenImportance.loadSavedModel", path, jspark)
+
+class _SampleEntailmentMatrixLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_SampleEntailmentMatrixLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.uncertainty.SampleEntailmentMatrix.loadSavedModel", path, jspark)
