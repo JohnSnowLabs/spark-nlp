@@ -819,6 +819,21 @@ package object annotator {
   type AutoGGUFModel = com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
   object AutoGGUFModel extends ReadablePretrainedAutoGGUFModel with ReadAutoGGUFModel
 
+  type LLMUncertaintyEstimator =
+    com.johnsnowlabs.nlp.annotators.uncertainty.LLMUncertaintyEstimator
+  object LLMUncertaintyEstimator
+      extends org.apache.spark.ml.util.DefaultParamsReadable[LLMUncertaintyEstimator]
+
+  type MarsTokenImportance = com.johnsnowlabs.nlp.annotators.uncertainty.MarsTokenImportance
+  object MarsTokenImportance
+      extends com.johnsnowlabs.nlp.annotators.uncertainty.ReadablePretrainedMarsTokenImportance
+      with com.johnsnowlabs.nlp.annotators.uncertainty.ReadMarsTokenImportanceModel
+
+  type SampleEntailmentMatrix = com.johnsnowlabs.nlp.annotators.uncertainty.SampleEntailmentMatrix
+  object SampleEntailmentMatrix
+      extends com.johnsnowlabs.nlp.annotators.uncertainty.ReadablePretrainedSampleEntailmentMatrix
+      with com.johnsnowlabs.nlp.annotators.uncertainty.ReadSampleEntailmentMatrixModel
+
   type MxbaiEmbeddings =
     com.johnsnowlabs.nlp.embeddings.MxbaiEmbeddings
 
