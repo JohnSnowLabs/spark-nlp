@@ -23,8 +23,11 @@ import com.johnsnowlabs.nlp.llama.LlamaExtensions
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import de.kherud.llama.{InferenceParameters, LlamaException, LlamaModel}
 import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.param.{BooleanParam, IntParam}
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
 
 /** Annotator that uses the llama.cpp library to generate text completions with large language
   * models.
@@ -154,6 +157,68 @@ class AutoGGUFModel(override val uid: String)
 
   private[johnsnowlabs] def setEngine(engineName: String): this.type = set(engine, engineName)
 
+  /** Number of answers to sample per input document (Default: `1`). Sampled answers are decoded
+    * in parallel (as long as `batchSize` allows) and returned as separate annotations sharing the
+    * same input document, distinguished by the `sample_index` metadata key. Intended to feed
+    * black-box uncertainty-estimation methods (e.g. Semantic Entropy, Eccentricity) that need
+    * multiple sampled completions for the same prompt.
+    *
+    * For samples to actually differ, `temperature` must be greater than `0`. If `seed` is set
+    * together with `numSamples > 1`, sampling falls back to `numSamples` sequential completion
+    * calls (one per `seed + i`) instead of one parallel batched call, since a fixed seed would
+    * otherwise make every parallel decoding slot return the same text.
+    *
+    * @group param
+    */
+  val numSamples = new IntParam(
+    this,
+    "numSamples",
+    "Number of answers to sample per input document. Requires temperature > 0 to produce " +
+      "diverse samples.")
+
+  /** Whether to include per-token log probabilities of the generated completion in the output
+    * metadata, under the `completion_probabilities` key, as the verbatim JSON array returned by
+    * llama.cpp (Default: `false`). Requires `nProbs` to be set to control how many alternatives
+    * are returned per token position. Intended to feed white-box uncertainty-estimation methods
+    * (e.g. MARS, perplexity, predictive entropy).
+    *
+    * @group param
+    */
+  val outputLogProbs = new BooleanParam(
+    this,
+    "outputLogProbs",
+    "Whether to include per-token log probabilities of the generated completion in the " +
+      "output metadata. Requires nProbs to be set.")
+
+  /** Number of answers to sample per input document
+    *
+    * @group setParam
+    */
+  def setNumSamples(numSamples: Int): this.type = {
+    require(numSamples > 0, "numSamples must be greater than 0")
+    set(this.numSamples, numSamples)
+  }
+
+  /** Number of answers to sample per input document
+    *
+    * @group getParam
+    */
+  def getNumSamples: Int = $(numSamples)
+
+  /** Whether to include per-token log probabilities in the output metadata
+    *
+    * @group setParam
+    */
+  def setOutputLogProbs(outputLogProbs: Boolean): this.type = {
+    set(this.outputLogProbs, outputLogProbs)
+  }
+
+  /** Whether to include per-token log probabilities in the output metadata
+    *
+    * @group getParam
+    */
+  def getOutputLogProbs: Boolean = $(outputLogProbs)
+
   setDefault(
     engine -> LlamaCPP.name,
     useChatTemplate -> true,
@@ -162,7 +227,9 @@ class AutoGGUFModel(override val uid: String)
     nPredict -> 100,
     nGpuLayers -> 99,
     systemPrompt -> "You are a helpful assistant.",
-    batchSize -> 2)
+    batchSize -> 2,
+    numSamples -> 1,
+    outputLogProbs -> false)
 
   /** Sets the number of parallel processes for decoding. This is an alias for `setBatchSize`.
     *
@@ -179,18 +246,62 @@ class AutoGGUFModel(override val uid: String)
     getModelIfNotSet.saveToFile(path)
   }
 
+  /** Runs llama.cpp completion for the given prompts, applying `processCompletions`
+    * post-processing (e.g. thinking-tag removal) to the completion text. When `outputLogProbs` is
+    * set, uses the metadata-carrying completion endpoint and pulls out the verbatim
+    * `completion_probabilities` JSON alongside the completion text; otherwise behaves exactly
+    * like the plain completion endpoint.
+    *
+    * @return
+    *   one (text, optional completion_probabilities JSON) pair per prompt, in prompt order
+    */
+  private def runCompletions(
+      model: LlamaModel,
+      params: InferenceParameters,
+      prompts: Array[String]): Array[(String, Option[String])] = {
+    if (getOutputLogProbs) {
+      implicit val formats: Formats = DefaultFormats
+      val rawResults: Array[String] =
+        LlamaExtensions.multiCompleteWithMetadata(model, params, getSystemPrompt, prompts)
+      val parsedResults = rawResults.map(parse(_))
+      val texts = processCompletions(parsedResults.map { result =>
+        (result \ "content").extractOpt[String].getOrElse("")
+      })
+      val logProbs = parsedResults.map { result =>
+        result \ "completion_probabilities" match {
+          case JNothing => None
+          case probs => Some(compact(render(probs)))
+        }
+      }
+      texts.zip(logProbs)
+    } else {
+      val results: Array[String] =
+        LlamaExtensions.multiComplete(model, params, getSystemPrompt, prompts)
+      processCompletions(results).map(text => (text, None))
+    }
+  }
+
   /** Completes the batch of annotations.
     *
     * @param batchedAnnotations
     *   Annotations (single element arrays) in batches
     * @return
-    *   Completed text sequences
+    *   Completed text sequences. When `numSamples` is greater than `1`, each input annotation
+    *   produces `numSamples` output annotations (distinguished by the `sample_index` metadata
+    *   key) instead of one.
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     val annotations: Seq[Annotation] = batchedAnnotations.flatten
     // TODO: group by doc and sentence
     if (annotations.nonEmpty) {
       val annotationsText = annotations.map(_.result).toArray
+      val n = getNumSamples
+
+      if (n > 1 && (!isDefined(temperature) || getTemperature == 0.0f)) {
+        logger.warn(
+          s"numSamples is set to $n but temperature is unset or 0.0 - sampled completions are " +
+            "likely to be identical. Set temperature > 0 to get meaningfully diverse samples.")
+      }
 
       val modelParams =
         getModelParameters.setParallel(getBatchSize) // set parallel decoding to batch size
@@ -198,28 +309,49 @@ class AutoGGUFModel(override val uid: String)
 
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
 
-      val (completedTexts: Array[String], metadata: Map[String, String]) =
+      // For each input annotation (in order), n (text, optional logprobs JSON) samples.
+      val (
+        completionsPerInput: Array[Array[(String, Option[String])]],
+        errorMetadata: Map[String, String]) =
         try {
-          val results: Array[String] = LlamaExtensions.multiComplete(
-            model,
-            inferenceParams,
-            getSystemPrompt,
-            annotationsText)
-          val resultsCleaned = processCompletions(results)
-          (resultsCleaned, Map.empty)
+          val samplesPerInput: Array[Array[(String, Option[String])]] =
+            if (n > 1 && isDefined(seed)) {
+              // A fixed seed pins every parallel decoding slot to the same RNG state, so a
+              // single batched call with n copies of each prompt would return n identical
+              // samples. Fall back to n sequential calls with seed+i so samples are distinct.
+              val baseSeed = getSeed
+              val perCall: Array[Array[(String, Option[String])]] = (0 until n).toArray.map { i =>
+                val sampleParams = new InferenceParameters(inferenceParams).setSeed(baseSeed + i)
+                runCompletions(model, sampleParams, annotationsText)
+              } // perCall(i)(j) = sample i for input j
+              annotationsText.indices.map(j => perCall.map(_(j))).toArray
+            } else {
+              val expandedPrompts = annotationsText.flatMap(t => Array.fill(n)(t))
+              runCompletions(model, inferenceParams, expandedPrompts).grouped(n).toArray
+            }
+          (samplesPerInput, Map.empty[String, String])
         } catch {
           case e: LlamaException =>
             logger.error("Error in llama.cpp batch completion", e)
-            (Array.fill(annotationsText.length)(""), Map("llamacpp_exception" -> e.getMessage))
+            val emptySamples: Array[(String, Option[String])] = Array.fill(n)(("", None))
+            (
+              Array.fill(annotationsText.length)(emptySamples),
+              Map("llamacpp_exception" -> e.getMessage))
         }
-      annotations.zip(completedTexts).map { case (annotation, text) =>
-        Seq(
+
+      annotations.zip(completionsPerInput).map { case (annotation, samples) =>
+        samples.zipWithIndex.map { case ((text, logProbsJson), sampleIndex) =>
+          val sampleMetadata: Map[String, String] =
+            if (n > 1) Map("sample_index" -> sampleIndex.toString) else Map.empty
+          val logProbsMetadata: Map[String, String] =
+            logProbsJson.map(json => Map("completion_probabilities" -> json)).getOrElse(Map.empty)
           new Annotation(
             outputAnnotatorType,
             0,
             text.length - 1,
             text,
-            annotation.metadata ++ metadata))
+            annotation.metadata ++ errorMetadata ++ sampleMetadata ++ logProbsMetadata)
+        }.toSeq
       }
     } else Seq(Seq.empty[Annotation])
   }
