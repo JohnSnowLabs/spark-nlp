@@ -339,4 +339,110 @@ class AutoGGUFModelTest extends AnyFlatSpec {
 //          "llamacpp_exception should be present")
 //      })
 //  }
+
+  it should "return numSamples annotations per input with distinct sample_index" taggedAs SlowTest in {
+    val n = 4
+    val model = AutoGGUFModel
+      .loadSavedModel("models/Qwen3-1.7B-Q4_K_M.gguf", ResourceHelper.spark)
+      .setInputCols("document")
+      .setOutputCol("completions")
+      .setNumSamples(n)
+      .setTemperature(0.9f)
+      .setNPredict(20)
+
+    val singleRowData = Seq("The capital of France is").toDF("text")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+    val result = pipeline.fit(singleRowData).transform(singleRowData)
+
+    val annotations = Annotation.collect(result, "completions").head
+    assert(annotations.length == n, s"Expected $n sampled completions, got ${annotations.length}")
+    val sampleIndices = annotations.map(_.metadata("sample_index").toInt).sorted
+    assert(sampleIndices == (0 until n).toSeq)
+    // With temperature > 0 and no fixed seed, samples should not all collapse to the same text.
+    assert(
+      annotations.map(_.result).distinct.length > 1,
+      "Samples should not all be identical with temperature > 0")
+  }
+
+  it should "produce reproducible samples when a fixed seed is set with numSamples > 1" taggedAs SlowTest in {
+    val n = 3
+    def buildModel(): AutoGGUFModel = AutoGGUFModel
+      .loadSavedModel("models/Qwen3-1.7B-Q4_K_M.gguf", ResourceHelper.spark)
+      .setInputCols("document")
+      .setOutputCol("completions")
+      .setNumSamples(n)
+      .setTemperature(0.8f)
+      .setSeed(1234)
+      .setNPredict(20)
+
+    val singleRowData = Seq("The capital of France is").toDF("text")
+
+    val pipeline1 = new Pipeline().setStages(Array(documentAssembler, buildModel()))
+    val result1 = Annotation
+      .collect(pipeline1.fit(singleRowData).transform(singleRowData), "completions")
+      .head
+      .sortBy(_.metadata("sample_index").toInt)
+      .map(_.result)
+
+    val pipeline2 = new Pipeline().setStages(Array(documentAssembler, buildModel()))
+    val result2 = Annotation
+      .collect(pipeline2.fit(singleRowData).transform(singleRowData), "completions")
+      .head
+      .sortBy(_.metadata("sample_index").toInt)
+      .map(_.result)
+
+    assert(result1 == result2, "Fixed-seed sampling should be reproducible across runs")
+  }
+
+  it should "keep numSamples=1 output unchanged from the default (no sample_index)" taggedAs SlowTest in {
+    val model = AutoGGUFModel
+      .loadSavedModel("models/Qwen3-1.7B-Q4_K_M.gguf", ResourceHelper.spark)
+      .setInputCols("document")
+      .setOutputCol("completions")
+      .setNPredict(10)
+
+    val singleRowData = Seq("Hello, I am a").toDF("text")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+    val result = pipeline.fit(singleRowData).transform(singleRowData)
+
+    val annotations = Annotation.collect(result, "completions").head
+    assert(annotations.length == 1)
+    assert(!annotations.head.metadata.contains("sample_index"))
+  }
+
+  it should "populate parseable completion_probabilities when outputLogProbs is set" taggedAs SlowTest in {
+    val nPredict = 10
+    val model = AutoGGUFModel
+      .loadSavedModel("models/Qwen3-1.7B-Q4_K_M.gguf", ResourceHelper.spark)
+      .setInputCols("document")
+      .setOutputCol("completions")
+      .setOutputLogProbs(true)
+      .setNProbs(5)
+      .setNPredict(nPredict)
+      .setTemperature(0.1f)
+
+    val singleRowData = Seq("The capital of France is").toDF("text")
+    val pipeline = new Pipeline().setStages(Array(documentAssembler, model))
+    val result = pipeline.fit(singleRowData).transform(singleRowData)
+
+    val annotation = Annotation.collect(result, "completions").head.head
+    assert(annotation.metadata.contains("completion_probabilities"))
+
+    import org.json4s._
+    import org.json4s.jackson.JsonMethods._
+    val tokens = parse(annotation.metadata("completion_probabilities")) match {
+      case JArray(t) => t
+      case _ => fail("completion_probabilities should parse as a JSON array")
+    }
+    assert(tokens.nonEmpty)
+    assert(tokens.length <= nPredict)
+    tokens.foreach { token =>
+      assert((token \ "logprob").isInstanceOf[JDouble] || (token \ "logprob").isInstanceOf[JInt])
+      val topLogprobs = token \ "top_logprobs" match {
+        case JArray(l) => l
+        case _ => fail("top_logprobs should be a JSON array")
+      }
+      assert(topLogprobs.length <= 5)
+    }
+  }
 }
