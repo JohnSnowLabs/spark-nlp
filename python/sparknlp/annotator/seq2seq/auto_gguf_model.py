@@ -213,6 +213,14 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties, C
     When using larger models, we recommend adjusting GPU usage with `setNCtx` and `setNGpuLayers`
     according to your hardware to avoid out-of-memory errors.
 
+    Build one ``AutoGGUFModel`` instance (via ``pretrained()`` or ``loadSavedModel``) and reuse
+    it across every ``.fit()``/``.transform()`` call in your pipeline - do not call
+    ``loadSavedModel`` fresh inside a per-row or per-request loop. Each call mmaps and repacks
+    the full GGUF model into native (off-heap) memory; that memory is not necessarily released
+    just because the Python/Scala wrapper goes out of scope, so repeated reloading accumulates
+    native memory across iterations and can OOM-kill the JVM after a handful of reloads, well
+    before the JVM heap itself looks under pressure.
+
     Examples
     --------
     >>> import sparknlp
