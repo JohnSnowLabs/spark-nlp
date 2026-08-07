@@ -33,9 +33,7 @@ import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 
 /** Computes a bidirectional-entailment matrix over a row's sampled LLM answers, using a BERT
-  * sequence-classification model trained on NLI (the default,
-  * [[https://sparknlp.org/2021/10/04/bert_zero_shot_classifier_mnli_en.html bert_zero_shot_classifier_mnli]],
-  * is an existing Spark NLP hub model - no custom model training or hosting needed).
+  * sequence-classification model trained on NLI.
   *
   * This is the faithful-to-the-literature alternative to `LLMUncertaintyEstimator`'s default
   * `similarityBackend="embeddings"`: [[https://arxiv.org/abs/2302.09664 Kuhn et al. 2023]]'s
@@ -53,10 +51,27 @@ import org.json4s.jackson.JsonMethods._
   * `10`, so up to 90 calls per row) guards against silently issuing very large batches; raise it
   * explicitly if you really want more samples clustered this way.
   *
-  * Pretrained models can be loaded with `pretrained` of the companion object, or a local ONNX
-  * export loaded with `loadSavedModel`:
+  * ==No pretrained model is published yet==
+  * `pretrained()` has no working hub model: Spark NLP's `.pretrained()` deserializes a model in
+  * the format the *calling class itself* wrote it in (here, an ONNX file under
+  * `sample_entailment_matrix_onnx`), and no BERT NLI checkpoint has ever been published to the
+  * hub in that exact format - `bert_base_cased_zero_shot_classifier_xnli` and similar exist as
+  * `BertForZeroShotClassification` models (onnx file `bert_classification_onnx`), which download
+  * fine but then fail to deserialize as a `SampleEntailmentMatrix`. Use `loadSavedModel` with a
+  * self-exported model instead. A verified-working recipe: export
+  * [[https://huggingface.co/textattack/bert-base-uncased-MNLI textattack/bert-base-uncased-MNLI]]
+  * to ONNX (`torch.onnx.export`, `dynamo=False`), and lay it out as
   * {{{
-  * val entailment = SampleEntailmentMatrix.pretrained()
+  * <model_dir>/model.onnx
+  * <model_dir>/assets/vocab.txt    (tokenizer.get_vocab(), one wordpiece per line, by id)
+  * <model_dir>/assets/labels.txt   (one label per line, by id)
+  * }}}
+  * `labels.txt`'s order is model-specific and not always the textbook GLUE MNLI convention -
+  * this checkpoint's `config.json` has no `id2label` at all (`LABEL_0/1/2` placeholders), and its
+  * actual trained order, confirmed empirically against unambiguous probe sentences, is
+  * `contradiction, entailment, neutral` (`0, 1, 2`). Then:
+  * {{{
+  * val entailment = SampleEntailmentMatrix.loadSavedModel("<model_dir>", spark)
   *   .setInputCols("completions")
   *   .setOutputCol("entailment")
   * }}}
@@ -233,7 +248,7 @@ class SampleEntailmentMatrix(override val uid: String)
 trait ReadablePretrainedSampleEntailmentMatrix
     extends ParamsAndFeaturesReadable[SampleEntailmentMatrix]
     with HasPretrained[SampleEntailmentMatrix] {
-  override val defaultModelName: Some[String] = Some("bert_zero_shot_classifier_mnli")
+  override val defaultModelName: Some[String] = Some("bert_base_cased_zero_shot_classifier_xnli")
   override val defaultLang: String = "en"
 
   /** Java compliant-overrides */

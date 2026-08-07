@@ -4,9 +4,7 @@ SampleEntailmentMatrix
 
 {%- capture description -%}
 Computes a bidirectional-entailment matrix over a row's sampled LLM answers, using a BERT
-sequence-classification model trained on NLI (the default,
-[bert_zero_shot_classifier_mnli](https://sparknlp.org/2021/10/04/bert_zero_shot_classifier_mnli_en.html),
-is an existing Spark NLP hub model - no custom model training or hosting needed).
+sequence-classification model trained on NLI.
 
 This is the faithful-to-the-literature alternative to `LLMUncertaintyEstimator`'s default
 `similarityBackend="embeddings"`: [Kuhn et al. 2023](https://arxiv.org/abs/2302.09664)'s
@@ -21,6 +19,17 @@ JSON array of entailment probabilities) that `LLMUncertaintyEstimator` reads whe
 Scoring all ordered pairs of N samples needs `N*(N-1)` model calls - this grows fast.
 `maxSamplesForNli` (default `10`, so up to 90 calls per row) guards against silently issuing
 very large batches.
+
+**No pretrained model is published yet.** `pretrained()` has no working hub model - Spark NLP's
+`.pretrained()` deserializes a model in the format the *calling class itself* wrote it in (here,
+an ONNX file under `sample_entailment_matrix_onnx`), and no BERT NLI checkpoint has ever been
+published to the hub in that exact format. Use `loadSavedModel` with a self-exported model
+instead: export [textattack/bert-base-uncased-MNLI](https://huggingface.co/textattack/bert-base-uncased-MNLI)
+to ONNX (`torch.onnx.export`, `dynamo=False`), lay it out as `<model_dir>/model.onnx` plus
+`<model_dir>/assets/vocab.txt` and `<model_dir>/assets/labels.txt`, and load with
+`SampleEntailmentMatrix.loadSavedModel("<model_dir>", spark)`. This checkpoint's label order is
+`contradiction, entailment, neutral` (confirmed empirically, not the textbook GLUE MNLI order -
+its `config.json` has no `id2label` at all).
 {%- endcapture -%}
 
 {%- capture input_anno -%}
@@ -39,7 +48,7 @@ from pyspark.ml import Pipeline
 
 document = DocumentAssembler().setInputCol("text").setOutputCol("document")
 
-entailment = SampleEntailmentMatrix.pretrained() \
+entailment = SampleEntailmentMatrix.loadSavedModel("<model_dir>", spark) \
     .setInputCols(["document"]).setOutputCol("entailment")
 
 pipeline = Pipeline().setStages([document, entailment])
@@ -56,7 +65,7 @@ import org.apache.spark.ml.Pipeline
 
 val document = new DocumentAssembler().setInputCol("text").setOutputCol("document")
 
-val entailment = SampleEntailmentMatrix.pretrained()
+val entailment = SampleEntailmentMatrix.loadSavedModel("<model_dir>", spark)
   .setInputCols("document").setOutputCol("entailment")
 
 val pipeline = new Pipeline().setStages(Array(document, entailment))
