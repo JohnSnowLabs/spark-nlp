@@ -59,7 +59,7 @@ class BGEM3EmbeddingsTestSpec(unittest.TestCase):
             .setOutputCol("documents")
 
         bge_m3 = BGEM3Embeddings \
-            .loadSavedModel("1",self.spark) \
+            .pretrained() \
             .setInputCols(["documents"]) \
             .setOutputCol("bge_m3")
 
@@ -82,7 +82,7 @@ class BGEM3EmbeddingsTestSpec(unittest.TestCase):
             .setOutputCol("documents")
 
         bge_m3 = BGEM3Embeddings \
-            .loadSavedModel("1",self.spark) \
+            .pretrained() \
             .setInputCols(["documents"]) \
             .setOutputCol("bge_m3") \
             .setReturnSparseEmbeddings(True)
@@ -107,7 +107,7 @@ class BGEM3EmbeddingsTestSpec(unittest.TestCase):
             .setOutputCol("documents")
 
         bge_m3 = BGEM3Embeddings \
-            .loadSavedModel("1",self.spark) \
+            .pretrained() \
             .setInputCols(["documents"]) \
             .setOutputCol("bge_m3") \
             .setMaxSentenceLength(8192)
