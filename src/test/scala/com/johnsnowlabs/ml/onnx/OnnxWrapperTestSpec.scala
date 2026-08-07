@@ -86,4 +86,31 @@ class OnnxWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
     assert(new File(tmpFolder, "modelFromTest.zip").exists())
   }
 
+  "OnnxWrapper.read" should "not fail when loading two different files that share the same basename" taggedAs FastTest in {
+    // Reproduces the SparkContext.addFile collision: on Spark 4.x, adding two different files
+    // under the same registered basename within one SparkContext throws
+    // "File ... exists and does not match contents of ...". This happens in practice whenever a
+    // model with externally-stored ONNX weights gets loaded more than once per session (e.g. the
+    // standard save-then-reload pattern), since the external data file's basename is fixed.
+    val dirA = Paths.get(tmpFolder, "dirA")
+    val dirB = Paths.get(tmpFolder, "dirB")
+    Files.createDirectories(dirA)
+    Files.createDirectories(dirB)
+
+    val originalBytes = Files.readAllBytes(Paths.get(modelPath))
+    Files.write(dirA.resolve("model.onnx"), originalBytes)
+    // dirB's model.onnx has different content but the same basename as dirA's
+    Files.write(dirB.resolve("model.onnx"), originalBytes ++ Array[Byte](0))
+
+    val wrapperA =
+      OnnxWrapper.read(ResourceHelper.spark, dirA.toString, zipped = false, useBundle = true)
+    wrapperA.getSession(onnxSessionOptions)
+
+    // Before the fix, this second read (different file, same basename "model.onnx") would throw
+    // a SparkException from SparkContext.addFile instead of completing.
+    val wrapperB =
+      OnnxWrapper.read(ResourceHelper.spark, dirB.toString, zipped = false, useBundle = true)
+    wrapperB.getSession(onnxSessionOptions)
+  }
+
 }
