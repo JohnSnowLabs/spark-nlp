@@ -146,33 +146,25 @@ class OnnxWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
     wrapperB.getSession(onnxSessionOptions)
   }
 
-  it should "still fail loudly when two different-sized files collide on the same basename" taggedAs FastTest in {
-    // The safety net: a same-named file with a *different* size is treated as a genuinely
+  "OnnxWrapper.wouldSkipAddFile" should "skip only when both basename and size already match" taggedAs FastTest in {
+    // The safety net: a same-named file with a *different* size must be treated as a genuinely
     // different model (e.g. two unrelated annotators both defaulting to "model.onnx"), not a
-    // reload of the same one, so it must not be silently served under the wrong wrapper.
-    val modelName = uniqueModelName()
-    val dirA = persistentModelDir("dirA2")
-    val dirB = persistentModelDir("dirB2")
+    // reload of the same one -- addFileOnce must not skip re-adding it, so Spark's own mismatch
+    // check gets a chance to fail loudly instead of silently serving the wrong model's weights.
+    //
+    // We test that decision directly against OnnxWrapper.wouldSkipAddFile rather than driving it
+    // through a real OnnxWrapper.read/sc.addFile call: actually triggering Spark's mismatch
+    // exception poisons the SparkContext for its remaining lifetime (see the warning on
+    // addFileOnce) -- every later task on this shared, FastTest-suite-wide SparkContext would
+    // start failing with the same error, well beyond this test.
+    val basename = uniqueModelName() + ".onnx"
+    val sc = ResourceHelper.spark.sparkContext
 
-    val originalBytes = Files.readAllBytes(Paths.get(modelPath))
-    Files.write(dirA.resolve(s"$modelName.onnx"), originalBytes)
-    Files.write(dirB.resolve(s"$modelName.onnx"), originalBytes ++ Array[Byte](0))
-
-    OnnxWrapper.read(
-      ResourceHelper.spark,
-      dirA.toString,
-      zipped = false,
-      useBundle = true,
-      modelName = modelName)
-
-    assertThrows[org.apache.spark.SparkException] {
-      OnnxWrapper.read(
-        ResourceHelper.spark,
-        dirB.toString,
-        zipped = false,
-        useBundle = true,
-        modelName = modelName)
-    }
+    assert(!OnnxWrapper.wouldSkipAddFile(sc, basename, size = 2244L))
+    // same basename, same size again -- e.g. reloading the same model: safe to skip.
+    assert(OnnxWrapper.wouldSkipAddFile(sc, basename, size = 2244L))
+    // same basename, different size -- a genuinely different file: must not skip.
+    assert(!OnnxWrapper.wouldSkipAddFile(sc, basename, size = 2245L))
   }
 
 }

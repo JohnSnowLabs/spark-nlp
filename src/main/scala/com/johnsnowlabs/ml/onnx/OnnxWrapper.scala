@@ -106,19 +106,22 @@ object OnnxWrapper {
     * using the default "model.onnx" name) — in that case we deliberately do *not* silently skip,
     * since that could serve one model's weights under another model's name with no error at all.
     * We let the real `addFile` call happen so Spark's own mismatch check fails loudly instead.
+    *
+    * Note for callers/tests: actually triggering that loud-failure path (calling `sc.addFile`
+    * with a basename that's already registered under different content) leaves the `SparkContext`
+    * broken for the rest of its life, not just for this basename — Spark records the new file's
+    * URI in its own dependency map *before* the fetch that validates the content runs, and every
+    * task on this `SparkContext` re-syncs *all* registered dependencies on every run regardless
+    * of relevance, so that one dangling bad entry makes every subsequent task on this
+    * `SparkContext`, unrelated ones included, fail forever with the same error. Don't exercise
+    * this path against a long-lived/shared `SparkContext` (e.g. `ResourceHelper.spark` in a test
+    * suite) — use [[wouldSkipAddFile]] to test the decision without paying that price.
     */
   private def addFileOnce(sparkSession: SparkSession, path: String): Unit = {
     val sc = sparkSession.sparkContext
     val basename = new File(path).getName
     val size = new File(path).length()
-    val alreadyRegisteredWithSameSize = this.synchronized {
-      val registeredSizes = addedFilesPerContext.computeIfAbsent(
-        sc,
-        (_: SparkContext) => new java.util.concurrent.ConcurrentHashMap[String, Long]())
-      val previousSize = Option(registeredSizes.putIfAbsent(basename, size)).map(_.longValue())
-      previousSize.contains(size)
-    }
-    if (alreadyRegisteredWithSameSize) {
+    if (wouldSkipAddFile(sc, basename, size)) {
       logger.info(
         s"Skipping SparkContext.addFile for '$basename': a file with this name and size was " +
           "already registered on this SparkContext (expected when reloading the same model).")
@@ -126,6 +129,20 @@ object OnnxWrapper {
       sc.addFile(path)
     }
   }
+
+  /** The decision half of [[addFileOnce]], isolated so it can be exercised without ever calling
+    * the real `sc.addFile` (see the warning above about what that does to `sc` on a mismatch).
+    * Returns true if a file with this basename and size is already registered on `sc` — i.e. the
+    * caller should skip re-adding it.
+    */
+  private[onnx] def wouldSkipAddFile(sc: SparkContext, basename: String, size: Long): Boolean =
+    this.synchronized {
+      val registeredSizes = addedFilesPerContext.computeIfAbsent(
+        sc,
+        (_: SparkContext) => new java.util.concurrent.ConcurrentHashMap[String, Long]())
+      val previousSize = Option(registeredSizes.putIfAbsent(basename, size)).map(_.longValue())
+      previousSize.contains(size)
+    }
 
   // TODO: make sure this.synchronized is needed or it's not a bottleneck
   private def withSafeOnnxModelLoader(
