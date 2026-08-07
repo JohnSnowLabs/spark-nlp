@@ -93,6 +93,21 @@ class OnnxWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
   private def uniqueModelName(): String =
     "onnx_wrapper_test_" + UUID.randomUUID().toString.take(8)
 
+  // SparkContext.addFile only populates the driver's own copy immediately; the copy a task
+  // actually reads from is fetched lazily by Executor.updateDependencies() the next time *any*
+  // task runs on this SparkContext, which may well be a later, unrelated suite sharing this JVM.
+  // If we deleted the source directory (e.g. via the `after` hook) before that fetch happens,
+  // Spark's fetch-time content check fails and surfaces as a mismatch in whatever suite happened
+  // to trigger it. So these directories must outlive the test method -- use a directory Spark
+  // itself won't race to clean up, and leave it for the JVM's lifetime (like OnnxWrapper.read
+  // itself does with FileUtils.forceDeleteOnExit) rather than deleting it in `after`.
+  private def persistentModelDir(name: String): Path = {
+    val dir = Files.createTempDirectory(name).toAbsolutePath
+    import org.apache.commons.io.FileUtils
+    FileUtils.forceDeleteOnExit(dir.toFile)
+    dir
+  }
+
   "OnnxWrapper.read" should "not fail when reloading the same-size model under the same basename" taggedAs FastTest in {
     // Reproduces the SparkContext.addFile collision: on Spark 4.x, adding a different file under
     // a basename that's already registered within one SparkContext throws "File ... exists and
@@ -101,10 +116,8 @@ class OnnxWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
     // save-then-reload pattern, where the reload is a re-serialization of the same architecture
     // and so has the same file size), since the external data file's basename is fixed.
     val modelName = uniqueModelName()
-    val dirA = Paths.get(tmpFolder, "dirA")
-    val dirB = Paths.get(tmpFolder, "dirB")
-    Files.createDirectories(dirA)
-    Files.createDirectories(dirB)
+    val dirA = persistentModelDir("dirA")
+    val dirB = persistentModelDir("dirB")
 
     val originalBytes = Files.readAllBytes(Paths.get(modelPath))
     Files.write(dirA.resolve(s"$modelName.onnx"), originalBytes)
@@ -138,10 +151,8 @@ class OnnxWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
     // different model (e.g. two unrelated annotators both defaulting to "model.onnx"), not a
     // reload of the same one, so it must not be silently served under the wrong wrapper.
     val modelName = uniqueModelName()
-    val dirA = Paths.get(tmpFolder, "dirA2")
-    val dirB = Paths.get(tmpFolder, "dirB2")
-    Files.createDirectories(dirA)
-    Files.createDirectories(dirB)
+    val dirA = persistentModelDir("dirA2")
+    val dirB = persistentModelDir("dirB2")
 
     val originalBytes = Files.readAllBytes(Paths.get(modelPath))
     Files.write(dirA.resolve(s"$modelName.onnx"), originalBytes)
