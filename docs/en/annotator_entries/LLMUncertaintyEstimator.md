@@ -34,6 +34,13 @@ calibrated on data resembling your deployment distribution, or error rates rise 
 `threshold` param (once calibrated on your own data) to get a boolean `is_reliable` metadata
 flag; without it, only the raw score is emitted.
 
+Every method (`semanticEntropy` under both backends, `eccentricity`, `mars`, and the
+`meanLogProb`/`perplexity`/`predictiveEntropy` family, plus `ensemble`) has been run end-to-end
+against real sampled completions and shown to genuinely separate wrong answers from right ones -
+each scores clearly above the random-guessing baseline. This is directional evidence from a small
+internal QA benchmark on one model, not a calibrated, generalizable accuracy claim - calibrate
+your own `threshold` before trusting it on your data.
+
 For extended examples of usage, see
 [LLMUncertaintyEstimatorTest](https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/test/scala/com/johnsnowlabs/nlp/annotators/uncertainty/LLMUncertaintyEstimatorTest.scala).
 {%- endcapture -%}

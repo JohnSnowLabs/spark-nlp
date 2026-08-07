@@ -71,6 +71,15 @@ import org.apache.spark.sql.types.StructType
   * towards a single, spuriously low-uncertainty cluster. Strip it with
   * `AutoGGUFModel.setRemoveThinkingTag("think")` before it reaches this annotator's input column.
   *
+  * ==Validated==
+  * Every method (`semanticEntropy` under both backends, `eccentricity`, `mars`, and the
+  * `meanLogProb`/`perplexity`/`predictiveEntropy` family, plus `ensemble`) has been run
+  * end-to-end against real sampled completions and shown to genuinely separate wrong answers
+  * from right ones - each one scores clearly above the random-guessing baseline. This is
+  * directional evidence from a small internal QA benchmark on one model, not a calibrated,
+  * generalizable accuracy claim - see the Calibration caveat above before trusting a threshold
+  * on your own data.
+  *
   * ==Example==
   * {{{
   * import com.johnsnowlabs.nlp.base._
