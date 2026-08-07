@@ -32,6 +32,8 @@ import org.apache.spark.sql.SparkSession
 import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 
+import java.nio.file.{Files, Paths, StandardCopyOption}
+
 /** Computes MARS per-token importance weights for sampled LLM answers, given the question they
   * answer, using a BERT token-classification model ([[https://huggingface.co/duygunuryldz/MARS
   * duygunuryldz/MARS]] by default - [[https://arxiv.org/abs/2402.11756 Bakman et al. 2024]]).
@@ -226,7 +228,24 @@ trait ReadMarsTokenImportanceModel extends ReadOnnxModel {
       s"MarsTokenImportance only supports ONNX models. $notSupportedEngineError")
 
     val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
-    val onnxWrapper = OnnxWrapper.read(spark, localModelPath, zipped = false, useBundle = true)
+
+    // OnnxWrapper.read(..., useBundle = true) always distributes the file via sc.addFile under
+    // the literal name "model.onnx" (its modelName param's default) - this collides with any
+    // other locally-loaded ONNX annotator (e.g. SampleEntailmentMatrix) doing the same in one
+    // SparkContext, since Spark's executor-side file-fetch cache keys purely by that basename
+    // and throws on a content mismatch. Give this class's copy a unique name first.
+    val uniqueModelName = "mars_token_importance"
+    Files.copy(
+      Paths.get(localModelPath, "model.onnx"),
+      Paths.get(localModelPath, s"$uniqueModelName.onnx"),
+      StandardCopyOption.REPLACE_EXISTING)
+
+    val onnxWrapper = OnnxWrapper.read(
+      spark,
+      localModelPath,
+      zipped = false,
+      useBundle = true,
+      modelName = uniqueModelName)
 
     new MarsTokenImportance()
       .setVocabulary(vocabs)
