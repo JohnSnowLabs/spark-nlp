@@ -208,4 +208,40 @@ class MPNetEmbeddingsTestSpec extends AnyFlatSpec {
     assert(sizesArray.forall(_ > 0))
   }
 
+  it should "embed an empty-text completion instead of dropping it" taggedAs SlowTest in {
+    // Regression test: batchAnnotate used to filter out annotations whose result was the empty
+    // string before embedding, silently producing fewer output annotations than input ones for
+    // that row. Callers that expect a 1:1 count between input completions and output embeddings
+    // (e.g. LLMUncertaintyEstimator's requireEmbeddings) would then throw on the mismatch. An
+    // empty completion is a real, if rare, outcome of LLM sampling (e.g. a sample that's purely
+    // a stripped `<think>...</think>` block with nothing after) - it must still get an embedding.
+    import ResourceHelper.spark.implicits._
+
+    val testDf = Seq("").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val embeddings = MPNetEmbeddings
+      .pretrained()
+      .setInputCols("document")
+      .setOutputCol("mpnet")
+
+    val pipeline = new Pipeline().setStages(Array(document, embeddings))
+
+    val pipelineModel = pipeline.fit(testDf)
+    val pipelineDF = pipelineModel.transform(testDf)
+
+    val counts: Array[Int] = pipelineDF
+      .select(size(col("mpnet")).as("count"))
+      .collect()
+      .map(row => row.getAs[Int]("count"))
+
+    assert(
+      counts sameElements Array(1),
+      s"expected exactly one embedding for the one (empty-text) input row, got ${counts
+          .mkString(",")}")
+  }
+
 }
