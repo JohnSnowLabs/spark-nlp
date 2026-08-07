@@ -246,7 +246,8 @@ class BGEM3Embeddings(override val uid: String)
       }
 
     val processedAnnotations = if (allAnnotations.nonEmpty) {
-      val tokenizedSentences = getModelIfNotSet.tokenize(allAnnotations.map(_._1))
+      val tokenizedSentences =
+        getModelIfNotSet.tokenize(allAnnotations.map(_._1), $(maxSentenceLength))
       getModelIfNotSet.predict(
         sentences = allAnnotations.map(_._1),
         tokenizedSentences = tokenizedSentences,
