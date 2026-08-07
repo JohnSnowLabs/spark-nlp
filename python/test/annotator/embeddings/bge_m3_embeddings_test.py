@@ -95,6 +95,96 @@ class BGEM3EmbeddingsTestSpec(unittest.TestCase):
         self.assertTrue(len(weights) > 0, "Expected sparse lexical weights in metadata")
         self.assertTrue(all(float(v) > 0.0 for v in weights.values()))
 
+    def test_mixed_length_batch_does_not_misalign_sparse_weights(self):
+        data = self.spark.createDataFrame([
+            ["Hi."],
+            ["BGE-M3 supports both dense and sparse retrieval across many languages and "
+             "very long documents that stretch on for a while to make padding meaningfully "
+             "different across rows in the batch."],
+        ]).toDF("text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        bge_m3 = BGEM3Embeddings \
+            .pretrained() \
+            .setInputCols(["documents"]) \
+            .setOutputCol("bge_m3") \
+            .setReturnSparseEmbeddings(True) \
+            .setBatchSize(2)
+
+        pipeline = Pipeline().setStages([document_assembler, bge_m3])
+        results = pipeline.fit(data).transform(data).select("bge_m3.metadata").collect()
+
+        short_weights = _sparse_weights(results[0][0][0])
+        long_weights = _sparse_weights(results[1][0][0])
+        self.assertTrue(len(short_weights) > 0)
+        self.assertTrue(len(long_weights) > 0)
+        self.assertLess(len(short_weights), len(long_weights))
+
+    def test_mixed_language_batch_in_one_call(self):
+        data = self.spark.createDataFrame([
+            ["How much protein should a female eat?"],
+            ["¿Cuánta proteína debería comer una mujer?"],
+            ["女性はどのくらいのタンパク質を摂取すべきですか？"],
+            ["امرأة كم من البروتين يجب أن تأكل؟"],
+        ]).toDF("text")
+
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        bge_m3 = BGEM3Embeddings \
+            .pretrained() \
+            .setInputCols(["documents"]) \
+            .setOutputCol("bge_m3")
+
+        pipeline = Pipeline().setStages([document_assembler, bge_m3])
+        results = pipeline.fit(data).transform(data)
+
+        sizes = results.select(
+            F.size(results["bge_m3.embeddings"].getItem(0)).alias("size")
+        ).collect()
+        self.assertEqual(len(sizes), 4)
+        for row in sizes:
+            self.assertEqual(row["size"], 1024)
+
+    def test_batch_size_edge_cases(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("documents")
+
+        single_row = self.spark.createDataFrame(
+            [["A single sentence in its own batch."]]
+        ).toDF("text")
+        single_bge_m3 = BGEM3Embeddings \
+            .pretrained() \
+            .setInputCols(["documents"]) \
+            .setOutputCol("bge_m3") \
+            .setBatchSize(1)
+        single_pipeline = Pipeline().setStages([document_assembler, single_bge_m3])
+        single_size = single_pipeline.fit(single_row).transform(single_row).select(
+            F.size(F.col("bge_m3.embeddings").getItem(0)).alias("size")
+        ).collect()[0]["size"]
+        self.assertEqual(single_size, 1024)
+
+        few_rows = self.spark.createDataFrame(
+            [["One."], ["Two."], ["Three."]]
+        ).toDF("text")
+        few_bge_m3 = BGEM3Embeddings \
+            .pretrained() \
+            .setInputCols(["documents"]) \
+            .setOutputCol("bge_m3") \
+            .setBatchSize(8)  # larger than the number of rows
+        few_pipeline = Pipeline().setStages([document_assembler, few_bge_m3])
+        few_sizes = few_pipeline.fit(few_rows).transform(few_rows).select(
+            F.size(F.col("bge_m3.embeddings").getItem(0)).alias("size")
+        ).collect()
+        self.assertEqual(len(few_sizes), 3)
+        for row in few_sizes:
+            self.assertEqual(row["size"], 1024)
+
     def test_long_document(self):
         long_text = " ".join(
             f"Sentence number {i} talks about multilingual retrieval and embeddings."

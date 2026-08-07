@@ -60,23 +60,16 @@ private[johnsnowlabs] class BGEM3(
     caseSensitive: Boolean = false)
     extends Serializable {
 
+  import BGEM3._
+
   protected val logger: Logger = LoggerFactory.getLogger("BGEM3")
 
   private val DenseOutput = "dense_embedding"
   private val SparseOutput = "token_weights"
 
-  private val SentenceStartTokenId = 0 // <s>
-  private val SentencePadTokenId = 1 // <pad>
-  private val SentenceEndTokenId = 2 // </s>
-  private val SentenceUnkTokenId = 3 // <unk>
-
   // Model input ids are offset by 1 from the raw SentencePiece ids (XLM-RoBERTa fairseq offset)
   private val pieceIdOffset = 1
   private val SentencePieceDelimiterId = spp.getSppModel.pieceToId("▁")
-
-  /** Token ids that never contribute to the sparse lexical weights. */
-  private val unusedTokenIds: Set[Int] =
-    Set(SentenceStartTokenId, SentencePadTokenId, SentenceEndTokenId, SentenceUnkTokenId)
 
   val detectedEngine: String =
     if (onnxWrapper.isDefined) ONNX.name
@@ -85,8 +78,18 @@ private[johnsnowlabs] class BGEM3(
 
   private val onnxSessionOptions: Map[String, String] = new OnnxSession().getSessionOptions
 
-  /** Tokenize the input documents with the XLM-RoBERTa SentencePiece model. */
-  def tokenize(sentences: Seq[Annotation]): Seq[WordpieceTokenizedSentence] = {
+  /** Tokenize the input documents with the XLM-RoBERTa SentencePiece model.
+    *
+    * `maxSentenceLength` bounds the character-level pre-truncation passed to `encodeSentence`,
+    * matching the pattern used by every other SentencePiece-based annotator in this codebase
+    * (e.g. `XlmRoberta.tokenizeSentence`). Without it, the whole document gets
+    * SentencePiece-tokenized before `predict()` truncates the piece-id array down to
+    * `maxSentenceLength`, which is wasted work on long documents (BGE-M3 is explicitly meant to
+    * handle up to 8192 tokens).
+    */
+  def tokenize(
+      sentences: Seq[Annotation],
+      maxSentenceLength: Int): Seq[WordpieceTokenizedSentence] = {
     val encoder =
       new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdOffset)
     sentences.map { annotation =>
@@ -97,7 +100,7 @@ private[johnsnowlabs] class BGEM3(
         metadata = Some(annotation.metadata),
         index = annotation.begin)
 
-      val pieces = encoder.encodeSentence(sentence, maxLength = annotation.result.length)
+      val pieces = encoder.encodeSentence(sentence, maxLength = maxSentenceLength)
       WordpieceTokenizedSentence(pieces)
     }
   }
@@ -205,7 +208,8 @@ private[johnsnowlabs] class BGEM3(
               s"The loaded BGE-M3 ONNX model does not expose a '$SparseOutput' output. " +
                 "Re-export the model with the sparse head to use setReturnSparseEmbeddings(true).")
           val flatSparse = sparseOutput.get().asInstanceOf[OnnxTensor].getFloatBuffer.array()
-          Some(flatSparse.grouped(flatSparse.length / batch.length).toArray)
+          val width = sparseRowWidth(flatSparse.length, batch.length, padded.head.length)
+          Some(flatSparse.grouped(width).toArray)
         } else None
 
         (dense, sparse)
@@ -240,11 +244,21 @@ private[johnsnowlabs] class BGEM3(
 
     val sparse = if (returnSparse) {
       val flatSparse = inferRequest.get_tensor(SparseOutput).data()
-      Some(flatSparse.grouped(flatSparse.length / batch.length).toArray)
+      val width = sparseRowWidth(flatSparse.length, batch.length, padded.head.length)
+      Some(flatSparse.grouped(width).toArray)
     } else None
 
     (dense, sparse)
   }
+
+  /** Validate that the sparse output's flat length matches `[batch, seqLen]` exactly before using
+    * it to `grouped(width)` the flat array back into rows. A mismatched shape (e.g. from a bad
+    * export) must fail loudly here rather than silently truncating a row's worth of weights via
+    * `flatSparse.length / batch.length` integer division, which would misassign weights across
+    * the batch without any error.
+    */
+  private def sparseRowWidth(flatLength: Int, batchSize: Int, seqLen: Int): Int =
+    BGEM3.expectedSparseWidth(flatLength, batchSize, seqLen, SparseOutput)
 
   /** Remap per-position sparse weights to token-level lexical weights, in order of first token
     * occurrence.
@@ -256,6 +270,42 @@ private[johnsnowlabs] class BGEM3(
   private def sparseLexicalWeights(
       tokens: Array[Int],
       weights: Array[Float]): Seq[(String, String)] = {
+    aggregateSparseWeights(tokens, weights).map { case (tokenId, weight) =>
+      idToPiece(tokenId) -> weight.toString
+    }
+  }
+
+  /** Convert a model token id back to its SentencePiece string, inverting the fairseq offset used
+    * during encoding (`_convert_id_to_token` in the HF XLM-RoBERTa tokenizer).
+    */
+  private def idToPiece(tokenId: Int): String = {
+    val rawId = tokenId - pieceIdOffset
+    if (rawId >= 0) spp.getSppModel.idToPiece(rawId) else tokenId.toString
+  }
+
+}
+
+private[johnsnowlabs] object BGEM3 {
+
+  private[ai] val SentenceStartTokenId = 0 // <s>
+  private[ai] val SentencePadTokenId = 1 // <pad>
+  private[ai] val SentenceEndTokenId = 2 // </s>
+  private[ai] val SentenceUnkTokenId = 3 // <unk>
+
+  /** Token ids that never contribute to the sparse lexical weights. */
+  private[ai] val unusedTokenIds: Set[Int] =
+    Set(SentenceStartTokenId, SentencePadTokenId, SentenceEndTokenId, SentenceUnkTokenId)
+
+  /** Aggregate per-position sparse weights into token-level lexical weights, in order of first
+    * token occurrence. Pure and dependency-free (no `spp`/instance state) so it's directly
+    * unit-testable.
+    *
+    * Follows `BGEM3FlagModel._process_token_weights`: keep only positive weights, drop special
+    * tokens, and take the maximum weight for each token id.
+    */
+  private[ai] def aggregateSparseWeights(
+      tokens: Array[Int],
+      weights: Array[Float]): Seq[(Int, Float)] = {
     val aggregated = mutable.LinkedHashMap.empty[Int, Float]
     val n = math.min(tokens.length, weights.length)
     var i = 0
@@ -268,18 +318,29 @@ private[johnsnowlabs] class BGEM3(
       }
       i += 1
     }
-
-    aggregated.toSeq.map { case (tokenId, weight) =>
-      idToPiece(tokenId) -> weight.toString
-    }
+    aggregated.toSeq
   }
 
-  /** Convert a model token id back to its SentencePiece string, inverting the fairseq offset used
-    * during encoding (`_convert_id_to_token` in the HF XLM-RoBERTa tokenizer).
+  /** Validate that a flat sparse-output buffer's length matches `batchSize * seqLen` exactly,
+    * returning the per-row width (`seqLen`) on success. Pure and dependency-free so it's directly
+    * unit-testable.
+    *
+    * @throws IllegalStateException
+    *   if the flat length doesn't factor into `batchSize * seqLen`, naming the actual vs.
+    *   expected shape rather than letting a silent integer-division truncate/misalign rows.
     */
-  private def idToPiece(tokenId: Int): String = {
-    val rawId = tokenId - pieceIdOffset
-    if (rawId >= 0) spp.getSppModel.idToPiece(rawId) else tokenId.toString
+  private[ai] def expectedSparseWidth(
+      flatLength: Int,
+      batchSize: Int,
+      seqLen: Int,
+      outputName: String): Int = {
+    val expected = batchSize * seqLen
+    if (flatLength != expected)
+      throw new IllegalStateException(
+        s"The loaded BGE-M3 model's '$outputName' output has an unexpected shape: got a flat " +
+          s"length of $flatLength elements, expected $expected (batch=$batchSize x seq=$seqLen). " +
+          "Re-export the model so the sparse head output matches [batch, seq].")
+    seqLen
   }
 
 }

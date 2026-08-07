@@ -132,6 +132,101 @@ class BGEM3EmbeddingsTestSpec extends AnyFlatSpec {
     assert(annotations.head.embeddings.length == 1024)
   }
 
+  it should "not misalign sparse weights across a mixed-length batch" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    // A very short sentence batched together with a much longer one exercises the padding /
+    // truncation alignment between the unpadded token ids and the padded sparse-weight rows.
+    val ddd = Seq(
+      "Hi.",
+      "BGE-M3 supports both dense and sparse retrieval across many languages and " +
+        "very long documents that stretch on for a while to make padding meaningfully " +
+        "different across rows in the batch.").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val embeddings = BGEM3Embeddings
+      .pretrained("bge_m3", "xx")
+      .setInputCols(Array("document"))
+      .setOutputCol("bge_m3")
+      .setReturnSparseEmbeddings(true)
+      .setBatchSize(2)
+
+    val pipeline = new Pipeline().setStages(Array(document, embeddings))
+    val pipelineDF = pipeline.fit(ddd).transform(ddd)
+
+    val annotations = Annotation.collect(pipelineDF, "bge_m3").map(_.head)
+    val shortWeights = sparseWeightsOf(annotations(0).metadata)
+    val longWeights = sparseWeightsOf(annotations(1).metadata)
+
+    assert(annotations.forall(_.embeddings.length == 1024))
+    assert(shortWeights.nonEmpty && longWeights.nonEmpty)
+    // the short sentence must not pick up tokens/weights that belong to the long sentence
+    assert(shortWeights.size < longWeights.size)
+  }
+
+  it should "handle a mixed-language batch in a single call" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val ddd = Seq(
+      "How much protein should a female eat?",
+      "¿Cuánta proteína debería comer una mujer?",
+      "女性はどのくらいのタンパク質を摂取すべきですか？",
+      "امرأة كم من البروتين يجب أن تأكل؟").toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val embeddings = BGEM3Embeddings
+      .pretrained("bge_m3", "xx")
+      .setInputCols(Array("document"))
+      .setOutputCol("bge_m3")
+
+    val pipeline = new Pipeline().setStages(Array(document, embeddings))
+    val pipelineDF = pipeline.fit(ddd).transform(ddd)
+
+    val sizes = Annotation.collect(pipelineDF, "bge_m3").map(_.head.embeddings.length)
+    assert(sizes.length == 4)
+    assert(sizes.forall(_ == 1024))
+  }
+
+  it should "handle batchSize=1 and a batch smaller than the configured batchSize" taggedAs SlowTest in {
+
+    import ResourceHelper.spark.implicits._
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val singleRow = Seq("A single sentence in its own batch.").toDF("text")
+    val singleEmbeddings = BGEM3Embeddings
+      .pretrained("bge_m3", "xx")
+      .setInputCols(Array("document"))
+      .setOutputCol("bge_m3")
+      .setBatchSize(1)
+    val singlePipeline = new Pipeline().setStages(Array(document, singleEmbeddings))
+    val singleResult = singlePipeline.fit(singleRow).transform(singleRow)
+    assert(
+      Annotation.collect(singleResult, "bge_m3").map(_.head.embeddings.length).forall(_ == 1024))
+
+    val fewRows = Seq("One.", "Two.", "Three.").toDF("text")
+    val fewEmbeddings = BGEM3Embeddings
+      .pretrained("bge_m3", "xx")
+      .setInputCols(Array("document"))
+      .setOutputCol("bge_m3")
+      .setBatchSize(8) // larger than the number of rows
+    val fewPipeline = new Pipeline().setStages(Array(document, fewEmbeddings))
+    val fewResult = fewPipeline.fit(fewRows).transform(fewRows)
+    val fewSizes = Annotation.collect(fewResult, "bge_m3").map(_.head.embeddings.length)
+    assert(fewSizes.length == 3)
+    assert(fewSizes.forall(_ == 1024))
+  }
+
   it should "handle long documents close to the 8192 token ceiling" taggedAs SlowTest in {
 
     import ResourceHelper.spark.implicits._
