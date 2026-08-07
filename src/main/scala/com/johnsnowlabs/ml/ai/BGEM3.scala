@@ -14,6 +14,7 @@
  *    limitations under the License.
  */
 
+package com.johnsnowlabs.ml.ai
 
 import ai.onnxruntime.{OnnxTensor, TensorInfo}
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
