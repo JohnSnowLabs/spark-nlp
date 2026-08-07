@@ -81,9 +81,13 @@ class OnnxWrapper(var modelFileName: Option[String] = None, var dataFileDirector
 object OnnxWrapper {
   private[OnnxWrapper] val logger: Logger = LoggerFactory.getLogger("OnnxWrapper")
 
-  /** Basenames already registered via `SparkContext.addFile`, per `SparkContext`. */
-  private val addedFilesPerContext: java.util.Map[SparkContext, java.util.Set[String]] =
-    new java.util.WeakHashMap[SparkContext, java.util.Set[String]]()
+  /** For each `SparkContext`, the file size registered under each basename via
+    * `SparkContext.addFile`. Used to distinguish "the same model reloaded" (safe to skip
+    * re-adding) from "a different file that happens to share our basename" (must not be silently
+    * treated as the same file).
+    */
+  private val addedFilesPerContext: java.util.Map[SparkContext, java.util.Map[String, Long]] =
+    new java.util.WeakHashMap[SparkContext, java.util.Map[String, Long]]()
 
   /** `SparkContext.addFile` only allows a given basename to be registered once: on Spark 4.x,
     * re-adding a different file under a basename that's already registered throws (Spark 3.x only
@@ -91,26 +95,35 @@ object OnnxWrapper {
     * external `.onnx_data` file whose exact name is embedded in the graph itself (onnxruntime
     * looks it up by that name, relative to the `.onnx` file, inside Spark's flat SparkFiles
     * directory) — so the basename can't be changed to dodge the collision without breaking that
-    * lookup. Instead, track what's already been registered per `SparkContext` and skip re-adding
-    * a basename we've already served, which is exactly what happens when the same model gets
-    * loaded more than once in a session (e.g. `loadSavedModel` called twice, or the standard
-    * save-then-reload pattern).
+    * lookup.
+    *
+    * Instead, track the file size registered per basename per `SparkContext`. If the same
+    * basename is requested again with a matching size, skip re-adding it — this is what happens
+    * when the same model gets loaded more than once in a session (e.g. `loadSavedModel` called
+    * twice, or the standard save-then-reload pattern), and a size check is enough to catch that
+    * without paying for a full content comparison on every load. If the size differs, this is a
+    * genuinely different file that happens to share a basename (e.g. two unrelated models both
+    * using the default "model.onnx" name) — in that case we deliberately do *not* silently skip,
+    * since that could serve one model's weights under another model's name with no error at all.
+    * We let the real `addFile` call happen so Spark's own mismatch check fails loudly instead.
     */
   private def addFileOnce(sparkSession: SparkSession, path: String): Unit = {
     val sc = sparkSession.sparkContext
     val basename = new File(path).getName
-    val isNewlyRegistered = this.synchronized {
-      val registeredNames = addedFilesPerContext.computeIfAbsent(
+    val size = new File(path).length()
+    val alreadyRegisteredWithSameSize = this.synchronized {
+      val registeredSizes = addedFilesPerContext.computeIfAbsent(
         sc,
-        (_: SparkContext) => java.util.concurrent.ConcurrentHashMap.newKeySet[String]())
-      registeredNames.add(basename)
+        (_: SparkContext) => new java.util.concurrent.ConcurrentHashMap[String, Long]())
+      val previousSize = Option(registeredSizes.putIfAbsent(basename, size)).map(_.longValue())
+      previousSize.contains(size)
     }
-    if (isNewlyRegistered) {
-      sc.addFile(path)
-    } else {
+    if (alreadyRegisteredWithSameSize) {
       logger.info(
-        s"Skipping SparkContext.addFile for '$basename': a file with this name was already " +
-          "registered on this SparkContext (expected when reloading the same model).")
+        s"Skipping SparkContext.addFile for '$basename': a file with this name and size was " +
+          "already registered on this SparkContext (expected when reloading the same model).")
+    } else {
+      sc.addFile(path)
     }
   }
 
