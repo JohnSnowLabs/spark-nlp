@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.uncertainty
 import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel
 import com.johnsnowlabs.nlp.base.DocumentAssembler
-import com.johnsnowlabs.nlp.embeddings.E5Embeddings
+import com.johnsnowlabs.nlp.embeddings.MPNetEmbeddings
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
 import org.apache.spark.ml.Pipeline
@@ -45,10 +45,15 @@ class LLMUncertaintyEstimatorSlowTest extends AnyFlatSpec {
       .setOutputCol("completions")
       .setNumSamples(5)
       .setTemperature(0.8f)
-      .setNPredict(15)
+      .setNPredict(120)
       .setBatchSize(5)
+      // Qwen3 reasons by default (<think>...</think> before the real answer). Without
+      // stripping it, semantic-entropy clustering embeds the reasoning preamble - which is
+      // near-identical boilerplate across samples regardless of how different the actual
+      // answers are - and collapses everything into one cluster, inverting the score.
+      .setRemoveThinkingTag("think")
 
-    val embeddings = E5Embeddings
+    val embeddings = MPNetEmbeddings
       .pretrained()
       .setInputCols("completions")
       .setOutputCol("sample_embeddings")

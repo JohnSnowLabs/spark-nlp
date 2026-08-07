@@ -48,7 +48,7 @@ class LLMUncertaintyEstimatorEmbeddingsBackendTestSpec(unittest.TestCase):
         )
 
         embeddings = (
-            E5Embeddings.pretrained()
+            MPNetEmbeddings.pretrained()
             .setInputCols("completions")
             .setOutputCol("sample_embeddings")
         )

@@ -33,7 +33,9 @@ import org.apache.spark.sql.types.StructType
   *     for the same prompt (`AutoGGUFModel.setNumSamples(n)`) plus a way to tell which samples
   *     mean the same thing - either the default `similarityBackend="embeddings"` (cosine
   *     similarity of an additional sentence-embeddings input column, e.g. from
-  *     [[https://sparknlp.org E5Embeddings]] or `BGEEmbeddings`, alongside the completions
+  *     [[https://sparknlp.org MPNetEmbeddings]] or `MiniLMEmbeddings` - both Sentence-BERT
+  *     models trained on NLI/STS data for exactly this "are these two answers equivalent" task,
+  *     unlike retrieval-oriented embedders such as E5 or BGE - alongside the completions
   *     column), or `similarityBackend="nli"` (bidirectional entailment, faithful to the original
   *     Semantic Entropy paper - needs a `SampleEntailmentMatrix` stage run over the same
   *     completions column beforehand instead of an embeddings column).
@@ -60,6 +62,15 @@ import org.apache.spark.sql.types.StructType
   * param (once you have calibrated one on your own data) to get a boolean `is_reliable` metadata
   * flag; without it, only the raw score is emitted.
   *
+  * ==Reasoning-model caveat==
+  * For black-box methods, embed and cluster the final answer only - not the raw completion.
+  * Reasoning models (e.g. Qwen3 with thinking enabled) prepend a `<think>...</think>` block to
+  * every completion; if that block is left in, its boilerplate phrasing ("Okay, the user asked
+  * for X. Let me think...") tends to be near-identical across samples even when the actual
+  * answers differ substantially, which drowns out the real signal and collapses clustering
+  * towards a single, spuriously low-uncertainty cluster. Strip it with
+  * `AutoGGUFModel.setRemoveThinkingTag("think")` before it reaches this annotator's input column.
+  *
   * ==Example==
   * {{{
   * import com.johnsnowlabs.nlp.base._
@@ -72,7 +83,7 @@ import org.apache.spark.sql.types.StructType
   *   .setInputCols("document").setOutputCol("completions")
   *   .setNumSamples(5).setTemperature(0.7f)
   *
-  * val embeddings = E5Embeddings.pretrained()
+  * val embeddings = MPNetEmbeddings.pretrained()
   *   .setInputCols("completions").setOutputCol("sample_embeddings")
   *
   * val uncertainty = new LLMUncertaintyEstimator()
@@ -299,7 +310,7 @@ class LLMUncertaintyEstimator(override val uid: String)
       s"LLMUncertaintyEstimator with similarityBackend='embeddings' requires one " +
         s"${AnnotatorType.SENTENCE_EMBEDDINGS} annotation per sampled completion; got " +
         s"${vectors.length} embeddings for ${completions.length} samples. Pass a sentence-" +
-        "embeddings column (e.g. from E5Embeddings, computed over the same completions column) " +
+        "embeddings column (e.g. from MPNetEmbeddings, computed over the same completions column) " +
         "as an additional input column.")
     vectors
   }

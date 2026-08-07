@@ -15,8 +15,10 @@ distribution shift):
 - **Black box** (`semanticEntropy`, `eccentricity`): needs multiple sampled completions for the
   same prompt (`AutoGGUFModel.setNumSamples(n)`) plus a way to tell which samples mean the same
   thing - either the default `similarityBackend="embeddings"` (cosine similarity of an
-  additional sentence-embeddings input column, e.g. from `E5Embeddings` or `BGEEmbeddings`,
-  alongside the completions column), or `similarityBackend="nli"` (bidirectional entailment,
+  additional sentence-embeddings input column, e.g. from `MPNetEmbeddings` or `MiniLMEmbeddings`
+  - both Sentence-BERT models trained on NLI/STS data for this exact "are these two answers
+  equivalent" task, unlike retrieval-oriented embedders such as E5 or BGE - alongside the
+  completions column), or `similarityBackend="nli"` (bidirectional entailment,
   needs a `SampleEntailmentMatrix` stage run over the same completions column beforehand
   instead of an embeddings column).
 - **White box** (`mars`, `meanLogProb`, `perplexity`, `predictiveEntropy`): needs per-token log
@@ -58,7 +60,7 @@ llm = AutoGGUFModel.pretrained() \
     .setInputCols(["document"]).setOutputCol("completions") \
     .setNumSamples(5).setTemperature(0.7)
 
-embeddings = E5Embeddings.pretrained() \
+embeddings = MPNetEmbeddings.pretrained() \
     .setInputCols(["completions"]).setOutputCol("sample_embeddings")
 
 uncertainty = LLMUncertaintyEstimator() \
@@ -83,7 +85,7 @@ val llm = AutoGGUFModel.pretrained()
   .setInputCols("document").setOutputCol("completions")
   .setNumSamples(5).setTemperature(0.7f)
 
-val embeddings = E5Embeddings.pretrained()
+val embeddings = MPNetEmbeddings.pretrained()
   .setInputCols("completions").setOutputCol("sample_embeddings")
 
 val uncertainty = new LLMUncertaintyEstimator()
