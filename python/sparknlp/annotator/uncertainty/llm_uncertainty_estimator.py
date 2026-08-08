@@ -102,6 +102,7 @@ class LLMUncertaintyEstimator(AnnotatorModel):
 
     name = "LLMUncertaintyEstimator"
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
+    optionalInputAnnotatorTypes = [AnnotatorType.SENTENCE_EMBEDDINGS]
     outputAnnotatorType = AnnotatorType.DOCUMENT
 
     methods = Param(
