@@ -24,7 +24,18 @@ private[nlp] trait CompletionPostProcessing {
   protected def processCompletions(results: Array[String]): Array[String] = {
     getRemoveThinkingTag match {
       case Some(thinkingTag) =>
-        results.map(text => text.replaceFirst(s"(?s)<$thinkingTag>.*?</$thinkingTag>", "").trim)
+        val closedTag = s"(?s)<$thinkingTag>.*?</$thinkingTag>"
+        // generation can be cut off (nPredict) before the closing tag appears; in that
+        // case fall back to stripping from the unclosed opening tag to end-of-string,
+        // otherwise the raw in-progress reasoning leaks through unstripped.
+        val unclosedTag = s"(?s)<$thinkingTag>.*"
+        results.map { text =>
+          val closedStripped = text.replaceFirst(closedTag, "")
+          val stripped =
+            if (closedStripped == text) closedStripped.replaceFirst(unclosedTag, "")
+            else closedStripped
+          stripped.trim
+        }
       case None => results
     }
   }
