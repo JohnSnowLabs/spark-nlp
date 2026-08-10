@@ -459,6 +459,18 @@ class LLMUncertaintyEstimator(override val uid: String)
     case _ => 1.0
   }
 
+  /** The raw score's floor at zero uncertainty, i.e. what the *other* ensembled methods already
+    * report for a perfectly confident sample. Only `perplexity` needs this: it's
+    * `exp(-meanLogProb)`, mathematically bounded below by `1.0` (not `0.0`), so left as-is it
+    * contributes a near-constant ~1.0+ term that dominates an unweighted average against methods
+    * that actually start at `0`. Subtracted only for ensembling; the raw `metadata['perplexity']`
+    * value keeps its standard definition.
+    */
+  private def baseline(method: String): Double = method match {
+    case "perplexity" => 1.0
+    case _ => 0.0
+  }
+
   /** `meanLogProb` is naturally confidence-oriented (closer to `0` = more confident); every other
     * method's raw score already increases with uncertainty, per the class-level score-direction
     * convention.
@@ -515,7 +527,8 @@ class LLMUncertaintyEstimator(override val uid: String)
       }
 
     val normalizedScores: Map[String, Double] = methodResults.map { case (method, (score, _)) =>
-      method -> (orientationSign(method) * score) / normalizer(method, numSamples)
+      method ->
+        (orientationSign(method) * (score - baseline(method))) / normalizer(method, numSamples)
     }
 
     val primaryUncertainty: Double =
