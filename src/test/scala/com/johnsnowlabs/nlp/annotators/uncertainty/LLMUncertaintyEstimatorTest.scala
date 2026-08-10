@@ -241,6 +241,48 @@ class LLMUncertaintyEstimatorTest extends AnyFlatSpec {
     assert(result.head.metadata.contains("perplexity"))
   }
 
+  it should "not let perplexity's nonzero floor skew the ensemble average for a maximally confident sample" taggedAs FastTest in {
+    val estimator = new LLMUncertaintyEstimator()
+      .setInputCols("completions")
+      .setOutputCol("uncertainty")
+      .setMethods(Array("meanLogProb", "perplexity"))
+      .setEnsemble(true)
+
+    // meanLogProb = 0.0 means every token was assigned probability 1.0 - maximal confidence.
+    // perplexity = exp(-meanLogProb) sits at its mathematical floor of 1.0 here, not 0.0, so
+    // without subtracting that floor before averaging, this sample's ensemble score came out
+    // around 0.5 (meanLogProb's correct 0.0 averaged against perplexity's un-subtracted 1.0)
+    // even though the model was completely certain.
+    val input = Seq(completionWithLogProbs("Paris", 0, 0.0))
+    val result = estimator.annotate(input)
+
+    // The raw perplexity value itself keeps its standard definition; only its contribution to
+    // the ensemble average is baseline-corrected.
+    assert(math.abs(result.head.metadata("perplexity").toDouble - 1.0) < 1e-6)
+    assert(result.head.metadata("uncertainty_score").toDouble < 0.05)
+  }
+
+  it should "still weigh perplexity into a higher ensemble score for a genuinely uncertain sample" taggedAs FastTest in {
+    val estimator = new LLMUncertaintyEstimator()
+      .setInputCols("completions")
+      .setOutputCol("uncertainty")
+      .setMethods(Array("meanLogProb", "perplexity"))
+      .setEnsemble(true)
+
+    val confidentScore = estimator
+      .annotate(Seq(completionWithLogProbs("Paris", 0, 0.0)))
+      .head
+      .metadata("uncertainty_score")
+      .toDouble
+    val uncertainScore = estimator
+      .annotate(Seq(completionWithLogProbs("Paris", 0, -2.0)))
+      .head
+      .metadata("uncertainty_score")
+      .toDouble
+
+    assert(uncertainScore > confidentScore)
+  }
+
   behavior of "LLMUncertaintyEstimator threshold"
 
   it should "add is_reliable only when threshold is set" taggedAs FastTest in {
