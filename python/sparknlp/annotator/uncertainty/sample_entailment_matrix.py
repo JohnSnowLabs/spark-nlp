@@ -113,7 +113,7 @@ class SampleEntailmentMatrix(AnnotatorModel, HasBatchedAnnotate, HasCaseSensitiv
             batchSize=8,
             maxSentenceLength=512,
             maxSamplesForNli=10,
-            caseSensitive=True,
+            caseSensitive=False,
         )
 
     def setMaxSentenceLength(self, value):

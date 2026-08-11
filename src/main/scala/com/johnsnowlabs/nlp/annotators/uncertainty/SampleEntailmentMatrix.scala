@@ -187,13 +187,24 @@ class SampleEntailmentMatrix(override val uid: String)
   /** @group getParam */
   def getModelIfNotSet: NliClassification = _model.get.value
 
+  /** Whether to lowercase before tokenizing (Default: `false`, matching the
+    * `bert-base-uncased`-derived MNLI checkpoint this annotator defaults to).
+    *
+    * Getting this wrong is silently catastrophic rather than loud: an uncased checkpoint's
+    * vocabulary has no capitalised entries, so with `caseSensitive = true` every proper noun
+    * becomes `[UNK]` and the model can no longer tell "The capital of France is Paris" from "The
+    * capital of France is London" - it scores them, and every other capitalised variant,
+    * identically. That is precisely the distinction the NLI backend exists to make.
+    *
+    * @group setParam
+    */
   override def setCaseSensitive(value: Boolean): this.type = set(this.caseSensitive, value)
 
   setDefault(
     batchSize -> 8,
     maxSentenceLength -> 512,
     maxSamplesForNli -> 10,
-    caseSensitive -> true)
+    caseSensitive -> false)
 
   /** Computes the row-major N x N entailment-probability matrix for one row's samples, using
     * `1.0` on the diagonal (self-entailment) without a model call. The `n * (n - 1)` off-diagonal

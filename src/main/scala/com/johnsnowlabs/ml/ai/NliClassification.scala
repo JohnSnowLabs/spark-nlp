@@ -19,6 +19,7 @@ import ai.onnxruntime.OnnxTensor
 import com.johnsnowlabs.ml.onnx.{OnnxSession, OnnxWrapper}
 import com.johnsnowlabs.nlp.annotators.common.{IndexedToken, Sentence}
 import com.johnsnowlabs.nlp.annotators.tokenizer.wordpiece.{BasicTokenizer, WordpieceEncoder}
+import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 
@@ -56,6 +57,19 @@ private[johnsnowlabs] class NliClassification(
     vocabulary.contains("[CLS]") && vocabulary.contains("[SEP]"),
     "The NLI model's vocab.txt must contain the [CLS] and [SEP] wordpieces this annotator uses " +
       "to build sentence-pair inputs.")
+
+  // An uncased checkpoint's vocabulary has no capitalised entries at all, so running it
+  // case-sensitively turns every proper noun into [UNK] - and then "the capital of France is
+  // Paris" and "...is London" tokenize identically and score identically. That silently destroys
+  // exactly the distinction this classifier exists to make, so it is worth shouting about.
+  if (caseSensitive && !vocabulary.keysIterator.exists(_.exists(_.isUpper))) {
+    NliClassification.logger.warn(
+      "This NLI model's vocabulary contains no capitalised wordpieces, which means it is an " +
+        "uncased checkpoint, but caseSensitive is true. Every capitalised token (notably proper " +
+        "nouns - the answers this is usually asked to compare) will be encoded as [UNK], and " +
+        "texts differing only in those tokens will receive identical entailment scores. Set " +
+        "setCaseSensitive(false).")
+  }
 
   private val entailmentIndex: Int = labels
     .find { case (name, _) => name.toLowerCase.startsWith("entail") }
@@ -156,6 +170,8 @@ private[johnsnowlabs] class NliClassification(
 }
 
 private[johnsnowlabs] object NliClassification {
+
+  private val logger: Logger = LoggerFactory.getLogger("NliClassification")
 
   /** Sentence-pair BERT encoding: `[CLS] premise [SEP] hypothesis [SEP]`, with `token_type_ids` 0
     * over the premise span (+ first `[SEP]`) and 1 over the hypothesis span (+ second `[SEP]`).
