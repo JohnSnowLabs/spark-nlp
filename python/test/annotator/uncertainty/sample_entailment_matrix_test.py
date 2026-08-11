@@ -14,6 +14,7 @@
 import unittest
 
 import pytest
+from pyspark.sql.types import ArrayType, StringType, StructField, StructType
 
 from sparknlp.annotator import *
 from sparknlp.base import *
@@ -30,9 +31,13 @@ class SampleEntailmentMatrixTestSpec(unittest.TestCase):
         self.spark = SparkContextForTest.spark
         # Three sampled "completions" for one row: two paraphrases of the same answer, one
         # different answer - simulating AutoGGUFModel.setNumSamples(3) output.
-        self.data = (
-            self.spark.createDataFrame([[["Paris.", "The capital is Paris.", "London."]]])
-            .toDF("completions_raw")
+        # DocumentAssembler's multi-annotation path requires containsNull=false, which a plain
+        # createDataFrame(...) literal does not produce, so the schema is given explicitly.
+        schema = StructType(
+            [StructField("completions_raw", ArrayType(StringType(), containsNull=False), False)]
+        )
+        self.data = self.spark.createDataFrame(
+            [(["Paris.", "The capital is Paris.", "London."],)], schema
         )
 
     def runTest(self):
@@ -78,7 +83,10 @@ class SampleEntailmentMatrixMaxSamplesTestSpec(unittest.TestCase):
         # 11 samples > default maxSamplesForNli (10) must raise a clear error, not silently do
         # 110 pairwise NLI calls.
         many_samples = [f"Answer number {i}." for i in range(11)]
-        data = self.spark.createDataFrame([[many_samples]]).toDF("completions_raw")
+        schema = StructType(
+            [StructField("completions_raw", ArrayType(StringType(), containsNull=False), False)]
+        )
+        data = self.spark.createDataFrame([(many_samples,)], schema)
 
         document_assembler = (
             DocumentAssembler().setInputCol("completions_raw").setOutputCol("document")
