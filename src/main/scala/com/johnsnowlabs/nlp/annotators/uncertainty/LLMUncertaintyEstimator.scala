@@ -449,10 +449,8 @@ class LLMUncertaintyEstimator(override val uid: String)
         // that's what the name means, sign-flipped separately when folded into uncertainty_score.
         (perSample.sum / perSample.length, Map.empty)
       case "perplexity" =>
-        val perSample = requireCompletionProbabilities(
-          completions,
-          "meanLogProb",
-          UncertaintyMetrics.meanLogProb)
+        val perSample =
+          requireCompletionProbabilities(completions, method, UncertaintyMetrics.meanLogProb)
         val meanLp = perSample.sum / perSample.length
         (math.exp(-meanLp), Map.empty)
       case "predictiveEntropy" =>
