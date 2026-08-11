@@ -25,6 +25,11 @@ import scala.collection.mutable.ArrayBuffer
 
 /** One MARS phrase: a contiguous span of the answer text (character offsets) with a single
   * importance weight, as grouped by [[MarsClassification.tag]].
+  *
+  * `end` is '''inclusive''', following `TokenPiece.begin`/`end` and the `Annotation` convention
+  * used throughout this codebase. Consumers joining these against half-open spans (e.g.
+  * `UncertaintyMetrics.alignByCharSpan`, which reconciles them against the generating model's
+  * exclusive-end token spans) have to account for that.
   */
 case class MarsPhrase(begin: Int, end: Int, importance: Float)
 
@@ -146,25 +151,54 @@ private[johnsnowlabs] class MarsClassification(
     val (inputIds, typeIds, answerPieces) = encode(question, answer, maxSeqLength)
     if (answerPieces.isEmpty) return Array.empty
 
-    val numLabels = 3
     val rawScores = getRawScoresWithOnnx(inputIds, typeIds)
     require(
-      rawScores.length == inputIds.length * numLabels,
+      rawScores.length == inputIds.length * MarsClassification.NumLabels,
       s"Unexpected MARS model output size: got ${rawScores.length} floats for " +
-        s"${inputIds.length} tokens (expected ${inputIds.length * numLabels}, $numLabels labels " +
-        "per token). Is this really a MARS/BertForTokenClassification(num_labels=3) ONNX export?")
-    val logitsPerToken: Array[Array[Float]] = rawScores.grouped(numLabels).toArray
+        s"${inputIds.length} tokens (expected ${inputIds.length * MarsClassification.NumLabels}, " +
+        s"${MarsClassification.NumLabels} labels per token). Is this really a " +
+        "MARS/BertForTokenClassification(num_labels=3) ONNX export?")
+    val logitsPerToken: Array[Array[Float]] =
+      rawScores.grouped(MarsClassification.NumLabels).toArray
 
     // Answer wordpieces start right after [CLS] + question pieces + [SEP].
     val answerStart = inputIds.length - answerPieces.length - 1 // -1 for the trailing [SEP]
-    val classArgmax: Array[Int] = answerPieces.indices.map { i =>
-      val logits = logitsPerToken(answerStart + i)
-      if (logits(1) > logits(0)) 1 else 0
-    }.toArray
-    val importanceSigmoid: Array[Float] = answerPieces.indices.map { i =>
-      val logit = logitsPerToken(answerStart + i)(2)
-      (1.0 / (1.0 + math.exp(-logit))).toFloat
-    }.toArray
+    MarsClassification.groupPhrases(
+      answerPieces,
+      logitsPerToken.slice(answerStart, answerStart + answerPieces.length))
+  }
+}
+
+private[johnsnowlabs] object MarsClassification {
+
+  /** The MARS head's output width: `[0:2]` is a phrase-boundary class decided by argmax, `[2]` is
+    * a per-token importance score decided by sigmoid.
+    */
+  val NumLabels: Int = 3
+
+  /** Groups the answer's wordpieces into importance-weighted phrases, given one `NumLabels`-wide
+    * logits row per answer wordpiece (already sliced out of the full sequence).
+    *
+    * A phrase break happens at a wordpiece that both starts a new word and is classified as a
+    * boundary, so wordpiece continuations (`##...`) never start a phrase - a direct translation
+    * of the reference implementation's break condition. Each phrase takes the importance of its
+    * first token, and spans use inclusive `end` (see [[MarsPhrase]]).
+    *
+    * Kept free of ONNX and Spark types so the grouping can be tested against hand-built logits.
+    */
+  def groupPhrases(
+      answerPieces: Array[TokenPiece],
+      logitsPerPiece: Array[Array[Float]]): Array[MarsPhrase] = {
+    require(
+      answerPieces.length == logitsPerPiece.length,
+      s"Expected one logits row per answer wordpiece, got ${logitsPerPiece.length} rows for " +
+        s"${answerPieces.length} wordpieces")
+    if (answerPieces.isEmpty) return Array.empty
+
+    val classArgmax: Array[Int] =
+      logitsPerPiece.map(logits => if (logits(1) > logits(0)) 1 else 0)
+    val importanceSigmoid: Array[Float] =
+      logitsPerPiece.map(logits => (1.0 / (1.0 + math.exp(-logits(2)))).toFloat)
 
     val phrases = ArrayBuffer[MarsPhrase]()
     var i = 0
