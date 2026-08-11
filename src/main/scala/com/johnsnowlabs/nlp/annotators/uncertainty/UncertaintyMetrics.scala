@@ -324,7 +324,8 @@ object UncertaintyMetrics {
   }
 
   /** Parses the `token_importance` metadata JSON written by `MarsTokenImportance` (an array of
-    * `{"begin", "end", "importance"}` objects) into `(begin, end, importance)` tuples, as
+    * `{"begin", "end", "importance"}` objects, with `end` inclusive, per the `Annotation`
+    * convention this codebase uses everywhere) into `(begin, end, importance)` tuples, as
     * [[alignByCharSpan]] expects for its `phrases` argument.
     */
   def parseTokenImportance(json: String): Seq[(Int, Int, Double)] = {
@@ -396,10 +397,17 @@ object UncertaintyMetrics {
     * real character spans into the same completion text, so overlap is well-defined and
     * deterministic. A token that overlaps no phrase gets importance `0.0`.
     *
+    * The two span conventions differ and are reconciled here: LLM token spans are half-open
+    * (`end` exclusive, as [[CompletionProbabilities.tokenSpans]] produces them), while MARS
+    * phrase spans come from `TokenPiece.begin`/`end`, which are inclusive like every other
+    * `Annotation` offset in this codebase. Treating a phrase's inclusive `end` as if it were
+    * exclusive would drop the last character of every phrase from the overlap, so a token
+    * covering exactly that character would come back with importance `0.0`.
+    *
     * @param llmTokens
-    *   the generating model's tokens, in order, as (begin, end, negLogLikelihood)
+    *   the generating model's tokens, in order, as (begin, endExclusive, negLogLikelihood)
     * @param phrases
-    *   MARS phrases, as (begin, end, importance)
+    *   MARS phrases, as (begin, endInclusive, importance)
     * @return
     *   one (negLogLikelihood, importance) pair per LLM token, in `llmTokens` order
     */
@@ -407,8 +415,9 @@ object UncertaintyMetrics {
       llmTokens: Seq[(Int, Int, Double)],
       phrases: Seq[(Int, Int, Double)]): Seq[(Double, Double)] = {
     llmTokens.map { case (tokenBegin, tokenEnd, negLogLikelihood) =>
-      val overlaps = phrases.flatMap { case (phraseBegin, phraseEnd, importance) =>
-        val overlapLength = math.min(tokenEnd, phraseEnd) - math.max(tokenBegin, phraseBegin)
+      val overlaps = phrases.flatMap { case (phraseBegin, phraseEndInclusive, importance) =>
+        val overlapLength =
+          math.min(tokenEnd, phraseEndInclusive + 1) - math.max(tokenBegin, phraseBegin)
         if (overlapLength > 0) Some((overlapLength.toDouble, importance)) else None
       }
       val importance =
