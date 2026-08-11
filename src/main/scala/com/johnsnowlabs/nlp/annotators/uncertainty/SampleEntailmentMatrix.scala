@@ -46,9 +46,11 @@ import org.json4s.jackson.JsonMethods._
   * `LLMUncertaintyEstimator` reads when `setSimilarityBackend("nli")` is set.
   *
   * ==Cost warning==
-  * Scoring all ordered pairs of N samples needs N*(N-1) model calls (the diagonal, self-
-  * entailment, is trivially `1.0` and skipped) - this grows fast. `maxSamplesForNli` (default
-  * `10`, so up to 90 calls per row) guards against silently issuing very large batches; raise it
+  * Scoring all ordered pairs of N samples needs N*(N-1) forward passes (the diagonal, self-
+  * entailment, is trivially `1.0` and skipped) - this grows quadratically. Pairs are padded and
+  * run `batchSize` at a time, so the cost is `N*(N-1)/batchSize` session calls rather than one
+  * per pair, but it is still the most expensive backend here. `maxSamplesForNli` (default `10`,
+  * so up to 90 pairs per row) guards against silently issuing very large batches; raise it
   * explicitly if you really want more samples clustered this way.
   *
   * ==Loading a model==
@@ -194,14 +196,20 @@ class SampleEntailmentMatrix(override val uid: String)
     caseSensitive -> true)
 
   /** Computes the row-major N x N entailment-probability matrix for one row's samples, using
-    * `1.0` on the diagonal (self-entailment) without a model call.
+    * `1.0` on the diagonal (self-entailment) without a model call. The `n * (n - 1)` off-diagonal
+    * pairs are scored in batches of `batchSize` rather than one session call each.
     */
   private def entailmentMatrixJson(texts: Array[String]): String = {
     val n = texts.length
-    val matrix: Array[Array[Float]] = Array.tabulate(n, n) { (i, j) =>
-      if (i == j) 1.0f
-      else getModelIfNotSet.entailmentProbability(texts(i), texts(j), getMaxSentenceLength)
-    }
+    val offDiagonal = for (i <- 0 until n; j <- 0 until n if i != j) yield (i, j)
+    val probabilities = getModelIfNotSet.entailmentProbabilities(
+      offDiagonal.map { case (i, j) => (texts(i), texts(j)) },
+      getMaxSentenceLength,
+      getBatchSize)
+    val scored = offDiagonal.zip(probabilities).toMap
+
+    val matrix: Array[Array[Float]] =
+      Array.tabulate(n, n)((i, j) => if (i == j) 1.0f else scored((i, j)))
     compact(render(matrix.toSeq.map(row => row.toSeq.map(_.toDouble))))
   }
 
