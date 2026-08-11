@@ -195,6 +195,14 @@ object UncertaintyMetrics {
     * samples far from the centroid in this embedding are the ones that stand apart from the
     * consensus answer.
     *
+    * Negative affinities are clamped to `0`. Spectral clustering on a graph Laplacian assumes
+    * non-negative edge weights - a negative one makes a row's degree (its sum) shrink or go
+    * negative, which is not a meaningful "how connected is this sample" quantity and lets the `d
+    * > 0` guard in [[normalizedLaplacian]] silently zero out a whole row. The NLI backend is
+    * already non-negative (probabilities), but cosine similarity of sentence embeddings ranges
+    * over `[-1, 1]`, and two samples that disagree are no less "unrelated" than two that are
+    * merely orthogonal.
+    *
     * @param affinityMatrix
     *   n x n symmetric similarity matrix with `1.0` on the diagonal, e.g. from
     *   [[similarityMatrix]]
@@ -212,7 +220,7 @@ object UncertaintyMetrics {
     require(n > 0, "affinityMatrix must not be empty")
     if (n == 1) return (0.0, Array(0.0))
 
-    val laplacian = normalizedLaplacian(affinityMatrix)
+    val laplacian = normalizedLaplacian(affinityMatrix.map(_.map(math.max(_, 0.0))))
     val eigSym.EigSym(eigenvalues, eigenvectors) = eigSym(laplacian)
 
     val keptCols = (0 until n).filter(i => eigenvalues(i) < eigenThreshold)
