@@ -19,14 +19,19 @@ score (one row may carry several sampled answers, e.g. from
 `AutoGGUFModel.setNumSamples(n)`; every sample in a row is scored against that row's single
 question).
 
-Pretrained models can be loaded with `pretrained` of the companion object, or a local ONNX
-export loaded with `loadSavedModel`:
+The default pretrained model is `mars_token_importance`, an export of the
+[duygunuryldz/MARS](https://huggingface.co/duygunuryldz/MARS) checkpoint:
 
 ```scala
-val marsImportance = MarsTokenImportance.loadSavedModel("path/to/mars_onnx", spark)
+val marsImportance = MarsTokenImportance.pretrained()
   .setInputCols("question", "completions")
   .setOutputCol("token_importance")
 ```
+
+A self-exported ONNX checkpoint can be used instead, laid out as `<model_dir>/model.onnx` plus
+`<model_dir>/assets/vocab.txt`, and loaded with
+`MarsTokenImportance.loadSavedModel("<model_dir>", spark)`. It must be a
+`BertForTokenClassification` with `num_labels=3`.
 {%- endcapture -%}
 
 {%- capture input_anno -%}

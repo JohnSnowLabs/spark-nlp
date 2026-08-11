@@ -20,16 +20,20 @@ Scoring all ordered pairs of N samples needs `N*(N-1)` model calls - this grows 
 `maxSamplesForNli` (default `10`, so up to 90 calls per row) guards against silently issuing
 very large batches.
 
-**No pretrained model is published yet.** `pretrained()` has no working hub model - Spark NLP's
-`.pretrained()` deserializes a model in the format the *calling class itself* wrote it in (here,
-an ONNX file under `sample_entailment_matrix_onnx`), and no BERT NLI checkpoint has ever been
-published to the hub in that exact format. Use `loadSavedModel` with a self-exported model
-instead: export [textattack/bert-base-uncased-MNLI](https://huggingface.co/textattack/bert-base-uncased-MNLI)
-to ONNX (`torch.onnx.export`, `dynamo=False`), lay it out as `<model_dir>/model.onnx` plus
-`<model_dir>/assets/vocab.txt` and `<model_dir>/assets/labels.txt`, and load with
-`SampleEntailmentMatrix.loadSavedModel("<model_dir>", spark)`. This checkpoint's label order is
-`contradiction, entailment, neutral` (confirmed empirically, not the textbook GLUE MNLI order -
-its `config.json` has no `id2label` at all).
+The default pretrained model is `bert_base_uncased_mnli_entailment_onnx`, an export of
+[textattack/bert-base-uncased-MNLI](https://huggingface.co/textattack/bert-base-uncased-MNLI)
+published in this annotator's own serialization format.
+
+`pretrained()` only accepts models written by *this* class (an ONNX file under
+`sample_entailment_matrix_onnx`). The `BertForZeroShotClassification` XNLI checkpoints on the hub
+use a different layout (`bert_classification_onnx`), so they download fine and then fail to
+deserialize here. To use a different NLI checkpoint, export it to ONNX (`torch.onnx.export`,
+`dynamo=False`), lay it out as `<model_dir>/model.onnx` plus `<model_dir>/assets/vocab.txt` and
+`<model_dir>/assets/labels.txt`, and load it with
+`SampleEntailmentMatrix.loadSavedModel("<model_dir>", spark)`. Label order is model-specific: the
+checkpoint above is `contradiction, entailment, neutral` (confirmed empirically, not the textbook
+GLUE MNLI order - its `config.json` has no `id2label` at all), and the entailment class is
+resolved by name, so a wrong `labels.txt` silently yields a different class's probability.
 {%- endcapture -%}
 
 {%- capture input_anno -%}

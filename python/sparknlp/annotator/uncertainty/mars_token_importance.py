@@ -123,13 +123,13 @@ class MarsTokenImportance(AnnotatorModel, HasBatchedAnnotate, HasCaseSensitivePr
         return MarsTokenImportance(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="mars_importance_scorer_bert_base", lang="en", remote_loc=None):
+    def pretrained(name="mars_token_importance", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "mars_importance_scorer_bert_base"
+            Name of the pretrained model, by default "mars_token_importance"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional

@@ -34,16 +34,15 @@ class SampleEntailmentMatrix(AnnotatorModel, HasBatchedAnnotate, HasCaseSensitiv
     ``maxSamplesForNli`` (default ``10``, so up to 90 calls per row) guards against silently
     issuing very large batches.
 
-    **No pretrained model is published yet.** ``pretrained()`` has no working hub model: Spark
-    NLP's ``.pretrained()`` deserializes a model in the format the *calling class itself* wrote
-    it in (here, an ONNX file under ``sample_entailment_matrix_onnx``), and no BERT NLI checkpoint
-    has ever been published to the hub in that exact format - models like
-    ``bert_base_cased_zero_shot_classifier_xnli`` exist as ``BertForZeroShotClassification``
-    models (onnx file ``bert_classification_onnx``), which download fine but then fail to
-    deserialize as a ``SampleEntailmentMatrix``. Use ``loadSavedModel`` with a self-exported model
-    instead - a verified-working recipe: export
+    The default pretrained model is ``bert_base_uncased_mnli_entailment_onnx``, an export of
     `textattack/bert-base-uncased-MNLI <https://huggingface.co/textattack/bert-base-uncased-MNLI>`__
-    to ONNX (``torch.onnx.export``, ``dynamo=False``), and lay it out as::
+    published in this annotator's own serialization format.
+
+    ``pretrained()`` only accepts models written by *this* class (an ONNX file under
+    ``sample_entailment_matrix_onnx``). The ``BertForZeroShotClassification`` XNLI checkpoints on
+    the hub use a different layout (``bert_classification_onnx``), so they download fine and then
+    fail to deserialize here. To use a different NLI checkpoint, export it to ONNX
+    (``torch.onnx.export``, ``dynamo=False``), lay it out as::
 
         <model_dir>/model.onnx
         <model_dir>/assets/vocab.txt    (tokenizer.get_vocab(), one wordpiece per line, by id)
@@ -164,13 +163,13 @@ class SampleEntailmentMatrix(AnnotatorModel, HasBatchedAnnotate, HasCaseSensitiv
         return SampleEntailmentMatrix(java_model=jModel)
 
     @staticmethod
-    def pretrained(name="bert_base_cased_zero_shot_classifier_xnli", lang="en", remote_loc=None):
+    def pretrained(name="bert_base_uncased_mnli_entailment_onnx", lang="en", remote_loc=None):
         """Downloads and loads a pretrained model.
 
         Parameters
         ----------
         name : str, optional
-            Name of the pretrained model, by default "bert_base_cased_zero_shot_classifier_xnli"
+            Name of the pretrained model, by default "bert_base_uncased_mnli_entailment_onnx"
         lang : str, optional
             Language of the pretrained model, by default "en"
         remote_loc : str, optional
