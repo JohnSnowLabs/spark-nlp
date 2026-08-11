@@ -161,7 +161,42 @@ class UncertaintyMetricsTest extends AnyFlatSpec {
     assert(perSample(3) > perSample(2))
   }
 
+  it should "treat a negatively-correlated sample as an outlier rather than letting it cancel a row's degree" taggedAs FastTest in {
+    // Cosine similarity of sentence embeddings can go negative, and a negative edge weight makes
+    // the sample's row sum (its degree in the graph) shrink towards - or past - zero, which the
+    // `d > 0` guard in the normalized Laplacian then zeroes out entirely. Clamping at 0 keeps a
+    // sample that actively disagrees at least as far from the consensus as one that is merely
+    // unrelated.
+    val disagreeing = Array(
+      Array(1.0, 0.95, 0.95, -0.9),
+      Array(0.95, 1.0, 0.95, -0.9),
+      Array(0.95, 0.95, 1.0, -0.9),
+      Array(-0.9, -0.9, -0.9, 1.0))
+    val (aggregate, perSample) = UncertaintyMetrics.eccentricity(disagreeing)
+    assert(perSample.forall(s => !s.isNaN), "negative affinities must not produce NaN scores")
+    assert(perSample(3) > perSample(0))
+    assert(aggregate > 0.0)
+  }
+
+  it should "give the same result for a negative affinity as for the zero it clamps to" taggedAs FastTest in {
+    val negative =
+      Array(Array(1.0, -0.5, 0.9), Array(-0.5, 1.0, 0.9), Array(0.9, 0.9, 1.0))
+    val clamped = Array(Array(1.0, 0.0, 0.9), Array(0.0, 1.0, 0.9), Array(0.9, 0.9, 1.0))
+    val (negativeAggregate, _) = UncertaintyMetrics.eccentricity(negative)
+    val (clampedAggregate, _) = UncertaintyMetrics.eccentricity(clamped)
+    assert(approxEqual(negativeAggregate, clampedAggregate, 1e-9))
+  }
+
+  it should "not mutate the caller's affinity matrix while clamping" taggedAs FastTest in {
+    val affinity = Array(Array(1.0, -0.5), Array(-0.5, 1.0))
+    UncertaintyMetrics.eccentricity(affinity)
+    assert(affinity(0)(1) == -0.5)
+  }
+
   behavior of "UncertaintyMetrics.alignByCharSpan"
+
+  // Reminder for every case below: LLM token spans are half-open (end exclusive) while MARS
+  // phrase spans are inclusive, exactly as the two producing annotators emit them.
 
   it should "assign 0.0 importance to a token that overlaps no phrase" taggedAs FastTest in {
     val tokens = Seq((0, 3, 1.0))
@@ -171,21 +206,43 @@ class UncertaintyMetricsTest extends AnyFlatSpec {
   }
 
   it should "assign a phrase's importance to a token spanning exactly the same range" taggedAs FastTest in {
+    // token chars 0..4 as [0,5), phrase chars 0..4 as inclusive (0,4) - the same five characters
     val tokens = Seq((0, 5, 2.0))
-    val phrases = Seq((0, 5, 0.75))
+    val phrases = Seq((0, 4, 0.75))
     val aligned = UncertaintyMetrics.alignByCharSpan(tokens, phrases)
     assert(aligned == Seq((2.0, 0.75)))
   }
 
+  it should "assign a phrase's importance to a token covering only that phrase's last character" taggedAs FastTest in {
+    // Regression test for an inclusive/exclusive mix-up: phrase "Paris" is inclusive (0,4), and a
+    // token covering just the trailing "s" is [4,5). Treating the phrase's end as exclusive would
+    // compute min(5,4) - max(4,0) = 0, i.e. no overlap, and silently hand this token importance
+    // 0.0 - so the last character of every phrase would go unweighted.
+    val tokens = Seq((4, 5, 1.5))
+    val phrases = Seq((0, 4, 0.8))
+    val aligned = UncertaintyMetrics.alignByCharSpan(tokens, phrases)
+    assert(aligned == Seq((1.5, 0.8)))
+  }
+
   it should "overlap-weight average when a token spans two phrases" taggedAs FastTest in {
-    // token [0,10) overlaps phrase [0,4) (importance 1.0, overlap 4) and phrase [4,10) (importance
-    // 0.0, overlap 6) -> weighted average = (4*1.0 + 6*0.0) / 10 = 0.4
+    // token [0,10) overlaps phrase chars 0..3 (inclusive (0,3), importance 1.0, overlap 4) and
+    // phrase chars 4..9 (inclusive (4,9), importance 0.0, overlap 6)
+    // -> weighted average = (4*1.0 + 6*0.0) / 10 = 0.4
     val tokens = Seq((0, 10, 3.0))
-    val phrases = Seq((0, 4, 1.0), (4, 10, 0.0))
+    val phrases = Seq((0, 3, 1.0), (4, 9, 0.0))
     val aligned = UncertaintyMetrics.alignByCharSpan(tokens, phrases)
     assert(aligned.length == 1)
     assert(approxEqual(aligned.head._1, 3.0))
     assert(approxEqual(aligned.head._2, 0.4))
+  }
+
+  it should "cover every character of a contiguous phrase partition exactly once" taggedAs FastTest in {
+    // Two adjacent phrases covering "abcdef": chars 0..2 and chars 3..5. Each single-character
+    // token must land in exactly one of them, with no character left unattributed.
+    val phrases = Seq((0, 2, 1.0), (3, 5, 0.5))
+    val tokens = (0 until 6).map(i => (i, i + 1, 1.0))
+    val aligned = UncertaintyMetrics.alignByCharSpan(tokens, phrases)
+    assert(aligned.map(_._2) == Seq(1.0, 1.0, 1.0, 0.5, 0.5, 0.5))
   }
 
   behavior of "UncertaintyMetrics.marsScore"
