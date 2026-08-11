@@ -32,8 +32,6 @@ import org.apache.spark.sql.SparkSession
 import org.json4s.JsonDSL._
 import org.json4s.jackson.JsonMethods._
 
-import java.nio.file.{Files, Paths, StandardCopyOption}
-
 /** Computes a bidirectional-entailment matrix over a row's sampled LLM answers, using a BERT
   * sequence-classification model trained on NLI.
   *
@@ -291,23 +289,8 @@ trait ReadSampleEntailmentMatrixModel extends ReadOnnxModel {
         s"'entail' (case insensitive) in its labels.txt. Current labels: ${labelsMap.keys
             .mkString(", ")}")
 
-    // OnnxWrapper.read(..., useBundle = true) always distributes the file via sc.addFile under
-    // the literal name "model.onnx" (its modelName param's default) - this collides with any
-    // other locally-loaded ONNX annotator (e.g. MarsTokenImportance) doing the same in one
-    // SparkContext, since Spark's executor-side file-fetch cache keys purely by that basename
-    // and throws on a content mismatch. Give this class's copy a unique name first.
-    val uniqueModelName = "sample_entailment_matrix"
-    Files.copy(
-      Paths.get(localModelPath, "model.onnx"),
-      Paths.get(localModelPath, s"$uniqueModelName.onnx"),
-      StandardCopyOption.REPLACE_EXISTING)
-
-    val onnxWrapper = OnnxWrapper.read(
-      spark,
-      localModelPath,
-      zipped = false,
-      useBundle = true,
-      modelName = uniqueModelName)
+    val onnxWrapper =
+      OnnxModelStaging.readWithDistinctName(spark, localModelPath, "sample_entailment_matrix")
 
     new SampleEntailmentMatrix()
       .setVocabulary(vocabs)
