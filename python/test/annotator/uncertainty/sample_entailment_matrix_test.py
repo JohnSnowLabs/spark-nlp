@@ -19,6 +19,10 @@ from sparknlp.annotator import *
 from sparknlp.base import *
 from test.util import *
 
+# The published NLI checkpoint, written in this annotator's own serialization format. The
+# MarsTokenImportance tests cover the loadSavedModel path instead, so both loaders stay exercised.
+_NLI_MODEL = "bert_base_uncased_mnli_entailment_onnx"
+
 
 @pytest.mark.slow
 class SampleEntailmentMatrixTestSpec(unittest.TestCase):
@@ -37,7 +41,7 @@ class SampleEntailmentMatrixTestSpec(unittest.TestCase):
         )
 
         entailment = (
-            SampleEntailmentMatrix.pretrained()
+            SampleEntailmentMatrix.pretrained(_NLI_MODEL, "en")
             .setInputCols(["document"])
             .setOutputCol("entailment")
         )
@@ -50,6 +54,11 @@ class SampleEntailmentMatrixTestSpec(unittest.TestCase):
         self.assertEqual(len(annotations), 3)
 
         import json
+        # The matrix describes the row as a whole, so it is written once rather than copied onto
+        # all N samples; LLMUncertaintyEstimator looks it up across the row's completions.
+        carrying = [a for a in annotations if "entailment_matrix" in a.metadata]
+        self.assertEqual(len(carrying), 1)
+
         matrix = json.loads(annotations[0].metadata["entailment_matrix"])
         self.assertEqual(len(matrix), 3)
         for row in matrix:
@@ -75,7 +84,7 @@ class SampleEntailmentMatrixMaxSamplesTestSpec(unittest.TestCase):
             DocumentAssembler().setInputCol("completions_raw").setOutputCol("document")
         )
         entailment = (
-            SampleEntailmentMatrix.pretrained()
+            SampleEntailmentMatrix.pretrained(_NLI_MODEL, "en")
             .setInputCols(["document"])
             .setOutputCol("entailment")
         )

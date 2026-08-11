@@ -327,12 +327,13 @@ class LLMUncertaintyEstimator(override val uid: String)
   /** Row-major N x N entailment matrix, symmetrized as `(entail(i,j) + entail(j,i)) / 2` (this is
     * `calculate_affinity_matrix`'s exact averaging formula in the reference implementation) with
     * `1.0` forced on the diagonal, parsed from `SampleEntailmentMatrix`'s `entailment_matrix`
-    * metadata (present on every sampled completion, since it's written row-wide - reading it off
-    * the first sample is enough).
+    * metadata. The matrix describes the row as a whole and is written once per row, so it is
+    * looked up across the row's completions rather than assumed to sit on any particular one.
     */
   private def requireEntailmentMatrix(completions: Seq[Annotation]): Array[Array[Float]] = {
-    val parsed = completions.headOption
+    val parsed = completions
       .flatMap(_.metadata.get("entailment_matrix"))
+      .headOption
       .flatMap(UncertaintyMetrics.parseEntailmentMatrix)
     require(
       parsed.exists(_.length == completions.length),

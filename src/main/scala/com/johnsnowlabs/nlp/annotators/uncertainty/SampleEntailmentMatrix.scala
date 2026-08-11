@@ -224,13 +224,16 @@ class SampleEntailmentMatrix(override val uid: String)
     compact(render(matrix.toSeq.map(row => row.toSeq.map(_.toDouble))))
   }
 
-  /** Attaches the same row-level `entailment_matrix` to every sampled completion in each row.
+  /** Attaches the row-level `entailment_matrix` to each row's first sampled completion.
+    *
+    * It goes on the first sample only, not on all N: the matrix describes the row as a whole, so
+    * N copies of the same N x N array would be pure duplication in every downstream annotation's
+    * metadata. `LLMUncertaintyEstimator` looks it up across the row's completions.
     *
     * @param batchedAnnotations
     *   one `Array[Annotation]` per row: that row's sampled completions
     * @return
-    *   one output annotation per input annotation (preserving its text and position), each
-    *   carrying the full N x N `entailment_matrix` for that row
+    *   one output annotation per input annotation, preserving its text and position
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
     batchedAnnotations.map { rowAnnotations =>
@@ -245,13 +248,16 @@ class SampleEntailmentMatrix(override val uid: String)
             "really want to cluster this many samples this way.")
         val texts = rowAnnotations.map(_.result)
         val matrixJson = entailmentMatrixJson(texts)
-        rowAnnotations.map { annotation =>
+        rowAnnotations.zipWithIndex.map { case (annotation, index) =>
+          val metadata =
+            if (index == 0) annotation.metadata + ("entailment_matrix" -> matrixJson)
+            else annotation.metadata
           new Annotation(
             outputAnnotatorType,
             annotation.begin,
             annotation.end,
             annotation.result,
-            annotation.metadata + ("entailment_matrix" -> matrixJson))
+            metadata)
         }.toSeq
       }
     }
