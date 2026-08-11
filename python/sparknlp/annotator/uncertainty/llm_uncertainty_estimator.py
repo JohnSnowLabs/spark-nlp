@@ -29,9 +29,11 @@ class LLMUncertaintyEstimator(AnnotatorModel):
       for the same prompt (``AutoGGUFModel.setNumSamples(n)``) plus a way to tell which samples
       mean the same thing - either the default ``similarityBackend="embeddings"`` (cosine
       similarity of an additional sentence-embeddings input column, e.g. from
-      ``MPNetEmbeddings`` or ``MiniLMEmbeddings`` - both Sentence-BERT models trained on NLI/STS
-      data for this exact "are these two answers equivalent" task, unlike retrieval-oriented
-      embedders such as E5 or BGE - alongside the completions column), or
+      ``MPNetEmbeddings``, a Sentence-BERT model trained on NLI/STS data for this exact "are
+      these two answers equivalent" task, unlike retrieval-oriented embedders such as E5 or BGE -
+      alongside the completions column; other Sentence-BERT models fit the task too, but most of
+      them, ``MiniLMEmbeddings`` included, drop empty-text inputs rather than embedding them,
+      which breaks the one-embedding-per-sample count required here), or
       ``similarityBackend="nli"``
       (bidirectional entailment, needs a :class:`.SampleEntailmentMatrix` stage run over the same
       completions column beforehand instead of an embeddings column).
@@ -177,6 +179,20 @@ class LLMUncertaintyEstimator(AnnotatorModel):
             ensemble=False,
         )
 
+    #: Method names accepted by ``setMethods``, mirroring
+    #: ``LLMUncertaintyEstimator.supportedMethods`` on the Scala side.
+    SUPPORTED_METHODS = [
+        "semanticEntropy",
+        "eccentricity",
+        "mars",
+        "meanLogProb",
+        "perplexity",
+        "predictiveEntropy",
+    ]
+
+    #: Accepted ``similarityBackend`` values.
+    SUPPORTED_SIMILARITY_BACKENDS = ["embeddings", "nli"]
+
     def setMethods(self, value):
         """Set which uncertainty method(s) to compute.
 
@@ -185,7 +201,26 @@ class LLMUncertaintyEstimator(AnnotatorModel):
         value : List[str]
             One or more of "semanticEntropy", "eccentricity", "mars", "meanLogProb",
             "perplexity", "predictiveEntropy"
+
+        Raises
+        ------
+        ValueError
+            If the list is empty, repeats a method, or names an unsupported one.
         """
+        if not value:
+            raise ValueError("methods must not be empty")
+        unknown = [m for m in value if m not in self.SUPPORTED_METHODS]
+        if unknown:
+            raise ValueError(
+                "Unknown uncertainty method(s): %s. Supported: %s"
+                % (", ".join(unknown), ", ".join(self.SUPPORTED_METHODS))
+            )
+        if len(set(value)) != len(value):
+            raise ValueError(
+                "methods must not repeat, got %s. Ensemble weights are positional, so a "
+                "repeated method would make the mapping between methods and weights ambiguous."
+                % ", ".join(value)
+            )
         return self._set(methods=value)
 
     def setSimilarityBackend(self, value):
@@ -195,7 +230,17 @@ class LLMUncertaintyEstimator(AnnotatorModel):
         ----------
         value : str
             "embeddings" or "nli"
+
+        Raises
+        ------
+        ValueError
+            If the value is neither "embeddings" nor "nli".
         """
+        if value not in self.SUPPORTED_SIMILARITY_BACKENDS:
+            raise ValueError(
+                "similarityBackend must be one of %s, got '%s'"
+                % (", ".join(self.SUPPORTED_SIMILARITY_BACKENDS), value)
+            )
         return self._set(similarityBackend=value)
 
     def setSimilarityThreshold(self, value):
@@ -237,10 +282,31 @@ class LLMUncertaintyEstimator(AnnotatorModel):
     def setEnsembleWeights(self, value):
         """Set positional per-method weights used when ensemble is True.
 
+        There must be exactly one weight per entry in ``methods``, all non-negative and not all
+        zero. Set ``methods`` first so the length can be checked here rather than failing on an
+        executor mid-job.
+
         Parameters
         ----------
         value : List[float]
+
+        Raises
+        ------
+        ValueError
+            If the weights are negative, sum to zero, or do not match ``methods`` in length.
         """
+        if any(w < 0 for w in value):
+            raise ValueError("ensembleWeights must all be non-negative, got %s" % (value,))
+        if sum(value) <= 0:
+            raise ValueError("ensembleWeights must not sum to zero, got %s" % (value,))
+        if self.isDefined(self.methods):
+            methods = self.getOrDefault(self.methods)
+            if len(value) != len(methods):
+                raise ValueError(
+                    "ensembleWeights has %d entries but methods has %d (%s). Weights are "
+                    "positional, so there must be exactly one per method."
+                    % (len(value), len(methods), ", ".join(methods))
+                )
         return self._set(ensembleWeights=value)
 
     def setThreshold(self, value):
@@ -259,3 +325,31 @@ class LLMUncertaintyEstimator(AnnotatorModel):
     def getSimilarityBackend(self):
         """Get the configured similarity backend."""
         return self.getOrDefault(self.similarityBackend)
+
+    def getSimilarityThreshold(self):
+        """Get the cosine similarity threshold used for clustering samples."""
+        return self.getOrDefault(self.similarityThreshold)
+
+    def getEntailmentThreshold(self):
+        """Get the entailment probability threshold used for clustering samples."""
+        return self.getOrDefault(self.entailmentThreshold)
+
+    def getEigenThreshold(self):
+        """Get the eigenvalue cutoff for the eccentricity method's spectral embedding."""
+        return self.getOrDefault(self.eigenThreshold)
+
+    def getEnsemble(self):
+        """Get whether multiple methods are combined into a single ensembled score."""
+        return self.getOrDefault(self.ensemble)
+
+    def getEnsembleWeights(self):
+        """Get the positional per-method ensemble weights, or None if unset (equal weights)."""
+        if not self.isDefined(self.ensembleWeights):
+            return None
+        return self.getOrDefault(self.ensembleWeights)
+
+    def getThreshold(self):
+        """Get the calibrated uncertainty threshold, or None if unset (no is_reliable flag)."""
+        if not self.isDefined(self.threshold):
+            return None
+        return self.getOrDefault(self.threshold)

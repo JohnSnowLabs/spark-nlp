@@ -18,6 +18,7 @@ package com.johnsnowlabs.nlp.annotators.uncertainty
 import com.johnsnowlabs.nlp._
 import org.apache.spark.ml.param._
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.types.StructType
 
 /** Estimates how uncertain an LLM is about a completion it generated, from one or more sampled
@@ -286,8 +287,18 @@ class LLMUncertaintyEstimator(override val uid: String)
   /** @group getParam */
   def getEnsemble: Boolean = $(ensemble)
 
-  /** @group getParam */
-  def getThreshold: Double = $(threshold)
+  /** Positional per-method ensemble weights, or `None` when unset (meaning equal weights).
+    *
+    * @group getParam
+    */
+  def getEnsembleWeights: Option[Array[Double]] = get(ensembleWeights)
+
+  /** The calibrated uncertainty threshold, or `None` when unset (meaning no `is_reliable` flag is
+    * emitted).
+    *
+    * @group getParam
+    */
+  def getThreshold: Option[Double] = get(threshold)
 
   setDefault(
     methods -> Array("semanticEntropy"),
@@ -296,6 +307,52 @@ class LLMUncertaintyEstimator(override val uid: String)
     entailmentThreshold -> 0.5f,
     eigenThreshold -> 0.9f,
     ensemble -> false)
+
+  /** Validates param combinations that individual setters cannot check on their own, on the
+    * driver, before any row is processed.
+    *
+    * These checks are not redundant with the `require`s in `setMethods` / `setSimilarityBackend`:
+    * pyspark's `_transfer_params_to_java` writes the raw `Param` values straight onto the Java
+    * object, so nothing set from Python ever goes through a Scala setter. Without a driver-side
+    * check, a typo'd method name from Python would first surface as a per-row exception on an
+    * executor, deep inside `annotate`.
+    */
+  private[uncertainty] def validateParams(): Unit = {
+    val configured = getMethods
+    require(configured.nonEmpty, s"$uid: methods must not be empty")
+    val unknown = configured.toSet -- LLMUncertaintyEstimator.supportedMethods
+    require(
+      unknown.isEmpty,
+      s"$uid: unknown uncertainty method(s): ${unknown.toSeq.sorted.mkString(", ")}. Supported: " +
+        LLMUncertaintyEstimator.supportedMethods.toSeq.sorted.mkString(", "))
+    require(
+      configured.distinct.length == configured.length,
+      s"$uid: methods must not repeat, got ${configured.mkString(", ")}. Ensemble weights are " +
+        "positional, so a repeated method would make the mapping between methods and weights " +
+        "ambiguous.")
+    require(
+      Set("embeddings", "nli").contains(getSimilarityBackend),
+      s"$uid: similarityBackend must be 'embeddings' or 'nli', got '$getSimilarityBackend'")
+
+    getEnsembleWeights.foreach { weights =>
+      require(
+        weights.length == configured.length,
+        s"$uid: ensembleWeights has ${weights.length} entries but methods has " +
+          s"${configured.length} (${configured.mkString(", ")}). Weights are positional, so " +
+          "there must be exactly one per method.")
+      require(
+        weights.forall(_ >= 0.0),
+        s"$uid: ensembleWeights must all be non-negative, got ${weights.mkString(", ")}")
+      require(
+        weights.sum > 0.0,
+        s"$uid: ensembleWeights must not sum to zero, got ${weights.mkString(", ")}")
+    }
+  }
+
+  override protected def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
+    validateParams()
+    dataset
+  }
 
   override protected def extraValidateMsg: String =
     s"$uid: methods ${getMethods.filter(LLMUncertaintyEstimator.blackBoxMethods.contains).mkString(", ")} " +
@@ -534,15 +591,11 @@ class LLMUncertaintyEstimator(override val uid: String)
 
     val primaryUncertainty: Double =
       if (getEnsemble && normalizedScores.size > 1) {
-        val weights = get(ensembleWeights)
-        val weighted = getMethods.zipWithIndex.map { case (m, i) =>
-          val w = weights.map(_(i)).getOrElse(1.0)
-          normalizedScores(m) * w
-        }
-        val totalWeight = weights
-          .map(w => getMethods.indices.map(w).sum)
-          .getOrElse(getMethods.length.toDouble)
-        weighted.sum / totalWeight
+        // validateParams has already established one weight per method, all non-negative and not
+        // summing to zero, so the positional lookup and the division below are both safe.
+        val weights = getEnsembleWeights.getOrElse(Array.fill(getMethods.length)(1.0))
+        val weighted = getMethods.zip(weights).map { case (m, w) => normalizedScores(m) * w }
+        weighted.sum / weights.sum
       } else {
         normalizedScores(getMethods.head)
       }
@@ -554,7 +607,7 @@ class LLMUncertaintyEstimator(override val uid: String)
       "confidence_score" -> confidence.toString,
       "num_samples" -> numSamples.toString)
 
-    val thresholdMetadata: Map[String, String] = get(threshold) match {
+    val thresholdMetadata: Map[String, String] = getThreshold match {
       case Some(t) => Map("is_reliable" -> (primaryUncertainty <= t).toString)
       case None => Map.empty
     }
