@@ -34,12 +34,14 @@ import org.apache.spark.sql.types.StructType
   *     for the same prompt (`AutoGGUFModel.setNumSamples(n)`) plus a way to tell which samples
   *     mean the same thing - either the default `similarityBackend="embeddings"` (cosine
   *     similarity of an additional sentence-embeddings input column, e.g. from
-  *     [[https://sparknlp.org MPNetEmbeddings]] or `MiniLMEmbeddings` - both Sentence-BERT
-  *     models trained on NLI/STS data for exactly this "are these two answers equivalent" task,
-  *     unlike retrieval-oriented embedders such as E5 or BGE - alongside the completions
-  *     column), or `similarityBackend="nli"` (bidirectional entailment, faithful to the original
-  *     Semantic Entropy paper - needs a `SampleEntailmentMatrix` stage run over the same
-  *     completions column beforehand instead of an embeddings column).
+  *     [[https://sparknlp.org MPNetEmbeddings]], a Sentence-BERT model trained on NLI/STS data
+  *     for exactly this "are these two answers equivalent" task, unlike retrieval-oriented
+  *     embedders such as E5 or BGE - alongside the completions column. Other Sentence-BERT models
+  *     suit the task equally well, but note that most of them (`MiniLMEmbeddings` included) drop
+  *     empty-text inputs rather than embedding them, which breaks the one-embedding-per-sample
+  *     count this annotator requires), or `similarityBackend="nli"` (bidirectional entailment,
+  *     faithful to the original Semantic Entropy paper - needs a `SampleEntailmentMatrix` stage
+  *     run over the same completions column beforehand instead of an embeddings column).
   *   - '''White box''' (`mars`, `meanLogProb`, `perplexity`, `predictiveEntropy`): needs
   *     per-token log probabilities (`AutoGGUFModel.setOutputLogProbs(true)`, and for
   *     `predictiveEntropy` also `setNProbs(k > 1)`). `mars` additionally needs a
@@ -72,14 +74,19 @@ import org.apache.spark.sql.types.StructType
   * towards a single, spuriously low-uncertainty cluster. Strip it with
   * `AutoGGUFModel.setRemoveThinkingTag("think")` before it reaches this annotator's input column.
   *
+  * The white-box methods stay correct under that setting: `AutoGGUFModel` narrows
+  * `completion_probabilities` to exactly the tokens that produced the surviving text, so
+  * `meanLogProb`/`perplexity`/`predictiveEntropy` score the answer rather than the reasoning, and
+  * `mars` character offsets line up with the stripped answer that `MarsTokenImportance` scored.
+  *
   * ==Validated==
   * Every method (`semanticEntropy` under both backends, `eccentricity`, `mars`, and the
   * `meanLogProb`/`perplexity`/`predictiveEntropy` family, plus `ensemble`) has been run
-  * end-to-end against real sampled completions and shown to genuinely separate wrong answers
-  * from right ones - each one scores clearly above the random-guessing baseline. This is
-  * directional evidence from a small internal QA benchmark on one model, not a calibrated,
-  * generalizable accuracy claim - see the Calibration caveat above before trusting a threshold
-  * on your own data.
+  * end-to-end against real sampled completions and shown to genuinely separate wrong answers from
+  * right ones - each one scores clearly above the random-guessing baseline. This is directional
+  * evidence from a small internal QA benchmark on one model, not a calibrated, generalizable
+  * accuracy claim - see the Calibration caveat above before trusting a threshold on your own
+  * data.
   *
   * ==Example==
   * {{{
@@ -435,6 +442,12 @@ class LLMUncertaintyEstimator(override val uid: String)
       case "semanticEntropy" =>
         val similarity = similarityMatrixForClustering(completions, embeddingAnnotations)
         val clusterIds = UncertaintyMetrics.clusterBySimilarity(similarity, clusteringThreshold)
+        // Deliberately the uniform-score (black-box) estimator, even when logprobs happen to be
+        // available: `semanticEntropy` is exposed here as a black-box method with an exact
+        // `ln(numSamples)` maximum, which is what `normalizer` relies on to put it on the same
+        // scale as the other methods for ensembling. Weighting clusters by sequence likelihood
+        // (which UncertaintyMetrics.semanticEntropy supports) removes that bound and produces a
+        // different, uncalibrated quantity - use the white-box methods for that signal instead.
         val score = UncertaintyMetrics.semanticEntropy(clusterIds)
         (score, Map("num_semantic_clusters" -> clusterIds.distinct.length.toString))
       case "eccentricity" =>
@@ -539,6 +552,10 @@ class LLMUncertaintyEstimator(override val uid: String)
     if (completions.isEmpty) return Seq.empty
 
     val numSamples = completions.length
+    // The output annotation carries sample 0's text purely so the score has something to sit
+    // next to; it is not a claim that sample 0 is the best answer. This annotator scores a set
+    // of samples, it does not select among them - pick the answer you want to serve from the
+    // completions column yourself (the `sample_index` metadata there identifies each one).
     val resultText = completions.head.result
     val end = math.max(resultText.length - 1, -1)
     // These are all per-sample (or, for entailment_matrix, row-wide but only meaningful

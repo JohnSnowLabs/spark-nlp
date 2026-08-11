@@ -15,12 +15,14 @@ distribution shift):
 - **Black box** (`semanticEntropy`, `eccentricity`): needs multiple sampled completions for the
   same prompt (`AutoGGUFModel.setNumSamples(n)`) plus a way to tell which samples mean the same
   thing - either the default `similarityBackend="embeddings"` (cosine similarity of an
-  additional sentence-embeddings input column, e.g. from `MPNetEmbeddings` or `MiniLMEmbeddings`
-  - both Sentence-BERT models trained on NLI/STS data for this exact "are these two answers
-  equivalent" task, unlike retrieval-oriented embedders such as E5 or BGE - alongside the
-  completions column), or `similarityBackend="nli"` (bidirectional entailment,
-  needs a `SampleEntailmentMatrix` stage run over the same completions column beforehand
-  instead of an embeddings column).
+  additional sentence-embeddings input column, e.g. from `MPNetEmbeddings`, a Sentence-BERT
+  model trained on NLI/STS data for exactly this "are these two answers equivalent" task,
+  unlike retrieval-oriented embedders such as E5 or BGE - alongside the completions column.
+  Other Sentence-BERT models suit the task equally well, but note that most of them
+  (`MiniLMEmbeddings` included) drop empty-text inputs rather than embedding them, which breaks
+  the one-embedding-per-sample count this annotator requires), or `similarityBackend="nli"`
+  (bidirectional entailment, needs a `SampleEntailmentMatrix` stage run over the same
+  completions column beforehand instead of an embeddings column).
 - **White box** (`mars`, `meanLogProb`, `perplexity`, `predictiveEntropy`): needs per-token log
   probabilities (`AutoGGUFModel.setOutputLogProbs(true)`, and for `predictiveEntropy` also
   `setNProbs(k > 1)`). `mars` additionally needs a `MarsTokenImportance` stage run over the same
