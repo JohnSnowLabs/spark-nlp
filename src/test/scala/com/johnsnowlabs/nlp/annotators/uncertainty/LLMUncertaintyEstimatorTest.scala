@@ -319,6 +319,135 @@ class LLMUncertaintyEstimatorTest extends AnyFlatSpec {
     assert(loaded.getMethods.toSeq == Seq("eccentricity"))
     assert(math.abs(loaded.getSimilarityThreshold - 0.7f) < 1e-6)
     assert(loaded.getEnsemble)
-    assert(math.abs(loaded.getThreshold - 0.3) < 1e-6)
+    assert(loaded.getThreshold.exists(t => math.abs(t - 0.3) < 1e-6))
+  }
+
+  it should "round-trip ensembleWeights alongside methods" taggedAs FastTest in {
+    val estimator = new LLMUncertaintyEstimator()
+      .setInputCols("completions")
+      .setOutputCol("uncertainty")
+      .setMethods(Array("meanLogProb", "perplexity"))
+      .setEnsemble(true)
+      .setEnsembleWeights(Array(0.25, 0.75))
+
+    val savePath = "./tmp_llm_uncertainty_estimator_weights"
+    estimator.write.overwrite().save(savePath)
+    val loaded = LLMUncertaintyEstimator.load(savePath)
+
+    assert(loaded.getEnsembleWeights.map(_.toSeq).contains(Seq(0.25, 0.75)))
+  }
+
+  behavior of "LLMUncertaintyEstimator optional getters"
+
+  it should "report unset threshold and ensembleWeights as None instead of throwing" taggedAs FastTest in {
+    val estimator = new LLMUncertaintyEstimator()
+    assert(estimator.getThreshold.isEmpty)
+    assert(estimator.getEnsembleWeights.isEmpty)
+  }
+
+  behavior of "LLMUncertaintyEstimator param validation"
+
+  // These go through `set(param, value)` rather than the typed setters on purpose: that is
+  // exactly what pyspark's _transfer_params_to_java does, so the Scala setters' own `require`s
+  // never run for a Python-configured pipeline. Validation has to survive that path.
+
+  /** Runs the same driver-side check `beforeAnnotate` performs at the start of every transform,
+    * returning the failure message.
+    */
+  private def failureFrom(configure: LLMUncertaintyEstimator => Unit): String = {
+    val estimator = new LLMUncertaintyEstimator()
+      .setInputCols("completions")
+      .setOutputCol("uncertainty")
+    configure(estimator)
+    intercept[IllegalArgumentException](estimator.validateParams()).getMessage
+  }
+
+  it should "reject an unknown method set through the raw param" taggedAs FastTest in {
+    val message = failureFrom(e => e.set(e.methods, Array("semanticEntropy", "notAMethod")))
+    assert(message.contains("notAMethod"), s"unhelpful message: $message")
+    assert(message.contains("Supported"), s"message should list the supported methods: $message")
+  }
+
+  it should "reject an unknown similarityBackend set through the raw param" taggedAs FastTest in {
+    assert(failureFrom(e => e.set(e.similarityBackend, "cosine")).contains("cosine"))
+  }
+
+  it should "reject an empty methods array" taggedAs FastTest in {
+    assert(failureFrom(e => e.set(e.methods, Array.empty[String])).contains("must not be empty"))
+  }
+
+  it should "reject repeated methods, which would make positional weights ambiguous" taggedAs FastTest in {
+    val message =
+      failureFrom(e => e.set(e.methods, Array("meanLogProb", "perplexity", "meanLogProb")))
+    assert(message.contains("must not repeat"))
+  }
+
+  it should "reject ensembleWeights whose length does not match methods" taggedAs FastTest in {
+    // Previously this indexed past the end of the weights array on an executor, surfacing as a
+    // bare ArrayIndexOutOfBoundsException mid-job.
+    val message = failureFrom { e =>
+      e.set(e.methods, Array("meanLogProb", "perplexity", "predictiveEntropy"))
+      e.set(e.ensemble, true)
+      e.set(e.ensembleWeights, Array(1.0, 2.0))
+    }
+    assert(message.contains("ensembleWeights"))
+    assert(message.contains("2") && message.contains("3"), s"should name both counts: $message")
+  }
+
+  it should "reject ensembleWeights that sum to zero, which would divide by zero" taggedAs FastTest in {
+    val message = failureFrom { e =>
+      e.set(e.methods, Array("meanLogProb", "perplexity"))
+      e.set(e.ensemble, true)
+      e.set(e.ensembleWeights, Array(0.0, 0.0))
+    }
+    assert(message.contains("sum to zero"))
+  }
+
+  it should "reject negative ensembleWeights" taggedAs FastTest in {
+    val message = failureFrom { e =>
+      e.set(e.methods, Array("meanLogProb", "perplexity"))
+      e.set(e.ensemble, true)
+      e.set(e.ensembleWeights, Array(-1.0, 2.0))
+    }
+    assert(message.contains("non-negative"))
+  }
+
+  it should "accept a valid ensembleWeights configuration" taggedAs FastTest in {
+    val estimator = new LLMUncertaintyEstimator()
+      .setInputCols("completions")
+      .setOutputCol("uncertainty")
+      .setMethods(Array("meanLogProb", "perplexity"))
+      .setEnsemble(true)
+      .setEnsembleWeights(Array(1.0, 3.0))
+    estimator.validateParams()
+
+    val probabilities = """[{"logprob": -0.5, "bytes": [80]}]"""
+    val input = Seq(completion("Paris", 0, Map("completion_probabilities" -> probabilities)))
+    val metadata = estimator.annotate(input).head.metadata
+    assert(metadata.contains("uncertainty_score"))
+    assert(!metadata("uncertainty_score").toDouble.isNaN)
+  }
+
+  it should "weight methods positionally when ensembling" taggedAs FastTest in {
+    // meanLogProb is confidence-oriented, so its normalized contribution is -(-0.5) = 0.5;
+    // perplexity is exp(0.5) - 1 = 0.6487. With weights 3:1 the average leans towards the first.
+    val probabilities = """[{"logprob": -0.5, "bytes": [80]}]"""
+    val input = Seq(completion("Paris", 0, Map("completion_probabilities" -> probabilities)))
+
+    def scoreWith(weights: Array[Double]): Double =
+      new LLMUncertaintyEstimator()
+        .setInputCols("completions")
+        .setOutputCol("uncertainty")
+        .setMethods(Array("meanLogProb", "perplexity"))
+        .setEnsemble(true)
+        .setEnsembleWeights(weights)
+        .annotate(input)
+        .head
+        .metadata("uncertainty_score")
+        .toDouble
+
+    val leaningMeanLogProb = scoreWith(Array(3.0, 1.0))
+    val leaningPerplexity = scoreWith(Array(1.0, 3.0))
+    assert(leaningPerplexity > leaningMeanLogProb)
   }
 }
