@@ -37,6 +37,7 @@ import com.johnsnowlabs.nlp.annotators.seq2seq._
 import com.johnsnowlabs.nlp.annotators.spell.context.ContextSpellCheckerModel
 import com.johnsnowlabs.nlp.annotators.spell.norvig.NorvigSweetingModel
 import com.johnsnowlabs.nlp.annotators.spell.symmetric.SymmetricDeleteModel
+import com.johnsnowlabs.nlp.annotators.uncertainty.{MarsTokenImportance, SampleEntailmentMatrix}
 import com.johnsnowlabs.nlp.annotators.ws.WordSegmenterModel
 import com.johnsnowlabs.nlp.embeddings._
 import com.johnsnowlabs.nlp.pretrained.ResourceType.ResourceType
@@ -737,7 +738,9 @@ object PythonResourceDownloader {
     "ModernBertEmbeddings" -> ModernBertEmbeddings,
     "LLMEntityExtractor" -> LLMEntityExtractor,
     "BiEncoderMultimodalEmbeddings" -> BiEncoderMultimodalEmbeddings,
-    "SentenceDetectorSaTModel" -> SentenceDetectorSaTModel)
+    "SentenceDetectorSaTModel" -> SentenceDetectorSaTModel,
+    "SampleEntailmentMatrix" -> SampleEntailmentMatrix,
+    "MarsTokenImportance" -> MarsTokenImportance)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")
