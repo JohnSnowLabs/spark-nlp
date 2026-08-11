@@ -69,10 +69,10 @@ import org.json4s.jackson.JsonMethods._
   * Build one `AutoGGUFModel` instance (via `pretrained()` or `loadSavedModel`) and reuse it
   * across every `.fit()`/`.transform()` call in your pipeline - do not call `loadSavedModel`
   * fresh inside a per-row or per-request loop. Each call mmaps and repacks the full GGUF model
-  * into native (off-heap) memory; that memory is not necessarily released just because the
-  * Scala wrapper goes out of scope, so repeated reloading accumulates native memory across
-  * iterations and can OOM-kill the JVM after a handful of reloads, well before the JVM heap
-  * itself looks under pressure.
+  * into native (off-heap) memory; that memory is not necessarily released just because the Scala
+  * wrapper goes out of scope, so repeated reloading accumulates native memory across iterations
+  * and can OOM-kill the JVM after a handful of reloads, well before the JVM heap itself looks
+  * under pressure.
   *
   * ==Example==
   *
@@ -260,6 +260,14 @@ class AutoGGUFModel(override val uid: String)
     * `completion_probabilities` JSON alongside the completion text; otherwise behaves exactly
     * like the plain completion endpoint.
     *
+    * The returned `completion_probabilities` is narrowed to exactly the tokens that produced the
+    * post-processed text. Without that, enabling `removeThinkingTag` would leave the reasoning
+    * block's tokens in the array while the text they generated is gone, so every character offset
+    * a consumer derives from it (notably `LLMUncertaintyEstimator`'s `mars`, which joins these
+    * offsets against `MarsTokenImportance` spans) would be shifted, and `meanLogProb` /
+    * `perplexity` / `predictiveEntropy` would average over reasoning tokens the caller explicitly
+    * asked to drop.
+    *
     * @return
     *   one (text, optional completion_probabilities JSON) pair per prompt, in prompt order
     */
@@ -272,7 +280,7 @@ class AutoGGUFModel(override val uid: String)
       val rawResults: Array[String] =
         LlamaExtensions.multiCompleteWithMetadata(model, params, getSystemPrompt, prompts)
       val parsedResults = rawResults.map(parse(_))
-      val texts = processCompletions(parsedResults.map { result =>
+      val processed = processCompletionsWithOffsets(parsedResults.map { result =>
         (result \ "content").extractOpt[String].getOrElse("")
       })
       val logProbs = parsedResults.map { result =>
@@ -281,7 +289,23 @@ class AutoGGUFModel(override val uid: String)
           case probs => Some(compact(render(probs)))
         }
       }
-      texts.zip(logProbs)
+      processed.zip(logProbs).map { case (completion, rawLogProbs) =>
+        val alignedLogProbs = rawLogProbs.flatMap { json =>
+          completion.beginOffset match {
+            case Some(begin) =>
+              CompletionProbabilities
+                .sliceToCharRange(json, begin, begin + completion.text.length)
+            case None =>
+              logger.warn(
+                "removeThinkingTag matched a block in the middle of a completion, leaving two " +
+                  "disjoint pieces of text; completion_probabilities cannot be aligned to that " +
+                  "and is omitted for this sample rather than reported against the wrong " +
+                  "character offsets.")
+              None
+          }
+        }
+        (completion.text, alignedLogProbs)
+      }
     } else {
       val results: Array[String] =
         LlamaExtensions.multiComplete(model, params, getSystemPrompt, prompts)

@@ -16,6 +16,7 @@
 package com.johnsnowlabs.nlp.annotators.uncertainty
 
 import breeze.linalg.{DenseMatrix, DenseVector, diag, eigSym}
+import com.johnsnowlabs.nlp.annotators.seq2seq.CompletionProbabilities
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
@@ -355,44 +356,21 @@ object UncertaintyMetrics {
   }
 
   /** One generated token's character span (into the completion text) and log-likelihood, parsed
-    * from `completion_probabilities`.
+    * from `completion_probabilities`. `begin` is inclusive, `end` exclusive.
     */
-  case class TokenSpan(begin: Int, end: Int, logProb: Double)
+  type TokenSpan = CompletionProbabilities.TokenSpan
+  val TokenSpan: CompletionProbabilities.TokenSpan.type = CompletionProbabilities.TokenSpan
 
   /** Per-token character spans and logprobs, parsed from the verbatim `completion_probabilities`
-    * JSON. Character spans are reconstructed from each token's raw UTF-8 `bytes` by decoding the
-    * *cumulative* byte prefix at each step (not each token's bytes in isolation) - llama.cpp's
-    * byte-level BPE can in principle split a multi-byte UTF-8 character across two tokens, and
-    * decoding the growing prefix is always well-formed even when an individual token's bytes
-    * would not decode validly on their own.
+    * JSON - see [[CompletionProbabilities.tokenSpans]], which owns this format because
+    * `AutoGGUFModel` has to keep the array in sync with the completion text it post-processes.
     *
     * @return
     *   empty if `json` does not parse to a non-empty array of objects containing numeric
     *   `logprob` and integer-array `bytes` fields
     */
-  def tokenSpansFromCompletionProbabilities(json: String): Seq[TokenSpan] = {
-    try {
-      parse(json) match {
-        case JArray(tokens) =>
-          var accumulated = Array.emptyByteArray
-          tokens.flatMap { token =>
-            for {
-              logProb <- (token \ "logprob").extractOpt[Double]
-              byteInts <- (token \ "bytes").extractOpt[Array[Int]]
-            } yield {
-              val tokenBytes = byteInts.map(_.toByte)
-              val begin = new String(accumulated, "UTF-8").length
-              accumulated = accumulated ++ tokenBytes
-              val end = new String(accumulated, "UTF-8").length
-              TokenSpan(begin, end, logProb)
-            }
-          }
-        case _ => Seq.empty
-      }
-    } catch {
-      case _: Exception => Seq.empty
-    }
-  }
+  def tokenSpansFromCompletionProbabilities(json: String): Seq[TokenSpan] =
+    CompletionProbabilities.tokenSpans(json)
 
   /** Redistributes MARS phrase importance scores onto the generating LLM's own tokens by
     * character-span overlap, so importance (from a BERT tokenization of the answer) and
