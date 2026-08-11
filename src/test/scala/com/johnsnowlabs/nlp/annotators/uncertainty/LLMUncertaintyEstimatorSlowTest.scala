@@ -103,7 +103,7 @@ class LLMUncertaintyEstimatorSlowTest extends AnyFlatSpec {
       .setTemperature(0.1f)
 
     val mars = MarsTokenImportance
-      .loadSavedModel("/tmp/ssdwork/mars_onnx", ResourceHelper.spark)
+      .load("models/mars_token_importance")
       .setInputCols("question_doc", "completions")
       .setOutputCol("scored_completions")
 
