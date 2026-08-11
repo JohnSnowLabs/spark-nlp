@@ -357,7 +357,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
     val annotations = Annotation.collect(result, "completions").head
     assert(annotations.length == n, s"Expected $n sampled completions, got ${annotations.length}")
     val sampleIndices = annotations.map(_.metadata("sample_index").toInt).sorted
-    assert(sampleIndices == (0 until n).toSeq)
+    assert(sampleIndices.toSeq == (0 until n).toSeq)
     // With temperature > 0 and no fixed seed, samples should not all collapse to the same text.
     assert(
       annotations.map(_.result).distinct.length > 1,
@@ -374,6 +374,10 @@ class AutoGGUFModelTest extends AnyFlatSpec {
       .setTemperature(0.8f)
       .setSeed(1234)
       .setNPredict(20)
+      // GPU (Metal/CUDA) floating-point reduction order is not guaranteed deterministic across
+      // runs, so a fixed seed alone does not reproduce samples on GPU. Force CPU here, since
+      // this test is about the sampler's seed handling, not GPU determinism.
+      .setNGpuLayers(0)
 
     val singleRowData = Seq("The capital of France is").toDF("text")
 
@@ -391,7 +395,7 @@ class AutoGGUFModelTest extends AnyFlatSpec {
       .sortBy(_.metadata("sample_index").toInt)
       .map(_.result)
 
-    assert(result1 == result2, "Fixed-seed sampling should be reproducible across runs")
+    assert(result1.toSeq == result2.toSeq, "Fixed-seed sampling should be reproducible across runs")
   }
 
   it should "keep numSamples=1 output unchanged from the default (no sample_index)" taggedAs SlowTest in {
