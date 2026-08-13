@@ -1,0 +1,336 @@
+/*
+ * Copyright 2017-2026 John Snow Labs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.johnsnowlabs.nlp.annotators.uncertainty
+
+import com.johnsnowlabs.ml.ai.NliClassification
+import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
+import com.johnsnowlabs.ml.util.LoadExternalModel.{
+  loadTextAsset,
+  modelSanityCheck,
+  notSupportedEngineError
+}
+import com.johnsnowlabs.ml.util.ONNX
+import com.johnsnowlabs.nlp._
+import com.johnsnowlabs.nlp.serialization.MapFeature
+import org.apache.spark.broadcast.Broadcast
+import org.apache.spark.ml.param.IntParam
+import org.apache.spark.ml.util.Identifiable
+import org.apache.spark.sql.SparkSession
+import org.json4s.JsonDSL._
+import org.json4s.jackson.JsonMethods._
+
+/** Computes a bidirectional-entailment matrix over a row's sampled LLM answers, using a BERT
+  * sequence-classification model trained on NLI.
+  *
+  * This is the faithful-to-the-literature alternative to `LLMUncertaintyEstimator`'s default
+  * `similarityBackend="embeddings"`: [[https://arxiv.org/abs/2302.09664 Kuhn et al. 2023]]'s
+  * Semantic Entropy clusters samples by checking whether each pair of samples entails the other
+  * (in both directions), rather than by embedding similarity.
+  *
+  * This is a plumbing annotator, like [[MarsTokenImportance]]: it does not itself produce an
+  * uncertainty score, it only attaches an `entailment_matrix` metadata field (a row-major N x N
+  * JSON array of entailment probabilities, entry `[i][j]` = P(sample i entails sample j)) that
+  * `LLMUncertaintyEstimator` reads when `setSimilarityBackend("nli")` is set.
+  *
+  * ==Cost warning==
+  * Scoring all ordered pairs of N samples needs N*(N-1) forward passes (the diagonal, self-
+  * entailment, is trivially `1.0` and skipped) - this grows quadratically. Pairs are padded and
+  * run `batchSize` at a time, so the cost is `N*(N-1)/batchSize` session calls rather than one
+  * per pair, but it is still the most expensive backend here. `maxSamplesForNli` (default `10`,
+  * so up to 90 pairs per row) guards against silently issuing very large batches; raise it
+  * explicitly if you really want more samples clustered this way.
+  *
+  * ==Loading a model==
+  * The default pretrained model is `bert_base_uncased_mnli_entailment_onnx`, an export of
+  * [[https://huggingface.co/textattack/bert-base-uncased-MNLI textattack/bert-base-uncased-MNLI]]
+  * published in this annotator's own serialization format:
+  * {{{
+  * val entailment = SampleEntailmentMatrix.pretrained()
+  *   .setInputCols("completions")
+  *   .setOutputCol("entailment")
+  * }}}
+  *
+  * `.pretrained()` only accepts models written by '''this''' class (an ONNX file under
+  * `sample_entailment_matrix_onnx`). The `BertForZeroShotClassification` XNLI checkpoints on the
+  * hub use a different layout (`bert_classification_onnx`), so they download fine and then fail
+  * to deserialize here.
+  *
+  * To use a different NLI checkpoint, export it to ONNX (`torch.onnx.export`, `dynamo=False`),
+  * lay it out as
+  * {{{
+  * <model_dir>/model.onnx
+  * <model_dir>/assets/vocab.txt    (tokenizer.get_vocab(), one wordpiece per line, by id)
+  * <model_dir>/assets/labels.txt   (one label per line, by id)
+  * }}}
+  * and load it with `SampleEntailmentMatrix.loadSavedModel("<model_dir>", spark)`. `labels.txt`'s
+  * order is model-specific and not always the textbook GLUE MNLI convention - the checkpoint
+  * above has no `id2label` at all (`LABEL_0/1/2` placeholders), and its actual trained order,
+  * confirmed empirically against unambiguous probe sentences, is `contradiction, entailment,
+  * neutral` (`0, 1, 2`). The entailment class is resolved by '''name''', so a wrong `labels.txt`
+  * silently yields a different class's probability.
+  *
+  * @param uid
+  *   required uid for storing annotator to disk
+  * @groupname anno Annotator types
+  * @groupdesc anno
+  *   Required input and expected output annotator types
+  * @groupname param Parameters
+  * @groupname setParam Parameter setters
+  * @groupname getParam Parameter getters
+  * @groupprio param  1
+  * @groupprio anno  2
+  * @groupprio setParam  3
+  * @groupprio getParam  4
+  */
+class SampleEntailmentMatrix(override val uid: String)
+    extends AnnotatorModel[SampleEntailmentMatrix]
+    with HasBatchedAnnotate[SampleEntailmentMatrix]
+    with WriteOnnxModel
+    with HasCaseSensitiveProperties {
+
+  def this() = this(Identifiable.randomUID("SAMPLE_ENTAILMENT_MATRIX"))
+
+  /** Input Annotator Type: DOCUMENT (the sampled completions to cluster)
+    *
+    * @group anno
+    */
+  override val inputAnnotatorTypes: Array[AnnotatorType] = Array(AnnotatorType.DOCUMENT)
+
+  /** Output Annotator Type: DOCUMENT
+    *
+    * @group anno
+    */
+  override val outputAnnotatorType: AnnotatorType = AnnotatorType.DOCUMENT
+
+  /** Vocabulary used to encode words to wordpiece ids
+    *
+    * @group param
+    */
+  val vocabulary: MapFeature[String, Int] = new MapFeature(this, "vocabulary").setProtected()
+
+  /** @group setParam */
+  def setVocabulary(value: Map[String, Int]): this.type = set(vocabulary, value)
+
+  /** Labels used to decode predicted class ids; must include one starting with "entail" (case
+    * insensitive)
+    *
+    * @group param
+    */
+  val labels: MapFeature[String, Int] = new MapFeature(this, "labels").setProtected()
+
+  /** @group setParam */
+  def setLabels(value: Map[String, Int]): this.type = set(labels, value)
+
+  /** Max combined (premise + hypothesis) sequence length to process (Default: `512`)
+    *
+    * @group param
+    */
+  val maxSentenceLength =
+    new IntParam(this, "maxSentenceLength", "Max combined sequence length to process")
+
+  /** @group setParam */
+  def setMaxSentenceLength(value: Int): this.type = {
+    require(
+      value <= 512,
+      "BERT models do not support sequences longer than 512 because of trainable positional embeddings.")
+    require(value >= 1, "The maxSentenceLength must be at least 1")
+    set(maxSentenceLength, value)
+  }
+
+  /** @group getParam */
+  def getMaxSentenceLength: Int = $(maxSentenceLength)
+
+  /** Maximum number of sampled completions to cluster per row (Default: `10`); guards against
+    * silently issuing a very large number of pairwise NLI calls (`n * (n - 1)` for `n` samples)
+    *
+    * @group param
+    */
+  val maxSamplesForNli = new IntParam(
+    this,
+    "maxSamplesForNli",
+    "Maximum number of samples to cluster per row (guards against n*(n-1) blowup)")
+
+  /** @group setParam */
+  def setMaxSamplesForNli(value: Int): this.type = {
+    require(value >= 1, "maxSamplesForNli must be at least 1")
+    set(maxSamplesForNli, value)
+  }
+
+  /** @group getParam */
+  def getMaxSamplesForNli: Int = $(maxSamplesForNli)
+
+  private var _model: Option[Broadcast[NliClassification]] = None
+
+  /** @group setParam */
+  def setModelIfNotSet(spark: SparkSession, onnxWrapper: OnnxWrapper): this.type = {
+    if (_model.isEmpty) {
+      _model = Some(
+        spark.sparkContext.broadcast(
+          new NliClassification(onnxWrapper, $$(vocabulary), $$(labels), getCaseSensitive)))
+    }
+    this
+  }
+
+  /** @group getParam */
+  def getModelIfNotSet: NliClassification = _model.get.value
+
+  /** Whether to lowercase before tokenizing (Default: `false`, matching the
+    * `bert-base-uncased`-derived MNLI checkpoint this annotator defaults to).
+    *
+    * Getting this wrong is silently catastrophic rather than loud: an uncased checkpoint's
+    * vocabulary has no capitalised entries, so with `caseSensitive = true` every proper noun
+    * becomes `[UNK]` and the model can no longer tell "The capital of France is Paris" from "The
+    * capital of France is London" - it scores them, and every other capitalised variant,
+    * identically. That is precisely the distinction the NLI backend exists to make.
+    *
+    * @group setParam
+    */
+  override def setCaseSensitive(value: Boolean): this.type = set(this.caseSensitive, value)
+
+  setDefault(
+    batchSize -> 8,
+    maxSentenceLength -> 512,
+    maxSamplesForNli -> 10,
+    caseSensitive -> false)
+
+  /** Computes the row-major N x N entailment-probability matrix for one row's samples, using
+    * `1.0` on the diagonal (self-entailment) without a model call. The `n * (n - 1)` off-diagonal
+    * pairs are scored in batches of `batchSize` rather than one session call each.
+    */
+  private def entailmentMatrixJson(texts: Array[String]): String = {
+    val n = texts.length
+    val offDiagonal = for (i <- 0 until n; j <- 0 until n if i != j) yield (i, j)
+    val probabilities = getModelIfNotSet.entailmentProbabilities(
+      offDiagonal.map { case (i, j) => (texts(i), texts(j)) },
+      getMaxSentenceLength,
+      getBatchSize)
+    val scored = offDiagonal.zip(probabilities).toMap
+
+    val matrix: Array[Array[Float]] =
+      Array.tabulate(n, n)((i, j) => if (i == j) 1.0f else scored((i, j)))
+    compact(render(matrix.toSeq.map(row => row.toSeq.map(_.toDouble))))
+  }
+
+  /** Attaches the row-level `entailment_matrix` to each row's first sampled completion.
+    *
+    * It goes on the first sample only, not on all N: the matrix describes the row as a whole, so
+    * N copies of the same N x N array would be pure duplication in every downstream annotation's
+    * metadata. `LLMUncertaintyEstimator` looks it up across the row's completions.
+    *
+    * @param batchedAnnotations
+    *   one `Array[Annotation]` per row: that row's sampled completions
+    * @return
+    *   one output annotation per input annotation, preserving its text and position
+    */
+  override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
+    batchedAnnotations.map { rowAnnotations =>
+      val n = rowAnnotations.length
+      if (n == 0) Seq.empty[Annotation]
+      else {
+        require(
+          n <= getMaxSamplesForNli,
+          s"$uid: row has $n sampled completions, but maxSamplesForNli is $getMaxSamplesForNli " +
+            s"(clustering $n samples needs ${n * (n - 1)} pairwise NLI calls). Lower " +
+            "AutoGGUFModel.setNumSamples(n), or raise setMaxSamplesForNli explicitly if you " +
+            "really want to cluster this many samples this way.")
+        val texts = rowAnnotations.map(_.result)
+        val matrixJson = entailmentMatrixJson(texts)
+        rowAnnotations.zipWithIndex.map { case (annotation, index) =>
+          val metadata =
+            if (index == 0) annotation.metadata + ("entailment_matrix" -> matrixJson)
+            else annotation.metadata
+          new Annotation(
+            outputAnnotatorType,
+            annotation.begin,
+            annotation.end,
+            annotation.result,
+            metadata)
+        }.toSeq
+      }
+    }
+  }
+
+  override def onWrite(path: String, spark: SparkSession): Unit = {
+    super.onWrite(path, spark)
+    writeOnnxModel(
+      path,
+      spark,
+      getModelIfNotSet.onnxWrapper,
+      "_sample_entailment_matrix",
+      SampleEntailmentMatrix.onnxFile)
+  }
+}
+
+trait ReadablePretrainedSampleEntailmentMatrix
+    extends ParamsAndFeaturesReadable[SampleEntailmentMatrix]
+    with HasPretrained[SampleEntailmentMatrix] {
+  override val defaultModelName: Some[String] = Some("bert_base_uncased_mnli_entailment_onnx")
+  override val defaultLang: String = "en"
+
+  /** Java compliant-overrides */
+  override def pretrained(): SampleEntailmentMatrix = super.pretrained()
+
+  override def pretrained(name: String): SampleEntailmentMatrix = super.pretrained(name)
+
+  override def pretrained(name: String, lang: String): SampleEntailmentMatrix =
+    super.pretrained(name, lang)
+
+  override def pretrained(name: String, lang: String, remoteLoc: String): SampleEntailmentMatrix =
+    super.pretrained(name, lang, remoteLoc)
+}
+
+trait ReadSampleEntailmentMatrixModel extends ReadOnnxModel {
+  this: ParamsAndFeaturesReadable[SampleEntailmentMatrix] =>
+
+  override val onnxFile: String = "sample_entailment_matrix_onnx"
+
+  def readModel(instance: SampleEntailmentMatrix, path: String, spark: SparkSession): Unit = {
+    val onnxWrapper = readOnnxModel(path, spark, "sample_entailment_matrix_onnx")
+    instance.setModelIfNotSet(spark, onnxWrapper)
+  }
+
+  addReader(readModel)
+
+  def loadSavedModel(modelPath: String, spark: SparkSession): SampleEntailmentMatrix = {
+    val (localModelPath, detectedEngine) = modelSanityCheck(modelPath)
+    require(
+      detectedEngine == ONNX.name,
+      s"SampleEntailmentMatrix only supports ONNX models. $notSupportedEngineError")
+
+    val vocabs = loadTextAsset(localModelPath, "vocab.txt").zipWithIndex.toMap
+    val labelsMap = loadTextAsset(localModelPath, "labels.txt").zipWithIndex.toMap
+    require(
+      labelsMap.keys.exists(_.toLowerCase.startsWith("entail")),
+      "This annotator requires a model trained on NLI data with a label starting with " +
+        s"'entail' (case insensitive) in its labels.txt. Current labels: ${labelsMap.keys
+            .mkString(", ")}")
+
+    val onnxWrapper =
+      OnnxModelStaging.readWithDistinctName(spark, localModelPath, "sample_entailment_matrix")
+
+    new SampleEntailmentMatrix()
+      .setVocabulary(vocabs)
+      .setLabels(labelsMap)
+      .setModelIfNotSet(spark, onnxWrapper)
+  }
+}
+
+/** This is the companion object of [[SampleEntailmentMatrix]]. Please refer to that class for the
+  * documentation.
+  */
+object SampleEntailmentMatrix
+    extends ReadablePretrainedSampleEntailmentMatrix
+    with ReadSampleEntailmentMatrixModel

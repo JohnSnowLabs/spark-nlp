@@ -304,11 +304,14 @@ class MPNetEmbeddings(override val uid: String)
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
+    // Empty-text annotations are still embedded (as [CLS][SEP], via the tokenizer/model's normal
+    // handling of a zero-token input) rather than dropped, so callers that expect one embedding
+    // per input annotation (e.g. LLMUncertaintyEstimator) keep a 1:1 count and row order.
     val allAnnotations = batchedAnnotations
       .filter(_.nonEmpty)
       .zipWithIndex
       .flatMap { case (annotations, i) =>
-        annotations.filter(_.result.nonEmpty).map(x => (x, i))
+        annotations.map(x => (x, i))
       }
 
     // Tokenize sentences

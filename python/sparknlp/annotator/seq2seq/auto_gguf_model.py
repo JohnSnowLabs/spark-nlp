@@ -198,6 +198,12 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties, C
         Set which samplers to use for token generation in the given order
     useChatTemplate
         Set whether or not generate should apply a chat template
+    numSamples
+        Number of answers to sample per input document. Requires temperature > 0 to produce
+        diverse samples.
+    outputLogProbs
+        Whether to include per-token log probabilities of the generated completion in the
+        output metadata. Requires nProbs to be set.
 
     Notes
     -----
@@ -206,6 +212,14 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties, C
 
     When using larger models, we recommend adjusting GPU usage with `setNCtx` and `setNGpuLayers`
     according to your hardware to avoid out-of-memory errors.
+
+    Build one ``AutoGGUFModel`` instance (via ``pretrained()`` or ``loadSavedModel``) and reuse
+    it across every ``.fit()``/``.transform()`` call in your pipeline - do not call
+    ``loadSavedModel`` fresh inside a per-row or per-request loop. Each call mmaps and repacks
+    the full GGUF model into native (off-heap) memory; that memory is not necessarily released
+    just because the Python/Scala wrapper goes out of scope, so repeated reloading accumulates
+    native memory across iterations and can OOM-kill the JVM after a handful of reloads, well
+    before the JVM heap itself looks under pressure.
 
     Examples
     --------
@@ -241,6 +255,22 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties, C
     inputAnnotatorTypes = [AnnotatorType.DOCUMENT]
     outputAnnotatorType = AnnotatorType.DOCUMENT
 
+    numSamples = Param(
+        Params._dummy(),
+        "numSamples",
+        "Number of answers to sample per input document. Requires temperature > 0 to produce "
+        "diverse samples.",
+        typeConverter=TypeConverters.toInt,
+    )
+
+    outputLogProbs = Param(
+        Params._dummy(),
+        "outputLogProbs",
+        "Whether to include per-token log probabilities of the generated completion in the "
+        "output metadata. Requires nProbs to be set.",
+        typeConverter=TypeConverters.toBoolean,
+    )
+
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFModel", java_model=None):
         super(AutoGGUFModel, self).__init__(
@@ -253,8 +283,36 @@ class AutoGGUFModel(AnnotatorModel, HasBatchedAnnotate, HasLlamaCppProperties, C
             nBatch=512,
             nPredict=100,
             nGpuLayers=99,
-            systemPrompt="You are a helpful assistant."
+            systemPrompt="You are a helpful assistant.",
+            numSamples=1,
+            outputLogProbs=False,
         )
+
+    def setNumSamples(self, value):
+        """Set the number of answers to sample per input document.
+
+        Parameters
+        ----------
+        value : int
+        """
+        return self._set(numSamples=value)
+
+    def getNumSamples(self):
+        """Get the number of answers sampled per input document."""
+        return self.getOrDefault(self.numSamples)
+
+    def setOutputLogProbs(self, value):
+        """Set whether to include per-token log probabilities in the output metadata.
+
+        Parameters
+        ----------
+        value : bool
+        """
+        return self._set(outputLogProbs=value)
+
+    def getOutputLogProbs(self):
+        """Get whether per-token log probabilities are included in the output metadata."""
+        return self.getOrDefault(self.outputLogProbs)
 
     @staticmethod
     def loadSavedModel(path, spark_session):

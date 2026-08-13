@@ -36,6 +36,21 @@ the number of GPU layers with the `setNGpuLayers` method.
 
 When using larger models, we recommend adjusting GPU usage with `setNCtx` and `setNGpuLayers`
 according to your hardware to avoid out-of-memory errors.
+
+**Note**: `setNumSamples(n)` samples `n` answers per input document (decoded in parallel),
+producing `n` output annotations distinguished by a `sample_index` metadata key, for black-box
+uncertainty-estimation methods such as `LLMUncertaintyEstimator`'s `semanticEntropy` and
+`eccentricity`. `setOutputLogProbs(true)` (together with `setNProbs(k)`) attaches the verbatim
+per-token log-probability JSON returned by llama.cpp as `completion_probabilities` metadata, for
+white-box methods such as `mars`, `meanLogProb`, `perplexity` and `predictiveEntropy`. See
+[LLMUncertaintyEstimator](LLMUncertaintyEstimator).
+
+**Note**: Build one `AutoGGUFModel` instance (via `pretrained()` or `loadSavedModel`) and reuse
+it across every `.fit()`/`.transform()` call in your pipeline - do not call `loadSavedModel`
+fresh inside a per-row or per-request loop. Each call mmaps and repacks the full GGUF model into
+native (off-heap) memory that is not necessarily released just because the wrapper goes out of
+scope, so repeated reloading accumulates native memory across iterations and can OOM-kill the
+JVM after a handful of reloads, well before the JVM heap itself looks under pressure.
 {%- endcapture -%}
 
 {%- capture input_anno -%}

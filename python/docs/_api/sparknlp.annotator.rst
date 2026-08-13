@@ -28,6 +28,7 @@ Subpackages
    sparknlp.annotator.similarity
    sparknlp.annotator.spell_check
    sparknlp.annotator.token
+   sparknlp.annotator.uncertainty
    sparknlp.annotator.vector_db
    sparknlp.annotator.ws
 

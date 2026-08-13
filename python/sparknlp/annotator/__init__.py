@@ -52,6 +52,7 @@ from sparknlp.annotator.document_title_splitter import *
 from sparknlp.annotator.document_token_splitter import *
 from sparknlp.annotator.vector_db import *
 from sparknlp.annotator.similarity.bm25 import *
+from sparknlp.annotator.uncertainty import *
 
 if sys.version_info[0] == 2:
     raise ImportError(
