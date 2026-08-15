@@ -220,7 +220,7 @@ class AutoGGUFReranker(override val uid: String)
           .enableReranking() // enable reranking mode
 
       val model: LlamaModel = getModelIfNotSet.getSession(modelParams)
-      val (completedTexts: Array[String], metadata: Array[Map[String, String]]) =
+      val (completedTexts: Array[String], metadata: Array[Map[String, String]] @unchecked) =
         try {
           val results: Array[Pair[String, java.lang.Float]] =
             LlamaExtensions.rerank(model, true, getQuery, annotationsText: _*).asScala.toArray

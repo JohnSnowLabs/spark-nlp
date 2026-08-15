@@ -1,6 +1,7 @@
 package com.johnsnowlabs.nlp.serialization
 
 import java.io.{ByteArrayInputStream, IOException, ObjectInputStream, ObjectStreamClass}
+import scala.language.existentials
 import scala.reflect.ClassTag
 import scala.util.{Failure, Success, Try}
 

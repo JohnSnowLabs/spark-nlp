@@ -121,7 +121,6 @@ private[johnsnowlabs] class DistilBert(
         val inputs =
           Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
-        // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
         try {
           val results = runner.run(inputs)
           try {
@@ -159,11 +158,9 @@ private[johnsnowlabs] class DistilBert(
         inferRequest.infer()
 
         try {
-          try {
-            inferRequest
-              .get_tensor("last_hidden_state")
-              .data()
-          }
+          inferRequest
+            .get_tensor("last_hidden_state")
+            .data()
         } catch {
           case e: Exception =>
             e.printStackTrace()
