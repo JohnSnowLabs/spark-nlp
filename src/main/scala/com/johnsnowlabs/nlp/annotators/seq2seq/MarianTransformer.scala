@@ -50,8 +50,6 @@ import org.apache.spark.ml.param.{
 import org.apache.spark.ml.util.Identifiable
 import org.apache.spark.sql.SparkSession
 
-import scala.jdk.CollectionConverters.asScalaBufferConverter
-
 /** MarianTransformer: Fast Neural Machine Translation
   *
   * Marian is an efficient, free Neural Machine Translation framework written in pure C++ with
@@ -477,10 +475,12 @@ class MarianTransformer(override val uid: String)
 
   /** do not remove or replace with $(vocabulary) due to a bug in some models */
   def getVocabulary: Array[String] = {
-    if ($(vocabulary).isInstanceOf[java.util.ArrayList[String]]) {
-      val arrayListValue = $(vocabulary).asInstanceOf[java.util.ArrayList[String]]
-      arrayListValue.asScala.toArray
-    } else $(vocabulary)
+
+    ($(vocabulary): Any) match {
+      case arrayListValue: java.util.ArrayList[_] =>
+        arrayListValue.toArray.map(_.asInstanceOf[String])
+      case _ => $(vocabulary)
+    }
   }
 
   setDefault(
