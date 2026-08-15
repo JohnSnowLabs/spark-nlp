@@ -191,6 +191,14 @@ inConfig(SlowTest)(Defaults.testTasks)
 
 /** Test tagging end */
 
+/** These keys are used via commands (`fast:test`, `slow:test`) or for their side effects rather
+  * than by other settings/tasks, so exclude them from sbt's `lintUnused` check.
+  */
+Global / excludeLintKeys ++= Set(
+  mavenProps,
+  FastTest / configuration,
+  SlowTest / configuration)
+
 /** Enable for debugging */
 (Test / testOptions) += Tests.Argument("-oF")
 

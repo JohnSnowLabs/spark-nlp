@@ -408,17 +408,6 @@ trait ReadDeBertaForQuestionAnsweringDLModel
         annotatorModel
           .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
 
-      case Openvino.name =>
-        val ovWrapper: OpenvinoWrapper =
-          OpenvinoWrapper.read(
-            spark,
-            localModelPath,
-            zipped = false,
-            useBundle = true,
-            detectedEngine = detectedEngine)
-        annotatorModel
-          .setModelIfNotSet(spark, None, None, Some(ovWrapper), spModel)
-
       case _ =>
         throw new Exception(notSupportedEngineError)
     }

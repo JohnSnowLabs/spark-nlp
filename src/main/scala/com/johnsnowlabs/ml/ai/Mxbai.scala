@@ -228,26 +228,24 @@ private[johnsnowlabs] class Mxbai(
         "attention_mask" -> maskTensors,
         "token_type_ids" -> segmentTensors).asJava
 
-    // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
-    val embeddings =
+    val embeddings = {
+      val results = runner.run(inputs)
+      val lastHiddenState = results.get("last_hidden_state").get()
+      val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
+      val shape = info.getShape.map(_.toInt)
+      val Array(_, sequenceLength, embeddingDim) = shape
       try {
-        val results = runner.run(inputs)
-        val lastHiddenState = results.get("last_hidden_state").get()
-        val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
-        val shape = info.getShape.map(_.toInt)
-        val Array(_, sequenceLength, embeddingDim) = shape
-        try {
-          val flattenEmbeddings = lastHiddenState
-            .asInstanceOf[OnnxTensor]
-            .getFloatBuffer
-            .array()
-          tokenTensors.close()
-          maskTensors.close()
-          segmentTensors.close()
+        val flattenEmbeddings = lastHiddenState
+          .asInstanceOf[OnnxTensor]
+          .getFloatBuffer
+          .array()
+        tokenTensors.close()
+        maskTensors.close()
+        segmentTensors.close()
 
-          flattenEmbeddings.grouped(embeddingDim).toArray.grouped(sequenceLength).toArray
-        } finally if (results != null) results.close()
-      }
+        flattenEmbeddings.grouped(embeddingDim).toArray.grouped(sequenceLength).toArray
+      } finally if (results != null) results.close()
+    }
 
     pool(embeddings, attentionMask, poolingStrategy)
   }
