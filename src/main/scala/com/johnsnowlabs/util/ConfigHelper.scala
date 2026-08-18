@@ -59,6 +59,7 @@ object ConfigHelper {
 
   val serializationMode = "spark.jsl.settings.annotatorSerializationFormat"
   val useBroadcast = "spark.jsl.settings.useBroadcastForFeatures"
+  val fallbackLoaderLogMode = "spark.jsl.settings.serialization.fallbackLogMode"
 
   /** used only for internal unit tests */
   val hadoopAwsVersion: String = "3.3.1"

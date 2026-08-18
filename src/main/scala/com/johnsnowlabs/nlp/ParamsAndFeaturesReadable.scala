@@ -16,10 +16,13 @@
 
 package com.johnsnowlabs.nlp
 
+import com.johnsnowlabs.util.ConfigHelper
+import org.apache.spark.internal.Logging
 import org.apache.spark.ml.util.{DefaultParamsReadable, MLReader}
 import org.apache.spark.sql.SparkSession
 
 import scala.collection.mutable.ArrayBuffer
+import scala.util.control.NonFatal
 import scala.util.{Failure, Success, Try}
 
 class FeaturesReader[T <: HasFeatures](
@@ -63,6 +66,89 @@ trait ParamsAndFeaturesReadable[T <: HasFeatures] extends DefaultParamsReadable[
       (instance: T, path: String, spark: SparkSession) => onRead(instance, path, spark))
 }
 
+private[nlp] object FallbackLoaderLogging {
+
+  sealed trait Mode
+  case object Off extends Mode
+  case object Summary extends Mode
+  case object Full extends Mode
+
+  final case class ParsedMode(mode: Mode, invalidValue: Option[String] = None)
+
+  val MaxCauseMessageLength: Int = 200
+
+  def parseMode(configuredValue: Option[String]): ParsedMode = configuredValue match {
+    case None => ParsedMode(Off)
+    case Some(value) =>
+      value.trim.toLowerCase(java.util.Locale.ROOT) match {
+        case "off" => ParsedMode(Off)
+        case "summary" => ParsedMode(Summary)
+        case "full" => ParsedMode(Full)
+        case _ => ParsedMode(Off, Some(value))
+      }
+  }
+
+  def summary(modelType: String, throwable: Throwable): String = {
+    val modelDescription = Option(modelType)
+      .map(normalizeWhitespace)
+      .filter(_.nonEmpty)
+      .map(value => s" for $value")
+      .getOrElse("")
+    val causeDescription = deepestMeaningfulCause(throwable)
+
+    s"Spark NLP fallback loader activated$modelDescription. Cause: $causeDescription. " +
+      s"Set ${ConfigHelper.fallbackLoaderLogMode}=full for the complete stack trace."
+  }
+
+  def invalidModeWarning(value: String): String = {
+    val normalizedValue = normalizeWhitespace(value) match {
+      case "" => "<empty>"
+      case other => truncate(other)
+    }
+
+    s"Unsupported value '$normalizedValue' for ${ConfigHelper.fallbackLoaderLogMode}; " +
+      "valid options are off, summary, and full. Treating it as off."
+  }
+
+  private def deepestMeaningfulCause(throwable: Throwable): String = {
+    val causes = ArrayBuffer.empty[Throwable]
+    val visited = scala.collection.mutable.Set.empty[Throwable]
+    var current = throwable
+
+    while (current != null && !visited.contains(current)) {
+      causes.append(current)
+      visited.add(current)
+      current = current.getCause
+    }
+
+    val deepest = causes.lastOption.getOrElse(throwable)
+    causes.reverseIterator
+      .map(cause => (cause, Option(cause.getMessage).map(sanitizeExceptionMessage).getOrElse("")))
+      .find(_._2.nonEmpty)
+      .map { case (cause, message) => s"${exceptionClassName(cause)}: $message" }
+      .getOrElse(exceptionClassName(deepest))
+  }
+
+  private def exceptionClassName(throwable: Throwable): String = {
+    val simpleName = throwable.getClass.getSimpleName
+    if (simpleName.nonEmpty) simpleName else throwable.getClass.getName
+  }
+
+  private def normalizeWhitespace(value: String): String = value.replaceAll("\\s+", " ").trim
+
+  private def sanitizeExceptionMessage(value: String): String = {
+    val normalized = normalizeWhitespace(value)
+    val stackTraceIndex =
+      normalized.toLowerCase(java.util.Locale.ROOT).indexOf("driver stacktrace")
+    val withoutDriverStackTrace =
+      if (stackTraceIndex >= 0) normalized.take(stackTraceIndex).trim else normalized
+    truncate(withoutDriverStackTrace)
+  }
+
+  private def truncate(value: String): String =
+    value.take(MaxCauseMessageLength)
+}
+
 /** MLReader that loads a model with params and features, and has a fallback mechanism.
   *
   * The fallback load will be called in case there is an exception during Spark loading (i.e.
@@ -84,7 +170,31 @@ class FeaturesFallbackReader[T <: HasFeatures](
     baseReader: MLReader[T],
     onRead: (T, String, SparkSession) => Unit,
     fallbackLoad: (String, SparkSession) => T = null)
-    extends MLReader[T] {
+    extends MLReader[T]
+    with Logging {
+
+  protected[nlp] def modelType: String = ""
+
+  protected[nlp] def warn(message: String): Unit = logWarning(message)
+
+  protected[nlp] def warn(message: String, throwable: Throwable): Unit =
+    logWarning(message, throwable)
+
+  private def logFallbackFailure(throwable: Throwable): Unit = {
+    val parsedMode = FallbackLoaderLogging.parseMode(
+      sparkSession.conf.getOption(ConfigHelper.fallbackLoaderLogMode))
+
+    parsedMode.invalidValue.foreach(value =>
+      warn(FallbackLoaderLogging.invalidModeWarning(value)))
+
+    parsedMode.mode match {
+      case FallbackLoaderLogging.Off =>
+      case FallbackLoaderLogging.Summary =>
+        warn(FallbackLoaderLogging.summary(modelType, throwable))
+      case FallbackLoaderLogging.Full =>
+        warn(FallbackLoaderLogging.summary(modelType, throwable), throwable)
+    }
+  }
 
   override def load(path: String): T = {
     Try {
@@ -93,8 +203,10 @@ class FeaturesFallbackReader[T <: HasFeatures](
     } match {
       case Success(value) => value
       case Failure(e: Throwable) =>
-        println(
-          s"Failed to load all parameters from $path: ${e.toString}. Attempting fallback loader.")
+        try logFallbackFailure(e)
+        catch {
+          case NonFatal(_) =>
+        }
         fallbackLoad(path, sparkSession)
     }
   }
@@ -128,5 +240,10 @@ trait ParamsAndFeaturesFallbackReadable[T <: HasFeatures] extends ParamsAndFeatu
     */
   def fallbackLoad(folder: String, spark: SparkSession): T
 
-  override def read: MLReader[T] = new FeaturesFallbackReader(super.read, onRead, fallbackLoad)
+  override def read: MLReader[T] = {
+    val readableModelType = getClass.getSimpleName.stripSuffix("$")
+    new FeaturesFallbackReader(super.read, onRead, fallbackLoad) {
+      override protected[nlp] def modelType: String = readableModelType
+    }
+  }
 }
