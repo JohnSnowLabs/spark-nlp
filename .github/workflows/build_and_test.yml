@@ -63,20 +63,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup openjdk Java
-        timeout-minutes: 10
+        timeout-minutes: 15
         env:
           DEBIAN_FRONTEND: noninteractive
           NEEDRESTART_MODE: a
           NEEDRESTART_SUSPEND: 1
         run: |
           for i in 1 2 3; do
-            sudo -E apt-get update -qq -o DPkg::Lock::Timeout=300 && break
-            echo "apt-get update failed (attempt $i); retrying"; sleep 10
+            sudo -E timeout 120 apt-get update -qq -o DPkg::Lock::Timeout=120 && break
+            echo "apt-get update attempt $i timed out or failed; retrying"; sleep 15
           done
-          sudo -E apt-get install -y -qq -o DPkg::Lock::Timeout=300 openjdk-8-jdk
+          for i in 1 2 3; do
+            sudo -E timeout 300 apt-get install -y -qq -o DPkg::Lock::Timeout=120 openjdk-8-jdk && break
+            echo "apt-get install attempt $i timed out or failed; retrying"; sleep 15
+          done
           echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
           echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
-          java -version
+          /usr/lib/jvm/java-8-openjdk-amd64/bin/java -version
       - uses: sbt/setup-sbt@v1
         with:
           disk-cache: false
@@ -146,20 +149,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup openjdk Java
-        timeout-minutes: 10
+        timeout-minutes: 15
         env:
           DEBIAN_FRONTEND: noninteractive
           NEEDRESTART_MODE: a
           NEEDRESTART_SUSPEND: 1
         run: |
           for i in 1 2 3; do
-            sudo -E apt-get update -qq -o DPkg::Lock::Timeout=300 && break
-            echo "apt-get update failed (attempt $i); retrying"; sleep 10
+            sudo -E timeout 120 apt-get update -qq -o DPkg::Lock::Timeout=120 && break
+            echo "apt-get update attempt $i timed out or failed; retrying"; sleep 15
           done
-          sudo -E apt-get install -y -qq -o DPkg::Lock::Timeout=300 openjdk-8-jdk
+          for i in 1 2 3; do
+            sudo -E timeout 300 apt-get install -y -qq -o DPkg::Lock::Timeout=120 openjdk-8-jdk && break
+            echo "apt-get install attempt $i timed out or failed; retrying"; sleep 15
+          done
           echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
           echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
-          java -version
+          /usr/lib/jvm/java-8-openjdk-amd64/bin/java -version
       - name: Install Python ${{ matrix.python }}
         uses: actions/setup-python@v5
         with:
