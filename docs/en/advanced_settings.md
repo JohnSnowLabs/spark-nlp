@@ -5,7 +5,7 @@ seotitle: Spark NLP - Advanced Settings
 title: Spark NLP - Advanced Settings
 permalink: /docs/en/advanced_settings
 key: docs-install
-modify_date: "2024-07-04"
+modify_date: "2026-08-18"
 show_nav: true
 sidebar:
     nav: sparknlp
@@ -32,6 +32,47 @@ You can change the following Spark NLP configurations via Spark Configuration:
 | `spark.jsl.settings.onnx.intraOpNumThreads`             | `6`                  | Sets the size of the CPU thread pool used for executing a single graph, if executing on a CPU.                                                                                                                                                                                     |
 | `spark.jsl.settings.onnx.optimizationLevel`             | `ALL_OPT`            | Sets the optimization level of this options object, overriding the old setting.                                                                                                                                                                                                    |
 | `spark.jsl.settings.onnx.executionMode`                 | `SEQUENTIAL`         | Sets the execution mode of this options object, overriding the old setting.                                                                                                                                                                                                        |
+| `spark.jsl.settings.serialization.fallbackLogMode`      | `off`                | Controls model fallback-loader diagnostics. Valid values are `off`, `summary`, and `full` (case-insensitive). This setting changes observability only; it does not enable or disable fallback loading.                                                                              |
+
+### Fallback loader logging
+
+When primary model deserialization fails but a compatibility fallback is available, use
+`spark.jsl.settings.serialization.fallbackLogMode` to control the model-level diagnostic:
+
+- `off` (default): do not emit a fallback-loader message;
+- `summary`: emit one single-line warning with the model type and root cause; dynamic exception
+  text is limited to 200 characters;
+- `full`: emit the same summary and the complete original exception stack trace.
+
+Unsupported values are treated as `off` and produce a concise configuration warning. The mode
+controls logging only: fallback execution and error propagation remain unchanged. It suppresses
+only the Spark NLP model-level fallback message, so Spark may still emit executor errors before
+the fallback reader begins.
+
+**Scala:**
+
+```scala
+spark.conf.set(
+  "spark.jsl.settings.serialization.fallbackLogMode",
+  "summary")
+```
+
+**Python:**
+
+```python
+spark.conf.set(
+    "spark.jsl.settings.serialization.fallbackLogMode",
+    "summary",
+)
+```
+
+**spark-submit:**
+
+```bash
+spark-submit \
+  --conf spark.jsl.settings.serialization.fallbackLogMode=full \
+  your_application.py
+```
 
 </div><div class="h3-box" markdown="1">
 
