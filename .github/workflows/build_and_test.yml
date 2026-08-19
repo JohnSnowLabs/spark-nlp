@@ -57,14 +57,23 @@ jobs:
           - spark: "3.5"
             sbt_flag: is_spark35
             coverage: false
+    timeout-minutes: 90
     name: Build and Test on Apache Spark ${{ matrix.spark }}.x
 
     steps:
       - uses: actions/checkout@v4
       - name: Setup openjdk Java
+        timeout-minutes: 10
+        env:
+          DEBIAN_FRONTEND: noninteractive
+          NEEDRESTART_MODE: a
+          NEEDRESTART_SUSPEND: 1
         run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-8-jdk
+          for i in 1 2 3; do
+            sudo -E apt-get update -qq -o DPkg::Lock::Timeout=300 && break
+            echo "apt-get update failed (attempt $i); retrying"; sleep 10
+          done
+          sudo -E apt-get install -y -qq -o DPkg::Lock::Timeout=300 openjdk-8-jdk
           echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
           echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
           java -version
@@ -102,7 +111,7 @@ jobs:
   # Adding a Python version is now a single matrix entry.
   python-test:
     needs: build
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
+    if: ${{ !cancelled() && !contains(toJSON(github.event.commits.*.message), '[skip test]') }}
     runs-on: ubuntu-22.04
     continue-on-error: ${{ matrix.experimental || false }}
     strategy:
@@ -131,14 +140,23 @@ jobs:
           - spark: "3.5"
             pyspark: 3.5.4
             python: "3.12"
+    timeout-minutes: 60
     name: Python ${{ matrix.python }} (Spark ${{ matrix.spark }}.x)
 
     steps:
       - uses: actions/checkout@v4
       - name: Setup openjdk Java
+        timeout-minutes: 10
+        env:
+          DEBIAN_FRONTEND: noninteractive
+          NEEDRESTART_MODE: a
+          NEEDRESTART_SUSPEND: 1
         run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-8-jdk
+          for i in 1 2 3; do
+            sudo -E apt-get update -qq -o DPkg::Lock::Timeout=300 && break
+            echo "apt-get update failed (attempt $i); retrying"; sleep 10
+          done
+          sudo -E apt-get install -y -qq -o DPkg::Lock::Timeout=300 openjdk-8-jdk
           echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
           echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
           java -version
