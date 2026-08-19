@@ -122,8 +122,12 @@ object Dependencies {
   val onnxGPU = "com.microsoft.onnxruntime" % "onnxruntime_gpu" % onnxRuntimeVersion
 
   val openVinoRuntimeVersion = "0.2.0"
+  // jsl-openvino-gpu was never published past 0.1.0 on Maven Central (0.2.0 doesn't exist for GPU),
+  // so it's pinned separately from the CPU/Silicon runtime version until JSL publishes a real 0.2.0 GPU artifact.
+  val openVinoGPURuntimeVersion = "0.1.0"
   val openVinoCPU = "com.johnsnowlabs.nlp" % "jsl-openvino-cpu_2.12" % openVinoRuntimeVersion
-  val openVinoGPU = "com.johnsnowlabs.nlp" % "jsl-openvino-gpu_2.12" % openVinoRuntimeVersion
+  val openVinoGPU = "com.johnsnowlabs.nlp" % "jsl-openvino-gpu_2.12" % openVinoGPURuntimeVersion
+  val openVinoSilicon = "com.johnsnowlabs.nlp" % "jsl-openvino-silicon_2.12" % openVinoRuntimeVersion
 
   val gcpStorageVersion = "2.20.1"
   val gcpStorage = "com.google.cloud" % "google-cloud-storage" % gcpStorageVersion
