@@ -65,10 +65,11 @@ spark-shell --jars spark-nlp-assembly-{{ site.sparknlp_version }}.jar
 
 ## Python
 
-Spark NLP supports Python 3.7.x and above depending on your major PySpark version.
+Spark NLP supports Python 3.8.x through 3.12.x, depending on your major PySpark version.
 
-**NOTE**: Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
-python version, consider sticking to lower versions of Spark.
+**NOTE**: The supported range is bounded by PySpark, not by Spark NLP. PySpark 3.3
+does not support Python 3.11 or above, and Python 3.12 requires PySpark 3.5 or above.
+Python 3.7 and below are no longer supported as of Spark NLP 7.0.0.
 
 </div><div class="h3-box" markdown="1">
 
@@ -79,7 +80,7 @@ Let's create a new Conda environment to manage all the dependencies there. You c
 ```bash
 $ java -version
 # should be Java 8 (Oracle or OpenJDK)
-$ conda create -n sparknlp python=3.8 -y
+$ conda create -n sparknlp python=3.10 -y
 $ conda activate sparknlp
 $ pip install spark-nlp=={{ site.sparknlp_version }} pyspark==3.3.1
 ```
@@ -656,7 +657,7 @@ The easiest way to get this done on Linux and macOS is to simply install `spark-
 launch the Jupyter from the same Python environment:
 
 ```sh
-$ conda create -n sparknlp python=3.8 -y
+$ conda create -n sparknlp python=3.10 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
 $ pip install spark-nlp=={{ site.sparknlp_version }} pyspark==3.3.1 jupyter
@@ -1216,17 +1217,22 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 {:.table-model-big}
 
-| Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10 | Scala 2.11 | Scala 2.12 |
-| --------- | ---------- | ---------- | ---------- | ---------- | ----------- | ---------- | ---------- |
-| 5.3.x     | NO         | YES        | YES        | YES        | YES         | NO         | YES        |
-| 5.2.x     | NO         | YES        | YES        | YES        | YES         | NO         | YES        |
-| 5.1.x     | NO         | YES        | YES        | YES        | YES         | NO         | YES        |
-| 5.0.x     | NO         | YES        | YES        | YES        | YES         | NO         | YES        |
-| 4.4.x     | NO         | YES        | YES        | YES        | YES         | NO         | YES        |
-| 4.3.x     | YES        | YES        | YES        | YES        | YES         | NO         | YES        |
-| 4.2.x     | YES        | YES        | YES        | YES        | YES         | NO         | YES        |
-| 4.1.x     | YES        | YES        | YES        | YES        | NO          | NO         | YES        |
-| 4.0.x     | YES        | YES        | YES        | YES        | NO          | NO         | YES        |
+| Spark NLP | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10 | Python 3.11 | Python 3.12 | Scala 2.11 | Scala 2.12 |
+| --------- | ---------- | ---------- | ---------- | ----------- | ----------- | ----------- | ---------- | ---------- |
+| 7.0.x     | NO         | YES        | YES        | YES         | YES         | YES         | NO         | YES        |
+| 5.3.x     | YES        | YES        | YES        | YES         | -           | -           | NO         | YES        |
+| 5.2.x     | YES        | YES        | YES        | YES         | -           | -           | NO         | YES        |
+| 5.1.x     | YES        | YES        | YES        | YES         | -           | -           | NO         | YES        |
+| 5.0.x     | YES        | YES        | YES        | YES         | -           | -           | NO         | YES        |
+| 4.4.x     | YES        | YES        | YES        | YES         | -           | -           | NO         | YES        |
+| 4.3.x     | YES        | YES        | YES        | YES         | -           | -           | NO         | YES        |
+| 4.2.x     | YES        | YES        | YES        | YES         | -           | -           | NO         | YES        |
+| 4.1.x     | YES        | YES        | YES        | NO          | -           | -           | NO         | YES        |
+| 4.0.x     | YES        | YES        | YES        | NO          | -           | -           | NO         | YES        |
+
+`-` means the combination was never covered by CI for that release, not that it is
+known to fail. Python 3.11 and 3.12 are verified from 7.0.0 onward. Python 3.12
+additionally requires PySpark 3.5 or above.
 
 ## Databricks Support
 
@@ -1600,7 +1606,7 @@ We recommend using `conda` to manage your Python environment on Windows.
 Now you can use the downloaded binary by navigating to `%SPARK_HOME%\bin` and
 running
 
-Either create a conda env for python 3.6, install *pyspark==3.3.1 spark-nlp numpy* and use Jupyter/python console, or in the same conda env you can go to spark bin for *pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}*.
+Either create a conda env for python 3.10, install *pyspark==3.3.1 spark-nlp numpy* and use Jupyter/python console, or in the same conda env you can go to spark bin for *pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}*.
 
 <img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
 

@@ -135,8 +135,8 @@ class SymmetricDeleteApproach(AnnotatorApproach):
         self._setDefault(maxEditDistance=3, frequencyThreshold=0, deletesThreshold=0, dupsLimit=2)
         self.dictionary_path = ""
 
-    def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.TEXT, options={"format": "text"}):
-        """Sets folder or file with text that teaches about the language.
+    def setDictionary(self, path, token_pattern=r"\S+", read_as=ReadAs.TEXT, options={"format": "text"}):
+        r"""Sets folder or file with text that teaches about the language.
 
         Parameters
         ----------

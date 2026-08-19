@@ -16,7 +16,7 @@ Showcasing notebooks and codes of how to use Spark NLP in Python and Scala.
 ```bash
 $ java -version
 # should be Java 8 (Oracle or OpenJDK)
-$ conda create -n sparknlp python=3.7 -y
+$ conda create -n sparknlp python=3.10 -y
 $ conda activate sparknlp
 $ pip install spark-nlp=={{ site.sparknlp_version }} pyspark==3.3.1
 ```

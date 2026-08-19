@@ -16,7 +16,20 @@
 from pyspark import SparkContext
 from pyspark.ml.wrapper import JavaWrapper
 from pyspark.sql import DataFrame
-from distutils.version import LooseVersion
+
+
+def _version_tuple(version):
+    """Parses a Spark version such as ``3.5.0`` or ``4.0.0-preview1`` into a
+    comparable tuple, padded to three components."""
+    numbers = []
+    for part in version.split("-")[0].split(".")[:3]:
+        try:
+            numbers.append(int(part))
+        except ValueError:
+            break
+    while len(numbers) < 3:
+        numbers.append(0)
+    return tuple(numbers)
 
 
 class ExtendedJavaWrapper(JavaWrapper):
@@ -57,7 +70,7 @@ class ExtendedJavaWrapper(JavaWrapper):
         return self.sc.version
 
     def getDataFrame(self, spark, jdf):
-        if LooseVersion(self.spark_version()) >= LooseVersion("3.3.0"):
+        if _version_tuple(self.spark_version()) >= (3, 3, 0):
             return DataFrame(jdf, spark._getActiveSessionOrCreate())
         else:
             return DataFrame(jdf, spark._wrapped)

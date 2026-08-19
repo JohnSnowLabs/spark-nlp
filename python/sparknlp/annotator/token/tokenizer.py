@@ -95,17 +95,17 @@ class Tokenizer(AnnotatorApproach):
 
     targetPattern = Param(Params._dummy(),
                           "targetPattern",
-                          "pattern to grab from text as token candidates. Defaults \S+",
+                          r"pattern to grab from text as token candidates. Defaults \S+",
                           typeConverter=TypeConverters.toString)
 
     prefixPattern = Param(Params._dummy(),
                           "prefixPattern",
-                          "regex with groups and begins with \A to match target prefix. Defaults to \A([^\s\w\$\.]*)",
+                          r"regex with groups and begins with \A to match target prefix. Defaults to \A([^\s\w\$\.]*)",
                           typeConverter=TypeConverters.toString)
 
     suffixPattern = Param(Params._dummy(),
                           "suffixPattern",
-                          "regex with groups and ends with \z to match target suffix. Defaults to ([^\s\w]?)([^\s\w]*)\z",
+                          r"regex with groups and ends with \z to match target suffix. Defaults to ([^\s\w]?)([^\s\w]*)\z",
                           typeConverter=TypeConverters.toString)
 
     infixPatterns = Param(Params._dummy(),
@@ -474,7 +474,7 @@ class TokenizerModel(AnnotatorModel):
 
     targetPattern = Param(Params._dummy(),
                           "targetPattern",
-                          "pattern to grab from text as token candidates. Defaults \S+",
+                          r"pattern to grab from text as token candidates. Defaults \S+",
                           typeConverter=TypeConverters.toString)
 
     rules = Param(Params._dummy(),

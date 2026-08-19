@@ -18,12 +18,19 @@ from pyspark.sql import SparkSession
 import time
 
 
+# Driver memory for the test session. 12G is plenty on CI runners, but it is more
+# than some developer machines can spare, and an over-committed driver fails in
+# ways that look like real test failures. Override with SPARKNLP_TEST_DRIVER_MEMORY
+# (e.g. "4G") without touching this file.
+DRIVER_MEMORY = os.environ.get("SPARKNLP_TEST_DRIVER_MEMORY", "12G")
+
+
 class SparkSessionForTest:
     jars_path = "lib/sparknlp.jar"
     spark = SparkSession.builder \
         .master("local[*]") \
         .config("spark.jars", jars_path) \
-        .config("spark.driver.memory", "12G") \
+        .config("spark.driver.memory", DRIVER_MEMORY) \
         .config("spark.driver.maxResultSize", "2G") \
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryoserializer.buffer.max", "500m") \
