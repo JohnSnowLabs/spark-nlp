@@ -19,7 +19,7 @@ import pytest
 from sparknlp.pretrained import PretrainedPipeline
 
 
-@pytest.mark.slow
+@pytest.mark.fast
 class PretrainedPipelineTextInputTest(unittest.TestCase):
 
     def setUp(self):
