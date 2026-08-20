@@ -16,10 +16,14 @@ import unittest
 
 import pytest
 
+from sparknlp.annotator import *
+from sparknlp.base import *
 from sparknlp.pretrained import PretrainedPipeline
+from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+
+@pytest.mark.slow
 class PretrainedPipelineTextInputTest(unittest.TestCase):
 
     def setUp(self):
@@ -136,3 +140,59 @@ class PretrainedPipelineWithFinisher(unittest.TestCase):
 
         for result in annotations_result:
             self.assertTrue(len(result) > 0)
+
+
+@pytest.mark.fast
+class PretrainedPipelineFromDiskTestSpec(unittest.TestCase):
+
+    text = "Peter Parker is a nice guy and lives in New York. He is a photographer."
+
+    def setUp(self):
+        self.data = SparkContextForTest.spark \
+            .createDataFrame([[self.text]]).toDF("text")
+
+    def runTest(self):
+        document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+        sentence_detector = SentenceDetectorDLModel.pretrained() \
+            .setInputCols(["document"]) \
+            .setOutputCol("sentence")
+        tokenizer = Tokenizer() \
+            .setInputCols(["sentence"]) \
+            .setOutputCol("token")
+        pos_tagger = PerceptronModel.pretrained() \
+            .setInputCols(["sentence", "token"]) \
+            .setOutputCol("pos")
+
+        pipeline = Pipeline(stages=[
+            document_assembler,
+            sentence_detector,
+            tokenizer,
+            pos_tagger
+        ])
+
+        model = pipeline.fit(self.data)
+        expected = model.transform(self.data).select("pos.result").collect()[0][0]
+        self.assertTrue(len(expected) > 0)
+
+        pipe_path = "file:///" + os.getcwd() + "/tmp_pretrained_pipeline_from_disk"
+        model.write().overwrite().save(pipe_path)
+
+        loaded = PretrainedPipeline.from_disk(pipe_path)
+
+        actual = loaded.transform(self.data).select("pos.result").collect()[0][0]
+        self.assertEqual(expected, actual)
+
+        annotations = loaded.annotate(self.text)
+        self.assertIn("pos", annotations)
+        self.assertIn("token", annotations)
+        self.assertEqual(annotations["pos"], expected)
+
+        full = loaded.fullAnnotate(self.text)
+        self.assertEqual(len(full), 1)
+        self.assertTrue(len(full[0]["pos"]) > 0)
+        self.assertEqual([a.result for a in full[0]["pos"]], expected)
+
+        batch = loaded.annotate([self.text, self.text])
+        self.assertEqual(len(batch), 2)
