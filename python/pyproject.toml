@@ -7,7 +7,7 @@ name = "spark-nlp"
 dynamic = ["version"]
 description = "John Snow Labs Spark NLP is a natural language processing library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines, that scale easily in a distributed environment."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.7"
 keywords = [
     "NLP",
     "spark",
@@ -44,6 +44,7 @@ classifiers = [
     "Operating System :: MacOS :: MacOS X",
     "Operating System :: Microsoft :: Windows",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",

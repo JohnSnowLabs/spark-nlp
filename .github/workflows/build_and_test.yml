@@ -122,6 +122,11 @@ jobs:
       matrix:
         include:
           # Floor. Keep green - this is the backward-compatibility gate.
+          # PySpark 3.3 and 3.4 still declare requires_python >=3.7; 3.5 raised it
+          # to >=3.8, so 3.7 can only ever pair with Spark 3.3/3.4.
+          - spark: "3.3"
+            pyspark: 3.3.1
+            python: "3.7"
           - spark: "3.3"
             pyspark: 3.3.1
             python: "3.8"

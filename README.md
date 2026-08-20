@@ -147,7 +147,7 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 | Spark NLP | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10 | Python 3.11 | Python 3.12 | Scala 2.11 | Scala 2.12 |
 |-----------|------------|------------|------------|-------------|-------------|-------------|------------|------------|
-| 7.0.x     | NO         | YES        | YES        | YES         | YES         | YES         | NO         | YES        |
+| 7.0.x     | YES        | YES        | YES        | YES         | YES         | YES         | NO         | YES        |
 | 6.0.x     | YES        | YES        | YES        | YES         | -           | -           | NO         | YES        |
 | 5.5.x     | YES        | YES        | YES        | YES         | -           | -           | NO         | YES        |
 | 5.4.x     | YES        | YES        | YES        | YES         | -           | -           | NO         | YES        |
@@ -224,9 +224,9 @@ projects [Spark NLP Starter](https://github.com/maziyarpanahi/spark-nlp-starter)
 
 ### Python
 
-Spark NLP supports Python 3.8.x through 3.12.x, depending on your major PySpark version.
-Note that PySpark 3.3 does not support Python 3.11 or above, and Python 3.12 requires
-PySpark 3.5 or above.
+Spark NLP supports Python 3.7.x through 3.12.x, depending on your major PySpark version.
+Note that PySpark 3.3 and 3.4 do not support Python 3.11 or above, Python 3.12 requires
+PySpark 3.5 or above, and Python 3.7 requires PySpark 3.4 or below.
 Check all available installations for Python in our official [documentation](https://sparknlp.org/docs/en/install#python)
 
 ### Compiled JARs
