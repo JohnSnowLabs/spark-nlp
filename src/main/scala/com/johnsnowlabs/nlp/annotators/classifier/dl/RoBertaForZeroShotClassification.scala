@@ -331,28 +331,23 @@ class RoBertaForZeroShotClassification(override val uid: String)
     *   relationship
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    batchedAnnotations.map(annotations => {
-      val sentences = SentenceSplit.unpack(annotations).toArray
-      val tokenizedSentences = TokenizedWithSentence.unpack(annotations).toArray
+    val rowsOfSentences: Seq[Seq[Sentence]] =
+      batchedAnnotations.map(annotations => SentenceSplit.unpack(annotations))
+    val rowsOfTokenizedSentences: Seq[Seq[TokenizedSentence]] =
+      batchedAnnotations.map(annotations => TokenizedWithSentence.unpack(annotations))
 
-      if (tokenizedSentences.nonEmpty) {
-        getModelIfNotSet.predictSequenceWithZeroShot(
-          tokenizedSentences,
-          sentences,
-          $(candidateLabels),
-          $(entailmentIdParam),
-          $(contradictionIdParam),
-          $(batchSize),
-          $(maxSentenceLength),
-          $(caseSensitive),
-          $(coalesceSentences),
-          $$(labels),
-          getActivation)
-
-      } else {
-        Seq.empty[Annotation]
-      }
-    })
+    getModelIfNotSet.predictSequenceWithZeroShotGrouped(
+      rowsOfTokenizedSentences,
+      rowsOfSentences,
+      $(candidateLabels),
+      $(entailmentIdParam),
+      $(contradictionIdParam),
+      $(batchSize),
+      $(maxSentenceLength),
+      $(caseSensitive),
+      $(coalesceSentences),
+      $$(labels),
+      getActivation)
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
