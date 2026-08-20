@@ -8,8 +8,6 @@ on:
       - "scripts/**"
       - "examples/**"
       - "**.md"
-      - "**.yaml"
-      - "**.yml"
       - "**.ipynb"
     branches:
       - "master"
@@ -23,8 +21,6 @@ on:
       - "scripts/**"
       - "examples/**"
       - "**.md"
-      - "**.yaml"
-      - "**.yml"
       - "**.ipynb"
     branches:
       - "master"
@@ -36,127 +32,231 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
+env:
+  TF_CPP_MIN_LOG_LEVEL: 3
+  JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
+
 jobs:
-  spark34:
+  # Builds the assembly jar and runs the Scala suite, exactly as before, but now
+  # also publishes the jar as an artifact. Keeping the build and the Scala tests
+  # in one job avoids recompiling the project twice; the win comes from the
+  # Python jobs below, which no longer build anything at all.
+  build:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
     runs-on: ubuntu-22.04
-    env:
-      TF_CPP_MIN_LOG_LEVEL: 3
-      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
-    name: Build and Test on Apache Spark 3.4.x
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - spark: "3.3"
+            sbt_flag: is_spark33
+            coverage: false
+          - spark: "3.4"
+            sbt_flag: is_spark34
+            coverage: true
+          - spark: "3.5"
+            sbt_flag: is_spark35
+            coverage: false
+    timeout-minutes: 90
+    name: Build and Test on Apache Spark ${{ matrix.spark }}.x
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup openjdk Java
+        timeout-minutes: 15
+        env:
+          DEBIAN_FRONTEND: noninteractive
+          NEEDRESTART_MODE: a
+          NEEDRESTART_SUSPEND: 1
         run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-8-jdk
+          for i in 1 2 3; do
+            sudo -E timeout 120 apt-get update -qq -o DPkg::Lock::Timeout=120 && break
+            echo "apt-get update attempt $i timed out or failed; retrying"; sleep 15
+          done
+          for i in 1 2 3; do
+            sudo -E timeout 300 apt-get install -y -qq -o DPkg::Lock::Timeout=120 openjdk-8-jdk && break
+            echo "apt-get install attempt $i timed out or failed; retrying"; sleep 15
+          done
           echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
           echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
-          java -version
-      - name: Install Python 3.8
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-          architecture: x64
-      - name: Install Python packages (Python 3.8)
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyspark==3.4.0 numpy pytest
+          /usr/lib/jvm/java-8-openjdk-amd64/bin/java -version
       - uses: sbt/setup-sbt@v1
         with:
           disk-cache: false
-      - name: Build Spark NLP on Apache Spark 3.4.0
-        run: |
-          sbt -mem 4096 -Dis_spark34=true clean assemblyAndCopy
-      - name: Test Spark NLP in Scala - Apache Spark 3.4.x
-        run: |
-          sbt -mem 4096 coverage test
+      - name: Build Spark NLP on Apache Spark ${{ matrix.spark }}.x
+        run: sbt -mem 4096 -D${{ matrix.sbt_flag }}=true clean assemblyAndCopy
+      # copyAssembledJar (build.sbt) writes the assembly to python/lib/sparknlp.jar.
+      # The jar is compiled against a specific spark-core, so it is keyed by Spark
+      # version and must never be shared between them.
+      - name: Upload assembled jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: sparknlp-jar-spark${{ matrix.spark }}
+          path: python/lib/sparknlp.jar
+          retention-days: 1
+          if-no-files-found: error
+      - name: Test Spark NLP in Scala - Apache Spark ${{ matrix.spark }}.x
+        if: ${{ ! matrix.coverage }}
+        run: sbt -mem 4096 test
+      - name: Test Spark NLP in Scala with coverage - Apache Spark ${{ matrix.spark }}.x
+        if: ${{ matrix.coverage }}
+        run: sbt -mem 4096 coverage test
       - name: Upload coverage data to Coveralls
+        if: ${{ matrix.coverage }}
         run: sbt coverageReport coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_FLAG_NAME: Apache Spark 3.4.x - Scala 2.12
-      - name: Test Spark NLP in Python - Apache Spark 3.4.x
-        run: |
-          cd python
-          python3.8 -m pytest -v -m fast
-  spark35:
-    if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
+          COVERALLS_FLAG_NAME: Apache Spark ${{ matrix.spark }}.x - Scala 2.12
+
+  # Sparse on purpose: several (Spark, Python) pairs are impossible upstream.
+  # PySpark 3.3 does not support Python 3.11, and PySpark 3.4 does not support
+  # 3.12. Only combinations PySpark itself supports are listed here.
+  # Adding a Python version is now a single matrix entry.
+  python-test:
+    needs: build
+    if: ${{ !cancelled() && !contains(toJSON(github.event.commits.*.message), '[skip test]') }}
     runs-on: ubuntu-22.04
-    env:
-      TF_CPP_MIN_LOG_LEVEL: 3
-      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
-    name: Build and Test on Apache Spark 3.5.x
+    continue-on-error: ${{ matrix.experimental || false }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Floor. Keep green - this is the backward-compatibility gate.
+          # PySpark 3.3 and 3.4 still declare requires_python >=3.7; 3.5 raised it
+          # to >=3.8, so 3.7 can only ever pair with Spark 3.3/3.4.
+          - spark: "3.3"
+            pyspark: 3.3.1
+            python: "3.7"
+          - spark: "3.3"
+            pyspark: 3.3.1
+            python: "3.8"
+          - spark: "3.3"
+            pyspark: 3.3.1
+            python: "3.10"
+          - spark: "3.4"
+            pyspark: 3.4.1
+            python: "3.8"
+          - spark: "3.4"
+            pyspark: 3.4.1
+            python: "3.11"
+          - spark: "3.5"
+            pyspark: 3.5.4
+            python: "3.9"
+          - spark: "3.5"
+            pyspark: 3.5.4
+            python: "3.11"
+          - spark: "3.5"
+            pyspark: 3.5.4
+            python: "3.12"
+    timeout-minutes: 60
+    name: Python ${{ matrix.python }} (Spark ${{ matrix.spark }}.x)
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup openjdk Java
+        timeout-minutes: 15
+        env:
+          DEBIAN_FRONTEND: noninteractive
+          NEEDRESTART_MODE: a
+          NEEDRESTART_SUSPEND: 1
         run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-8-jdk
+          for i in 1 2 3; do
+            sudo -E timeout 120 apt-get update -qq -o DPkg::Lock::Timeout=120 && break
+            echo "apt-get update attempt $i timed out or failed; retrying"; sleep 15
+          done
+          for i in 1 2 3; do
+            sudo -E timeout 300 apt-get install -y -qq -o DPkg::Lock::Timeout=120 openjdk-8-jdk && break
+            echo "apt-get install attempt $i timed out or failed; retrying"; sleep 15
+          done
           echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
           echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
-          java -version
-      - name: Install Python 3.10
-        uses: actions/setup-python@v2
+          /usr/lib/jvm/java-8-openjdk-amd64/bin/java -version
+      - name: Install Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.10.12
+          python-version: ${{ matrix.python }}
           architecture: x64
-      - name: Install Python packages (Python 3.10)
+          cache: pip
+          cache-dependency-path: python/pyproject.toml
+      - name: Install Python packages
         run: |
           python -m pip install --upgrade pip
-          pip install pyspark==3.5.0 numpy pytest
-      - uses: sbt/setup-sbt@v1
+          # setuptools mirrors the marker-gated dependency in pyproject.toml: it
+          # supplies the distutils shim that PySpark 3.5 still needs on 3.12.
+          # These tests run against the source tree, so it is installed here
+          # rather than being pulled in by the wheel's metadata.
+          pip install setuptools
+          pip install pyspark==${{ matrix.pyspark }} numpy pytest
+      - name: Download assembled jar
+        uses: actions/download-artifact@v4
         with:
-          disk-cache: false
-      - name: Build Spark NLP on Apache Spark 3.5.0
-        run: |
-          sbt -mem 4096 -Dis_spark35=true clean assemblyAndCopy
-      - name: Test Spark NLP in Scala - Apache Spark 3.5.x
-        run: |
-          sbt -mem 4096 test
-      - name: Test Spark NLP in Python - Apache Spark 3.5.x
+          name: sparknlp-jar-spark${{ matrix.spark }}
+          path: python/lib
+      - name: Test Spark NLP in Python - Apache Spark ${{ matrix.spark }}.x
         run: |
           cd python
-          python3.10 -m pytest -v -m fast
+          python -m pytest -v -m fast
 
-  spark33:
+  packaging:
     if: "! contains(toJSON(github.event.commits.*.message), '[skip test]')"
     runs-on: ubuntu-22.04
-    env:
-      TF_CPP_MIN_LOG_LEVEL: 3
-      JAVA_OPTS: "-Xmx4096m -XX:+UseG1GC"
-    name: Build and Test on Apache Spark 3.3.x
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.8", "3.12"]
+    name: Packaging (Python ${{ matrix.python }})
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup openjdk Java
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-8-jdk
-          echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $GITHUB_ENV
-          echo "/usr/lib/jvm/java-8-openjdk-amd64/bin" >> $GITHUB_PATH
-          java -version
-      - name: Install Python 3.8
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - name: Install Python ${{ matrix.python }}
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.8
-          architecture: x64
-      - name: Install Python packages (Python 3.8)
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: python/pyproject.toml
+      - name: Build sdist and wheel
         run: |
-          python -m pip install --upgrade pip
-          pip install pyspark==3.3.1 numpy pytest
-      - uses: sbt/setup-sbt@v1
-        with:
-          disk-cache: false
-      - name: Build Spark NLP on Apache Spark 3.3.1
-        run: |
-          sbt -mem 4096 -Dis_spark33=true clean assemblyAndCopy
-      - name: Test Spark NLP in Scala - Apache Spark 3.3.x
-        run: |
-          sbt -mem 4096 test
-      - name: Test Spark NLP in Python - Apache Spark 3.3.x
+          python -m pip install --upgrade pip build twine
+          cd python
+          python -m build
+          python -m twine check dist/*
+      - name: Check wheel tag, requires-python and contents
         run: |
           cd python
-          python3.8 -m pytest -v -m fast
+          ls dist/
+          python - <<'EOF'
+          import glob, re, zipfile
+          whl = glob.glob("dist/*.whl")
+          assert len(whl) == 1, whl
+          whl = whl[0]
+          assert whl.endswith("-py3-none-any.whl"), f"expected a py3-only wheel, got {whl}"
+          with zipfile.ZipFile(whl) as z:
+              names = z.namelist()
+              meta = z.read([n for n in names if n.endswith("METADATA")][0]).decode()
+          want = re.search(r'^\s*requires-python\s*=\s*"([^"]+)"',
+                           open("pyproject.toml").read(), re.M).group(1)
+          assert f"Requires-Python: {want}" in meta, (
+              f"wheel metadata disagrees with pyproject.toml (expected {want!r})")
+          print("requires-python matches pyproject.toml:", want)
+          stray = [n for n in names if n.startswith(("tensorflow/", "test/", "lib/", "docs/"))]
+          assert not stray, f"unexpected paths in wheel: {stray}"
+          print("wheel metadata OK:", whl)
+          EOF
+      # A 3.12 env ships neither setuptools nor distutils. PySpark 3.5 still
+      # imports distutils, so the marker-gated setuptools dependency is what
+      # keeps `pip install spark-nlp` usable there. Assert it actually resolves.
+      - name: Install the wheel into a clean environment
+        run: |
+          cd python
+          python -m venv /tmp/clean
+          /tmp/clean/bin/python -c "import importlib.util as u; assert u.find_spec('setuptools') is None, 'fresh venv unexpectedly has setuptools; test is void'"             || echo "note: this interpreter seeds setuptools into new venvs"
+          /tmp/clean/bin/pip install dist/*.whl
+          /tmp/clean/bin/python - <<'EOF'
+          import importlib.util as u, sys
+          have = u.find_spec("setuptools") is not None
+          if sys.version_info >= (3, 12):
+              assert have, "setuptools marker dependency did not resolve on 3.12"
+              print("3.12: setuptools pulled in as required")
+          else:
+              print(f"{sys.version_info.major}.{sys.version_info.minor}: setuptools present={have} (not required)")
+          EOF

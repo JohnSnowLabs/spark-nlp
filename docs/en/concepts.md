@@ -63,7 +63,7 @@ The easiest way to run the python examples is by starting a pyspark jupyter note
 ```sh
 $ java -version
 # should be Java 8 (Oracle or OpenJDK)
-$ conda create -n sparknlp python=3.7 -y
+$ conda create -n sparknlp python=3.10 -y
 $ conda activate sparknlp
 # spark-nlp by default is based on pyspark 3.x
 $ pip install spark-nlp=={{ site.sparknlp_version }} pyspark==3.3.1 jupyter

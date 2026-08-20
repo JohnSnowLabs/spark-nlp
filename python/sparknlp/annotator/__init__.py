@@ -53,13 +53,7 @@ from sparknlp.annotator.document_token_splitter import *
 from sparknlp.annotator.vector_db import *
 from sparknlp.annotator.similarity.bm25 import *
 
-if sys.version_info[0] == 2:
-    raise ImportError(
-        "Spark NLP only supports Python 3.6 and above. "
-        "Please use Python 3.6 or above that is compatible with both Spark NLP and PySpark"
-    )
-else:
-    __import__("com.johnsnowlabs.nlp")
+__import__("com.johnsnowlabs.nlp")
 
 annotators = sys.modules[__name__]
 pos = sys.modules[__name__]

@@ -208,8 +208,12 @@ In the **Name** field put `AssemblyAndCopyForPyPi`. In the **Tasks** field write
 Then you go to ``spark-nlp/python/`` directory and run:
 
 ```
-python setup.py sdist bdist_wheel
+python -m pip install --upgrade build
+python -m build
 ```
+
+(The package uses PEP 621 metadata in `pyproject.toml`. `setup.py` remains only as a
+compatibility shim, so `python setup.py sdist bdist_wheel` still works but is deprecated.)
 
 You can find created `whl` and `tar.gz` in the folder ``spark-nlp/python/dist/``. Use this files to install spark-nlp locally:
 

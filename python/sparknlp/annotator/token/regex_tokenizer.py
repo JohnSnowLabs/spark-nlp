@@ -116,7 +116,7 @@ class RegexTokenizer(AnnotatorModel):
 
     pattern = Param(Params._dummy(),
                     "pattern",
-                    "regex pattern used for tokenizing. Defaults \S+",
+                    r"regex pattern used for tokenizing. Defaults \S+",
                     typeConverter=TypeConverters.toString)
 
     positionalMask = Param(Params._dummy(),

@@ -1,0 +1,89 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spark-nlp"
+dynamic = ["version"]
+description = "John Snow Labs Spark NLP is a natural language processing library built on top of Apache Spark ML. It provides simple, performant & accurate NLP annotations for machine learning pipelines, that scale easily in a distributed environment."
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = [
+    "NLP",
+    "spark",
+    "vision",
+    "speech",
+    "deep learning",
+    "transformer",
+    "tensorflow",
+    "BERT",
+    "GPT-2",
+    "Wav2Vec2",
+    "ViT",
+]
+
+
+# setuptools is declared for 3.12+ only. Python 3.12 removed distutils from the
+# stdlib, and PySpark 3.5.x still imports it in ~10 of its own modules
+# (pyspark/ml/image.py, pyspark/pandas/*, pyspark/sql/connect/*). Without this,
+# `import sparknlp` dies inside PySpark on a clean 3.12 venv. setuptools ships
+# the distutils shim that keeps that combination working. Spark 4.0 does not
+# need it, but users pairing 3.12 with Spark 3.5 do.
+dependencies = [
+    "setuptools; python_version >= '3.12'",
+]
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Internationalization",
+    "Topic :: Software Development :: Localization",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Text Processing :: Linguistic",
+    "Topic :: Scientific/Engineering",
+]
+
+[[project.authors]]
+name = "John Snow Labs"
+
+[project.urls]
+Homepage = "https://github.com/JohnSnowLabs/spark-nlp"
+
+[tool.setuptools]
+# setuptools defaults this to true under pyproject.toml, but the jar in
+# python/lib/ must stay out of the wheel. Keep it false.
+include-package-data = false
+
+[tool.setuptools.dynamic]
+version = { attr = "sparknlp.__version__" }
+
+[tool.setuptools.packages.find]
+# namespaces = false keeps this equivalent to the previous find_packages() call.
+# With the default (true) setuptools would also pick up directories that have no
+# __init__.py -- including python/tensorflow/, which would ship a package named
+# "tensorflow" and shadow the real one in every user environment.
+namespaces = false
+exclude = ["test*", "tmp*", "tensorflow*"]
+
+[tool.pytest.ini_options]
+markers = [
+    "fast: mark test as fast for CI.",
+    "slow: mark test as slow for local execution.",
+]

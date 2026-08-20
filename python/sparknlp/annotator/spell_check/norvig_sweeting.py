@@ -173,7 +173,7 @@ class NorvigSweetingApproach(AnnotatorApproach):
                          reductLimit=3, intersections=10, vowelSwapLimit=6, frequencyPriority=True)
         self.dictionary_path = ""
 
-    def setDictionary(self, path, token_pattern="\S+", read_as=ReadAs.TEXT, options={"format": "text"}):
+    def setDictionary(self, path, token_pattern=r"\S+", read_as=ReadAs.TEXT, options={"format": "text"}):
         """Sets dictionary which needs 'tokenPattern' regex for separating
         words.
 
