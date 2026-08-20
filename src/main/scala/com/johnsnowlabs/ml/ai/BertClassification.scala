@@ -572,7 +572,7 @@ private[johnsnowlabs] class BertClassification(
       .foreach { case (sentence, idx) =>
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
         var firstSeq = true
         segmentBuffers
           .offset(offset)
@@ -634,7 +634,11 @@ private[johnsnowlabs] class BertClassification(
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
     val (tokenTensors, maskTensors) =
-      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+      PrepareEmbeddings.prepareOvLongBatchTensors(
+        batch,
+        maxSentenceLength,
+        batchLength,
+        sentencePadTokenId = sentencePadTokenId)
 
     // Initialize the segment tensor as an array of arrays
     val segmentTensor = Array.ofDim[Long](batch.length, maxSentenceLength)
@@ -698,7 +702,9 @@ private[johnsnowlabs] class BertClassification(
     val maskTensors =
       OnnxTensor.createTensor(
         env,
-        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
+        batch
+          .map(sentence => sentence.map(x => if (x == sentencePadTokenId) 0L else 1L))
+          .toArray)
 
     val segmentTensors =
       OnnxTensor.createTensor(env, batch.map(x => Array.fill(maxSentenceLength)(0L)).toArray)
