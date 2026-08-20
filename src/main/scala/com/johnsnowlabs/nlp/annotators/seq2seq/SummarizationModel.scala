@@ -610,33 +610,33 @@ class SummarizationModel(override val uid: String)
           if (i < embs.length) embs(i).embeddings else Array.emptyFloatArray
         }.toArray
 
-      // source metadata first so this stage's keys win on collision (e.g. chained summarizers)
-      val baseMeta = docMeta ++ Map(
-        "method" -> methodName,
-        "model" -> modelName,
-        "engine" -> engine,
-        "longDocumentStrategy" -> "native")
+        // source metadata first so this stage's keys win on collision (e.g. chained summarizers)
+        val baseMeta = docMeta ++ Map(
+          "method" -> methodName,
+          "model" -> modelName,
+          "engine" -> engine,
+          "longDocumentStrategy" -> "native")
 
-      if (sentTexts.isEmpty || docText.trim.isEmpty) {
-        Annotation(DOCUMENT, 0, 0, "", baseMeta)
-      } else {
-        val scores =
-          ExtractiveSummarizationRanker.centralityScores(sentEmbs, positionBias = posBias)
-        val wordCounts = sentTexts.map(ExtractiveSummarizationRanker.countWords)
-        val selected = ExtractiveSummarizationRanker.mmrSelect(
-          sentEmbs,
-          scores,
-          wordCounts,
-          budgetWords,
-          lambda)
-        val summary = selected.map(sentTexts(_)).mkString(" ")
-        val metadata = baseMeta ++ Map(
-          "sentencesSelected" -> selected.length.toString,
-          "sentencesTotal" -> sentTexts.length.toString,
-          "originalTokensEst" -> (docText.length / cpt).toString,
-          "summaryTokensEst" -> (summary.length / cpt).toString)
-        Annotation(DOCUMENT, 0, math.max(0, summary.length - 1), summary, metadata)
-      }
+        if (sentTexts.isEmpty || docText.trim.isEmpty) {
+          Annotation(DOCUMENT, 0, 0, "", baseMeta)
+        } else {
+          val scores =
+            ExtractiveSummarizationRanker.centralityScores(sentEmbs, positionBias = posBias)
+          val wordCounts = sentTexts.map(ExtractiveSummarizationRanker.countWords)
+          val selected = ExtractiveSummarizationRanker.mmrSelect(
+            sentEmbs,
+            scores,
+            wordCounts,
+            budgetWords,
+            lambda)
+          val summary = selected.map(sentTexts(_)).mkString(" ")
+          val metadata = baseMeta ++ Map(
+            "sentencesSelected" -> selected.length.toString,
+            "sentencesTotal" -> sentTexts.length.toString,
+            "originalTokensEst" -> (docText.length / cpt).toString,
+            "summaryTokensEst" -> (summary.length / cpt).toString)
+          Annotation(DOCUMENT, 0, math.max(0, summary.length - 1), summary, metadata)
+        }
     }
 
     val ranked = withEmbeddings

@@ -315,14 +315,14 @@ class DocumentTranslator(override val uid: String)
     tgtLang -> "French",
     promptTemplate ->
       (
-        "/no_think\n"+
-  "Translate the following text from {srcLang} into {tgtLang}.\n"+
-  "Return only the final {tgtLang} translation.\n"+
-  "Do not include reasoning, explanations, analysis, notes, markdown, labels, or <think> tags.\n"+
-  "Do not repeat the source text.\n"+
-  "{srcLang}: {text}\n"+
-  "{tgtLang}:"
-  ),
+        "/no_think\n" +
+          "Translate the following text from {srcLang} into {tgtLang}.\n" +
+          "Return only the final {tgtLang} translation.\n" +
+          "Do not include reasoning, explanations, analysis, notes, markdown, labels, or <think> tags.\n" +
+          "Do not repeat the source text.\n" +
+          "{srcLang}: {text}\n" +
+          "{tgtLang}:"
+      ),
     batchSize -> 4,
     engine -> LlamaCPP.name,
     useChatTemplate -> true,
@@ -331,9 +331,9 @@ class DocumentTranslator(override val uid: String)
     nPredict -> 512,
     nGpuLayers -> 99,
     reasoningBudget -> 0,
-    systemPrompt ->   ("You are a professional document translation engine. "+
-  "Output only the final translation in the target language. "+
-  "Do not include reasoning, explanations, analysis, notes, markdown, labels, or <think> tags."))
+    systemPrompt -> ("You are a professional document translation engine. " +
+      "Output only the final translation in the target language. " +
+      "Do not include reasoning, explanations, analysis, notes, markdown, labels, or <think> tags."))
 
   private var _model: Option[Broadcast[GGUFWrapper]] = None
 
