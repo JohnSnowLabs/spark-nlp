@@ -225,7 +225,7 @@ jobs:
           cd python
           ls dist/
           python - <<'EOF'
-          import glob, zipfile
+          import glob, re, zipfile
           whl = glob.glob("dist/*.whl")
           assert len(whl) == 1, whl
           whl = whl[0]
@@ -233,7 +233,11 @@ jobs:
           with zipfile.ZipFile(whl) as z:
               names = z.namelist()
               meta = z.read([n for n in names if n.endswith("METADATA")][0]).decode()
-          assert "Requires-Python: >=3.8" in meta, "requires-python missing or wrong"
+          want = re.search(r'^\s*requires-python\s*=\s*"([^"]+)"',
+                           open("pyproject.toml").read(), re.M).group(1)
+          assert f"Requires-Python: {want}" in meta, (
+              f"wheel metadata disagrees with pyproject.toml (expected {want!r})")
+          print("requires-python matches pyproject.toml:", want)
           stray = [n for n in names if n.startswith(("tensorflow/", "test/", "lib/", "docs/"))]
           assert not stray, f"unexpected paths in wheel: {stray}"
           print("wheel metadata OK:", whl)
