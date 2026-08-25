@@ -1101,6 +1101,20 @@ The required Spark properties are:
 
 ## GCP Dataproc
 
+Spark NLP `{{ site.sparknlp_version }}` on Dataproc Spark 4.x uses the Spark 4 / Scala 2.13 artifact lane.
+
+| Dataproc target | Spark line | Scala | Spark NLP artifact |
+|---|---|---|---|
+| Dataproc cluster `--image-version=3.0` | Spark 4.x | 2.13 | `spark-nlp_2.13` for Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2 |
+| Dataproc Serverless `--version=3.0` | Google-managed Spark 4 patch | 2.13 | `spark-nlp_2.13` when the runtime reports Spark 4.0.1 or a later validated Spark 4 version |
+| Dataproc environment that reports Spark `4.0.0` | Spark 4.0.0 only | 2.13 | `spark-nlp-spark400_2.13` |
+
+Notes:
+
+- Dataproc Serverless runtime `3.0` is the Spark 4 line. Current runtime releases use Spark 4.0.1, Scala 2.13, Java 21, and Python 3.12.
+- Google documents that Dataproc Serverless runtime subminor pinning is not supported. Check `spark.version` in the driver output instead of assuming that `--version=3.0` selects a specific Apache Spark patch.
+- Spark 3.x on Dataproc continues to use the Scala `2.12` lane, `spark-nlp_2.12`.
+
 1. Create a cluster if you don't have one already as follows.
 
 At gcloud shell:
@@ -1127,19 +1141,18 @@ REGION=<region>
 ZONE=<zone>
 CLUSTER_NAME=<cluster_name>
 BUCKET_NAME=<bucket_name>
+SPARK_NLP_ARTIFACT=spark-nlp_2.13
+# For Spark 4.0.0 only, use:
+# SPARK_NLP_ARTIFACT=spark-nlp-spark400_2.13
 ```
 
-You can set image-version, master-machine-type, worker-machine-type,
-master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
-If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
-And, you should enable gateway.
-Don't forget to set the maven coordinates for the jar in properties.
+For Spark 4.x, use Dataproc cluster image `3.0`. You can still tune image version subrelease, master-machine-type, worker-machine-type, master-boot-disk-size, worker-boot-disk-size, and num-workers for your workload. Enable the component gateway and set the Spark NLP Maven coordinate explicitly in the cluster properties.
 
 ```bash
 gcloud dataproc clusters create ${CLUSTER_NAME} \
   --region=${REGION} \
   --zone=${ZONE} \
-  --image-version=2.0 \
+  --image-version=3.0 \
   --master-machine-type=n1-standard-4 \
   --worker-machine-type=n1-standard-2 \
   --master-boot-disk-size=128GB \
@@ -1148,14 +1161,61 @@ gcloud dataproc clusters create ${CLUSTER_NAME} \
   --bucket=${BUCKET_NAME} \
   --optional-components=JUPYTER \
   --enable-component-gateway \
-  --metadata 'PIP_PACKAGES=spark-nlp spark-nlp-display google-cloud-bigquery google-cloud-storage' \
+  --metadata 'PIP_PACKAGES=spark-nlp=={{ site.sparknlp_version }},spark-nlp-display,google-cloud-bigquery,google-cloud-storage' \
   --initialization-actions gs://goog-dataproc-initialization-actions-${REGION}/python/pip-install.sh \
-  --properties spark:spark.serializer=org.apache.spark.serializer.KryoSerializer,spark:spark.driver.maxResultSize=0,spark:spark.kryoserializer.buffer.max=2000M,spark:spark.jars.packages=com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}
+  --properties spark:spark.serializer=org.apache.spark.serializer.KryoSerializer,spark:spark.driver.maxResultSize=0,spark:spark.kryoserializer.buffer.max=2000M,spark:spark.jars.packages=com.johnsnowlabs.nlp:${SPARK_NLP_ARTIFACT}:{{ site.sparknlp_version }}
 ```
 
-1. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
+2. On an existing cluster, install the `spark-nlp` and `spark-nlp-display` packages from PyPI.
 
-2. Now, you can attach your notebook to the cluster and use the Spark NLP!
+3. Attach your notebook to the cluster and use Spark NLP.
+
+For Dataproc Serverless, use `gcloud dataproc batches submit pyspark --version=3.0` for the Spark 4 line and distribute both the Spark NLP Python package and the matching Spark NLP jar lane (`spark-nlp-spark400_2.13` for Spark 4.0.0, `spark-nlp_2.13` for Spark 4.0.1 and later validated Spark 4 versions).
+
+### Dataproc Serverless Spark 4 batch
+
+Upload the Spark NLP `7.0.0` wheel and the assembly JAR built for the Spark runtime reported by Dataproc. The assembly filename does not encode the Maven lane, so verify that the uploaded JAR comes from the `spark-nlp_2.13` build for current runtime `3.0` releases.
+
+```bash
+PROJECT_ID=<project-id>
+REGION=<region>
+BUCKET_NAME=<bucket-name>
+BATCH_ID=spark-nlp-700-spark4
+JOB_URI=gs://${BUCKET_NAME}/python/job.py
+JAR_URI=gs://${BUCKET_NAME}/jars/spark-nlp-assembly-7.0.0.jar
+WHEEL_URI=gs://${BUCKET_NAME}/wheels/spark_nlp-7.0.0-py2.py3-none-any.whl
+
+gcloud dataproc batches submit pyspark ${JOB_URI} \
+  --project=${PROJECT_ID} \
+  --region=${REGION} \
+  --batch=${BATCH_ID} \
+  --version=3.0 \
+  --jars=${JAR_URI} \
+  --py-files=${WHEEL_URI} \
+  --deps-bucket=gs://${BUCKET_NAME} \
+  --properties=spark.serializer=org.apache.spark.serializer.KryoSerializer,spark.kryoserializer.buffer.max=2000M,spark.jsl.settings.gcp.project_id=${PROJECT_ID},spark.jsl.settings.pretrained.cache_folder=gs://${BUCKET_NAME}/models
+```
+
+When the launcher already supplies Spark NLP with `--jars`, let Dataproc own the Spark session instead of resolving a second Maven artifact from the Python entrypoint:
+
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName("Spark NLP Dataproc Serverless").getOrCreate()
+print("Spark version:", spark.version)
+print("Scala version:", spark.sparkContext._jvm.scala.util.Properties.versionString())
+print("Java version:", spark.sparkContext._jvm.java.lang.System.getProperty("java.version"))
+```
+
+Python `print()` and DataFrame `show()` output is written to the Dataproc batch driver output in Cloud Logging (`dataproc.googleapis.com/output`); it is not streamed into the submitting terminal.
+
+The example uses the standard resource tier. If you explicitly select premium resources on runtime `3.0`, set `dataproc.tier=premium`. Do not combine it with the legacy `spark.dataproc.executor.compute.tier=premium` property.
+
+References:
+
+- [Managed Service for Apache Spark runtime 3.0](https://docs.cloud.google.com/managed-spark/docs/concepts/versions/spark-runtime-3.0)
+- [Managed Service for Apache Spark serverless runtime versions](https://docs.cloud.google.com/managed-spark/docs/concepts/versions/serverless-versions)
+- [Monitor and troubleshoot batch workloads](https://docs.cloud.google.com/managed-spark/docs/guides/monitor-troubleshoot-batches)
 
 ## Apache Spark Support
 
@@ -1322,64 +1382,6 @@ aws emr create-cluster \
 --ec2-attributes KeyName=<your_ssh_key>,EmrManagedMasterSecurityGroup=<security_group_with_ssh>,EmrManagedSlaveSecurityGroup=<security_group_with_ssh> \
 --profile <aws_profile_credentials>
 ```
-
-</div><div class="h3-box" markdown="1">
-
-## GCP Dataproc Support
-
-1. Create a cluster if you don't have one already as follows.
-
-At gcloud shell:
-
-```bash
-gcloud services enable dataproc.googleapis.com \
-  compute.googleapis.com \
-  storage-component.googleapis.com \
-  bigquery.googleapis.com \
-  bigquerystorage.googleapis.com
-```
-
-```bash
-REGION=<region>
-```
-
-```bash
-BUCKET_NAME=<bucket_name>
-gsutil mb -c standard -l ${REGION} gs://${BUCKET_NAME}
-```
-
-```bash
-REGION=<region>
-ZONE=<zone>
-CLUSTER_NAME=<cluster_name>
-BUCKET_NAME=<bucket_name>
-```
-
-You can set image-version, master-machine-type, worker-machine-type,
-master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
-If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
-And, you should enable gateway.
-
-```bash
-gcloud dataproc clusters create ${CLUSTER_NAME} \
-  --region=${REGION} \
-  --zone=${ZONE} \
-  --image-version=2.0 \
-  --master-machine-type=n1-standard-4 \
-  --worker-machine-type=n1-standard-2 \
-  --master-boot-disk-size=128GB \
-  --worker-boot-disk-size=128GB \
-  --num-workers=2 \
-  --bucket=${BUCKET_NAME} \
-  --optional-components=JUPYTER \
-  --enable-component-gateway \
-  --metadata 'PIP_PACKAGES=spark-nlp spark-nlp-display google-cloud-bigquery google-cloud-storage' \
-  --initialization-actions gs://goog-dataproc-initialization-actions-${REGION}/python/pip-install.sh
-```
-
-1. On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.
-
-2. Now, you can attach your notebook to the cluster and use the Spark NLP!
 
 </div><div class="h3-box" markdown="1">
 
