@@ -1106,6 +1106,7 @@ Spark NLP `{{ site.sparknlp_version }}` on Dataproc Spark 4.x uses the Spark 4 /
 | Dataproc target | Spark line | Scala | Spark NLP artifact |
 |---|---|---|---|
 | Dataproc cluster `--image-version=3.0` | Spark 4.x | 2.13 | `spark-nlp_2.13` for Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2 |
+| Legacy Dataproc cluster `--image-version=2.0` | Spark 3.x (image 2.0 provides Spark 3.1.3) | 2.12 | `spark-nlp_2.12` |
 | Dataproc Serverless `--version=3.0` | Google-managed Spark 4 patch | 2.13 | `spark-nlp_2.13` when the runtime reports Spark 4.0.1 or a later validated Spark 4 version |
 | Dataproc environment that reports Spark `4.0.0` | Spark 4.0.0 only | 2.13 | `spark-nlp-spark400_2.13` |
 
@@ -1113,7 +1114,7 @@ Notes:
 
 - Dataproc Serverless runtime `3.0` is the Spark 4 line. Current runtime releases use Spark 4.0.1, Scala 2.13, Java 21, and Python 3.12.
 - Google documents that Dataproc Serverless runtime subminor pinning is not supported. Check `spark.version` in the driver output instead of assuming that `--version=3.0` selects a specific Apache Spark patch.
-- Spark 3.x on Dataproc continues to use the Scala `2.12` lane, `spark-nlp_2.12`.
+- For the legacy Spark 3.x / Scala 2.12 cluster lane, use `--image-version=2.0` with `spark-nlp_2.12`. Google currently lists image 2.0 as unsupported, so verify that it remains available in your region before creating a new cluster.
 
 1. Create a cluster if you don't have one already as follows.
 
@@ -1141,9 +1142,13 @@ REGION=<region>
 ZONE=<zone>
 CLUSTER_NAME=<cluster_name>
 BUCKET_NAME=<bucket_name>
+DATAPROC_IMAGE_VERSION=3.0
 SPARK_NLP_ARTIFACT=spark-nlp_2.13
 # For Spark 4.0.0 only, use:
 # SPARK_NLP_ARTIFACT=spark-nlp-spark400_2.13
+# For the legacy Spark 3.x / Scala 2.12 lane, use:
+# DATAPROC_IMAGE_VERSION=2.0
+# SPARK_NLP_ARTIFACT=spark-nlp_2.12
 ```
 
 For Spark 4.x, use Dataproc cluster image `3.0`. You can still tune image version subrelease, master-machine-type, worker-machine-type, master-boot-disk-size, worker-boot-disk-size, and num-workers for your workload. Enable the component gateway and set the Spark NLP Maven coordinate explicitly in the cluster properties.
@@ -1152,7 +1157,7 @@ For Spark 4.x, use Dataproc cluster image `3.0`. You can still tune image versio
 gcloud dataproc clusters create ${CLUSTER_NAME} \
   --region=${REGION} \
   --zone=${ZONE} \
-  --image-version=3.0 \
+  --image-version=${DATAPROC_IMAGE_VERSION} \
   --master-machine-type=n1-standard-4 \
   --worker-machine-type=n1-standard-2 \
   --master-boot-disk-size=128GB \
@@ -1213,6 +1218,7 @@ The example uses the standard resource tier. If you explicitly select premium re
 
 References:
 
+- [Managed Service for Apache Spark cluster image versions](https://docs.cloud.google.com/managed-spark/docs/concepts/versioning/image-version-lists)
 - [Managed Service for Apache Spark runtime 3.0](https://docs.cloud.google.com/managed-spark/docs/concepts/versions/spark-runtime-3.0)
 - [Managed Service for Apache Spark serverless runtime versions](https://docs.cloud.google.com/managed-spark/docs/concepts/versions/serverless-versions)
 - [Monitor and troubleshoot batch workloads](https://docs.cloud.google.com/managed-spark/docs/guides/monitor-troubleshoot-batches)
