@@ -99,13 +99,13 @@ That cluster can be then replicated (cloned) for production purposes later on.
 
 ### Configuring Databricks for serving Spark NLP on MLFlow
 
-In Databricks Runtime Version, select any Standard runtime, not ML ones... These add their version of MLFlow, and some incompatibilities may arise. For this example, we have used 8.3 (includes Apache Spark 3.1.1, Scala 2.12)
+In Databricks Runtime Version, select a Spark 4 runtime with Scala 2.13. Standard runtimes are preferred over ML runtimes when their bundled MLflow version conflicts with the version required by this example.
 
 The cluster instantiated is prepared to use Spark NLP, but to make it production-ready using MLFlow, we need to add the MLFlow jar, in addition to the Spark NLP jar, as shown in the “Experiment Tracking” section.
 
 In that case, we did it adding both jars...
 
-```("spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0")```
+```("spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.13:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0")```
 
 ...into the SparkSession. However, in Databricks, you don’t instantiate programmatically a session, but you configure it in the `Compute` screen, selecting your Spark NLP cluster, and then going to ```Configuration -> Advanced Options -> Spark -> Spark Config```, as shown in the following image:
 
@@ -135,7 +135,7 @@ To check everything is ok, run the following lines:
 
 You should see the following output from the last line (versions may differ depending on which ones you used to configure your cluster)
 
-    Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
+    Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.13:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
 
 </div><div class="h3-box" markdown="1">
 
@@ -319,7 +319,7 @@ To do that:
     ```
 
     ```
-    Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
+    Out[2]: 'com.johnsnowlabs.nlp:spark-nlp_2.13:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0'
     ```
 
  4. Add the Spark NLP imports.

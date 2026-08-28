@@ -16,17 +16,14 @@ from datetime import date
 
 sys.path.insert(0, os.path.abspath("../"))
 
-from sparknlp import __version__
-
-
 # -- Project information -----------------------------------------------------
 project = "Spark NLP"
 copyright = f"{date.today().year} John Snow Labs"
 author = "John Snow Labs"
 
 # The full version, including alpha/beta/rc tags
-release = __version__
-pyspark_version = "3.4.4"
+release = "7.0.0"
+pyspark_version = "4.0.0"
 
 # -- General configuration ---------------------------------------------------
 

@@ -35,13 +35,13 @@ This cheat sheet can be used as a quick reference on how to set up your environm
     conda install -c johnsnowlabs spark-nlp==|release|
 
     # Load Spark NLP with Spark Shell
-    spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:|release|
+    spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.13:|release|
 
     # Load Spark NLP with PySpark
-    pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:|release|
+    pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.13:|release|
 
     # Load Spark NLP with Spark Submit
-    spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:|release|
+    spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.13:|release|
 
     # Spark 4.0.0 / Scala 2.13
     spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:|release|
@@ -93,7 +93,7 @@ Then we can create a new environment ``sparknlp`` and install the ``spark-nlp`` 
 .. code-block:: bash
     :substitutions:
 
-    conda create -n sparknlp python=3.8 -y
+    conda create -n sparknlp python=3.9 -y
     conda activate sparknlp
     conda install -c johnsnowlabs spark-nlp==|release| pyspark==|pyspark_version| jupyter
 
@@ -111,7 +111,7 @@ We can also create a Python `Virtualenv <https://virtualenv.pypa.io/en/latest/>`
 .. code-block:: bash
     :substitutions:
 
-    virtualenv sparknlp --python=python3.8 # depends on how your Python installation is set up
+    virtualenv sparknlp --python=python3.9 # depends on how your Python installation is set up
     source sparknlp/bin/activate
     pip install spark-nlp==|release| pyspark==|pyspark_version| jupyter
 
@@ -159,7 +159,7 @@ you can manually start the SparkSession with:
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryoserializer.buffer.max", "2000M") \
         .config("spark.driver.maxResultSize", "0") \
-        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:|release|") \
+        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.13:|release|") \
         .getOrCreate()
 
 The manual example above is for Spark 3.x. Use
