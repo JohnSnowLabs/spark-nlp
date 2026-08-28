@@ -35,13 +35,13 @@ This cheat sheet can be used as a quick reference on how to set up your environm
     conda install -c johnsnowlabs spark-nlp==|release|
 
     # Load Spark NLP with Spark Shell
-    spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.12:|release|
+    spark-shell --packages com.johnsnowlabs.nlp:spark-nlp_2.13:|release|
 
     # Load Spark NLP with PySpark
-    pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.12:|release|
+    pyspark --packages com.johnsnowlabs.nlp:spark-nlp_2.13:|release|
 
     # Load Spark NLP with Spark Submit
-    spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.12:|release|
+    spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.13:|release|
 
     # Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`
     spark-shell --jar spark-nlp-assembly-|release|
@@ -51,15 +51,13 @@ This cheat sheet can be used as a quick reference on how to set up your environm
 Requirements
 ************
 
-Spark NLP is built on top of Apache Spark `3.x`. For using Spark NLP you need:
+Spark NLP 7.0.0 is built on top of Apache Spark 4.x. For using Spark NLP you need:
 
-* Java 8
-* Apache Spark (from ``2.3.x`` to ``3.3.x``)
-* Python ``3.8.x`` if you are using PySpark ``3.x``
+* Java 17, 21, or 25
+* Apache Spark 4.x with Scala 2.13
+* Python ``3.9.x`` or later if you are using PySpark 4.x
 
-    * **NOTE**: Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
-      python version, consider sticking to lower versions of Spark.
-    * For Python ``3.6.x`` and ``3.7.x`` we recommend PySpark ``2.3.x`` or ``2.4.x``
+    * **NOTE**: Use a Python version supported by your selected PySpark 4.x release.
 
 It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP.
 Please refer to `Spark documentation <https://spark.apache.org/docs/latest/api/python/index.html>`_ to get started with Spark.
@@ -68,12 +66,12 @@ Please refer to `Spark documentation <https://spark.apache.org/docs/latest/api/p
 Installation
 ************
 
-First, let's make sure the installed java version is Java 8 (Oracle or OpenJDK):
+First, make sure the installed Java version is 17, 21, or 25 (Oracle or OpenJDK):
 
 .. code-block:: bash
 
     java -version
-    # openjdk version "1.8.0_292"
+    # openjdk version "17.0.15"
 
 Using Conda
 ===========
@@ -85,7 +83,7 @@ Then we can create a new environment ``sparknlp`` and install the ``spark-nlp`` 
 .. code-block:: bash
     :substitutions:
 
-    conda create -n sparknlp python=3.8 -y
+    conda create -n sparknlp python=3.9 -y
     conda activate sparknlp
     conda install -c johnsnowlabs spark-nlp==|release| pyspark==|pyspark_version| jupyter
 
@@ -103,7 +101,7 @@ We can also create a Python `Virtualenv <https://virtualenv.pypa.io/en/latest/>`
 .. code-block:: bash
     :substitutions:
 
-    virtualenv sparknlp --python=python3.8 # depends on how your Python installation is set up
+    virtualenv sparknlp --python=python3.9 # depends on how your Python installation is set up
     source sparknlp/bin/activate
     pip install spark-nlp==|release| pyspark==|pyspark_version| jupyter
 
@@ -137,5 +135,5 @@ you can manually start the SparkSession with:
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryoserializer.buffer.max", "2000M") \
         .config("spark.driver.maxResultSize", "0") \
-        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:|release|") \
+        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.13:|release|") \
         .getOrCreate()

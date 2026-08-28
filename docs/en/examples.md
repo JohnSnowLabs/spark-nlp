@@ -15,10 +15,10 @@ Showcasing notebooks and codes of how to use Spark NLP in Python and Scala.
 
 ```bash
 $ java -version
-# should be Java 8 (Oracle or OpenJDK)
+# should be Java 17, 21, or 25 (Oracle or OpenJDK)
 $ conda create -n sparknlp python=3.7 -y
 $ conda activate sparknlp
-$ pip install spark-nlp=={{ site.sparknlp_version }} pyspark==3.3.1
+$ pip install spark-nlp=={{ site.sparknlp_version }} pyspark==4.0.0
 ```
 
 </div><div class="h3-box" markdown="1">
@@ -40,7 +40,7 @@ This script comes with the two options to define `pyspark` and `spark-nlp` versi
 # -p is for pyspark
 # -s is for spark-nlp
 # by default they are set to the latest
-!bash colab.sh -p 3.2.3 -s {{ site.sparknlp_version }}
+!bash colab.sh -p 4.0.0 -s {{ site.sparknlp_version }}
 ```
 
 [Spark NLP quick start on Google Colab](https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_google_colab.ipynb) is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.
