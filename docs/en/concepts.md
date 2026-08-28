@@ -72,6 +72,8 @@ $ pip install spark-nlp=={{ site.sparknlp_version }} pyspark==3.5.1 jupyter
 # Apache Spark 4.x (Scala 2.13)
 $ pip install spark-nlp=={{ site.sparknlp_version }} pyspark==4.0.0 jupyter
 
+# spark-nlp by default is based on pyspark 4.x
+$ pip install spark-nlp=={{ site.sparknlp_version }} pyspark==4.0.0 jupyter
 $ jupyter notebook
 ```
 

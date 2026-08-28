@@ -457,12 +457,11 @@ the [Maven Repository](https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/s
 ```sh
 # AArch64
 
-# Apache Spark 3.x (Scala 2.12)
 spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:{{ site.sparknlp_version }}
 
-pyspark --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:{{ site.sparknlp_version }}
+pyspark --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.13:{{ site.sparknlp_version }}
 
-spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:{{ site.sparknlp_version }}
+spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.13:{{ site.sparknlp_version }}
 
 # Apache Spark 4.x (Scala 2.13)
 spark-shell --packages com.johnsnowlabs.nlp:spark-nlp-aarch64_2.13:{{ site.sparknlp_version }}

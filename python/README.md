@@ -162,6 +162,9 @@ Find out more about `Spark NLP` versions from our [release notes](https://github
 
 ### Scala and Python Support
 
+| Spark NLP | Python 3.9 | Python 3.10 | Python 3.11 | Python 3.12 | Scala 2.13 |
+|-----------|------------|-------------|-------------|-------------|------------|
+| 7.0.0     | YES        | YES         | YES         | YES         | YES        |
 **Apache Spark 3.x (Scala 2.12)**
 
 | Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10| Scala 2.11 | Scala 2.12 |
@@ -185,7 +188,7 @@ Find out more about `SparkNLP` versions in our official [documentation](https://
 
 ### Databricks Support
 
-Spark NLP 7.0.0 has been tested and is compatible with the following runtimes:
+Spark NLP 6.4.2 has been tested and is compatible with the following runtimes:
 
 | **CPU**            | **GPU**            |
 |--------------------|--------------------|
