@@ -17,11 +17,11 @@ sidebar:
 
 ## Requirements & Setup
 
-Spark NLP is built on top of **Apache Spark 3.x**. For using Spark NLP you need:
+Spark NLP 7.0.0 is built on top of **Apache Spark 4.x**. For using Spark NLP you need:
 
 {:.list3}
-- Java 8 and 11
-- Apache Spark 3.3.x, 3.2.x, 3.1.x, 3.0.x
+- Java 17, 21, or 25
+- Apache Spark 4.x with Scala 2.13
 
 It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP.
 Please refer to Spark [documentation](http://spark.apache.org/docs/latest/index.html) to get started with Spark.

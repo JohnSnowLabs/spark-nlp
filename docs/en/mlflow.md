@@ -197,7 +197,7 @@ def start():
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
         .config("spark.kryoserializer.buffer.max", "2000M") \
         .config("spark.driver.maxResultSize","4000M") \
-        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:3.3.2,org.mlflow:mlflow-spark:1.21.0")
+        .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0,org.mlflow:mlflow-spark:1.21.0")
 
     return builder.getOrCreate()
 
