@@ -307,9 +307,7 @@ class E5Embeddings(override val uid: String)
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
-    val allAnnotations = batchedAnnotations
-      .filter(_.nonEmpty)
-      .zipWithIndex
+    val allAnnotations = batchedAnnotations.zipWithIndex
       .flatMap { case (annotations, i) =>
         annotations.filter(_.result.nonEmpty).map(x => (x, i))
       }

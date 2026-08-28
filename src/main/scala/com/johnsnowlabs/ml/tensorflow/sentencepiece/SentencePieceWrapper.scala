@@ -94,19 +94,22 @@ trait ReadSentencePieceModel {
     val uri = new java.net.URI(path.replaceAllLiterally("\\", "/"))
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
 
-    // 1. Create tmp directory
     val tmpFolder = Files
       .createTempDirectory(UUID.randomUUID().toString.takeRight(12) + suffix)
       .toAbsolutePath
-      .toString
 
-    // 2. Copy to local dir
-    fs.copyToLocalFile(new Path(path, filename), new Path(tmpFolder))
-
-    val sppModelFilePath = new Path(tmpFolder, filename)
-
-    val byteArray = Files.readAllBytes(Paths.get(sppModelFilePath.toString))
-    val sppWrapper = new SentencePieceWrapper(byteArray)
-    sppWrapper
+    try {
+      val source = new Path(path, filename)
+      fs.copyToLocalFile(source, new Path(tmpFolder.toString))
+      val localFile = tmpFolder.resolve(filename)
+      val byteArray = Files.readAllBytes(localFile)
+      new SentencePieceWrapper(byteArray)
+    } finally {
+      try {
+        FileUtils.deleteDirectory(tmpFolder.toFile)
+      } catch {
+        case _: Exception => // Ignore cleanup failures.
+      }
+    }
   }
 }

@@ -43,6 +43,12 @@ This cheat sheet can be used as a quick reference on how to set up your environm
     # Load Spark NLP with Spark Submit
     spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.13:|release|
 
+    # Spark 4.0.0 / Scala 2.13
+    spark-submit --packages com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:|release|
+
+    # Spark 4.0.1 and later validated Spark 4 versions / Scala 2.13
+    spark-submit --packages com.johnsnowlabs.nlp:spark-nlp_2.13:|release|
+
     # Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`
     spark-shell --jar spark-nlp-assembly-|release|
 
@@ -51,13 +57,15 @@ This cheat sheet can be used as a quick reference on how to set up your environm
 Requirements
 ************
 
-Spark NLP 7.0.0 is built on top of Apache Spark 4.x. For using Spark NLP you need:
+Spark NLP supports explicit Spark/Scala runtime lanes:
 
-* Java 17, 21, or 25
-* Apache Spark 4.x with Scala 2.13
-* Python ``3.9.x`` or later if you are using PySpark 4.x
+* Spark 3.x with Scala 2.12
+* Spark 4.0.0 with Scala 2.13 through the dedicated ``spark400`` artifact
+* Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2 with Scala 2.13 through the default ``_2.13`` artifact
 
-    * **NOTE**: Use a Python version supported by your selected PySpark 4.x release.
+Spark 3.x with Scala 2.13 and Spark 4.x with Scala 2.12 are not supported. Use a
+Java and Python version supported by the selected Apache Spark runtime; Spark 4
+validation uses Java 17.
 
 It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP.
 Please refer to `Spark documentation <https://spark.apache.org/docs/latest/api/python/index.html>`_ to get started with Spark.
@@ -66,12 +74,14 @@ Please refer to `Spark documentation <https://spark.apache.org/docs/latest/api/p
 Installation
 ************
 
-First, make sure the installed Java version is 17, 21, or 25 (Oracle or OpenJDK):
+First, make sure the installed Java version matches the selected Spark runtime.
+Use the existing Java 8/11 support baseline for Spark 3.x and Java 17 for Spark 4.x:
 
 .. code-block:: bash
 
     java -version
-    # openjdk version "17.0.15"
+    # Spark 3.x: Java 8/11 baseline
+    # Spark 4.x: Java 17
 
 Using Conda
 ===========
@@ -122,6 +132,20 @@ A Spark session for Spark NLP can be created (or retrieved) by using :func:`spar
     import sparknlp
     spark = sparknlp.start()
 
+The same Python wheel supports the declared Spark 3 and Spark 4 lanes.
+``sparknlp.start()`` detects the installed PySpark version and resolves:
+
+* Spark 3.x to ``spark-nlp_2.12``
+* Spark 4.0.0 to ``spark-nlp-spark400_2.13``
+* Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2 to ``spark-nlp_2.13``
+
+The ``gpu``, ``apple_silicon``, and ``aarch64`` options select the corresponding
+hardware artifact in the same runtime lane. Only one hardware option may be enabled.
+
+The release line that introduces this mapping removes the experimental
+``scala213`` argument. Install a supported PySpark version and allow
+``sparknlp.start()`` to select Scala and the Maven lane automatically.
+
 If you need to manually start SparkSession because you have other configurations and ``sparknlp.start()`` is not including them,
 you can manually start the SparkSession with:
 
@@ -137,3 +161,7 @@ you can manually start the SparkSession with:
         .config("spark.driver.maxResultSize", "0") \
         .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.13:|release|") \
         .getOrCreate()
+
+The manual example above is for Spark 3.x. Use
+``spark-nlp-spark400_2.13`` for Spark 4.0.0 or ``spark-nlp_2.13`` for
+Spark 4.0.1, 4.1.0, 4.1.1, or 4.1.2.

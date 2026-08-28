@@ -576,7 +576,7 @@ private[johnsnowlabs] class DistilBertClassification(
       .foreach { case (sentence, idx) =>
         val offset = idx * maxSentenceLength
         tokenBuffers.offset(offset).write(sentence)
-        maskBuffers.offset(offset).write(sentence.map(x => if (x == 0) 0 else 1))
+        maskBuffers.offset(offset).write(sentence.map(x => if (x == sentencePadTokenId) 0 else 1))
       }
 
     val session = tensorflowWrapper.get.getTFSessionWithSignature(
@@ -620,7 +620,11 @@ private[johnsnowlabs] class DistilBertClassification(
     val batchLength = batch.length
     val maxSentenceLength = batch.map(_.length).max
     val (tokenTensors, maskTensors) =
-      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+      PrepareEmbeddings.prepareOvLongBatchTensors(
+        batch,
+        maxSentenceLength,
+        batchLength,
+        sentencePadTokenId = sentencePadTokenId)
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("input_ids", tokenTensors)
@@ -656,7 +660,9 @@ private[johnsnowlabs] class DistilBertClassification(
     val maskTensors =
       OnnxTensor.createTensor(
         env,
-        batch.map(sentence => sentence.map(x => if (x == 0L) 0L else 1L)).toArray)
+        batch
+          .map(sentence => sentence.map(x => if (x == sentencePadTokenId) 0L else 1L))
+          .toArray)
 
     val inputs =
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
