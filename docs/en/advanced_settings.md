@@ -118,7 +118,7 @@ spark = SparkSession.builder
     .config("spark.kryoserializer.buffer.max", "2000m")
     .config("spark.jsl.settings.pretrained.cache_folder", "sample_data/pretrained")
     .config("spark.jsl.settings.storage.cluster_tmp_dir", "sample_data/storage")
-    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}")
+    .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}")
     .getOrCreate()
 ```
 
@@ -132,7 +132,7 @@ spark-shell \
   --conf spark.kryoserializer.buffer.max=2000M \
   --conf spark.jsl.settings.pretrained.cache_folder="sample_data/pretrained" \
   --conf spark.jsl.settings.storage.cluster_tmp_dir="sample_data/storage" \
-  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}
 ```
 
 **pyspark:**
@@ -145,7 +145,7 @@ pyspark \
   --conf spark.kryoserializer.buffer.max=2000M \
   --conf spark.jsl.settings.pretrained.cache_folder="sample_data/pretrained" \
   --conf spark.jsl.settings.storage.cluster_tmp_dir="sample_data/storage" \
-  --packages com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}
+  --packages com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}
 ```
 
 **Databricks:**
