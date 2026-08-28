@@ -95,7 +95,7 @@ def start(gpu=False,
             .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \\
             .config("spark.kryoserializer.buffer.max", "2000M") \\
             .config("spark.driver.maxResultSize", "0") \\
-            .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:|release|") \\
+            .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.13:|release|") \\
             .getOrCreate()
 
     Parameters
