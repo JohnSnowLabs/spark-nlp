@@ -110,6 +110,18 @@ class OpenAICompletion(override val uid: String)
 
   def setModel(value: String): this.type = set(model, value)
 
+  val apiUrl = new Param[String](
+    this,
+    "apiUrl",
+    "Base URL of the OpenAI-compatible API. Defaults to the value of spark.jsl.settings.openai.api.url or https://api.openai.com/v1.")
+
+  def setApiUrl(value: String): this.type = set(apiUrl, value)
+
+  def getApiUrlOrDefault: String = {
+    if (isSet(apiUrl)) $(apiUrl)
+    else ConfigLoader.getConfigStringValue(ConfigHelper.openAIApiUrl)
+  }
+
   val suffix = new Param[String](
     this,
     "suffix",
@@ -286,7 +298,7 @@ class OpenAICompletion(override val uid: String)
         bestOfJson,
         logitBiasJson,
         userJson))
-    val openAIUrlCompletion = "https://api.openai.com/v1/completions"
+    val openAIUrlCompletion = getApiUrlOrDefault + "/completions"
     val annotationsCompletion = jsons.map { json =>
       val response = post(openAIUrlCompletion, json)
       Annotation(DOCUMENT, 0, response.length, response, Map())
