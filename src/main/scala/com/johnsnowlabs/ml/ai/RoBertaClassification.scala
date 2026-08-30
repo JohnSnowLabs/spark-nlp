@@ -818,9 +818,11 @@ private[johnsnowlabs] class RoBertaClassification(
         metadata = Map(
           "sentence" -> "0",
           "chunk" -> "0",
-          "start" -> decodedAnswer.head.begin.toString,
+          // decodedAnswer can be empty when the model predicts start >= end (e.g. a squad2-style
+          // "no answer" span pointing back at/near the CLS token) -- .head/.last would throw.
+          "start" -> decodedAnswer.headOption.map(_.begin).getOrElse(0).toString,
           "start_score" -> startIndex._1.toString,
-          "end" -> decodedAnswer.last.end.toString,
+          "end" -> decodedAnswer.lastOption.map(_.end).getOrElse(0).toString,
           "end_score" -> endIndex._1.toString,
           "score" -> totalScore.toString)))
 
