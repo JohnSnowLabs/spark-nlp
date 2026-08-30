@@ -31,14 +31,25 @@ import scala.collection.JavaConverters._
 
 private[johnsnowlabs] object ViTClassifier {
 
-  /** Metadata for up to 10 of the model's classes, keyed by their real label. */
+  /** Metadata for the 10 highest-scoring classes, keyed by their real label.
+    *
+    * `tags` is the model's full label vocabulary (label -> class index) -- it carries no
+    * relationship to any particular prediction's scores. Taking `tags.take(10)` (as this used to)
+    * grabs whichever 10 entries a Scala `Map`'s hash-based iteration order happens to yield: the
+    * same fixed, arbitrary 10 classes for every input, unrelated to which classes actually scored
+    * highest. For a classifier with more than 10 classes (e.g. any real ImageNet model) that
+    * silently made the reported top score/label almost never the model's real top prediction.
+    */
   def topScoresMetadata(
       scores: Array[Float],
       tags: Map[String, BigInt]): Array[(String, String)] = {
-    val topTags = tags.take(10)
-    scores.zipWithIndex.flatMap { case (score, idx) =>
-      topTags.find(_._2 == idx).map { case (label, _) => label -> score.toString }
-    }
+    val indexToLabel = tags.map { case (label, idx) => idx.toInt -> label }
+    scores.zipWithIndex
+      .sortBy { case (score, _) => -score }
+      .take(10)
+      .flatMap { case (score, idx) =>
+        indexToLabel.get(idx).map(label => label -> score.toString)
+      }
   }
 }
 
