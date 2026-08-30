@@ -20,6 +20,44 @@ import com.johnsnowlabs.ml.util.TensorFlow
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{ActivationFunction, Annotation, AnnotatorType}
 
+private[johnsnowlabs] object XXXForClassification {
+
+  /** Mirrors HuggingFace's `PreTrainedTokenizer.clean_up_tokenization`: undoes the extra spaces a
+    * naive word-start-token join introduces around punctuation and contractions (`"Levi ' s
+    * Stadium"` -> `"Levi's Stadium"`). Extends HF's own hardcoded list with `" 't"` -> `"'t"`:
+    * verified live against a real RoBERTa QA model that some BPE vocabularies split a contraction
+    * as e.g. `"Don"` + `"'t"` (a bare, word-start `'t` piece) rather than `"Do"` + `"n't"`, which
+    * HF's own list (matched by `" n't"`) doesn't cover and which reproduces as `"Don 't be evil"`
+    * without this rule.
+    */
+  def cleanUpTokenizationSpaces(text: String): String =
+    text
+      .replace(" .", ".")
+      .replace(" ?", "?")
+      .replace(" !", "!")
+      .replace(" ,", ",")
+      .replace(" ' ", "'")
+      .replace(" n't", "n't")
+      .replace(" 't", "'t")
+      .replace(" 'm", "'m")
+      .replace(" 's", "'s")
+      .replace(" 've", "'ve")
+      .replace(" 're", "'re")
+
+  def joinWordPieces(pieces: Seq[TokenPiece], mergeTokenStrategy: String): String = {
+    val joined = mergeTokenStrategy match {
+      case MergeTokenStrategy.vocab =>
+        pieces.filter(_.isWordStart).map(_.token).mkString(" ")
+      case MergeTokenStrategy.sentencePiece =>
+        pieces
+          .map(x => if (x.isWordStart) " " + x.token else x.token)
+          .mkString("")
+          .trim
+    }
+    cleanUpTokenizationSpaces(joined)
+  }
+}
+
 private[johnsnowlabs] trait XXXForClassification {
 
   protected val sentencePadTokenId: Int
@@ -273,19 +311,7 @@ private[johnsnowlabs] trait XXXForClassification {
       wordPieceTokenizedQuestion.head.tokens ++ wordPieceTokenizedContext.flatMap(x => x.tokens)
     val decodedAnswer =
       allTokenPieces.slice(startIndex._2 - offsetStartIndex, endIndex._2 - offsetEndIndex)
-    val content =
-      mergeTokenStrategy match {
-        case MergeTokenStrategy.vocab =>
-          decodedAnswer.filter(_.isWordStart).map(x => x.token).mkString(" ")
-        case MergeTokenStrategy.sentencePiece =>
-          val token = ""
-          decodedAnswer
-            .map(x =>
-              if (x.isWordStart) " " + token + x.token
-              else token + x.token)
-            .mkString("")
-            .trim
-      }
+    val content = XXXForClassification.joinWordPieces(decodedAnswer, mergeTokenStrategy)
 
     Seq(
       Annotation(

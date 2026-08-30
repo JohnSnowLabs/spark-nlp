@@ -15,7 +15,7 @@
  */
 package com.johnsnowlabs.nlp.annotators.coref
 
-import com.johnsnowlabs.ml.ai.SpanBertCoref
+import com.johnsnowlabs.ml.ai.{MergeTokenStrategy, SpanBertCoref, XXXForClassification}
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
   TensorflowWrapper,
@@ -347,23 +347,17 @@ class SpanBertCorefModel(override val uid: String)
       }
     }
 
-//    predictedClusters.zipWithIndex.foreach{
-//      case (cluster, i) =>
-//        print(s"Cluster #$i\n")
-//        print(s"\t%s\n".format(
-//          cluster.map(
-//            xy =>
-//              getTokensFromSpan(xy).map(x => (if (x.isWordStart) " " else "") + x.wordpiece.replaceFirst("##", "") ).mkString("").trim,
-//            ).mkString(", ")))
-//    }
     predictedClusters.flatMap(cluster => {
 
       val clusterSpans = cluster.map(xy => getTokensFromSpan(xy))
       val clusterHeadSpan = clusterSpans.head
-      val clusterHeadSpanText = clusterHeadSpan
-        .map(x => (if (x._1.isWordStart) " " else "") + x._1.wordpiece.replaceFirst("##", ""))
-        .mkString("")
-        .trim
+      // WordpieceEncoder-tokenized (see `tokenizedSentences`, built with `WordpieceEncoder.encode`
+      // above), so the vocab merge strategy applies -- same reconstruction RoBertaClassification/
+      // MPNetClassification/XXXForClassification use, undoing the extra spaces a naive
+      // word-start-token join introduces around punctuation and contractions (e.g.
+      // "Levi ' s Stadium" -> "Levi's Stadium").
+      val clusterHeadSpanText =
+        XXXForClassification.joinWordPieces(clusterHeadSpan.map(_._1), MergeTokenStrategy.vocab)
       Array(
         Annotation(
           annotatorType = AnnotatorType.DEPENDENCY,
@@ -380,10 +374,7 @@ class SpanBertCorefModel(override val uid: String)
           annotatorType = AnnotatorType.DEPENDENCY,
           begin = span.head._1.begin,
           end = span.last._1.end,
-          result = span
-            .map(x => (if (x._1.isWordStart) " " else "") + x._1.wordpiece.replaceFirst("##", ""))
-            .mkString("")
-            .trim,
+          result = XXXForClassification.joinWordPieces(span.map(_._1), MergeTokenStrategy.vocab),
           metadata = Map(
             "head" -> clusterHeadSpanText,
             "head.begin" -> clusterHeadSpan.head._1.begin.toString,
