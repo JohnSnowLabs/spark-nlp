@@ -806,19 +806,7 @@ private[johnsnowlabs] class RoBertaClassification(
       wordPieceTokenizedQuestion.head.tokens ++ wordPieceTokenizedContext.flatMap(x => x.tokens)
     val decodedAnswer =
       allTokenPieces.slice(startIndex._2 - offsetStartIndex, endIndex._2 - offsetEndIndex)
-    val content =
-      mergeTokenStrategy match {
-        case MergeTokenStrategy.vocab =>
-          decodedAnswer.filter(_.isWordStart).map(x => x.token).mkString(" ")
-        case MergeTokenStrategy.sentencePiece =>
-          val token = ""
-          decodedAnswer
-            .map(x =>
-              if (x.isWordStart) " " + token + x.token
-              else token + x.token)
-            .mkString("")
-            .trim
-      }
+    val content = XXXForClassification.joinWordPieces(decodedAnswer, mergeTokenStrategy)
 
     val totalScore = startIndex._1 * endIndex._1
     Seq(

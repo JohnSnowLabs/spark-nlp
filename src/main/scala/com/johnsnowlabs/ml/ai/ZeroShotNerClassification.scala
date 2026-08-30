@@ -95,18 +95,7 @@ private[johnsnowlabs] class ZeroShotNerClassification(
     // Check if the answer span starts at the CLS symbol 0 - if so return empty string
     val content =
       if (startIndex._2 > 0)
-        mergeTokenStrategy match {
-          case MergeTokenStrategy.vocab =>
-            decodedAnswer.filter(_.isWordStart).map(x => x.token).mkString(" ")
-          case MergeTokenStrategy.sentencePiece =>
-            val token = ""
-            decodedAnswer
-              .map(x =>
-                if (x.isWordStart) " " + token + x.token
-                else token + x.token)
-              .mkString("")
-              .trim
-        }
+        XXXForClassification.joinWordPieces(decodedAnswer, mergeTokenStrategy)
       else ""
 
     if (content.isEmpty) {
