@@ -31,6 +31,20 @@ class XXXForClassificationTestSpec extends AnyFlatSpec {
       begin = 0,
       end = 0)
 
+  // Every real tokenizer (WordpieceEncoder.encode, BpeTokenizer.getTokenPieces) sets `.token` to
+  // the WHOLE ORIGINAL WORD on every piece of that word, not to the piece's own text -- so a
+  // word-start piece and its continuation piece(s) always share the same `.token` value. Use this
+  // helper (not `piece`) whenever a test models more than one piece of the same word under the
+  // vocab strategy, or it isn't representative of what joinWordPieces actually receives.
+  private def continuationPiece(wordpiece: String, wholeWordToken: String): TokenPiece =
+    TokenPiece(
+      wordpiece = wordpiece,
+      token = wholeWordToken,
+      pieceId = 0,
+      isWordStart = false,
+      begin = 0,
+      end = 0)
+
   "XXXForClassification.joinWordPieces" should "not insert a space around a WordPiece-split contraction" taggedAs FastTest in {
     // "Levi's" tokenized as ["Levi", "'", "s"], each its own word-start piece.
     val pieces = Seq(
@@ -58,15 +72,19 @@ class XXXForClassificationTestSpec extends AnyFlatSpec {
     assert(joined == "It's a test.")
   }
 
-  it should "drop non-word-start continuation pieces under the vocab strategy" taggedAs FastTest in {
+  it should "reconstruct a word split into WordPiece continuation pieces under the vocab strategy" taggedAs FastTest in {
+    // "Denver" split into "Den" + "##ver": WordpieceEncoder.encode sets `.token` to the whole
+    // word ("Denver") on BOTH pieces (see WordpieceEncoder.scala), so reading it off just the
+    // word-start piece already reconstructs the full word -- nothing is lost by ignoring the
+    // continuation piece here.
     val pieces = Seq(
-      piece("Den", isWordStart = true),
-      piece("##ver", isWordStart = false),
+      piece("Denver", isWordStart = true),
+      continuationPiece(wordpiece = "##ver", wholeWordToken = "Denver"),
       piece("Broncos", isWordStart = true))
 
     val joined = XXXForClassification.joinWordPieces(pieces, MergeTokenStrategy.vocab)
 
-    assert(joined == "Den Broncos")
+    assert(joined == "Denver Broncos")
   }
 
   it should "glue continuation pieces directly under the sentencePiece strategy" taggedAs FastTest in {
@@ -82,5 +100,12 @@ class XXXForClassificationTestSpec extends AnyFlatSpec {
 
   "XXXForClassification.cleanUpTokenizationSpaces" should "leave text with no stray spacing unchanged" taggedAs FastTest in {
     assert(XXXForClassification.cleanUpTokenizationSpaces("Denver Broncos") == "Denver Broncos")
+  }
+
+  it should "remove the stray space before a bare 't contraction piece" taggedAs FastTest in {
+    // Found live against a real RoBERTa QA model: some BPE vocabularies split "Don't" as
+    // "Don" + "'t" (a bare word-start "'t" piece) rather than "Do" + "n't", which HF's own
+    // clean_up_tokenization list (" n't" -> "n't") doesn't cover.
+    assert(XXXForClassification.cleanUpTokenizationSpaces("Don 't be evil") == "Don't be evil")
   }
 }

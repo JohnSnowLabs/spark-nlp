@@ -24,7 +24,11 @@ private[johnsnowlabs] object XXXForClassification {
 
   /** Mirrors HuggingFace's `PreTrainedTokenizer.clean_up_tokenization`: undoes the extra spaces a
     * naive word-start-token join introduces around punctuation and contractions (`"Levi ' s
-    * Stadium"` -> `"Levi's Stadium"`).
+    * Stadium"` -> `"Levi's Stadium"`). Extends HF's own hardcoded list with `" 't"` -> `"'t"`:
+    * verified live against a real RoBERTa QA model that some BPE vocabularies split a contraction
+    * as e.g. `"Don"` + `"'t"` (a bare, word-start `'t` piece) rather than `"Do"` + `"n't"`, which
+    * HF's own list (matched by `" n't"`) doesn't cover and which reproduces as `"Don 't be evil"`
+    * without this rule.
     */
   def cleanUpTokenizationSpaces(text: String): String =
     text
@@ -34,6 +38,7 @@ private[johnsnowlabs] object XXXForClassification {
       .replace(" ,", ",")
       .replace(" ' ", "'")
       .replace(" n't", "n't")
+      .replace(" 't", "'t")
       .replace(" 'm", "'m")
       .replace(" 's", "'s")
       .replace(" 've", "'ve")
