@@ -29,6 +29,19 @@ import com.johnsnowlabs.nlp.annotators.cv.util.transform.ImageResizeUtils
 
 import scala.collection.JavaConverters._
 
+private[johnsnowlabs] object ViTClassifier {
+
+  /** Metadata for up to 10 of the model's classes, keyed by their real label. */
+  def topScoresMetadata(
+      scores: Array[Float],
+      tags: Map[String, BigInt]): Array[(String, String)] = {
+    val topTags = tags.take(10)
+    scores.zipWithIndex.flatMap { case (score, idx) =>
+      topTags.find(_._2 == idx).map { case (label, _) => label -> score.toString }
+    }
+  }
+}
+
 private[johnsnowlabs] class ViTClassifier(
     val tensorflowWrapper: Option[TensorflowWrapper],
     val onnxWrapper: Option[OnnxWrapper],
@@ -180,8 +193,7 @@ private[johnsnowlabs] class ViTClassifier(
                   ) // TODO: We shouldn't compare unrelated types: BigInt and String
                   .map(_._1)
                   .getOrElse("NA"))
-          val meta = score.zipWithIndex.flatMap(x =>
-            Map(tags.take(10).find(_._2 == x._2).map(_._1).toString -> x._1.toString))
+          val meta = ViTClassifier.topScoresMetadata(score, tags)
 
           val imageMeta = Map(
             "height" -> image.height.toString,
