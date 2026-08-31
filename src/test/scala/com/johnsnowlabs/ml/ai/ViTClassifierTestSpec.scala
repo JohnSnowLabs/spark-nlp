@@ -31,7 +31,7 @@ class ViTClassifierTestSpec extends AnyFlatSpec {
     assert(meta.map(_._1).forall(key => key != "None" && !key.startsWith("Some(")))
   }
 
-  it should "drop scores whose index isn't among the first 10 tags, instead of a bogus None key" taggedAs FastTest in {
+  it should "cap at 10 entries without producing a bogus None key" taggedAs FastTest in {
     val tags = (0 until 12).map(i => s"class$i" -> BigInt(i)).toMap
     val scores = Array.tabulate(12)(i => i.toFloat)
 
@@ -39,5 +39,25 @@ class ViTClassifierTestSpec extends AnyFlatSpec {
 
     assert(meta.length == 10)
     assert(!meta.map(_._1).contains("None"))
+  }
+
+  it should "pick the classes that actually scored highest, not an arbitrary 10 by map order" taggedAs FastTest in {
+    // Regression test: `tags` is only ever the model's label vocabulary (label -> class index),
+    // never sorted by or otherwise related to a specific prediction's scores. Taking `tags.take(10)`
+    // (the pre-fix behavior) would silently report whichever 10 classes a Scala Map's hash-based
+    // iteration order happened to yield -- the SAME fixed 10 for every input image, unrelated to
+    // which classes actually scored highest for THIS image. Found live: benchmarking a real
+    // pretrained ViT (1000 ImageNet classes) against 10 known images scored 0% accuracy across the
+    // board because the "top" label came from this arbitrary, mostly-irrelevant slice.
+    val tags = (0 until 1000).map(i => s"class$i" -> BigInt(i)).toMap
+    val scores = Array.tabulate(1000)(i => i.toFloat) // class999 has the highest score, 999.0
+
+    val meta = ViTClassifier.topScoresMetadata(scores, tags)
+    val metaMap = meta.toMap
+
+    assert(meta.length == 10)
+    val expectedTopLabels = (990 until 1000).map(i => s"class$i").toSet
+    assert(meta.map(_._1).toSet == expectedTopLabels)
+    assert(metaMap("class999") == "999.0")
   }
 }
