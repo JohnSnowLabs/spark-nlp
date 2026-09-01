@@ -77,6 +77,17 @@ class OnnxWrapperTestSpec extends AnyFlatSpec with BeforeAndAfter {
     dummyOnnxWrapper.getSession(onnxSessionOptions)
   }
 
+  "the shared ONNX session loader" should "be reusable by wrappers in the ONNX package" taggedAs FastTest in {
+    val absoluteModelPath = Paths.get(modelPath).toAbsolutePath.toString
+    val (session, environment) =
+      OnnxWrapper.withSafeOnnxModelLoader(onnxSessionOptions, Some(absoluteModelPath))
+
+    try {
+      assert(session != null)
+      assert(environment != null)
+    } finally session.close()
+  }
+
   "a dummy onnx wrapper" should "saveToFile correctly" taggedAs FastTest in {
     ResourceHelper.spark.sparkContext.addFile(modelPath)
     val onnxFileName = Some(new File(modelPath).getName)

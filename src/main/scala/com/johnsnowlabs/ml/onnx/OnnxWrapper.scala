@@ -82,7 +82,7 @@ object OnnxWrapper {
   private[OnnxWrapper] val logger: Logger = LoggerFactory.getLogger("OnnxWrapper")
 
   // TODO: make sure this.synchronized is needed or it's not a bottleneck
-  private def withSafeOnnxModelLoader(
+  private[onnx] def withSafeOnnxModelLoader(
       sessionOptions: Map[String, String],
       onnxModelPath: Option[String] = None): (OrtSession, OrtEnvironment) =
     this.synchronized {
