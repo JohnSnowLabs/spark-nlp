@@ -55,6 +55,11 @@
 #   script did. (The kernelspec alone can be undone with
 #   "rm -rf ~/.local/share/jupyter/kernels/python3", but only from a kernel
 #   that still starts.)
+#
+# IF A RUN FAILS PART WAY THROUGH
+#   Delete the runtime before retrying. A failed run can leave /usr/local
+#   half-rewritten by the Miniconda installer, and re-running on top of that
+#   does not reliably recover.
 
 set -e
 
@@ -137,6 +142,18 @@ case "$PYTHON_VERSION" in
   ;;
 esac
 
+# set -e makes any failure below abort silently, which is hard to read when it
+# happens inside a quiet install step. Say plainly what state the runtime is in.
+trap 'status=$?;
+  echo;
+  echo "------------------------------------------------------------------";
+  echo "SETUP FAILED (exit ${status}) - the default kernel was NOT switched.";
+  echo "See the error above. /usr/local may be partly rewritten, so use";
+  echo "Runtime > Disconnect and delete runtime for a clean image before";
+  echo "retrying rather than re-running in this session.";
+  echo "------------------------------------------------------------------";
+  exit ${status}' ERR
+
 # Fail before touching anything if the requested Miniconda build does not exist.
 echo "[1/6] Checking ${MINICONDA_INSTALLER} is available..."
 if ! wget -q --spider "$MINICONDA_URL"; then
@@ -146,35 +163,34 @@ if ! wget -q --spider "$MINICONDA_URL"; then
 fi
 
 # ---------------------------------------------------------------- Java -----
-echo "[2/6] Java..."
-install_openjdk11() {
+# Spark 3.x supports Java 8, 11 and 17 only, and Colab's image ships Java 21.
+# Rather than parsing `java -version` (whose output format varies), just make
+# sure a JDK Spark accepts is on disk and point JAVA_HOME straight at it.
+echo "[2/6] Java (Spark 3.x requires Java 8, 11 or 17)..."
+JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+if [ ! -d "$JAVA_HOME" ]; then
+  echo "       Installing OpenJDK 11..."
   apt-get update -qq >/dev/null 2>&1 || true
-  apt-get install -y -qq openjdk-11-jdk >/dev/null 2>&1
-}
-
-if ! type -p java >/dev/null 2>&1; then
-  echo "       Java not found. Installing OpenJDK 11..."
-  install_openjdk11
-else
-  JAVA_MAJOR="$(java -version 2>&1 | head -1 | sed -E 's/[^"]*"([0-9]+)\.?([0-9]*).*/\1/')"
-  # "1.8.0_xxx" style version strings report major 1; Spark cares about the 8.
-  if [ "$JAVA_MAJOR" = "1" ]; then
-    JAVA_MAJOR=8
-  fi
-  # Spark 3.x supports Java 8/11/17 only; anything newer needs a downgrade too.
-  if [ "${JAVA_MAJOR:-0}" -gt 17 ] 2>/dev/null; then
-    echo "       Java ${JAVA_MAJOR} is too new for Spark 3.x. Installing OpenJDK 11..."
-    install_openjdk11
-  fi
+  apt-get install -y -qq openjdk-11-jdk >/dev/null 2>&1 || true
 fi
 
-if [ -d /usr/lib/jvm/java-11-openjdk-amd64 ]; then
-  JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
-else
-  JAVA_HOME="$(dirname "$(dirname "$(readlink -f "$(type -p java)")")")"
+if [ ! -d "$JAVA_HOME" ]; then
+  echo "       OpenJDK 11 unavailable; looking for another supported JDK..."
+  for candidate in /usr/lib/jvm/java-17-openjdk-amd64 /usr/lib/jvm/java-8-openjdk-amd64; do
+    if [ -d "$candidate" ]; then
+      JAVA_HOME="$candidate"
+      break
+    fi
+  done
+fi
+
+if [ ! -d "$JAVA_HOME" ]; then
+  echo "Error: no Spark-compatible JDK (8/11/17) found or installable." >&2
+  echo "       Colab's default Java 21 is rejected by Spark 3.x." >&2
+  exit 1
 fi
 export JAVA_HOME
-export PATH="$PATH:$JAVA_HOME/bin"
+export PATH="$JAVA_HOME/bin:$PATH"
 echo "       JAVA_HOME=${JAVA_HOME}"
 
 if [[ "$GPU" == "true" ]]; then
@@ -194,8 +210,20 @@ rm -f /tmp/miniconda.sh
 # The packages Colab's frontend needs in order to drive the kernel. The
 # traitlets pin works around an incompatibility between google-colab 1.0.0 (the
 # version the Colab runtime itself ships) and newer traitlets releases.
+#
+# --override-channels is required: conda 25+ refuses to use repo.anaconda.com's
+# "defaults" channels until their Terms of Service are accepted, which cannot
+# happen in a non-interactive run and aborts with CondaToSNonInteractiveError.
+# Everything needed here lives on conda-forge, so drop defaults entirely. The
+# tos accept calls are a best-effort fallback for setups that still reach for
+# them, and are ignored on conda versions without the subcommand.
 echo "[4/6] Installing Colab kernel packages (jupyter, google-colab, traitlets=${TRAITLETS})..."
-/usr/local/bin/conda install -q -y -c conda-forge jupyter google-colab "traitlets=${TRAITLETS}" >/dev/null
+for channel in main r; do
+  /usr/local/bin/conda tos accept --override-channels \
+    --channel "https://repo.anaconda.com/pkgs/${channel}" >/dev/null 2>&1 || true
+done
+/usr/local/bin/conda install -q -y --override-channels -c conda-forge \
+  jupyter google-colab "traitlets=${TRAITLETS}" >/dev/null
 
 # --------------------------------------------------------------- Payload ---
 echo "[5/6] Installing PySpark ${PYSPARK}, Spark NLP ${SPARKNLP}, findspark..."
@@ -208,6 +236,7 @@ echo "[5/6] Installing PySpark ${PYSPARK}, Spark NLP ${SPARKNLP}, findspark..."
 # that catches the 3.12 "kernel_class ... could not be imported" failure
 # *before* it can leave you with a runtime that never reconnects.
 echo "[6/6] Pre-flight check on the new interpreter..."
+trap - ERR # the pre-flight block reports its own failures
 PREFLIGHT_OK="true"
 "$CONDA_PY" - <<'PYEOF' || PREFLIGHT_OK="false"
 import sys
