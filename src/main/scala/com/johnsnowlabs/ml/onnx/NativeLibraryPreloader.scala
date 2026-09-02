@@ -322,6 +322,7 @@ private[onnx] final class NativeLibraryPreloader(
           throw new IllegalStateException(
             s"Refusing CUDA library $library because ${current.getFileName} has an untrusted owner")
 
+        val group = Option(attributes.group()).map(_.getName).getOrElse("")
         val permissions = attributes.permissions()
         if (permissions.contains(PosixFilePermission.OTHERS_WRITE)) {
           if (isLibrary)
@@ -332,10 +333,12 @@ private[onnx] final class NativeLibraryPreloader(
               s"Refusing CUDA library $library because it has a world-writable directory (writable ancestor)")
         }
         if (permissions.contains(PosixFilePermission.GROUP_WRITE)) {
-          if (isLibrary)
+          val isTrustedExecutorPair =
+            isLibrary && securityPolicy.trustedGroupWritableOwnerGroups.contains(owner -> group)
+          if (isLibrary && !isTrustedExecutorPair)
             throw new IllegalStateException(
               s"Refusing group-writable CUDA library file for $library")
-          else
+          else if (!isLibrary)
             throw new IllegalStateException(
               s"Refusing CUDA library $library because it has a group-writable directory (writable ancestor)")
         }
@@ -500,30 +503,40 @@ private[onnx] object NativeLibraryPreloader {
 
   final case class SecurityPolicy(
       trustedOwners: Set[String],
-      readAttributes: Path => PosixFileAttributes)
+      readAttributes: Path => PosixFileAttributes,
+      trustedGroupWritableOwnerGroups: Set[(String, String)] = Set.empty)
 
   object SecurityPolicy {
-    lazy val runtime: SecurityPolicy = SecurityPolicy(
-      trustedOwners = Set(authenticatedProcessOwner(), "root"),
-      readAttributes = path => Files.readAttributes(path, classOf[PosixFileAttributes]))
+    lazy val runtime: SecurityPolicy = {
+      val authenticatedIdentity = authenticatedProcessIdentity()
+      SecurityPolicy(
+        trustedOwners = Set(authenticatedIdentity._1, "root"),
+        readAttributes = path => Files.readAttributes(path, classOf[PosixFileAttributes]),
+        trustedGroupWritableOwnerGroups = Set(authenticatedIdentity))
+    }
   }
 
-  private[onnx] def authenticatedProcessOwner(): String = {
-    val owner =
-      try
-        Files
-          .readAttributes(Paths.get("/proc/self"), classOf[PosixFileAttributes])
-          .owner()
-          .getName
-      catch {
+  private[onnx] def authenticatedProcessOwner(): String = authenticatedProcessIdentity()._1
+
+  private[onnx] def authenticatedProcessIdentity(): (String, String) = {
+    val (owner, group) =
+      try {
+        val attributes =
+          Files.readAttributes(Paths.get("/proc/self"), classOf[PosixFileAttributes])
+        attributes.owner().getName -> attributes.group().getName
+      } catch {
         case NonFatal(error) =>
           throw new IllegalStateException(
             "Unable to establish the authenticated POSIX executor identity",
             error)
       }
-    Option(owner).map(_.trim).filter(_.nonEmpty).getOrElse {
+    val validatedOwner = Option(owner).map(_.trim).filter(_.nonEmpty).getOrElse {
       throw new IllegalStateException("Authenticated POSIX executor identity is empty")
     }
+    val validatedGroup = Option(group).map(_.trim).filter(_.nonEmpty).getOrElse {
+      throw new IllegalStateException("Authenticated POSIX executor group identity is empty")
+    }
+    validatedOwner -> validatedGroup
   }
 
   private val dependencyManifest = "/onnx/cuda-provider-dependencies-1.23.0.txt"

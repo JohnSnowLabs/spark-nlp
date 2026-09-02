@@ -23,7 +23,14 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, File, InputStream, OutputStream}
 import java.nio.file.{Files, Path, Paths}
-import java.nio.file.attribute.{PosixFileAttributes, PosixFilePermissions}
+import java.nio.file.attribute.{
+  FileTime,
+  GroupPrincipal,
+  PosixFileAttributes,
+  PosixFilePermission,
+  PosixFilePermissions,
+  UserPrincipal
+}
 import java.util.concurrent.TimeUnit
 import scala.collection.mutable.ArrayBuffer
 
@@ -304,18 +311,99 @@ class NativeLibraryPreloaderTestSpec extends AnyFlatSpec with BeforeAndAfterEach
     }
   }
 
-  it should "reject group-writable library files" taggedAs FastTest in {
+  it should "reject group-writable library files outside the authenticated owner/group pair" taggedAs FastTest in {
     val directory = tempDirectory()
     val paths = createLibrarySet(directory)
-    Files.setPosixFilePermissions(paths.head, PosixFilePermissions.fromString("rw-rw-r--"))
+    val groupWritableLibrary = paths.head.toRealPath()
+    val untrustedGroupPolicy = NativeLibraryPreloader.SecurityPolicy(
+      trustedOwners = Set("spark"),
+      readAttributes = path => {
+        val attributes = Files.readAttributes(path, classOf[PosixFileAttributes])
+        val permissions = java.util.EnumSet.copyOf(attributes.permissions())
+        if (path == groupWritableLibrary) permissions.add(PosixFilePermission.GROUP_WRITE)
+        val group = if (path == groupWritableLibrary) "shared" else "spark"
+        posixAttributes(attributes, "spark", group, permissions)
+      },
+      trustedGroupWritableOwnerGroups = Set("spark" -> "spark"))
 
     val error = intercept[IllegalStateException] {
-      testPreloader(ArrayBuffer.empty).preload(
+      testPreloader(ArrayBuffer.empty, securityPolicy = untrustedGroupPolicy).preload(
         NativeLibraryPreloader
           .PreloadConfig(NativeLibraryPreloader.Explicit, paths.map(_.toString)))
     }
 
     assert(error.getMessage.contains("group-writable"))
+  }
+
+  it should "accept a group-writable platform library whose trusted owner and group match" taggedAs FastTest in {
+    val directory = tempDirectory()
+    val paths = createLibrarySet(directory)
+    val groupWritableLibrary = paths.head.toRealPath()
+    val loaded = ArrayBuffer.empty[Path]
+    val platformPolicy = NativeLibraryPreloader.SecurityPolicy(
+      trustedOwners = Set("spark"),
+      readAttributes = path => {
+        val attributes = Files.readAttributes(path, classOf[PosixFileAttributes])
+        val permissions = java.util.EnumSet.copyOf(attributes.permissions())
+        if (path == groupWritableLibrary) permissions.add(PosixFilePermission.GROUP_WRITE)
+        posixAttributes(attributes, "spark", "spark", permissions)
+      },
+      trustedGroupWritableOwnerGroups = Set("spark" -> "spark"))
+
+    testPreloader(loaded, securityPolicy = platformPolicy).preload(
+      NativeLibraryPreloader
+        .PreloadConfig(NativeLibraryPreloader.Explicit, paths.map(_.toString)))
+
+    assert(loaded == paths.map(_.toRealPath()))
+  }
+
+  it should "reject a world-writable library even when its trusted owner and group match" taggedAs FastTest in {
+    val directory = tempDirectory()
+    val paths = createLibrarySet(directory)
+    val writableLibrary = paths.head.toRealPath()
+    val platformPolicy = NativeLibraryPreloader.SecurityPolicy(
+      trustedOwners = Set("spark"),
+      readAttributes = path => {
+        val attributes = Files.readAttributes(path, classOf[PosixFileAttributes])
+        val permissions = java.util.EnumSet.copyOf(attributes.permissions())
+        if (path == writableLibrary) {
+          permissions.add(PosixFilePermission.GROUP_WRITE)
+          permissions.add(PosixFilePermission.OTHERS_WRITE)
+        }
+        posixAttributes(attributes, "spark", "spark", permissions)
+      },
+      trustedGroupWritableOwnerGroups = Set("spark" -> "spark"))
+
+    val error = intercept[IllegalStateException] {
+      testPreloader(ArrayBuffer.empty, securityPolicy = platformPolicy).preload(
+        NativeLibraryPreloader
+          .PreloadConfig(NativeLibraryPreloader.Explicit, paths.map(_.toString)))
+    }
+
+    assert(error.getMessage.contains("world-writable CUDA library file"))
+  }
+
+  it should "reject a group-writable root library when only the executor pair is allowed" taggedAs FastTest in {
+    val directory = tempDirectory()
+    val paths = createLibrarySet(directory)
+    val groupWritableLibrary = paths.head.toRealPath()
+    val platformPolicy = NativeLibraryPreloader.SecurityPolicy(
+      trustedOwners = Set("spark", "root"),
+      readAttributes = path => {
+        val attributes = Files.readAttributes(path, classOf[PosixFileAttributes])
+        val permissions = java.util.EnumSet.copyOf(attributes.permissions())
+        if (path == groupWritableLibrary) permissions.add(PosixFilePermission.GROUP_WRITE)
+        posixAttributes(attributes, "root", "root", permissions)
+      },
+      trustedGroupWritableOwnerGroups = Set("spark" -> "spark"))
+
+    val error = intercept[IllegalStateException] {
+      testPreloader(ArrayBuffer.empty, securityPolicy = platformPolicy).preload(
+        NativeLibraryPreloader
+          .PreloadConfig(NativeLibraryPreloader.Explicit, paths.map(_.toString)))
+    }
+
+    assert(error.getMessage.contains("group-writable CUDA library file"))
   }
 
   it should "reject a library whose owner is outside the trusted-owner policy" taggedAs FastTest in {
@@ -334,14 +422,18 @@ class NativeLibraryPreloaderTestSpec extends AnyFlatSpec with BeforeAndAfterEach
     assert(error.getMessage.contains("untrusted owner"))
   }
 
-  it should "derive the trusted executor owner from the authenticated process identity" taggedAs FastTest in {
+  it should "derive the trusted executor owner and writable group from the authenticated process identity" taggedAs FastTest in {
     val originalUserName = Option(System.getProperty("user.name"))
     val actualOwner = currentOwner(Paths.get("/proc/self"))
+    val actualGroup = currentGroup(Paths.get("/proc/self"))
 
     try {
       System.setProperty("user.name", "attacker-selected-owner")
       assert(NativeLibraryPreloader.authenticatedProcessOwner() == actualOwner)
       assert(NativeLibraryPreloader.authenticatedProcessOwner() != "attacker-selected-owner")
+      assert(
+        NativeLibraryPreloader.SecurityPolicy.runtime.trustedGroupWritableOwnerGroups ==
+          Set(actualOwner -> actualGroup))
     } finally
       originalUserName.fold(System.clearProperty("user.name"))(System.setProperty("user.name", _))
   }
@@ -868,6 +960,33 @@ class NativeLibraryPreloaderTestSpec extends AnyFlatSpec with BeforeAndAfterEach
 
   private def currentOwner(path: Path): String =
     Files.readAttributes(path, classOf[PosixFileAttributes]).owner().getName
+
+  private def currentGroup(path: Path): String =
+    Files.readAttributes(path, classOf[PosixFileAttributes]).group().getName
+
+  private def posixAttributes(
+      delegate: PosixFileAttributes,
+      ownerName: String,
+      groupName: String,
+      filePermissions: java.util.Set[PosixFilePermission]): PosixFileAttributes =
+    new PosixFileAttributes {
+      override def owner(): UserPrincipal = new UserPrincipal {
+        override def getName: String = ownerName
+      }
+      override def group(): GroupPrincipal = new GroupPrincipal {
+        override def getName: String = groupName
+      }
+      override def permissions(): java.util.Set[PosixFilePermission] = filePermissions
+      override def lastModifiedTime(): FileTime = delegate.lastModifiedTime()
+      override def lastAccessTime(): FileTime = delegate.lastAccessTime()
+      override def creationTime(): FileTime = delegate.creationTime()
+      override def isRegularFile: Boolean = delegate.isRegularFile
+      override def isDirectory: Boolean = delegate.isDirectory
+      override def isSymbolicLink: Boolean = delegate.isSymbolicLink
+      override def isOther: Boolean = delegate.isOther
+      override def size(): Long = delegate.size()
+      override def fileKey(): AnyRef = delegate.fileKey()
+    }
 
   private def tempDirectory(): Path = {
     val testRoot = Paths.get(System.getProperty("user.home"), ".cache", "spark-nlp-tests")
