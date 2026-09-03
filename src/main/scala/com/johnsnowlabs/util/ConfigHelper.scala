@@ -76,6 +76,8 @@ object ConfigHelper {
   val onnxIntraOpNumThreads = "spark.jsl.settings.onnx.intraOpNumThreads"
   val onnxOptimizationLevel = "spark.jsl.settings.onnx.optimizationLevel"
   val onnxExecutionMode = "spark.jsl.settings.onnx.executionMode"
+  val onnxCudaPreloadMode = "spark.jsl.settings.onnx.cuda.preload.mode"
+  val onnxCudaPreloadPaths = "spark.jsl.settings.onnx.cuda.preload.paths"
 
   def getConfigValueOrElse(property: String, defaultValue: String): String = {
     sparkSession.conf.get(property, defaultValue)

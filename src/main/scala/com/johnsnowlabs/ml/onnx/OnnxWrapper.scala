@@ -22,7 +22,7 @@ import ai.onnxruntime.providers.OrtCUDAProviderOptions
 import ai.onnxruntime.{OrtEnvironment, OrtSession}
 import com.johnsnowlabs.ml.util.LoadExternalModel
 import com.johnsnowlabs.util.{ConfigHelper, FileHelper, ZipArchiveUtil}
-import org.apache.spark.SparkFiles
+import org.apache.spark.{SparkEnv, SparkFiles}
 import org.apache.spark.sql.SparkSession
 import org.slf4j.{Logger, LoggerFactory}
 
@@ -82,22 +82,23 @@ object OnnxWrapper {
   private[OnnxWrapper] val logger: Logger = LoggerFactory.getLogger("OnnxWrapper")
 
   // TODO: make sure this.synchronized is needed or it's not a bottleneck
-  private def withSafeOnnxModelLoader(
+  private[onnx] def withSafeOnnxModelLoader(
       sessionOptions: Map[String, String],
       onnxModelPath: Option[String] = None): (OrtSession, OrtEnvironment) =
     this.synchronized {
+      val modelPath = onnxModelPath.getOrElse {
+        throw new UnsupportedOperationException("onnxModelPath not defined")
+      }
       val env = OrtEnvironment.getEnvironment()
       val sessionOptionsObject = if (sessionOptions.isEmpty) {
         new SessionOptions()
       } else {
         mapToSessionOptionsObject(sessionOptions)
       }
-      if (onnxModelPath.isDefined) {
-        val session = env.createSession(onnxModelPath.get, sessionOptionsObject)
-        (session, env)
-      } else {
-        throw new UnsupportedOperationException("onnxModelPath not defined")
+      val session = withClosingResource(sessionOptionsObject) { options =>
+        env.createSession(modelPath, options)
       }
+      (session, env)
     }
 
   def read(
@@ -186,13 +187,85 @@ object OnnxWrapper {
     // TODO: add support for multiple GPUs
 
     val gpuDeviceId = sessionOptionsMap(ConfigHelper.onnxGpuDeviceId).toInt
-
-    val sessionOptions = new OrtSession.SessionOptions()
     logger.info(s"ONNX session option gpuDeviceId=$gpuDeviceId")
-    val cudaOpts = new OrtCUDAProviderOptions(gpuDeviceId)
-    sessionOptions.addCUDA(cudaOpts)
 
-    sessionOptions
+    // Runtime-only configuration is intentionally lazy: normal CUDA registration must happen
+    // before preload properties are parsed or any filesystem discovery begins.
+    lazy val preloadConfig = cudaPreloadConfig()
+    CudaProviderRecovery.configure(
+      preloadConfig.mode,
+      () => new OrtSession.SessionOptions(),
+      sessionOptions => addCUDAProvider(sessionOptions, gpuDeviceId),
+      () => NativeLibraryPreloader.preload(preloadConfig))
+  }
+
+  private def addCUDAProvider(sessionOptions: SessionOptions, gpuDeviceId: Int): Unit = {
+    withClosingResource(new OrtCUDAProviderOptions(gpuDeviceId)) { cudaOptions =>
+      sessionOptions.addCUDA(cudaOptions)
+    }
+  }
+
+  private[onnx] def withClosingResource[T <: AutoCloseable, R](resource: T)(
+      operation: T => R): R = {
+    var operationFailure: Throwable = null
+    var operationResult: R = null.asInstanceOf[R]
+    var operationCompleted = false
+    try {
+      operationResult = operation(resource)
+      operationCompleted = true
+      operationResult
+    } catch {
+      case error: Throwable =>
+        operationFailure = error
+        throw error
+    } finally {
+      try resource.close()
+      catch {
+        case closeFailure: Throwable =>
+          if (operationFailure != null) operationFailure.addSuppressed(closeFailure)
+          else {
+            if (operationCompleted)
+              operationResult match {
+                case resultResource: AutoCloseable
+                    if !(resultResource.asInstanceOf[AnyRef] eq resource.asInstanceOf[AnyRef]) =>
+                  try resultResource.close()
+                  catch {
+                    case resultCloseFailure: Throwable =>
+                      closeFailure.addSuppressed(resultCloseFailure)
+                  }
+                case _ =>
+              }
+            throw closeFailure
+          }
+      }
+    }
+  }
+
+  private[onnx] def withCloseOnFailure[T <: AutoCloseable, R](resource: T)(operation: T => R): R =
+    try operation(resource)
+    catch {
+      case operationFailure: Throwable =>
+        try resource.close()
+        catch { case closeFailure: Throwable => operationFailure.addSuppressed(closeFailure) }
+        throw operationFailure
+    }
+
+  private[onnx] def cudaPreloadConfig(): NativeLibraryPreloader.PreloadConfig = {
+    def runtimeValue(key: String): String =
+      SparkSession.getActiveSession
+        .orElse(SparkSession.getDefaultSession)
+        .flatMap(_.conf.getOption(key))
+        .orElse(Option(SparkEnv.get).flatMap(_.conf.getOption(key)))
+        .orElse(Option(System.getProperty(key)))
+        .orNull
+
+    val modeValue = runtimeValue(ConfigHelper.onnxCudaPreloadMode)
+    val modeOnly = NativeLibraryPreloader.PreloadConfig.parse(modeValue, null)
+    if (modeOnly.mode == NativeLibraryPreloader.Off) modeOnly
+    else
+      NativeLibraryPreloader.PreloadConfig.parse(
+        modeValue,
+        runtimeValue(ConfigHelper.onnxCudaPreloadPaths))
   }
 
   private def mapToCPUSessionConfig(sessionOptionsMap: Map[String, String]): SessionOptions = {
@@ -234,15 +307,15 @@ object OnnxWrapper {
     val optimizationLevel = getOptLevel(sessionOptionsMap(ConfigHelper.onnxOptimizationLevel))
     val executionMode = getExecutionMode(sessionOptionsMap(ConfigHelper.onnxExecutionMode))
 
-    val sessionOptions = new OrtSession.SessionOptions()
-    logger.info(s"ONNX session option intraOpNumThreads=$intraOpNumThreads")
-    sessionOptions.setIntraOpNumThreads(intraOpNumThreads)
-    logger.info(s"ONNX session option optimizationLevel=$optimizationLevel")
-    sessionOptions.setOptimizationLevel(optimizationLevel)
-    logger.info(s"ONNX session option executionMode=$executionMode")
-    sessionOptions.setExecutionMode(executionMode)
-
-    sessionOptions
+    withCloseOnFailure(new OrtSession.SessionOptions()) { sessionOptions =>
+      logger.info(s"ONNX session option intraOpNumThreads=$intraOpNumThreads")
+      sessionOptions.setIntraOpNumThreads(intraOpNumThreads)
+      logger.info(s"ONNX session option optimizationLevel=$optimizationLevel")
+      sessionOptions.setOptimizationLevel(optimizationLevel)
+      logger.info(s"ONNX session option executionMode=$executionMode")
+      sessionOptions.setExecutionMode(executionMode)
+      sessionOptions
+    }
   }
 
   case class EncoderDecoderWrappers(

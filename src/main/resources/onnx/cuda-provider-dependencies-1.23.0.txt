@@ -1,0 +1,9 @@
+# ONNX Runtime GPU 1.23.0 linux-x64 provider dependency preload order.
+# Reconcile this file with libonnxruntime_providers_cuda.so using readelf -d
+# whenever project/Dependencies.scala changes onnxRuntimeVersion.
+libcudart.so.12
+libcublasLt.so.12
+libcublas.so.12
+libcurand.so.10
+libcufft.so.11
+libcudnn.so.9
