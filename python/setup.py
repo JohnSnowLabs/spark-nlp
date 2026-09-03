@@ -141,6 +141,13 @@ setup(
 
     packages=find_packages(exclude=['test*', 'tmp*']),
 
-    include_package_data=False  # Needed to install jar file
+    include_package_data=False,  # Needed to install jar file
+
+    # Optional dependencies for sparknlp.benchmark's text-similarity metrics (BLEU, ROUGE,
+    # WER) -- install with `pip install spark-nlp[benchmark]`. Kept out of the base install
+    # since most users never call these.
+    extras_require={
+        'benchmark': ['sacrebleu', 'rouge-score', 'jiwer'],
+    }
 
 )
