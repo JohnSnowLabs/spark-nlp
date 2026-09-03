@@ -5,7 +5,7 @@ seotitle: Spark NLP - Advanced Settings
 title: Spark NLP - Advanced Settings
 permalink: /docs/en/advanced_settings
 key: docs-install
-modify_date: "2026-08-18"
+modify_date: "2026-08-27"
 show_nav: true
 sidebar:
     nav: sparknlp
@@ -32,6 +32,8 @@ You can change the following Spark NLP configurations via Spark Configuration:
 | `spark.jsl.settings.onnx.intraOpNumThreads`             | `6`                  | Sets the size of the CPU thread pool used for executing a single graph, if executing on a CPU.                                                                                                                                                                                     |
 | `spark.jsl.settings.onnx.optimizationLevel`             | `ALL_OPT`            | Sets the optimization level of this options object, overriding the old setting.                                                                                                                                                                                                    |
 | `spark.jsl.settings.onnx.executionMode`                 | `SEQUENTIAL`         | Sets the execution mode of this options object, overriding the old setting.                                                                                                                                                                                                        |
+| `spark.jsl.settings.onnx.cuda.preload.mode`              | `search`             | Controls failure-first ONNX CUDA native-dependency recovery: `off`, `search`, or `explicit`. Recovery runs only after a recognized CUDA-provider dependency-loading failure.                                                                                                       |
+| `spark.jsl.settings.onnx.cuda.preload.paths`             | Empty                | In `search` mode, a platform path-separated list of trusted directories with highest precedence. In `explicit` mode, the complete ordered list of absolute CUDA library files required by the packaged ONNX Runtime provider.                                                       |
 | `spark.jsl.settings.serialization.fallbackLogMode`      | `off`                | Controls model fallback-loader diagnostics. Valid values are `off`, `summary`, and `full` (case-insensitive). This setting changes observability only; it does not enable or disable fallback loading.                                                                              |
 
 ### Fallback loader logging
@@ -75,6 +77,29 @@ spark-submit \
 ```
 
 </div><div class="h3-box" markdown="1">
+
+### ONNX CUDA native-dependency recovery
+
+Spark NLP first registers the ONNX Runtime CUDA provider normally. If registration succeeds, it does not inspect preload configuration, search the filesystem, call `System.load`, or retry. If registration fails because a required CUDA shared library cannot be loaded, Spark NLP can preload already-installed libraries inside the executor JVM and retry provider registration once with fresh provider and session-option objects.
+
+- `search` (default): resolve the packaged provider's dependency manifest from trusted operator directories, runtime and linker paths, and a bounded search under generic installation roots. Resolution fails on missing or ambiguous candidates, and every group- or world-writable library is rejected.
+- `explicit`: validate the configured complete ordered list of absolute regular files and load those exact canonical files without searching. A group-writable library is accepted only when its owner and group exactly match the authenticated executor identity; use this exception only on a platform with a documented guarantee that the executor group is exclusive to the authenticated executor identity.
+- `off`: preserve the legacy failure path without reading the paths setting, discovery, preload, or retry.
+
+All enabled modes fail closed. Recovery never silently falls back to CPU, does not install or bundle CUDA, does not use Python discovery, and is independent from model warm-up. Native-library paths are runtime Spark configuration and are not persisted in models.
+
+Before any native load, Spark NLP canonicalizes and validates the complete manifest. Each library must be a readable ELF64 shared object whose architecture and uniquely mapped `DT_SONAME` match the current runtime and required manifest entry. The library and every canonical ancestor must be owned by `root` or the authenticated POSIX executor identity. Library files must not be world-writable. Search mode rejects group-writable libraries; explicit mode permits group-write only for a file whose owner and group exactly match the authenticated executor identity. Every canonical ancestor remains non-group-writable and non-world-writable. Filesystems without POSIX ownership and permission attributes are rejected. Search symlinks must remain inside their approved canonical root, and directory symlinks are not traversed.
+
+Filesystem work is capped across discovery tiers at 20,000 visited entries, including path-list entries and configured directory canonicalization attempts. The configured preload path-list value and the aggregate runtime-derived path-list text each have an independent 1 MiB cap before trimming or splitting. Generic installation-root and linker-configuration traversal has a maximum depth of 6. The aggregate linker-configuration input across the root file and all recursive includes is capped at 1 MiB. Fixed-path `ldconfig -p` output is separately capped at 1 MiB, and `ldconfig` must terminate within 2 seconds after normal completion or forced destruction. Exceeding any limit fails recovery instead of broadening the search.
+
+Example explicit configuration on Linux:
+
+```bash
+--conf spark.jsl.settings.onnx.cuda.preload.mode=explicit \
+--conf spark.jsl.settings.onnx.cuda.preload.paths=/absolute/cuda/libcudart.so.12:/absolute/cuda/libcublasLt.so.12:/absolute/cuda/libcublas.so.12:/absolute/cuda/libcurand.so.10:/absolute/cuda/libcufft.so.11:/absolute/cuda/libcudnn.so.9
+```
+
+The exact SONAME inventory is version-coupled to the ONNX Runtime GPU provider packaged by Spark NLP. Reconcile it against `libonnxruntime_providers_cuda.so` whenever the ONNX Runtime dependency changes.
 
 ### How to set Spark NLP Configuration
 
