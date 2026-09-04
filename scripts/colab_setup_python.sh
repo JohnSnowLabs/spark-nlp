@@ -16,13 +16,27 @@
 #   you run after a restart execute on a Python that PySpark supports.
 #
 # HOW IT WORKS
-#   Miniconda for the target Python is installed over /usr/local, the packages
-#   Colab's frontend needs to talk to a kernel (jupyter, google-colab,
-#   traitlets) are reinstalled there, and a Jupyter kernelspec named "python3"
-#   is written to ~/.local/share/jupyter/kernels. That user-level kernelspec
-#   shadows Colab's system one, so restarting the runtime relaunches the
-#   default kernel on the new interpreter - no notebook metadata edits needed.
-#   Technique adapted from https://github.com/j3soon/colab-python-version
+#   Miniconda for the target Python is installed over /usr/local, and the
+#   packages Colab's frontend needs to talk to a kernel (jupyter, google-colab,
+#   traitlets) are reinstalled there. Technique adapted from
+#   https://github.com/j3soon/colab-python-version
+#
+#   Redirecting the *default* kernel then needs one extra step. Colab does not
+#   honour a kernelspec's argv for it: whatever kernel.json says, the runtime
+#   launches the hardcoded command
+#
+#       /usr/bin/python3 -m colab_kernel_launcher -f {connection_file}
+#
+#   so installing a kernelspec - user-level or system - changes nothing. The
+#   only interception point is the launcher module itself, so this script
+#   replaces colab_kernel_launcher.py in Colab's 3.13 dist-packages with a shim
+#   that re-execs the same launcher under the new interpreter, carrying the
+#   connection file through unchanged. The original is kept alongside it and is
+#   re-run automatically if the new interpreter has gone missing.
+#
+#   Kernelspecs are still registered (a "python3" override plus a versioned
+#   name) so notebooks that do pin metadata.kernelspec.name keep working, but
+#   the shim is what actually moves the default kernel.
 #
 # USAGE (in a Colab cell)
 #   !wget -q https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp/master/scripts/colab_setup_python.sh -O - | bash
@@ -52,9 +66,12 @@
 #
 # IF THE RUNTIME WON'T RECONNECT AFTER RESTARTING
 #   Runtime > Disconnect and delete runtime. That discards everything this
-#   script did. (The kernelspec alone can be undone with
-#   "rm -rf ~/.local/share/jupyter/kernels/python3", but only from a kernel
-#   that still starts.)
+#   script did, including the launcher shim, and is the only reliable recovery
+#   once the kernel will not start - by then no cell can run to undo anything.
+#   (For reference, the shim restores with
+#   "cp <dist-packages>/colab_kernel_launcher.sparknlp-original.py \
+#       <dist-packages>/colab_kernel_launcher.py"
+#   and the kernelspec with "rm -rf ~/.local/share/jupyter/kernels/python3".)
 #
 # IF A RUN FAILS PART WAY THROUGH
 #   Delete the runtime before retrying. A failed run can leave /usr/local
@@ -155,7 +172,7 @@ trap 'status=$?;
   exit ${status}' ERR
 
 # Fail before touching anything if the requested Miniconda build does not exist.
-echo "[1/6] Checking ${MINICONDA_INSTALLER} is available..."
+echo "[1/7] Checking ${MINICONDA_INSTALLER} is available..."
 if ! wget -q --spider "$MINICONDA_URL"; then
   echo "Error: ${MINICONDA_URL} not found." >&2
   echo "       Pick an existing build with -m (see https://repo.anaconda.com/miniconda/)." >&2
@@ -166,7 +183,7 @@ fi
 # Spark 3.x supports Java 8, 11 and 17 only, and Colab's image ships Java 21.
 # Rather than parsing `java -version` (whose output format varies), just make
 # sure a JDK Spark accepts is on disk and point JAVA_HOME straight at it.
-echo "[2/6] Java (Spark 3.x requires Java 8, 11 or 17)..."
+echo "[2/7] Java (Spark 3.x requires Java 8, 11 or 17)..."
 JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 if [ ! -d "$JAVA_HOME" ]; then
   echo "       Installing OpenJDK 11..."
@@ -202,7 +219,7 @@ fi
 # Installs over /usr/local so /usr/local/bin/python becomes the target version.
 # Colab's own dist-packages live under /usr/local/lib/python3.13 and are left in
 # place, so the kernel running this cell keeps working until you restart.
-echo "[3/6] Installing Python ${PYTHON_VERSION} (${MINICONDA_INSTALLER})..."
+echo "[3/7] Installing Python ${PYTHON_VERSION} (${MINICONDA_INSTALLER})..."
 wget -q -O /tmp/miniconda.sh "$MINICONDA_URL"
 bash /tmp/miniconda.sh -b -f -p /usr/local >/dev/null
 rm -f /tmp/miniconda.sh
@@ -217,7 +234,7 @@ rm -f /tmp/miniconda.sh
 # Everything needed here lives on conda-forge, so drop defaults entirely. The
 # tos accept calls are a best-effort fallback for setups that still reach for
 # them, and are ignored on conda versions without the subcommand.
-echo "[4/6] Installing Colab kernel packages (jupyter, google-colab, traitlets=${TRAITLETS})..."
+echo "[4/7] Installing Colab kernel packages (jupyter, google-colab, traitlets=${TRAITLETS})..."
 for channel in main r; do
   /usr/local/bin/conda tos accept --override-channels \
     --channel "https://repo.anaconda.com/pkgs/${channel}" >/dev/null 2>&1 || true
@@ -226,7 +243,7 @@ done
   jupyter google-colab "traitlets=${TRAITLETS}" >/dev/null
 
 # --------------------------------------------------------------- Payload ---
-echo "[5/6] Installing PySpark ${PYSPARK}, Spark NLP ${SPARKNLP}, findspark..."
+echo "[5/7] Installing PySpark ${PYSPARK}, Spark NLP ${SPARKNLP}, findspark..."
 "$CONDA_PY" -m pip install --upgrade -q "pyspark==${PYSPARK}" "spark-nlp==${SPARKNLP}" findspark
 
 # ------------------------------------------------------------- Pre-flight --
@@ -235,7 +252,24 @@ echo "[5/6] Installing PySpark ${PYSPARK}, Spark NLP ${SPARKNLP}, findspark..."
 # interpreter can do what the kernel needs before writing it. This is the check
 # that catches the 3.12 "kernel_class ... could not be imported" failure
 # *before* it can leave you with a runtime that never reconnects.
-echo "[6/6] Pre-flight check on the new interpreter..."
+echo "[6/7] Pre-flight check on the new interpreter..."
+
+# Colab launches "/usr/bin/python3 -m colab_kernel_launcher", so the new
+# interpreter has to be able to run that module. conda-forge's google-colab
+# does not always ship it; when it is missing, copy the one Colab is using.
+#
+# Locate it with find_spec rather than importing it: the launcher's job is to
+# start a kernel, so importing it here could block or spawn one.
+FIND_LAUNCHER='import importlib.util as u; s = u.find_spec("colab_kernel_launcher"); print(s.origin if s and s.origin else "")'
+SYS_LAUNCHER="$(/usr/bin/python3 -c "$FIND_LAUNCHER" 2>/dev/null || true)"
+NEW_LAUNCHER="$("$CONDA_PY" -c "$FIND_LAUNCHER" 2>/dev/null || true)"
+if [ -z "$NEW_LAUNCHER" ] && [ -n "$SYS_LAUNCHER" ] && [ -f "$SYS_LAUNCHER" ]; then
+  SITE_PACKAGES="$("$CONDA_PY" -c 'import site; print(site.getsitepackages()[0])')"
+  echo "       copying colab_kernel_launcher into the new interpreter"
+  cp "$SYS_LAUNCHER" "${SITE_PACKAGES}/colab_kernel_launcher.py"
+  NEW_LAUNCHER="$("$CONDA_PY" -c "$FIND_LAUNCHER" 2>/dev/null || true)"
+fi
+
 trap - ERR # the pre-flight block reports its own failures
 PREFLIGHT_OK="true"
 "$CONDA_PY" - <<'PYEOF' || PREFLIGHT_OK="false"
@@ -251,6 +285,18 @@ print("       python      : %d.%d.%d" % sys.version_info[:3])
 print("       pyspark     : %s" % pyspark.__version__)
 print("       spark-nlp   : %s" % sparknlp.version())
 PYEOF
+
+if [[ "$PREFLIGHT_OK" == "true" ]]; then
+  if [ -z "$SYS_LAUNCHER" ] || [ ! -f "$SYS_LAUNCHER" ]; then
+    echo "       could not locate Colab's colab_kernel_launcher module"
+    PREFLIGHT_OK="false"
+  elif [ -z "$NEW_LAUNCHER" ]; then
+    echo "       colab_kernel_launcher is not importable under Python ${PYTHON_VERSION}"
+    PREFLIGHT_OK="false"
+  else
+    echo "       launcher    : ${SYS_LAUNCHER}"
+  fi
+fi
 
 if [[ "$PREFLIGHT_OK" != "true" ]]; then
   echo
@@ -269,10 +315,11 @@ if [[ "$PREFLIGHT_OK" != "true" ]]; then
 fi
 
 # ------------------------------------------------------------ Kernelspec ---
-# --user writes to ~/.local/share/jupyter/kernels, which Jupyter searches before
-# the system directories, so a spec named "python3" shadows Colab's own without
-# deleting it. The versioned name is registered too, for notebooks that pin
-# metadata.kernelspec.name explicitly.
+# These do NOT move Colab's default kernel - the runtime ignores kernel.json's
+# argv and execs a hardcoded command instead (the shim below is what redirects
+# it). They are registered so that notebooks pinning metadata.kernelspec.name,
+# and any tooling that reads the specs, see the right interpreter.
+echo "[7/7] Registering kernelspecs and redirecting Colab's kernel launcher..."
 "$CONDA_PY" -m ipykernel install --user \
   --name "$KERNEL_NAME" --display-name "Python ${PYTHON_VERSION} (Spark NLP)" >/dev/null
 "$CONDA_PY" -m ipykernel install --user \
@@ -299,6 +346,51 @@ for name in sys.argv[4:]:
         json.dump(spec, f, indent=1)
     print("       kernelspec  : %s" % path)
 PYEOF
+
+# --------------------------------------------------------- Launcher shim ---
+# The actual redirect. Colab execs "/usr/bin/python3 -m colab_kernel_launcher",
+# so replacing that module makes the kernel Colab talks to start under the new
+# interpreter. The shim re-execs the same launcher, passing the connection file
+# straight through, and exports the Spark variables the kernel needs (the
+# kernelspec "env" block is not honoured either, for the same reason argv is
+# not). If the new interpreter has disappeared, it falls back to running the
+# original launcher so the runtime still comes up.
+LAUNCHER_BACKUP="${SYS_LAUNCHER%.py}.sparknlp-original.py"
+if [ ! -f "$LAUNCHER_BACKUP" ]; then
+  cp "$SYS_LAUNCHER" "$LAUNCHER_BACKUP"
+fi
+
+cat > "$SYS_LAUNCHER" <<EOF
+"""Redirects Colab's default kernel onto Python ${PYTHON_VERSION}.
+
+Installed by scripts/colab_setup_python.sh from the Spark NLP repository.
+The launcher this replaced is kept next to it as
+${LAUNCHER_BACKUP##*/} and is used if the interpreter below is gone.
+"""
+
+import os
+import runpy
+import sys
+
+_PYTHON = "${CONDA_PY}"
+_ORIGINAL = "${LAUNCHER_BACKUP}"
+
+os.environ.setdefault("JAVA_HOME", "${JAVA_HOME}")
+os.environ.setdefault("PYSPARK_PYTHON", _PYTHON)
+os.environ.setdefault("PYSPARK_DRIVER_PYTHON", _PYTHON)
+
+if os.access(_PYTHON, os.X_OK):
+    try:
+        # execve, not execv: pass the environment explicitly so the Spark
+        # variables above are guaranteed to reach the kernel process.
+        os.execve(_PYTHON, [_PYTHON, "-m", "colab_kernel_launcher"] + sys.argv[1:], os.environ)
+    except Exception:
+        pass  # anything at all goes wrong -> run the original launcher instead
+
+runpy.run_path(_ORIGINAL, run_name="__main__")
+EOF
+echo "       launcher    : ${SYS_LAUNCHER} -> ${CONDA_PY}"
+echo "       original    : ${LAUNCHER_BACKUP}"
 
 cat <<EOF
 
