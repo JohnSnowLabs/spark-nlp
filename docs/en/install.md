@@ -797,41 +797,162 @@ aws emr create-cluster \
 
 ## EMR Serverless
 
-This setup is for Spark NLP Open Source jobs on Amazon EMR Serverless. EMR Serverless does not run bootstrap actions like an EMR cluster, so the job should load its Python runtime, Spark NLP assembly JAR, and any offline model artifacts from S3.
+This section explains how to run Spark NLP Open Source on Amazon EMR Serverless with either Apache Spark 3.x or Apache Spark 4.x. EMR Serverless does not run bootstrap actions, so the Python environment and Spark NLP JVM artifacts must be available when the job starts.
 
-The example below uses:
+### 1. Select the EMR, Spark, and Scala lane
 
-- EMR Serverless release `emr-7.12.0`
-- Python `3.11`
-- Spark NLP `{{ site.sparknlp_version }}`
-- Scala `2.12`
+Choose the Spark NLP JVM artifact that matches the Spark and Scala versions supplied by the EMR Serverless release.
 
-### 1. Prepare the S3 artifact layout
+{:.table-model-big}
+| EMR Serverless release | Spark | Scala | Default Java | Spark NLP JVM artifact |
+|---|---|---|---|---|
+| `emr-7.12.0` | Spark 3.x | 2.12 | EMR-managed | `spark-nlp_2.12` |
+| `emr-spark-8.0.0` | `4.0.2-amzn-0` | 2.13 | 17 | `spark-nlp_2.13` |
 
-Create an S3 bucket or prefix that the EMR Serverless runtime role can read from and write logs/cache files to:
+The Java runtime is supplied by EMR, not selected by Spark NLP. Verify the exact Java version for the chosen EMR release when using a different release label.
+
+`emr-spark-8.0.0` is the Spark-focused Amazon EMR 8 release label; it is not `emr-8.0.0`. Spark 4 requires Scala 2.13, so do not use a `_2.12` Spark NLP artifact or other Scala 2.12 dependencies with this release. The `spark-nlp-spark400_2.13` artifact is only for Spark 4.0.0; EMR Spark 8.0.0 supplies Spark 4.0.2 and uses `spark-nlp_2.13`.
+
+The same Spark NLP Python package is used with both Spark lines. The JVM artifact is what changes:
+
+{:.table-model-big}
+| Spark line | Maven coordinate |
+|---|---|
+| Spark 3.x / Scala 2.12 | `com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}` |
+| Spark 4.0.2 / Scala 2.13 | `com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}` |
+
+AWS documents the Spark 4 runtime details in [Amazon EMR Spark 8.0.0](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-spark800-release.html).
+
+### 2. Create the EMR Serverless application
+
+Create an application with the release label for the Spark line you intend to run:
+
+```bash
+export AWS_REGION='<aws-region>'
+export AWS_DEFAULT_REGION="$AWS_REGION"
+
+# Spark 3.x example:
+export EMR_RELEASE_LABEL='emr-7.12.0'
+export APP_NAME='spark-nlp-spark3'
+
+# Spark 4.x example; use these values instead of the Spark 3.x values above:
+# export EMR_RELEASE_LABEL='emr-spark-8.0.0'
+# export APP_NAME='spark-nlp-spark4'
+
+export APP_ID="$(aws emr-serverless create-application \
+  --region "$AWS_REGION" \
+  --name "$APP_NAME" \
+  --type SPARK \
+  --release-label "$EMR_RELEASE_LABEL" \
+  --query applicationId \
+  --output text)"
+
+printf 'APP_ID=%s\n' "$APP_ID"
+```
+
+Verify the application before submitting a job:
+
+```bash
+aws emr-serverless get-application \
+  --region "$AWS_REGION" \
+  --application-id "$APP_ID" \
+  --query 'application.{Name:name,Id:applicationId,State:state,Release:releaseLabel}' \
+  --output table
+```
+
+AWS allows an application's `releaseLabel` to be updated while the application is in the `CREATED` or `STOPPED` state. A separate application is preferable when Spark 3 and Spark 4 workloads must remain independently available or validated.
+
+The identity that submits the job and the IAM role used by the running job are different:
+
+- the submitter creates applications and calls `StartJobRun`;
+- the stable runtime role is passed through `--execution-role-arn` and accesses S3 for the job.
+
+Do not pass a temporary `arn:aws:sts::...:assumed-role/...` submitter ARN as the execution role.
+
+Before the first job on a new application, inspect the runtime role's trust policy:
+
+```bash
+export EXECUTION_ROLE_ARN='<emr-serverless-runtime-role-arn>'
+export RUNTIME_ROLE_NAME="${EXECUTION_ROLE_ARN##*/}"
+
+aws iam get-role \
+  --role-name "$RUNTIME_ROLE_NAME" \
+  --query 'Role.AssumeRolePolicyDocument' \
+  --output json
+```
+
+The trust policy must allow `emr-serverless.amazonaws.com`. If an `aws:SourceArn` condition is restricted to application ARNs, preserve every application that must continue working and add the new application ARN exactly. Do not broaden an exact allowlist to `applications/*` unless that is an explicit IAM decision.
+
+The runtime role needs least-privilege S3 access for the job script, Python environment, JARs, inputs, outputs, and logs. See [Job runtime roles for Amazon EMR Serverless](https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/security-iam-runtime-role.html).
+
+### 3. Prepare the Spark NLP artifacts
+
+Use separate S3 prefixes for the Spark 3 / Scala 2.12 and Spark 4 / Scala 2.13 JVM artifacts:
 
 ```text
 s3://<artifact-bucket>/spark-nlp-emr/
   scripts/
   envs/
+    spark-nlp-{{ site.sparknlp_version }}-py311.tar.gz
+  jars/
+    spark3-scala212/
+    spark4-scala213/
+  manifests/
   models/
-  cache_pretrained/
+  outputs/
   logs/
-s3://<artifact-bucket>/jars/
 ```
 
-Upload the Spark NLP assembly JAR to S3. You can use a JAR from the Spark NLP release notes or build one from source with `sbt assembly`.
+There are two dependency-delivery modes:
+
+1. If the job has Maven Central access, pass the matching Maven coordinate with `--packages`.
+2. If the job has no Maven/PyPI access, resolve the matching runtime dependency graph in a connected build environment, verify it, stage it in S3, and pass the complete comma-separated S3 JAR list through `spark.jars`.
+
+For offline resolution, select the artifact for the application lane in a standard Maven `pom.xml`. This example is for Spark 4.x; use `spark-nlp_2.12` for Spark 3.x:
+
+```xml
+<dependency>
+  <groupId>com.johnsnowlabs.nlp</groupId>
+  <artifactId>spark-nlp_2.13</artifactId>
+  <version>{{ site.sparknlp_version }}</version>
+  <exclusions>
+    <exclusion>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+    </exclusion>
+    <exclusion>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-reflect</artifactId>
+    </exclusion>
+  </exclusions>
+</dependency>
+```
+
+Resolve into a new directory so stale dependencies from an earlier build cannot be included:
 
 ```bash
-aws s3 cp spark-nlp-assembly-{{ site.sparknlp_version }}.jar \
-  s3://<artifact-bucket>/jars/spark-nlp-assembly-{{ site.sparknlp_version }}.jar
+export RUNTIME_JARS_DIR="$PWD/runtime-jars"
+if [[ -e "$RUNTIME_JARS_DIR" ]]; then
+  echo "Refusing to reuse existing directory: $RUNTIME_JARS_DIR" >&2
+  exit 1
+fi
+
+mvn --batch-mode \
+  -f pom.xml \
+  dependency:copy-dependencies \
+  -DincludeScope=runtime \
+  -DoutputDirectory="$RUNTIME_JARS_DIR"
 ```
 
-Use `spark.jars` with this S3 path for EMR Serverless jobs. If the runtime cannot reach Maven repositories, avoid `spark.jars.packages`.
+Do not stage Spark or Scala runtime JARs already supplied by EMR. Reject unexpected `spark-core`, `spark-sql`, `spark-mllib`, `spark-catalyst`, `spark-network-*`, `spark-launcher`, `scala-library`, and `scala-reflect` artifacts before uploading the dependency set.
 
-### 2. Build the Python runtime archive
+Keep a SHA-256 manifest and use a new S3 prefix for each verified dependency set. Construct `SPARK_NLP_JARS` from the complete sorted list of uploaded JAR object URIs, excluding the manifest itself.
 
-Build the Python environment on Amazon Linux 2023 so it matches the EMR Serverless runtime. The `--copies` option avoids Python binary symlinks that point back to the build machine.
+### 4. Build the Python environment
+
+Build the environment against the operating system and Python version supplied by the selected EMR release. The following Amazon Linux 2023 and Python 3.11 example is suitable for `emr-spark-8.0.0`.
+
+EMR supplies PySpark. Do not install or package a second PySpark distribution.
 
 ```dockerfile
 FROM amazonlinux:2023
@@ -841,261 +962,221 @@ RUN dnf update -y && \
       python3.11 \
       python3.11-pip \
       python3.11-devel \
-      tar \
-      gzip \
-      findutils \
-      shadow-utils && \
+      tar gzip findutils shadow-utils && \
     dnf clean all
 
 WORKDIR /work
 CMD ["/bin/bash"]
 ```
 
-Build and enter the container:
+Build and enter the image:
 
 ```bash
-docker build -t emr-venv-builder -f Dockerfile .
+docker build -t spark-nlp-emr-al2023 -f Dockerfile .
 docker run --rm -it \
   -u "$(id -u):$(id -g)" \
   -v "$PWD":/work \
-  emr-venv-builder
+  spark-nlp-emr-al2023
 ```
 
-Inside the container, create and pack the virtual environment:
+Inside the container:
 
 ```bash
 cd /work
-rm -rf spark-nlp-env spark-nlp-env.tar.gz
+export SPARK_NLP_VERSION='{{ site.sparknlp_version }}'
 
 python3.11 -m venv --copies spark-nlp-env
 source spark-nlp-env/bin/activate
-
 python -m pip install --upgrade pip
-pip install "spark-nlp=={{ site.sparknlp_version }}" "numpy==1.26.4" venv-pack
+python -m pip install "spark-nlp==$SPARK_NLP_VERSION" "numpy==1.26.4" venv-pack
 
-python -c "import numpy; print('numpy ok')"
-python -c "import sparknlp; print('sparknlp ok')"
+python -c 'from importlib.metadata import version; print(version("spark-nlp"))'
+if python -c 'import pyspark' 2>/dev/null; then
+  echo 'The packaged environment must not contain PySpark' >&2
+  exit 1
+fi
 
-venv-pack -o spark-nlp-env.tar.gz
+venv-pack -f -o "spark-nlp-${SPARK_NLP_VERSION}-py311.tar.gz"
 ```
 
 Upload the archive:
 
 ```bash
-aws s3 cp spark-nlp-env.tar.gz \
-  s3://<artifact-bucket>/spark-nlp-emr/envs/spark-nlp-env.tar.gz
+export SPARK_NLP_VERSION='{{ site.sparknlp_version }}'
+aws s3 cp "spark-nlp-${SPARK_NLP_VERSION}-py311.tar.gz" \
+  "s3://<artifact-bucket>/spark-nlp-emr/envs/spark-nlp-${SPARK_NLP_VERSION}-py311.tar.gz"
 ```
 
-### 3. Choose how pretrained assets are loaded
+### 5. Create a Spark NLP job
 
-There are two common patterns for pretrained resources on EMR Serverless.
-
-The first pattern uses `cache_pretrained` with an S3 path. With this setup, calls such as `PretrainedPipeline("recognize_entities_dl", lang="en")` or `.pretrained(...)` download the compatible resource on the first run and store it in the configured S3 cache. Later runs reuse the cached copy.
-
-```bash
---conf spark.jsl.settings.pretrained.cache_folder=s3a://<artifact-bucket>/spark-nlp-emr/cache_pretrained/
-```
-
-Use this pattern when the EMR Serverless job can reach the Spark NLP public model repository and the cache bucket is writable by the runtime role or by the temporary credentials passed to Spark.
-
-Then use the standard pretrained APIs:
+The following model-free distributed smoke test works with both Spark 3.x and Spark 4.x when the correct application and JVM artifact lane are selected:
 
 ```python
+from importlib.metadata import version
+
+from pyspark.ml import Pipeline
 from pyspark.sql import SparkSession
-from sparknlp.pretrained import PretrainedPipeline
+from sparknlp.annotator import Tokenizer
+from sparknlp.base import DocumentAssembler, Finisher
 
-spark = SparkSession.builder.appName("Spark NLP EMR Serverless").getOrCreate()
-pipeline = PretrainedPipeline("recognize_entities_dl", lang="en")
-```
+spark = SparkSession.builder.appName("spark-nlp-emr-serverless").getOrCreate()
 
-The second pattern loads a model or pipeline that was already downloaded and saved to S3. This does not populate `cache_pretrained`; it reads the exact saved path you provide. Use this when the resource is prepared ahead of time or when the job should not download from the public model repository at runtime.
-
-```python
-from pyspark.sql import SparkSession
-from sparknlp.pretrained import PretrainedPipeline
-
-spark = SparkSession.builder.appName("Spark NLP EMR Serverless").getOrCreate()
-pipeline = PretrainedPipeline.from_disk(
-    "s3a://<artifact-bucket>/spark-nlp-emr/models/recognize_entities_dl"
+print("Spark NLP Python version:", version("spark-nlp"))
+print("Spark version:", spark.version)
+print(
+    "Scala version:",
+    spark.sparkContext._jvm.scala.util.Properties.versionString(),
 )
-```
+print(
+    "Java version:",
+    spark.sparkContext._jvm.java.lang.System.getProperty("java.version"),
+)
 
-To prepare a pipeline in an environment with internet access and upload it to S3:
+data = spark.createDataFrame(
+    [(1, "Spark NLP runs on Amazon EMR Serverless.")],
+    ["id", "text"],
+).repartition(2)
 
-```python
-import sparknlp
-from sparknlp.pretrained import PretrainedPipeline
+document = (
+    DocumentAssembler()
+    .setInputCol("text")
+    .setOutputCol("document")
+)
+token = (
+    Tokenizer()
+    .setInputCols(["document"])
+    .setOutputCol("token")
+)
+finisher = (
+    Finisher()
+    .setInputCols(["token"])
+    .setOutputCols(["finished_token"])
+)
 
-spark = sparknlp.start()
-pipeline = PretrainedPipeline("recognize_entities_dl", lang="en")
-pipeline.model.write().overwrite().save("recognize_entities_dl")
+model = Pipeline(stages=[document, token, finisher]).fit(data)
+rows = model.transform(data).select("finished_token").collect()
+assert "Spark" in rows[0].finished_token
+print(rows)
+
 spark.stop()
 ```
 
-```bash
-aws s3 cp --recursive recognize_entities_dl \
-  s3://<artifact-bucket>/spark-nlp-emr/models/recognize_entities_dl
-```
-
-The saved path should contain `metadata/` and `stages/` at the top level.
-
-If you prefer a fully offline local load, archive the folder, pass the archive in `spark.archives`, and load it with `PretrainedPipeline.from_disk("./recognize_entities_dl")`. AWS documents [`spark.archives`](https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/jobs-spark.html) as a comma-separated list of `.jar`, `.tar.gz`, `.tgz`, and `.zip` files extracted into each executor working directory, but it does not publish a model-archive-specific size quota. In Spark NLP EMR Serverless experiments, model archives larger than approximately 1 GB failed during archive distribution or extraction. Treat `spark.archives` as a small-model convenience path; for larger models, prefer direct S3 loading with `PretrainedPipeline.from_disk("s3a://...")` or the S3 `cache_pretrained` configuration.
-
-### 4. Create the job script
-
-Save the following as `ner_test.py`:
-
-```python
-from pyspark.sql import SparkSession
-from sparknlp.pretrained import PretrainedPipeline
-
-
-def main():
-    spark = SparkSession.builder.appName("Spark NLP EMR Serverless").getOrCreate()
-
-    text = "Barack Obama was born in Hawaii and was elected president of the United States."
-
-    # Use this when spark.jsl.settings.pretrained.cache_folder points to S3.
-    pipeline = PretrainedPipeline("recognize_entities_dl", lang="en")
-
-    # To load a pipeline already saved in S3, use:
-    # pipeline = PretrainedPipeline.from_disk(
-    #     "s3a://<artifact-bucket>/spark-nlp-emr/models/recognize_entities_dl"
-    # )
-    #
-    # For a fully offline local load, archive the pipeline in spark.archives and use:
-    # pipeline = PretrainedPipeline.from_disk("./recognize_entities_dl")
-
-    result = pipeline.fullAnnotate(text)[0]
-
-    print("=== INPUT ===")
-    print(text)
-
-    print("\n=== NER OUTPUT ===")
-    for entity in result.get("entities", []):
-        print(
-            f"text={entity.result!r}, "
-            f"label={entity.metadata.get('entity')!r}, "
-            f"begin={entity.begin}, end={entity.end}"
-        )
-
-    spark.stop()
-
-
-if __name__ == "__main__":
-    main()
-```
-
-Upload the script:
+Save the script as `spark_nlp_emr_serverless.py`, validate its syntax, and upload it:
 
 ```bash
-aws s3 cp ner_test.py \
-  s3://<artifact-bucket>/spark-nlp-emr/scripts/ner_test.py
+python3 -m py_compile spark_nlp_emr_serverless.py
+aws s3 cp spark_nlp_emr_serverless.py \
+  s3://<artifact-bucket>/spark-nlp-emr/scripts/spark_nlp_emr_serverless.py
 ```
 
-### 5. Create the EMR Serverless application
+### 6. Configure the required Spark properties
 
-Create an EMR Serverless Spark application with a release label compatible with your Spark NLP build, for example `emr-7.12.0`. Keep the returned application id and use an execution role that can access the S3 paths above.
-
-```bash
-aws emr-serverless create-application \
-  --name spark-nlp-os \
-  --type SPARK \
-  --release-label emr-7.12.0
-```
-
-### 6. Submit the job
-
-Submit with the Python environment archive, the Spark NLP assembly JAR, and the S3 pretrained cache.
-
-The following Open Source example uses temporary AWS credentials. Replace every placeholder before running it. If the EMR Serverless runtime role already has read/write permissions for the artifact bucket and cache path, omit the temporary credential lines, including `spark.hadoop.fs.s3a.aws.credentials.provider`, `spark.hadoop.fs.s3a.access.key`, `spark.hadoop.fs.s3a.secret.key`, `spark.hadoop.fs.s3a.session.token`, and `spark.jsl.settings.aws.credentials.*`, and let S3A use the runtime role.
-
-```bash
---conf spark.archives=s3://<artifact-bucket>/spark-nlp-emr/envs/spark-nlp-env.tar.gz#environment \
---conf spark.emr-serverless.driverEnv.PYSPARK_DRIVER_PYTHON=./environment/bin/python \
---conf spark.emr-serverless.driverEnv.PYSPARK_PYTHON=./environment/bin/python \
---conf spark.executorEnv.PYSPARK_PYTHON=./environment/bin/python \
---conf spark.jars=s3://<artifact-bucket>/jars/spark-nlp-assembly-{{ site.sparknlp_version }}.jar \
---conf spark.jsl.settings.pretrained.cache_folder=s3a://<artifact-bucket>/spark-nlp-emr/cache_pretrained/ \
---conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem \
---conf spark.hadoop.fs.s3a.endpoint=s3.<aws-region>.amazonaws.com \
---conf spark.hadoop.fs.s3a.aws.credentials.provider=org.apache.hadoop.fs.s3a.TemporaryAWSCredentialsProvider \
---conf spark.hadoop.fs.s3a.access.key=<aws-access-key-id> \
---conf spark.hadoop.fs.s3a.secret.key=<aws-secret-access-key> \
---conf spark.hadoop.fs.s3a.session.token=<aws-session-token> \
---conf spark.jsl.settings.aws.region=<aws-region> \
---conf spark.jsl.settings.aws.credentials.access_key_id=<aws-access-key-id> \
---conf spark.jsl.settings.aws.credentials.secret_access_key=<aws-secret-access-key> \
---conf spark.jsl.settings.aws.credentials.session_token=<aws-session-token> \
---conf spark.hadoop.hive.metastore.client.factory.class=com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
-```
-
-For direct S3 loading of a previously downloaded Open Source pipeline, keep the Python, JAR, and S3A properties, remove `spark.jsl.settings.pretrained.cache_folder` unless the same job also downloads other pretrained resources, and load the saved pipeline path with `PretrainedPipeline.from_disk("s3a://<artifact-bucket>/spark-nlp-emr/models/<pipeline-name>")`.
-
-```bash
---conf spark.archives=s3://<artifact-bucket>/spark-nlp-emr/envs/spark-nlp-env.tar.gz#environment \
---conf spark.emr-serverless.driverEnv.PYSPARK_DRIVER_PYTHON=./environment/bin/python \
---conf spark.emr-serverless.driverEnv.PYSPARK_PYTHON=./environment/bin/python \
---conf spark.executorEnv.PYSPARK_PYTHON=./environment/bin/python \
---conf spark.jars=s3://<artifact-bucket>/jars/spark-nlp-assembly-{{ site.sparknlp_version }}.jar \
---conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem \
---conf spark.hadoop.fs.s3a.endpoint=s3.<aws-region>.amazonaws.com \
---conf spark.hadoop.fs.s3a.aws.credentials.provider=org.apache.hadoop.fs.s3a.TemporaryAWSCredentialsProvider \
---conf spark.hadoop.fs.s3a.access.key=<aws-access-key-id> \
---conf spark.hadoop.fs.s3a.secret.key=<aws-secret-access-key> \
---conf spark.hadoop.fs.s3a.session.token=<aws-session-token> \
---conf spark.hadoop.hive.metastore.client.factory.class=com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
-```
-
-Pass the selected properties as the `sparkSubmitParameters` string:
-
-```bash
-aws emr-serverless start-job-run \
-  --application-id <application-id> \
-  --execution-role-arn <emr-serverless-runtime-role-arn> \
-  --job-driver '{
-    "sparkSubmit": {
-      "entryPoint": "s3://<artifact-bucket>/spark-nlp-emr/scripts/ner_test.py",
-      "sparkSubmitParameters": "<spark-submit-parameters>"
-    }
-  }' \
-  --configuration-overrides '{
-    "monitoringConfiguration": {
-      "s3MonitoringConfiguration": {
-        "logUri": "s3://<artifact-bucket>/spark-nlp-emr/logs/"
-      }
-    }
-  }'
-```
-
-For a fully offline local load, add the model archive to `spark.archives` and load it with `PretrainedPipeline.from_disk("./recognize_entities_dl")` in the script. Use this only for small model archives. AWS documents [`spark.archives`](https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/jobs-spark.html) extraction support, while EMR Serverless [worker disk](https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/app-behavior.html) defaults start at 20 GB and can be configured up to 200 GB per worker, but this is not the same as an AWS-supported archive size guarantee. Based on Spark NLP EMR Serverless testing, use direct S3 loading or `cache_pretrained` for model archives near or above 1 GB.
-
-```bash
---conf spark.archives=s3://<artifact-bucket>/spark-nlp-emr/envs/spark-nlp-env.tar.gz#environment,s3://<artifact-bucket>/spark-nlp-emr/models/recognize_entities_dl.tar.gz#recognize_entities_dl
-```
-
-The required Spark properties are:
+The required Spark properties for the packaged Python environment and S3-staged JAR mode are:
 
 {:.table-model-big}
-| Property | Purpose |
-|----------|---------|
-| `spark.archives` | Extracts the Python environment as `./environment` and, for small fully offline model archives, the pipeline as `./recognize_entities_dl`. Prefer direct S3 loading or `cache_pretrained` for larger models. |
-| `spark.emr-serverless.driverEnv.PYSPARK_DRIVER_PYTHON` | Forces the driver to use the packed Python interpreter. |
-| `spark.emr-serverless.driverEnv.PYSPARK_PYTHON` | Sets the driver-side PySpark Python interpreter. |
-| `spark.executorEnv.PYSPARK_PYTHON` | Sets the executor-side PySpark Python interpreter. |
-| `spark.jars` | Loads the Spark NLP assembly JAR from S3 without resolving Maven packages at job startup. |
-| `spark.jsl.settings.pretrained.cache_folder` | Stores pretrained models and pipelines in an S3 cache when using `PretrainedPipeline(...)` or `.pretrained(...)`. |
-| `spark.hadoop.fs.s3a.impl` | Enables Hadoop S3A paths such as `s3a://...` for loading models, pipelines, and cache contents. |
-| `spark.hadoop.fs.s3a.endpoint` | Points S3A to the AWS regional endpoint used by the bucket. |
-| `spark.hadoop.fs.s3a.aws.credentials.provider` | Selects the S3A credential provider. Use `TemporaryAWSCredentialsProvider` when passing access key, secret key, and session token. |
-| `spark.hadoop.fs.s3a.access.key` | Temporary AWS access key for Hadoop S3A access. Omit when using the EMR Serverless runtime role. |
-| `spark.hadoop.fs.s3a.secret.key` | Temporary AWS secret key for Hadoop S3A access. Omit when using the EMR Serverless runtime role. |
-| `spark.hadoop.fs.s3a.session.token` | Temporary AWS session token for Hadoop S3A access. Omit when using the EMR Serverless runtime role. |
-| `spark.jsl.settings.aws.region` | AWS region used by Spark NLP cloud cache operations. |
-| `spark.jsl.settings.aws.credentials.access_key_id` | Temporary AWS access key used by Spark NLP cloud cache operations. Omit when using the EMR Serverless runtime role. |
-| `spark.jsl.settings.aws.credentials.secret_access_key` | Temporary AWS secret key used by Spark NLP cloud cache operations. Omit when using the EMR Serverless runtime role. |
-| `spark.jsl.settings.aws.credentials.session_token` | Temporary AWS session token used by Spark NLP cloud cache operations. Omit when using the EMR Serverless runtime role. |
-| `spark.hadoop.hive.metastore.client.factory.class` | Optional AWS Glue Data Catalog integration when the job also needs Glue-backed Hive metadata. |
+| Property | Requirement | Purpose |
+|----------|-------------|---------|
+| `spark.archives` | Required | Extracts the Python environment as `./environment`. Additional archives can be listed when a job needs localized resources. |
+| `spark.emr-serverless.driverEnv.PYSPARK_DRIVER_PYTHON` | Required | Forces the driver to use the packaged Python interpreter. |
+| `spark.emr-serverless.driverEnv.PYSPARK_PYTHON` | Required | Sets the driver-side PySpark Python interpreter. |
+| `spark.executorEnv.PYSPARK_PYTHON` | Required | Sets the executor-side PySpark Python interpreter. |
+| `spark.jars` | Required for offline mode | Loads the complete Spark NLP JVM dependency set from S3 without resolving Maven packages when the job starts. Use the Spark/Scala lane that matches the application. |
+| `--packages` | Alternative to `spark.jars` | Resolves the matching Spark NLP Maven coordinate when the job has Maven Central access. Do not configure both delivery modes for the same artifact. |
+| `spark.serializer` | Recommended | Uses `org.apache.spark.serializer.KryoSerializer`. |
+| `spark.kryoserializer.buffer.max` | Recommended | Increases the maximum Kryo buffer for larger Spark NLP annotations and models. |
+| `spark.jsl.settings.pretrained.cache_folder` | Conditional | Configures a shared S3 location for pretrained resources when the job uses `.pretrained(...)` or `PretrainedPipeline(...)`. |
+| `spark.hadoop.fs.s3a.impl` | Conditional | Explicitly selects Hadoop S3A when the job reads or writes `s3a://` paths and the runtime does not already configure it. |
+| `spark.hadoop.fs.s3a.endpoint` | Conditional | Selects the regional S3 endpoint when required by the bucket or network configuration. |
+| `spark.hadoop.fs.s3a.aws.credentials.provider` | Conditional | Selects an S3A credentials provider. Normally omit this and use the EMR Serverless runtime role. |
+| `spark.jsl.settings.aws.region` | Conditional | Sets the AWS region used by Spark NLP cloud-cache operations. |
+| `spark.hadoop.hive.metastore.client.factory.class` | Optional | Enables AWS Glue Data Catalog integration when the job needs Glue-backed Hive metadata. |
+
+Do not place AWS access keys, secret keys, or session tokens in reusable Spark submit strings or public documentation. Grant the EMR Serverless runtime role access to the required S3 prefixes instead.
+
+### 7. Submit the Spark job
+
+The submission structure is the same for Spark 3.x and Spark 4.x. Select the application ID and runtime-JAR list for the intended lane:
+
+{:.table-model-big}
+| Spark line | Application release | Spark NLP JAR lane |
+|---|---|---|
+| Spark 3.x | `emr-7.12.0` | `_2.12` dependency set |
+| Spark 4.x | `emr-spark-8.0.0` | `_2.13` dependency set |
+
+Prepare the submission values. The `py311` archive name assumes that the selected EMR release uses a compatible Python 3.11 runtime; otherwise build and reference an archive for that release's Python version:
+
+```bash
+export AWS_REGION='<aws-region>'
+export AWS_DEFAULT_REGION="$AWS_REGION"
+export APP_ID='<application-id-for-the-selected-spark-line>'
+export EXECUTION_ROLE_ARN='<emr-serverless-runtime-role-arn>'
+export ENTRY_POINT='s3://<artifact-bucket>/spark-nlp-emr/scripts/spark_nlp_emr_serverless.py'
+export LOG_URI='s3://<artifact-bucket>/spark-nlp-emr/logs/'
+export PYTHON_ARCHIVE='s3://<artifact-bucket>/spark-nlp-emr/envs/spark-nlp-{{ site.sparknlp_version }}-py311.tar.gz'
+export SPARK_NLP_JARS='<comma-separated-s3-runtime-jar-uris-for-the-selected-lane>'
+
+: "${AWS_REGION:?AWS_REGION is required}"
+: "${APP_ID:?APP_ID is required}"
+: "${EXECUTION_ROLE_ARN:?EXECUTION_ROLE_ARN is required}"
+: "${ENTRY_POINT:?ENTRY_POINT is required}"
+: "${LOG_URI:?LOG_URI is required}"
+: "${PYTHON_ARCHIVE:?PYTHON_ARCHIVE is required}"
+```
+
+Build the properties shared by both dependency-delivery modes, then add the offline S3-staged JAR list:
+
+```bash
+: "${SPARK_NLP_JARS:?SPARK_NLP_JARS is required for offline mode}"
+
+COMMON_SPARK_SUBMIT_PARAMETERS="--conf spark.archives=${PYTHON_ARCHIVE}#environment \
+--conf spark.emr-serverless.driverEnv.PYSPARK_DRIVER_PYTHON=./environment/bin/python \
+--conf spark.emr-serverless.driverEnv.PYSPARK_PYTHON=./environment/bin/python \
+--conf spark.executorEnv.PYSPARK_PYTHON=./environment/bin/python \
+--conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
+--conf spark.kryoserializer.buffer.max=2000M"
+
+SPARK_SUBMIT_PARAMETERS="${COMMON_SPARK_SUBMIT_PARAMETERS} \
+--conf spark.jars=${SPARK_NLP_JARS}"
+```
+
+When Maven Central is reachable, build the submit parameters from the same common properties and add the coordinate for the selected lane instead:
+
+```bash
+export SPARK_NLP_ARTIFACT='spark-nlp_2.12'  # Spark 3.x
+# export SPARK_NLP_ARTIFACT='spark-nlp_2.13'  # Spark 4.x
+
+SPARK_SUBMIT_PARAMETERS="${COMMON_SPARK_SUBMIT_PARAMETERS} \
+--packages com.johnsnowlabs.nlp:${SPARK_NLP_ARTIFACT}:{{ site.sparknlp_version }}"
+```
+
+Do not combine that `--packages` example with an existing `spark.jars` value for Spark NLP. Start from the common Python and serializer properties, then choose exactly one JVM artifact-delivery mode.
+
+Submit the job with JSON generated by `jq`:
+
+```bash
+JOB_DRIVER_JSON="$(jq -n \
+  --arg entryPoint "$ENTRY_POINT" \
+  --arg params "$SPARK_SUBMIT_PARAMETERS" \
+  '{sparkSubmit:{entryPoint:$entryPoint,sparkSubmitParameters:$params}}')"
+
+CONFIG_OVERRIDES_JSON="$(jq -n \
+  --arg logUri "$LOG_URI" \
+  '{monitoringConfiguration:{s3MonitoringConfiguration:{logUri:$logUri}}}')"
+
+JOB_RUN_ID="$(aws emr-serverless start-job-run \
+  --region "$AWS_REGION" \
+  --application-id "$APP_ID" \
+  --execution-role-arn "$EXECUTION_ROLE_ARN" \
+  --name spark-nlp-serverless \
+  --job-driver "$JOB_DRIVER_JSON" \
+  --configuration-overrides "$CONFIG_OVERRIDES_JSON" \
+  --query jobRunId \
+  --output text)"
+
+printf 'JOB_RUN_ID=%s\n' "$JOB_RUN_ID"
+```
+
+AWS documents these job-driver and configuration fields in [Using Spark configurations when you run EMR Serverless jobs](https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/jobs-spark.html).
 
 </div><div class="h3-box" markdown="1">
 
