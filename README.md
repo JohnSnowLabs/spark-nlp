@@ -280,6 +280,43 @@ Also, don't forget to check [Spark NLP in Action](https://sparknlp.org/demos) bu
 
 #### All examples: [spark-nlp/examples](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples)
 
+### Benchmarking
+
+`sparknlp.benchmark.Benchmark` (Python) / `com.johnsnowlabs.nlp.benchmark.Benchmark` (Scala) measures
+throughput and accuracy for any fitted pipeline against your own data:
+
+```python
+from sparknlp.benchmark import Benchmark
+
+pipeline_model = ...      # your own fitted pipeline
+my_data = ...              # any DataFrame with a text column
+gold_data = ...             # your own labeled data -- see examples/python/benchmarks/ for recipes
+
+print(Benchmark.throughput(pipeline_model, my_data))
+print(Benchmark.evaluate(pipeline_model, gold_data, task="ner"))
+```
+
+`throughput` reports a rate (items/sec, with a 95% confidence interval) for every annotation type
+your pipeline produces, with no configuration needed. `evaluate` scores accuracy for twelve task
+types (NER, POS, dependency parsing, classification, spell checking, language detection, word
+segmentation, image classification, question answering, speech recognition, translation, and
+summarization) against gold data you supply.
+
+`evaluate` finds the output column to score from your pipeline's own annotator types. Several
+stages often emit the same type -- a `DocumentAssembler`'s output shares `document` with a
+translation or summary, a `Tokenizer` shares `token` with a spell checker's corrected output --
+so it scores the *last* one, which is the prediction, and names it in the report:
+
+```text
+Translation accuracy (n=200, scored: translation): bleu=0.3421, ...
+```
+
+Pass `predicted_col` to override that if your pipeline's stage order puts the column you want
+somewhere other than last.
+
+See [examples/python/benchmarks](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/benchmarks)
+for a runnable, Colab-ready notebook per task, each downloading a recommended public dataset.
+
 ### FAQ
 
 [Check our Articles and Videos page here](https://sparknlp.org/learn)
