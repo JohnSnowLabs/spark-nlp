@@ -177,7 +177,7 @@ We are compatible with older runtimes. For a full list check databricks support 
 
 ### EMR Support
 
-Spark NLP 6.4.2 has been tested and is compatible with the following EMR releases:
+Spark NLP 6.4.2 has been tested and is compatible with the following Amazon EMR 6.x and 7.x releases:
 
 | **EMR Release**    |
 |--------------------|
@@ -194,11 +194,19 @@ Spark NLP 6.4.2 has been tested and is compatible with the following EMR release
 | emr-7.7.0          |
 | emr-7.8.0          |
 
+Spark NLP includes a Spark 4 / Scala 2.13 lane. The EMR Serverless setup is compatible with the following Amazon EMR 8 release:
+
+| **EMR release** | **Spark** | **Scala** | **Java** | **Spark NLP artifact** |
+|-----------------|-----------|-----------|----------|------------------------|
+| `emr-spark-8.0.0` | `4.0.2-amzn-0` | `2.13` | `17` | `spark-nlp_2.13` |
+
+`emr-spark-8.0.0` is a separate Spark-focused release label, not `emr-8.0.0`. Create a separate EMR Serverless application for this lane; an existing EMR 7.x application remains on Spark 3 / Scala 2.12.
 
 We are compatible with older EMR releases. For a full list check EMR support in our official [documentation](https://sparknlp.org/docs/en/install#emr-support)
 
 Full list of [Amazon EMR 6.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-6x.html)
 Full list of [Amazon EMR 7.x releases](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-7x.html)
+[Amazon EMR Spark 8.0.0 release details](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-spark800-release.html)
 
 NOTE: The EMR 6.1.0 and 6.1.1 are not supported.
 
@@ -238,6 +246,7 @@ For detailed instructions on how to use Spark NLP on supported platforms, please
 | [Kaggle Kernel](https://sparknlp.org/docs/en/install#kaggle-kernel)        | Python                |
 | [Databricks Cluster](https://sparknlp.org/docs/en/install#databricks-cluster)    | Scala, Python         |
 | [EMR Cluster](https://sparknlp.org/docs/en/install#emr-cluster)           | Scala, Python         |
+| [EMR Serverless](https://sparknlp.org/docs/en/install#emr-serverless)     | Python                |
 | [GCP Dataproc Cluster](https://sparknlp.org/docs/en/install#gcp-dataproc) | Scala, Python         |
 
 ### Offline

@@ -239,16 +239,21 @@ class NorvigSweetingModel(override val uid: String)
   }
 
   private def suggestions(word: String): List[String] = {
-    val intersectedPossibilities = allWords.intersect({
-      val base =
-        Utilities.reductions(word, $(reductLimit)) ++
-          Utilities.getVowelSwaps(word, $(vowelSwapLimit)) ++
-          Utilities.variants(word) ++
-          both(word)
-      if ($(doubleVariants)) base ++ computeDoubleVariants(word) else base
-    }.toSet)
-    if (intersectedPossibilities.nonEmpty) intersectedPossibilities.toList
-    else List.empty[String]
+    val base =
+      Utilities.reductions(word, $(reductLimit)) ++
+        Utilities.getVowelSwaps(word, $(vowelSwapLimit)) ++
+        Utilities.variants(word) ++
+        both(word)
+    val candidates = if ($(doubleVariants)) base ++ computeDoubleVariants(word) else base
+    // Filter the (small) candidate list by membership in allWords (the full dictionary),
+    // not the other way around: allWords.intersect(candidates) filters the dictionary by
+    // membership in candidates, which is backwards and iterates the whole dictionary.
+    // Route the result back through a Set (matching allWords' own HashSet type) before
+    // converting to a List: HashSet iteration order is a canonical function of element
+    // hash codes, not construction/insertion order, so this reproduces the exact ordering
+    // allWords.intersect(candidates.toSet) used to produce. Downstream tie-breaking in
+    // getSortedWordsByHamming/getSortedWordsByFrequency depends on that order.
+    candidates.filter(allWords.contains).toSet.toList
   }
 
   private def both(word: String): List[String] = {

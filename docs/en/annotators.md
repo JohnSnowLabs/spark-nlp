@@ -90,6 +90,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="NerOverwriter" summary="Overwrites entities of specified strings."%}
 {% include templates/anno_table_entry.md path="" name="Normalizer" summary="Removes all dirty characters from text following a regex pattern and transforms words based on a provided dictionary."%}
 {% include templates/anno_table_entry.md path="" name="NorvigSweeting Spellchecker" summary="Retrieves tokens and makes corrections automatically if not found in an English dictionary."%}
+{% include templates/anno_table_entry.md path="" name="PairwiseVectorSimilarity" summary="Computes pairwise cosine, dot-product, or euclidean similarity between two sets of sentence embeddings."%}
 {% include templates/anno_table_entry.md path="" name="POSTagger (Part of speech tagger)" summary="Averaged Perceptron model to tag words part-of-speech."%}
 {% include templates/anno_table_entry.md path="" name="PromptAssembler" summary="Assembles a sequence of messages into a single string using a template."%}
 {% include templates/anno_table_entry.md path="" name="Reader2Doc" summary="Reads documents from files or directories and outputs structured text for NLP pipelines."%}
@@ -99,6 +100,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="RecursiveTokenizer" summary="Tokenizes raw text recursively based on a handful of definable rules."%}
 {% include templates/anno_table_entry.md path="" name="RegexMatcher" summary="Uses rules to match a set of regular expressions and associate them with a provided identifier."%}
 {% include templates/anno_table_entry.md path="" name="RegexTokenizer" summary="A tokenizer that splits text by a regex pattern."%}
+{% include templates/anno_table_entry.md path="" name="RuleBasedMatcher" summary="Matches token spans with declarative rules over token text, POS tags, lemmas, NER, dependency metadata, and custom annotation metadata."%}
 {% include templates/anno_table_entry.md path="" name="SentenceDetector" summary="Annotator that detects sentence boundaries using regular expressions."%}
 {% include templates/anno_table_entry.md path="" name="SentenceDetectorDL" summary="Detects sentence boundaries using a deep learning approach."%}
 {% include templates/anno_table_entry.md path="" name="SentenceEmbeddings" summary="Converts the results from WordEmbeddings, BertEmbeddings, or ElmoEmbeddings into sentence or document embeddings by either summing up or averaging all the word embeddings in a sentence or a document (depending on the inputCols)."%}
@@ -106,6 +108,7 @@ There are two types of Annotators:
 {% include templates/anno_table_entry.md path="" name="SentimentDetector" summary="Rule based sentiment detector, which calculates a score based on predefined keywords."%}
 {% include templates/anno_table_entry.md path="" name="Stemmer" summary="Returns hard-stems out of words with the objective of retrieving the meaningful part of the word."%}
 {% include templates/anno_table_entry.md path="" name="StopWordsCleaner" summary="This annotator takes a sequence of strings (e.g. the output of a Tokenizer, Normalizer, Lemmatizer, and Stemmer) and drops all the stop words from the input sequences."%}
+{% include templates/anno_table_entry.md path="" name="Summarization" summary="Task oriented, zero configuration document summarization with a choice of llm, encoder_decoder, or extractive methods and automatic long document handling."%}
 {% include templates/anno_table_entry.md path="" name="SymmetricDelete Spellchecker" summary="Symmetric Delete spelling correction algorithm."%}
 {% include templates/anno_table_entry.md path="" name="TextMatcher" summary="Matches exact phrases (by token) provided in a file against a Document."%}
 {% include templates/anno_table_entry.md path="" name="Token2Chunk" summary="Converts `TOKEN` type Annotations to `CHUNK` type."%}

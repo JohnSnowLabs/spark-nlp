@@ -92,29 +92,31 @@ trait ReadOnnxModel {
     val srcPath = new Path(path, localModelFile)
     val fileSystem = getFileSystem(path, spark)
     val localTmpFolder = if (tmpFolder.isDefined) tmpFolder.get else createTmpDirectory(suffix)
-    fileSystem.copyToLocalFile(srcPath, new Path(localTmpFolder))
 
-    // 2. Copy onnx_data file if exists
-    val fsPath = new Path(path, localModelFile).toString
+    try { // make sure to delete tmp folder
+      fileSystem.copyToLocalFile(srcPath, new Path(localTmpFolder))
 
-    val onnxDataFile: Option[String] = if (modelName.isDefined && dataFilePostfix.isDefined) {
-      var modelNameWithoutSuffix = modelName.get.replace(".onnx", "")
-      Some(
-        fsPath.replaceAll(
-          modelName.get,
-          s"${suffix}_${modelNameWithoutSuffix}${dataFilePostfix.get}"))
-    } else None
+      // 2. Copy onnx_data file if exists
+      val fsPath = new Path(path, localModelFile).toString
 
-    if (onnxDataFile.isDefined) {
-      val onnxDataFilePath = new Path(onnxDataFile.get)
-      if (fileSystem.exists(onnxDataFilePath)) {
-        fileSystem.copyToLocalFile(onnxDataFilePath, new Path(localTmpFolder))
+      val onnxDataFile: Option[String] = if (modelName.isDefined && dataFilePostfix.isDefined) {
+        var modelNameWithoutSuffix = modelName.get.replace(".onnx", "")
+        Some(
+          fsPath.replaceAll(
+            modelName.get,
+            s"${suffix}_${modelNameWithoutSuffix}${dataFilePostfix.get}"))
+      } else None
+
+      if (onnxDataFile.isDefined) {
+        val onnxDataFilePath = new Path(onnxDataFile.get)
+        if (fileSystem.exists(onnxDataFilePath)) {
+          fileSystem.copyToLocalFile(onnxDataFilePath, new Path(localTmpFolder))
+        }
       }
-    }
 
-    // 3. Read ONNX state
-    val onnxFileTmpPath = new Path(localTmpFolder, localModelFile).toString
-    val onnxWrapper =
+      // 3. Read ONNX state
+      val onnxFileTmpPath = new Path(localTmpFolder, localModelFile).toString
+
       OnnxWrapper.read(
         spark,
         onnxFileTmpPath,
@@ -124,8 +126,18 @@ trait ReadOnnxModel {
         onnxFileSuffix = Some(suffix),
         dataFileSuffix = dataFilePostfix)
 
-    onnxWrapper
+    } finally {
+      // 4. Delete localTmpFolder
+      if (tmpFolder.isEmpty) deleteTmpDirectory(localTmpFolder)
+    }
+  }
 
+  private def deleteTmpDirectory(tmpFolder: String): Unit = {
+    try {
+      FileUtils.deleteDirectory(new File(tmpFolder))
+    } catch {
+      case e: Exception => // ignore
+    }
   }
 
   private def getFileSystem(path: String, sparkSession: SparkSession): FileSystem = {
@@ -156,20 +168,23 @@ trait ReadOnnxModel {
 
     val tmpFolder = Some(createTmpDirectory(suffix))
 
-    val wrappers = (modelNames map { modelName: String =>
-      val onnxWrapper = readOnnxModel(
-        path,
-        spark,
-        suffix,
-        zipped,
-        useBundle,
-        Some(modelName),
-        tmpFolder,
-        Option(dataFilePostfix))
-      (modelName, onnxWrapper)
-    }).toMap
-
-    wrappers
+    try {
+      (modelNames map { modelName: String =>
+        val onnxWrapper = readOnnxModel(
+          path,
+          spark,
+          suffix,
+          zipped,
+          useBundle,
+          Some(modelName),
+          tmpFolder,
+          Option(dataFilePostfix))
+        (modelName, onnxWrapper)
+      }).toMap
+    } finally {
+      // delete tmp
+      deleteTmpDirectory(tmpFolder.get)
+    }
   }
 
 }

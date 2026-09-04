@@ -113,13 +113,17 @@ object Dependencies {
   val tensorflowM1 = "com.johnsnowlabs.nlp" %% "tensorflow-m1" % tensorflowVersion
   val tensorflowLinuxAarch64 = "com.johnsnowlabs.nlp" %% "tensorflow-aarch64" % tensorflowVersion
 
-  val onnxRuntimeVersion = "1.24.3"
+  val onnxRuntimeVersion = "1.23.0"
   val onnxCPU = "com.microsoft.onnxruntime" % "onnxruntime" % onnxRuntimeVersion
   val onnxGPU = "com.microsoft.onnxruntime" % "onnxruntime_gpu" % onnxRuntimeVersion
 
   val openVinoRuntimeVersion = "0.2.0"
+  // jsl-openvino-gpu was never published past 0.1.0 on Maven Central (0.2.0 doesn't exist for GPU),
+  // so it's pinned separately from the CPU/Silicon runtime version until JSL publishes a real 0.2.0 GPU artifact.
+  val openVinoGPURuntimeVersion = "0.1.0"
   val openVinoCPU = "com.johnsnowlabs.nlp" %% "jsl-openvino-cpu" % openVinoRuntimeVersion
-  val openVinoGPU = "com.johnsnowlabs.nlp" %% "jsl-openvino-gpu" % openVinoRuntimeVersion
+  val openVinoGPU = "com.johnsnowlabs.nlp" %% "jsl-openvino-gpu" % openVinoGPURuntimeVersion
+  val openVinoSilicon = "com.johnsnowlabs.nlp" %% "jsl-openvino-silicon" % openVinoRuntimeVersion
 
   val gcpStorageVersion = "2.20.1"
   val gcpStorage = "com.google.cloud" % "google-cloud-storage" % gcpStorageVersion

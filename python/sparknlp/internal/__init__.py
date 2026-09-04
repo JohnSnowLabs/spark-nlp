@@ -105,6 +105,15 @@ class _BertSequenceClassifierLoader(ExtendedJavaWrapper):
         )
 
 
+class _CrossEncoderLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_CrossEncoderLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
 class _BertTokenClassifierLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_BertTokenClassifierLoader, self).__init__(
@@ -378,6 +387,7 @@ class _M2M100Loader(ExtendedJavaWrapper):
             "com.johnsnowlabs.nlp.annotators.seq2seq.M2M100Transformer.loadSavedModel",
             path,
             jspark,
+            use_openvino
         )
 
 
@@ -1241,6 +1251,13 @@ class _AutoGGUFRerankerLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_AutoGGUFRerankerLoader, self).__init__(
             "com.johnsnowlabs.nlp.annotators.seq2seq.AutoGGUFReranker.loadSavedModel", path, jspark)
+
+
+class _DocumentTranslatorFromAutoGGUF(ExtendedJavaWrapper):
+    def __init__(self, auto_gguf_java):
+        super(_DocumentTranslatorFromAutoGGUF, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.seq2seq.DocumentTranslator.fromAutoGGUF", auto_gguf_java)
+
 
 class _ModernBertEmbeddingsLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
