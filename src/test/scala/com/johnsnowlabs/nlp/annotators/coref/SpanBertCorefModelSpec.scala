@@ -56,4 +56,51 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
       .selectExpr("coref.result as token", "coref.metadata")
       .show(8, truncate = false)
   }
+
+  "SpanBertCoref" should "not leave stray spaces around punctuation or contractions in mention text" taggedAs SlowTest in {
+    // Regression test: mention/cluster text used to be built with a naive word-start-token join
+    // that never undid the extra spaces it introduces around punctuation and contractions (e.g.
+    // "Levi ' s Stadium" instead of "Levi's Stadium"). Now routed through the same
+    // joinWordPieces + cleanUpTokenizationSpaces helper RoBertaClassification/MPNetClassification
+    // use for the identical problem.
+    val data = Seq("Sarah's dog loves her. It's the happiest dog on the block.")
+      .toDF("text")
+
+    val document = new DocumentAssembler()
+      .setInputCol("text")
+      .setOutputCol("document")
+
+    val sentence = SentenceDetectorDLModel
+      .pretrained()
+      .setInputCols(Array("document"))
+      .setOutputCol("sentences")
+
+    val tokenizer = new Tokenizer()
+      .setInputCols(Array("sentences"))
+      .setOutputCol("tokens")
+
+    val corefs = SpanBertCorefModel
+      .pretrained()
+      .setInputCols(Array("sentences", "tokens"))
+      .setOutputCol("corefs")
+
+    val pipeline = new Pipeline().setStages(Array(document, sentence, tokenizer, corefs))
+
+    val result = pipeline.fit(data).transform(data)
+
+    val texts = result
+      .selectExpr("explode(corefs) as coref")
+      .selectExpr("coref.result as token")
+      .as[String]
+      .collect()
+
+    val strayPatterns = Seq(" ' ", " 's", " n't", " 'm", " 've", " 're", " .", " ,", " ?", " !")
+    texts.foreach { text =>
+      strayPatterns.foreach { pattern =>
+        assert(
+          !text.contains(pattern),
+          s"mention text '$text' still contains a stray-spacing artifact '$pattern'")
+      }
+    }
+  }
 }

@@ -629,19 +629,7 @@ private[johnsnowlabs] class MPNetClassification(
       wordPieceTokenizedQuestion.head.tokens ++ wordPieceTokenizedContext.flatMap(x => x.tokens)
     val decodedAnswer =
       allTokenPieces.slice(startIndex._2 - offsetStartIndex, endIndex._2 - offsetEndIndex)
-    val content =
-      mergeTokenStrategy match {
-        case MergeTokenStrategy.vocab =>
-          decodedAnswer.filter(_.isWordStart).map(x => x.token).mkString(" ")
-        case MergeTokenStrategy.sentencePiece =>
-          val token = ""
-          decodedAnswer
-            .map(x =>
-              if (x.isWordStart) " " + token + x.token
-              else token + x.token)
-            .mkString("")
-            .trim
-      }
+    val content = XXXForClassification.joinWordPieces(decodedAnswer, mergeTokenStrategy)
 
     val totalScore = startIndex._1 * endIndex._1
     Seq(
@@ -653,9 +641,11 @@ private[johnsnowlabs] class MPNetClassification(
         metadata = Map(
           "sentence" -> "0",
           "chunk" -> "0",
-          "start" -> decodedAnswer.head.begin.toString,
+          // decodedAnswer can be empty when the model predicts start >= end (e.g. a squad2-style
+          // "no answer" span pointing back at/near the CLS token) -- .head/.last would throw.
+          "start" -> decodedAnswer.headOption.map(_.begin).getOrElse(0).toString,
           "start_score" -> startIndex._1.toString,
-          "end" -> decodedAnswer.last.end.toString,
+          "end" -> decodedAnswer.lastOption.map(_.end).getOrElse(0).toString,
           "end_score" -> endIndex._1.toString,
           "score" -> totalScore.toString)))
 
