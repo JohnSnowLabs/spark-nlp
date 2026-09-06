@@ -99,13 +99,15 @@ That cluster can be then replicated (cloned) for production purposes later on.
 
 ### Configuring Databricks for serving Spark NLP on MLFlow
 
-In Databricks Runtime Version, select any Standard runtime, not ML ones... These add their version of MLFlow, and some incompatibilities may arise. For this example, we have used 8.3 (includes Apache Spark 3.1.1, Scala 2.12)
+In Databricks Runtime Version, select any Standard runtime, not ML ones... These add their version of MLFlow, and some incompatibilities may arise. For this example, we have used 8.3 (includes Apache Spark 3.1.1, Scala 2.12). A Spark 4 runtime with Scala 2.13 works the same way - just swap `spark-nlp_2.12` for `spark-nlp_2.13` in the coordinates below.
 
 The cluster instantiated is prepared to use Spark NLP, but to make it production-ready using MLFlow, we need to add the MLFlow jar, in addition to the Spark NLP jar, as shown in the “Experiment Tracking” section.
 
 In that case, we did it adding both jars...
 
 ```("spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0")```
+
+On an Apache Spark 4.x runtime, use `spark-nlp_2.13` instead of `spark-nlp_2.12`.
 
 ...into the SparkSession. However, in Databricks, you don’t instantiate programmatically a session, but you configure it in the `Compute` screen, selecting your Spark NLP cluster, and then going to ```Configuration -> Advanced Options -> Spark -> Spark Config```, as shown in the following image:
 

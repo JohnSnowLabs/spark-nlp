@@ -71,7 +71,7 @@ sys.modules['com.johnsnowlabs.ml.ai'] = annotator
 annotators = annotator
 embeddings = annotator
 
-__version__ = "6.4.2"
+__version__ = "7.0.0"
 
 
 def start(gpu=False,
@@ -100,6 +100,9 @@ def start(gpu=False,
             .config("spark.driver.maxResultSize", "0") \\
             .config("spark.jars.packages", "<resolved Spark NLP Maven coordinate>") \\
             .getOrCreate()
+
+    The coordinate above targets Apache Spark 3.x (Scala 2.12). On Apache Spark 4.x, use
+    ``com.johnsnowlabs.nlp:spark-nlp_2.13:|release|`` instead.
 
     Parameters
     ----------
