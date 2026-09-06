@@ -405,32 +405,12 @@ class SpeakerDiarizer(AnnotatorModel,
             Enrolled name -> reference embedding. A cluster centroid within the acceptance
             distance of an entry is renamed to that entry's key.
         """
-        # _call_java returns the Java method's own return value (here, `this.type` from Scala -
-        # the underlying Java object, not the Python wrapper) rather than `self` the way a normal
-        # Param setter does - returning that directly silently breaks fluent chaining (the next
-        # .setXxx(...)/pipeline stage use sees a raw, un-wrapped Java object instead of this
-        # annotator). Confirmed via a real chained call through an actual pipeline; every setter
-        # below returns `self` explicitly for exactly this reason.
-        #
-        # Each value is normalized to a plain list of native Python floats before crossing the
-        # Py4J boundary. A real embedding vector is realistically a numpy array (persistEmbeddings
-        # itself returns one as a list, but a caller re-enrolling from their own ML pipeline would
-        # plausibly pass numpy.ndarray/float32 directly) - passing one through unconverted throws
-        # `PickleException: expected zero arguments for construction of ClassDict (for
-        # numpy.dtype)` (confirmed via real execution, not a hypothetical): PySpark's ML SerDe
-        # special-cases numpy arrays for its own pickling protocol, which needs JVM-side numpy
-        # deserialization support a generic annotator's Param doesn't have. A plain Python float
-        # list sidesteps that path entirely.
         normalized = {name: [float(v) for v in values] for name, values in gallery.items()}
         self._call_java("setSpeakerGallery", normalized)
         return self
 
     def getSpeakerGallery(self):
         """Gets the enrolled speaker gallery."""
-        # Calls getSpeakerGalleryJava, not the plain Scala-Map-returning getSpeakerGallery: Py4J's
-        # default return-value conversion only recognizes standard Java collection types, so the
-        # plain method comes back as an unusable opaque JavaObject reference instead of a dict
-        # (confirmed via real Python execution, not a hypothetical).
         return self._call_java("getSpeakerGalleryJava")
 
     def removeSpeakerFromGallery(self, name):
@@ -464,16 +444,6 @@ class SpeakerDiarizer(AnnotatorModel,
             One of "call_center" (2-party, stereo-first), "meeting" (several participants,
             mono), or "podcast" (few hosts, mono)
         """
-        # Mirrors com.johnsnowlabs.nlp.annotators.audio.SpeakerDiarizer.useProfile's exact
-        # per-profile values directly through this class's own setters, rather than delegating to
-        # the Scala method via _call_java. That would mutate the underlying Java object's Param
-        # map correctly, but PySpark's own getOrDefault reads from this Python object's separate
-        # _paramMap/_defaultParamMap, which _call_java never touches - every param useProfile
-        # would have changed (channelMode, transcribe, minSpeakers, maxSpeakers,
-        # clusteringThreshold) would silently keep reporting its pre-useProfile value back to
-        # Python code that reads it afterwards (confirmed via real execution, not a hypothetical).
-        # Going through setChannelMode/setTranscribe/etc. keeps Python's own param tracking correct
-        # the same way any other setter call does.
         if profile == "call_center":
             self.setChannelMode("stereo").setTranscribe(True).setMinSpeakers(1).setMaxSpeakers(2)
         elif profile == "meeting":

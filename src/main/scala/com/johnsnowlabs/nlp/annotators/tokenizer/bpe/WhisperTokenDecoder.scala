@@ -91,10 +91,8 @@ class WhisperTokenDecoder(vocab: Map[String, Int], specialTokens: SpecialTokens)
         case Some(seconds) =>
           segmentStart match {
             case None =>
-              // Opening timestamp for a new segment.
               segmentStart = Some(seconds)
             case Some(start) =>
-              // Closing timestamp: emit the segment spanning [start, seconds).
               val text = decodeTokens(currentTextTokens.toArray)
               segments += ((start, seconds, text))
               currentTextTokens.clear()

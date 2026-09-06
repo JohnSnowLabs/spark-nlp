@@ -94,9 +94,6 @@ class LogitProcessorTest extends AnyFlatSpec {
   }
 
   "NoRepeatNgramsLogitProcessor" should "ban the token that previously followed a repeated bigram prefix" taggedAs FastTest in {
-    // Sequence: 1,2,3,1,2 - the bigram (1,2) already occurred at position 0-1, and is about to
-    // repeat at position 3-4 (we're deciding what comes after ...,1,2). Token 3 followed (1,2)
-    // once already, so with noRepeatNgramSize=2 it must be banned as the next token now.
     val inputIds = Seq(Array(1, 2, 3, 1, 2))
     val vocabSize = 5
     val scores = Array(Array.fill(vocabSize)(1.0f))
@@ -110,10 +107,6 @@ class LogitProcessorTest extends AnyFlatSpec {
   }
 
   "RepetitionPenaltyLogitProcessor" should "divide a positive previously-seen token's logit by the penalty and multiply a negative one" taggedAs FastTest in {
-    // Tokens 0 and 1 have already appeared; token 2 has not. Per the implementation: a
-    // non-negative previous logit is divided by the penalty (1/penalty), a negative one is
-    // multiplied by the penalty directly - both push the score down when penalty > 1, but via
-    // different arithmetic depending on sign (matches HuggingFace's own reference formula).
     val inputIds = Seq(Array(0, 1))
     val scores = Array(Array(2.0f, -1.0f, 3.0f))
     val processor = new RepetitionPenaltyLogitProcessor(penalty = 2.0)

@@ -142,9 +142,6 @@ object SpeakerClustering {
 
     if (turns.isEmpty) return (Seq.empty, priorState)
 
-    // Each turn starts as its own singleton cluster; prior-chunk centroids join the pool as
-    // pre-formed clusters carrying their existing member weight, so a turn merging into one of
-    // them continues that speaker's running average rather than starting a fresh cluster.
     case class WorkingCluster(
         var label: String,
         var centroid: Array[Float],
@@ -159,34 +156,18 @@ object SpeakerClustering {
     }
     turns.zipWithIndex.foreach { case (_, idx) =>
       clusters += WorkingCluster(
-        label = null, // assigned only if this singleton survives to the end without merging
+        label = null,
         centroid = turns(idx).embedding,
         memberCount = 1,
         turnIndices = ArrayBuffer(idx))
     }
 
-    // Pairwise distances are the expensive part of every step (an O(embeddingDim) computation,
-    // ~256 multiply-adds here), and naively recomputing the full O(n^2) set of them on every
-    // single merge (an O(n) sequence of merges) is the O(n^3 * dim) cost that makes this slow at
-    // real scale. Almost all of those distances are unchanged between one merge and the next —
-    // only the freshly-merged cluster's row needs recomputing — so a cache turns the dominant
-    // per-step cost from O(n^2 * dim) into an O(1) array lookup, leaving only a cheap O(n^2)
-    // numeric scan (no vector math) to find the minimum each step, plus one real O(n * dim)
-    // recompute for the merged cluster's new row. Net effect: the expensive part drops from
-    // O(n^3 * dim) to O(n^2 * dim) - not asymptotically optimal (a proper nearest-neighbor-chain
-    // implementation would be O(n^2) outright), but a large, low-risk win that keeps the exact
-    // same merge decisions (and therefore the exact same test-verified output) as the original
-    // recompute-everything version, since it changes only how the closest pair is found, not
-    // which pair is chosen.
     val distanceCache = Array.ofDim[Double](clusters.length, clusters.length)
     for (i <- clusters.indices; j <- (i + 1) until clusters.length) {
       val d = cosineDistance(clusters(i).centroid, clusters(j).centroid)
       distanceCache(i)(j) = d
       distanceCache(j)(i) = d
     }
-    // Parallel to `clusters`, tracks which slots are still alive (removed slots are marked dead
-    // rather than physically shifted, so cached row/column indices stay valid all the way
-    // through - avoids the O(n) shift-and-reindex cost of ArrayBuffer.remove on every merge too).
     val alive = ArrayBuffer.fill(clusters.length)(true)
 
     def closestPair(): Option[(Int, Int, Double)] = {
@@ -222,13 +203,8 @@ object SpeakerClustering {
         a.centroid = weightedAverage(a.centroid, a.memberCount, b.centroid, b.memberCount)
         a.memberCount += b.memberCount
         a.turnIndices ++= b.turnIndices
-        // A merged cluster keeps whichever side already had a persisted label (from a prior
-        // chunk); if neither side did, it stays unlabeled until final label assignment below.
         if (a.label == null) a.label = b.label
         alive(j) = false
-        // Only the merged cluster's own distances are now stale - recompute just that row/column
-        // against every other still-alive cluster (O(n * dim)), instead of the full O(n^2 * dim)
-        // this method used to redo from scratch on every single step.
         var k = 0
         while (k < clusters.length) {
           if (alive(k) && k != i) {
@@ -241,13 +217,6 @@ object SpeakerClustering {
       }
     }
 
-    // Splits off the single most-distant-from-centroid member of whichever alive cluster has more
-    // than one turn assigned to it in this call, into its own new singleton cluster - the
-    // deterministic, no-random-initialization counterpart to mergeStep, used only to force the
-    // cluster count UP toward numSpeakers when forceExactCount finds fewer natural clusters than
-    // requested. Returns false (and splits nothing) when no cluster has more than one turn left to
-    // split apart - there's no honest way to manufacture more than one cluster out of, say, a
-    // single detected turn.
     def splitStep(): Boolean = {
       var bestClusterIdx = -1
       var bestTurnIdx = -1
@@ -272,10 +241,6 @@ object SpeakerClustering {
         val removedEmbedding = turns(bestTurnIdx).embedding
         c.turnIndices -= bestTurnIdx
         val remainingWeight = c.memberCount - 1
-        // Removing one member's exact contribution from a running weighted mean is valid
-        // regardless of how that mean was built up (by however many earlier merges, possibly
-        // including prior-session centroids) - mean = sum/count, so mean*count - value, divided by
-        // count-1, is exactly the mean of everything except that one value.
         c.centroid = Array.tabulate(c.centroid.length) { d =>
           ((c.centroid(d).toDouble * c.memberCount - removedEmbedding(
             d).toDouble) / remainingWeight).toFloat
@@ -295,17 +260,8 @@ object SpeakerClustering {
       case Some(target) if forceExactCount =>
         val floor = math.max(1, target)
         while (aliveCount > floor && aliveCount > 1) mergeStep()
-        // Force the count back UP if there were fewer natural clusters than requested. Safe
-        // specifically because forceExactCount means this call covers every speaker who will ever
-        // appear (see this method's own scaladoc) - there's no risk of splitting off a phantom
-        // speaker ahead of a real one that hasn't spoken yet, the way doing this mid-stream would
-        // be.
         while (aliveCount < floor && splitStep()) ()
       case Some(target) =>
-        // Cap-only: merge down toward the target if there are more natural clusters than
-        // requested, but never force a split below whatever the data actually supports - see
-        // forceExactCount's scaladoc for why forcing this early (e.g. mid-file, mid-stream) is
-        // actively harmful rather than merely imprecise.
         val cap = math.max(1, target)
         var continue = true
         while (continue && aliveCount > 1) {
@@ -329,15 +285,8 @@ object SpeakerClustering {
         }
     }
 
-    // Every merge marks the losing slot dead in `alive` rather than physically removing it (see
-    // the distanceCache note above) - a dead slot still holds its pre-merge label/turnIndices/
-    // centroid, so every step below that walks `clusters` must skip them explicitly or it will
-    // double-count already-merged clusters as if they had survived independently.
     val survivingClusters = clusters.indices.filter(alive).map(clusters)
 
-    // Assign fresh labels, in order of each surviving cluster's earliest turn (by begin time) so
-    // labels read naturally ("first person to speak is SPEAKER_00") rather than in merge order.
-    // Clusters that already carry a label from priorState keep it unconditionally.
     val withEarliestBegin = survivingClusters.zipWithIndex.map { case (c, idx) =>
       val earliestBegin =
         if (c.turnIndices.nonEmpty) c.turnIndices.map(turns(_).beginMs).min else Int.MaxValue
@@ -350,8 +299,6 @@ object SpeakerClustering {
       }
     }
 
-    // Gallery matching: rename any cluster (new or continued) whose centroid is close enough to
-    // an enrolled voiceprint. Deterministic best-match: ties broken by gallery key ordering.
     if (gallery.nonEmpty) {
       survivingClusters.foreach { c =>
         val best = gallery.toSeq
@@ -364,18 +311,6 @@ object SpeakerClustering {
       }
     }
 
-    // Confidence: margin between distance to this cluster's own centroid and distance to the
-    // nearest other cluster's centroid, squashed to (0, 1). A turn sitting far from every other
-    // cluster relative to its own is confidently assigned; one near a cluster boundary is not.
-    // An uncalibrated heuristic, not a probability: a sigmoid over the margin between a turn's
-    // distance to its own cluster centroid and its distance to the nearest other centroid. It
-    // orders turns sensibly (a clean match scores higher than a borderline one) and is stable
-    // enough to threshold consistently for the same recording, but there is no labeled diarization
-    // error-rate data behind the 4.0 sigmoid scale or the resulting numbers - "0.73 confidence"
-    // is not "73% likely to be correct" in the way a calibrated classifier's output would be.
-    // Treat it as a relative ranking signal within one call, not an absolute probability to compare
-    // across recordings or models, and don't threshold it against a number picked without
-    // validating it on this deployment's own labeled data.
     def confidenceFor(turnIdx: Int, ownCluster: WorkingCluster): Double = {
       val embedding = turns(turnIdx).embedding
       val distOwn = cosineDistance(embedding, ownCluster.centroid)
@@ -386,7 +321,7 @@ object SpeakerClustering {
         val margin = distNearestOther - distOwn
         1.0 / (1.0 + math.exp(
           -margin * 4.0
-        )) // sigmoid, scaled so a 0.25 margin ~ 0.73 confidence
+        ))
       }
     }
 
@@ -402,7 +337,6 @@ object SpeakerClustering {
         survivingClusters.map(c => SpeakerCentroid(c.label, c.centroid, c.memberCount)).toSeq,
       nextLabelIndex = nextLabelIndex)
 
-    // Sort output back into input turn order for a predictable, caller-friendly result.
     val orderById = turns.zipWithIndex.map { case (t, i) => t.id -> i }.toMap
     (results.sortBy(r => orderById(r.turn.id)).toSeq, resultState)
   }
@@ -420,10 +354,9 @@ object SpeakerClustering {
     } else {
       val dim = state.centroids.head.centroid.length
       val labelBytesPerCentroid = state.centroids.map(_.label.getBytes("UTF-8").length)
-      // Per centroid: labelLen(4) + label bytes (variable) + memberCount(4) + dim floats(4 each).
       val centroidBytes =
         labelBytesPerCentroid.map(labelLen => 4 + labelLen + 4 + (dim * 4)).sum
-      val header = 4 + 4 + 4 // nextLabelIndex + centroidCount + dim
+      val header = 4 + 4 + 4
       val buffer =
         ByteBuffer.allocate(header + centroidBytes).order(ByteOrder.LITTLE_ENDIAN)
       buffer.putInt(state.nextLabelIndex)

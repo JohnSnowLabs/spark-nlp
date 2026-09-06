@@ -260,10 +260,6 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
   }
 }
 
-/* repetitionPenalty/noRepeatNgramSize is set in Whisper.scala, shared by SpeakerDiarizer and
- * WhisperForCTC - SpeakerDiarizerTest verifies the fix end-to-end through SpeakerDiarizer's own
- * path; this class verifies the same fix through WhisperForCTC's batchAnnotate path directly,
- * against a local ONNX export (loadSavedModel, no network) rather than `.pretrained()`. */
 class WhisperForCTCRepetitionParamsSpec extends AnyFlatSpec {
 
   private val scratch = sys.env.getOrElse(
@@ -295,9 +291,6 @@ class WhisperForCTCRepetitionParamsSpec extends AnyFlatSpec {
 
   private def text(anns: Seq[Annotation]): String = anns.map(_.result).mkString(" ")
 
-  // Same manufactured verbatim-repeat trick used for SpeakerDiarizer: single_speaker.wav
-  // concatenated with itself, well under Whisper's 30s window, guaranteed to make the model
-  // transcribe the same sentence twice - real material for repetitionPenalty to act on.
   private lazy val repeatedSpeech: Array[Float] = {
     val clip = audio("single_speaker")
     clip ++ clip
@@ -323,10 +316,6 @@ class WhisperForCTCRepetitionParamsSpec extends AnyFlatSpec {
   }
 
   "repetitionPenalty/noRepeatNgramSize" should "survive a WhisperForCTC save/load round trip" taggedAs SlowTest in {
-    // Both are plain Spark Params (no custom Feature/IO code), so this should just work via the
-    // standard params.json mechanism - unverified until now, since every other test in this file
-    // (and the SpeakerDiarizer-side fix verification) only ever set these on a freshly-loaded
-    // model, never round-tripped one through .save()/.load().
     val original = freshModel().setRepetitionPenalty(1.8).setNoRepeatNgramSize(3)
     val path = s"$scratch/models/save_test_whisperctc_repetition_params"
     original.write.overwrite().save(path)
@@ -335,8 +324,6 @@ class WhisperForCTCRepetitionParamsSpec extends AnyFlatSpec {
     assert(reloaded.getRepetitionPenalty == 1.8)
     assert(reloaded.getNoRepeatNgramSize == 3)
 
-    // Also confirm the reloaded model's own inference still reflects the restored penalty value,
-    // not just that the Param getter reports the right number.
     val reloadedResult =
       run(reloaded.setInputCols("audio_assembler").setOutputCol("document"), repeatedSpeech)
     val baseline = run(freshModel().setRepetitionPenalty(1.0), repeatedSpeech)

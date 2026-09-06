@@ -47,10 +47,6 @@ case class DiarizationOptions(
     maxChunkDurationSeconds: Float = 300.0f,
     channelMode: String = "mono",
     transcribe: Boolean = true,
-    // ASR generation params (used only when transcribe=true) - threaded from SpeakerDiarizer's
-    // inherited HasGeneratorProperties getters rather than hardcoded, so those setters actually
-    // do something (an earlier version hardcoded these, making every one of those setters a
-    // silent no-op - confirmed by testing every parameter, not assumed).
     asrMaxOutputLength: Int = 448,
     asrMinOutputLength: Int = 0,
     asrDoSample: Boolean = false,
@@ -67,36 +63,11 @@ case class DiarizationOptions(
     speakerGallery: Map[String, Array[Float]] = Map.empty,
     galleryAcceptanceDistance: Double = 0.25,
     priorState: ClusterState = ClusterState.empty,
-    // Was a bare literal `0.3` inside segmentAndEmbed with no way to reach it - real recordings
-    // vary a lot in how the segmentation model's overlap classes behave, so this needed to be
-    // tunable rather than baked in.
     overlapDetectionThreshold: Double = 0.3,
-    // Real audio context pulled from each neighboring chunk so a turn straddling a chunk boundary
-    // is captured whole by at least one chunk's padded slice, instead of being cut into two turns
-    // with no way to recombine them - see diarizeSingleClip. Also reused as-is for
-    // SpeakerDiarizer's `streamingContextSeconds` param, which used to be threaded nowhere at all.
     chunkOverlapSeconds: Float = 2.0f,
-    // A turn's own Annotation.embeddings field used to be populated unconditionally, which is a
-    // privacy inconsistency next to speakerGallery's explicit opt-in gating (persistSpeakerGallery)
-    // for the exact same kind of biometric data - this makes it opt-in too.
     persistEmbeddings: Boolean = false,
-    // true = a single, complete, non-streaming call: safe to force the cluster count down to (or
-    // up to, via minSpeakers-style splitting) exactly numSpeakers, since every speaker in the
-    // recording has already been seen. false = one call in an ongoing streaming session (or,
-    // historically, one intermediate chunk of one call - no longer applicable now that chunking
-    // is purely an internal segmentation/embedding compute detail, see diarizeSingleClip): forcing
-    // the exact count before every real speaker has spoken manufactures a phantom cluster out of
-    // noise that then persists across calls via priorState. SpeakerDiarizer sets this to
-    // `!streamingMode`.
     forceExactSpeakerCount: Boolean = true,
-    // WeSpeaker's embedding model was validated on utterance-length crops; an extremely long turn
-    // (e.g. one speaker monologuing for minutes with no detected pause) is cropped to this many
-    // seconds before embedding rather than fed in whole, which the model was never validated on.
     maxEmbeddingClipSeconds: Float = 30.0f,
-    // Whisper's encoder takes a fixed-size, exactly-30-second input window by construction
-    // (3000 mel frames) regardless of how much audio is actually handed to it - a turn longer than
-    // this is truncated here explicitly, with a logged warning, rather than relying on whatever
-    // silent truncation/error the model does internally.
     maxAsrClipSeconds: Float = 30.0f)
 
 /** Orchestrates the three bundled sub-models behind `SpeakerDiarizer` — segmentation, speaker
@@ -246,14 +217,6 @@ private[johnsnowlabs] class SpeakerDiarization(
     val samples = annotationAudio.result
     val collected = collectStitchedTurns(samples, options)
 
-    // Clustering runs once, over every turn in the whole clip, regardless of how many internal
-    // chunks it took to segment+embed them - chunking here is purely a compute/memory-bounding
-    // detail (see collectStitchedTurns), not a clustering boundary, so it can no longer manufacture
-    // a premature/phantom speaker cluster the way per-chunk clustering used to. `priorState` (an
-    // actual previous streaming call, or the empty state for a one-shot call) and
-    // `forceExactSpeakerCount` (false for an in-progress streaming session, true for a complete
-    // single call - see DiarizationOptions' scaladoc) are what still make cross-call speaker
-    // identity correct.
     val (clustered, state) = SpeakerClustering.cluster(
       collected.turns,
       numSpeakers = options.numSpeakers,
@@ -268,9 +231,6 @@ private[johnsnowlabs] class SpeakerDiarization(
     val annotations = clustered.map { ct =>
       val (transcript, transcriptionError) =
         if (options.transcribe) transcribeTurn(samples, ct.turn, options) else ("", None)
-      // A short-duration crop still clusters, but its embedding is less reliable than one drawn
-      // from a full-length turn - discount the reported confidence rather than presenting it with
-      // the same weight as a well-formed turn (see minSegmentDurationSeconds/shortSegmentById).
       val isShort = collected.shortSegmentById.getOrElse(ct.turn.id, false)
       val reportedConfidence = if (isShort) ct.confidence * 0.5 else ct.confidence
       val baseMetadata = annotationAudio.metadata ++ Map(
@@ -278,10 +238,6 @@ private[johnsnowlabs] class SpeakerDiarization(
         "confidence" -> f"$reportedConfidence%.4f",
         "overlap" -> collected.overlapById.getOrElse(ct.turn.id, false).toString,
         "channel" -> "0")
-      // Distinguishes a genuine ASR failure from genuine silence: an empty result with no
-      // "transcriptionError" key means the model really did decode nothing (or transcribe=false);
-      // an empty result with this key present means inference on this turn threw, and the empty
-      // string is a fallback, not a claim about what was said.
       val metadata = transcriptionError
         .map(err => baseMetadata + ("transcriptionError" -> err))
         .getOrElse(baseMetadata)
@@ -291,11 +247,6 @@ private[johnsnowlabs] class SpeakerDiarization(
         end = ct.turn.endMs,
         result = transcript,
         metadata = metadata,
-        // Exposes the turn's raw voice embedding on the free Annotation.embeddings field, so a
-        // caller can do their own similarity matching (e.g. against a voiceprint enrolled after
-        // the fact) without re-running inference. Gated behind persistEmbeddings (default false)
-        // for the same reason speakerGallery persistence is gated behind persistSpeakerGallery:
-        // a voice embedding is biometric data, and shouldn't leave the annotator by default.
         embeddings = if (options.persistEmbeddings) ct.turn.embedding else Array.emptyFloatArray)
     }
 
@@ -375,11 +326,6 @@ private[johnsnowlabs] class SpeakerDiarization(
         else interior += t
       }
 
-      // Candidates leaving this boundary-resolution step (merged, or left unmatched) still need to
-      // be checked against THIS chunk's own coreEnd before being finalized: a turn spanning more
-      // than two chunks (only reachable with an unusually small maxChunkDurationSeconds relative
-      // to chunkOverlapSeconds/turn length, as in a stress test, but not impossible) needs to stay
-      // a pending candidate across every boundary it crosses, not just the first one.
       val resolvedHere = new ArrayBuffer[SpeakerTurn]()
       val usedLeading = scala.collection.mutable.Set.empty[Int]
       val usedPending = scala.collection.mutable.Set.empty[Int]
@@ -387,12 +333,6 @@ private[johnsnowlabs] class SpeakerDiarization(
         var bestMatch: Option[(Int, Double)] = None
         leading.zipWithIndex.foreach { case (l, lIdx) =>
           if (!usedLeading.contains(lIdx)) {
-            // A real boundary-split turn can either abut cleanly (a small gap either way, up to
-            // one chunkOverlapSeconds) or - when the padding is generous relative to the chunk
-            // size - be independently (re)detected by both neighbors as substantially the same,
-            // heavily time-overlapping span with slightly different VAD-onset boundaries. Both are
-            // "the same turn cut by chunking" cases; a plain signed-gap check only recognizes the
-            // first, and misses (double-counts) the second.
             val isAdjacentOrOverlapping =
               l.beginMs <= p.endMs + adjacencyGapMs && p.beginMs <= l.endMs + adjacencyGapMs
             if (isAdjacentOrOverlapping) {
@@ -428,9 +368,6 @@ private[johnsnowlabs] class SpeakerDiarization(
           case None => ()
         }
       }
-      // A pending turn with no match genuinely ended right at the previous boundary; a leading
-      // turn with no match genuinely starts right at this one - neither was actually cut, so both
-      // are kept independently rather than dropped.
       pendingTrailing.zipWithIndex.foreach { case (p, pIdx) =>
         if (!usedPending.contains(pIdx)) resolvedHere += p
       }
@@ -438,15 +375,11 @@ private[johnsnowlabs] class SpeakerDiarization(
         if (!usedLeading.contains(lIdx)) resolvedHere += l
       }
       resolvedHere.foreach { t =>
-        // Still crosses THIS chunk's own trailing boundary (a turn spanning 3+ chunks) - keep it
-        // alive as a pending candidate for the next chunk instead of finalizing it here.
         if (!isLast && t.endMs > coreEndMs) trailing += t else resolvedTurns += t
       }
       resolvedTurns ++= interior
       pendingTrailing = trailing.toSeq
     }
-    // By construction, the last core range never populates `trailing` (isLast is true for it), so
-    // nothing is ever left pending here - flushed anyway as a defensive no-op.
     resolvedTurns ++= pendingTrailing
 
     CollectedTurns(resolvedTurns.toSeq, overlapById.toMap, shortSegmentById.toMap)
@@ -495,14 +428,6 @@ private[johnsnowlabs] class SpeakerDiarization(
     val windowSize = (options.windowDurationSeconds * samplingRate).toInt
     val stepSize = math.max(1, (options.stepDurationSeconds * samplingRate).toInt)
     val n = chunkSamples.length
-    // The final sliding window always ends exactly at `n` (see below), so whenever `n` isn't an
-    // exact multiple of `stepSize` past the previous window start, that last window can be just a
-    // handful of samples - the segmentation model's SincNet frontend errors on an input that
-    // small (confirmed: `ORT_INVALID_ARGUMENT ... Invalid input shape: {3}` on a real 3-sample
-    // window during testing) rather than degrading gracefully. Skipping windows below a sane floor
-    // avoids feeding it something outside what it was built for; losing coverage for a sliver
-    // under 100ms has no meaningful effect on a turn boundary that's already rounded to whole
-    // milliseconds.
     val minWindowSamples = math.max(1, samplingRate / 10)
 
     val activitySum = new Array[Double](n)
@@ -522,15 +447,6 @@ private[johnsnowlabs] class SpeakerDiarization(
         var i = 0
         while (i < numFrames) {
           val frameStart = windowStart + i * frameDurationSamples
-          // The last frame's nominal end (frameStart + frameDurationSamples) truncates via the
-          // integer division above and so falls short of the window's true end whenever
-          // window.length isn't an exact multiple of numFrames - the common case. Snapping the
-          // last frame's end to the window's own true end (windowStart + window.length) instead of
-          // frameStart + frameDurationSamples absorbs that remainder instead of leaving a few
-          // trailing samples with coverage=0 (read as silence by the hysteresis loop below
-          // regardless of their true content) whenever no other, earlier overlapping window
-          // happens to cover them - guaranteed impossible for the very last window of a chunk,
-          // since no later window exists to compensate.
           val frameEnd =
             if (i == numFrames - 1) math.min(windowStart + window.length, n)
             else math.min(frameStart + frameDurationSamples, n)
@@ -547,7 +463,6 @@ private[johnsnowlabs] class SpeakerDiarization(
       windowStart += stepSize
     }
 
-    // Sample-level onset/offset hysteresis over the coverage-averaged activity curve.
     val isSpeech = new Array[Boolean](n)
     var active = false
     var i = 0
@@ -590,13 +505,6 @@ private[johnsnowlabs] class SpeakerDiarization(
       val clip = chunkSamples.slice(startSample, endSample)
       if (clip.nonEmpty) {
         val embedding = runEmbeddingModel(cropToMaxSeconds(clip, options.maxEmbeddingClipSeconds))
-        // A turn shorter than one fbank analysis window (25ms) or whose embedding inference
-        // failed has no vector to cluster by at all — there is no honest way to still surface it
-        // with a speaker assignment, so it's dropped here rather than clustered with a fabricated
-        // placeholder embedding. This is a hard floor set by the embedding model's own minimum
-        // input requirement, distinct from `minDurationOnSeconds` (which governs when a
-        // detected-speech run becomes a turn in the first place) — turns clearing that gate can
-        // still be too short to embed, and that's what this guards against.
         if (embedding.nonEmpty) {
           val beginMs = offsetMillis(chunkOffsetMs, startSample)
           val endMs = offsetMillis(chunkOffsetMs, endSample)
@@ -612,9 +520,6 @@ private[johnsnowlabs] class SpeakerDiarization(
           val id = s"turn-$chunkOffsetMs-$idx"
           turns += SpeakerTurn(id, beginMs, endMs, embedding)
           overlapFlags(id) = meanOverlap >= options.overlapDetectionThreshold
-          // A short crop gives a less reliable voice embedding even when it's long enough to
-          // embed at all - flagged here so the final confidence score (computed later, once
-          // clustering has run) can be discounted for it, per minSegmentDurationSeconds.
           val durationSeconds = (endSample - startSample).toDouble / samplingRate
           shortSegmentFlags(id) = durationSeconds < options.minSegmentDurationSeconds
         }
@@ -679,10 +584,6 @@ private[johnsnowlabs] class SpeakerDiarization(
               repetitionPenalty = options.asrRepetitionPenalty,
               noRepeatNgramSize = options.asrNoRepeatNgramSize,
               randomSeed = options.asrRandomSeed,
-              // model.tokenInVocabulary, not the bare model.vocabulary map: real task/language
-              // tokens (e.g. <|transcribe|>, <|en|>) live in addedSpecialTokens, not in vocabulary
-              // itself - checking the bare map here meant every legitimate asrTask/asrLanguage
-              // value was always rejected as "unknown" and silently discarded.
               task = validateAsrToken(options.asrTask, "Task", model.tokenInVocabulary),
               language =
                 validateAsrToken(options.asrLanguage, "Language", model.tokenInVocabulary),
@@ -718,7 +619,7 @@ private[johnsnowlabs] class SpeakerDiarization(
       val results = session.run(Map("input_values" -> inputTensor).asJava)
       try {
         val outputTensor = results.get("logits").get().asInstanceOf[OnnxTensor]
-        val shape = outputTensor.getInfo.getShape // [1, numFrames, 7]
+        val shape = outputTensor.getInfo.getShape
         val numFrames = shape(1).toInt
         val numClasses = shape(2).toInt
         val flat = outputTensor.getFloatBuffer.array()

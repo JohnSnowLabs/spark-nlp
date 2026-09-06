@@ -105,8 +105,6 @@ class SpeakerDiarizer(override val uid: String)
 
   def this() = this(Identifiable.randomUID("SpeakerDiarizer"))
 
-  // --- Segmentation ---
-
   /** Segmentation model sliding window size, in seconds (Default: `10.0`, the pyannote
     * segmentation-3.0 architecture's fixed window).
     * @group param
@@ -185,8 +183,6 @@ class SpeakerDiarizer(override val uid: String)
   /** @group getParam */
   def getMinDurationOff: Float = $(minDurationOff)
 
-  // --- Embedding ---
-
   /** Turns shorter than this, in seconds, still get a low-confidence fallback embedding rather
     * than being silently dropped (Default: `0.5`).
     * @group param
@@ -215,8 +211,6 @@ class SpeakerDiarizer(override val uid: String)
 
   /** @group getParam */
   def getEmbeddingModelSize: String = $(embeddingModelSize)
-
-  // --- Clustering / identity ---
 
   /** Exact speaker count, if known — skips threshold search entirely.
     * @group param
@@ -314,7 +308,6 @@ class SpeakerDiarizer(override val uid: String)
   /** @group getParam */
   def getPersistEmbeddings: Boolean = $(persistEmbeddings)
 
-  // Deliberately not a Feature/Param - see class scaladoc and persistSpeakerGallery above.
   private var _speakerGallery: Map[String, Array[Float]] = Map.empty
 
   /** Enrolled name -> reference embedding. A cluster centroid within the acceptance distance of
@@ -369,8 +362,6 @@ class SpeakerDiarizer(override val uid: String)
     this
   }
 
-  // --- ASR fusion ---
-
   /** Whether to run ASR and return speaker-tagged transcript segments, or speaker turns only with
     * no transcript and no ASR model loaded (Default: `true`).
     * @group param
@@ -383,19 +374,6 @@ class SpeakerDiarizer(override val uid: String)
 
   /** @group getParam */
   def getTranscribe: Boolean = $(transcribe)
-
-  // maxOutputLength/minOutputLength/doSample/temperature/beamSize/topK/topP/repetitionPenalty/
-  // noRepeatNgramSize/randomSeed/nReturnSequences are inherited from HasGeneratorProperties and
-  // used only when transcribe=true - threaded through to the bundled Whisper model in
-  // SpeakerDiarization.transcribeTurn via DiarizationOptions.
-  //
-  // Two of those are accepted but currently have no effect, confirmed by reading and exercising
-  // the bundled Whisper model directly: `beamSize` and `nReturnSequences` are silently ignored -
-  // Whisper.generateFromAudio unconditionally forces greedy decoding (only logging a warning when
-  // beamSize > 1), so the real beam-search path either of them would otherwise control is never
-  // reached. Separately, `topK` values of 100 or less are all equivalent to exactly 100, since the
-  // shared TopKLogitWarper this is built on hardcodes a `minTokensToKeep` floor of 100 regardless
-  // of what's requested - a limitation of that shared component, not specific to this annotator.
 
   /** Optional target language for transcription, formatted like Whisper's own tokens (e.g.
     * `<|en|>`) — only meaningful when the bundled ASR model is multilingual. Unset lets the model
@@ -435,8 +413,6 @@ class SpeakerDiarizer(override val uid: String)
   /** @group getParam */
   def getAsrTask: Option[String] = get(asrTask)
 
-  // --- Streaming ---
-
   /** Enables the in-memory `sessionId`-keyed cluster-state cache (Default: `false`). Correct only
     * on a single JVM — see class scaladoc.
     * @group param
@@ -447,11 +423,6 @@ class SpeakerDiarizer(override val uid: String)
   /** @group setParam */
   def setStreamingMode(value: Boolean): this.type = {
     set(streamingMode, value)
-    // Checked here, at config time on the driver - not inside batchAnnotate, which Spark executes
-    // per-partition on EXECUTORS during a real distributed .transform(): SparkSession.getActiveSession
-    // is a driver-local thread-local that is never populated on an executor, so a check placed
-    // inside batchAnnotate could never observe more than one executor in exactly the distributed
-    // deployment it exists to warn about. This setter, in contrast, always runs on the driver.
     if (value) warnIfUnsafeStreaming(SparkSession.getActiveSession)
     this
   }
@@ -500,8 +471,6 @@ class SpeakerDiarizer(override val uid: String)
   }
   private var _explicitPriorState: Option[ClusterState] = None
 
-  // --- Overlap ---
-
   /** Mean overlap-class probability, over a turn's duration, above which it is flagged
     * `metadata("overlap") = "true"` (Default: `0.3`). Used to be a bare literal inside
     * `segmentAndEmbed` with no way to reach it.
@@ -515,8 +484,6 @@ class SpeakerDiarizer(override val uid: String)
 
   /** @group getParam */
   def getOverlapThreshold: Float = $(overlapThreshold)
-
-  // --- Channel mode ---
 
   /** `"mono"` (default: run the full ML pipeline) or `"stereo"` (two input columns, one speaker
     * per channel, no ML at all).
@@ -533,8 +500,6 @@ class SpeakerDiarizer(override val uid: String)
   /** @group getParam */
   def getChannelMode: String = $(channelMode)
 
-  // --- Long-audio chunking ---
-
   /** Long audio is processed in chunks of this size, in seconds, with cluster centroids carried
     * across chunks (Default: `300.0`).
     * @group param
@@ -549,8 +514,6 @@ class SpeakerDiarizer(override val uid: String)
 
   /** @group getParam */
   def getMaxChunkDurationSeconds: Float = $(maxChunkDurationSeconds)
-
-  // --- Long-turn safety ---
 
   /** A turn longer than this, in seconds, is cropped (from its start) before being fed to the
     * embedding model (Default: `30.0`). The bundled WeSpeaker embedding model was validated on
@@ -609,9 +572,6 @@ class SpeakerDiarizer(override val uid: String)
     maxEmbeddingClipSeconds -> 30.0f,
     maxAsrClipSeconds -> 30.0f,
     batchSize -> 1,
-    // HasGeneratorProperties sets none of its own defaults (WhisperForCTC declares its own for
-    // the same reason) - without these, getMaxOutputLength etc. throw the moment batchAnnotate
-    // reads them, on every call, transcribe=true or not.
     minOutputLength -> 0,
     maxOutputLength -> 448,
     doSample -> false,
@@ -728,12 +688,6 @@ class SpeakerDiarizer(override val uid: String)
 
   override def batchAnnotate(
       batchedAnnotations: Seq[Array[AnnotationAudio]]): Seq[Seq[Annotation]] = {
-    // Consumed here rather than left set: the class scaladoc promises this blob is threaded into
-    // "the next call" (singular) for the same session - clearing it after one read matches that
-    // contract exactly, instead of silently reapplying to every later, unrelated call on a reused
-    // instance (this annotator's ONNX model is broadcast once specifically so the instance itself
-    // can be reused across many transform() calls, making that reuse the normal case, not an edge
-    // case).
     val hadExplicitPriorState = _explicitPriorState.isDefined
     val initialPriorState =
       _explicitPriorState.getOrElse(
@@ -743,9 +697,6 @@ class SpeakerDiarizer(override val uid: String)
             .getOrElse(ClusterState.empty)
         else ClusterState.empty)
     _explicitPriorState = None
-    // True for either streaming path - the convenience in-memory cache (streamingMode) or the
-    // multi-executor-safe explicit blob (setStreamingPriorState) - since both mean this call is
-    // one piece of an ongoing session, not necessarily the whole recording.
     val isStreamingCall = getStreamingMode || hadExplicitPriorState
 
     val options = DiarizationOptions(
@@ -782,21 +733,10 @@ class SpeakerDiarizer(override val uid: String)
       overlapDetectionThreshold = getOverlapThreshold,
       chunkOverlapSeconds = getStreamingContextSeconds,
       persistEmbeddings = getPersistEmbeddings,
-      // A single non-streaming call is the whole session - forcing numSpeakers down (or up) to
-      // an exact count is safe since every speaker has already been seen. An ongoing streaming
-      // session - via either streamingMode's cache or an explicitly threaded prior state - is, by
-      // definition, not yet complete - forcing the exact count on an early call would manufacture
-      // a phantom speaker out of noise before the real one has spoken. See
-      // DiarizationOptions.forceExactSpeakerCount.
       forceExactSpeakerCount = !isStreamingCall,
       maxEmbeddingClipSeconds = getMaxEmbeddingClipSeconds,
       maxAsrClipSeconds = getMaxAsrClipSeconds)
 
-    // Threaded across every row of this same micro-batch, not just internally within one row's
-    // own diarize call - otherwise row 2+ of a multi-row batch (batchSize > 1) would each cluster
-    // against the same stale initialPriorState instead of seeing clusters already formed by
-    // earlier rows in this batch, and streamingStateCache would only ever retain the last row's
-    // contribution rather than the whole batch's.
     var runningState = initialPriorState
     batchedAnnotations.map { audioAnnotations =>
       if (audioAnnotations.nonEmpty) {
@@ -950,9 +890,6 @@ private[audio] object AsrSubModelIO {
     val fs = FileSystem.get(uri, spark.sparkContext.hadoopConfiguration)
     val out = fs.create(new Path(path, fileName), true)
     try {
-      // NOT out.writeBytes(...): that truncates every char to its low byte, corrupting any
-      // multi-byte UTF-8 character - and Whisper's byte-level BPE vocabulary is full of them
-      // (e.g. 'Ġ', 'Ċ'). Write real UTF-8 bytes instead.
       out.write(Serialization.write(json).getBytes("UTF-8"))
     } finally {
       out.close()
@@ -1025,13 +962,6 @@ trait ReadSpeakerDiarizerDLModel extends ReadOnnxModel {
           readOnnxModels(path, spark, Seq("segmentation_model", "embedding_model"), suffix)
 
         val whisperModel: Option[Whisper] =
-          // Checked up front, outside any try/catch: a genuinely missing ASR bundle (no
-          // asr_config.json ever saved at this path) is the only case that should silently fall
-          // back to None. Once a bundle is known to exist, any failure loading it (corrupt
-          // asr_config.json, an incompatible export, OOM, ...) is a real bug and is allowed to
-          // propagate rather than being caught and silently downgraded to the same "no ASR"
-          // outcome a missing bundle produces - transcribe=true should either really transcribe
-          // or fail loudly, never silently degrade to empty transcripts with only a log line.
           if (instance.getTranscribe && AsrSubModelIO.exists(path, spark)) {
             val asrWrappers = readOnnxModels(
               path,
@@ -1096,10 +1026,6 @@ trait ReadSpeakerDiarizerDLModel extends ReadOnnxModel {
       asrModelPath: Option[String]): SpeakerDiarizer = {
     val annotatorModel = new SpeakerDiarizer()
     annotatorModel.set(annotatorModel.engine, ONNX.name)
-    // Only tier this annotator has ever bundled - WeSpeaker's own heavier, most accurate ResNet34
-    // export (see the class scaladoc for embeddingModelSize). Set explicitly here rather than via
-    // setDefault so it round-trips through the normal save/load Param mechanism like any other
-    // value a caller (or a future artifact with more than one tier) actually set.
     annotatorModel.set(annotatorModel.embeddingModelSize, "accurate")
 
     val segmentationWrapper = OnnxWrapper.read(

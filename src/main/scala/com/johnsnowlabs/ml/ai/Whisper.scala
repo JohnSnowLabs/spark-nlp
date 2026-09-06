@@ -268,10 +268,6 @@ private[johnsnowlabs] class Whisper(
         if (task.isDefined) totalForcedDecoderIds.updated(2, vocabWithAddedTokens(task.get))
         else totalForcedDecoderIds
 
-      // The exported model's config.json typically forces <|notimestamps|> at some position in
-      // forced_decoder_ids (see loadSavedModel in WhisperForCTC.scala). To let the model emit
-      // real timestamp tokens instead, that single forced entry must be dropped here rather than
-      // hardcoded away, since its position varies by model (single-language vs. multilingual).
       if (outputTimestamps) {
         vocabWithAddedTokens.get("<|notimestamps|>").foreach { notimestampsId =>
           totalForcedDecoderIds = totalForcedDecoderIds.filterNot { case (_, tokenId) =>
@@ -288,9 +284,6 @@ private[johnsnowlabs] class Whisper(
     if (minLength > 0)
       processorList.addProcess(new MinLengthLogitProcessor(eosTokenId, minLength, vocabSize))
 
-    // These two were previously accepted by generateFromAudio but never actually threaded this
-    // far - confirmed by real-inference testing (a manufactured verbatim-repeated transcript
-    // stayed byte-identical regardless of either setting) before being wired in here.
     if (repetitionPenalty != 1.0)
       processorList.addProcess(new RepetitionPenaltyLogitProcessor(repetitionPenalty))
     if (noRepeatNgramSize > 0)
@@ -484,9 +477,6 @@ private[johnsnowlabs] class Whisper(
 
       }
 
-      // In timestamp mode each input can decode to zero or more (start, end, text) segments;
-      // in the legacy flat mode there is always exactly one "segment" spanning the whole
-      // generation, preserving the original single-Annotation-per-input behavior below.
       val batchDecodedSegments: Map[Int, Seq[(Double, Double, String)]] =
         if (outputTimestamps)
           validIndices.zip(tokenIds.map(tokenDecoder.decodeTokensWithTimestamps)).toMap

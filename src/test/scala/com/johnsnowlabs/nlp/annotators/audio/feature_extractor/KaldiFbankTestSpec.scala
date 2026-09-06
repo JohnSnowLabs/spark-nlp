@@ -21,11 +21,6 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 import scala.io.Source
 
-/** Validates [[KaldiFbank]] against a reference computed with
-  * `torchaudio.compliance.kaldi.fbank(wav, num_mel_bins=80, frame_length=25, frame_shift=10,
-  * dither=0.0, sample_frequency=16000)` on 1 second of fixed-seed noise — see
-  * `fbank_test_signal.csv` / `fbank_reference_torchaudio.csv` for the fixtures.
-  */
 class KaldiFbankTestSpec extends AnyFlatSpec {
 
   private def loadFloats(path: String): Array[Float] =
@@ -61,16 +56,12 @@ class KaldiFbankTestSpec extends AnyFlatSpec {
     }
     val meanAbsDiff = sumAbsDiff / count
 
-    // log-mel energies for this signal range roughly [-9, 2]; a mean/max tolerance well under
-    // that range confirms the implementations agree, not just happen to be the same order of
-    // magnitude.
     assert(meanAbsDiff < 0.05, s"mean abs diff too high: $meanAbsDiff")
     assert(maxAbsDiff < 0.5, s"max abs diff too high: $maxAbsDiff")
   }
 
   it should "drop a trailing partial frame rather than pad it (snip_edges=true)" taggedAs FastTest in {
     val fbank = new KaldiFbank(sampleFrequency = 16000, numMelBins = 80)
-    // 400 samples = exactly one 25ms frame, plus a partial remainder shorter than one frame shift
     val samples = Array.fill(400 + 50)(0.01f)
     val features = fbank.extractFeatures(samples)
     assert(features.length == 1)
@@ -92,12 +83,6 @@ class KaldiFbankTestSpec extends AnyFlatSpec {
   }
 
   it should "cache instances per (sampleFrequency, numMelBins) without cross-contaminating between different configs" taggedAs FastTest in {
-    // extractNormalizedFeatures now reuses a KaldiFbank instance cached by (sampleFrequency,
-    // numMelBins) instead of constructing one fresh on every call (rebuilding the mel filterbank
-    // and Povey window is real, sample-independent setup work otherwise redone per turn). This
-    // interleaves two different configs and returns to the first, verifying the cache key
-    // actually distinguishes them - a wrong/collapsed key would let one config's cached instance
-    // silently serve the other's request.
     val signal = loadFloats("src/test/resources/audio/csv/fbank_test_signal.csv")
 
     val configA =

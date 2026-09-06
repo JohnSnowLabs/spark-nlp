@@ -1,15 +1,3 @@
-/*
- * Exhaustive real-inference validation of SpeakerDiarizer: every parameter, every edge case,
- * every documented feature (ASR fusion, streaming, gallery, presets, channel mode, chunking,
- * generation params), run against real downloaded ONNX models (pyannote-segmentation-3.0 +
- * WeSpeaker ResNet34 + whisper-tiny) and real multi-speaker audio built from distinct LibriSpeech
- * speakers.
- *
- * Not a committed CI fixture - paths are absolute/local-machine-specific by design (see
- * SpeakerDiarizerTestFixtures below for how to point them at a different local model/audio
- * export).
- */
-
 package com.johnsnowlabs.nlp.annotators.audio
 
 import com.johnsnowlabs.ml.ai.util.Diarization.{ClusteredTurn, SpeakerClustering, SpeakerTurn}
@@ -23,8 +11,6 @@ import java.util.concurrent.{Executors, TimeUnit}
 import scala.io.Source
 
 class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
-
-  // ============================== A. Segmentation parameters ==============================
 
   "windowDuration" should "still correctly separate speakers with a shorter window (5s vs default 10s)" taggedAs SlowTest in {
     val d = freshDiarizer().setWindowDuration(5.0f).setMinDurationOn(0.3f).setMinDurationOff(0.3f)
@@ -76,8 +62,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       s"forcing a huge merge gap produced more turns (${forceMergeResult.length}) than no merging (${noMergeResult.length})")
   }
 
-  // ============================== B. Clustering parameters ==============================
-
   "numSpeakers" should "force exactly 1 cluster when set to 1 on 3-speaker audio" taggedAs SlowTest in {
     val d = freshDiarizer().setNumSpeakers(1).setMinDurationOn(0.3f).setMinDurationOff(0.3f)
     val result = run(d, audio("three_speakers"))
@@ -99,7 +83,7 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     val d = freshDiarizer()
       .setMinSpeakers(1)
       .setMaxSpeakers(2)
-      .setClusteringThreshold(0.01f) // force aggressive merging so the cap actually binds
+      .setClusteringThreshold(0.01f)
       .setMinDurationOn(0.3f)
       .setMinDurationOff(0.3f)
     val result = run(d, audio("four_speakers"))
@@ -123,7 +107,7 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
   "minSegmentDuration" should "discount confidence for a turn shorter than the threshold" taggedAs SlowTest in {
     val penalized = freshDiarizer().setMinSegmentDuration(0.5f).setMinDurationOn(0.0f)
     val notPenalized = freshDiarizer().setMinSegmentDuration(0.1f).setMinDurationOn(0.0f)
-    val shortClip = audio("short_segment") // 0.4s of real speech
+    val shortClip = audio("short_segment")
     val penalizedResult = run(penalized, shortClip)
     val notPenalizedResult = run(notPenalized, shortClip)
     assert(penalizedResult.nonEmpty, "expected the 0.4s clip to still produce a turn")
@@ -137,8 +121,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       math.abs(penalizedConf - notPenalizedConf * 0.5) < 0.01,
       s"expected exactly a 0.5x penalty: penalized=$penalizedConf unpenalized*0.5=${notPenalizedConf * 0.5}")
   }
-
-  // ============================== C. Channel mode ==============================
 
   "channelMode=stereo" should "assign one speaker per channel with no ML inference" taggedAs SlowTest in {
     val d = freshDiarizer().setChannelMode("stereo")
@@ -161,11 +143,7 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     }
   }
 
-  // ============================== D. Long audio / chunking ==============================
-
   "maxChunkDurationSeconds" should "keep the same speaker's label consistent across forced chunk boundaries" taggedAs SlowTest in {
-    // long_multi_chunk = A, B, A, C, D, B (speaker order) over ~47.6s; force tiny 6s chunks so
-    // several of those turns get split across chunk boundaries the clustering has to bridge.
     val d = freshDiarizer()
       .setMaxChunkDurationSeconds(6.0f)
       .setMinDurationOn(0.3f)
@@ -176,24 +154,19 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     println(s"[chunking] turns=${result.length} distinctSpeakers=$distinctSpeakers")
     result.foreach(a =>
       println(s"  [${a.begin / 1000.0}%.2fs-${a.end / 1000.0}%.2fs] ${a.metadata("speaker")}"))
-    // 4 real speakers went in; clustering across forced 6s chunks should not fragment that into
-    // wildly more labels than actually exist.
     assert(distinctSpeakers.length >= 3 && distinctSpeakers.length <= 8, s"got $distinctSpeakers")
   }
-
-  // ============================== E. Streaming ==============================
 
   "streamingMode" should "keep speaker labels consistent across two separate calls on one machine" taggedAs SlowTest in {
     val sessionId = "test-session-1"
     val d1 = freshDiarizer().setStreamingMode(true).setSessionId(sessionId).setMinDurationOn(0.3f)
-    val firstHalf = audio("single_speaker") // speaker A, twice
+    val firstHalf = audio("single_speaker")
     val firstResult = run(d1, firstHalf)
     assert(firstResult.nonEmpty)
     val labelFromFirstCall = firstResult.head.metadata("speaker")
 
     val d2 = freshDiarizer().setStreamingMode(true).setSessionId(sessionId).setMinDurationOn(0.3f)
-    val secondHalf = audio("very_short") // reuse of same speaker's voice would be ideal, but any
-    // continuation call is enough to prove the cache carries state across calls; use a real clip:
+    val secondHalf = audio("very_short")
     val secondClip = audio("single_speaker")
     val secondResult = run(d2, secondClip)
     assert(secondResult.nonEmpty)
@@ -220,12 +193,7 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
           .metadata("speaker")}")
   }
 
-  // ============================== F. Speaker gallery ==============================
-
   "setSpeakerGallery" should "rename a matching cluster to the enrolled name" taggedAs SlowTest in {
-    // Enrolling from a real turn's own embedding needs that embedding surfaced on the Annotation,
-    // which is opt-in (persistEmbeddings) since it's biometric data - see persistEmbeddings' own
-    // default-false test below for the opposite case.
     val probe = freshDiarizer().setMinDurationOn(0.3f).setPersistEmbeddings(true)
     val probeResult = run(probe, audio("synthetic_2speaker"))
     assert(probeResult.nonEmpty)
@@ -296,8 +264,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     assert(reloaded.getSpeakerGallery("Persisted").toSeq == Seq(1.0f, 2.0f, 3.0f))
   }
 
-  // ============================== G. Presets ==============================
-
   "useProfile" should "set the documented call_center defaults" taggedAs SlowTest in {
     val d = freshDiarizer().useProfile("call_center")
     assert(d.getChannelMode == "stereo")
@@ -335,8 +301,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     assert(d.getMaxSpeakers == 3, "explicit override after useProfile should win")
   }
 
-  // ============================== H. ASR fusion ==============================
-
   "transcribe=true" should "produce real, non-empty transcribed text per turn" taggedAs SlowTest in {
     val d = freshDiarizerWithAsr().setTranscribe(true).setMinDurationOn(0.3f)
     val result = run(d, audio("synthetic_2speaker"))
@@ -345,9 +309,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       println(s"[asr] speaker=${a.metadata("speaker")} text='${a.result}'")
     }
     assert(result.forall(_.result.trim.nonEmpty), "expected every turn to have transcribed text")
-    // Loose sanity check on content: the known LibriSpeech transcript starts "HE WAS IN A FEVERED
-    // STATE..." - a real ASR pass on that audio should recover at least a recognizable fragment
-    // of ordinary English words, not garbage.
     assert(
       result.head.result.trim.split("\\s+").length >= 3,
       s"suspiciously short transcript: '${result.head.result}'")
@@ -370,11 +331,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
   }
 
   it should "throw rather than silently disable transcription when the saved ASR config is corrupted" taggedAs SlowTest in {
-    // Before the fix, readModel's ASR-loading catch block swallowed EVERY exception identically
-    // (missing bundle, corrupt config, anything) and silently downgraded to whisperModel=None -
-    // transcribe=true would then quietly produce empty transcripts forever, with only a log
-    // warning as evidence. The fix checks bundle existence up front instead: once a bundle is
-    // known to exist, a genuine load failure must now propagate instead of being caught.
     val d = freshDiarizerWithAsr().setTranscribe(true).setMinDurationOn(0.3f)
     val path = s"$scratch/models/save_test_corrupted_asr_config"
     d.write.overwrite().save(path)
@@ -394,8 +350,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
   }
 
   it should "load silently with no transcription when no ASR bundle was ever saved at all" taggedAs SlowTest in {
-    // The other half of the same fix: a genuinely missing bundle (transcribe=false at save time,
-    // so no asr_config.json was ever written) must still load cleanly with no ASR, not throw.
     val d = freshDiarizer().setTranscribe(false).setMinDurationOn(0.3f)
     val path = s"$scratch/models/save_test_no_asr_bundle"
     d.write.overwrite().save(path)
@@ -419,8 +373,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     assert(result.forall(_.result == ""), s"expected empty result, got ${result.map(_.result)}")
   }
 
-  // ============================== I. Edge cases ==============================
-
   "silence-only audio" should "produce no turns" taggedAs SlowTest in {
     val d = freshDiarizer()
     val result = run(d, audio("silence_only"))
@@ -438,7 +390,7 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
 
   "audio shorter than the segmentation window" should "not crash, even if it produces no turns" taggedAs SlowTest in {
     val d = freshDiarizer()
-    val result = run(d, audio("very_short")) // 0.2s, far under the 10s window
+    val result = run(d, audio("very_short"))
     println(s"[very_short] turns=${result.length}")
   }
 
@@ -473,8 +425,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     println(
       s"[NaN/Inf fuzz] turns=${result.length} speakers=${speakers(result).distinct} " +
         s"begins=${result.map(_.begin)} ends=${result.map(_.end)}")
-    // No strong correctness claim (garbage in is allowed to produce garbage-ish turns) - the bar
-    // is robustness: no exception, and whatever comes out is still structurally sane.
     assert(
       result.forall(a => a.begin >= 0 && a.end >= a.begin),
       "even on corrupted input, begin/end must stay non-negative and ordered")
@@ -486,8 +436,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     val result = run(d, allNaN)
     println(s"[all-NaN fuzz] turns=${result.length}")
   }
-
-  // ============================== J. Determinism & general save/load ==============================
 
   "the same audio and params" should "produce byte-identical speaker labels across repeated runs" taggedAs SlowTest in {
     val d1 = freshDiarizer().setMinDurationOn(0.3f)
@@ -511,8 +459,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     assert(originalResult.map(a => (a.begin, a.end)) == reloadedResult.map(a => (a.begin, a.end)))
   }
 
-  // ============================== K. offsetThreshold in isolation ==============================
-
   "offsetThreshold" should "change turn count/duration when varied alone, holding onsetThreshold fixed" taggedAs SlowTest in {
     val lowOffset = freshDiarizer().setOnsetThreshold(0.5f).setOffsetThreshold(0.1f)
     val highOffset = freshDiarizer().setOnsetThreshold(0.5f).setOffsetThreshold(0.9f)
@@ -523,12 +469,8 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     println(
       s"[offsetThreshold] low(0.1) totalMs=$lowTotalMs turns=${lowResult.length}; " +
         s"high(0.9) totalMs=$highTotalMs turns=${highResult.length}")
-    // A low offset makes speech "stickier" (harder to end) once onset triggers - should detect
-    // at least as much total speech duration as a high offset that cuts off aggressively.
     assert(lowTotalMs >= highTotalMs, s"low=$lowTotalMs high=$highTotalMs")
   }
-
-  // ============================== L. Error paths ==============================
 
   "setSpeakerGallery" should "throw a clear error for a wrong-dimension embedding rather than silently misbehaving" taggedAs SlowTest in {
     val d = freshDiarizer()
@@ -558,8 +500,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     assert(result.head.metadata("speaker") == "SPEAKER_00")
   }
 
-  // ============================== M. RTTM against real output ==============================
-
   "RTTMExporter" should "round-trip real SpeakerDiarizer output, not just synthetic annotations" taggedAs SlowTest in {
     val d = freshDiarizer().setMinDurationOn(0.3f).setMinDurationOff(0.3f)
     val result = run(d, audio("three_speakers"))
@@ -579,14 +519,12 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     }
   }
 
-  // ============================== N. Large-scale chunking ==============================
-
   "maxChunkDurationSeconds" should "hold up across a much longer clip forced into many more chunks" taggedAs SlowTest in {
     val d = freshDiarizer()
       .setMaxChunkDurationSeconds(15.0f)
       .setMinDurationOn(0.3f)
       .setMinDurationOff(0.3f)
-    val clip = audio("very_long") // ~3.1 minutes -> ~13 forced chunks at 15s each
+    val clip = audio("very_long")
     val start = System.currentTimeMillis()
     val result = run(d, clip)
     val elapsedSec = (System.currentTimeMillis() - start) / 1000.0
@@ -594,12 +532,8 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       s"[large-scale chunking] duration=${clip.length / 16000.0}s turns=${result.length} " +
         s"distinctSpeakers=${speakers(result).distinct} elapsed=${elapsedSec}s")
     assert(result.nonEmpty)
-    // 4 real speakers were tiled into this clip repeatedly; a working cross-chunk merge should
-    // not blow this up into dozens of spurious identities.
     assert(speakers(result).distinct.length <= 10, s"got ${speakers(result).distinct}")
   }
-
-  // ============================== O. Multiple recordings in one batch call ==============================
 
   "batchAnnotate" should "process multiple independent recordings in one call correctly and independently" taggedAs SlowTest in {
     val d = freshDiarizer().setMinDurationOn(0.3f).setMinDurationOff(0.3f)
@@ -620,9 +554,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
   }
 
   it should "thread cluster state across ROWS within one micro-batch, not just across separate calls" taggedAs SlowTest in {
-    // Before the fix, `options` (and its embedded priorState) was built ONCE outside the per-row
-    // .map in batchAnnotate - every row in a multi-row batch clustered against the same stale
-    // initial state instead of seeing clusters already formed by earlier rows in the SAME batch.
     val sessionId = "misc-gap-coverage-intra-batch-threading"
     val d = freshDiarizer()
       .setMinDurationOn(0.3f)
@@ -635,9 +566,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     val spkBEnd = (16.11 * sampleRate).toInt
     val speakerBClip = fullClip.slice(spkBStart, spkBEnd)
 
-    // Two rows, ONE batchAnnotate call: row0 = the full clip (both speakers - spkB begins later,
-    // so it gets the second/higher label by earliest-begin-time ordering); row1 = spkB's voice
-    // again, alone, in the same batch.
     val row0 = Array(AnnotationAudio(AnnotatorType.AUDIO, fullClip, Map.empty))
     val row1 = Array(AnnotationAudio(AnnotatorType.AUDIO, speakerBClip, Map.empty))
     val results = d.batchAnnotate(Seq(row0, row1))
@@ -657,8 +585,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
         s"independently renamed to a fresh label, got row1=$row1Speakers")
   }
 
-  // ============================== P. Non-16kHz audio ==============================
-
   "8kHz audio with samplingRate correctly set to 8000" should "still run without crashing, though accuracy is not guaranteed" taggedAs SlowTest in {
     val d = SpeakerDiarizer
       .loadSavedModel(pkgPath, spark)
@@ -672,12 +598,7 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     val result = run(d, clip8k)
     println(s"[8kHz] turns=${result.length} speakers=${speakers(result).distinct} " +
       s"(both models were trained at 16kHz - this documents actual behavior, not a correctness claim)")
-    // Not asserting correct speaker separation here - the point of this test is to observe
-    // whether feeding real 8kHz audio at the "right" sampling rate silently produces garbage or
-    // a graceful (if degraded) result. It must not crash either way.
   }
-
-  // ============================== Q. overlapThreshold ==============================
 
   "overlapThreshold" should "flag fewer turns as overlap at a very high threshold than a very low one" taggedAs SlowTest in {
     val strict = freshDiarizer().setMinDurationOn(0.3f).setOverlapThreshold(0.99f)
@@ -700,17 +621,7 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     assert(strictCount == 0, "a 0.99 threshold should be nearly impossible to cross")
   }
 
-  // ============================== R. galleryAcceptanceDistance ==============================
-
   "galleryAcceptanceDistance" should "gate whether a genuinely different speaker gets renamed" taggedAs SlowTest in {
-    // One real inference call supplies the embeddings; the parameter itself is then exercised by
-    // calling the (already unit-tested, fully deterministic, zero-ONNX) SpeakerClustering.cluster
-    // directly on those real embeddings at different acceptance distances. A second/third full
-    // pipeline call on the same audio was tried first, but ONNX's own run-to-run floating-point
-    // variance (parallel reduction order) occasionally nudges a near-threshold pair of real
-    // speakers across the clustering boundary between calls on audio this close to it - a real
-    // but unrelated characteristic of the runtime, not of this parameter, so it doesn't belong in
-    // this specific test's signal.
     val probe = freshDiarizer().setMinDurationOn(0.3f).setPersistEmbeddings(true)
     val probeResult = run(probe, audio("three_speakers"))
     val distinctSpeakers = speakers(probeResult).distinct
@@ -724,15 +635,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     }
     val gallery = Map("Enrolled" -> turns.head.embedding)
 
-    // The natural (gallery-free) clustering establishes ground truth for "how many distinct
-    // clusters exist" and which turns belong to which. Counting renamed clusters via
-    // `.map(_.speakerLabel).distinct` on the GALLERY-matched result doesn't work once more than
-    // one natural cluster is renamed to the same gallery name: every renamed cluster collapses to
-    // the identical output string "Enrolled", so `.distinct` on that column can only ever report
-    // 0 or 1 regardless of how many underlying clusters were actually renamed. Joining back to the
-    // natural per-turn cluster identity (by turn id, shared across all three clustering calls
-    // below since they share the same `turns` input) is what actually distinguishes "1 cluster
-    // renamed" from "all 3 clusters renamed".
     val (naturalClustered, _) = SpeakerClustering.cluster(turns, threshold = 0.7)
     val naturalLabelById = naturalClustered.map(t => t.turn.id -> t.speakerLabel).toMap
     val naturalClusterCount = naturalLabelById.values.toSet.size
@@ -748,7 +650,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
         gallery = gallery,
         galleryAcceptanceDistance = 0.05)
     val (lenientClustered, _) =
-      // cosine distance is bounded by 2.0 - this accepts every cluster regardless of similarity.
       SpeakerClustering.cluster(
         turns,
         threshold = 0.7,
@@ -772,12 +673,10 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       "the lenient distance should rename strictly more natural clusters than the strict one")
   }
 
-  // ============================== S. maxEmbeddingClipSeconds ==============================
-
   "maxEmbeddingClipSeconds" should "still cluster correctly when a long turn is heavily cropped before embedding" taggedAs SlowTest in {
     val capped = freshDiarizer().setMinDurationOn(0.3f).setMaxEmbeddingClipSeconds(2.0f)
     val uncapped =
-      freshDiarizer().setMinDurationOn(0.3f) // default 30.0s, effectively uncapped here
+      freshDiarizer().setMinDurationOn(0.3f)
 
     val cappedResult = run(capped, audio("single_speaker"))
     val uncappedResult = run(uncapped, audio("single_speaker"))
@@ -794,12 +693,10 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     assert(speakers(uncappedResult).distinct == Seq("SPEAKER_00"))
   }
 
-  // ============================== T. maxAsrClipSeconds ==============================
-
   "maxAsrClipSeconds" should "produce a visibly shorter transcript when capped well below the turn's real length" taggedAs SlowTest in {
     val capped = freshDiarizerWithAsr().setMinDurationOn(0.3f).setMaxAsrClipSeconds(3.0f)
     val uncapped =
-      freshDiarizerWithAsr().setMinDurationOn(0.3f) // default 30.0s, effectively uncapped
+      freshDiarizerWithAsr().setMinDurationOn(0.3f)
 
     val cappedResult = run(capped, audio("single_speaker"))
     val uncappedResult = run(uncapped, audio("single_speaker"))
@@ -816,8 +713,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
         s"~14s turn, got capped=$cappedLen uncapped=$uncappedLen")
   }
 
-  // ============================== U. streamingContextSeconds / chunk stitching ==============================
-
   "streamingContextSeconds" should "reduce chunk-boundary fragmentation of one continuous speaker turn" taggedAs SlowTest in {
     val withContext = freshDiarizer()
       .setMinDurationOn(0.3f)
@@ -828,10 +723,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       .setMaxChunkDurationSeconds(4.0f)
       .setStreamingContextSeconds(0.0f)
 
-    // single_speaker.wav is ~14.2s of one continuous real speaker - forced into ~4 chunks of 4s
-    // each, so a zero-context run is guaranteed to cut the turn at every chunk boundary (the old,
-    // pre-fix behavior), while a real 2s context should let collectStitchedTurns recombine most
-    // of those cuts back into one voice.
     val withContextResult = run(withContext, audio("single_speaker"))
     val withoutContextResult = run(withoutContext, audio("single_speaker"))
 
@@ -847,8 +738,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       s"expected real context to stitch boundary-split turns back together, got " +
         s"withContext=${withContextResult.length} withoutContext=${withoutContextResult.length}")
 
-    // The stitched turns should still cover the same overall span as the fragmented ones, not
-    // silently drop audio at the seams.
     val withContextSpan = withContextResult.map(_.end).max - withContextResult.map(_.begin).min
     val withoutContextSpan =
       withoutContextResult.map(_.end).max - withoutContextResult.map(_.begin).min
@@ -858,11 +747,9 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
         s"second, got withContext=${withContextSpan}ms withoutContext=${withoutContextSpan}ms")
   }
 
-  // ============================== V. forceExactSpeakerCount (streaming vs one-shot) ==============================
-
   "numSpeakers" should "still force an exact split on a complete, non-streaming call" taggedAs SlowTest in {
     val d = freshDiarizer().setMinDurationOn(0.3f).setNumSpeakers(2)
-    val result = run(d, audio("single_speaker")) // one real speaker
+    val result = run(d, audio("single_speaker"))
     println(s"[forceExactSpeakerCount=true, one-shot] speakers=${speakers(result).distinct}")
     assert(
       speakers(result).distinct.length == 2,
@@ -875,7 +762,7 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       .setNumSpeakers(2)
       .setStreamingMode(true)
       .setSessionId("redesign-force-exact-count-test")
-    val result = run(d, audio("single_speaker")) // one real speaker, first call in the session
+    val result = run(d, audio("single_speaker"))
     println(s"[forceExactSpeakerCount=false, streaming] speakers=${speakers(result).distinct}")
     assert(
       speakers(result).distinct.length == 1,
@@ -892,8 +779,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
         .setStreamingMode(true)
         .setSessionId(sessionId)
 
-    // Call 1: one real speaker only. The redesign's fix (forceExactSpeakerCount=false while
-    // streaming) must not manufacture a second speaker out of noise this early.
     val call1 = run(freshStreamingDiarizer(), audio("single_speaker"))
     val call1Speakers = speakers(call1).distinct
     println(s"[phantom lifecycle] call1 (single_speaker) -> $call1Speakers")
@@ -901,9 +786,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       call1Speakers.length == 1,
       s"call 1 should show exactly 1 speaker (no early phantom), got $call1Speakers")
 
-    // Call 2: a real second speaker, cropped from synthetic_2speaker's own documented
-    // ground-truth segment (spkB, 7.09s-16.11s) - genuinely a different voice, not a synthetic
-    // duplicate. Threaded into the SAME session via the in-memory streamingMode cache.
     val fullClip = audio("synthetic_2speaker")
     val sampleRate = 16000
     val spkBStart = (7.09 * sampleRate).toInt
@@ -928,22 +810,11 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
   }
 
   it should "also not force a phantom split via the explicit, multi-executor-safe setStreamingPriorState path" taggedAs SlowTest in {
-    // Found and fixed while writing this test: batchAnnotate computed
-    // `forceExactSpeakerCount = !getStreamingMode`, ignoring `_explicitPriorState` entirely - a
-    // caller using ONLY setStreamingPriorState (the class scaladoc's own documented,
-    // multi-executor-safe alternative to streamingMode's in-memory cache, correct under arbitrary
-    // Spark scheduling) got forceExactSpeakerCount=true regardless, so numSpeakers could still
-    // force a phantom split on this path even though it's clearly one call in an ongoing session.
     val call1 = run(freshDiarizer().setMinDurationOn(0.3f), audio("single_speaker"))
     val call1Speakers = speakers(call1).distinct
     assert(call1Speakers.length == 1, s"expected 1 real speaker in call1, got $call1Speakers")
     val blob = call1.head.metadata("clusterStateSnapshot")
 
-    // Call 2 reuses the SAME speaker's audio again (single_speaker.wav once more) - numSpeakers=2
-    // is introduced only now, with NO streamingMode at all, only the explicit prior-state blob.
-    // Before the fix, forceExactSpeakerCount=true here would have split this one real voice's
-    // turns into two phantom clusters to satisfy numSpeakers=2; after the fix, the explicit prior
-    // state marks this as an ongoing session and the split must not happen.
     val call2 = run(
       freshDiarizer().setMinDurationOn(0.3f).setNumSpeakers(2).setStreamingPriorState(blob),
       audio("single_speaker"))
@@ -959,24 +830,12 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
   }
 
   it should "not let a single setStreamingPriorState call leak into a THIRD, unrelated call on the same reused instance" taggedAs SlowTest in {
-    // Extends the test above: call1 establishes state, call2 consumes it via
-    // setStreamingPriorState. Before the fix, `_explicitPriorState` was a plain var that
-    // setStreamingPriorState set and nothing ever cleared - so isStreamingCall (and therefore
-    // forceExactSpeakerCount) stayed permanently false forever on this instance, even for a
-    // THIRD, completely unrelated call that never touched setStreamingPriorState itself. Reusing
-    // one long-lived instance across many transform() calls is the normal Spark ML pattern (the
-    // ONNX model is broadcast once specifically so the instance can be reused), not a contrived
-    // misuse case.
     val d = freshDiarizer().setMinDurationOn(0.3f)
     val call1 = run(d, audio("single_speaker"))
     val blob = call1.head.metadata("clusterStateSnapshot")
     d.setStreamingPriorState(blob)
-    run(d, audio("single_speaker")) // call 2: consumes the prior state (per the test above)
+    run(d, audio("single_speaker"))
 
-    // Call 3: the SAME instance, no setStreamingPriorState re-issued, numSpeakers forced on
-    // completely unrelated 3-speaker audio. If the blob leaked, forceExactSpeakerCount would stay
-    // false and numSpeakers=3 would silently NOT be enforced (natural clustering would win
-    // instead of the requested exact count).
     val call3 = run(d.setNumSpeakers(3), audio("three_speakers"))
     val call3Speakers = speakers(call3).distinct
     println(s"[prior-state leak check] call3 (fresh, unrelated, numSpeakers=3) -> $call3Speakers")
@@ -985,8 +844,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       s"a call after the prior-state blob should have been fully consumed must still honor an " +
         s"explicit numSpeakers as a fresh one-shot call, got $call3Speakers")
   }
-
-  // ============================== W. transcriptionError metadata ==============================
 
   "transcriptionError metadata" should "be absent from every annotation on a normal, successful transcription" taggedAs SlowTest in {
     val d = freshDiarizerWithAsr().setMinDurationOn(0.3f)
@@ -998,15 +855,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
   }
 
   it should "be present when ASR generation genuinely fails" taggedAs SlowTest in {
-    // (setBeamSize/setNReturnSequences were tried first as a "real misconfiguration" trigger, on
-    // the assumption that numReturnSequences > beamSize breaks BeamSearchScorer.finalize - but
-    // Whisper.generateFromAudio unconditionally forces greedy decoding regardless of beamSize
-    // (see its own logged warning), so that path is dead for this model and never throws.
-    // Closing the encoder's live ONNX session out from under it and then trying to transcribe is
-    // a real failure instead: a genuine ai.onnxruntime.OrtException on the very next inference
-    // call, the same class of failure this session already saw for real from the segmentation
-    // model (ORT_INVALID_ARGUMENT on a too-small window) - not a mock, an actually-thrown
-    // exception from the real runtime.
     val d = freshDiarizerWithAsr().setMinDurationOn(0.3f)
     val model = d.getModelIfNotSet
     val whisperModel = model.whisper.getOrElse(fail("expected a bundled ASR model"))
@@ -1026,12 +874,10 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       "the transcript must fall back to empty, not partial/garbage output, on a genuine failure")
   }
 
-  // ============================== X. ASR language/task vocabulary validation ==============================
-
   "asrLanguage" should "fall back gracefully to auto-detection for a well-formatted but unsupported code" taggedAs SlowTest in {
     val d = freshDiarizerWithAsr()
       .setMinDurationOn(0.3f)
-      .setAsrLanguage("<|zz|>") // not a real Whisper language token
+      .setAsrLanguage("<|zz|>")
     val result = run(d, audio("synthetic_2speaker"))
     println(s"[asrLanguage=<|zz|> unsupported] texts=${result.map(_.result)}")
     assert(result.nonEmpty)
@@ -1076,15 +922,12 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     }
   }
 
-  // ============================== Y. Int-overflow guard on timestamps ==============================
-
   "toMillis" should "throw rather than silently wrap for a sample index beyond the Int millisecond ceiling" taggedAs SlowTest in {
     val d = freshDiarizer()
-    run(d, audio("very_short")) // forces model load so getModelIfNotSet is populated
+    run(d, audio("very_short"))
     val model = d.getModelIfNotSet
     val method = model.getClass.getDeclaredMethod("toMillis", classOf[Long])
     method.setAccessible(true)
-    // (Int.MaxValue ms / 1000) * samplingRate is right at the ceiling - go comfortably past it.
     val samplingRate = 16000L
     val hugeSampleIndex: Long = (Int.MaxValue.toLong / 1000 + 10) * samplingRate
     val thrown = intercept[java.lang.reflect.InvocationTargetException] {
@@ -1096,14 +939,8 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       s"expected a clear overflow message, got: ${thrown.getCause.getMessage}")
   }
 
-  // ============================== Z. embeddingModelSize ==============================
-
   "embeddingModelSize" should "reflect the tier of the loaded model instead of throwing" taggedAs SlowTest in {
     val d = freshDiarizer().setMinDurationOn(0.3f)
-    // Before this session's fix, loadSavedModel never actually called set(embeddingModelSize,
-    // ...) despite the class scaladoc claiming it does - getEmbeddingModelSize threw
-    // NoSuchElementException unconditionally. Only one tier (WeSpeaker's own heavier ResNet34
-    // export) has ever been bundled, so "accurate" is what a real loaded model always is today.
     assert(d.getEmbeddingModelSize == "accurate")
   }
 
@@ -1134,19 +971,14 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     assert(reloaded.getMaxAsrClipSeconds == 17.5f)
   }
 
-  // ============================== AA. Concurrency ==============================
-
   "SpeakerDiarizer" should "produce correct, independent results when called from multiple threads concurrently on one broadcasted model" taggedAs SlowTest in {
     val shared = freshDiarizer().setMinDurationOn(0.3f)
-    // Warm up the broadcast/session once outside the timed concurrent section - the point here is
-    // concurrent *inference calls* into the one already-loaded model (the realistic multi-task-
-    // per-executor scenario), not concurrent first-time model loading.
     run(shared, audio("very_short"))
 
     val inputs = Seq(
       "single_speaker" -> 1,
       "synthetic_2speaker" -> 2,
-      "three_speakers" -> 2, // >=2 asserted below; natural count can vary slightly by threshold
+      "three_speakers" -> 2,
       "four_speakers" -> 2)
     val pool = Executors.newFixedThreadPool(inputs.length)
     try {
@@ -1170,8 +1002,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
             s"execution, got $distinctSpeakers - a real cross-thread contamination bug would " +
             s"most plausibly show up as the wrong speaker count here")
       }
-      // Cross-check against sequential (non-concurrent) execution on the same shared instance -
-      // concurrency must not change the actual answer, only how many threads compute it.
       val sequential = inputs.map { case (name, _) =>
         name -> speakers(run(shared, audio(name))).distinct
       }
@@ -1185,16 +1015,12 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     }
   }
 
-  // ============================== AB. ASR generation parameters ==============================
-
   "setMaxOutputLength" should "actually truncate transcripts when set very small" taggedAs SlowTest in {
     val short = freshDiarizerWithAsr().setMinDurationOn(0.3f).setMaxOutputLength(8)
     val result = run(short, audio("synthetic_2speaker"))
     assert(result.nonEmpty)
     val shortLen = result.map(_.result.length).sum
     println(s"[maxOutputLength=8] totalChars=$shortLen texts=${result.map(_.result)}")
-    // Compared against the known unrestricted transcript from earlier full-suite runs (each
-    // segment routinely 60-100+ chars) - 8 output tokens should produce a visibly short result.
     assert(shortLen < 200, s"expected a heavily truncated transcript, got $shortLen chars total")
   }
 
@@ -1232,13 +1058,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
   }
 
   "topK" should "silently floor to TopKLogitWarper's hardcoded minTokensToKeep=100 for small values" taggedAs SlowTest in {
-    // TopKLogitWarper is constructed as `new TopKLogitWarper(topK)`, which leaves its
-    // `minTokensToKeep` constructor parameter at its class default of 100 - `effectiveTopK =
-    // k.max(minTokensToKeep)` then means ANY topK <= 100 collapses to the same 100-candidate
-    // pool. With a fixed random seed, two different-but-both-small topK values must therefore
-    // produce byte-identical sampled output (same pool, same seed, same draws) - this is not a
-    // hypothesis, it follows directly from the code, and confirms the floor is real rather than
-    // topK simply "not mattering much" for this audio.
     val topK1 = run(
       freshDiarizerAsrDefault().setDoSample(true).setRandomSeed(777L).setTopK(1),
       audio("synthetic_2speaker"))
@@ -1270,15 +1089,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
         "each step, matching greedy decoding")
   }
 
-  // single_speaker.wav's own natural transcript ("He was in a fevered state... He would have to
-  // pay her the money...") turned out to have essentially no literal repeated words/bigrams for
-  // either param to act on - repetitionPenalty=1.8 and noRepeatNgramSize=2 both produced byte-
-  // identical output to the baseline against it (a real, honest finding in its own right: greedy
-  // decoding on clean, easy speech is robust enough that these params can be complete no-ops in
-  // practice unless the natural output actually contains a repeat). Concatenating the clip with
-  // itself (well under Whisper's 30s window) manufactures a real, verbatim repeat - the same
-  // sentence back to back - giving both params real material to act on instead of asserting
-  // against a text that happens to have none.
   private lazy val repeatedSpeech: Array[Float] = {
     val clip = audio("single_speaker")
     clip ++ clip
@@ -1299,15 +1109,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
   }
 
   "noRepeatNgramSize" should "reach real ASR generation without erroring" taggedAs SlowTest in {
-    // Word-for-word text repetition (confirmed above for repetitionPenalty, on this exact
-    // manufactured clip) doesn't guarantee TOKEN-level bigram repetition: Whisper's byte-level BPE
-    // can tokenize the same word differently depending on what precedes it, so this real clip did
-    // not end up exercising an actual banned-bigram decision either way. The mechanism itself -
-    // that NoRepeatNgramsLogitProcessor correctly bans the token that previously followed a
-    // repeated token-id bigram - is verified deterministically and unconditionally in
-    // LogitProcessorTest instead, which controls the exact token sequence directly rather than
-    // depending on a specific tokenizer's real output. This just confirms wiring a nonzero value
-    // through the whole SpeakerDiarizer -> DiarizationOptions -> Whisper chain doesn't error.
     val baseline = run(freshDiarizerAsrDefault(), repeatedSpeech)
     val constrained =
       run(freshDiarizerAsrDefault().setNoRepeatNgramSize(2), repeatedSpeech)
@@ -1334,30 +1135,11 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     assert(
       text(run1) == text(run2),
       "the same randomSeed must reproduce byte-identical sampled output across separate calls")
-    // Not asserted strictly (a confident model can legitimately land on the same tokens under a
-    // different seed too) - logged so a real divergence is visible when it happens, without
-    // making the test flaky on a rare seed collision in the sampled path.
   }
 
   "beamSize/nReturnSequences" should "be accepted but have no effect on the bundled Whisper model's output" taggedAs SlowTest in {
-    // Confirmed by reading Whisper.generateFromAudio directly: it unconditionally forces greedy
-    // decoding and only logs a warning when beamSize > 1, regardless of what's requested - the
-    // real beam-search code path (Generate.generate's BeamSearchScorer) is never reached for this
-    // model. This documents that actual, verified behavior instead of leaving it undiscovered.
     val default = run(freshDiarizerAsrDefault(), audio("synthetic_2speaker"))
 
-    // A System.setOut/setErr-based capture of the logged warning was tried here first, but
-    // verifiably doesn't work in this harness: the assertion on captured content failed with
-    // *empty* captured output even though the behavioral no-op assertions below (which don't
-    // depend on capturing anything) passed correctly on the same run - meaning the warning really
-    // was logged, just not through the stream objects this test swapped. This matches how
-    // log4j/logback console appenders normally work: they bind directly to the actual
-    // System.out/System.err PrintStream objects once, at logger initialization time (early in the
-    // JVM's life, long before this test runs), so reassigning System.out/System.err afterwards
-    // doesn't redirect anything already bound to the originals. Confirming the warning's exact
-    // text would need a logger-framework-specific in-process appender instead - out of scope here.
-    // The behavior this warning describes (greedy decoding regardless of beamSize) is what
-    // actually matters and is verified directly below.
     val withBeamAndReturnSeqs = run(
       freshDiarizerAsrDefault().setBeamSize(4).setNReturnSequences(3),
       audio("synthetic_2speaker"))
@@ -1374,15 +1156,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
 
   private def freshDiarizerAsrDefault(): SpeakerDiarizer =
     freshDiarizerWithAsr().setMinDurationOn(0.3f)
-
-  // ============================== AC. Real Pipeline/DataFrame integration ==============================
-  // Every direct-inference test above calls `diarizer.batchAnnotate(Seq(row))` directly, in-
-  // process - none of them go through the actual Spark surface a real user's code uses: an
-  // `AudioAssembler` feeding a `SpeakerDiarizer` inside a real `org.apache.spark.ml.Pipeline`,
-  // fit and transformed over a genuine DataFrame. That path exercises real things `batchAnnotate`
-  // alone does not: `AnnotatorModel`'s own DataFrame-column wiring, UDF/Row serialization of
-  // `AnnotationAudio`/`Annotation`, the output column's schema, and correctness across more than
-  // one DataFrame row/partition. These three close that gap.
 
   private lazy val audioAssembler: AudioAssembler = new AudioAssembler()
     .setInputCol("audio_content")
@@ -1410,9 +1183,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
       pipelineSpeakers.length >= 2,
       s"expected >=2 distinct speakers from synthetic_2speaker.wav via the real pipeline, got $pipelineSpeakers")
 
-    // Cross-check against the direct batchAnnotate path this whole suite otherwise relies on -
-    // the two entry points must agree on substance (same speaker count, same turn count), not
-    // just both "succeed".
     val direct = run(freshPipelineDiarizer(), audio("synthetic_2speaker"))
     assert(
       annotations.length == direct.length,
@@ -1426,9 +1196,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
     val diarizer = freshPipelineDiarizer()
     val pipeline = new Pipeline().setStages(Array(audioAssembler, diarizer))
 
-    // Row 0: one real speaker. Row 1: two real speakers. A bug that leaked state between rows
-    // (e.g. accidentally threading cluster state, or reusing a buffer across partitions) would
-    // most plausibly show up as row 0 picking up row 1's extra speaker or vice versa.
     val df = Seq(audio("single_speaker"), audio("synthetic_2speaker")).toDF("audio_content")
     val transformed = pipeline.fit(df).transform(df)
 
@@ -1470,17 +1237,6 @@ class SpeakerDiarizerTest extends AnyFlatSpec with SpeakerDiarizerTestFixtures {
   }
 }
 
-/** Shared fixtures for the SpeakerDiarizer SlowTest spec above: a real loaded model + real test
-  * audio.
-  *
-  * '''Portability''': the default `scratch` path points at one specific past local export on one
-  * specific machine - genuinely portable CI coverage would need either a published
-  * `.pretrained()` model (not yet released for `SpeakerDiarizer` as of this trait) or checked-in
-  * audio/model fixtures (impractical here: the test audio alone runs to ~90MB of float-text
-  * files, and the bundled ONNX exports are tens to hundreds of MB each). Setting the
-  * `SPARKNLP_SPEAKER_DIARIZER_TEST_SCRATCH` environment variable overrides the default for anyone
-  * (or any future session) with their own local export, without editing this file.
-  */
 trait SpeakerDiarizerTestFixtures { this: AnyFlatSpec =>
 
   protected val scratch: String = sys.env.getOrElse(

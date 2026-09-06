@@ -69,9 +69,6 @@ class KaldiFbank(
     math.pow(0.5 - 0.5 * math.cos(a * i), 0.85)
   }
 
-  // One triangular mel filter per output bin, each a sparse (startBin, endBin, weights) span
-  // over the fftLength/2+1 power-spectrum bins — avoids a full [numMelBins x numFftBins] dense
-  // matrix multiply per frame.
   private case class MelFilter(startBin: Int, weights: Array[Double])
   private val melFilters: Array[MelFilter] = buildMelFilters()
 
@@ -125,7 +122,7 @@ class KaldiFbank(
     if (samples.length < frameLength) return Array.empty
 
     val numFrames = 1 + (samples.length - frameLength) / frameShift
-    val epsilon = 1.1920929e-7 // torch.finfo(torch.float32).eps, the log floor torchaudio uses
+    val epsilon = 1.1920929e-7
 
     Array.tabulate(numFrames) { frameIdx =>
       val offset = frameIdx * frameShift
@@ -136,7 +133,6 @@ class KaldiFbank(
         i += 1
       }
 
-      // 1. Remove per-frame DC offset.
       val mean = frame.sum / frameLength
       i = 0
       while (i < frameLength) {
@@ -144,8 +140,6 @@ class KaldiFbank(
         i += 1
       }
 
-      // 2. Preemphasis (Kaldi convention: processed back-to-front so frame(i-1) is still the
-      // original, unmodified sample when used).
       i = frameLength - 1
       while (i >= 1) {
         frame(i) -= preemphasisCoefficient * frame(i - 1)
@@ -153,14 +147,12 @@ class KaldiFbank(
       }
       frame(0) -= preemphasisCoefficient * frame(0)
 
-      // 3. Povey window.
       i = 0
       while (i < frameLength) {
         frame(i) *= poveyWindow(i)
         i += 1
       }
 
-      // 4. Zero-pad to the FFT length and take the real-input FFT's one-sided power spectrum.
       val padded = DenseVector.zeros[Complex](fftLength)
       i = 0
       while (i < frameLength) {
@@ -177,7 +169,6 @@ class KaldiFbank(
         i += 1
       }
 
-      // 5. Apply the mel filterbank and log-compress.
       val out = new Array[Float](numMelBins)
       var m = 0
       while (m < numMelBins) {
@@ -203,11 +194,6 @@ object KaldiFbank {
     p
   }
 
-  // Every field of KaldiFbank besides its constructor params is immutable and derived solely from
-  // (sampleFrequency, numMelBins), so instances are safe to share/reuse (including across the
-  // concurrent threads one broadcasted SpeakerDiarizer model can be called from) rather than
-  // rebuilding the mel filterbank + Povey window - real, sample-independent trig-heavy setup work
-  // - on every single call.
   private val instanceCache =
     new java.util.concurrent.ConcurrentHashMap[(Int, Int), KaldiFbank]()
 

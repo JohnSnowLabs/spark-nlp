@@ -183,16 +183,6 @@ class WhisperForCTC(AnnotatorModel,
         value : String
             Formatted language code
         """
-        # _call_java alone returns the Java method's own return value (`this.type` from Scala -
-        # the underlying Java object, not this Python wrapper), which silently breaks fluent
-        # chaining (confirmed via a real chained pipeline call, not a hypothetical) - the
-        # underlying Scala setLanguage's own validation (format, is_multilingual, and a real
-        # vocabulary-membership check this class can't cheaply replicate client-side) still needs
-        # to run, so it's called first for its validation side effect and exception, then
-        # self._set keeps this object's own param cache in sync the same way every other setter's
-        # implicit _set-based tracking does (that cache is otherwise never touched by a _call_java
-        # call, which is what made getLanguage() report a stale value after this method used to
-        # run without it).
         self._call_java("setLanguage", value)
         return self._set(language=value)
 
@@ -206,7 +196,6 @@ class WhisperForCTC(AnnotatorModel,
         value : String
             Formatted task
         """
-        # See setLanguage's docstring for why both calls are needed.
         self._call_java("setTask", value)
         return self._set(task=value)
 

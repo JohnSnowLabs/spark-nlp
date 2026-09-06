@@ -16,18 +16,12 @@
 
 package com.johnsnowlabs.ml.ai.util.Diarization
 
-// Both dependency-free, deterministic pure-Scala utilities behind SpeakerDiarizer (clustering and
-// RTTM interop), mirroring com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess's own
-// LogitProcessorTest.scala - one file per small-utility package, not one file per class.
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 class DiarizationUtilTestSpec extends AnyFlatSpec {
 
-  // Two well-separated 4-d "speakers" plus noise, so cosine distance cleanly tells them apart
-  // regardless of clustering internals - these are not real speaker embeddings, just vectors
-  // with the separation properties the algorithm is asserted against.
   private val speakerA = Array(1.0f, 0.0f, 0.0f, 0.0f)
   private val speakerB = Array(0.0f, 1.0f, 0.0f, 0.0f)
 
@@ -70,9 +64,6 @@ class DiarizationUtilTestSpec extends AnyFlatSpec {
   }
 
   it should "force-split a single natural cluster up to numSpeakers when forceExactCount finds fewer natural clusters than requested" taggedAs FastTest in {
-    // All four turns are tight jittered copies of the SAME speaker - one natural cluster - but
-    // forceExactCount=true (the default, correct for a single complete non-streaming call) must
-    // still force exactly 2 distinct labels per this method's own documented contract.
     val turns = Seq(
       SpeakerTurn("t0", 0, 1000, jitter(speakerA, 0)),
       SpeakerTurn("t1", 1000, 2000, jitter(speakerA, 1)),
@@ -86,8 +77,6 @@ class DiarizationUtilTestSpec extends AnyFlatSpec {
   }
 
   it should "not fabricate more clusters than there are turns available to split" taggedAs FastTest in {
-    // A single turn can never honestly become 2 clusters - splitStep must give up gracefully
-    // (settle for fewer than requested) instead of erroring or duplicating a turn across labels.
     val turns = Seq(SpeakerTurn("t0", 0, 1000, speakerA))
     val (result, _) = SpeakerClustering.cluster(turns, numSpeakers = Some(3), threshold = 0.3)
     assert(result.length == 1)
@@ -95,8 +84,6 @@ class DiarizationUtilTestSpec extends AnyFlatSpec {
   }
 
   it should "NOT split when forceExactCount is false, even with fewer natural clusters than numSpeakers" taggedAs FastTest in {
-    // Mirrors an in-progress streaming call: forcing the count up before every real speaker has
-    // spoken would manufacture a phantom speaker out of noise - only the merge-down cap applies.
     val turns = Seq(
       SpeakerTurn("t0", 0, 1000, jitter(speakerA, 0)),
       SpeakerTurn("t1", 1000, 2000, jitter(speakerA, 1)))
@@ -111,7 +98,6 @@ class DiarizationUtilTestSpec extends AnyFlatSpec {
 
   it should "never produce fewer clusters than minSpeakers" taggedAs FastTest in {
     val turns = turnsFromTwoSpeakers()
-    // threshold=1.0 would normally merge everything into one cluster; minSpeakers should stop it
     val (result, _) =
       SpeakerClustering.cluster(turns, threshold = 1.0, minSpeakers = 2, maxSpeakers = 20)
     assert(result.map(_.speakerLabel).distinct.length >= 2)
@@ -199,23 +185,12 @@ class DiarizationUtilTestSpec extends AnyFlatSpec {
     assert(SpeakerClustering.cosineDistance(speakerA, speakerB) > 0.9)
   }
 
-  // A very long meeting/recording can produce hundreds of turns even with normal-length speech,
-  // since every detected turn (not every audio second) becomes one clustering input - this
-  // exercises the O(n^2) incremental-distance-cache rewrite (previously O(n^3) via a full
-  // distance rescan on every merge) at a scale where that difference actually matters, and
-  // guards against the specific bug that rewrite introduced and fixed mid-session (dead/merged
-  // cluster slots leaking into label assignment and final output).
   "SpeakerClustering.cluster at scale" should "handle hundreds of turns from many synthetic speakers without slowing down or misbehaving" taggedAs FastTest in {
     val rng = new scala.util.Random(1234)
     val numSpeakers = 15
     val turnsPerSpeaker = 40
     val dim = 32
 
-    // One well-separated base vector per synthetic speaker (random directions in a fairly high
-    // dimension are overwhelmingly likely to be far apart under cosine distance), then several
-    // turns per speaker as small jittered copies of their own base - mirrors the real turn/
-    // embedding relationship (many turns per real speaker, turns from the same speaker close
-    // together, turns from different speakers far apart) without needing real audio or models.
     val speakerBases =
       Array.fill(numSpeakers)(Array.fill(dim)(rng.nextFloat() * 2 - 1))
     val turns = (0 until numSpeakers).flatMap { speakerIdx =>
@@ -244,8 +219,6 @@ class DiarizationUtilTestSpec extends AnyFlatSpec {
       state.centroids.length == numSpeakers,
       "returned state must carry exactly one centroid per real cluster, not a stray leftover " +
         "from a merged-away slot")
-    // Every turn from a given synthetic speaker must land in the same output cluster as every
-    // other turn from that speaker - not just "some number of clusters", but the RIGHT grouping.
     val labelByTurnId = clustered.map(ct => ct.turn.id -> ct.speakerLabel).toMap
     (0 until numSpeakers).foreach { speakerIdx =>
       val labelsForThisSpeaker =
@@ -259,8 +232,6 @@ class DiarizationUtilTestSpec extends AnyFlatSpec {
       elapsedMs < 10000,
       s"clustering ${turns.length} turns took ${elapsedMs}ms - unexpectedly slow for O(n^2)")
   }
-
-  // ==================== RTTMExporter ====================
 
   private val rttmAnnotations = Seq(
     Annotation(AnnotatorType.SPEAKER, 0, 3480, "", Map("speaker" -> "SPEAKER_00")),
