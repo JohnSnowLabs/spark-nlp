@@ -95,8 +95,11 @@ def start(gpu=False,
             .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \\
             .config("spark.kryoserializer.buffer.max", "2000M") \\
             .config("spark.driver.maxResultSize", "0") \\
-            .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.13:|release|") \\
+            .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:|release|") \\
             .getOrCreate()
+
+    The coordinate above targets Apache Spark 3.x (Scala 2.12). On Apache Spark 4.x, use
+    ``com.johnsnowlabs.nlp:spark-nlp_2.13:|release|`` instead.
 
     Parameters
     ----------
