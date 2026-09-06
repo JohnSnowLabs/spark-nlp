@@ -16,13 +16,16 @@ from datetime import date
 
 sys.path.insert(0, os.path.abspath("../"))
 
+from sparknlp import __version__
+
+
 # -- Project information -----------------------------------------------------
 project = "Spark NLP"
 copyright = f"{date.today().year} John Snow Labs"
 author = "John Snow Labs"
 
 # The full version, including alpha/beta/rc tags
-release = "7.0.0"
+release = __version__
 # Spark NLP is published for both Apache Spark 3.x (Scala 2.12) and Apache Spark 4.x (Scala 2.13).
 pyspark_version = "4.0.0"
 pyspark3_version = "3.5.1"

@@ -21,7 +21,7 @@ moduleName := sparkArtifactBaseName
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "6.4.1"
+version := "7.0.0"
 
 (ThisBuild / scalaVersion) := scalaVer
 
