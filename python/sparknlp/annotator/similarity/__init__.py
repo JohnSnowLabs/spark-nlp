@@ -15,3 +15,4 @@
 """Module of annotators for document similarity and lexical ranking."""
 from sparknlp.annotator.similarity.document_similarity_ranker import *
 from sparknlp.annotator.similarity.bm25 import *
+from sparknlp.annotator.similarity.pairwise_vector_similarity import *

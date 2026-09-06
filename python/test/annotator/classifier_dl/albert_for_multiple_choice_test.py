@@ -24,8 +24,6 @@ from test.util import SparkContextForTest
 class AlbertForMultipleChoiceTestSetup(unittest.TestCase):
     def setUp(self):
 
-        sparkNLPModelPath = "/media/danilo/Data/Danilo/JSL/models/transformers/spark-nlp"
-
         self.spark = SparkContextForTest.spark
         self.question = "The Eiffel Tower is located in which country?"
         self.choices = "Germany, France, Italy"
@@ -37,7 +35,7 @@ class AlbertForMultipleChoiceTestSetup(unittest.TestCase):
             .setInputCols(["question", "context"]) \
             .setOutputCols(["document_question", "document_context"])
 
-        albert_for_multiple_choice = AlbertForMultipleChoice.load(sparkNLPModelPath + "/openvino/albert_multiple_choice_openvino") \
+        albert_for_multiple_choice = AlbertForMultipleChoice.pretrained() \
             .setInputCols(["document_question", "document_context"]) \
             .setOutputCol("answer")
 

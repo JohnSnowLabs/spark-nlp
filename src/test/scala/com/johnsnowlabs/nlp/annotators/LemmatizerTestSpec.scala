@@ -21,7 +21,7 @@ import com.johnsnowlabs.nlp._
 import com.johnsnowlabs.nlp.annotators.sbd.pragmatic.SentenceDetector
 import com.johnsnowlabs.nlp.training.CoNLLU
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.{PipelineModel, Pipeline}
 import org.apache.spark.sql.{Dataset, Row}
 import org.scalatest.Tag
@@ -235,7 +235,7 @@ class LemmatizerTestSpec extends AnyFlatSpec with LemmatizerBehaviors {
     AssertAnnotations.assertFields(expectedLemmas, actualLemmas)
   }
 
-  it should "download pretrained model" taggedAs FastTest in {
+  it should "download pretrained model" taggedAs SlowTest in {
     val testDataSet = Seq("So what happened?").toDS.toDF("text")
     val lemmatizer = LemmatizerModel
       .pretrained()

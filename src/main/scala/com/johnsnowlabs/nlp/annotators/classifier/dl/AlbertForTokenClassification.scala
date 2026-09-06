@@ -264,22 +264,15 @@ class AlbertForTokenClassification(override val uid: String)
     *   relationship
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    val batchedTokenizedSentences: Array[Array[TokenizedSentence]] = batchedAnnotations
-      .map(annotations => TokenizedWithSentence.unpack(annotations).toArray)
-      .toArray
-    /*Return empty if the real tokens are empty*/
-    if (batchedTokenizedSentences.nonEmpty) batchedTokenizedSentences.map(tokenizedSentences => {
+    val rowsOfTokenizedSentences: Seq[Seq[TokenizedSentence]] =
+      batchedAnnotations.map(annotations => TokenizedWithSentence.unpack(annotations))
 
-      getModelIfNotSet.predict(
-        tokenizedSentences,
-        $(batchSize),
-        $(maxSentenceLength),
-        $(caseSensitive),
-        $$(labels))
-    })
-    else {
-      Seq(Seq.empty[Annotation])
-    }
+    getModelIfNotSet.predictGrouped(
+      rowsOfTokenizedSentences,
+      $(batchSize),
+      $(maxSentenceLength),
+      $(caseSensitive),
+      $$(labels))
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {
