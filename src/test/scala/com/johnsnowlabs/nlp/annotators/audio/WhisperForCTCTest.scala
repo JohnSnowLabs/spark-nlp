@@ -9,6 +9,7 @@ import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Dataset, Row, SparkSession}
 import org.scalatest.flatspec.AnyFlatSpec
 
+import scala.io.Source
 import scala.util.Using
 
 class WhisperForCTCTest extends AnyFlatSpec with WhisperForCTCBehaviors {
@@ -256,5 +257,93 @@ trait WhisperForCTCBehaviors { this: AnyFlatSpec =>
         .select("document")
         .show(10, truncate = false)
     }
+  }
+}
+
+/* repetitionPenalty/noRepeatNgramSize is set in Whisper.scala, shared by SpeakerDiarizer and
+ * WhisperForCTC - SpeakerDiarizerTest verifies the fix end-to-end through SpeakerDiarizer's own
+ * path; this class verifies the same fix through WhisperForCTC's batchAnnotate path directly,
+ * against a local ONNX export (loadSavedModel, no network) rather than `.pretrained()`. */
+class WhisperForCTCRepetitionParamsSpec extends AnyFlatSpec {
+
+  private val scratch = sys.env.getOrElse(
+    "SPARKNLP_SPEAKER_DIARIZER_TEST_SCRATCH",
+    "/private/tmp/claude-501/-Users-abdullah-Documents-spark-nlp--claude-worktrees-opt-125m-research-90713f/61bcb16c-f914-49ff-af4a-c56c4c5e7ac6/scratchpad")
+  private val whisperPkgPath = s"$scratch/models/whisper_pkg"
+  private val td = s"$scratch/models/testdata"
+  private val spark = ResourceHelper.spark
+
+  private def loadFloats(path: String): Array[Float] = {
+    val src = Source.fromFile(path)
+    try {
+      src.getLines().map(_.trim.toFloat).toArray
+    } finally src.close()
+  }
+
+  private def audio(name: String): Array[Float] = loadFloats(s"$td/${name}_floats.txt")
+
+  private def freshModel(): WhisperForCTC =
+    WhisperForCTC
+      .loadSavedModel(whisperPkgPath, spark)
+      .setInputCols("audio_assembler")
+      .setOutputCol("document")
+
+  private def run(model: WhisperForCTC, samples: Array[Float]): Seq[Annotation] = {
+    val row = Array(AnnotationAudio(AnnotatorType.AUDIO, samples, Map.empty))
+    model.batchAnnotate(Seq(row)).head
+  }
+
+  private def text(anns: Seq[Annotation]): String = anns.map(_.result).mkString(" ")
+
+  // Same manufactured verbatim-repeat trick used for SpeakerDiarizer: single_speaker.wav
+  // concatenated with itself, well under Whisper's 30s window, guaranteed to make the model
+  // transcribe the same sentence twice - real material for repetitionPenalty to act on.
+  private lazy val repeatedSpeech: Array[Float] = {
+    val clip = audio("single_speaker")
+    clip ++ clip
+  }
+
+  "WhisperForCTC.setRepetitionPenalty" should "change greedy output on speech that verbatim-repeats itself" taggedAs SlowTest in {
+    val baseline = run(freshModel().setRepetitionPenalty(1.0), repeatedSpeech)
+    val penalized = run(freshModel().setRepetitionPenalty(1.8), repeatedSpeech)
+
+    println(s"[WhisperForCTC repetitionPenalty] baseline=${text(baseline)}")
+    println(s"[WhisperForCTC repetitionPenalty] penalized=${text(penalized)}")
+    assert(text(baseline).nonEmpty && text(penalized).nonEmpty)
+    assert(
+      text(baseline) != text(penalized),
+      "the same fix verified through SpeakerDiarizer must also take effect through " +
+        "WhisperForCTC's own batchAnnotate path, since both share Whisper.getLogitProcessors")
+  }
+
+  it should "leave output unchanged at the default penalty of 1.0" taggedAs SlowTest in {
+    val a = run(freshModel(), repeatedSpeech)
+    val b = run(freshModel().setRepetitionPenalty(1.0), repeatedSpeech)
+    assert(text(a) == text(b))
+  }
+
+  "repetitionPenalty/noRepeatNgramSize" should "survive a WhisperForCTC save/load round trip" taggedAs SlowTest in {
+    // Both are plain Spark Params (no custom Feature/IO code), so this should just work via the
+    // standard params.json mechanism - unverified until now, since every other test in this file
+    // (and the SpeakerDiarizer-side fix verification) only ever set these on a freshly-loaded
+    // model, never round-tripped one through .save()/.load().
+    val original = freshModel().setRepetitionPenalty(1.8).setNoRepeatNgramSize(3)
+    val path = s"$scratch/models/save_test_whisperctc_repetition_params"
+    original.write.overwrite().save(path)
+    val reloaded = WhisperForCTC.load(path)
+
+    assert(reloaded.getRepetitionPenalty == 1.8)
+    assert(reloaded.getNoRepeatNgramSize == 3)
+
+    // Also confirm the reloaded model's own inference still reflects the restored penalty value,
+    // not just that the Param getter reports the right number.
+    val reloadedResult =
+      run(reloaded.setInputCols("audio_assembler").setOutputCol("document"), repeatedSpeech)
+    val baseline = run(freshModel().setRepetitionPenalty(1.0), repeatedSpeech)
+    println(s"[WhisperForCTC save/load] reloaded=${text(reloadedResult)}")
+    assert(
+      text(reloadedResult) != text(baseline),
+      "the reloaded model must actually apply the restored repetitionPenalty during inference, " +
+        "not just report the right value from a getter")
   }
 }
