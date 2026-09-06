@@ -5,7 +5,9 @@
         <img src="https://github.com/JohnSnowLabs/spark-nlp/workflows/build/badge.svg" /></a>
     <a href="https://github.com/JohnSnowLabs/spark-nlp/releases" alt="Current Release Version">
         <img src="https://img.shields.io/github/v/release/JohnSnowLabs/spark-nlp.svg?style=flat-square&logo=github" /></a>
-    <a href="https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.13" alt="Maven Central">
+    <a href="https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.12" alt="Maven Central Scala 2.12">
+        <img src="https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.12/badge.svg" /></a>
+    <a href="https://search.maven.org/artifact/com.johnsnowlabs.nlp/spark-nlp_2.13" alt="Maven Central Scala 2.13">
         <img src="https://maven-badges.herokuapp.com/maven-central/com.johnsnowlabs.nlp/spark-nlp_2.13/badge.svg" /></a>
     <a href="https://badge.fury.io/py/spark-nlp" alt="PyPI version">
         <img src="https://badge.fury.io/py/spark-nlp.svg" /></a>
@@ -59,10 +61,14 @@ This is a quick example of how to use a Spark NLP pre-trained pipeline in Python
 
 ```sh
 $ java -version
-# should be Java 17, 21, or 25 (Oracle or OpenJDK)
-$ conda create -n sparknlp python=3.7 -y
+# Java 8 or 11 for Apache Spark 3.x, Java 17, 21, or 25 for Apache Spark 4.x
+$ conda create -n sparknlp python=3.9 -y
 $ conda activate sparknlp
-# spark-nlp by default is based on pyspark 4.x
+
+# Apache Spark 3.x (Scala 2.12)
+$ pip install spark-nlp==7.0.0 pyspark==3.5.1
+
+# Apache Spark 4.x (Scala 2.13)
 $ pip install spark-nlp==7.0.0 pyspark==4.0.0
 ```
 
@@ -112,6 +118,7 @@ This is a cheatsheet for corresponding Spark NLP Maven package to Apache Spark /
 
 | Apache Spark            | Spark NLP on CPU   | Spark NLP on GPU           | Spark NLP on AArch64 (linux)   | Spark NLP on Apple Silicon           |
 |-------------------------|--------------------|----------------------------|--------------------------------|--------------------------------------|
+| 3.0/3.1/3.2/3.3/3.4/3.5 | `spark-nlp`        | `spark-nlp-gpu`            | `spark-nlp-aarch64`            | `spark-nlp-silicon`                  |
 | 4.x                     | `spark-nlp`        | `spark-nlp-gpu`            | `spark-nlp-aarch64`            | `spark-nlp-silicon`                  |
 | Start Function          | `sparknlp.start()` | `sparknlp.start(gpu=True)` | `sparknlp.start(aarch64=True)` | `sparknlp.start(apple_silicon=True)` |
 
@@ -129,21 +136,52 @@ For a quick example of using pipelines and models take a look at our official [d
 
 ### Apache Spark Support
 
-Spark NLP *7.0.0* is built for Apache Spark 4.x.
+Spark NLP *7.0.0* supports **both** Apache Spark 3.x (Scala 2.12) and Apache Spark 4.x (Scala 2.13). Choose the
+artifact that matches the Scala binary version of your Spark distribution.
 
-| Spark NLP | Apache Spark 4.x |
-|-----------|------------------|
-| 7.0.0     | YES              |
+**Apache Spark 3.x (Scala 2.12)**
+
+| Spark NLP | Apache Spark 3.5.x | Apache Spark 3.4.x | Apache Spark 3.3.x | Apache Spark 3.2.x | Apache Spark 3.1.x | Apache Spark 3.0.x | Apache Spark 2.4.x | Apache Spark 2.3.x |
+|-----------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|--------------------|
+| 7.0.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 6.x.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 5.5.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 5.4.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 5.3.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 5.2.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 5.1.x     | Partially          | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+| 5.0.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
+
+**Apache Spark 4.x (Scala 2.13)**
+
+| Spark NLP | Apache Spark 4.0.x |
+|-----------|--------------------|
+| 7.0.x     | YES                |
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
 
 ### Scala and Python Support
 
+**Apache Spark 3.x (Scala 2.12)**
+
+| Spark NLP | Python 3.6 | Python 3.7 | Python 3.8 | Python 3.9 | Python 3.10| Scala 2.11 | Scala 2.12 |
+|-----------|------------|------------|------------|------------|------------|------------|------------|
+| 7.0.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
+| 6.0.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
+| 5.5.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
+| 5.4.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
+| 5.3.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
+| 5.2.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
+| 5.1.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
+| 5.0.x     | NO         | YES        | YES        | YES        | YES        | NO         | YES        |
+
+**Apache Spark 4.x (Scala 2.13)**
+
 | Spark NLP | Python 3.9 | Python 3.10 | Python 3.11 | Python 3.12 | Scala 2.13 |
 |-----------|------------|-------------|-------------|-------------|------------|
-| 7.0.0     | YES        | YES         | YES         | YES         | YES        |
+| 7.0.x     | YES        | YES         | YES         | YES         | YES        |
 
-Find out more about 4.x `SparkNLP` versions in our official [documentation](https://sparknlp.org/docs/en/install#apache-spark-support)
+Find out more about `SparkNLP` versions in our official [documentation](https://sparknlp.org/docs/en/install#apache-spark-support)
 
 ### Databricks Support
 
@@ -198,7 +236,8 @@ To install spark-nlp packages through command line follow [these instructions](h
 
 ### Scala
 
-Spark NLP 7.0.0 supports Scala 2.13 with Apache Spark 4.x. Our packages are
+Spark NLP 7.0.0 supports Scala 2.12 with Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x, and Scala 2.13
+with Apache Spark 4.x. Our packages are
 deployed to Maven central. To add any of our packages as a dependency in your application you can follow [these instructions](https://sparknlp.org/docs/en/install#scala-and-java)
 from our official documentation.
 
