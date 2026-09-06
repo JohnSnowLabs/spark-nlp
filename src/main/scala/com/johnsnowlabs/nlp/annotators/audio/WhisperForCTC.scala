@@ -231,6 +231,25 @@ class WhisperForCTC(override val uid: String)
   /** @group getParam */
   def getIsMultilingual: Boolean = getOrDefault(this.isMultilingual)
 
+  /** Whether to decode Whisper's `<|X.XX|>` timestamp tokens and split the transcription into
+    * multiple segment `Annotation`s with real millisecond `begin`/`end` offsets, instead of a
+    * single `Annotation` per input whose `begin`/`end` are a token-count placeholder (Default:
+    * `false`, preserving prior behavior).
+    *
+    * @group param
+    */
+  val outputTimestamps = new BooleanParam(
+    this,
+    "outputTimestamps",
+    "Whether to decode timestamp tokens and emit real-time segment begin/end (ms) instead of " +
+      "token-count placeholders")
+
+  /** @group setParam */
+  def setOutputTimestamps(value: Boolean): this.type = set(outputTimestamps, value)
+
+  /** @group getParam */
+  def getOutputTimestamps: Boolean = $(outputTimestamps)
+
   /** It contains TF model signatures for the loaded saved model
     *
     * @group param
@@ -317,7 +336,8 @@ class WhisperForCTC(override val uid: String)
     batchSize -> 2,
     beamSize -> 1,
     nReturnSequences -> 1,
-    isMultilingual -> true)
+    isMultilingual -> true,
+    outputTimestamps -> false)
 
   private var _model: Option[Broadcast[Whisper]] = None
 
@@ -403,22 +423,25 @@ class WhisperForCTC(override val uid: String)
       batchedAnnotations: Seq[Array[AnnotationAudio]]): Seq[Seq[Annotation]] = {
     batchedAnnotations.map { audioAnnotations =>
       if (audioAnnotations.nonEmpty) {
-        getModelIfNotSet.generateFromAudio(
-          batchAudio = audioAnnotations,
-          batchSize = getBatchSize,
-          maxOutputLength = getMaxOutputLength,
-          minOutputLength = getMinOutputLength,
-          doSample = getDoSample,
-          beamSize = getBeamSize,
-          numReturnSequences = getNReturnSequences,
-          temperature = getTemperature,
-          topK = getTopK,
-          topP = getTopP,
-          repetitionPenalty = getRepetitionPenalty,
-          noRepeatNgramSize = getNoRepeatNgramSize,
-          randomSeed = getRandomSeed,
-          task = getTask,
-          language = getLanguage)
+        getModelIfNotSet
+          .generateFromAudio(
+            batchAudio = audioAnnotations,
+            batchSize = getBatchSize,
+            maxOutputLength = getMaxOutputLength,
+            minOutputLength = getMinOutputLength,
+            doSample = getDoSample,
+            beamSize = getBeamSize,
+            numReturnSequences = getNReturnSequences,
+            temperature = getTemperature,
+            topK = getTopK,
+            topP = getTopP,
+            repetitionPenalty = getRepetitionPenalty,
+            noRepeatNgramSize = getNoRepeatNgramSize,
+            randomSeed = getRandomSeed,
+            task = getTask,
+            language = getLanguage,
+            outputTimestamps = getOutputTimestamps)
+          .flatten
       } else Seq.empty
     }
   }

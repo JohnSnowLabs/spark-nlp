@@ -244,4 +244,11 @@ object OnnxWrapper {
 
   case class EncoderDecoderWithoutPastWrappers(encoder: OnnxWrapper, decoder: OnnxWrapper)
 
+  /** The two independent (non encoder/decoder-paired) ONNX sub-models `SpeakerDiarizer` always
+    * needs: speech/overlap segmentation and speaker embedding extraction. Whisper's own
+    * `EncoderDecoderWrappers` is reused separately and optionally when ASR fusion is enabled, so
+    * it isn't part of this bundle.
+    */
+  case class SpeakerDiarizationWrappers(segmentation: OnnxWrapper, embedding: OnnxWrapper)
+
 }

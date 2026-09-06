@@ -684,6 +684,13 @@ package object annotator {
 
   object WhisperForCTC extends ReadablePretrainedWhisperForCTCModel with ReadWhisperForCTCDLModel
 
+  type SpeakerDiarizer =
+    com.johnsnowlabs.nlp.annotators.audio.SpeakerDiarizer
+
+  object SpeakerDiarizer
+      extends ReadablePretrainedSpeakerDiarizerModel
+      with ReadSpeakerDiarizerDLModel
+
   type ZeroShotNerModel =
     com.johnsnowlabs.nlp.annotators.ner.dl.ZeroShotNerModel
 

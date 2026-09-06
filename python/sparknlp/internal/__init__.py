@@ -973,6 +973,32 @@ class _WhisperForCTC(ExtendedJavaWrapper):
         )
 
 
+class _SpeakerDiarizer(ExtendedJavaWrapper):
+    def __init__(self, path, jspark, asr_model_path=None):
+        # Passing a Python None straight through as a 3rd positional arg is ambiguous for Py4J:
+        # the Scala side has both a 3-arg `loadSavedModel(String, SparkSession, String)` overload
+        # (added specifically so a null asrModelPath is Java-friendly) and a 3-arg
+        # `loadSavedModel(String, SparkSession, Option[String])` one Scala callers use directly.
+        # A raw Java null for that slot gets resolved by Py4J to the Option[String] overload here,
+        # which then receives a literal null instead of None - `.map` on that null throws
+        # NullPointerException immediately (confirmed - not a hypothetical). Calling the 2-arg
+        # overload instead when there's no ASR path sidesteps the ambiguity entirely, since
+        # argument count alone disambiguates it.
+        if asr_model_path is None:
+            super(_SpeakerDiarizer, self).__init__(
+                "com.johnsnowlabs.nlp.annotators.audio.SpeakerDiarizer.loadSavedModel",
+                path,
+                jspark,
+            )
+        else:
+            super(_SpeakerDiarizer, self).__init__(
+                "com.johnsnowlabs.nlp.annotators.audio.SpeakerDiarizer.loadSavedModel",
+                path,
+                jspark,
+                asr_model_path,
+            )
+
+
 class _CamemBertForTokenClassificationLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_CamemBertForTokenClassificationLoader, self).__init__(

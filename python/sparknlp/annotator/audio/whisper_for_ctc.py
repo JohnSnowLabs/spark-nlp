@@ -141,6 +141,10 @@ class WhisperForCTC(AnnotatorModel,
     language = Param(Params._dummy(), "language", "Optional parameter to set the language for the transcription.",
                      typeConverter=TypeConverters.toString)
 
+    task = Param(Params._dummy(), "task",
+                 "The formatted task for the audio. Either <|translate|> or <|transcribe|>.",
+                 typeConverter=TypeConverters.toString)
+
     isMultilingual = Param(Params._dummy(), "isMultilingual", "Whether the model is multilingual.",
                            typeConverter=TypeConverters.toBoolean)
 
@@ -155,8 +159,16 @@ class WhisperForCTC(AnnotatorModel,
         return self._set(configProtoBytes=b)
 
     def getLanguage(self):
-        """Gets the langauge for the transcription."""
-        return self.getOrDefault(self.language)
+        """Gets the language for the transcription, or None if it was never set.
+
+        Uses isSet rather than plain getOrDefault: language has no default value on either the
+        Python or Scala side (unset genuinely means "let the model auto-detect"), so
+        getOrDefault("language") alone throws a bare KeyError on an instance where it was never
+        set (confirmed via real execution while testing SpeakerDiarizer's identical asrLanguage
+        param, which has the same gap) instead of reporting "not set" in a way Python code can
+        actually handle.
+        """
+        return self.getOrDefault(self.language) if self.isSet(self.language) else None
 
     def getIsMultilingual(self):
         """Gets whether the model is multilingual."""
@@ -171,7 +183,18 @@ class WhisperForCTC(AnnotatorModel,
         value : String
             Formatted language code
         """
-        return self._call_java("setLanguage", value)
+        # _call_java alone returns the Java method's own return value (`this.type` from Scala -
+        # the underlying Java object, not this Python wrapper), which silently breaks fluent
+        # chaining (confirmed via a real chained pipeline call, not a hypothetical) - the
+        # underlying Scala setLanguage's own validation (format, is_multilingual, and a real
+        # vocabulary-membership check this class can't cheaply replicate client-side) still needs
+        # to run, so it's called first for its validation side effect and exception, then
+        # self._set keeps this object's own param cache in sync the same way every other setter's
+        # implicit _set-based tracking does (that cache is otherwise never touched by a _call_java
+        # call, which is what made getLanguage() report a stale value after this method used to
+        # run without it).
+        self._call_java("setLanguage", value)
+        return self._set(language=value)
 
     def setTask(self, value):
         """Sets the formatted task for the audio. Either `<|translate|>` or `<|transcribe|>`.
@@ -183,7 +206,14 @@ class WhisperForCTC(AnnotatorModel,
         value : String
             Formatted task
         """
-        return self._call_java("setTask", value)
+        # See setLanguage's docstring for why both calls are needed.
+        self._call_java("setTask", value)
+        return self._set(task=value)
+
+    def getTask(self):
+        """Gets the task for the audio, or None if it was never set. See getLanguage's docstring
+        for why this checks isSet rather than using plain getOrDefault."""
+        return self.getOrDefault(self.task) if self.isSet(self.task) else None
 
     @keyword_only
     def __init__(self, classname="com.johnsnowlabs.nlp.annotators.audio.WhisperForCTC",

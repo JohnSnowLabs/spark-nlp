@@ -21,6 +21,8 @@ import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcess.{
   ForcedTokenLogitProcessor,
   MinLengthLogitProcessor,
+  NoRepeatNgramsLogitProcessor,
+  RepetitionPenaltyLogitProcessor,
   SuppressLogitProcessor
 }
 import com.johnsnowlabs.ml.ai.util.Generation.Logit.LogitProcessorList
@@ -70,10 +72,10 @@ private[johnsnowlabs] class Whisper(
     val openvinoWrapper: Option[OpenvinoEncoderDecoder],
     configProtoBytes: Option[Array[Byte]] = None,
     signatures: Option[Map[String, String]] = None,
-    preprocessor: WhisperPreprocessor,
-    vocabulary: Map[String, Int],
-    addedSpecialTokens: Map[String, Int],
-    generationConfig: GenerationConfig)
+    val preprocessor: WhisperPreprocessor,
+    val vocabulary: Map[String, Int],
+    val addedSpecialTokens: Map[String, Int],
+    val generationConfig: GenerationConfig)
     extends Serializable {
 
   private val logger = LoggerFactory.getLogger(this.getClass.getName)
@@ -227,7 +229,10 @@ private[johnsnowlabs] class Whisper(
   private def getLogitProcessors(
       task: Option[String] = None,
       language: Option[String] = None,
-      minLength: Int = 0) = {
+      minLength: Int = 0,
+      outputTimestamps: Boolean = false,
+      repetitionPenalty: Double = 1.0,
+      noRepeatNgramSize: Int = 0) = {
     val processorList = new LogitProcessorList()
 
     if (beginSuppressTokens.isDefined) {
@@ -263,6 +268,18 @@ private[johnsnowlabs] class Whisper(
         if (task.isDefined) totalForcedDecoderIds.updated(2, vocabWithAddedTokens(task.get))
         else totalForcedDecoderIds
 
+      // The exported model's config.json typically forces <|notimestamps|> at some position in
+      // forced_decoder_ids (see loadSavedModel in WhisperForCTC.scala). To let the model emit
+      // real timestamp tokens instead, that single forced entry must be dropped here rather than
+      // hardcoded away, since its position varies by model (single-language vs. multilingual).
+      if (outputTimestamps) {
+        vocabWithAddedTokens.get("<|notimestamps|>").foreach { notimestampsId =>
+          totalForcedDecoderIds = totalForcedDecoderIds.filterNot { case (_, tokenId) =>
+            tokenId == notimestampsId
+          }
+        }
+      }
+
       new ForcedTokenLogitProcessor(totalForcedDecoderIds.toArray)
     }
 
@@ -270,6 +287,14 @@ private[johnsnowlabs] class Whisper(
 
     if (minLength > 0)
       processorList.addProcess(new MinLengthLogitProcessor(eosTokenId, minLength, vocabSize))
+
+    // These two were previously accepted by generateFromAudio but never actually threaded this
+    // far - confirmed by real-inference testing (a manufactured verbatim-repeated transcript
+    // stayed byte-identical regardless of either setting) before being wired in here.
+    if (repetitionPenalty != 1.0)
+      processorList.addProcess(new RepetitionPenaltyLogitProcessor(repetitionPenalty))
+    if (noRepeatNgramSize > 0)
+      processorList.addProcess(new NoRepeatNgramsLogitProcessor(noRepeatNgramSize, vocabSize))
 
     processorList
 
@@ -316,7 +341,8 @@ private[johnsnowlabs] class Whisper(
       noRepeatNgramSize: Int,
       randomSeed: Option[Long],
       task: Option[String] = None,
-      language: Option[String] = None): Seq[Annotation] = {
+      language: Option[String] = None,
+      outputTimestamps: Boolean = false): Seq[Seq[Annotation]] = {
 
     if (beamSize > 1)
       logger.warn(
@@ -340,7 +366,13 @@ private[johnsnowlabs] class Whisper(
       val validIndices = validBatchAudio.map(_._2)
 
       val logitProcessors: LogitProcessorList =
-        getLogitProcessors(task, language, minOutputLength)
+        getLogitProcessors(
+          task,
+          language,
+          minOutputLength,
+          outputTimestamps,
+          repetitionPenalty,
+          noRepeatNgramSize)
 
       val featuresBatch = validBatchAudio.map { case (AnnotationAudio(_, rawFloats, _), _) =>
         preprocessor.extractFeatures(rawFloats)
@@ -452,23 +484,40 @@ private[johnsnowlabs] class Whisper(
 
       }
 
-      val batchDecodedIds = validIndices.zip(decode(tokenIds)).toMap
+      // In timestamp mode each input can decode to zero or more (start, end, text) segments;
+      // in the legacy flat mode there is always exactly one "segment" spanning the whole
+      // generation, preserving the original single-Annotation-per-input behavior below.
+      val batchDecodedSegments: Map[Int, Seq[(Double, Double, String)]] =
+        if (outputTimestamps)
+          validIndices.zip(tokenIds.map(tokenDecoder.decodeTokensWithTimestamps)).toMap
+        else
+          validIndices.zip(decode(tokenIds).map(text => Seq((0.0, 0.0, text)))).toMap
 
       batchAudio.zipWithIndex.map { case (annotationAudio, index) =>
-        if (batchDecodedIds.contains(index)) {
-          val decodedIds = batchDecodedIds(index)
-          new Annotation(
-            annotatorType = AnnotatorType.DOCUMENT,
-            begin = 0,
-            end = decodedIds.length - 1,
-            result = decodedIds,
-            metadata = annotationAudio.metadata)
-        } else
-          emptyAnnotation(annotationAudio)
+        batchDecodedSegments.get(index) match {
+          case Some(segments) if segments.nonEmpty =>
+            segments.map { case (startSeconds, endSeconds, text) =>
+              if (outputTimestamps)
+                new Annotation(
+                  annotatorType = AnnotatorType.DOCUMENT,
+                  begin = math.round(startSeconds * 1000).toInt,
+                  end = math.round(endSeconds * 1000).toInt,
+                  result = text,
+                  metadata = annotationAudio.metadata)
+              else
+                new Annotation(
+                  annotatorType = AnnotatorType.DOCUMENT,
+                  begin = 0,
+                  end = text.length - 1,
+                  result = text,
+                  metadata = annotationAudio.metadata)
+            }
+          case _ => Seq(emptyAnnotation(annotationAudio))
+        }
       }
     } else
       batchAudio.map { annotationAudio =>
-        emptyAnnotation(annotationAudio)
+        Seq(emptyAnnotation(annotationAudio))
       }
   }
 
