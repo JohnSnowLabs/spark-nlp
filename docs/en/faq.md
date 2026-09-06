@@ -249,20 +249,32 @@ Prebuilt versions of Spark NLP can be obtained through multiple channels, depend
    If you are using Maven, you can add the following dependency to your `pom.xml`:
 
    ```xml
+   <!-- Apache Spark 3.x (Scala 2.12) -->
+   <dependency>
+      <groupId>com.johnsnowlabs.nlp</groupId>
+      <artifactId>spark-nlp_2.12</artifactId>
+      <version>LATEST_VERSION</version>
+   </dependency>
+
+   <!-- Apache Spark 4.x (Scala 2.13) -->
    <dependency>
       <groupId>com.johnsnowlabs.nlp</groupId>
       <artifactId>spark-nlp_2.13</artifactId>
-      <version>7.0.0</version>
+      <version>LATEST_VERSION</version>
    </dependency>
    ```
 
-   Use version `7.0.0` with Apache Spark 4.x and Scala 2.13.
+   Make sure to replace `LATEST_VERSION` with the desired version of Spark NLP, and pick the artifact matching
+   your Spark distribution: `spark-nlp_2.12` for Apache Spark 3.x, `spark-nlp_2.13` for Apache Spark 4.x.
 
 3. **Spark Packages**:
    For those using the `spark-shell`, `pyspark`, or `spark-submit`, you can include Spark NLP directly via Spark Packages:
 
    ```bash
-   --packages com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
+   # Apache Spark 3.x (Scala 2.12)
+   --packages com.johnsnowlabs.nlp:spark-nlp_2.12:LATEST_VERSION
+   # Apache Spark 4.x (Scala 2.13)
+   --packages com.johnsnowlabs.nlp:spark-nlp_2.13:LATEST_VERSION
    ```
 
 4. **Pre-trained Models & Pipelines**:

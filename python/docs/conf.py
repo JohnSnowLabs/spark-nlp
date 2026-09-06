@@ -23,7 +23,10 @@ author = "John Snow Labs"
 
 # The full version, including alpha/beta/rc tags
 release = "7.0.0"
+# Spark NLP is published for both Apache Spark 3.x (Scala 2.12) and Apache Spark 4.x (Scala 2.13).
 pyspark_version = "4.0.0"
+pyspark3_version = "3.5.1"
+pyspark4_version = "4.0.0"
 
 # -- General configuration ---------------------------------------------------
 
@@ -122,6 +125,8 @@ pygments_style = "sphinx"
 rst_prolog = """
 .. |release| replace:: {0}
 .. |pyspark_version| replace:: {1}
+.. |pyspark3_version| replace:: {2}
+.. |pyspark4_version| replace:: {3}
 """.format(
-    release, pyspark_version
+    release, pyspark_version, pyspark3_version, pyspark4_version
 )
