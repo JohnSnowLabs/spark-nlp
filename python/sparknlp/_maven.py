@@ -15,10 +15,6 @@
 import re
 
 
-SUPPORTED_FORWARD_SPARK4_VERSIONS = frozenset(
-    {"4.0.1", "4.1.0", "4.1.1", "4.1.2"}
-)
-
 _VARIANT_ARTIFACTS = {
     "cpu": "spark-nlp",
     "gpu": "spark-nlp-gpu",
@@ -64,7 +60,7 @@ def resolve_spark_nlp_coordinate(
     elif normalized_version == "4.0.0":
         scala_binary_version = "2.13"
         profile_suffix = "-spark400"
-    elif normalized_version in SUPPORTED_FORWARD_SPARK4_VERSIONS:
+    elif spark_major == 4:
         scala_binary_version = "2.13"
         profile_suffix = ""
     else:
@@ -76,11 +72,9 @@ def resolve_spark_nlp_coordinate(
 
 
 def _unsupported_pyspark_version(pyspark_version):
-    supported_spark4_versions = ", ".join(
-        ["4.0.0"] + sorted(SUPPORTED_FORWARD_SPARK4_VERSIONS)
-    )
     return ValueError(
         f"Unsupported PySpark version '{pyspark_version}'. "
-        "Spark NLP supports Spark 3.x with Scala 2.12 and the validated "
-        f"Spark 4 versions {supported_spark4_versions} with Scala 2.13."
+        "Automatic Maven coordinate resolution accepts release versions "
+        "in major.minor.patch format for Spark 3.x (Scala 2.12) "
+        "and Spark 4.x (Scala 2.13)."
     )

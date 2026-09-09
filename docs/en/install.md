@@ -111,7 +111,9 @@ The same Python wheel supports the declared Spark 3 and Spark 4 runtime lanes. `
 |---|---|
 | Spark 3.x | `spark-nlp_2.12` |
 | Spark 4.0.0 | `spark-nlp-spark400_2.13` |
-| Spark 4.0.1, 4.1.0, 4.1.1, or 4.1.2 | `spark-nlp_2.13` |
+| Later Spark 4.x releases | `spark-nlp_2.13` |
+
+Automatic selection accepts release versions in `major.minor.patch` format and does not imply that every Spark 4.x release has been validated.
 
 The selected hardware option is applied to the same lane. For example, `sparknlp.start(gpu=True)` selects the corresponding `spark-nlp-gpu` artifact. Only one of `gpu`, `apple_silicon`, or `aarch64` may be enabled.
 
@@ -132,7 +134,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 ```
 
-The manual example above is for Spark 3.x. For Spark 4.0.0 use `spark-nlp-spark400_2.13`; for Spark 4.0.1, 4.1.0, 4.1.1, or 4.1.2 use `spark-nlp_2.13`.
+The manual example above is for Spark 3.x. For Spark 4.0.0 use `spark-nlp-spark400_2.13`; for later Spark 4.x releases use `spark-nlp_2.13`.
 
 If using local jars, you can use `spark.jars` instead for comma-delimited jar files. For cluster setups, of course,
 you'll have to put the jars in a reachable location for all driver and executor nodes.

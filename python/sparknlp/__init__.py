@@ -138,7 +138,9 @@ def start(gpu=False,
     -----
     The Maven artifact is selected from the installed PySpark version. Spark 3.x
     uses Scala 2.12. Spark 4.0.0 uses the dedicated ``spark400`` Scala 2.13
-    artifact. Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2 use the default Scala 2.13 artifact.
+    artifact. Later Spark 4.x releases use the default Scala 2.13 artifact.
+    Automatic artifact selection does not imply that every release has been
+    validated. Only release versions in major.minor.patch format are accepted.
 
     Returns
     -------
