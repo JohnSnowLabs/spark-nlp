@@ -256,7 +256,14 @@ Prebuilt versions of Spark NLP can be obtained through multiple channels, depend
       <version>LATEST_VERSION</version>
    </dependency>
 
-   <!-- Apache Spark 4.x (Scala 2.13) -->
+   <!-- Apache Spark 4.0.0 (Scala 2.13) -->
+   <dependency>
+      <groupId>com.johnsnowlabs.nlp</groupId>
+      <artifactId>spark-nlp-spark400_2.13</artifactId>
+      <version>LATEST_VERSION</version>
+   </dependency>
+
+   <!-- Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13) -->
    <dependency>
       <groupId>com.johnsnowlabs.nlp</groupId>
       <artifactId>spark-nlp_2.13</artifactId>
@@ -265,7 +272,8 @@ Prebuilt versions of Spark NLP can be obtained through multiple channels, depend
    ```
 
    Make sure to replace `LATEST_VERSION` with the desired version of Spark NLP, and pick the artifact matching
-   your Spark distribution: `spark-nlp_2.12` for Apache Spark 3.x, `spark-nlp_2.13` for Apache Spark 4.x.
+   your Spark distribution: `spark-nlp_2.12` for Apache Spark 3.x, `spark-nlp-spark400_2.13` for Apache Spark
+   4.0.0, and `spark-nlp_2.13` for Apache Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2.
 
 3. **Spark Packages**:
    For those using the `spark-shell`, `pyspark`, or `spark-submit`, you can include Spark NLP directly via Spark Packages:
@@ -273,7 +281,9 @@ Prebuilt versions of Spark NLP can be obtained through multiple channels, depend
    ```bash
    # Apache Spark 3.x (Scala 2.12)
    --packages com.johnsnowlabs.nlp:spark-nlp_2.12:LATEST_VERSION
-   # Apache Spark 4.x (Scala 2.13)
+   # Apache Spark 4.0.0 (Scala 2.13)
+   --packages com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:LATEST_VERSION
+   # Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13)
    --packages com.johnsnowlabs.nlp:spark-nlp_2.13:LATEST_VERSION
    ```
 

@@ -27,7 +27,7 @@ author = "John Snow Labs"
 # The full version, including alpha/beta/rc tags
 release = __version__
 # Spark NLP is published for both Apache Spark 3.x (Scala 2.12) and Apache Spark 4.x (Scala 2.13).
-pyspark_version = "4.0.0"
+pyspark_version = "3.5.1"
 pyspark3_version = "3.5.1"
 pyspark4_version = "4.0.0"
 

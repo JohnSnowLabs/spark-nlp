@@ -61,15 +61,18 @@ This is a quick example of how to use a Spark NLP pre-trained pipeline in Python
 
 ```sh
 $ java -version
-# Java 8 or 11 for Apache Spark 3.x, Java 17, 21, or 25 for Apache Spark 4.x
+# Java 8 or 11 for Apache Spark 3.x, Java 17 for Apache Spark 4.x
 $ conda create -n sparknlp python=3.9 -y
 $ conda activate sparknlp
 
-# Apache Spark 3.x (Scala 2.12)
+# Apache Spark 3.x (Scala 2.12) -> spark-nlp_2.12
 $ pip install spark-nlp==7.0.0 pyspark==3.5.1
 
-# Apache Spark 4.x (Scala 2.13)
+# Apache Spark 4.0.0 (Scala 2.13) -> spark-nlp-spark400_2.13
 $ pip install spark-nlp==7.0.0 pyspark==4.0.0
+
+# Apache Spark 4.0.1 and later validated Spark 4 versions (Scala 2.13) -> spark-nlp_2.13
+$ pip install spark-nlp==7.0.0 pyspark==4.0.1
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -116,11 +119,17 @@ For more examples, you can visit our dedicated [examples](https://github.com/Joh
 
 This is a cheatsheet for corresponding Spark NLP Maven package to Apache Spark / PySpark major version:
 
-| Apache Spark            | Spark NLP on CPU   | Spark NLP on GPU           | Spark NLP on AArch64 (linux)   | Spark NLP on Apple Silicon           |
-|-------------------------|--------------------|----------------------------|--------------------------------|--------------------------------------|
-| 3.0/3.1/3.2/3.3/3.4/3.5 | `spark-nlp`        | `spark-nlp-gpu`            | `spark-nlp-aarch64`            | `spark-nlp-silicon`                  |
-| 4.x                     | `spark-nlp`        | `spark-nlp-gpu`            | `spark-nlp-aarch64`            | `spark-nlp-silicon`                  |
-| Start Function          | `sparknlp.start()` | `sparknlp.start(gpu=True)` | `sparknlp.start(aarch64=True)` | `sparknlp.start(apple_silicon=True)` |
+| Apache Spark (Scala)              | Spark NLP on CPU     | Spark NLP on GPU            | Spark NLP on AArch64 (linux)    | Spark NLP on Apple Silicon           |
+|-----------------------------------|----------------------|-----------------------------|---------------------------------|--------------------------------------|
+| 3.0/3.1/3.2/3.3/3.4/3.5 (2.12)    | `spark-nlp`          | `spark-nlp-gpu`             | `spark-nlp-aarch64`             | `spark-nlp-silicon`                  |
+| 4.0.0 (2.13)                      | `spark-nlp-spark400` | `spark-nlp-gpu-spark400`    | `spark-nlp-aarch64-spark400`    | `spark-nlp-silicon-spark400`         |
+| 4.0.1/4.1.0/4.1.1/4.1.2 (2.13)    | `spark-nlp`          | `spark-nlp-gpu`             | `spark-nlp-aarch64`             | `spark-nlp-silicon`                  |
+| Start Function                    | `sparknlp.start()`   | `sparknlp.start(gpu=True)`  | `sparknlp.start(aarch64=True)`  | `sparknlp.start(apple_silicon=True)` |
+
+Append the Scala binary version to the artifact name for the Maven coordinate — for example
+`spark-nlp_2.12` on Apache Spark 3.x, `spark-nlp-spark400_2.13` on Apache Spark 4.0.0, and
+`spark-nlp_2.13` on Apache Spark 4.0.1 and later validated Spark 4 versions. See the
+[install documentation](https://sparknlp.org/docs/en/install) for the full artifact table.
 
 NOTE: `M1/M2` and `AArch64` are under `experimental` support. Access and support to these architectures are limited by the
 community and we had to build most of the dependencies by ourselves to make them compatible. We support these two
@@ -136,8 +145,17 @@ For a quick example of using pipelines and models take a look at our official [d
 
 ### Apache Spark Support
 
-Spark NLP *7.0.0* supports **both** Apache Spark 3.x (Scala 2.12) and Apache Spark 4.x (Scala 2.13). Choose the
-artifact that matches the Scala binary version of your Spark distribution.
+Spark NLP *7.0.0* supports **both** Apache Spark 3.x (Scala 2.12) and the validated Apache Spark 4 versions
+(Scala 2.13). Apache Spark 4.0.0 ships a separate artifact because of a binary-incompatible `Param` change,
+so there are three artifact lanes:
+
+| Apache Spark runtime                    | Scala | Maven artifact              |
+|-----------------------------------------|-------|-----------------------------|
+| 3.0.x - 3.5.x                           | 2.12  | `spark-nlp_2.12`            |
+| 4.0.0                                   | 2.13  | `spark-nlp-spark400_2.13`   |
+| 4.0.1, 4.1.0, 4.1.1, 4.1.2              | 2.13  | `spark-nlp_2.13`            |
+
+Choose the artifact that matches your Spark distribution.
 
 **Apache Spark 3.x (Scala 2.12)**
 
@@ -152,11 +170,11 @@ artifact that matches the Scala binary version of your Spark distribution.
 | 5.1.x     | Partially          | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 | 5.0.x     | YES                | YES                | YES                | YES                | YES                | YES                | NO                 | NO                 |
 
-**Apache Spark 4.x (Scala 2.13)**
+**Apache Spark 4 (Scala 2.13)**
 
-| Spark NLP | Apache Spark 4.0.x |
-|-----------|--------------------|
-| 7.0.x     | YES                |
+| Spark NLP | Apache Spark 4.0.0 (`spark400` artifact) | Apache Spark 4.0.1 / 4.1.0 / 4.1.1 / 4.1.2 (default `_2.13` artifact) |
+|-----------|------------------------------------------|-----------------------------------------------------------------------|
+| 7.0.x     | YES                                      | YES                                                                   |
 
 Find out more about `Spark NLP` versions from our [release notes](https://github.com/JohnSnowLabs/spark-nlp/releases).
 
@@ -185,7 +203,7 @@ Find out more about `SparkNLP` versions in our official [documentation](https://
 
 ### Databricks Support
 
-Spark NLP 7.0.0 has been tested and is compatible with the following runtimes:
+Spark NLP is compatible with the following runtimes:
 
 | **CPU**            | **GPU**            |
 |--------------------|--------------------|
@@ -203,7 +221,7 @@ We are compatible with older runtimes. For a full list check databricks support 
 
 ### EMR Support
 
-Spark NLP 6.4.2 has been tested and is compatible with the following Amazon EMR 6.x and 7.x releases:
+Spark NLP is compatible with the following Amazon EMR 6.x and 7.x releases:
 
 | **EMR Release**    |
 |--------------------|
@@ -245,7 +263,8 @@ To install spark-nlp packages through command line follow [these instructions](h
 ### Scala
 
 Spark NLP 7.0.0 supports Scala 2.12 with Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x, and Scala 2.13
-with Apache Spark 4.x. Our packages are
+with Apache Spark 4.0.0 (`spark-nlp-spark400_2.13`) and Apache Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2
+(`spark-nlp_2.13`). Our packages are
 deployed to Maven central. To add any of our packages as a dependency in your application you can follow [these instructions](https://sparknlp.org/docs/en/install#scala-and-java)
 from our official documentation.
 
