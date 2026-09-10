@@ -78,6 +78,8 @@ spark = SparkSession.builder
     .config("spark.jsl.settings.pretrained.cache_folder", "sample_data/pretrained")
     .config("spark.jsl.settings.storage.cluster_tmp_dir", "sample_data/storage")
     .config("spark.jars.packages", "com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}")
+    # Apache Spark 4.0.0 (Scala 2.13): com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:{{ site.sparknlp_version }}
+    # Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13): com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}
     .getOrCreate()
 ```
 
@@ -94,6 +96,9 @@ spark-shell \
   --packages com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}
 ```
 
+On Apache Spark 4.0.0, use `com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:{{ site.sparknlp_version }}`; on Apache Spark 4.0.1,
+4.1.0, 4.1.1, or 4.1.2, use `com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}`.
+
 **pyspark:**
 
 ```sh
@@ -106,6 +111,9 @@ pyspark \
   --conf spark.jsl.settings.storage.cluster_tmp_dir="sample_data/storage" \
   --packages com.johnsnowlabs.nlp:spark-nlp_2.12:{{ site.sparknlp_version }}
 ```
+
+On Apache Spark 4.0.0, use `com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:{{ site.sparknlp_version }}`; on Apache Spark 4.0.1,
+4.1.0, 4.1.1, or 4.1.2, use `com.johnsnowlabs.nlp:spark-nlp_2.13:{{ site.sparknlp_version }}`.
 
 **Databricks:**
 
