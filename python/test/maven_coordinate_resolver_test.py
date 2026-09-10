@@ -119,6 +119,9 @@ def resolve_coordinate(*args, **kwargs):
         ("4.1.0", "spark-nlp_2.13"),
         ("4.1.1", "spark-nlp_2.13"),
         ("4.1.2", "spark-nlp_2.13"),
+        ("4.0.2", "spark-nlp_2.13"),
+        ("4.1.3", "spark-nlp_2.13"),
+        ("4.2.0", "spark-nlp_2.13"),
     ],
 )
 def test_resolves_cpu_artifact_from_pyspark_version(spark_version, expected_artifact):
@@ -177,10 +180,11 @@ def test_resolves_all_spark400_hardware_variants(variant_flags, expected_base_ar
         ({"aarch64": True}, "spark-nlp-aarch64"),
     ],
 )
+@pytest.mark.parametrize("spark_version", ["4.1.2", "4.0.2", "4.1.3", "4.2.0"])
 def test_resolves_all_forward_spark4_hardware_variants(
-    variant_flags, expected_base_artifact
+    spark_version, variant_flags, expected_base_artifact
 ):
-    coordinate = resolve_coordinate("4.1.2", SPARK_NLP_MAVEN_VERSION, **variant_flags)
+    coordinate = resolve_coordinate(spark_version, SPARK_NLP_MAVEN_VERSION, **variant_flags)
 
     assert coordinate == (
         f"com.johnsnowlabs.nlp:{expected_base_artifact}_2.13:"
@@ -191,9 +195,9 @@ def test_resolves_all_forward_spark4_hardware_variants(
 @pytest.mark.fast
 @pytest.mark.parametrize(
     "spark_version",
-    ["2.4.8", "4.0.2", "4.2.0", "5.0.0", "4.0.0.dev1", "invalid"],
+    ["2.4.8", "5.0.0", "4.0.0.dev1", "4.2.0rc1", "4.2.0-vendor", "invalid"],
 )
-def test_rejects_unsupported_or_unvalidated_pyspark_versions(spark_version):
+def test_rejects_unsupported_or_nonrelease_pyspark_versions(spark_version):
     with pytest.raises(ValueError, match="Unsupported PySpark version"):
         resolve_coordinate(spark_version, SPARK_NLP_MAVEN_VERSION)
 
