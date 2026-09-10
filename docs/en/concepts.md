@@ -62,15 +62,18 @@ The easiest way to run the python examples is by starting a pyspark jupyter note
 
 ```sh
 $ java -version
-# Java 8 or 11 for Apache Spark 3.x, Java 17, 21, or 25 for Apache Spark 4.x
+# Java 8 or 11 for Apache Spark 3.x, Java 17 for Apache Spark 4.x
 $ conda create -n sparknlp python=3.9 -y
 $ conda activate sparknlp
 
-# Apache Spark 3.x (Scala 2.12)
+# Apache Spark 3.x (Scala 2.12) -> spark-nlp_2.12
 $ pip install spark-nlp=={{ site.sparknlp_version }} pyspark==3.5.1 jupyter
 
-# Apache Spark 4.x (Scala 2.13)
+# Apache Spark 4.0.0 (Scala 2.13) -> spark-nlp-spark400_2.13
 $ pip install spark-nlp=={{ site.sparknlp_version }} pyspark==4.0.0 jupyter
+
+# Apache Spark 4.0.1 and later validated Spark 4 versions (Scala 2.13) -> spark-nlp_2.13
+$ pip install spark-nlp=={{ site.sparknlp_version }} pyspark==4.0.1 jupyter
 
 $ jupyter notebook
 ```

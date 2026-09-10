@@ -107,7 +107,8 @@ In that case, we did it adding both jars...
 
 ```("spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0")```
 
-On an Apache Spark 4.x runtime, use `spark-nlp_2.13` instead of `spark-nlp_2.12`.
+On an Apache Spark 4.0.0 runtime, use `spark-nlp-spark400_2.13` instead of `spark-nlp_2.12`; on Apache Spark
+4.0.1, 4.1.0, 4.1.1, or 4.1.2, use `spark-nlp_2.13`.
 
 ...into the SparkSession. However, in Databricks, you don’t instantiate programmatically a session, but you configure it in the `Compute` screen, selecting your Spark NLP cluster, and then going to ```Configuration -> Advanced Options -> Spark -> Spark Config```, as shown in the following image:
 
