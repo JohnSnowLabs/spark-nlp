@@ -154,7 +154,10 @@ The same Python wheel supports the declared Spark 3 and Spark 4 lanes.
 
 * Spark 3.x to ``spark-nlp_2.12``
 * Spark 4.0.0 to ``spark-nlp-spark400_2.13``
-* Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2 to ``spark-nlp_2.13``
+* Later Spark 4.x releases to ``spark-nlp_2.13``
+
+Automatic selection accepts release versions in ``major.minor.patch`` format
+and does not imply that every Spark 4.x release has been validated.
 
 The ``gpu``, ``apple_silicon``, and ``aarch64`` options select the corresponding
 hardware artifact in the same runtime lane. Only one hardware option may be enabled.
