@@ -12,7 +12,31 @@ GPU="false"
 FORCE="false"
 
 usage() {
-  awk '/^# USAGE/,/^#   -h  help/' "$0" | cut -c3-
+  cat <<USAGE
+Switch a Google Colab runtime to an older Python (default ${PYTHON_VERSION}) and install
+PySpark 3.x + Spark NLP on it. Colab no longer ships a Python that PySpark 3.x
+supports, so the interpreter is replaced before the payload is installed.
+
+In a Colab cell:
+
+  !wget -q https://raw.githubusercontent.com/JohnSnowLabs/spark-nlp/master/scripts/colab_setup_python.sh
+  !bash colab_setup_python.sh -v 3.11
+
+Usage: colab_setup_python.sh [-v PYTHON] [-s SPARKNLP] [-p PYSPARK] [-m BUILD] [-g] [-f] [-h]
+
+  -v  target Python version: 3.8, 3.9, 3.10 or 3.11 (default ${PYTHON_VERSION})
+  -s  Spark NLP version (default ${SPARKNLP})
+  -p  PySpark 3.x version, snapped to a known patch release (default ${PYSPARK})
+  -m  Miniconda build to install (default ${MINICONDA_BUILD})
+  -g  also upgrade libcudnn8 for GPU runtimes
+  -f  register the kernel even if the pre-flight check fails
+  -h  show this help and exit
+
+After a successful run use Runtime > Restart session so Colab picks up the new
+kernel. If any step from [3/7] onwards fails, use Runtime > Disconnect and
+delete runtime instead of re-running in the same session: /usr/local has
+already been replaced by then.
+USAGE
 }
 
 while getopts s:p:v:m:gfh option; do
@@ -106,11 +130,16 @@ JAVA_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
 if [ ! -d "$JAVA_HOME" ]; then
   echo "       Installing OpenJDK 11..."
   apt-get update -qq >/dev/null 2>&1 || true
-  apt-get install -y -qq openjdk-11-jdk >/dev/null 2>&1 || true
+  # This install is the actual fix on a Colab image that ships Java 21, which
+  # Spark 3.x rejects. Never hide why it failed - keep the apt output.
+  if ! APT_LOG="$(apt-get install -y -qq openjdk-11-jdk 2>&1)"; then
+    echo "       openjdk-11-jdk install failed; apt output follows:" >&2
+    printf '%s\n' "$APT_LOG" >&2
+  fi
 fi
 
 if [ ! -d "$JAVA_HOME" ]; then
-  echo "       OpenJDK 11 unavailable; looking for another supported JDK..."
+  echo "       OpenJDK 11 unavailable; looking for an already-installed JDK..."
   for candidate in /usr/lib/jvm/java-17-openjdk-amd64 /usr/lib/jvm/java-8-openjdk-amd64; do
     if [ -d "$candidate" ]; then
       JAVA_HOME="$candidate"
@@ -196,11 +225,15 @@ if [[ "$PREFLIGHT_OK" != "true" ]]; then
   echo "PRE-FLIGHT CHECK FAILED - the default kernel was NOT switched."
   echo
   echo "Python ${PYTHON_VERSION} cannot start a Colab kernel in this runtime."
-  echo "Nothing that would stop the runtime from reconnecting has been written,"
-  echo "so this session is still usable."
   echo
-  echo "Re-run with -v 3.11 (the recommended target), or pass -f to register the"
-  echo "kernel anyway and accept that the runtime may fail to reconnect."
+  echo "Miniconda already replaced /usr/local in step [3/7], so this runtime is"
+  echo "NOT in a clean state and re-running the script here will not repair it."
+  echo
+  echo "Use Runtime > Disconnect and delete runtime, then run the script again"
+  echo "on the fresh runtime with -v 3.11 (the recommended target)."
+  echo
+  echo "Pass -f to register the kernel anyway and accept that the runtime may"
+  echo "fail to reconnect."
   echo "------------------------------------------------------------------"
   [[ "$FORCE" == "true" ]] || exit 1
   echo "-f given: continuing anyway."
