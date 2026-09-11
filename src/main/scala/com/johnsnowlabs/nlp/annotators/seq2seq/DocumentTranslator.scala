@@ -419,9 +419,10 @@ class DocumentTranslator(override val uid: String)
       // Collect the per-document sentences to the driver for the LLM step.
       val perDocument: Array[(Long, Seq[Annotation])] = sentenceDf.collect().map { row =>
         val docId = row.getLong(0)
-        val sentences = Option(row.getAs[Seq[Row]](1))
-          .getOrElse(Seq.empty[Row])
+        val sentences = Option(row.getAs[scala.collection.Seq[Row]](1))
+          .getOrElse(scala.collection.Seq.empty[Row])
           .map(Annotation(_))
+          .toSeq
         docId -> sentences
       }
 

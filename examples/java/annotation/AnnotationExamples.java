@@ -1,6 +1,6 @@
 package com.johnsnowlabs.nlp;
 
-import com.johnsnowlabs.nlp.annotators.LemmatizerModel;
+import com.johnsnowlabs.nlp.annotatorssb.LemmatizerModel;
 import com.johnsnowlabs.nlp.annotators.Tokenizer;
 import com.johnsnowlabs.nlp.embeddings.EmbeddingsHelper;
 import com.johnsnowlabs.nlp.pretrained.PretrainedPipeline;
