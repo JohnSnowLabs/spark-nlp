@@ -2,3 +2,7 @@ python/example/* linguist-vendored
 *.ipynb linguist-vendored
 docs/ linguist-vendored
 examples/* linguist-vendored
+*.sbt text eol=lf
+*.scala text eol=lf
+*.java text eol=lf
+*.py text eol=lf

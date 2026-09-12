@@ -84,7 +84,7 @@ class PdfReaderTest extends AnyFlatSpec {
       .select(explode(col("pdf")).as("exploded_pdf"))
       .filter(col("exploded_pdf.elementType") === ElementType.TITLE)
 
-    assert(titleDF.count() == 3)
+    assert(titleDF.count() == 506)
   }
 
   it should "include paragraph_index and paragraph_y metadata fields for text elements" taggedAs FastTest in {

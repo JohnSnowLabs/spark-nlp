@@ -16,7 +16,8 @@
 
 package com.johnsnowlabs.nlp.annotators.classifier.dl
 
-import com.johnsnowlabs.nlp.Annotation
+import com.johnsnowlabs.ml.ai.MergeTokenStrategy
+import com.johnsnowlabs.nlp.{Annotation, AnnotatorType, DocumentAssembler}
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
@@ -210,5 +211,104 @@ class RoBertaForQuestionAnsweringTestSpec extends AnyFlatSpec {
 
     implicit val tolerantEq = TolerantNumerics.tolerantFloatEquality(1e-2f)
     assert(score === expectedScore, "Score was not close enough")
+  }
+
+  /** Regression test for SPARKNLP-45 (#14827): `batchAnnotate` switched from calling
+    * `predictSpan` once per row to `predictSpanGrouped`, batching every row in one pass. This
+    * confirms that switch didn't change any answer - batched output must match the old per-row
+    * output exactly, for every batch size and on every compute engine.
+    */
+  "RoBertaForQuestionAnswering" should "give the same answers batched as one row at a time" taggedAs SlowTest in {
+    val text = "My name is Clara, I live in New York and Hellen lives in Paris."
+    val questions = Seq(
+      "What is his name?",
+      "What is my name?",
+      "What is her name?",
+      "Which city?",
+      "Which is the city?")
+
+    def rows: Seq[Seq[Annotation]] =
+      questions.map(q =>
+        Seq(
+          Annotation(AnnotatorType.DOCUMENT, 0, q.length - 1, q, Map("sentence" -> "0")),
+          Annotation(AnnotatorType.DOCUMENT, 0, text.length - 1, text, Map("sentence" -> "0"))))
+
+    // roberta_qa_robertaABSA and roberta_qa_distilroberta_base_squad_v2 are genuinely
+    // TensorFlow- and ONNX-exported checkpoints respectively (confirmed via detectedEngine below,
+    // not assumed from their names - published checkpoints are sometimes re-exported to a
+    // different engine under the same name over time).
+    Seq(
+      "tensorflow" -> "roberta_qa_robertaABSA",
+      "onnx" -> "roberta_qa_distilroberta_base_squad_v2")
+      .foreach { case (engine, modelName) =>
+        val qa = RoBertaForQuestionAnswering.pretrained(modelName, "en", "public/models")
+        val model = qa.getModelIfNotSet
+        assert(
+          model.detectedEngine == engine,
+          "expected detectedEngine=" + engine + " but got " + model.detectedEngine)
+
+        val perRow = rows.map(row =>
+          model
+            .predictSpan(row, 512, caseSensitive = false, MergeTokenStrategy.vocab, engine)
+            .head)
+
+        Seq(1, 2, 3, 5, 8).foreach { batchSize =>
+          val batched = model
+            .predictSpanGrouped(
+              rows,
+              batchSize,
+              512,
+              caseSensitive = false,
+              MergeTokenStrategy.vocab,
+              engine)
+            .map(_.head)
+
+          perRow.zip(batched).zip(questions).foreach { case ((r, b), q) =>
+            assert(
+              r.result == b.result && r.begin == b.begin && r.end == b.end,
+              "[" + engine + "] batchSize=" + batchSize + " question=[" + q + "]\n  expected: " + r + "\n  actual:   " + b)
+          }
+        }
+      }
+  }
+
+  /** Reproduces the exact repro reported for SPARKNLP-45: five questions against one sentence,
+    * run through the pipeline at different batch sizes. Confirms output is unaffected by
+    * `setBatchSize`.
+    */
+  it should "produce identical pipeline output regardless of batch size" taggedAs SlowTest in {
+    val text = "My name is Clara, I live in New York and Hellen lives in Paris."
+    val questions = Seq(
+      "What is his name?",
+      "What is my name?",
+      "What is her name?",
+      "Which city?",
+      "Which is the city?")
+    val data = questions.map(question => (question, text)).toDF("question", "text")
+
+    val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")
+    val questionAssembler =
+      new DocumentAssembler().setInputCol("question").setOutputCol("question_document")
+
+    def runWith(batchSize: Int): Seq[String] = {
+      val answering = RoBertaForQuestionAnswering
+        .pretrained()
+        .setInputCols("question_document", "document")
+        .setOutputCol("answer")
+        .setBatchSize(batchSize)
+
+      new Pipeline()
+        .setStages(Array(documentAssembler, questionAssembler, answering))
+        .fit(data)
+        .transform(data)
+        .selectExpr("explode(answer) AS answer")
+        .selectExpr("answer.begin", "answer.end", "answer.result")
+        .collect()
+        .map(_.toString)
+        .toSeq
+    }
+
+    val reference = runWith(1)
+    assert(runWith(8) == reference, "pipeline output changed between batchSize=1 and batchSize=8")
   }
 }

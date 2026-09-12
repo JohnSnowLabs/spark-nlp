@@ -248,7 +248,7 @@ class NerDLSpec extends AnyFlatSpec {
 
   }
 
-  "NerDLModel" should "successfully download a pretrained model" taggedAs FastTest in {
+  "NerDLModel" should "successfully download a pretrained model" taggedAs SlowTest in {
 
     val nerModel = NerDLModel
       .pretrained()

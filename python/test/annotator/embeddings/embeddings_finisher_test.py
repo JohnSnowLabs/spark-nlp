@@ -23,7 +23,7 @@ from sparknlp.base import *
 from test.util import SparkContextForTest
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class EmbeddingsFinisherTestSpec(unittest.TestCase):
 
     def setUp(self):

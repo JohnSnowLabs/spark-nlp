@@ -334,16 +334,34 @@ class RoBertaSentenceEmbeddings(override val uid: String)
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
 
-    /*Return empty if the real sentences are empty*/
-    batchedAnnotations.map(annotations => {
-      val sentences = SentenceSplit.unpack(annotations).toArray
+    // Unpack annotations and zip each sentence to the index of the row it belongs to
+    val sentencesWithRow = batchedAnnotations.zipWithIndex
+      .flatMap { case (annotations, i) => SentenceSplit.unpack(annotations).map(x => (x, i)) }
 
-      if (sentences.nonEmpty) {
-        val tokenized = tokenize(sentences)
-        getModelIfNotSet.predictSequence(tokenized, sentences, $(batchSize), $(maxSentenceLength))
-      } else {
+    // Tokenize sentences
+    val tokenizedSentences = tokenize(sentencesWithRow.map(_._1))
+
+    // Process all sentences
+    val allAnnotations = getModelIfNotSet.predictSequence(
+      tokenizedSentences,
+      sentencesWithRow.map(_._1),
+      $(batchSize),
+      $(maxSentenceLength))
+
+    // Group resulting annotations by rows. If there are not sentences in a given row, return empty sequence
+    batchedAnnotations.indices.map(rowIndex => {
+      val rowAnnotations = allAnnotations
+        // zip each annotation with its corresponding row index
+        .zip(sentencesWithRow)
+        // select the sentences belonging to the current row
+        .filter(_._2._2 == rowIndex)
+        // leave the annotation only
+        .map(_._1)
+
+      if (rowAnnotations.nonEmpty)
+        rowAnnotations
+      else
         Seq.empty[Annotation]
-      }
     })
   }
 

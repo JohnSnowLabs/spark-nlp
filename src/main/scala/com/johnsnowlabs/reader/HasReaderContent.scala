@@ -5,10 +5,11 @@ import com.johnsnowlabs.partition.util.PartitionHelper.{
   datasetWithTextFile
 }
 import com.johnsnowlabs.partition.{HasReaderProperties, HasTagsReaderProperties, Partition}
+import org.apache.hadoop.fs.{Path => HadoopPath}
 import org.apache.spark.sql.expressions.UserDefinedFunction
 import org.apache.spark.sql.functions.{col, lit, udf}
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
-import org.apache.spark.sql.{DataFrame, Dataset, Row}
+import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
 
 import java.io.File
 import scala.jdk.CollectionConverters.mapAsJavaMapConverter
@@ -61,12 +62,12 @@ trait HasReaderContent extends HasReaderProperties with HasTagsReaderProperties 
       dirPath: String,
       partitionParams: Map[String, String]): DataFrame = {
 
-    val allFiles = listAllFilesRecursively(new File(dirPath))
+    val allFiles = listAllFilesRecursively(dataset.sparkSession, dirPath)
 
     val grouped = allFiles
-      .filter(_.isFile)
-      .groupBy { file =>
-        val ext = file.getName.split("\\.").lastOption.getOrElse("").toLowerCase
+      .groupBy { filePath =>
+        val fileName = filePath.split("/").last
+        val ext = fileName.split("\\.").lastOption.getOrElse("").toLowerCase
         if (supportedTypes.contains(ext)) {
           Some(ext)
         } else if (! $(ignoreExceptions)) {
@@ -84,14 +85,14 @@ trait HasReaderContent extends HasReaderProperties with HasTagsReaderProperties 
     val mixedDfs = grouped.flatMap { case (ext, files) =>
       if (ext.startsWith("__unsupported__")) {
         val badExt = ext.stripPrefix("__unsupported__")
-        val dfs = files.map(file => buildErrorDataFrame(dataset, file.getAbsolutePath, badExt))
+        val dfs = files.map(file => buildErrorDataFrame(dataset, file, badExt))
         Some(dfs.reduce(_.unionByName(_, allowMissingColumns = true)))
       } else {
         val (contentType, isText) = supportedTypes(ext)
         val filePartitionParam = Map("contentType" -> contentType) ++ partitionParams
         val partition = new Partition(filePartitionParam.asJava)
 
-        val filePathsStr = files.map(_.getAbsolutePath).mkString(",")
+        val filePathsStr = files.mkString(",")
         if (filePathsStr.nonEmpty) {
           val partitionDf = partitionContent(partition, filePathsStr, isText, dataset)
           Some(
@@ -190,6 +191,33 @@ trait HasReaderContent extends HasReaderProperties with HasTagsReaderProperties 
   def listAllFilesRecursively(dir: File): Seq[File] = {
     val these = Option(dir.listFiles).getOrElse(Array.empty)
     these.filter(_.isFile) ++ these.filter(_.isDirectory).flatMap(listAllFilesRecursively)
+  }
+
+  /** Recursively lists all files under the given path as fully-qualified path strings.
+    *
+    * Local paths are listed with [[java.io.File]] (preserving previous behavior), while
+    * distributed/remote schemes such as `dbfs:`, `s3:`, and `hdfs:` are listed through the Hadoop
+    * [[org.apache.hadoop.fs.FileSystem]] so that mixed-content reading works on Databricks and
+    * other cluster filesystems.
+    */
+  def listAllFilesRecursively(spark: SparkSession, dirPath: String): Seq[String] = {
+    val localDir = new File(dirPath)
+    if (localDir.exists) {
+      listAllFilesRecursively(localDir).filter(_.isFile).map(_.getAbsolutePath)
+    } else {
+      val path = new HadoopPath(dirPath)
+      val fileSystem = path.getFileSystem(spark.sparkContext.hadoopConfiguration)
+      if (!fileSystem.exists(path)) Seq.empty
+      else {
+        val filesIterator = fileSystem.listFiles(path, true)
+        val buffer = scala.collection.mutable.ArrayBuffer[String]()
+        while (filesIterator.hasNext) {
+          val status = filesIterator.next()
+          if (status.isFile) buffer += status.getPath.toString
+        }
+        buffer.toSeq
+      }
+    }
   }
 
   def buildEmptyDataFrame(dataset: Dataset[_]): DataFrame = {

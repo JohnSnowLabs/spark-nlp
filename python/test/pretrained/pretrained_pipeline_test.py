@@ -125,7 +125,7 @@ class PretrainedPipelineAudioInputTest(unittest.TestCase):
 
 
 @pytest.mark.slow
-class PretrainedPipelineWithFinisher(unittest.TestCase):
+class PretrainedPipelineWithFinisherTest(unittest.TestCase):
 
     def setUp(self):
         self.pipeline = PretrainedPipeline("distilbert_base_token_classifier_masakhaner_pipeline", "xx")
@@ -136,3 +136,16 @@ class PretrainedPipelineWithFinisher(unittest.TestCase):
 
         for result in annotations_result:
             self.assertTrue(len(result) > 0)
+
+class PretrainedPipelineLegacyTest(unittest.TestCase):
+
+    def setUp(self):
+        self.pipeline = PretrainedPipeline("recognize_entities_dl", lang="en")
+        self.text = "Barack Obama was born in Hawaii and was elected president of the United States."
+
+    def runTest(self):
+        annotations_result = self.pipeline.fullAnnotate(self.text)
+
+        for result in annotations_result:
+            self.assertTrue(len(result) > 0)
+

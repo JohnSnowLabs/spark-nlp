@@ -55,7 +55,7 @@ class StopWordsCleanerTestSpec(unittest.TestCase):
         model.transform(self.data).select("cleanTokens.result").show()
 
 
-@pytest.mark.fast
+@pytest.mark.slow
 class StopWordsCleanerModelTestSpec(unittest.TestCase):
     def setUp(self):
         self.data = SparkContextForTest.spark.createDataFrame([

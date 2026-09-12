@@ -50,7 +50,7 @@ object ResourceHelper {
         .builder()
         .appName("SparkNLP Default Session")
         .master("local[*]")
-        .config("spark.driver.memory", "22G")
+        .config("spark.driver.memory", "26G")
         .config("spark.driver.maxResultSize", "0")
         .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
         .config("spark.kryoserializer.buffer.max", "1000m")
