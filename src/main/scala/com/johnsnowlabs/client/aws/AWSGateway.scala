@@ -246,21 +246,31 @@ class AWSGateway(
     val label = s3FilePath.split("/").last
     val connections = effectiveConnections(contentLength)
 
-    if (connections <= 1) {
-      getS3ObjectSequentially(bucket, s3FilePath, tmpFile, contentLength, label, showProgress)
-    } else if (!downloadRangesInParallel(
-        bucket,
-        s3FilePath,
-        tmpFile,
-        connections,
-        contentLength,
-        label,
-        showProgress)) {
-      logger.warn(
-        s"Parallel download of $s3FilePath did not complete; " +
-          s"falling back to a single connection.")
-      tmpFile.delete()
-      getS3ObjectSequentially(bucket, s3FilePath, tmpFile, contentLength, label, showProgress)
+    // Published for the Python side, which renders progress where this JVM's own output cannot
+    // be seen. Scoped to the whole call, including a fallback, so the counters never outlive
+    // the transfer they describe.
+    if (showProgress) DownloadProgressTracker.begin(label, contentLength)
+    try {
+      if (connections <= 1) {
+        getS3ObjectSequentially(bucket, s3FilePath, tmpFile, contentLength, label, showProgress)
+      } else if (!downloadRangesInParallel(
+          bucket,
+          s3FilePath,
+          tmpFile,
+          connections,
+          contentLength,
+          label,
+          showProgress)) {
+        logger.warn(
+          s"Parallel download of $s3FilePath did not complete; " +
+            s"falling back to a single connection.")
+        tmpFile.delete()
+        // The fallback restarts from zero, so the counters must too or the bar jumps backwards.
+        DownloadProgressTracker.begin(label, contentLength)
+        getS3ObjectSequentially(bucket, s3FilePath, tmpFile, contentLength, label, showProgress)
+      }
+    } finally {
+      if (showProgress) DownloadProgressTracker.end()
     }
   }
 
@@ -467,9 +477,56 @@ class AWSGateway(
 
 }
 
-/** How download progress is rendered, and how that is decided.
+/** Byte counts for the download currently in flight, readable from outside the JVM.
   *
+  * A Spark driver launched through py4j writes to a stdout that a notebook front end does not
+  * surface, so [[DownloadProgress]]'s own output is invisible there however it is formatted.
+  * Python can print to the notebook, but has no view of the transfer -- it is blocked in a py4j
+  * call for its whole duration. This is the bridge: the JVM keeps the counters, and the Python
+  * side polls them and renders.
+  *
+  * Only one download runs at a time on the driver, so a single set of counters is enough.
+  * Accessors are plain public methods returning primitives, which is what py4j can reach.
   */
+object DownloadProgressTracker {
+
+  private val total = new AtomicLong(0L)
+  private val done = new AtomicLong(0L)
+  @volatile private var name: String = ""
+  @volatile private var running: Boolean = false
+
+  private[aws] def begin(label: String, totalBytes: Long): Unit = {
+    name = label
+    total.set(totalBytes)
+    done.set(0L)
+    running = true
+  }
+
+  private[aws] def advance(bytes: Long): Unit = done.addAndGet(bytes)
+
+  private[aws] def end(): Unit = running = false
+
+  /** True while a download is in flight. Polled from Python. */
+  def isActive: Boolean = running
+
+  /** Name of the object being fetched, for display. Polled from Python. */
+  def currentLabel: String = name
+
+  /** Size of the object, or 0 when it is not known. Polled from Python. */
+  def bytesTotal: Long = total.get()
+
+  /** Bytes transferred so far. Polled from Python. */
+  def bytesDone: Long = done.get()
+
+  /** The whole state in one call, as `active|done|total|label`.
+    *
+    * Polling the four accessors separately would be four py4j round trips several times a second,
+    * on a gateway the caller's own blocked download is already using.
+    */
+  def snapshot: String = s"${if (running) 1 else 0}|${done.get()}|${total.get()}|$name"
+}
+
+/** How download progress is rendered, and how that is decided. */
 private[aws] object ProgressStyle {
 
   val Bar = "bar"
@@ -496,9 +553,7 @@ private[aws] object ProgressStyle {
       case _ => if (isTerminal) Bar else Lines
     }
 
-  /** Whether stdout is a real terminal.
-    *
-    */
+  /** Whether stdout is a real terminal. */
   private[aws] def isTerminal: Boolean = {
     val console = System.console()
     if (console == null) false
@@ -511,9 +566,7 @@ private[aws] object ProgressStyle {
   }
 }
 
-/** Byte-accurate progress bar for one download.
-  *
-  */
+/** Byte-accurate progress bar for one download. */
 private class DownloadProgress(
     totalBytes: Long,
     label: String,
@@ -527,6 +580,7 @@ private class DownloadProgress(
 
   def advance(bytes: Long): Unit = {
     if (bytes <= 0 || totalBytes <= 0) return
+    DownloadProgressTracker.advance(bytes)
     val done = transferred.addAndGet(bytes)
     val percent = math.min(100L, (done * 100) / totalBytes)
     if (percent > lastPercentDrawn.get()) {
@@ -583,9 +637,7 @@ private class DownloadProgress(
 
 object AWSGateway {
 
-  /** Smallest slice worth giving a connection of its own.
-    *
-    */
+  /** Smallest slice worth giving a connection of its own. */
   val MinRangeBytes: Long = 4L * 1024 * 1024
 
   val DownloadBufferBytes: Int = 256 * 1024
