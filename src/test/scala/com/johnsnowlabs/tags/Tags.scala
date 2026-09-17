@@ -20,3 +20,31 @@ import org.scalatest.Tag
 
 object FastTest extends Tag("com.johnsnowlabs.tags.FastTest")
 object SlowTest extends Tag("com.johnsnowlabs.tags.SlowTest")
+
+// Opt-in pilot dimensions; existing tests need not carry these tags.
+object ONNX extends Tag("com.johnsnowlabs.tags.ONNX")
+object TensorFlow extends Tag("com.johnsnowlabs.tags.TensorFlow")
+object Embeddings extends Tag("com.johnsnowlabs.tags.Embeddings")
+object Text extends Tag("com.johnsnowlabs.tags.Text")
+object ResourceIntensiveTest extends Tag("com.johnsnowlabs.tags.ResourceIntensiveTest")
+
+object TestTaxonomy {
+  val tags: Map[String, Tag] = Seq(
+    FastTest,
+    SlowTest,
+    ONNX,
+    TensorFlow,
+    Embeddings,
+    Text,
+    ResourceIntensiveTest).map(tag => tag.name.split('.').last -> tag).toMap
+
+  /** Accept Scala tag names and the Python marker vocabulary used by teammates. */
+  val names: Map[String, Tag] = tags ++ Map(
+    "fast" -> FastTest,
+    "slow" -> SlowTest,
+    "onnx" -> ONNX,
+    "tensorflow" -> TensorFlow,
+    "embeddings" -> Embeddings,
+    "text" -> Text,
+    "resource_intensive" -> ResourceIntensiveTest)
+}
