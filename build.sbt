@@ -208,6 +208,16 @@ inConfig(SlowTest)(Defaults.testTasks)
 
 /** Test tagging end */
 
+// Explicit-suite opt-in only; ordinary Test/Fast/Slow filters remain unchanged.
+// Example: taxonomyTest com.johnsnowlabs.nlp.embeddings.AlbertEmbeddingsTestSpec "onnx and embeddings and text"
+// Optional trailing flags: --discover (no bodies), --allow-empty (intentional zero matches).
+lazy val taxonomyTest = inputKey[Unit]("Run one ScalaTest suite using a quoted Boolean taxonomy expression")
+taxonomyTest := Def.inputTaskDyn {
+  val args = sbt.complete.DefaultParsers.spaceDelimited("suite expression [--discover] [--allow-empty]").parsed
+  val quoted = args.map(arg => "\"" + arg.replace("\\", "\\\\").replace("\"", "\\\"") + "\"").mkString(" ")
+  (Test / runMain).toTask(" com.johnsnowlabs.tags.TaxonomyRunner " + quoted)
+}.evaluated
+
 /** Enable for debugging */
 (Test / testOptions) += Tests.Argument("-oF")
 

@@ -20,7 +20,7 @@ import com.johnsnowlabs.nlp.annotator._
 import com.johnsnowlabs.nlp.base._
 import com.johnsnowlabs.nlp.training.CoNLL
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
-import com.johnsnowlabs.tags.SlowTest
+import com.johnsnowlabs.tags.{Embeddings, ONNX, SlowTest, Text}
 import com.johnsnowlabs.util.Benchmark
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, explode, size}
@@ -162,7 +162,11 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
     }
   }
 
-  "AlbertEmbeddings" should "be aligned with custom tokens from Tokenizer" taggedAs SlowTest in {
+  "AlbertEmbeddings" should "be aligned with custom tokens from Tokenizer" taggedAs (
+    SlowTest,
+    ONNX,
+    Embeddings,
+    Text) in {
 
     import ResourceHelper.spark.implicits._
 
@@ -187,6 +191,9 @@ class AlbertEmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCols("document", "token")
       .setOutputCol("embeddings")
       .setMaxSentenceLength(512)
+
+    assert(AlbertEmbeddings.defaultModelName.contains("albert_base_uncased"))
+    assert(embeddings.getEngine == com.johnsnowlabs.ml.util.ONNX.name)
 
     val pipeline = new Pipeline().setStages(Array(document, tokenizer, embeddings))
 
