@@ -47,8 +47,9 @@ object ConfigHelper {
   // ms; 0 = wait forever on a stalled connection
   val s3SocketTimeout = "spark.jsl.settings.pretrained.s3_socket_timeout"
 
-  // Number of threads used to download a pretrained resource in parallel parts
   val pretrainedDownloadThreads = "spark.jsl.settings.pretrained.download_threads"
+
+  val pretrainedDownloadProgress = "spark.jsl.settings.pretrained.download_progress"
 
   // Stores info for AWS S3 logging output when training models
   val awsExternalCredentials = "spark.jsl.settings.aws.credentials"

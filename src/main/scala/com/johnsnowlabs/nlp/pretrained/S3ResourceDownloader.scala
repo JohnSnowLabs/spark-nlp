@@ -24,7 +24,7 @@ import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.Path
 import org.slf4j.{Logger, LoggerFactory}
 
-import java.io.File
+import java.io.{File, FileInputStream}
 import java.nio.file.Files
 import java.util.zip.ZipInputStream
 import scala.collection.mutable
@@ -67,16 +67,35 @@ class S3ResourceDownloader(
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastMetadataState = repoFolder2Metadata.get(folder)
     val metadataFilePath = awsGateway.getS3File(s3Path, folder, "metadata.json")
-    val metadataObject = awsGateway.client.getObject(bucket, metadataFilePath)
-    val lastModifiedTimeInS3 = metadataObject.getObjectMetadata.getLastModified
-    val needToRefresh =
-      lastMetadataState.isEmpty || lastMetadataState.get.lastModified.before(lastModifiedTimeInS3)
+
+    // A HEAD is enough to decide freshness. Opening the object here would begin streaming the
+    // whole index (tens of MB) only to abort it whenever the cached copy is still current.
+    val indexMetadata = awsGateway
+      .getS3ObjectMetadata(bucket, metadataFilePath)
+      .getOrElse(throw new Exception(s"Metadata file not found in S3: $metadataFilePath"))
+    val lastModifiedTimeInS3 = indexMetadata.getLastModified
+    val needToRefresh = S3ResourceDownloader.needToRefresh(
+      lastMetadataState.map(_.lastModified),
+      lastModifiedTimeInS3)
+
     if (!needToRefresh) {
-      metadataObject.close()
       lastMetadataState.get.metadata
     } else {
-      val metadata = ResourceMetadata.readResources(metadataObject.getObjectContent)
-      metadataObject.close()
+      val tmpFile = Files.createTempFile("sparknlp_metadata", ".json").toFile
+      val metadata =
+        try {
+          awsGateway.getS3Object(
+            bucket,
+            metadataFilePath,
+            tmpFile,
+            Some(indexMetadata),
+            showProgress = false)
+          val stream = new FileInputStream(tmpFile)
+          try ResourceMetadata.readResources(stream)
+          finally stream.close()
+        } finally {
+          tmpFile.delete()
+        }
       repoFolder2Metadata(folder) = RepositoryMetadata(
         folder,
         lastModifiedTimeInS3,
@@ -275,4 +294,15 @@ class S3ResourceDownloader(
     }
   }
 
+}
+
+object S3ResourceDownloader {
+
+  /** Whether a repository's cached index must be fetched from S3 again.
+    *
+    */
+  private[pretrained] def needToRefresh(
+      cachedLastModified: Option[java.util.Date],
+      lastModifiedInS3: java.util.Date): Boolean =
+    cachedLastModified.forall(_.before(lastModifiedInS3))
 }
