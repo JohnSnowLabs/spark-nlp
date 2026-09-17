@@ -16,9 +16,11 @@
 import sys
 
 from py4j.protocol import Py4JJavaError
+from pyspark import SparkContext
 from pyspark.ml import PipelineModel
 
 import sparknlp.internal as _internal
+from sparknlp.pretrained.utils import DownloadProgress
 
 
 class ResourceDownloader(object):
@@ -92,11 +94,12 @@ class ResourceDownloader(object):
             print("Can not find the model to download please check the name!")
         else:
             print("Approximate size to download " + file_size)
-            # progress is now reported by the JVM download itself (a byte-accurate bar), so no
-            # separate Python-side spinner thread here -- it used to race the JVM's own stdout
-            # writes and interleave into garbled output
+            # The JVM owns the byte counts and draws the bar on a terminal; in a notebook its
+            # stdout never reaches the cell, so DownloadProgress polls those counts and renders
+            # here instead. Exactly one of the two is active, so they cannot interleave.
             try:
-                j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, engine, skip_preferred_engine, j_dwn).apply()
+                with DownloadProgress(SparkContext._active_spark_context):
+                    j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, engine, skip_preferred_engine, j_dwn).apply()
             except Py4JJavaError as e:
                 sys.stdout.write("\n" + str(e))
                 raise e
@@ -144,8 +147,9 @@ class ResourceDownloader(object):
             print("Can not find the model to download please check the name!")
         else:
             print("Approx size to download " + file_size)
-            # see downloadModel() above: the JVM's own progress bar covers this now
-            j_obj = _internal._DownloadPipeline(name, language, remote_loc).apply()
+            # see downloadModel() above
+            with DownloadProgress(SparkContext._active_spark_context):
+                j_obj = _internal._DownloadPipeline(name, language, remote_loc).apply()
             jmodel = PipelineModel._from_java(j_obj)
 
             return jmodel

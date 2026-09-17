@@ -298,9 +298,7 @@ class S3ResourceDownloader(
 
 object S3ResourceDownloader {
 
-  /** Whether a repository's cached index must be fetched from S3 again.
-    *
-    */
+  /** Whether a repository's cached index must be fetched from S3 again. */
   private[pretrained] def needToRefresh(
       cachedLastModified: Option[java.util.Date],
       lastModifiedInS3: java.util.Date): Boolean =
