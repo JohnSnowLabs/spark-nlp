@@ -19,6 +19,7 @@ Mirrors ``com.johnsnowlabs.nlp.benchmark.Benchmark`` on the Scala side.
 """
 
 import math
+import re
 from collections import Counter
 
 import pyspark.sql.functions as F
@@ -224,13 +225,14 @@ class Benchmark:
         upstream read (a file scan, a ``.sample()``) would have that cost repeated on every pass,
         contaminating the measured rate and, for a non-deterministic source, varying the row
         count between trials.
+
+        ``text_col`` is not read here -- the pipeline's own first stage decides which column it
+        consumes.
         """
         if warmup_runs < 0:
             raise ValueError("warmup_runs must be >= 0")
         if trials < 1:
             raise ValueError("trials must be >= 1")
-        if text_col not in data.columns:
-            raise ValueError(f"data must contain a '{text_col}' column")
 
         import time
 
@@ -290,9 +292,9 @@ class Benchmark:
           ``"begin:end"`` character-offset string, inclusive on both ends)
         - ``classification``, ``spellcheck``, ``languagedetection``: ``text_col`` +
           ``label_col`` (a single gold label string per row)
-        - ``imageclassification``: ``text_col`` names the pipeline's image input column +
-          ``label_col`` (single gold class label per row). Reports ``accuracy`` for the model's
-          top-1 label like every other task, plus an extra ``top{top_k}Accuracy`` metric.
+        - ``imageclassification``: ``text_col`` (the pipeline's image input column, see note
+          below) + ``label_col`` (single gold class label per row). Reports ``accuracy`` for the
+          model's top-1 label like every other task, plus an extra ``top{top_k}Accuracy`` metric.
         - ``dependencyparsing``: ``text_col`` + ``label_col`` (array<string> of
           ``"headIndex:label"`` per token)
         - ``questionanswering``: ``text_col`` + ``label_col``, either a single reference answer
@@ -300,6 +302,9 @@ class Benchmark:
           against its best-matching reference like the official SQuAD eval script.
         - ``speechrecognition``, ``translation``, ``summarization``: ``text_col`` +
           ``label_col`` (single reference text per row)
+
+        ``text_col`` is not read by ``evaluate`` -- the pipeline's own first stage decides which
+        column it consumes, so a mismatched ``text_col`` goes undetected.
 
         ``speechrecognition``'s word error rate is case-sensitive, matching `jiwer
         <https://github.com/jitsi/jiwer>`_'s default.
@@ -326,8 +331,6 @@ class Benchmark:
             raise ValueError(f"Unknown benchmark task '{task}'. Supported: {sorted(SUPPORTED_TASKS)}")
         if top_k < 1:
             raise ValueError("top_k must be >= 1")
-        if text_col not in gold_data.columns:
-            raise ValueError(f"gold_data must contain a '{text_col}' column")
         if label_col not in gold_data.columns:
             raise ValueError(f"gold_data must contain a '{label_col}' column")
 
@@ -731,28 +734,26 @@ def _squad_em_f1(pairs):
     return {"exactMatch": em_sum / n, "f1": f1_sum / n}, n
 
 
+def _levenshtein(a, b):
+    prev = list(range(len(b) + 1))
+    for i in range(1, len(a) + 1):
+        curr = [i] + [0] * len(b)
+        for j in range(1, len(b) + 1):
+            curr[j] = (prev[j - 1] if a[i - 1] == b[j - 1]
+                       else 1 + min(prev[j - 1], prev[j], curr[j - 1]))
+        prev = curr
+    return prev[len(b)]
+
+
 def _wer(pairs):
-    """`pairs` is an RDD of (predictedTranscript, goldTranscript). `jiwer` must be importable on
-    the executors, not just the driver, since the alignment runs inside the distributed map."""
-    try:
-        import jiwer
-    except ImportError as e:
-        raise ImportError(
-            "Benchmark.evaluate(task='speechrecognition') requires the 'jiwer' package. "
-            "Install it with: pip install jiwer") from e
+    """Ports Scala `TextSimilarityEngine.wer` (Levenshtein distance on whitespace-split tokens)
+    instead of calling `jiwer`, so both languages tokenize identically."""
 
     def row_stats(pg):
         pred, gold = pg
-        result = jiwer.process_words(gold, pred)
-        edits = result.substitutions + result.deletions + result.insertions
-        # The denominator must come from jiwer's own tokenization of `gold` (`result.references`),
-        # not a separate `gold.split()` -- jiwer's default pipeline only splits on plain spaces
-        # (after collapsing repeats), so a tab or embedded newline in `gold` is one word to jiwer's
-        # alignment but a separate word to str.split(); using two different tokenizations for the
-        # numerator and denominator of the same fraction produced a WER that matched neither jiwer
-        # nor itself. `references` is a list of one tokenized row per input to process_words, and
-        # this call passes exactly one row.
-        return (edits, len(result.references[0]), 1)
+        hyp = pred.split()
+        ref = gold.split()
+        return (_levenshtein(hyp, ref), len(ref), 1)
 
     total_edits, total_words, n = pairs.map(row_stats).fold(
         (0, 0, 0), lambda a, b: (a[0] + b[0], a[1] + b[1], a[2] + b[2]))
@@ -760,65 +761,147 @@ def _wer(pairs):
     return {"wer": score}, n
 
 
-def _bleu(pairs):
-    """`pairs` is an RDD of (hypothesis, reference). `sacrebleu.corpus_bleu` computes a single
-    corpus-level statistic and takes its input locally, so this collects to the driver."""
-    try:
-        import sacrebleu
-    except ImportError as e:
-        raise ImportError(
-            "Benchmark.evaluate(task='translation') requires the 'sacrebleu' package. "
-            "Install it with: pip install sacrebleu") from e
+_BLEU_PUNCT_13A = re.compile(r"([\x7B-\x7E\x5B-\x60\x20-\x26\x28-\x2B\x3A-\x40\x2F])")
 
-    rows = list(pairs.toLocalIterator())
-    if not rows:
+
+def _bleu_tokenize(text):
+    """Ports sacrebleu's default `13a` tokenizer, mirroring Scala `TextSimilarityEngine.
+    bleuTokenize`."""
+    line = text.replace("<skipped>", "").replace("-\n", "").replace("\n", " ")
+    if "&" in line:
+        line = (line.replace("&quot;", "\"").replace("&amp;", "&")
+                    .replace("&lt;", "<").replace("&gt;", ">"))
+    line = " " + line + " "
+    line = _BLEU_PUNCT_13A.sub(r" \1 ", line)
+    line = re.sub(r"([^0-9])([.,])", r"\1 \2 ", line)
+    line = re.sub(r"([.,])([^0-9])", r" \1 \2", line)
+    line = re.sub(r"([0-9])(-)", r"\1 \2 ", line)
+    return line.split()
+
+
+def _ngrams(tokens, n):
+    return Counter(zip(*(tokens[i:] for i in range(n))))
+
+
+def _clipped_overlap(hyp_ngrams, ref_ngrams):
+    return sum(min(c, ref_ngrams.get(g, 0)) for g, c in hyp_ngrams.items())
+
+
+def _bleu(pairs):
+    """Ports Scala `TextSimilarityEngine.bleu` (corpus-level n-gram precision + NIST smoothing +
+    brevity penalty) instead of calling `sacrebleu`, so this stays fully distributed."""
+
+    def row_stats(pg):
+        pred, gold = pg
+        hyp = _bleu_tokenize(pred)
+        ref = _bleu_tokenize(gold)
+        matched = [0] * 4
+        total = [0] * 4
+        for n in range(1, 5):
+            hyp_ngrams = _ngrams(hyp, n)
+            matched[n - 1] = _clipped_overlap(hyp_ngrams, _ngrams(ref, n))
+            total[n - 1] = max(0, len(hyp) - n + 1)
+        return (matched, total, len(hyp), len(ref), 1)
+
+    def merge(a, b):
+        m1, t1, h1, r1, n1 = a
+        m2, t2, h2, r2, n2 = b
+        return ([x + y for x, y in zip(m1, m2)], [x + y for x, y in zip(t1, t2)],
+                h1 + h2, r1 + r2, n1 + n2)
+
+    matched, total, hyp_len, ref_len, n = pairs.map(row_stats).fold(
+        ([0] * 4, [0] * 4, 0, 0, 0), merge)
+    if n == 0:
         return {}, 0
-    hypotheses = [p for p, _ in rows]
-    references = [[g for _, g in rows]]
-    result = sacrebleu.corpus_bleu(hypotheses, references)
-    return {"bleu": result.score / 100.0}, len(rows)
+
+    # Matches sacrebleu's own zero-overlap early-return (mjpost/sacrebleu#141): no smoothing,
+    # every precision stays exactly 0.
+    precisions = [0.0] * 4
+    if any(matched):
+        smooth = 1.0
+        for i in range(4):
+            if total[i] == 0:
+                break
+            if matched[i] == 0:
+                smooth *= 2
+                precisions[i] = 1.0 / (smooth * total[i])
+            else:
+                precisions[i] = matched[i] / total[i]
+
+    if hyp_len >= ref_len:
+        brevity_penalty = 1.0
+    elif hyp_len == 0:
+        brevity_penalty = 0.0
+    else:
+        brevity_penalty = math.exp(1.0 - ref_len / hyp_len)
+
+    # A 0.0 precision here is the same "no smoothing happened" case Scala's log(0)==-Infinity
+    # zeroes the score for.
+    bleu_score = (0.0 if any(p == 0.0 for p in precisions)
+                  else brevity_penalty * math.exp(sum(math.log(p) for p in precisions) / 4.0))
+
+    return {
+        "bleu": bleu_score,
+        "precision1": precisions[0],
+        "precision2": precisions[1],
+        "precision3": precisions[2],
+        "precision4": precisions[3],
+        "brevityPenalty": brevity_penalty,
+    }, n
+
+
+def _rouge_tokenize(text):
+    """Approximates rouge-score's default tokenizer, mirroring Scala
+    `TextSimilarityEngine.rougeTokenize`."""
+    return re.sub(r"[^a-z0-9\s]", " ", text.lower()).split()
+
+
+def _prf_tuple(overlap, pred_len, gold_len):
+    """Like `_prf`, but as a `(precision, recall, f1)` tuple -- ROUGE reports one per n-gram
+    order."""
+    d = _prf(overlap, pred_len - overlap, gold_len - overlap)
+    return (d["precision"], d["recall"], d["f1"])
+
+
+def _lcs_length(a, b):
+    prev = [0] * (len(b) + 1)
+    for i in range(1, len(a) + 1):
+        curr = [0] * (len(b) + 1)
+        for j in range(1, len(b) + 1):
+            curr[j] = (prev[j - 1] + 1 if a[i - 1] == b[j - 1]
+                       else max(prev[j], curr[j - 1]))
+        prev = curr
+    return prev[len(b)]
 
 
 def _rouge(pairs):
-    """`pairs` is an RDD of (predictedSummary, goldSummary). `rouge-score` must be importable on
-    the executors, not just the driver, since scoring runs inside a distributed
-    `mapPartitions` (one `RougeScorer` instance built per partition, not per row)."""
-    try:
-        from rouge_score import rouge_scorer
-    except ImportError as e:
-        raise ImportError(
-            "Benchmark.evaluate(task='summarization') requires the 'rouge-score' package. "
-            "Install it with: pip install rouge-score") from e
-
+    """Ports Scala `TextSimilarityEngine.rouge` (n-gram overlap + LCS) instead of calling
+    `rouge_score`, so no package needs to exist on the executors."""
     keys = ("rouge1", "rouge2", "rougeL")
 
-    def score_partition(iterator):
-        scorer = rouge_scorer.RougeScorer(list(keys), use_stemmer=False)
-        sums = {k: [0.0, 0.0, 0.0] for k in keys}
-        n = 0
-        for pred, gold in iterator:
-            scores = scorer.score(gold, pred)
-            for k in keys:
-                sums[k][0] += scores[k].precision
-                sums[k][1] += scores[k].recall
-                sums[k][2] += scores[k].fmeasure
-            n += 1
-        yield (sums, n)
+    def row_scores(pg):
+        pred, gold = pg
+        hyp = _rouge_tokenize(pred)
+        ref = _rouge_tokenize(gold)
+
+        def ngram_overlap(n):
+            overlap = _clipped_overlap(_ngrams(hyp, n), _ngrams(ref, n))
+            return _prf_tuple(overlap, max(0, len(hyp) - n + 1), max(0, len(ref) - n + 1))
+
+        lcs = _lcs_length(hyp, ref)
+        return (ngram_overlap(1), ngram_overlap(2), _prf_tuple(lcs, len(hyp), len(ref)), 1)
 
     def merge(a, b):
-        sums_a, n_a = a
-        sums_b, n_b = b
-        merged = {k: [x + y for x, y in zip(sums_a[k], sums_b[k])] for k in keys}
-        return (merged, n_a + n_b)
+        add3 = lambda x, y: (x[0] + y[0], x[1] + y[1], x[2] + y[2])
+        return (add3(a[0], b[0]), add3(a[1], b[1]), add3(a[2], b[2]), a[3] + b[3])
 
-    zero = ({k: [0.0, 0.0, 0.0] for k in keys}, 0)
-    sums, n = pairs.mapPartitions(score_partition).fold(zero, merge)
+    zero = ((0.0, 0.0, 0.0), (0.0, 0.0, 0.0), (0.0, 0.0, 0.0), 0)
+    r1_sum, r2_sum, rL_sum, n = pairs.map(row_scores).fold(zero, merge)
     if n == 0:
         return {}, 0
 
     overall = {}
-    for key in keys:
-        p, r, f = sums[key]
+    for key, (p, r, f) in zip(keys, (r1_sum, r2_sum, rL_sum)):
         overall[f"{key}_precision"] = p / n
         overall[f"{key}_recall"] = r / n
         overall[f"{key}_f1"] = f / n
