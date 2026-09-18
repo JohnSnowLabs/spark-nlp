@@ -314,6 +314,23 @@ class AccuracyBenchmarkTestSpec extends AnyFlatSpec {
     assert(math.abs(report.overall("rougeL_f1") - 1.0) < 1e-9)
   }
 
+  it should "match rouge_score's known values on a partial-overlap fixture" taggedAs FastTest in {
+    // Same pair used for Bleu above and in benchmark_test.py; cross-checked against
+    // rouge_score.RougeScorer(use_stemmer = false).
+    val pairs = sc.parallelize(
+      Seq(
+        (
+          "the fast brown fox jumps over a lazy dog",
+          "the quick brown fox jumps over the lazy dog")))
+    val report =
+      TextSimilarityEngine.evaluate(BenchmarkTask.Summarization, pairs, TextMetric.Rouge)
+
+    assert(math.abs(report.overall("rouge1_precision") - 7.0 / 9) < 1e-6)
+    assert(math.abs(report.overall("rouge1_recall") - 7.0 / 9) < 1e-6)
+    assert(math.abs(report.overall("rouge2_f1") - 0.5) < 1e-6)
+    assert(math.abs(report.overall("rougeL_f1") - 7.0 / 9) < 1e-6)
+  }
+
   // DocumentAssembler and SentenceDetector both emit annotatorType `document`.
   private val twoDocumentColumnPipeline = {
     val documentAssembler = new DocumentAssembler().setInputCol("text").setOutputCol("document")

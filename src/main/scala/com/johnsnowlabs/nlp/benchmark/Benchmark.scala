@@ -105,7 +105,6 @@ object Benchmark {
       trials: Int = 5): ThroughputReport = {
     require(warmupRuns >= 0, "warmupRuns must be >= 0")
     require(trials >= 1, "trials must be >= 1")
-    require(data.schema.fieldNames.contains(textCol), s"data must contain a '$textCol' column")
 
     // Only persist here if the caller hasn't already -- leaves caller-managed caching untouched
     // instead of unpersisting a DataFrame we didn't cache ourselves.
@@ -183,9 +182,9 @@ object Benchmark {
     *     on both ends (e.g. a 2-character token starting at 0 is `"0:1"`)
     *   - `Classification`, `SpellCheck`, `LanguageDetection`: `textCol` + `labelCol` (a single
     *     gold label string per row)
-    *   - `ImageClassification`: `textCol` names the pipeline's image input column + `labelCol`
-    *     (single gold class label per row). Reports `accuracy` for the model's top-1 label like
-    *     every other task, plus an extra `top${topK}Accuracy` metric.
+    *   - `ImageClassification`: `textCol` (the pipeline's image input column, see `@param` below)
+    *     + `labelCol` (single gold class label per row). Reports `accuracy` for the model's top-1
+    *     label like every other task, plus an extra `top${topK}Accuracy` metric.
     *   - `DependencyParsing`: `textCol` + `labelCol` (`array<string>` of `"headIndex:label"` per
     *     token)
     *   - `QuestionAnswering`: `textCol` + `labelCol`, either a single reference answer per row or
@@ -205,6 +204,9 @@ object Benchmark {
     * lower than those published figures on stem-sensitive text for reasons that have nothing to
     * do with the model.
     *
+    * @param textCol
+    *   present for documentation of the expected input column; the pipeline's own stages
+    *   determine which columns are actually read
     * @param predictedCol
     *   which of the pipeline's output columns to score. Optional: by default `evaluate` takes the
     *   last column of the type this task expects. Pass this when a pipeline has several stages
@@ -230,9 +232,6 @@ object Benchmark {
       topK: Int = 5): AccuracyReport = {
 
     require(topK >= 1, "topK must be >= 1")
-    require(
-      goldData.schema.fieldNames.contains(textCol),
-      s"goldData must contain a '$textCol' column")
     require(
       goldData.schema.fieldNames.contains(labelCol),
       s"goldData must contain a '$labelCol' column")

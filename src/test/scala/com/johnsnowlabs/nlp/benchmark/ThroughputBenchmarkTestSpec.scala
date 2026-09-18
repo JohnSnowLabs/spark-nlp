@@ -59,12 +59,6 @@ class ThroughputBenchmarkTestSpec extends AnyFlatSpec {
     assert(!report.rates.exists(_.outputColumn == "text"))
   }
 
-  it should "fail fast when the input is missing the configured text column" taggedAs FastTest in {
-    assertThrows[IllegalArgumentException] {
-      Benchmark.throughput(pipelineModel, data, textCol = "doesNotExist")
-    }
-  }
-
   it should "cache data for the duration of the call and unpersist it again afterwards" taggedAs FastTest in {
     assert(data.storageLevel == StorageLevel.NONE, "precondition: data starts uncached")
 

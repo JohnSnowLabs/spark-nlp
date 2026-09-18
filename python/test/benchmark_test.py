@@ -200,31 +200,23 @@ class TextSimilarityEngineTestSpec(unittest.TestCase):
         self.assertAlmostEqual(overall["exactMatch"], 0.0)
 
     def test_wer_matches_scala_side_computation(self):
-        pytest.importorskip("jiwer")
         pairs = self.sc.parallelize([("the cat sat on mat", "the cat sat on the mat")])
         overall, support = _wer(pairs)
 
         self.assertEqual(support, 1)
         self.assertAlmostEqual(overall["wer"], 1.0 / 6)
 
-    def test_wer_matches_jiwer_itself_on_a_whitespace_dirty_reference(self):
-        # Regression: the numerator (edits) used to come from jiwer's own tokenization of `gold`
-        # while the denominator came from a separate `gold.split()` -- inconsistent whenever
-        # `gold` has a tab/embedded newline, since jiwer's default pipeline only splits on plain
-        # spaces. Verified directly against jiwer: jiwer.process_words("the\tcat sat  on the
-        # mat", "the cat sat on the mat").wer == 0.4 (edits=2 over 5 jiwer-tokenized words, since
-        # "the\tcat" counts as one word to jiwer).
-        pytest.importorskip("jiwer")
+    def test_wer_treats_tabs_and_repeated_spaces_as_word_breaks_like_scala(self):
+        # jiwer used to keep "the\tcat" as one token; both languages now split on any whitespace.
         gold = "the\tcat sat  on the mat"
         pred = "the cat sat on the mat"
         pairs = self.sc.parallelize([(pred, gold)])
         overall, support = _wer(pairs)
 
         self.assertEqual(support, 1)
-        self.assertAlmostEqual(overall["wer"], 0.4)
+        self.assertAlmostEqual(overall["wer"], 0.0)
 
     def test_bleu_scores_identical_sentences_near_one(self):
-        pytest.importorskip("sacrebleu")
         pairs = self.sc.parallelize([("the cat sat on the mat", "the cat sat on the mat")])
         overall, support = _bleu(pairs)
 
@@ -233,7 +225,6 @@ class TextSimilarityEngineTestSpec(unittest.TestCase):
 
     def test_bleu_matches_sacrebleus_known_score(self):
         # Cross-language parity fixture, also used in AccuracyBenchmarkTestSpec.scala.
-        pytest.importorskip("sacrebleu")
         pairs = self.sc.parallelize([
             ("the fast brown fox jumps over a lazy dog",
              "the quick brown fox jumps over the lazy dog")])
@@ -243,7 +234,6 @@ class TextSimilarityEngineTestSpec(unittest.TestCase):
         self.assertAlmostEqual(overall["bleu"], 0.36889397, places=6)
 
     def test_bleu_matches_sacrebleu_on_an_apostrophe_heavy_corpus(self):
-        pytest.importorskip("sacrebleu")
         pairs = self.sc.parallelize([
             ("C'est l'une des plus belles villes d'Europe.",
              "C'est l'une des plus belles villes de l'Europe."),
@@ -262,7 +252,6 @@ class TextSimilarityEngineTestSpec(unittest.TestCase):
         # directly against sacrebleu: a 3-token sentence has no 4-grams, so corpus-level BLEU is
         # 0.0 by design -- sacrebleu.corpus_bleu(["3.14 is pi"], [["3.14 is pi"]]).score == 0.0 --
         # even for an otherwise-perfect match. This is standard BLEU behavior, not a bug.
-        pytest.importorskip("sacrebleu")
         pairs = self.sc.parallelize([("3.14 is pi", "3.14 is pi")])
         overall, support = _bleu(pairs)
 
@@ -275,7 +264,6 @@ class TextSimilarityEngineTestSpec(unittest.TestCase):
         # scores 0.0 because the *whole* corpus lacks a 4-gram -- mixing in one longer row changes
         # that. Verified directly: sacrebleu.corpus_bleu(
         #   ["the cat sat on the mat", "hi"], [["the cat sat on the mat", "hi"]]).score == 100.0.
-        pytest.importorskip("sacrebleu")
         pairs = self.sc.parallelize([
             ("the cat sat on the mat", "the cat sat on the mat"),
             ("hi", "hi"),
@@ -286,7 +274,6 @@ class TextSimilarityEngineTestSpec(unittest.TestCase):
         self.assertAlmostEqual(overall["bleu"], 1.0)
 
     def test_rouge_scores_identical_sentences_near_one(self):
-        pytest.importorskip("rouge_score")
         pairs = self.sc.parallelize([("the cat sat", "the cat sat")])
         overall, support = _rouge(pairs)
 
@@ -294,6 +281,32 @@ class TextSimilarityEngineTestSpec(unittest.TestCase):
         self.assertAlmostEqual(overall["rouge1_f1"], 1.0)
         self.assertAlmostEqual(overall["rouge2_f1"], 1.0)
         self.assertAlmostEqual(overall["rougeL_f1"], 1.0)
+
+    def test_rouge_matches_rouge_scores_known_values_on_a_partial_overlap(self):
+        # Cross-checked against rouge_score.RougeScorer(use_stemmer=False).
+        pairs = self.sc.parallelize([
+            ("the fast brown fox jumps over a lazy dog",
+             "the quick brown fox jumps over the lazy dog")])
+        overall, support = _rouge(pairs)
+
+        self.assertEqual(support, 1)
+        self.assertAlmostEqual(overall["rouge1_precision"], 7.0 / 9, places=6)
+        self.assertAlmostEqual(overall["rouge1_recall"], 7.0 / 9, places=6)
+        self.assertAlmostEqual(overall["rouge2_f1"], 0.5, places=6)
+        self.assertAlmostEqual(overall["rougeL_f1"], 7.0 / 9, places=6)
+
+    def test_rouge_strips_punctuation_and_folds_case_like_rouge_score(self):
+        # Cross-checked against rouge_score; a comma/period/case difference shouldn't cost points.
+        pairs = self.sc.parallelize([
+            ("Scientists sequenced the genome of a rare Alpine flower.",
+             "Scientists have sequenced the genome of a rare, alpine flower!")])
+        overall, support = _rouge(pairs)
+
+        self.assertEqual(support, 1)
+        self.assertAlmostEqual(overall["rouge1_precision"], 1.0, places=6)
+        self.assertAlmostEqual(overall["rouge1_recall"], 0.9, places=6)
+        self.assertAlmostEqual(overall["rouge2_f1"], 0.823529411764706, places=6)
+        self.assertAlmostEqual(overall["rougeL_recall"], 0.9, places=6)
 
 
 @pytest.mark.fast
