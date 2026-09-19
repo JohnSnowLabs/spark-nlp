@@ -11,6 +11,7 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+import json
 import unittest
 
 import pytest
@@ -21,24 +22,11 @@ from pyspark.sql import functions as F
 from test.util import SparkContextForTest
 
 
-def _is_float(value):
-    try:
-        float(value)
-        return True
-    except (TypeError, ValueError):
-        return False
-
-
-# Structural metadata keys added by upstream annotators / the embeddings wrapper.
-_STRUCTURAL_KEYS = {"sentence", "id", "token", "pieceId", "isWordStart", "isOOV"}
+_SPARSE_WEIGHTS_KEY = "sparse_weights"
 
 
 def _sparse_weights(metadata):
-    return {
-        k: v
-        for k, v in metadata.items()
-        if k not in _STRUCTURAL_KEYS and _is_float(v)
-    }
+    return json.loads(metadata.get(_SPARSE_WEIGHTS_KEY, "{}"))
 
 
 @pytest.mark.slow
@@ -65,7 +53,7 @@ class BGEM3EmbeddingsTestSpec(unittest.TestCase):
 
         pipeline = Pipeline().setStages([document_assembler, bge_m3])
         results = pipeline.fit(data).transform(data)
-
+        results.show(truncate=False)
         sizes = results.select(
             F.size(results["bge_m3.embeddings"].getItem(0)).alias("size")
         ).collect()
@@ -93,7 +81,11 @@ class BGEM3EmbeddingsTestSpec(unittest.TestCase):
         metadata = results.select("bge_m3.metadata").collect()[0][0][0]
         weights = _sparse_weights(metadata)
         self.assertTrue(len(weights) > 0, "Expected sparse lexical weights in metadata")
-        self.assertTrue(all(float(v) > 0.0 for v in weights.values()))
+        self.assertTrue(all(v > 0.0 for v in weights.values()))
+        self.assertEqual(metadata["sentence"], "0")
+        self.assertFalse(
+            any(k.startswith("\u2581") for k in metadata if k != _SPARSE_WEIGHTS_KEY)
+        )
 
     def test_mixed_length_batch_does_not_misalign_sparse_weights(self):
         data = self.spark.createDataFrame([

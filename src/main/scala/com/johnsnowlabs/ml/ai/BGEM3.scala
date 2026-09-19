@@ -23,11 +23,14 @@ import com.johnsnowlabs.ml.tensorflow.sentencepiece.{SentencePieceWrapper, Sente
 import com.johnsnowlabs.ml.util.{ONNX, Openvino}
 import com.johnsnowlabs.nlp.annotators.common._
 import com.johnsnowlabs.nlp.{Annotation, AnnotatorType}
+import com.johnsnowlabs.util.JsonParser.formats
+import org.json4s.jackson.Serialization.write
 import org.slf4j.{Logger, LoggerFactory}
 
 import scala.collection.JavaConverters._
 import scala.collection.immutable.ListMap
 import scala.collection.mutable
+import scala.util.control.NonFatal
 
 /** BGE-M3 embeddings model (dense + sparse/lexical).
   *
@@ -146,10 +149,8 @@ private[johnsnowlabs] class BGEM3(
         batch.zipWithIndex.map { case ((_, sentence), idx) =>
           val metadata = sparseWeightsOpt match {
             case Some(sparseWeights) =>
-              ListMap(
-                (sentence.metadata.toSeq ++ sparseLexicalWeights(
-                  tokensBatch(idx),
-                  sparseWeights(idx))): _*)
+              sentence.metadata ++ Map(
+                SparseWeightsKey -> sparseLexicalWeights(tokensBatch(idx), sparseWeights(idx)))
             case None => sentence.metadata
           }
 
@@ -201,15 +202,15 @@ private[johnsnowlabs] class BGEM3(
       try {
         // dense_embedding is already CLS-pooled and L2-normalized in the graph: [batch, dim]
         val denseTensor = results.get(DenseOutput).get().asInstanceOf[OnnxTensor]
-        val denseDim = denseTensor.getInfo.getShape.last.toInt
-        val dense = denseTensor.getFloatBuffer.array().grouped(denseDim).toArray
+        val flatDense = denseTensor.getFloatBuffer.array()
+        val denseDim =
+          denseRowWidth(flatDense.length, batch.length, denseTensor.getInfo.getShape.last.toInt)
+        val dense = flatDense.grouped(denseDim).toArray
 
         val sparse = if (returnSparse) {
           val sparseOutput = results.get(SparseOutput)
           if (!sparseOutput.isPresent)
-            throw new IllegalStateException(
-              s"The loaded BGE-M3 ONNX model does not expose a '$SparseOutput' output. " +
-                "Re-export the model with the sparse head to use setReturnSparseEmbeddings(true).")
+            throw new IllegalStateException(missingSparseOutputError(ONNX.name, SparseOutput))
           val flatSparse = sparseOutput.get().asInstanceOf[OnnxTensor].getFloatBuffer.array()
           val width = sparseRowWidth(flatSparse.length, batch.length, padded.head.length)
           Some(flatSparse.grouped(width).toArray)
@@ -242,11 +243,20 @@ private[johnsnowlabs] class BGEM3(
 
     // dense_embedding is already CLS-pooled and L2-normalized in the graph: [batch, dim]
     val denseTensor = inferRequest.get_tensor(DenseOutput)
-    val denseDim = denseTensor.get_shape().last
-    val dense = denseTensor.data().grouped(denseDim).toArray
+    val flatDense = denseTensor.data()
+    val denseDim = denseRowWidth(flatDense.length, batch.length, denseTensor.get_shape().last)
+    val dense = flatDense.grouped(denseDim).toArray
 
     val sparse = if (returnSparse) {
-      val flatSparse = inferRequest.get_tensor(SparseOutput).data()
+      val sparseTensor =
+        try inferRequest.get_tensor(SparseOutput)
+        catch {
+          case NonFatal(exception) =>
+            throw new IllegalStateException(
+              missingSparseOutputError(Openvino.name, SparseOutput),
+              exception)
+        }
+      val flatSparse = sparseTensor.data()
       val width = sparseRowWidth(flatSparse.length, batch.length, padded.head.length)
       Some(flatSparse.grouped(width).toArray)
     } else None
@@ -263,19 +273,25 @@ private[johnsnowlabs] class BGEM3(
   private def sparseRowWidth(flatLength: Int, batchSize: Int, seqLen: Int): Int =
     BGEM3.expectedSparseWidth(flatLength, batchSize, seqLen, SparseOutput)
 
+  /** Validate that the dense output's flat length matches `[batch, denseDim]` exactly before
+    * using it to `grouped(denseDim)` the flat array back into rows. An export that still emits
+    * `[batch, seq, dim]` keeps the same trailing dimension, so without this check the rows would
+    * be silently mis-assigned across the batch.
+    */
+  private def denseRowWidth(flatLength: Int, batchSize: Int, denseDim: Int): Int =
+    BGEM3.expectedDenseWidth(flatLength, batchSize, denseDim, DenseOutput)
+
   /** Remap per-position sparse weights to token-level lexical weights, in order of first token
-    * occurrence.
+    * occurrence, as a compact JSON object.
     *
     * Follows `BGEM3FlagModel._process_token_weights`: keep only positive weights, drop special
     * tokens, and take the maximum weight for each token id. Token ids are then converted back to
     * their SentencePiece string (`convert_id_to_token`) to form the `{token: weight}` pairs.
     */
-  private def sparseLexicalWeights(
-      tokens: Array[Int],
-      weights: Array[Float]): Seq[(String, String)] = {
-    aggregateSparseWeights(tokens, weights).map { case (tokenId, weight) =>
-      idToPiece(tokenId) -> weight.toString
-    }
+  private def sparseLexicalWeights(tokens: Array[Int], weights: Array[Float]): String = {
+    lexicalWeightsJson(aggregateSparseWeights(tokens, weights).map { case (tokenId, weight) =>
+      idToPiece(tokenId) -> weight
+    })
   }
 
   /** Convert a model token id back to its SentencePiece string, inverting the fairseq offset used
@@ -301,6 +317,13 @@ private[johnsnowlabs] object BGEM3 {
     */
   private[ai] val CharsPerTokenSafetyFactor = 8
 
+  /** Reserved metadata key holding the sparse lexical weights of a document, as a compact JSON
+    * object mapping SentencePiece token to weight. Namespacing them under a single key keeps an
+    * open vocabulary out of the annotation's metadata namespace, where token pieces would
+    * otherwise collide with the structural keys set by upstream annotators (`sentence`, `id`).
+    */
+  private[ai] val SparseWeightsKey = "sparse_weights"
+
   private[ai] val SentenceStartTokenId = 0 // <s>
   private[ai] val SentencePadTokenId = 1 // <pad>
   private[ai] val SentenceEndTokenId = 2 // </s>
@@ -309,6 +332,18 @@ private[johnsnowlabs] object BGEM3 {
   /** Token ids that never contribute to the sparse lexical weights. */
   private[ai] val unusedTokenIds: Set[Int] =
     Set(SentenceStartTokenId, SentencePadTokenId, SentenceEndTokenId, SentenceUnkTokenId)
+
+  /** Serialize token-level lexical weights into the compact JSON object stored under
+    * [[SparseWeightsKey]], preserving the order in which the tokens were given.
+    *
+    * Weights are widened through their shortest `Float` representation so the JSON carries the
+    * digits the `Float` actually holds rather than the artefacts of a direct `Float`-to-`Double`
+    * widening. Pure and dependency-free so it's directly unit-testable.
+    */
+  private[ai] def lexicalWeightsJson(weights: Seq[(String, Float)]): String =
+    write(ListMap(weights.map { case (piece, weight) =>
+      piece -> weight.toString.toDouble
+    }: _*))
 
   /** Aggregate per-position sparse weights into token-level lexical weights, in order of first
     * token occurrence. Pure and dependency-free (no `spp`/instance state) so it's directly
@@ -347,14 +382,45 @@ private[johnsnowlabs] object BGEM3 {
       flatLength: Int,
       batchSize: Int,
       seqLen: Int,
-      outputName: String): Int = {
-    val expected = batchSize * seqLen
+      outputName: String): Int =
+    expectedRowWidth(flatLength, batchSize, seqLen, outputName, "seq")
+
+  /** Validate that a flat dense-output buffer's length matches `batchSize * denseDim` exactly,
+    * returning the per-row width (`denseDim`) on success. Pure and dependency-free so it's
+    * directly unit-testable.
+    *
+    * @throws IllegalStateException
+    *   if the flat length doesn't factor into `batchSize * denseDim`, naming the actual vs.
+    *   expected shape rather than letting `grouped(denseDim)` mis-assign rows across the batch.
+    */
+  private[ai] def expectedDenseWidth(
+      flatLength: Int,
+      batchSize: Int,
+      denseDim: Int,
+      outputName: String): Int =
+    expectedRowWidth(flatLength, batchSize, denseDim, outputName, "dim")
+
+  private def expectedRowWidth(
+      flatLength: Int,
+      batchSize: Int,
+      rowWidth: Int,
+      outputName: String,
+      rowWidthName: String): Int = {
+    val expected = batchSize * rowWidth
     if (flatLength != expected)
       throw new IllegalStateException(
         s"The loaded BGE-M3 model's '$outputName' output has an unexpected shape: got a flat " +
-          s"length of $flatLength elements, expected $expected (batch=$batchSize x seq=$seqLen). " +
-          "Re-export the model so the sparse head output matches [batch, seq].")
-    seqLen
+          s"length of $flatLength elements, expected $expected " +
+          s"(batch=$batchSize x $rowWidthName=$rowWidth). Re-export the model so the " +
+          s"'$outputName' output matches [batch, $rowWidthName].")
+    rowWidth
   }
+
+  /** Message for a model whose graph was exported without the `sparse_linear` head, shared by
+    * every engine so the remedy is worded the same wherever the output turns up missing.
+    */
+  private[ai] def missingSparseOutputError(engine: String, outputName: String): String =
+    s"The loaded BGE-M3 model (engine: $engine) does not expose a '$outputName' output. " +
+      "Re-export the model with the sparse head to use setReturnSparseEmbeddings(true)."
 
 }

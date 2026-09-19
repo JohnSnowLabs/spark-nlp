@@ -16,6 +16,8 @@
 
 package com.johnsnowlabs.ml.ai
 
+import com.johnsnowlabs.ml.util.{ONNX, Openvino}
+import com.johnsnowlabs.util.JsonParser
 import org.scalatest.flatspec.AnyFlatSpec
 
 class BGEM3Test extends AnyFlatSpec {
@@ -87,6 +89,58 @@ class BGEM3Test extends AnyFlatSpec {
     // wrong width under the old `flatSparse.length / batch.length` logic instead of failing.
     assertThrows[IllegalStateException] {
       expectedSparseWidth(flatLength = 23, batchSize = 4, seqLen = 6, "token_weights")
+    }
+  }
+
+  "expectedDenseWidth" should "return denseDim when the flat length matches batch * dim exactly" in {
+    val width =
+      expectedDenseWidth(flatLength = 8, batchSize = 2, denseDim = 4, "dense_embedding")
+    assert(width == 4)
+  }
+
+  it should "throw when the graph emits [batch, seq, dim] instead of [batch, dim]" in {
+    // an un-pooled [2, 3, 4] output keeps 4 as its trailing dimension, so only the flat length
+    // tells it apart from the expected [2, 4]
+    val ex = intercept[IllegalStateException] {
+      expectedDenseWidth(flatLength = 24, batchSize = 2, denseDim = 4, "dense_embedding")
+    }
+    assert(ex.getMessage.contains("24"))
+    assert(ex.getMessage.contains("8"))
+    assert(ex.getMessage.contains("dense_embedding"))
+  }
+
+  "lexicalWeightsJson" should "render the weights as JSON numbers in the given order" in {
+    val json = lexicalWeightsJson(Seq("\u2581protein" -> 0.41352f, "\u2581eat" -> 0.2f))
+    assert(json == "{\"\u2581protein\":0.41352,\"\u2581eat\":0.2}")
+  }
+
+  it should "render an empty object when nothing survives filtering" in {
+    assert(lexicalWeightsJson(Seq.empty) == "{}")
+  }
+
+  it should "escape pieces that are not JSON-safe" in {
+    val json = lexicalWeightsJson(Seq("\"quoted\"" -> 0.5f, "back\\slash" -> 0.25f))
+    val parsed = JsonParser.parseObject[Map[String, Double]](json)
+    assert(parsed == Map("\"quoted\"" -> 0.5, "back\\slash" -> 0.25))
+  }
+
+  it should "keep token pieces out of the structural metadata namespace" in {
+    // a piece spelled like a DocumentAssembler key used to overwrite it once merged as a
+    // top-level metadata entry; under one reserved key it can only ever be nested
+    val metadata = Map("sentence" -> "0") ++
+      Map(SparseWeightsKey -> lexicalWeightsJson(Seq("sentence" -> 0.75f)))
+    assert(metadata("sentence") == "0")
+    assert(
+      JsonParser.parseObject[Map[String, Double]](metadata(SparseWeightsKey)) ==
+        Map("sentence" -> 0.75))
+  }
+
+  "missingSparseOutputError" should "name the engine, the output and the setter that needs it" in {
+    Seq(ONNX.name, Openvino.name).foreach { engine =>
+      val message = missingSparseOutputError(engine, "token_weights")
+      assert(message.contains(engine))
+      assert(message.contains("token_weights"))
+      assert(message.contains("setReturnSparseEmbeddings"))
     }
   }
 
