@@ -274,6 +274,13 @@ class _BGELoader(ExtendedJavaWrapper):
         )
 
 
+class _BGEM3Loader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_BGEM3Loader, self).__init__(
+            "com.johnsnowlabs.nlp.embeddings.BGEM3Embeddings.loadSavedModel", path, jspark
+        )
+
+
 class _GPT2Loader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_GPT2Loader, self).__init__(

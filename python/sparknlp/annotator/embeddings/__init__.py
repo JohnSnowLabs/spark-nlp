@@ -39,6 +39,7 @@ from sparknlp.annotator.embeddings.xlm_roberta_embeddings import *
 from sparknlp.annotator.embeddings.xlm_roberta_sentence_embeddings import *
 from sparknlp.annotator.embeddings.xlnet_embeddings import *
 from sparknlp.annotator.embeddings.bge_embeddings import *
+from sparknlp.annotator.embeddings.bge_m3_embeddings import *
 from sparknlp.annotator.embeddings.uae_embeddings import *
 from sparknlp.annotator.embeddings.mxbai_embeddings import *
 from sparknlp.annotator.embeddings.snowflake_embeddings import *
