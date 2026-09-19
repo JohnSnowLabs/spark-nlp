@@ -45,12 +45,13 @@ import org.slf4j.{Logger, LoggerFactory}
   * backbone. Unlike the English dense-only BGE models exposed through [[BGEEmbeddings]], BGE-M3
   * supports up to 8192 tokens, over 100 languages, and produces both:
   *   - a '''dense''' embedding (packed into `Annotation.embeddings`), and
-  *   - a '''sparse''' / lexical `{token: weight}` map (packed into `Annotation.metadata` when
-  *     [[setReturnSparseEmbeddings]] is enabled).
+  *   - a '''sparse''' / lexical `{token: weight}` map (packed into `Annotation.metadata` under
+  *     the `sparse_weights` key when [[setReturnSparseEmbeddings]] is enabled).
   *
   * Both outputs are emitted from a single `SENTENCE_EMBEDDINGS` output column. The sparse weights
   * follow the convention used elsewhere in Spark NLP for packing extra information into metadata
-  * (e.g. `NerDLModel.includeAllConfidenceScores`).
+  * (e.g. `NerDLModel.includeAllConfidenceScores`), serialized as a compact JSON object so that an
+  * open token vocabulary cannot collide with the metadata keys set by upstream annotators.
   *
   * This annotator loads the model through ONNX or OpenVINO. The exported graph is expected to
   * fold in the dense pooling and the `sparse_linear` head so it exposes both a `dense_embedding`
@@ -88,11 +89,10 @@ import org.slf4j.{Logger, LoggerFactory}
   *
   * val embeddings = BGEM3Embeddings.pretrained("bge_m3", "xx")
   *   .setInputCols("document")
-  *   .setOutputCol("bge_m3_embeddings")
-  *   .setReturnSparseEmbeddings(true)
+  *   .setOutputCol("bge_m3")
   *
   * val embeddingsFinisher = new EmbeddingsFinisher()
-  *   .setInputCols("bge_m3_embeddings")
+  *   .setInputCols("bge_m3")
   *   .setOutputCols("finished_embeddings")
   *   .setOutputAsVector(true)
   *
@@ -104,6 +104,20 @@ import org.slf4j.{Logger, LoggerFactory}
   *
   * val data = Seq("El BGE-M3 admite recuperación densa y dispersa.").toDF("text")
   * val result = pipeline.fit(data).transform(data)
+  * result.selectExpr("explode(finished_embeddings) as embeddings").show(1, 80)
+  * }}}
+  *
+  * [[EmbeddingsFinisher]] only carries over the dense vectors and drops the annotation column
+  * they came from, so the sparse weights are read from the embeddings column itself:
+  * {{{
+  * val sparseEmbeddings = BGEM3Embeddings.pretrained("bge_m3", "xx")
+  *   .setInputCols("document")
+  *   .setOutputCol("bge_m3")
+  *   .setReturnSparseEmbeddings(true)
+  *
+  * val sparsePipeline = new Pipeline().setStages(Array(documentAssembler, sparseEmbeddings))
+  * val sparseResult = sparsePipeline.fit(data).transform(data)
+  * sparseResult.select("bge_m3.metadata").show(1, 80)
   * }}}
   *
   * @see
@@ -154,7 +168,8 @@ class BGEM3Embeddings(override val uid: String)
     new IntParam(this, "maxSentenceLength", "Max sentence length to process")
 
   /** Whether to compute the sparse / lexical embeddings and pack the `{token: weight}` pairs into
-    * the annotation metadata (Default: `false`).
+    * the annotation metadata, as a compact JSON object under the `sparse_weights` key (Default:
+    * `false`).
     *
     * @group param
     */

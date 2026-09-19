@@ -20,25 +20,35 @@ import com.johnsnowlabs.nlp.Annotation
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.nlp.util.io.ResourceHelper
 import com.johnsnowlabs.tags.SlowTest
-import com.johnsnowlabs.util.Benchmark
+import com.johnsnowlabs.util.{Benchmark, JsonParser}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.sql.functions.{col, size}
 import org.scalatest.flatspec.AnyFlatSpec
 
-import scala.util.Try
-
 class BGEM3EmbeddingsTestSpec extends AnyFlatSpec {
 
-  private def parseableAsFloat(s: String): Boolean = Try(s.toFloat).isSuccess
-
-  /** Structural metadata keys inherited from upstream annotators / added by the embeddings
-    * wrapper. These are excluded when inspecting the sparse lexical weights.
-    */
-  private val structuralKeys = Set("sentence", "id", "token", "pieceId", "isWordStart", "isOOV")
+  private val sparseWeightsKey = "sparse_weights"
 
   private def sparseWeightsOf(
-      metadata: scala.collection.Map[String, String]): scala.collection.Map[String, String] =
-    metadata.filter { case (k, v) => !structuralKeys.contains(k) && parseableAsFloat(v) }
+      metadata: scala.collection.Map[String, String]): Map[String, Double] =
+    metadata
+      .get(sparseWeightsKey)
+      .map(JsonParser.parseObject[Map[String, Double]])
+      .getOrElse(Map.empty)
+
+  private def assertSameEmbeddings(expected: Seq[Annotation], actual: Seq[Annotation]): Unit = {
+    assert(actual.length == expected.length)
+    expected.zip(actual).foreach { case (before, after) =>
+      assert(before.embeddings.nonEmpty)
+      assert(after.embeddings.length == before.embeddings.length)
+      before.embeddings.zip(after.embeddings).foreach { case (b, a) =>
+        assert(math.abs(a - b) < 1e-5f, s"dense embeddings diverged after loading: $b vs $a")
+      }
+      val beforeWeights = sparseWeightsOf(before.metadata)
+      assert(beforeWeights.nonEmpty)
+      assert(sparseWeightsOf(after.metadata).keySet == beforeWeights.keySet)
+    }
+  }
 
   "BGE-M3 Embeddings" should "correctly embed multilingual sentences" taggedAs SlowTest in {
 
@@ -64,6 +74,7 @@ class BGEM3EmbeddingsTestSpec extends AnyFlatSpec {
     val pipeline = new Pipeline().setStages(Array(document, embeddings))
 
     val pipelineDF = pipeline.fit(ddd).transform(ddd)
+    pipelineDF.show()
     pipelineDF.select("bge_m3.embeddings").show(truncate = false)
 
     val embeddingsDF = pipelineDF.withColumn("embeddings", col("bge_m3.embeddings").getItem(0))
@@ -98,10 +109,12 @@ class BGEM3EmbeddingsTestSpec extends AnyFlatSpec {
     val annotations: Seq[Annotation] = Annotation.collect(pipelineDF, "bge_m3").head.toSeq
     val metadata = annotations.head.metadata
 
-    // At least a few {token: weight} pairs should be present and parseable as floats.
     val sparseWeights = sparseWeightsOf(metadata)
     assert(sparseWeights.nonEmpty, "Expected sparse lexical weights in the annotation metadata")
-    assert(sparseWeights.values.forall(_.toFloat > 0f), "Sparse weights should be positive")
+    assert(sparseWeights.values.forall(_ > 0d), "Sparse weights should be positive")
+
+    assert(metadata("sentence") == "0")
+    assert(metadata.keySet.diff(Set(sparseWeightsKey)).forall(!_.startsWith("\u2581")))
 
     // Dense embedding is still present
     assert(annotations.head.embeddings.length == 1024)
@@ -117,18 +130,24 @@ class BGEM3EmbeddingsTestSpec extends AnyFlatSpec {
       .setInputCol("text")
       .setOutputCol("document")
 
+    assert(
+      !new BGEM3Embeddings().getReturnSparseEmbeddings,
+      "returnSparseEmbeddings should default to false")
+
     val embeddings = BGEM3Embeddings
       .pretrained("bge_m3", "xx")
       .setInputCols(Array("document"))
       .setOutputCol("bge_m3")
+      .setReturnSparseEmbeddings(false)
 
     val pipeline = new Pipeline().setStages(Array(document, embeddings))
     val pipelineDF = pipeline.fit(ddd).transform(ddd)
 
     val annotations: Seq[Annotation] = Annotation.collect(pipelineDF, "bge_m3").head.toSeq
-    val sparseWeights = sparseWeightsOf(annotations.head.metadata)
 
-    assert(sparseWeights.isEmpty, "No sparse weights should be present when disabled")
+    assert(
+      !annotations.head.metadata.contains(sparseWeightsKey),
+      "No sparse weights should be present when disabled")
     assert(annotations.head.embeddings.length == 1024)
   }
 
@@ -280,7 +299,8 @@ class BGEM3EmbeddingsTestSpec extends AnyFlatSpec {
     val pipeline = new Pipeline().setStages(Array(documentAssembler, embeddings))
 
     val pipelineModel = pipeline.fit(ddd)
-    pipelineModel.transform(ddd).select("embeddings.result").show(false)
+    val expected =
+      Annotation.collect(pipelineModel.transform(ddd), "embeddings").map(_.head).toSeq
 
     Benchmark.time("Time to save BGEM3Embeddings pipeline model") {
       pipelineModel.write.overwrite().save("./tmp_bge_m3_pipeline")
@@ -295,10 +315,20 @@ class BGEM3EmbeddingsTestSpec extends AnyFlatSpec {
     }
 
     val loadedPipelineModel = PipelineModel.load("./tmp_bge_m3_pipeline")
-    loadedPipelineModel.transform(ddd).select("embeddings.result").show(false)
+    assertSameEmbeddings(
+      expected,
+      Annotation.collect(loadedPipelineModel.transform(ddd), "embeddings").map(_.head).toSeq)
 
     val loadedModel = BGEM3Embeddings.load("./tmp_bge_m3_model")
     assert(loadedModel.getReturnSparseEmbeddings)
+
+    val reloadedPipelineDF = new Pipeline()
+      .setStages(Array(documentAssembler, loadedModel))
+      .fit(ddd)
+      .transform(ddd)
+    assertSameEmbeddings(
+      expected,
+      Annotation.collect(reloadedPipelineDF, "embeddings").map(_.head).toSeq)
   }
 
 }

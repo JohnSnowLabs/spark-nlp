@@ -32,9 +32,11 @@ class BGEM3Embeddings(AnnotatorModel,
 
     - a **dense** embedding (in ``Annotation.embeddings``), and
     - a **sparse** / lexical ``{token: weight}`` map (in ``Annotation.metadata``
-      when :meth:`setReturnSparseEmbeddings` is enabled).
+      under the ``sparse_weights`` key when :meth:`setReturnSparseEmbeddings` is
+      enabled).
 
     Both outputs are emitted from a single ``SENTENCE_EMBEDDINGS`` output column.
+
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
@@ -73,8 +75,7 @@ class BGEM3Embeddings(AnnotatorModel,
     maxSentenceLength
         Max sentence length to process, by default 512 (up to 8192)
     returnSparseEmbeddings
-        Whether to compute the sparse lexical embeddings and pack the
-        ``{token: weight}`` pairs into the annotation metadata, by default False
+        Whether to compute the sparse lexical embeddings
 
     Examples
     --------
@@ -87,10 +88,9 @@ class BGEM3Embeddings(AnnotatorModel,
     ...     .setOutputCol("document")
     >>> embeddings = BGEM3Embeddings.pretrained() \\
     ...     .setInputCols(["document"]) \\
-    ...     .setOutputCol("bge_m3_embeddings") \\
-    ...     .setReturnSparseEmbeddings(True)
+    ...     .setOutputCol("bge_m3")
     >>> embeddingsFinisher = EmbeddingsFinisher() \\
-    ...     .setInputCols(["bge_m3_embeddings"]) \\
+    ...     .setInputCols(["bge_m3"]) \\
     ...     .setOutputCols("finished_embeddings") \\
     ...     .setOutputAsVector(True)
     >>> pipeline = Pipeline().setStages([
@@ -118,8 +118,7 @@ class BGEM3Embeddings(AnnotatorModel,
                                    typeConverter=TypeConverters.toBoolean)
 
     def setReturnSparseEmbeddings(self, value):
-        """Sets whether to compute the sparse lexical embeddings and pack the
-        ``{token: weight}`` pairs into the annotation metadata.
+        """Sets whether to compute the sparse lexical embeddings
 
         Parameters
         ----------
