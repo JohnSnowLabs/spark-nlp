@@ -80,9 +80,11 @@ private[johnsnowlabs] class BGEM3(
 
   /** Tokenize the input documents with the XLM-RoBERTa SentencePiece model.
     *
-    * `maxSentenceLength` bounds the character-level pre-truncation passed to `encodeSentence`,
-    * matching the pattern used by every other SentencePiece-based annotator in this codebase
-    * (e.g. `XlmRoberta.tokenizeSentence`). Without it, the whole document gets
+    * `maxSentenceLength` bounds the character-level pre-truncation passed to `encodeSentence`
+    * (scaled by [[BGEM3.CharsPerTokenSafetyFactor]], since `encodeSentence`'s `maxLength` counts
+    * characters, not tokens), matching the pattern used by every other SentencePiece-based
+    * annotator in this codebase (e.g. `XlmRoberta.tokenizeSentence`) but with enough headroom to
+    * not under-truncate. Without any character bound, the whole document gets
     * SentencePiece-tokenized before `predict()` truncates the piece-id array down to
     * `maxSentenceLength`, which is wasted work on long documents (BGE-M3 is explicitly meant to
     * handle up to 8192 tokens).
@@ -92,6 +94,7 @@ private[johnsnowlabs] class BGEM3(
       maxSentenceLength: Int): Seq[WordpieceTokenizedSentence] = {
     val encoder =
       new SentencepieceEncoder(spp, caseSensitive, SentencePieceDelimiterId, pieceIdOffset)
+    val maxChars = maxSentenceLength * CharsPerTokenSafetyFactor
     sentences.map { annotation =>
       val sentence = Sentence(
         content = annotation.result,
@@ -100,7 +103,7 @@ private[johnsnowlabs] class BGEM3(
         metadata = Some(annotation.metadata),
         index = annotation.begin)
 
-      val pieces = encoder.encodeSentence(sentence, maxLength = maxSentenceLength)
+      val pieces = encoder.encodeSentence(sentence, maxLength = maxChars)
       WordpieceTokenizedSentence(pieces)
     }
   }
@@ -286,6 +289,17 @@ private[johnsnowlabs] class BGEM3(
 }
 
 private[johnsnowlabs] object BGEM3 {
+
+  /** `encodeSentence`'s `maxLength` truncates by characters, not tokens, so using
+    * `maxSentenceLength` directly under-truncates for any script averaging more than ~1 character
+    * per token (i.e. most Latin/Cyrillic-script prose, where SentencePiece typically compresses
+    * to ~4-6 characters per token). 8 is a conservative upper bound on realistic
+    * characters-per-token across BGE-M3's 100+ supported languages, chosen so the character
+    * pre-truncation only ever acts as a cheap upper bound ahead of the exact
+    * `.take(maxSentenceLength - 2)` token-level cut in `predict()`, never as the actual
+    * truncation boundary itself.
+    */
+  private[ai] val CharsPerTokenSafetyFactor = 8
 
   private[ai] val SentenceStartTokenId = 0 // <s>
   private[ai] val SentencePadTokenId = 1 // <pad>
