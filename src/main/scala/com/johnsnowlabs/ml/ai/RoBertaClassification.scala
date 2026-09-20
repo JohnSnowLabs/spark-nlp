@@ -827,6 +827,7 @@ private[johnsnowlabs] class RoBertaClassification(
     val content = XXXForClassification.joinWordPieces(decodedAnswer, mergeTokenStrategy)
 
     val totalScore = startIndex._1 * endIndex._1
+    val (answerStart, answerEnd) = XXXForClassification.answerSpanBounds(decodedAnswer)
     Seq(
       Annotation(
         annotatorType = AnnotatorType.CHUNK,
@@ -836,11 +837,9 @@ private[johnsnowlabs] class RoBertaClassification(
         metadata = Map(
           "sentence" -> "0",
           "chunk" -> "0",
-          // decodedAnswer can be empty when the model predicts start >= end (e.g. a squad2-style
-          // "no answer" span pointing back at/near the CLS token) -- .head/.last would throw.
-          "start" -> decodedAnswer.headOption.map(_.begin).getOrElse(0).toString,
+          "start" -> answerStart.toString,
           "start_score" -> startIndex._1.toString,
-          "end" -> decodedAnswer.lastOption.map(_.end).getOrElse(0).toString,
+          "end" -> answerEnd.toString,
           "end_score" -> endIndex._1.toString,
           "score" -> totalScore.toString)))
 

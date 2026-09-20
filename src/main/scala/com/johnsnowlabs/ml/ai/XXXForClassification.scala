@@ -47,7 +47,14 @@ private[johnsnowlabs] object XXXForClassification {
   def joinWordPieces(pieces: Seq[TokenPiece], mergeTokenStrategy: String): String = {
     val joined = mergeTokenStrategy match {
       case MergeTokenStrategy.vocab =>
-        pieces.filter(_.isWordStart).map(_.token).mkString(" ")
+        // A predicted span can start mid-word, on a continuation piece, with no preceding
+        // word-start piece in `pieces` to supply that word's `.token`. Filtering by `isWordStart`
+        // alone would silently drop that leading run (or the whole answer, if every piece in the
+        // span is a continuation piece), so reconstruct it from the raw wordpieces instead.
+        val leadingFragment =
+          pieces.takeWhile(!_.isWordStart).map(_.wordpiece.replaceFirst("##", "")).mkString("")
+        val wordStartJoined = pieces.filter(_.isWordStart).map(_.token).mkString(" ")
+        Seq(leadingFragment, wordStartJoined).filter(_.nonEmpty).mkString(" ")
       case MergeTokenStrategy.sentencePiece =>
         pieces
           .map(x => if (x.isWordStart) " " + x.token else x.token)
@@ -56,6 +63,15 @@ private[johnsnowlabs] object XXXForClassification {
     }
     cleanUpTokenizationSpaces(joined)
   }
+
+  /** Character span of a decoded QA/NER answer, as (start, end). `decodedAnswer` can be empty
+    * when the model predicts start >= end (e.g. a squad2-style "no answer" span pointing back
+    * at/near the CLS token) -- `.head`/`.last` would throw, so this defaults to (0, 0).
+    */
+  def answerSpanBounds(decodedAnswer: Seq[TokenPiece]): (Int, Int) =
+    (
+      decodedAnswer.headOption.map(_.begin).getOrElse(0),
+      decodedAnswer.lastOption.map(_.end).getOrElse(0))
 }
 
 private[johnsnowlabs] trait XXXForClassification {

@@ -38,12 +38,12 @@ class QaSpacingE2ESpec extends AnyFlatSpec {
     val result = pipeline.fit(data).transform(data)
 
     val answers = result.selectExpr("explode(answer.result) as r").as[String].collect()
-    answers.foreach(a => println(s"ANSWER=[$a]"))
     assert(answers.nonEmpty)
     answers.foreach { answer =>
       assert(!answer.contains(" ' "), s"stray space around apostrophe in '$answer'")
       assert(!answer.contains(" 's"), s"stray space before 's in '$answer'")
       assert(!answer.contains(" n't"), s"stray space before n't in '$answer'")
+      assert(!answer.contains(" 't"), s"stray space before 't in '$answer'")
     }
   }
 }

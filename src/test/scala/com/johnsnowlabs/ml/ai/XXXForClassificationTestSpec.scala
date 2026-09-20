@@ -16,34 +16,11 @@
 
 package com.johnsnowlabs.ml.ai
 
-import com.johnsnowlabs.nlp.annotators.common.TokenPiece
+import com.johnsnowlabs.nlp.annotators.common.TokenPieceTestUtils.{continuationPiece, piece}
 import com.johnsnowlabs.tags.FastTest
 import org.scalatest.flatspec.AnyFlatSpec
 
 class XXXForClassificationTestSpec extends AnyFlatSpec {
-
-  private def piece(token: String, isWordStart: Boolean): TokenPiece =
-    TokenPiece(
-      wordpiece = token,
-      token = token,
-      pieceId = 0,
-      isWordStart = isWordStart,
-      begin = 0,
-      end = 0)
-
-  // Every real tokenizer (WordpieceEncoder.encode, BpeTokenizer.getTokenPieces) sets `.token` to
-  // the WHOLE ORIGINAL WORD on every piece of that word, not to the piece's own text -- so a
-  // word-start piece and its continuation piece(s) always share the same `.token` value. Use this
-  // helper (not `piece`) whenever a test models more than one piece of the same word under the
-  // vocab strategy, or it isn't representative of what joinWordPieces actually receives.
-  private def continuationPiece(wordpiece: String, wholeWordToken: String): TokenPiece =
-    TokenPiece(
-      wordpiece = wordpiece,
-      token = wholeWordToken,
-      pieceId = 0,
-      isWordStart = false,
-      begin = 0,
-      end = 0)
 
   "XXXForClassification.joinWordPieces" should "not insert a space around a WordPiece-split contraction" taggedAs FastTest in {
     // "Levi's" tokenized as ["Levi", "'", "s"], each its own word-start piece.
@@ -87,6 +64,17 @@ class XXXForClassificationTestSpec extends AnyFlatSpec {
     assert(joined == "Denver Broncos")
   }
 
+  it should "not drop a span that starts mid-word on a continuation piece under the vocab strategy" taggedAs FastTest in {
+    // A predicted QA/NER answer span can start on a continuation piece with no preceding
+    // word-start piece in range (e.g. the model's start index landed on "##ver" of "Denver"
+    // rather than "Den"). Filtering by `isWordStart` alone would silently drop it.
+    val pieces = Seq(continuationPiece(wordpiece = "##ver", wholeWordToken = "Denver"))
+
+    val joined = XXXForClassification.joinWordPieces(pieces, MergeTokenStrategy.vocab)
+
+    assert(joined == "ver")
+  }
+
   it should "glue continuation pieces directly under the sentencePiece strategy" taggedAs FastTest in {
     val pieces = Seq(
       piece("Den", isWordStart = true),
@@ -107,5 +95,20 @@ class XXXForClassificationTestSpec extends AnyFlatSpec {
     // "Don" + "'t" (a bare word-start "'t" piece) rather than "Do" + "n't", which HF's own
     // clean_up_tokenization list (" n't" -> "n't") doesn't cover.
     assert(XXXForClassification.cleanUpTokenizationSpaces("Don 't be evil") == "Don't be evil")
+  }
+
+  "XXXForClassification.answerSpanBounds" should "default to (0, 0) instead of throwing on an empty decodedAnswer" taggedAs FastTest in {
+    // Regression test: decodedAnswer is empty when the model predicts start >= end (e.g. a
+    // squad2-style "no answer" span pointing back at/near the CLS token); .head/.last used to
+    // throw NoSuchElementException on that Seq.
+    assert(XXXForClassification.answerSpanBounds(Seq.empty) == (0, 0))
+  }
+
+  it should "return the first piece's begin and the last piece's end for a non-empty decodedAnswer" taggedAs FastTest in {
+    val pieces = Seq(piece("Denver", isWordStart = true), piece("Broncos", isWordStart = true))
+      .zip(Seq((10, 16), (17, 24)))
+      .map { case (p, (begin, end)) => p.copy(begin = begin, end = end) }
+
+    assert(XXXForClassification.answerSpanBounds(pieces) == (10, 24))
   }
 }

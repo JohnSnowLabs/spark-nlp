@@ -2,6 +2,7 @@ package com.johnsnowlabs.nlp.annotators.coref
 import com.johnsnowlabs.nlp.SparkAccessor.spark
 import com.johnsnowlabs.nlp.annotator.SentenceDetectorDLModel
 import com.johnsnowlabs.nlp.annotators.Tokenizer
+import com.johnsnowlabs.nlp.annotators.common.TokenPieceTestUtils.piece
 import com.johnsnowlabs.nlp.base.DocumentAssembler
 import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
@@ -12,6 +13,16 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
   implicit val session: SparkSession = spark
 
   import spark.implicits._
+
+  "SpanBertCorefModel.joinMentionSpan" should "not drop a span that starts on a continuation piece" taggedAs FastTest in {
+    // "Denver" tokenized as ["Den" (word-start), "##ver" (continuation)]; a mention span can start
+    // mid-word on the continuation piece alone.
+    val span = Array(piece("##ver", isWordStart = false))
+
+    val joined = SpanBertCorefModel.joinMentionSpan(span)
+
+    assert(joined == "ver")
+  }
 
   "SpanBertCoref" should "should be serialized" taggedAs SlowTest in {
     SpanBertCorefModel
@@ -60,9 +71,9 @@ class SpanBertCorefModelSpec extends AnyFlatSpec {
   "SpanBertCoref" should "not leave stray spaces around punctuation or contractions in mention text" taggedAs SlowTest in {
     // Regression test: mention/cluster text used to be built with a naive word-start-token join
     // that never undid the extra spaces it introduces around punctuation and contractions (e.g.
-    // "Levi ' s Stadium" instead of "Levi's Stadium"). Now routed through the same
-    // joinWordPieces + cleanUpTokenizationSpaces helper RoBertaClassification/MPNetClassification
-    // use for the identical problem.
+    // "Levi ' s Stadium" instead of "Levi's Stadium"). Now cleaned up via
+    // XXXForClassification.cleanUpTokenizationSpaces, the same helper RoBertaClassification/
+    // MPNetClassification use for the identical problem.
     val data = Seq("Sarah's dog loves her. It's the happiest dog on the block.")
       .toDF("text")
 
