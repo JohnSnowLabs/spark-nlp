@@ -15,7 +15,7 @@
  */
 package com.johnsnowlabs.nlp.annotators.coref
 
-import com.johnsnowlabs.ml.ai.{MergeTokenStrategy, SpanBertCoref, XXXForClassification}
+import com.johnsnowlabs.ml.ai.{SpanBertCoref, XXXForClassification}
 import com.johnsnowlabs.ml.tensorflow.{
   ReadTensorflowModel,
   TensorflowWrapper,
@@ -351,13 +351,9 @@ class SpanBertCorefModel(override val uid: String)
 
       val clusterSpans = cluster.map(xy => getTokensFromSpan(xy))
       val clusterHeadSpan = clusterSpans.head
-      // WordpieceEncoder-tokenized (see `tokenizedSentences`, built with `WordpieceEncoder.encode`
-      // above), so the vocab merge strategy applies -- same reconstruction RoBertaClassification/
-      // MPNetClassification/XXXForClassification use, undoing the extra spaces a naive
-      // word-start-token join introduces around punctuation and contractions (e.g.
-      // "Levi ' s Stadium" -> "Levi's Stadium").
-      val clusterHeadSpanText =
-        XXXForClassification.joinWordPieces(clusterHeadSpan.map(_._1), MergeTokenStrategy.vocab)
+      def joinSpan(span: Array[(TokenPiece, Int)]): String =
+        SpanBertCorefModel.joinMentionSpan(span.map(_._1))
+      val clusterHeadSpanText = joinSpan(clusterHeadSpan)
       Array(
         Annotation(
           annotatorType = AnnotatorType.DEPENDENCY,
@@ -374,7 +370,7 @@ class SpanBertCorefModel(override val uid: String)
           annotatorType = AnnotatorType.DEPENDENCY,
           begin = span.head._1.begin,
           end = span.last._1.end,
-          result = XXXForClassification.joinWordPieces(span.map(_._1), MergeTokenStrategy.vocab),
+          result = joinSpan(span),
           metadata = Map(
             "head" -> clusterHeadSpanText,
             "head.begin" -> clusterHeadSpan.head._1.begin.toString,
@@ -471,4 +467,15 @@ object SpanBertCorefModel
     extends ReadablePretrainedSpanBertCorefModel
     with ReadSpanBertCorefTensorflowModel {
   private[SpanBertCorefModel] val logger: Logger = LoggerFactory.getLogger("SpanBertCorefModel")
+
+  /** Keep every wordpiece (not just word-start pieces) since a mention span can start mid-word on
+    * a continuation piece; only clean up the spacing HF's own tokenizer would (e.g. "Levi ' s
+    * Stadium" -> "Levi's Stadium").
+    */
+  private[coref] def joinMentionSpan(span: Array[TokenPiece]): String =
+    XXXForClassification.cleanUpTokenizationSpaces(
+      span
+        .map(x => (if (x.isWordStart) " " else "") + x.wordpiece.replaceFirst("##", ""))
+        .mkString("")
+        .trim)
 }
