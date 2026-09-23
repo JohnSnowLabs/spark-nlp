@@ -852,7 +852,7 @@ configuration.
 
 A sample of your bootstrap script
 
-```.sh
+```sh
 #!/bin/bash
 set -x -e
 
@@ -870,7 +870,7 @@ exit 0
 
 A sample of your software configuration in JSON on S3 (must be public access). These EMR 6.x clusters run Apache Spark 3.x, so the coordinate below uses `spark-nlp_2.12`. On an Apache Spark 4.0.0 cluster use `spark-nlp-spark400_2.13`; on Apache Spark 4.0.1 and later validated Spark 4 versions use `spark-nlp_2.13`:
 
-```.json
+```json
 [{
   "Classification": "spark-env",
   "Configurations": [{
@@ -895,7 +895,7 @@ A sample of your software configuration in JSON on S3 (must be public access). T
 
 A sample of AWS CLI to launch EMR cluster:
 
-```.sh
+```sh
 aws emr create-cluster \
 --name "Spark NLP {{ site.sparknlp_version }}" \
 --release-label emr-6.2.0 \
