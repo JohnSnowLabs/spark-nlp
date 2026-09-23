@@ -247,16 +247,18 @@ On the right panel, you will see two snippets, about how to call to the model fo
     `loaded_model = mlflow.pyfunc.spark_udf(spark, model_uri=logged_model)`
 
     ### Predict on a Spark DataFrame.
-    ```columns = list(df.columns)
+    ```python
+    columns = list(df.columns)
     df.withColumn('predictions', loaded_model(*columns)).collect()
     ```
 
 2. Snippet for calling with a Spark Dataframe. We won’t include it in this documentation because that snippet does not include SPark NLP specificities. To make it work, the correct snippet should be:
 
-    ```import mlflow
+    ```python
+    import mlflow
     logged_model = 'runs:/a8cf070528564792bbf66d82211db0a0/lemmatizer'
     loaded_model = mlflow.pyfunc.load_model(model_uri=logged_model)
-   ```
+    ```
 
     ### Predict on a Spark DataFrame.
     `res_spark = loaded_model.predict(df_1_spark.rdd)`
