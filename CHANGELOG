@@ -1,4 +1,77 @@
 =======
+7.0.0
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+Spark 3.x Lane
+
+* Update developers list in publish.sbt #14786
+* [SPARKNLP-1153] Add PairwiseVectorSimilarity annotator #14787
+* [Sparknlp-173] Add RuleBasedMatcher annotator #14788
+* parknlp 1251 create end to end document translator #14790
+* [SPARKNLP-1405] Fix pretrained gaps #14797
+* [SPARKNLP-1407] Handle Spark-specific Maven coordinate resolution #14804
+* [SPARKNLP-1400] Pin ONNX Runtime to 1.23.0 to fix memory regression … #14791
+* Clean up ONNX temporary files #14792
+* Sparknlp 1198 implement cross encoder similarity #14795
+* [Sparknlp-674] implement a new annotator to allow summarization #14794
+* [SPARKNLP-173] Fix RuleBasedMatcher automatic attribute inference dropping the base token column #14812
+* Fix backwards Set.intersect in NorvigSweetingModel spellchecker #14819
+* Add arm64 OpenVino runtime support for the silicon build variant #14824
+* Add Spark 4 migration docs page #14823
+* [SPARKNLP-45] Optimized Annotators use BatchAnnotate to actually batch rows and not a single row #14827
+* [SPARKNLP-45] Fix ZeroShotNer losing its decode logic under batching #14846
+* [SPARKNLP-1429] ONNX CUDA Preload Recovery #14857
+* [SPARKNLP-1409] [skip test] Updating Dataproc documentation #14843
+* [skip test] SPARKNLP-1409 Updating EMR documentation #14862
+* Support forward-compatible Spark 4 Maven coordinate resolution #14873
+* Sparknlp 1409 update tech doc to 7.0.0 #14867
+* Sparknlp 1430 create script for colab saprk 3.x #14864
+* Add Databricks retrieval benchmark notebook #14856
+* Modify package installation for transformers and dependencies #14876
+
+Spark 4.x Lane
+
+* Spark 4 compatibility in annotation/UDF encoder paths #14789
+* Spark 4 annotator compatibility fixes #14796
+* Update GitHub CI workflows for Spark 4.x #14798
+* [SPARKNLP-1407] Add Spark 4 build profiles #14803
+* [SPARKNLP-1407] Make resolver tests version independent #14805
+* [SPARKNLP-1153] Add PairwiseVectorSimilarity annotator #14806
+* [Sparknlp-173] Add RuleBasedMatcher annotator #14807
+* Sparknlp 1251 create end to end document translator #14810
+* [SPARKNLP-1400] Pin ONNX Runtime to 1.23.0 to fix memory regression on macOS #14809
+* Clean up ONNX temporary files #14801
+* Sparknlp 1198 implement cross encoder similarity #14811
+* [Sparknlp-674] implement a new annotator to allow summarization #14799
+* [SPARKNLP-173] Fix RuleBasedMatcher automatic attribute inference dropping the base token column #14815
+* Fix backwards Set.intersect in NorvigSweetingModel spellchecker #14820
+* Add arm64 OpenVino runtime support for the silicon build variant #14825
+* Add Spark 4 migration docs page #14841
+* [SPARKNLP-45] Optimized Annotators use BatchAnnotate to actually batch rows and not a single row #14828
+* [SPARKNLP-45] Fix ZeroShotNer losing its decode logic under batching #14855
+* [SPARKNLP-1429] ONNX CUDA Preload Recovery #14858
+* [SPARKNLP-1409] Updating Dataproc documentation #14843
+* [SPARKNLP-1409] Updating EMR documentation
+* Support forward-compatible Spark 4 Maven coordinate resolution #14874
+* Fix addFile collision for models with external ONNX data #14834
+* [SPARKNLP-1412] Add configurable fallback logging verbosity #14839
+* [SPARKNLP-1411] HC JSL Spark4.x compatibility #14818
+
+=======
+6.4.2
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+* Properly close stream and avoid warning #14774
+* [SPARKNLP-1384] Add Hugging Face to Spark NLP model conversion notebooks (ONNX, OpenVINO, GGUF) #14775
+* [SPARKNLP-1145] Add BM25 lexical retrieval annotator (Approach + Model) #14776
+* [SPARKNLP-1395] Updating git notifications and bumping jsl-llama version #14777
+* Sparknlp 1396 introduce new sentence detection annotator #14782
+
+=======
 6.4.1
 =======
 ---------------------------
