@@ -16,5 +16,5 @@ Module contents
 
 .. automodule:: sparknlp.annotator.audio
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

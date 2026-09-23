@@ -17,5 +17,5 @@ Module contents
 
 .. automodule:: sparknlp.annotator.token
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

@@ -3,5 +3,5 @@ sparknlp.annotator.classifier\_dl.xlm\_roberta\_for\_token\_classification modul
 
 .. automodule:: sparknlp.annotator.classifier_dl.xlm_roberta_for_token_classification
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

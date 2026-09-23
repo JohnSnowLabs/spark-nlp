@@ -16,5 +16,5 @@ Module contents
 
 .. automodule:: sparknlp.annotator.spell_check
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

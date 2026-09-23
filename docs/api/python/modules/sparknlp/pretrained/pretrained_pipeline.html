@@ -2,83 +2,78 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.pretrained.pretrained_pipeline &#8212; Spark NLP 6.4.1 documentation</title>
+    <title>sparknlp.pretrained.pretrained_pipeline &#8212; Spark NLP 7.0.0 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../../../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../../../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-
-  
-  <link href="../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../../../static/css/custom.css?v=e1fb877f" />
   
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="../../../static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=88b3fc5d"></script>
-    <script src="../../../static/doctools.js?v=888ff710"></script>
-    <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../static/toggleprompt.js?v=670350bf"></script>
+    <script src="../../../static/documentation_options.js?v=efe5be6f"></script>
+    <script src="../../../static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../static/toggleprompt.js?v=5801b3bb"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/pretrained/pretrained_pipeline';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../static/fav.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../static/searchtools.js"></script>
+    <script src="../../../static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
   </head>
+  <body data-default-mode="">
   
   
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
 
-  
-  
-  <a class="skip-link" href="#main-content">Skip to main content</a>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
-
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -86,7 +81,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -94,20 +88,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
 
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../index.html">
@@ -121,8 +122,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
+    <img src="../../../static/logo.png" class="logo__image only-dark pst-js-only" alt="Spark NLP 7.0.0 documentation - Home"/>
   
   
 </a></div>
@@ -134,42 +135,36 @@
     <div class="me-auto navbar-header-items__center">
       
         <div class="navbar-item">
-<nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../getting_started/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../user_guide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../third_party/index.html">
-                        Third Party Projects
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../reference/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../third_party/index.html">
+    Third Party Projects
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -181,29 +176,28 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
       
     </div>
     
@@ -212,27 +206,29 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -241,45 +237,42 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item">
-<nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../getting_started/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting_started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../user_guide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../third_party/index.html">
-                        Third Party Projects
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../reference/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../third_party/index.html">
+    Third Party Projects
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -289,15 +282,18 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
   </button>
-`);
-</script></div>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
         
       </div>
     
@@ -305,29 +301,32 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -341,7 +340,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../sparknlp.html" class="nav-link">sparknlp</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">sparknlp.pre...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">sparknlp.pretrained.pretrained_pipeline</span></li>
   </ul>
 </nav>
 </div>
@@ -356,23 +355,23 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for sparknlp.pretrained.pretrained_pipeline</h1><div class="highlight"><pre>
 <span></span><span class="c1">#  Copyright 2017-2022 John Snow Labs</span>
 <span class="c1">#</span>
-<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
 <span class="c1">#  you may not use this file except in compliance with the License.</span>
 <span class="c1">#  You may obtain a copy of the License at</span>
 <span class="c1">#</span>
 <span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
 <span class="c1">#</span>
 <span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
-<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
 <span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1">#  See the License for the specific language governing permissions and</span>
 <span class="c1">#  limitations under the License.</span>
-<span class="sd">&quot;&quot;&quot;Contains classes for the PretrainedPipeline.&quot;&quot;&quot;</span>
+<span class="sd">"""Contains classes for the PretrainedPipeline."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">PipelineModel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
@@ -381,8 +380,10 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.pretrained.resource_downloader</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceDownloader</span>
 
 
-<div class="viewcode-block" id="PretrainedPipeline"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PretrainedPipeline</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Loads a Represents a fully constructed and trained Spark NLP pipeline,</span>
+<div class="viewcode-block" id="PretrainedPipeline">
+<a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PretrainedPipeline</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Loads a Represents a fully constructed and trained Spark NLP pipeline,</span>
 <span class="sd">    ready to be used.</span>
 
 <span class="sd">    This way, a whole pipeline can be defined in 1 line. Additionally, the</span>
@@ -400,7 +401,7 @@ document.write(`
 <span class="sd">        Name of the PretrainedPipeline. These can be gathered from the Pipelines</span>
 <span class="sd">        Page.</span>
 <span class="sd">    lang : str, optional</span>
-<span class="sd">        Langauge of the model, by default &#39;en&#39;</span>
+<span class="sd">        Langauge of the model, by default 'en'</span>
 <span class="sd">    remote_loc : str, optional</span>
 <span class="sd">        Link to the remote location of the model (if it was already downloaded),</span>
 <span class="sd">        by default None</span>
@@ -408,21 +409,29 @@ document.write(`
 <span class="sd">        Whether to parse embeddings, by default False</span>
 <span class="sd">    disk_location : str , optional</span>
 <span class="sd">        Path to locally stored PretrainedPipeline, by default None</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disk_location</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">'en'</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">disk_location</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">disk_location</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">ResourceDownloader</span><span class="p">()</span><span class="o">.</span><span class="n">downloadPipeline</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">disk_location</span><span class="p">)</span>
-<div class="viewcode-block" id="PretrainedPipeline.light_model"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.light_model">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">light_model</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="p">)</span></div>
+<div class="viewcode-block" id="PretrainedPipeline.light_model">
+<a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.light_model">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">light_model</span> <span class="o">=</span> <span class="n">LightPipeline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="p">)</span></div>
+
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="PretrainedPipeline.from_disk"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.from_disk">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">from_disk</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="PretrainedPipeline.from_disk">
+<a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.from_disk">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_disk</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">parse_embeddings</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PretrainedPipeline.annotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.annotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided, extracting the results.</span>
+
+<div class="viewcode-block" id="PretrainedPipeline.annotate">
+<a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.annotate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">annotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Annotates the data provided, extracting the results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
 
@@ -439,19 +448,19 @@ document.write(`
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; from sparknlp.pretrained import PretrainedPipeline</span>
-<span class="sd">        &gt;&gt;&gt; explain_document_pipeline = PretrainedPipeline(&quot;explain_document_dl&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; result = explain_document_pipeline.annotate(&#39;U.N. official Ekeus heads for Baghdad.&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; explain_document_pipeline = PretrainedPipeline("explain_document_dl")</span>
+<span class="sd">        &gt;&gt;&gt; result = explain_document_pipeline.annotate('U.N. official Ekeus heads for Baghdad.')</span>
 <span class="sd">        &gt;&gt;&gt; result.keys()</span>
-<span class="sd">        dict_keys([&#39;entities&#39;, &#39;stem&#39;, &#39;checked&#39;, &#39;lemma&#39;, &#39;document&#39;, &#39;pos&#39;, &#39;token&#39;, &#39;ner&#39;, &#39;embeddings&#39;, &#39;sentence&#39;])</span>
-<span class="sd">        &gt;&gt;&gt; result[&quot;ner&quot;]</span>
-<span class="sd">        [&#39;B-ORG&#39;, &#39;O&#39;, &#39;O&#39;, &#39;B-PER&#39;, &#39;O&#39;, &#39;O&#39;, &#39;B-LOC&#39;, &#39;O&#39;]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">metadata</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="sd">        dict_keys(['entities', 'stem', 'checked', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence'])</span>
+<span class="sd">        &gt;&gt;&gt; result["ner"]</span>
+<span class="sd">        ['B-ORG', 'O', 'O', 'B-PER', 'O', 'O', 'B-LOC', 'O']</span>
+<span class="sd">        """</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s2">&quot;target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">],)</span> <span class="o">+</span> <span class="n">args</span>
-        <span class="k">if</span> <span class="s2">&quot;optional_target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optional_target&quot;</span><span class="p">],)</span>
+        <span class="k">if</span> <span class="s2">"target"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">"target"</span><span class="p">],)</span> <span class="o">+</span> <span class="n">args</span>
+        <span class="k">if</span> <span class="s2">"optional_target"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">"optional_target"</span><span class="p">],)</span>
 
         <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">light_model</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
@@ -459,8 +468,11 @@ document.write(`
             <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">light_model</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">annotations</span></div>
 
-<div class="viewcode-block" id="PretrainedPipeline.fullAnnotate"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
+
+<div class="viewcode-block" id="PretrainedPipeline.fullAnnotate">
+<a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Annotates the data provided into `Annotation` type results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
 
@@ -477,26 +489,26 @@ document.write(`
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; from sparknlp.pretrained import PretrainedPipeline</span>
-<span class="sd">        &gt;&gt;&gt; explain_document_pipeline = PretrainedPipeline(&quot;explain_document_dl&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; result = explain_document_pipeline.fullAnnotate(&#39;U.N. official Ekeus heads for Baghdad.&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; explain_document_pipeline = PretrainedPipeline("explain_document_dl")</span>
+<span class="sd">        &gt;&gt;&gt; result = explain_document_pipeline.fullAnnotate('U.N. official Ekeus heads for Baghdad.')</span>
 <span class="sd">        &gt;&gt;&gt; result[0].keys()</span>
-<span class="sd">        dict_keys([&#39;entities&#39;, &#39;stem&#39;, &#39;checked&#39;, &#39;lemma&#39;, &#39;document&#39;, &#39;pos&#39;, &#39;token&#39;, &#39;ner&#39;, &#39;embeddings&#39;, &#39;sentence&#39;])</span>
-<span class="sd">        &gt;&gt;&gt; result[0][&quot;ner&quot;]</span>
-<span class="sd">        [Annotation(named_entity, 0, 2, B-ORG, {&#39;word&#39;: &#39;U.N&#39;}),</span>
-<span class="sd">        Annotation(named_entity, 3, 3, O, {&#39;word&#39;: &#39;.&#39;}),</span>
-<span class="sd">        Annotation(named_entity, 5, 12, O, {&#39;word&#39;: &#39;official&#39;}),</span>
-<span class="sd">        Annotation(named_entity, 14, 18, B-PER, {&#39;word&#39;: &#39;Ekeus&#39;}),</span>
-<span class="sd">        Annotation(named_entity, 20, 24, O, {&#39;word&#39;: &#39;heads&#39;}),</span>
-<span class="sd">        Annotation(named_entity, 26, 28, O, {&#39;word&#39;: &#39;for&#39;}),</span>
-<span class="sd">        Annotation(named_entity, 30, 36, B-LOC, {&#39;word&#39;: &#39;Baghdad&#39;}),</span>
-<span class="sd">        Annotation(named_entity, 37, 37, O, {&#39;word&#39;: &#39;.&#39;})]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">metadata</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="sd">        dict_keys(['entities', 'stem', 'checked', 'lemma', 'document', 'pos', 'token', 'ner', 'embeddings', 'sentence'])</span>
+<span class="sd">        &gt;&gt;&gt; result[0]["ner"]</span>
+<span class="sd">        [Annotation(named_entity, 0, 2, B-ORG, {'word': 'U.N'}),</span>
+<span class="sd">        Annotation(named_entity, 3, 3, O, {'word': '.'}),</span>
+<span class="sd">        Annotation(named_entity, 5, 12, O, {'word': 'official'}),</span>
+<span class="sd">        Annotation(named_entity, 14, 18, B-PER, {'word': 'Ekeus'}),</span>
+<span class="sd">        Annotation(named_entity, 20, 24, O, {'word': 'heads'}),</span>
+<span class="sd">        Annotation(named_entity, 26, 28, O, {'word': 'for'}),</span>
+<span class="sd">        Annotation(named_entity, 30, 36, B-LOC, {'word': 'Baghdad'}),</span>
+<span class="sd">        Annotation(named_entity, 37, 37, O, {'word': '.'})]</span>
+<span class="sd">        """</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s2">&quot;target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">],)</span> <span class="o">+</span> <span class="n">args</span>
-        <span class="k">if</span> <span class="s2">&quot;optional_target&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;optional_target&quot;</span><span class="p">],)</span>
+        <span class="k">if</span> <span class="s2">"target"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">"target"</span><span class="p">],)</span> <span class="o">+</span> <span class="n">args</span>
+        <span class="k">if</span> <span class="s2">"optional_target"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">args</span> <span class="o">+</span> <span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">"optional_target"</span><span class="p">],)</span>
 
         <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">light_model</span><span class="o">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
@@ -504,8 +516,11 @@ document.write(`
             <span class="n">annotations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">light_model</span><span class="o">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">annotations</span></div>
 
-<div class="viewcode-block" id="PretrainedPipeline.fullAnnotateImage"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotateImage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotateImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_to_image</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotates the data provided into `Annotation` type results.</span>
+
+<div class="viewcode-block" id="PretrainedPipeline.fullAnnotateImage">
+<a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.fullAnnotateImage">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fullAnnotateImage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_to_image</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Annotates the data provided into `Annotation` type results.</span>
 
 <span class="sd">        The data should be either a list or a str.</span>
 
@@ -518,12 +533,15 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        List[AnnotationImage]</span>
 <span class="sd">            The result of the annotation</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">pipeline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">light_model</span>
         <span class="k">return</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fullAnnotateImage</span><span class="p">(</span><span class="n">path_to_image</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PretrainedPipeline.transform"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.transform">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Transforms the input dataset with Spark.</span>
+
+<div class="viewcode-block" id="PretrainedPipeline.transform">
+<a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/pretrained_pipeline/index.html#sparknlp.pretrained.pretrained_pipeline.PretrainedPipeline.transform">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Transforms the input dataset with Spark.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -534,8 +552,10 @@ document.write(`
 <span class="sd">        -------</span>
 <span class="sd">        :class:`pyspark.sql.DataFrame`</span>
 <span class="sd">            transformed dataset</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div></div>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
                 </article>
@@ -544,7 +564,7 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
 </div>
@@ -565,8 +585,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script defer src="../../../static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -586,7 +606,7 @@ document.write(`
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
     <br/>
   </p>
 </div>
@@ -599,7 +619,8 @@ document.write(`
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

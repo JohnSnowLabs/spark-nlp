@@ -23,6 +23,7 @@ Submodules
    sparknlp.annotator.classifier_dl.camembert_for_token_classification
    sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification
    sparknlp.annotator.classifier_dl.classifier_dl
+   sparknlp.annotator.classifier_dl.cross_encoder
    sparknlp.annotator.classifier_dl.deberta_for_question_answering
    sparknlp.annotator.classifier_dl.deberta_for_sequence_classification
    sparknlp.annotator.classifier_dl.deberta_for_token_classification
@@ -59,5 +60,5 @@ Module contents
 
 .. automodule:: sparknlp.annotator.classifier_dl
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

@@ -11,6 +11,7 @@ Submodules
    sparknlp.annotator.matcher.date_matcher
    sparknlp.annotator.matcher.multi_date_matcher
    sparknlp.annotator.matcher.regex_matcher
+   sparknlp.annotator.matcher.rule_based_matcher
    sparknlp.annotator.matcher.text_matcher
 
 Module contents
@@ -18,5 +19,5 @@ Module contents
 
 .. automodule:: sparknlp.annotator.matcher
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

@@ -13,6 +13,7 @@ Submodules
    sparknlp.annotator.seq2seq.bart_transformer
    sparknlp.annotator.seq2seq.cohere_transformer
    sparknlp.annotator.seq2seq.cpm_transformer
+   sparknlp.annotator.seq2seq.document_translator
    sparknlp.annotator.seq2seq.gpt2_transformer
    sparknlp.annotator.seq2seq.llama2_transformer
    sparknlp.annotator.seq2seq.llama3_transformer
@@ -26,6 +27,7 @@ Submodules
    sparknlp.annotator.seq2seq.phi4_transformer
    sparknlp.annotator.seq2seq.qwen_transformer
    sparknlp.annotator.seq2seq.starcoder_transformer
+   sparknlp.annotator.seq2seq.summarization
    sparknlp.annotator.seq2seq.t5_transformer
 
 Module contents
@@ -33,5 +35,5 @@ Module contents
 
 .. automodule:: sparknlp.annotator.seq2seq
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

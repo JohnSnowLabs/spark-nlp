@@ -18,5 +18,5 @@ Module contents
 
 .. automodule:: sparknlp.internal
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

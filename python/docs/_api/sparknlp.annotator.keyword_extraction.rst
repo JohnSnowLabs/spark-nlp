@@ -14,5 +14,5 @@ Module contents
 
 .. automodule:: sparknlp.annotator.keyword_extraction
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

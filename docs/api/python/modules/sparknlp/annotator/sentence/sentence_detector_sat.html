@@ -1,0 +1,871 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.annotator.sentence.sentence_detector_sat &#8212; Spark NLP 7.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../../static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../../../static/documentation_options.js?v=efe5be6f"></script>
+    <script src="../../../../static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../static/toggleprompt.js?v=5801b3bb"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/sentence/sentence_detector_sat';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../../static/searchtools.js"></script>
+    <script src="../../../../static/language_data.js"></script>
+    <script src="../../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
+    <img src="../../../../static/logo.png" class="logo__image only-dark pst-js-only" alt="Spark NLP 7.0.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+    Third Party Projects
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+    Third Party Projects
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">sparknlp.annotator.sentence.sentence_detector_sat</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for sparknlp.annotator.sentence.sentence_detector_sat</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2024 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">"""Contains classes for the SaT (Segment any Text) sentence detector."""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SentenceDetectorSaTModel</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">,</span> <span class="n">HasBatchedAnnotate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Sentence detector based on the wtpsplit / SaT (Segment any Text) transformer models.</span>
+
+<span class="sd">    SaT is a per-token boundary detector built on an XLM-R backbone: for every sub-word token the</span>
+<span class="sd">    model predicts a sentence-boundary probability. The document is tokenized with SentencePiece,</span>
+<span class="sd">    sliced into overlapping windows (so documents longer than 512 tokens are supported), run through</span>
+<span class="sd">    ONNX, and the per-token probabilities are merged and projected back onto characters to produce</span>
+<span class="sd">    the final sentence spans.</span>
+
+<span class="sd">    This annotator only supports models exported to ONNX with an XLM-R SentencePiece tokenizer</span>
+<span class="sd">    (e.g. ``segment-any-text/sat-12l-sm`` and ``segment-any-text/sat-12l``). A locally exported</span>
+<span class="sd">    model can be loaded with :meth:`.loadSavedModel`, and pretrained models with :meth:`.pretrained`.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``DOCUMENT``           ``DOCUMENT``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    threshold</span>
+<span class="sd">        Boundary probability threshold; a boundary is placed once a character's probability is</span>
+<span class="sd">        ``&gt;= threshold`` (Default: 0.25 for sat-12l-sm). Ignored when ``minSentenceLength`` or</span>
+<span class="sd">        ``maxSentenceLength`` is set.</span>
+<span class="sd">    blockSize</span>
+<span class="sd">        Number of real sub-word tokens per ONNX window, max 510 for XLM-R (Default: 510).</span>
+<span class="sd">    stride</span>
+<span class="sd">        Number of tokens to advance between consecutive overlapping windows (Default: 256).</span>
+<span class="sd">    satBatchSize</span>
+<span class="sd">        Number of windows to send to ONNX in a single forward pass (Default: 8).</span>
+<span class="sd">    weighting</span>
+<span class="sd">        Window-overlap weighting strategy, ``"hat"`` or ``"uniform"`` (Default: "hat").</span>
+<span class="sd">    trimWhitespace</span>
+<span class="sd">        Whether to strip leading/trailing whitespace from each detected sentence (Default: True).</span>
+<span class="sd">    explodeSentences</span>
+<span class="sd">        Whether to split each detected sentence into its own Dataset row (Default: True). Each</span>
+<span class="sd">        sentence is always a separate annotation; this flag only controls the row layout (when</span>
+<span class="sd">        True the output column is exploded so every sentence lands on its own row), mirroring</span>
+<span class="sd">        ``SentenceDetectorDLModel``.</span>
+<span class="sd">    minSentenceLength</span>
+<span class="sd">        Minimum sentence length in characters, ``0`` = no minimum (Default: 0). When this or</span>
+<span class="sd">        ``maxSentenceLength`` is set, the model switches to length-constrained (Viterbi)</span>
+<span class="sd">        segmentation and ``threshold`` is ignored.</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Maximum sentence length in characters, ``0`` = no maximum (Default: 0). See</span>
+<span class="sd">        ``minSentenceLength``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; documentAssembler = DocumentAssembler() \\</span>
+<span class="sd">    ...     .setInputCol("text") \\</span>
+<span class="sd">    ...     .setOutputCol("document")</span>
+<span class="sd">    &gt;&gt;&gt; sentenceDetector = SentenceDetectorSaTModel.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols(["document"]) \\</span>
+<span class="sd">    ...     .setOutputCol("sentence")</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([documentAssembler, sentenceDetector])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([["This is a sentence. This is another one."]]).toDF("text")</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr("explode(sentence.result) as sentence").show(truncate=False)</span>
+<span class="sd">    +----------------------+</span>
+<span class="sd">    |sentence              |</span>
+<span class="sd">    +----------------------+</span>
+<span class="sd">    |This is a sentence.   |</span>
+<span class="sd">    |This is another one.  |</span>
+<span class="sd">    +----------------------+</span>
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.name">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.name">[docs]</a>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"SentenceDetectorSaTModel"</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.inputAnnotatorTypes">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.inputAnnotatorTypes">[docs]</a>
+    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.outputAnnotatorType">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.outputAnnotatorType">[docs]</a>
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.threshold">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.threshold">[docs]</a>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                      <span class="s2">"threshold"</span><span class="p">,</span>
+                      <span class="s2">"Boundary probability threshold (default 0.25 for sat-12l-sm)"</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.blockSize">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.blockSize">[docs]</a>
+    <span class="n">blockSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                      <span class="s2">"blockSize"</span><span class="p">,</span>
+                      <span class="s2">"Real sub-word tokens per window (max 510 for XLM-R)"</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.stride">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.stride">[docs]</a>
+    <span class="n">stride</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                   <span class="s2">"stride"</span><span class="p">,</span>
+                   <span class="s2">"Token stride between overlapping windows (default 256)"</span><span class="p">,</span>
+                   <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.satBatchSize">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.satBatchSize">[docs]</a>
+    <span class="n">satBatchSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                         <span class="s2">"satBatchSize"</span><span class="p">,</span>
+                         <span class="s2">"Number of windows per ONNX batch (default 8)"</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.weighting">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.weighting">[docs]</a>
+    <span class="n">weighting</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                      <span class="s2">"weighting"</span><span class="p">,</span>
+                      <span class="s2">"Overlap weighting: 'hat' (preferred) or 'uniform'"</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.trimWhitespace">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.trimWhitespace">[docs]</a>
+    <span class="n">trimWhitespace</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                           <span class="s2">"trimWhitespace"</span><span class="p">,</span>
+                           <span class="s2">"Trim whitespace from sentence boundaries"</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.explodeSentences">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.explodeSentences">[docs]</a>
+    <span class="n">explodeSentences</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                             <span class="s2">"explodeSentences"</span><span class="p">,</span>
+                             <span class="s2">"Split sentences in separate rows"</span><span class="p">,</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.minSentenceLength">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.minSentenceLength">[docs]</a>
+    <span class="n">minSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">"minSentenceLength"</span><span class="p">,</span>
+                              <span class="s2">"Minimum sentence length in characters (0 = unset)"</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.maxSentenceLength">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.maxSentenceLength">[docs]</a>
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span>
+                              <span class="s2">"maxSentenceLength"</span><span class="p">,</span>
+                              <span class="s2">"Maximum sentence length in characters (0 = unset)"</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.setThreshold">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setThreshold">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the boundary probability threshold (Default: 0.25).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : float</span>
+<span class="sd">            Boundary probability threshold</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.getThreshold">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getThreshold">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Gets the boundary probability threshold."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">threshold</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.setBlockSize">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setBlockSize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setBlockSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the number of real sub-word tokens per ONNX window (max 510).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Real sub-word tokens per window</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">blockSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.getBlockSize">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getBlockSize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getBlockSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Gets the number of real sub-word tokens per ONNX window."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blockSize</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.setStride">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setStride">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setStride</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the token stride between consecutive overlapping windows.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Token stride between overlapping windows</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">stride</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.getStride">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getStride">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getStride</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Gets the token stride between overlapping windows."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.setSatBatchSize">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setSatBatchSize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setSatBatchSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the number of windows per ONNX forward pass.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Number of windows per ONNX batch</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">satBatchSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.getSatBatchSize">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getSatBatchSize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getSatBatchSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Gets the number of windows per ONNX batch."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">satBatchSize</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.setWeighting">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setWeighting">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setWeighting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the window-overlap weighting strategy, ``"hat"`` or ``"uniform"``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Overlap weighting strategy</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">weighting</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.getWeighting">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getWeighting">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getWeighting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Gets the window-overlap weighting strategy."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weighting</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.setTrimWhitespace">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setTrimWhitespace">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setTrimWhitespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets whether to strip leading/trailing whitespace from each sentence.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to trim whitespace</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">trimWhitespace</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.getTrimWhitespace">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getTrimWhitespace">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getTrimWhitespace</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Gets whether whitespace is trimmed from sentence boundaries."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trimWhitespace</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.setExplodeSentences">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setExplodeSentences">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setExplodeSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets whether to split each sentence into its own Dataset row (Default: True).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to explode sentences into separate rows</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">explodeSentences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.getExplodeSentences">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getExplodeSentences">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getExplodeSentences</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Gets whether sentences are exploded into separate rows."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explodeSentences</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.setMinSentenceLength">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setMinSentenceLength">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setMinSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the minimum sentence length in characters (0 = no minimum).</span>
+
+<span class="sd">        Setting this (or ``maxSentenceLength``) switches to length-constrained segmentation and</span>
+<span class="sd">        disables ``threshold``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Minimum sentence length in characters</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.getMinSentenceLength">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getMinSentenceLength">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getMinSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Gets the minimum sentence length in characters."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">minSentenceLength</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.setMaxSentenceLength">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.setMaxSentenceLength">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the maximum sentence length in characters (0 = no maximum).</span>
+
+<span class="sd">        Setting this (or ``minSentenceLength``) switches to length-constrained segmentation and</span>
+<span class="sd">        disables ``threshold``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Maximum sentence length in characters</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SentenceDetectorSaTModel.getMaxSentenceLength">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.getMaxSentenceLength">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">getMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Gets the maximum sentence length in characters."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxSentenceLength</span><span class="p">)</span></div>
+
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">"com.johnsnowlabs.nlp.annotators.sbd.sat.SentenceDetectorSaTModel"</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SentenceDetectorSaTModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">threshold</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
+            <span class="n">blockSize</span><span class="o">=</span><span class="mi">510</span><span class="p">,</span>
+            <span class="n">stride</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+            <span class="n">satBatchSize</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">weighting</span><span class="o">=</span><span class="s2">"hat"</span><span class="p">,</span>
+            <span class="n">trimWhitespace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">explodeSentences</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">minSentenceLength</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">4</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="SentenceDetectorSaTModel.loadSavedModel">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.loadSavedModel">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Loads a locally exported SaT ONNX model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model (containing ``model.onnx`` and</span>
+<span class="sd">            ``assets/sentencepiece.bpe.model``)</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        SentenceDetectorSaTModel</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">_SentenceDetectorSaTLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_SentenceDetectorSaTLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">SentenceDetectorSaTModel</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="SentenceDetectorSaTModel.pretrained">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/sentence/sentence_detector_sat/index.html#sparknlp.annotator.sentence.sentence_detector_sat.SentenceDetectorSaTModel.pretrained">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"sat_12l_sm"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"xx"</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default "sat_12l_sm"</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default "xx"</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        SentenceDetectorSaTModel</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.pretrained</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">SentenceDetectorSaTModel</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../../static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026 John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

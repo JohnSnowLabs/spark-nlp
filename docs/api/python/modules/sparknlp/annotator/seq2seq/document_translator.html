@@ -1,0 +1,842 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.annotator.seq2seq.document_translator &#8212; Spark NLP 7.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../../static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../../../static/documentation_options.js?v=efe5be6f"></script>
+    <script src="../../../../static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../static/toggleprompt.js?v=5801b3bb"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/seq2seq/document_translator';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../../static/searchtools.js"></script>
+    <script src="../../../../static/language_data.js"></script>
+    <script src="../../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
+    <img src="../../../../static/logo.png" class="logo__image only-dark pst-js-only" alt="Spark NLP 7.0.0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+    Third Party Projects
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+    Third Party Projects
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../reference/index.html">
+    API Reference
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../../sparknlp.html" class="nav-link">sparknlp</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">sparknlp.annotator.seq2seq.document_translator</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for sparknlp.annotator.seq2seq.document_translator</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2025 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the "License");</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an "AS IS" BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">"""Contains classes for the DocumentTranslator."""</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark</span><span class="w"> </span><span class="kn">import</span> <span class="n">keyword_only</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.param</span><span class="w"> </span><span class="kn">import</span> <span class="n">Param</span><span class="p">,</span> <span class="n">Params</span><span class="p">,</span> <span class="n">TypeConverters</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">JavaMLWritable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml.wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">JavaModel</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_internal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="DocumentTranslator">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DocumentTranslator</span><span class="p">(</span><span class="n">JavaModel</span><span class="p">,</span> <span class="n">_internal</span><span class="o">.</span><span class="n">AnnotatorJavaMLReadable</span><span class="p">,</span> <span class="n">JavaMLWritable</span><span class="p">,</span> <span class="n">AnnotatorProperties</span><span class="p">,</span>
+                         <span class="n">_internal</span><span class="o">.</span><span class="n">ParamsGettersSetters</span><span class="p">,</span> <span class="n">HasLlamaCppProperties</span><span class="p">,</span> <span class="n">CompletionPostProcessing</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Reads documents from any supported file type and translates them with a llama.cpp GGUF</span>
+<span class="sd">    large-language-model, all in a single Pipeline stage.</span>
+
+<span class="sd">    Internally it reads the files (PDF, Word, HTML, plain-text, etc.), splits each document into</span>
+<span class="sd">    length-bounded sentences with a ``SentenceDetectorSaTModel``, translates every sentence with</span>
+<span class="sd">    the GGUF model and merges the translations back into one ``DOCUMENT`` annotation per file.</span>
+
+<span class="sd">    All llama.cpp model and inference parameters are available (see ``AutoGGUFModel``), e.g.</span>
+<span class="sd">    ``setNCtx``, ``setNPredict``, ``setNGpuLayers``, ``setTemperature``, ``setSystemPrompt``.</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion object:</span>
+
+<span class="sd">    &gt;&gt;&gt; translator = DocumentTranslator.pretrained() \\</span>
+<span class="sd">    ...     .setContentPath("src/test/resources/reader/html/") \\</span>
+<span class="sd">    ...     .setContentType("text/html") \\</span>
+<span class="sd">    ...     .setSrcLang("English") \\</span>
+<span class="sd">    ...     .setTgtLang("French") \\</span>
+<span class="sd">    ...     .setOutputCol("translation")</span>
+
+<span class="sd">    The default model is ``"qwen3_4b_q8_0_gguf"``, default language is ``"en"``.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``NONE``               ``DOCUMENT``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    contentPath</span>
+<span class="sd">        Path to the file or directory to read documents from</span>
+<span class="sd">    contentType</span>
+<span class="sd">        MIME content-type hint forwarded to the reader (empty = auto-detect from file extension)</span>
+<span class="sd">    inputCol</span>
+<span class="sd">        DataFrame column holding raw text to parse instead of reading from contentPath</span>
+<span class="sd">    outputAsDocument</span>
+<span class="sd">        Whether to merge all extracted elements into a single DOCUMENT annotation per file</span>
+<span class="sd">    joinString</span>
+<span class="sd">        String used to join extracted elements when outputAsDocument is true</span>
+<span class="sd">    minSentenceLength</span>
+<span class="sd">        Minimum sentence length in characters for the SaT sentence detector (0 = unset)</span>
+<span class="sd">    maxSentenceLength</span>
+<span class="sd">        Maximum sentence length in characters for the SaT sentence detector (0 = unset)</span>
+<span class="sd">    sentenceThreshold</span>
+<span class="sd">        Boundary probability threshold for the SaT sentence detector</span>
+<span class="sd">    srcLang</span>
+<span class="sd">        Source language used to build the translation prompt</span>
+<span class="sd">    tgtLang</span>
+<span class="sd">        Target language used to build the translation prompt</span>
+<span class="sd">    promptTemplate</span>
+<span class="sd">        Per-sentence translation prompt template; ``{srcLang}``, ``{tgtLang}`` and ``{text}`` are</span>
+<span class="sd">        interpolated</span>
+<span class="sd">    batchSize</span>
+<span class="sd">        Number of sentences translated concurrently (llama.cpp parallel decoding slots)</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Translation is computationally expensive; a GPU is recommended. The total context ``nCtx`` is</span>
+<span class="sd">    split across the ``batchSize`` slots, so ``nCtx / batchSize`` must cover one sentence's prompt</span>
+<span class="sd">    plus ``nPredict``. Raise ``setNCtx`` when raising ``setBatchSize``, ``setMaxSentenceLength`` or</span>
+<span class="sd">    ``setNPredict``.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; translator = DocumentTranslator.pretrained() \\</span>
+<span class="sd">    ...     .setContentType("text/html") \\</span>
+<span class="sd">    ...     .setContentPath("src/test/resources/reader/html/fake-html.html") \\</span>
+<span class="sd">    ...     .setMaxSentenceLength(250) \\</span>
+<span class="sd">    ...     .setSrcLang("English") \\</span>
+<span class="sd">    ...     .setTgtLang("French") \\</span>
+<span class="sd">    ...     .setOutputCol("translation")</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([translator])</span>
+<span class="sd">    &gt;&gt;&gt; data = spark.createDataFrame([[""]]).toDF("text")</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(data).transform(data)</span>
+<span class="sd">    &gt;&gt;&gt; result.select("translation.result").show(truncate=False)</span>
+<span class="sd">    """</span>
+
+<div class="viewcode-block" id="DocumentTranslator.name">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.name">[docs]</a>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"DocumentTranslator"</span></div>
+
+<div class="viewcode-block" id="DocumentTranslator.outputAnnotatorType">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.outputAnnotatorType">[docs]</a>
+    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.contentPath">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.contentPath">[docs]</a>
+    <span class="n">contentPath</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">"contentPath"</span><span class="p">,</span>
+                        <span class="s2">"Path to the file or directory to read documents from"</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.contentType">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.contentType">[docs]</a>
+    <span class="n">contentType</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">"contentType"</span><span class="p">,</span>
+                        <span class="s2">"MIME content-type hint forwarded to the reader (empty = auto-detect)"</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.inputCol">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.inputCol">[docs]</a>
+    <span class="n">inputCol</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">"inputCol"</span><span class="p">,</span>
+                     <span class="s2">"DataFrame column holding raw text to parse instead of reading from contentPath"</span><span class="p">,</span>
+                     <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.outputAsDocument">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.outputAsDocument">[docs]</a>
+    <span class="n">outputAsDocument</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">"outputAsDocument"</span><span class="p">,</span>
+                             <span class="s2">"Whether to merge all extracted elements into a single DOCUMENT annotation per file"</span><span class="p">,</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.joinString">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.joinString">[docs]</a>
+    <span class="n">joinString</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">"joinString"</span><span class="p">,</span>
+                       <span class="s2">"String used to join extracted elements when outputAsDocument is true"</span><span class="p">,</span>
+                       <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.minSentenceLength">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.minSentenceLength">[docs]</a>
+    <span class="n">minSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">"minSentenceLength"</span><span class="p">,</span>
+                              <span class="s2">"Minimum sentence length in characters for the SaT sentence detector (0 = unset)"</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.maxSentenceLength">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.maxSentenceLength">[docs]</a>
+    <span class="n">maxSentenceLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">"maxSentenceLength"</span><span class="p">,</span>
+                              <span class="s2">"Maximum sentence length in characters for the SaT sentence detector (0 = unset)"</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.sentenceThreshold">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.sentenceThreshold">[docs]</a>
+    <span class="n">sentenceThreshold</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">"sentenceThreshold"</span><span class="p">,</span>
+                              <span class="s2">"Boundary probability threshold for the SaT sentence detector"</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.srcLang">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.srcLang">[docs]</a>
+    <span class="n">srcLang</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">"srcLang"</span><span class="p">,</span>
+                    <span class="s2">"Source language used to build the translation prompt"</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.tgtLang">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.tgtLang">[docs]</a>
+    <span class="n">tgtLang</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">"tgtLang"</span><span class="p">,</span>
+                    <span class="s2">"Target language used to build the translation prompt"</span><span class="p">,</span>
+                    <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.promptTemplate">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.promptTemplate">[docs]</a>
+    <span class="n">promptTemplate</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">"promptTemplate"</span><span class="p">,</span>
+                           <span class="s2">"Per-sentence translation prompt template; </span><span class="si">{srcLang}</span><span class="s2">, </span><span class="si">{tgtLang}</span><span class="s2"> and </span><span class="si">{text}</span><span class="s2"> are interpolated"</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.batchSize">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.batchSize">[docs]</a>
+    <span class="n">batchSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">"batchSize"</span><span class="p">,</span>
+                      <span class="s2">"Number of sentences translated concurrently (llama.cpp parallel decoding slots)"</span><span class="p">,</span>
+                      <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setContentPath">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setContentPath">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setContentPath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the path to the file or directory to read documents from."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">contentPath</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setContentType">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setContentType">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setContentType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the MIME content-type hint forwarded to the reader."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">contentType</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setInputCol">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setInputCol">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setInputCol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the DataFrame column holding raw text to parse instead of reading from contentPath."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">inputCol</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setOutputAsDocument">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setOutputAsDocument">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputAsDocument</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets whether to merge all extracted elements into a single DOCUMENT annotation per file."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputAsDocument</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setJoinString">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setJoinString">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setJoinString</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the string used to join extracted elements when outputAsDocument is true."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">joinString</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setMinSentenceLength">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setMinSentenceLength">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setMinSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the minimum sentence length in characters for the SaT sentence detector."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setMaxSentenceLength">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setMaxSentenceLength">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxSentenceLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the maximum sentence length in characters for the SaT sentence detector."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxSentenceLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setSentenceThreshold">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setSentenceThreshold">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setSentenceThreshold</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the boundary probability threshold for the SaT sentence detector."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">sentenceThreshold</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setSrcLang">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setSrcLang">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setSrcLang</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the source language used to build the translation prompt."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">srcLang</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setTgtLang">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setTgtLang">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setTgtLang</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the target language used to build the translation prompt."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">tgtLang</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setPromptTemplate">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setPromptTemplate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setPromptTemplate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the per-sentence translation prompt template."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">promptTemplate</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setBatchSize">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setBatchSize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setBatchSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the number of sentences translated concurrently (llama.cpp parallel decoding slots)."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">batchSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.setNParallel">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setNParallel">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setNParallel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Alias for :meth:`setBatchSize` (number of llama.cpp parallel decoding slots)."""</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">batchSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">"com.johnsnowlabs.nlp.annotators.seq2seq.DocumentTranslator"</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DocumentTranslator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">classname</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">java_model</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">_java_class_name</span> <span class="o">=</span> <span class="n">classname</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_java_obj</span><span class="p">(</span><span class="n">classname</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">uid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">java_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_transfer_params_from_java</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">contentPath</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+            <span class="n">contentType</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+            <span class="n">inputCol</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
+            <span class="n">outputAsDocument</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">joinString</span><span class="o">=</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
+            <span class="n">minSentenceLength</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">maxSentenceLength</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">sentenceThreshold</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span>
+            <span class="n">srcLang</span><span class="o">=</span><span class="s2">"English"</span><span class="p">,</span>
+            <span class="n">tgtLang</span><span class="o">=</span><span class="s2">"French"</span><span class="p">,</span>
+            <span class="n">promptTemplate</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">"/no_think</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"Translate the following text from </span><span class="si">{srcLang}</span><span class="s2"> into </span><span class="si">{tgtLang}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"Return only the final </span><span class="si">{tgtLang}</span><span class="s2"> translation.</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"Do not include reasoning, explanations, analysis, notes, markdown, labels, or &lt;think&gt; tags.</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"Do not repeat the source text.</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"</span><span class="si">{srcLang}</span><span class="s2">: </span><span class="si">{text}</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"</span><span class="si">{tgtLang}</span><span class="s2">:"</span>
+            <span class="p">),</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="n">useChatTemplate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">nCtx</span><span class="o">=</span><span class="mi">8192</span><span class="p">,</span>
+            <span class="n">nBatch</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+            <span class="n">nPredict</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+            <span class="n">nGpuLayers</span><span class="o">=</span><span class="mi">99</span><span class="p">,</span>
+            <span class="n">reasoningBudget</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">systemPrompt</span><span class="o">=</span>   <span class="p">(</span><span class="s2">"You are a professional document translation engine. "</span>
+                                 <span class="s2">"Output only the final translation in the target language. "</span>
+                                 <span class="s2">"Do not include reasoning, explanations, analysis, notes, markdown, labels, or &lt;think&gt; tags."</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fromAutoGGUF</span><span class="p">(</span><span class="n">auto_gguf</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Wraps a loaded ``AutoGGUFModel`` in a ``DocumentTranslator`` by calling the Scala</span>
+<span class="sd">        ``DocumentTranslator.fromAutoGGUF``, which reuses the AutoGGUF model's GGUF backend and</span>
+<span class="sd">        carries over its metadata. The wrapping is done JVM-side (rather than mutating a raw Java</span>
+<span class="sd">        object from Python) to avoid py4j releasing the shared object."""</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">_DocumentTranslatorFromAutoGGUF</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_DocumentTranslatorFromAutoGGUF</span><span class="p">(</span><span class="n">auto_gguf</span><span class="o">.</span><span class="n">_java_obj</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">DocumentTranslator</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DocumentTranslator.loadSavedModel">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.loadSavedModel">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Loads a locally saved GGUF model.</span>
+
+<span class="sd">        Internally this loads an :class:`AutoGGUFModel` from the given path and wraps it, since the</span>
+<span class="sd">        translator is backed by an AutoGGUF llama.cpp model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to the gguf model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DocumentTranslator</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.annotator.seq2seq.auto_gguf_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoGGUFModel</span>
+        <span class="n">auto_gguf</span> <span class="o">=</span> <span class="n">AutoGGUFModel</span><span class="o">.</span><span class="n">loadSavedModel</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DocumentTranslator</span><span class="o">.</span><span class="n">_fromAutoGGUF</span><span class="p">(</span><span class="n">auto_gguf</span><span class="p">)</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DocumentTranslator.pretrained">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.pretrained">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"qwen3_4b_q8_0_gguf"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"en"</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Downloads and loads a pretrained GGUF model.</span>
+
+<span class="sd">        Internally this downloads an :class:`AutoGGUFModel` and wraps it, since the translator is</span>
+<span class="sd">        backed by an AutoGGUF llama.cpp model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default "qwen3_4b_q8_0_gguf"</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default "en"</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DocumentTranslator</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        """</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.annotator.seq2seq.auto_gguf_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoGGUFModel</span>
+        <span class="n">auto_gguf</span> <span class="o">=</span> <span class="n">AutoGGUFModel</span><span class="o">.</span><span class="n">pretrained</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DocumentTranslator</span><span class="o">.</span><span class="n">_fromAutoGGUF</span><span class="p">(</span><span class="n">auto_gguf</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DocumentTranslator.close">
+<a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/seq2seq/document_translator/index.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.close">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Closes the llama.cpp model backend freeing resources. The model is reloaded when used again."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_java_obj</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../../static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026 John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

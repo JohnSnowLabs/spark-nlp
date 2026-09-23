@@ -22,5 +22,5 @@ Module contents
 
 .. automodule:: sparknlp.reader
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

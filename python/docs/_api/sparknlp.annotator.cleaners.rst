@@ -15,5 +15,5 @@ Module contents
 
 .. automodule:: sparknlp.annotator.cleaners
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
