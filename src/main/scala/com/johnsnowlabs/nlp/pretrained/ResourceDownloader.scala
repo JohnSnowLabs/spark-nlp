@@ -749,7 +749,8 @@ object PythonResourceDownloader {
     "LLMEntityExtractor" -> LLMEntityExtractor,
     "BiEncoderMultimodalEmbeddings" -> BiEncoderMultimodalEmbeddings,
     "SentenceDetectorSaTModel" -> SentenceDetectorSaTModel,
-    "CrossEncoder" -> CrossEncoder)
+    "CrossEncoder" -> CrossEncoder,
+    "BGEM3Embeddings" -> BGEM3Embeddings)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")
