@@ -33,17 +33,12 @@ jobs:
           path: docs
           if_no_artifact_found: ignore
       - name: Extract artifacts
+        id: restore-build-cache
         working-directory: docs
-        run: >
-          (7z x -o_site/ jekyll-content.zip
-          && rm jekyll-content.zip
-          && mv _site/.jekyll-metadata ./
-          && mv _site/backup-models.json ./
-          && mv _site/backup-benchmarking.json ./
-          && mv _site/backup-references.json ./)
-          || true
+        run: bash _scripts/restore_jekyll_cache.sh
       - name: Incremental build
         id: incremental-build
+        if: ${{ steps.restore-build-cache.outputs.restored == 'true' }}
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
           ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
@@ -58,7 +53,7 @@ jobs:
         continue-on-error: ${{ steps.incremental-build.outputs.require_full_build == 'true' }}
       - name: Full build
         id: full-build
-        if: ${{ steps.incremental-build.outputs.require_full_build == 'true' }}
+        if: ${{ steps.restore-build-cache.outputs.restored != 'true' || steps.incremental-build.outputs.require_full_build == 'true' }}
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
           ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}

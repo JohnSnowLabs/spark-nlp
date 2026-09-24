@@ -1,11 +1,11 @@
 require 'set'
 require 'uri'
-require 'net/http'
 require 'json'
 require 'date'
 require 'elasticsearch'
 require 'nokogiri'
 require 'aws-sdk-s3'
+require_relative '../_scripts/remote_editions'
 
 BUCKET_NAME="pypi.johnsnowlabs.com"
 SEARCH_URL = (ENV["SEARCH_ORIGIN"] || 'https://search.modelshub.johnsnowlabs.com') + '/'
@@ -100,13 +100,9 @@ end
 def editions_changed?(edition)
   if $remote_editions.empty?
     puts "Retrieving remote editions...."
-    uri = URI(SEARCH_URL)
-    res = Net::HTTP.get_response(uri)
-    if res.is_a?(Net::HTTPSuccess)
-      data = JSON.parse(res.body)
-      editions = data['meta']['aggregations']['editions']
-      $remote_editions = editions.to_set
-    end
+    started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    $remote_editions = RemoteEditions.fetch(SEARCH_URL)
+    puts "Retrieved #{$remote_editions.size} editions in #{(Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at).round(1)} seconds"
   end
   local_editions = Set.new
   local_editions << edition
