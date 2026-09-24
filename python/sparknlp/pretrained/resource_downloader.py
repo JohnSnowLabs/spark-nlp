@@ -14,13 +14,11 @@
 """Contains classes for the ResourceDownloader."""
 
 import sys
-import threading
 
 from py4j.protocol import Py4JJavaError
 from pyspark.ml import PipelineModel
 
 import sparknlp.internal as _internal
-from sparknlp.pretrained.utils import printProgress
 
 
 class ResourceDownloader(object):
@@ -94,17 +92,14 @@ class ResourceDownloader(object):
             print("Can not find the model to download please check the name!")
         else:
             print("Approximate size to download " + file_size)
-            stop_threads = False
-            t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
-            t1.start()
+            # progress is now reported by the JVM download itself (a byte-accurate bar), so no
+            # separate Python-side spinner thread here -- it used to race the JVM's own stdout
+            # writes and interleave into garbled output
             try:
                 j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, engine, skip_preferred_engine, j_dwn).apply()
             except Py4JJavaError as e:
                 sys.stdout.write("\n" + str(e))
                 raise e
-            finally:
-                stop_threads = True
-                t1.join()
 
             return reader(classname=None, java_model=j_obj)
 
@@ -149,15 +144,9 @@ class ResourceDownloader(object):
             print("Can not find the model to download please check the name!")
         else:
             print("Approx size to download " + file_size)
-            stop_threads = False
-            t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
-            t1.start()
-            try:
-                j_obj = _internal._DownloadPipeline(name, language, remote_loc).apply()
-                jmodel = PipelineModel._from_java(j_obj)
-            finally:
-                stop_threads = True
-                t1.join()
+            # see downloadModel() above: the JVM's own progress bar covers this now
+            j_obj = _internal._DownloadPipeline(name, language, remote_loc).apply()
+            jmodel = PipelineModel._from_java(j_obj)
 
             return jmodel
 

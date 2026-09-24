@@ -43,7 +43,8 @@ object ConfigLoader {
       getConfigInfo(ConfigHelper.sessionToken, "") ++
       getConfigInfo(ConfigHelper.awsProfileName, "") ++
       getConfigInfo(ConfigHelper.awsRegion, "") ++
-      getConfigInfo(ConfigHelper.s3SocketTimeout, "0") ++
+      getConfigInfo(ConfigHelper.s3SocketTimeout, "900000") ++
+      getConfigInfo(ConfigHelper.pretrainedDownloadThreads, "10") ++
       getConfigInfo(ConfigHelper.storageTmpDir, hadoopTmpDir) ++
       getConfigInfo(ConfigHelper.serializationMode, "object") ++
       getConfigInfo(ConfigHelper.useBroadcast, "true") ++
