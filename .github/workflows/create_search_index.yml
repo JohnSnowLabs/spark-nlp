@@ -5,15 +5,19 @@ on:
     branches:
       - master
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Create search index"]
+    types: [completed]
 
 concurrency:
-  # Make sure only workflow run at a time for create_search_index.yml
-  group: ${{ github.workflow }}
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.id || github.run_id }}
+  cancel-in-progress: false
 
 jobs:
   jekyll:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: RAM32GB
-    timeout-minutes: 600
+    timeout-minutes: 90
     environment: jekyll
     steps:
       - uses: actions/checkout@v2
@@ -37,7 +41,7 @@ jobs:
         id: restore-build-cache
         working-directory: docs
         run: bash _scripts/restore_jekyll_cache.sh
-      - name: Build in waves
+      - name: Build one wave
         id: jekyll-waves
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
@@ -53,14 +57,18 @@ jobs:
         run: |
           set -euo pipefail
           echo "jekyll_wave_complete=false" >> "$GITHUB_OUTPUT"
-          for wave in $(seq 1 20); do
-            echo "Starting Jekyll wave ${wave}"
-            bundle exec jekyll build --incremental
-            if grep -q '^jekyll_wave_complete=true$' "$GITHUB_OUTPUT"; then
-              echo "Jekyll corpus complete after wave ${wave}"
-              break
-            fi
-          done
+          echo "Starting Jekyll wave"
+          bundle exec jekyll build --incremental
+      - name: Zip wave checkpoint
+        if: always()
+        run: bash docs/_scripts/zip_jekyll_checkpoint.sh
+      - name: Upload wave checkpoint
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jekyll-build
+          path: ./jekyll-content.zip
+          overwrite: true
       - uses: actions/setup-node@v3
         if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}
         with:
@@ -83,17 +91,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/_site
-      - name: Zip contents for artifacts
-        run: |
-          7z a -tzip jekyll-content.zip \
-            ./docs/_site/* \
-            ./docs/.jekyll-metadata \
-            ./docs/backup-models.json \
-            ./docs/backup-benchmarking.json \
-            ./docs/backup-references.json
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: jekyll-build
-          path: |
-            ./jekyll-content.zip
