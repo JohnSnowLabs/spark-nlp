@@ -8,9 +8,17 @@ if [[ ! -f jekyll-content.zip ]]; then
 fi
 
 7z x -o_site/ jekyll-content.zip
-mv _site/.jekyll-metadata ./
-mv _site/backup-models.json ./
-mv _site/backup-benchmarking.json ./
-mv _site/backup-references.json ./
+if [[ -f _site/.jekyll-metadata ]]; then
+  mv _site/.jekyll-metadata ./
+fi
+for name in backup-models.json backup-benchmarking.json backup-references.json; do
+  if [[ -f "_site/${name}" ]]; then
+    mv "_site/${name}" ./
+  fi
+done
 rm jekyll-content.zip
+if [[ ! -f .jekyll-metadata ]]; then
+  printf 'Jekyll artifact did not contain incremental metadata.\n' >&2
+  exit 1
+fi
 printf 'restored=true\n' >> "$GITHUB_OUTPUT"

@@ -18,7 +18,7 @@ RUBY_HELPER = ROOT / "docs/_scripts/remote_editions.rb"
 
 
 class RestoreCacheTests(unittest.TestCase):
-    def run_restore(self, archive=False, extraction_succeeds=True):
+    def run_restore(self, archive=False, extraction_succeeds=True, include_optional=True):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             output = root / "github-output"
@@ -28,12 +28,17 @@ class RestoreCacheTests(unittest.TestCase):
             bin_dir = root / "bin"
             bin_dir.mkdir()
             seven_zip = bin_dir / "7z"
+            optional = (
+                "touch _site/backup-models.json "
+                "_site/backup-benchmarking.json _site/backup-references.json\n"
+                if include_optional else ""
+            )
             seven_zip.write_text(
                 "#!/usr/bin/env bash\n"
                 + (
                     "mkdir -p _site\n"
-                    "touch _site/.jekyll-metadata _site/backup-models.json "
-                    "_site/backup-benchmarking.json _site/backup-references.json\n"
+                    "touch _site/.jekyll-metadata\n"
+                    + optional
                     if extraction_succeeds else "exit 2\n"
                 )
             )
@@ -65,6 +70,15 @@ class RestoreCacheTests(unittest.TestCase):
         result, restored, _, _ = self.run_restore(archive=True, extraction_succeeds=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertNotIn("restored=true", restored)
+
+    def test_metadata_only_archive_restores_without_optional_backups(self):
+        result, restored, metadata, zip_exists = self.run_restore(
+            archive=True, include_optional=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("restored=true", restored)
+        self.assertTrue(metadata)
+        self.assertFalse(zip_exists)
 
 
 class ZipCheckpointTests(unittest.TestCase):

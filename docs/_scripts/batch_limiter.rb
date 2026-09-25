@@ -43,9 +43,14 @@ module BatchLimiter
   end
 
   def finish_wave
-    flush_metadata
+    flush_checkpoint
     exit 0 unless ENV["JEKYLL_WAVE_NO_EXIT"] == "1"
     false
+  end
+
+  def flush_checkpoint
+    flush_metadata
+    flush_backups
   end
 
   def flush_metadata
@@ -56,6 +61,25 @@ module BatchLimiter
   rescue StandardError => error
     warn "Unable to flush Jekyll metadata before wave exit: #{error}"
     exit 1
+  end
+
+  def flush_backups
+    return unless defined?(Jekyll) && Jekyll.respond_to?(:sites)
+
+    site = Jekyll.sites&.first
+    return unless site
+
+    source = site.config["source"]
+    write_json(File.join(source, "backup-models.json"), models_json)
+    write_json(File.join(source, "backup-benchmarking.json"), models_benchmarking_json)
+    write_json(File.join(source, "backup-references.json"), models_references_json)
+  rescue StandardError => error
+    warn "Unable to flush Jekyll backups before wave exit: #{error}"
+    exit 1
+  end
+
+  def write_json(path, value)
+    File.write(path, (value || {}).to_json)
   end
 
   def write_status
