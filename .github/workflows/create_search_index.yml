@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 90
     environment: jekyll
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 20
       - uses: ruby/setup-ruby@3fee6763234110473bd57dd4595c5199fce2c510 # v1.258.0, Node 20; RAM32GB cannot run node24 on @v1
@@ -27,7 +27,7 @@ jobs:
           working-directory: docs
           bundler-cache: true
       - name: Download artifacts
-        uses: dawidd6/action-download-artifact@v21
+        uses: dawidd6/action-download-artifact@v6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workflow: create_search_index.yml
@@ -72,7 +72,7 @@ jobs:
         uses: peter-evans/repository-dispatch@v3
         with:
           event-type: jekyll-wave
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v4
         if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}
         with:
           node-version: 16
@@ -90,7 +90,7 @@ jobs:
           mv static ../_site/
       - name: Deploy to GitHub Pages
         if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@47f197a2200bb9de68ba5f48fad1c088eb1c4a32 # v4.0.0, Node 20; v4 tag is node24
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/_site
