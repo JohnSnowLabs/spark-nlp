@@ -65,20 +65,19 @@ puts BatchLimiter.deferred?
         self.assertIn("types: [jekyll-wave]", workflow)
         self.assertNotIn("workflow_run:", workflow)
         self.assertIn("actions/checkout@v4", workflow)
-        self.assertIn("dawidd6/action-download-artifact@v6", workflow)
-        self.assertIn("actions/setup-node@v4", workflow)
-        self.assertIn("peaceiris/actions-gh-pages@47f197a2200bb9de68ba5f48fad1c088eb1c4a32", workflow)
-        self.assertNotIn("actions/checkout@v5", workflow)
-        self.assertNotIn("actions/setup-node@v6", workflow)
-        self.assertNotIn("peaceiris/actions-gh-pages@v4", workflow)
-        self.assertNotIn("peaceiris/actions-gh-pages@v3", workflow)
+        self.assertIn("dawidd6/action-download-artifact@v2", workflow)
+        self.assertIn("peaceiris/actions-gh-pages@v3", workflow)
+        self.assertIn("ruby/setup-ruby@v1", workflow)
+        self.assertIn("gh api --method POST repos/${{ github.repository }}/dispatches", workflow)
+        self.assertNotIn("peter-evans/repository-dispatch", workflow)
+        self.assertNotIn("dawidd6/action-download-artifact@v6", workflow)
         self.assertNotIn("dawidd6/action-download-artifact@v21", workflow)
-        self.assertIn("ruby/setup-ruby@3fee6763234110473bd57dd4595c5199fce2c510", workflow)
-        self.assertNotIn("ruby/setup-ruby@v1", workflow)
+        self.assertNotIn("peaceiris/actions-gh-pages@v4", workflow)
+        self.assertNotIn("peaceiris/actions-gh-pages@47f197a", workflow)
         self.assertNotIn("for wave in", workflow)
         self.assertLess(
             workflow.index("name: Upload wave checkpoint"),
-            workflow.index("event-type: jekyll-wave"),
+            workflow.index("event_type=jekyll-wave"),
         )
 
 
