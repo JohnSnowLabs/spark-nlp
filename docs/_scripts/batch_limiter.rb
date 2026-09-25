@@ -33,12 +33,18 @@ module BatchLimiter
     if allowed >= limit
       @deferred = true
       warn "Jekyll wave cap reached at #{allowed} posts; remaining posts deferred"
-      return false
+      write_status
+      return finish_wave
     end
 
     @allowed = allowed + 1
     yield path if block_given?
     true
+  end
+
+  def finish_wave
+    exit 0 unless ENV["JEKYLL_WAVE_NO_EXIT"] == "1"
+    false
   end
 
   def write_status

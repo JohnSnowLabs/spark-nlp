@@ -26,6 +26,7 @@ class BatchLimiterTests(unittest.TestCase):
             env = {
                 **os.environ,
                 "JEKYLL_POST_BATCH": "2",
+                "JEKYLL_WAVE_NO_EXIT": "1",
                 "GITHUB_OUTPUT": str(output),
             }
             code = """
@@ -46,6 +47,23 @@ puts BatchLimiter.deferred?
             self.assertEqual(recorded, "a.md,b.md")
             self.assertEqual(deferred, "true")
             self.assertIn("jekyll_wave_complete=false", output.read_text())
+
+    def test_wave_cap_exits_the_build_instead_of_continuing(self):
+        source = LIMITER.read_text()
+        self.assertIn("exit 0", source)
+        self.assertIn("finish_wave", source)
+        workflow = WORKFLOW.read_text()
+        self.assertIn("actions/upload-artifact@v4", workflow)
+        self.assertLess(
+            workflow.index("name: Zip wave checkpoint"),
+            workflow.index("name: Deploy to GitHub Pages"),
+        )
+        self.assertIn("if: always()", workflow)
+        self.assertIn("overwrite: true", workflow)
+        self.assertIn("docs/_scripts/zip_jekyll_checkpoint.sh", workflow)
+        self.assertIn("workflow_run:", workflow)
+        self.assertIn("timeout-minutes: 90", workflow)
+        self.assertNotIn("for wave in", workflow)
 
 
 class SearchIndexBatchTests(unittest.TestCase):

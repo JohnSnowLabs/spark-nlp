@@ -127,8 +127,9 @@ class RemoteEditionsTests(unittest.TestCase):
 class WorkflowTests(unittest.TestCase):
     def test_missing_cache_skips_incremental_build_and_runs_full_build(self):
         workflow = (ROOT / ".github/workflows/create_search_index.yml").read_text()
-        self.assertNotIn("rm -f .jekyll-metadata", workflow)
         self.assertIn("JEKYLL_POST_BATCH", workflow)
+        self.assertIn("workflow_run:", workflow)
+        self.assertNotIn("rm -f .jekyll-metadata", workflow)
         self.assertIn("jekyll_wave_complete", workflow)
 
     def test_search_plugin_uses_bounded_remote_edition_fetch(self):
