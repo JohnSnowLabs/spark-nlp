@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 20
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@3fee6763234110473bd57dd4595c5199fce2c510 # v1.258.0, Node 20; RAM32GB cannot run node24 on @v1
         with:
           ruby-version: 2.7
           working-directory: docs

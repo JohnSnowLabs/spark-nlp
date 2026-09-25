@@ -69,7 +69,8 @@ puts BatchLimiter.deferred?
         self.assertIn("actions/setup-node@v6", workflow)
         self.assertIn("peaceiris/actions-gh-pages@v4", workflow)
         self.assertNotIn("actions/checkout@v2", workflow)
-        self.assertNotIn("actions/setup-node@v3", workflow)
+        self.assertIn("ruby/setup-ruby@3fee6763234110473bd57dd4595c5199fce2c510", workflow)
+        self.assertNotIn("ruby/setup-ruby@v1", workflow)
         self.assertNotIn("for wave in", workflow)
         self.assertLess(
             workflow.index("name: Upload wave checkpoint"),
