@@ -6,6 +6,7 @@ require 'elasticsearch'
 require 'nokogiri'
 require 'aws-sdk-s3'
 require_relative '../_scripts/remote_editions'
+require_relative '../_scripts/batch_limiter'
 
 BUCKET_NAME="pypi.johnsnowlabs.com"
 SEARCH_URL = (ENV["SEARCH_ORIGIN"] || 'https://search.modelshub.johnsnowlabs.com') + '/'
@@ -561,14 +562,10 @@ Jekyll::Hooks.register :site, :post_render do |site|
     end
   end
   bulk_indexer.execute
-
-  if client and (not is_incremental or ENV["FULL_BUILD"])
-    # For full build, remove all documents not in site.posts and belonging to the origin
-    client.delete_by_query index: ELASTICSEARCH_INDEX_NAME, body: {query: {bool: { must: { match: {origin: ORIGIN }}, must_not: {ids: {values: all_posts_id}}}}}
-  end
 end
 
 Jekyll::Hooks.register :site, :post_write do |site|
+  BatchLimiter.write_status
   is_incremental = site.config['incremental']
   backup_filename = File.join(site.config['source'], 'backup-models.json')
   backup_benchmarking_filename = File.join(site.config['source'], 'backup-benchmarking.json')
@@ -605,12 +602,17 @@ Jekyll::Hooks.register :site, :post_write do |site|
     models_references_json = backup_references_data.merge(models_references_json)
   end
 
+  if client && BatchLimiter.complete? && (not is_incremental or ENV["FULL_BUILD"])
+    # Only after the last wave, using the merged catalog so earlier waves are not deleted.
+    client.delete_by_query index: ELASTICSEARCH_INDEX_NAME, body: {query: {bool: { must: { match: {origin: ORIGIN }}, must_not: {ids: {values: models_json.keys}}}}}
+  end
+
   filename = File.join(site.config['destination'], 'backup-modelss3.json')
 
   File.write(filename, models_json.values.to_json)
   File.write(backup_filename, models_json.to_json)
-  # models.json moved to pypi s3 bucket
-  upload_file_to_s3_bucket(filename)
+  # Publish the public catalog only after every post has been processed.
+  upload_file_to_s3_bucket(filename) if BatchLimiter.complete?
 
   File.delete(filename)
 

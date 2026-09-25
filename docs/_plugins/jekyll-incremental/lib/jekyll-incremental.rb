@@ -13,6 +13,7 @@ module Jekyll
 
     def add(path)
       return true unless File.exist?(path)
+      return cache[path] = false if post_path?(path) && !BatchLimiter.allow?(path)
 
       metadata[path] = {
         "digest" => digest(path),
@@ -22,6 +23,10 @@ module Jekyll
     end
 
     private
+    def post_path?(path)
+      path.to_s.include?("/_posts/")
+    end
+
     def existing_file_modified?(path)
       # If one of this file dependencies have been modified,
       # set the regeneration bit for both the dependency and the file to true
