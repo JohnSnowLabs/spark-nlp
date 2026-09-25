@@ -13,7 +13,12 @@ module Jekyll
 
     def add(path)
       return true unless File.exist?(path)
-      return cache[path] = false if post_path?(path) && !BatchLimiter.allow?(path)
+      return false if post_path?(path) && !BatchLimiter.allow?(path) { |allowed_path|
+        metadata[allowed_path] = {
+          "digest" => digest(allowed_path),
+          "deps"  => [],
+        }
+      }
 
       metadata[path] = {
         "digest" => digest(path),
