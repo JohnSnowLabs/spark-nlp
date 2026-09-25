@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 concurrency:
   # Make sure only workflow run at a time for create_search_index.yml
@@ -36,9 +37,8 @@ jobs:
         id: restore-build-cache
         working-directory: docs
         run: bash _scripts/restore_jekyll_cache.sh
-      - name: Incremental build
-        id: incremental-build
-        if: ${{ steps.restore-build-cache.outputs.restored == 'true' }}
+      - name: Build in waves
+        id: jekyll-waves
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
           ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
@@ -47,31 +47,28 @@ jobs:
           ORIGIN: ${{ secrets.ORIGIN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.MODELS_PUBLIC_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.MODELS_SECRET_KEY }}
+          JEKYLL_POST_BATCH: "10000"
+          FULL_BUILD: "1"
         working-directory: docs
         run: |
-          bundle exec jekyll build --incremental
-        continue-on-error: ${{ steps.incremental-build.outputs.require_full_build == 'true' }}
-      - name: Full build
-        id: full-build
-        if: ${{ steps.restore-build-cache.outputs.restored != 'true' || steps.incremental-build.outputs.require_full_build == 'true' }}
-        env:
-          ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
-          ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
-          ELASTICSEARCH_INDEX_NAME: ${{ secrets.ELASTICSEARCH_INDEX_NAME }}
-          SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
-          ORIGIN: ${{ secrets.ORIGIN }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.MODELS_PUBLIC_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.MODELS_SECRET_KEY }}
-        working-directory: docs
-        run: |
-          rm -f .jekyll-metadata
-          FULL_BUILD=1 bundle exec jekyll build --incremental
+          set -euo pipefail
+          echo "jekyll_wave_complete=false" >> "$GITHUB_OUTPUT"
+          for wave in $(seq 1 20); do
+            echo "Starting Jekyll wave ${wave}"
+            bundle exec jekyll build --incremental
+            if grep -q '^jekyll_wave_complete=true$' "$GITHUB_OUTPUT"; then
+              echo "Jekyll corpus complete after wave ${wave}"
+              break
+            fi
+          done
       - uses: actions/setup-node@v3
+        if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}
         with:
           node-version: 16
           cache: yarn
           cache-dependency-path: docs/_frontend/yarn.lock
       - name: Build frontend
+        if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}
         working-directory: docs/_frontend
         env:
           SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
@@ -81,6 +78,7 @@ jobs:
           yarn run build
           mv static ../_site/
       - name: Deploy to GitHub Pages
+        if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

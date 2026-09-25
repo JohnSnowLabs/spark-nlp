@@ -126,21 +126,10 @@ class RemoteEditionsTests(unittest.TestCase):
 
 class WorkflowTests(unittest.TestCase):
     def test_missing_cache_skips_incremental_build_and_runs_full_build(self):
-        workflow = ROOT / ".github/workflows/create_search_index.yml"
-        parsed = subprocess.run(
-            ["ruby", "-ryaml", "-rjson", "-e",
-             "puts JSON.generate(YAML.load_file(ARGV.fetch(0)))", str(workflow)],
-            capture_output=True, text=True, check=True,
-        )
-        steps = json.loads(parsed.stdout)["jobs"]["jekyll"]["steps"]
-        cache = next(step for step in steps if step.get("name") == "Extract artifacts")
-        incremental = next(step for step in steps if step.get("name") == "Incremental build")
-        full = next(step for step in steps if step.get("name") == "Full build")
-        self.assertEqual(cache["id"], "restore-build-cache")
-        self.assertIn("_scripts/restore_jekyll_cache.sh", cache["run"])
-        self.assertIn("steps.restore-build-cache.outputs.restored == 'true'", incremental["if"])
-        self.assertIn("steps.restore-build-cache.outputs.restored != 'true'", full["if"])
-        self.assertIn("steps.incremental-build.outputs.require_full_build == 'true'", full["if"])
+        workflow = (ROOT / ".github/workflows/create_search_index.yml").read_text()
+        self.assertNotIn("rm -f .jekyll-metadata", workflow)
+        self.assertIn("JEKYLL_POST_BATCH", workflow)
+        self.assertIn("jekyll_wave_complete", workflow)
 
     def test_search_plugin_uses_bounded_remote_edition_fetch(self):
         plugin = (ROOT / "docs/_plugins/search_index.rb").read_text()
