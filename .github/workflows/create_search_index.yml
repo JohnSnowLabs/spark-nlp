@@ -67,6 +67,7 @@ jobs:
           name: jekyll-build
           path: ./jekyll-content.zip
           overwrite: true
+          if-no-files-found: error
       - name: Dispatch next wave
         if: steps.jekyll-waves.outputs.jekyll_wave_complete != 'true'
         env:

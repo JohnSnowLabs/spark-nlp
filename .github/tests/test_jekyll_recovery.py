@@ -13,6 +13,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 RESTORE = ROOT / "docs/_scripts/restore_jekyll_cache.sh"
+ZIP = ROOT / "docs/_scripts/zip_jekyll_checkpoint.sh"
 RUBY_HELPER = ROOT / "docs/_scripts/remote_editions.rb"
 
 
@@ -64,6 +65,41 @@ class RestoreCacheTests(unittest.TestCase):
         result, restored, _, _ = self.run_restore(archive=True, extraction_succeeds=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertNotIn("restored=true", restored)
+
+
+class ZipCheckpointTests(unittest.TestCase):
+    def run_zip(self, metadata=True, seven_zip_writes=True):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            script_dir = root / "docs" / "_scripts"
+            script_dir.mkdir(parents=True)
+            script = script_dir / "zip_jekyll_checkpoint.sh"
+            script.write_text(ZIP.read_text())
+            script.chmod(0o755)
+            if metadata:
+                (root / "docs" / ".jekyll-metadata").write_text("{}\n")
+            bin_dir = root / "bin"
+            bin_dir.mkdir()
+            seven_zip = bin_dir / "7z"
+            seven_zip.write_text(
+                "#!/usr/bin/env bash\n"
+                + ("printf 'zip' > jekyll-content.zip\n" if seven_zip_writes else "exit 2\n")
+            )
+            seven_zip.chmod(0o755)
+            return subprocess.run(
+                ["bash", str(script)], cwd=root, capture_output=True, text=True,
+                env={**os.environ, "PATH": f"{bin_dir}:{os.environ['PATH']}"},
+            )
+
+    def test_zip_finds_metadata_when_run_from_repo_root(self):
+        result = self.run_zip()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("Checkpoint zip written:", result.stdout)
+
+    def test_missing_metadata_fails_instead_of_uploading_nothing(self):
+        result = self.run_zip(metadata=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("No Jekyll metadata to checkpoint", result.stderr)
 
 
 class RemoteEditionsTests(unittest.TestCase):

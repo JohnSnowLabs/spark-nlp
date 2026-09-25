@@ -68,6 +68,7 @@ puts BatchLimiter.deferred?
         self.assertIn("dawidd6/action-download-artifact@v2", workflow)
         self.assertIn("peaceiris/actions-gh-pages@v3", workflow)
         self.assertIn("ruby/setup-ruby@v1", workflow)
+        self.assertIn("if-no-files-found: error", workflow)
         self.assertIn("gh api --method POST repos/${{ github.repository }}/dispatches", workflow)
         self.assertNotIn("peter-evans/repository-dispatch", workflow)
         self.assertNotIn("dawidd6/action-download-artifact@v6", workflow)
