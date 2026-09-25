@@ -92,6 +92,7 @@ trait ReadOnnxModel {
     val srcPath = new Path(path, localModelFile)
     val fileSystem = getFileSystem(path, spark)
     val localTmpFolder = if (tmpFolder.isDefined) tmpFolder.get else createTmpDirectory(suffix)
+    var stagedExternalData = false
 
     try { // make sure to delete tmp folder
       fileSystem.copyToLocalFile(srcPath, new Path(localTmpFolder))
@@ -111,6 +112,7 @@ trait ReadOnnxModel {
         val onnxDataFilePath = new Path(onnxDataFile.get)
         if (fileSystem.exists(onnxDataFilePath)) {
           fileSystem.copyToLocalFile(onnxDataFilePath, new Path(localTmpFolder))
+          stagedExternalData = true
         }
       }
 
@@ -127,8 +129,14 @@ trait ReadOnnxModel {
         dataFileSuffix = dataFilePostfix)
 
     } finally {
-      // 4. Delete localTmpFolder
-      if (tmpFolder.isEmpty) deleteTmpDirectory(localTmpFolder)
+      if (tmpFolder.isEmpty) {
+        if (stagedExternalData) {
+          try FileUtils.forceDeleteOnExit(new File(localTmpFolder))
+          catch {
+            case _: Exception => // ignore
+          }
+        } else deleteTmpDirectory(localTmpFolder)
+      }
     }
   }
 
