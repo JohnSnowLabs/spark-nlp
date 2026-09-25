@@ -287,6 +287,18 @@ all_posts_id = []
 
 all_deleted_posts = []
 
+$search_index_started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+$search_index_posts_seen = 0
+
+def log_search_index_progress(force: false)
+  return unless force || ($search_index_posts_seen % 1000).zero?
+
+  elapsed = Process.clock_gettime(Process::CLOCK_MONOTONIC) - $search_index_started_at
+  rate = elapsed.positive? ? ($search_index_posts_seen / elapsed) : 0
+  puts "Search index progress: #{$search_index_posts_seen} posts in #{elapsed.round(1)}s (#{rate.round(1)} posts/s)"
+  $stdout.flush
+end
+
 def is_latest?(group, model)
   models = group[model[:uniq_key]]
   Date.parse(model[:date]) == models.map { |m| Date.parse(m[:date])}.max
@@ -396,6 +408,8 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   name_language_editions_sparkversion_to_models_mapping[key] = [] unless name_language_editions_sparkversion_to_models_mapping.has_key? key
   name_language_editions_sparkversion_to_models_mapping[key] << model
   all_posts_id << model[:id]
+  $search_index_posts_seen += 1
+  log_search_index_progress
 end
 
 client = nil
@@ -502,6 +516,9 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
 end
 
 Jekyll::Hooks.register :site, :post_render do |site|
+  log_search_index_progress(force: true)
+  puts "Search index post_render: indexing #{uniq_to_models_mapping.size} unique models"
+  $stdout.flush
   is_incremental = site.config['incremental']
   bulk_indexer = BulkIndexer.new(client)
 

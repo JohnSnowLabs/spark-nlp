@@ -147,6 +147,12 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("RemoteEditions.fetch(SEARCH_URL)", plugin)
         self.assertNotIn("Net::HTTP.get_response(uri)", plugin)
 
+    def test_search_plugin_logs_progress_during_post_render(self):
+        plugin = (ROOT / "docs/_plugins/search_index.rb").read_text()
+        self.assertIn("Search index progress:", plugin)
+        self.assertIn("$stdout.flush", plugin)
+        self.assertIn("Search index post_render:", plugin)
+
 
 if __name__ == "__main__":
     unittest.main()
