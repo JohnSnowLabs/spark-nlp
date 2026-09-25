@@ -108,6 +108,7 @@ class SearchIndexBatchTests(unittest.TestCase):
         self.assertIn("flush_metadata", limiter)
         self.assertLess(limiter.index("flush_checkpoint"), limiter.index("exit 0 unless"))
         self.assertIn("flush_backups", limiter)
-        self.assertIn("backup-models.json", limiter)
+        self.assertIn("catalog(\"models_json\")", limiter)
+        self.assertNotIn("write_json(File.join(source, \"backup-models.json\"), models_json)", limiter)
         incremental = (ROOT / "docs/_plugins/jekyll-incremental/lib/jekyll-incremental.rb").read_text()
         self.assertIn("BatchLimiter.allow?(path) { |allowed_path|", incremental)

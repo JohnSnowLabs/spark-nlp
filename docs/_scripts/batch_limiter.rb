@@ -70,12 +70,20 @@ module BatchLimiter
     return unless site
 
     source = site.config["source"]
-    write_json(File.join(source, "backup-models.json"), models_json)
-    write_json(File.join(source, "backup-benchmarking.json"), models_benchmarking_json)
-    write_json(File.join(source, "backup-references.json"), models_references_json)
+    write_json(File.join(source, "backup-models.json"), catalog("models_json"))
+    write_json(File.join(source, "backup-benchmarking.json"), catalog("models_benchmarking_json"))
+    write_json(File.join(source, "backup-references.json"), catalog("models_references_json"))
   rescue StandardError => error
     warn "Unable to flush Jekyll backups before wave exit: #{error}"
     exit 1
+  end
+
+  def catalog(name)
+    return {} unless defined?(Jekyll) && Jekyll.const_defined?(:Hooks)
+
+    Object.const_get(name)
+  rescue NameError
+    {}
   end
 
   def write_json(path, value)
