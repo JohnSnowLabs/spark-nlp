@@ -104,3 +104,8 @@ class SearchIndexBatchTests(unittest.TestCase):
         self.assertNotIn("rm -f .jekyll-metadata", workflow)
         self.assertIn("jekyll_wave_complete", workflow)
         self.assertIn("if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}", workflow)
+        limiter = (ROOT / "docs/_scripts/batch_limiter.rb").read_text()
+        self.assertIn("flush_metadata", limiter)
+        self.assertLess(limiter.index("flush_metadata"), limiter.index("exit 0 unless"))
+        incremental = (ROOT / "docs/_plugins/jekyll-incremental/lib/jekyll-incremental.rb").read_text()
+        self.assertIn("BatchLimiter.allow?(path) { |allowed_path|", incremental)

@@ -43,8 +43,19 @@ module BatchLimiter
   end
 
   def finish_wave
+    flush_metadata
     exit 0 unless ENV["JEKYLL_WAVE_NO_EXIT"] == "1"
     false
+  end
+
+  def flush_metadata
+    return unless defined?(Jekyll) && Jekyll.respond_to?(:sites)
+
+    site = Jekyll.sites&.first
+    site&.regenerator&.write_metadata
+  rescue StandardError => error
+    warn "Unable to flush Jekyll metadata before wave exit: #{error}"
+    exit 1
   end
 
   def write_status
