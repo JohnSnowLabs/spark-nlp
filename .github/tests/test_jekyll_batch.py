@@ -61,9 +61,15 @@ puts BatchLimiter.deferred?
         self.assertIn("if: always()", workflow)
         self.assertIn("overwrite: true", workflow)
         self.assertIn("docs/_scripts/zip_jekyll_checkpoint.sh", workflow)
-        self.assertIn("workflow_run:", workflow)
+        self.assertIn("repository_dispatch:", workflow)
+        self.assertIn("types: [jekyll-wave]", workflow)
+        self.assertNotIn("workflow_run:", workflow)
         self.assertIn("timeout-minutes: 90", workflow)
         self.assertNotIn("for wave in", workflow)
+        self.assertLess(
+            workflow.index("name: Upload wave checkpoint"),
+            workflow.index("event-type: jekyll-wave"),
+        )
 
 
 class SearchIndexBatchTests(unittest.TestCase):

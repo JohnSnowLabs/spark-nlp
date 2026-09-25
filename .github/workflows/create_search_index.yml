@@ -5,17 +5,15 @@ on:
     branches:
       - master
   workflow_dispatch:
-  workflow_run:
-    workflows: ["Create search index"]
-    types: [completed]
+  repository_dispatch:
+    types: [jekyll-wave]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.workflow_run.id || github.run_id }}
+  group: ${{ github.workflow }}
   cancel-in-progress: false
 
 jobs:
   jekyll:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: RAM32GB
     timeout-minutes: 90
     environment: jekyll
@@ -69,6 +67,11 @@ jobs:
           name: jekyll-build
           path: ./jekyll-content.zip
           overwrite: true
+      - name: Dispatch next wave
+        if: steps.jekyll-waves.outputs.jekyll_wave_complete != 'true'
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          event-type: jekyll-wave
       - uses: actions/setup-node@v3
         if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}
         with:
