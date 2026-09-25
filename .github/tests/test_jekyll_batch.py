@@ -64,7 +64,12 @@ puts BatchLimiter.deferred?
         self.assertIn("repository_dispatch:", workflow)
         self.assertIn("types: [jekyll-wave]", workflow)
         self.assertNotIn("workflow_run:", workflow)
-        self.assertIn("timeout-minutes: 90", workflow)
+        self.assertIn("actions/checkout@v5", workflow)
+        self.assertIn("dawidd6/action-download-artifact@v21", workflow)
+        self.assertIn("actions/setup-node@v6", workflow)
+        self.assertIn("peaceiris/actions-gh-pages@v4", workflow)
+        self.assertNotIn("actions/checkout@v2", workflow)
+        self.assertNotIn("actions/setup-node@v3", workflow)
         self.assertNotIn("for wave in", workflow)
         self.assertLess(
             workflow.index("name: Upload wave checkpoint"),
