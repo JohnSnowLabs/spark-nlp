@@ -9,13 +9,22 @@ if [[ ! -f docs/.jekyll-metadata ]]; then
   exit 1
 fi
 
-rm -f jekyll-content.zip
-7z a -tzip jekyll-content.zip \
+paths=(./docs/.jekyll-metadata)
+for path in \
   ./docs/_site \
-  ./docs/.jekyll-metadata \
   ./docs/backup-models.json \
   ./docs/backup-benchmarking.json \
   ./docs/backup-references.json
+do
+  if [[ -e "$path" ]]; then
+    paths+=("$path")
+  else
+    echo "Checkpoint skipping missing ${path}" >&2
+  fi
+done
+
+rm -f jekyll-content.zip
+7z a -tzip jekyll-content.zip "${paths[@]}"
 if [[ ! -s jekyll-content.zip ]]; then
   echo "Checkpoint zip was not written: ${ROOT}/jekyll-content.zip" >&2
   exit 1
