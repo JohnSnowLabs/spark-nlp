@@ -99,11 +99,17 @@ class SearchIndexBatchTests(unittest.TestCase):
 
     def test_workflow_loops_waves_and_keeps_metadata_between_them(self):
         workflow = WORKFLOW.read_text()
+        plugin = PLUGIN.read_text()
         self.assertIn("workflow_dispatch:", workflow)
         self.assertIn("JEKYLL_POST_BATCH", workflow)
         self.assertNotIn("rm -f .jekyll-metadata", workflow)
         self.assertIn("jekyll_wave_complete", workflow)
         self.assertIn("if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}", workflow)
+        self.assertIn("note_rendered", plugin)
+        self.assertLess(
+            plugin.index("BatchLimiter.note_rendered(post.path)"),
+            plugin.index("Extractor.new(post.content)"),
+        )
         limiter = (ROOT / "docs/_scripts/batch_limiter.rb").read_text()
         self.assertIn("flush_metadata", limiter)
         self.assertLess(limiter.index("flush_checkpoint"), limiter.index("exit 0 unless"))

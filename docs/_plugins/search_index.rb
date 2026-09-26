@@ -307,6 +307,7 @@ end
 
 
 Jekyll::Hooks.register :posts, :pre_render do |post|
+  BatchLimiter.note_rendered(post.path)
   extractor = Extractor.new(post.content)
   doc_type = extractor.doc_type
   if doc_type.nil?
