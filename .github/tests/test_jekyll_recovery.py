@@ -29,15 +29,23 @@ class RestoreCacheTests(unittest.TestCase):
             bin_dir.mkdir()
             seven_zip = bin_dir / "7z"
             optional = (
-                "touch _site/backup-models.json "
-                "_site/backup-benchmarking.json _site/backup-references.json\n"
+                "touch \"$out/backup-models.json\" "
+                "\"$out/backup-benchmarking.json\" \"$out/backup-references.json\"\n"
                 if include_optional else ""
             )
             seven_zip.write_text(
                 "#!/usr/bin/env bash\n"
+                "out=.\n"
+                "while [[ $# -gt 0 ]]; do\n"
+                "  case \"$1\" in\n"
+                "    -o*) out=\"${1#-o}\";;\n"
+                "  esac\n"
+                "  shift\n"
+                "done\n"
                 + (
-                    "mkdir -p _site\n"
-                    "touch _site/.jekyll-metadata\n"
+                    "mkdir -p \"$out/_site\"\n"
+                    "printf kept > \"$out/_site/page.html\"\n"
+                    "touch \"$out/.jekyll-metadata\"\n"
                     + optional
                     if extraction_succeeds else "exit 2\n"
                 )
@@ -51,28 +59,32 @@ class RestoreCacheTests(unittest.TestCase):
             restored = output.read_text()
             metadata = (root / ".jekyll-metadata").exists()
             zip_exists = (root / "jekyll-content.zip").exists()
-            return result, restored, metadata, zip_exists
+            site_page = (root / "_site" / "page.html").read_text() if (root / "_site" / "page.html").exists() else ""
+            nested_site = (root / "_site" / "_site").exists()
+            return result, restored, metadata, zip_exists, site_page, nested_site
 
     def test_no_archive_requests_full_build_without_error(self):
-        result, restored, metadata, _ = self.run_restore()
+        result, restored, metadata, *_ = self.run_restore()
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("restored=false", restored)
         self.assertFalse(metadata)
 
     def test_archive_restores_incremental_metadata(self):
-        result, restored, metadata, zip_exists = self.run_restore(archive=True)
+        result, restored, metadata, zip_exists, site_page, nested_site = self.run_restore(archive=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("restored=true", restored)
         self.assertTrue(metadata)
         self.assertFalse(zip_exists)
+        self.assertEqual(site_page, "kept")
+        self.assertFalse(nested_site)
 
     def test_corrupt_archive_fails_instead_of_masking_error(self):
-        result, restored, _, _ = self.run_restore(archive=True, extraction_succeeds=False)
+        result, restored, _, *_ = self.run_restore(archive=True, extraction_succeeds=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertNotIn("restored=true", restored)
 
     def test_metadata_only_archive_restores_without_optional_backups(self):
-        result, restored, metadata, zip_exists = self.run_restore(
+        result, restored, metadata, zip_exists, *_ = self.run_restore(
             archive=True, include_optional=False,
         )
         self.assertEqual(result.returncode, 0, result.stderr)

@@ -7,16 +7,21 @@ if [[ ! -f jekyll-content.zip ]]; then
   exit 0
 fi
 
-7z x -o_site/ jekyll-content.zip
-if [[ -f _site/.jekyll-metadata ]]; then
-  mv _site/.jekyll-metadata ./
+staging="$(mktemp -d)"
+7z x -o"$staging" jekyll-content.zip
+if [[ -d "$staging/_site" ]]; then
+  rm -rf _site
+  mv "$staging/_site" ./
+fi
+if [[ -f "$staging/.jekyll-metadata" ]]; then
+  mv "$staging/.jekyll-metadata" ./
 fi
 for name in backup-models.json backup-benchmarking.json backup-references.json; do
-  if [[ -f "_site/${name}" ]]; then
-    mv "_site/${name}" ./
+  if [[ -f "$staging/$name" ]]; then
+    mv "$staging/$name" ./
   fi
 done
-rm jekyll-content.zip
+rm -rf "$staging" jekyll-content.zip
 if [[ ! -f .jekyll-metadata ]]; then
   printf 'Jekyll artifact did not contain incremental metadata.\n' >&2
   exit 1
