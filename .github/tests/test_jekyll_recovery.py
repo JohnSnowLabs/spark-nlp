@@ -94,7 +94,7 @@ class RestoreCacheTests(unittest.TestCase):
 
 
 class ZipCheckpointTests(unittest.TestCase):
-    def run_zip(self, metadata=True, seven_zip_writes=True):
+    def run_zip(self, metadata=True, seven_zip_writes=True, empty_site=False):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             script_dir = root / "docs" / "_scripts"
@@ -104,12 +104,18 @@ class ZipCheckpointTests(unittest.TestCase):
             script.chmod(0o755)
             if metadata:
                 (root / "docs" / ".jekyll-metadata").write_text("{}\n")
+            if empty_site:
+                (root / "docs" / "_site" / "_site").mkdir(parents=True)
             bin_dir = root / "bin"
             bin_dir.mkdir()
             seven_zip = bin_dir / "7z"
             seven_zip.write_text(
                 "#!/usr/bin/env bash\n"
-                + ("printf 'zip' > jekyll-content.zip\n" if seven_zip_writes else "exit 2\n")
+                "out=jekyll-content.zip\n"
+                "for arg in \"$@\"; do\n"
+                "  case \"$arg\" in *.zip) out=\"$arg\";; esac\n"
+                "done\n"
+                + ("printf 'zip' > \"$out\"\n" if seven_zip_writes else "exit 2\n")
             )
             seven_zip.chmod(0o755)
             return subprocess.run(
@@ -126,6 +132,11 @@ class ZipCheckpointTests(unittest.TestCase):
         result = self.run_zip(metadata=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("No Jekyll metadata to checkpoint", result.stderr)
+
+    def test_empty_site_fails_instead_of_checkpointing_the_same_slice(self):
+        result = self.run_zip(empty_site=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Checkpoint _site has no rendered files", result.stderr)
 
 
 class RemoteEditionsTests(unittest.TestCase):

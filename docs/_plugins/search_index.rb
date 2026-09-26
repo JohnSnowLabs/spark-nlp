@@ -345,7 +345,6 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
     models_references_json[post.url] = references
     BatchLimiter.record_references(post.url, references)
   end
-  BatchLimiter.note_rendered(post.path)
 end
 
 Jekyll::Hooks.register :posts, :post_render do |post|
@@ -415,6 +414,8 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   all_posts_id << model[:id]
   $search_index_posts_seen += 1
   log_search_index_progress
+  post.write(post.site.dest)
+  BatchLimiter.note_rendered(post.path)
 end
 
 client = nil
