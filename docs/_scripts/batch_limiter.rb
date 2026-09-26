@@ -1,5 +1,7 @@
 # Caps how many model posts one Jekyll wave regenerates.
 # Deferred posts are not recorded in .jekyll-metadata, so the next wave retries them.
+require "json"
+
 module BatchLimiter
   module_function
 
@@ -80,6 +82,26 @@ module BatchLimiter
     exit 1
   end
 
+  def catalogs
+    @catalogs ||= {
+      "backup-models.json" => {},
+      "backup-benchmarking.json" => {},
+      "backup-references.json" => {},
+    }
+  end
+
+  def record_model(url, data)
+    catalogs["backup-models.json"][url] = data
+  end
+
+  def record_benchmarking(url, data)
+    catalogs["backup-benchmarking.json"][url] = data
+  end
+
+  def record_references(url, data)
+    catalogs["backup-references.json"][url] = data
+  end
+
   def flush_backups
     return unless defined?(Jekyll) && Jekyll.respond_to?(:sites)
 
@@ -87,26 +109,21 @@ module BatchLimiter
     return unless site
 
     source = site.config["source"]
-    {
-      "backup-models.json" => "models_json",
-      "backup-benchmarking.json" => "models_benchmarking_json",
-      "backup-references.json" => "models_references_json",
-    }.each do |filename, catalog_name|
-      value = catalog(catalog_name)
-      next if value.nil?
-
-      write_json(File.join(source, filename), value)
+    catalogs.each do |filename, data|
+      path = File.join(source, filename)
+      write_json(path, read_json(path).merge(data))
     end
   rescue StandardError => error
     warn "Unable to flush Jekyll backups before wave exit: #{error}"
     exit 1
   end
 
-  def catalog(name)
-    return nil unless defined?(Jekyll) && Jekyll.const_defined?(:Hooks)
-    return nil unless Object.const_defined?(name)
+  def read_json(path)
+    return {} unless File.exist?(path)
 
-    Object.const_get(name)
+    JSON.parse(File.read(path))
+  rescue JSON::ParserError
+    {}
   end
 
   def write_json(path, value)

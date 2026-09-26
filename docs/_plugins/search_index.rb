@@ -332,15 +332,18 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
     type: doc_type,
     annotator: post.data['annotator'] || ""
   }
+  BatchLimiter.record_model(post.url, models_json[post.url])
 
   benchmarking_info = extractor.benchmarking_results(post.url)
   if benchmarking_info
     models_benchmarking_json[post.url] = benchmarking_info
+    BatchLimiter.record_benchmarking(post.url, benchmarking_info)
   end
 
   references = extractor.references_results(post.url)
   if references
     models_references_json[post.url] = references
+    BatchLimiter.record_references(post.url, references)
   end
   BatchLimiter.note_rendered(post.path)
 end
