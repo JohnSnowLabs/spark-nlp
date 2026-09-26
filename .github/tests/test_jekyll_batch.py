@@ -134,7 +134,11 @@ class SearchIndexBatchTests(unittest.TestCase):
         self.assertIn("if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}", workflow)
         self.assertIn("note_rendered", plugin)
         self.assertLess(
-            plugin.index("models_references_json[post.url] = references"),
+            plugin.index("$search_index_posts_seen += 1"),
+            plugin.index("post.write(post.site.dest)"),
+        )
+        self.assertLess(
+            plugin.index("post.write(post.site.dest)"),
             plugin.index("BatchLimiter.note_rendered(post.path)"),
         )
         limiter = (ROOT / "docs/_scripts/batch_limiter.rb").read_text()
