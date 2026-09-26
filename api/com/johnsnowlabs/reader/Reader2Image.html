@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.4.1 ScalaDoc  - com.johnsnowlabs.reader.Reader2Image</title>
-          <meta name="description" content="Spark NLP 6.4.1 ScalaDoc - com.johnsnowlabs.reader.Reader2Image" />
-          <meta name="keywords" content="Spark NLP 6.4.1 ScalaDoc com.johnsnowlabs.reader.Reader2Image" />
+          <title>Spark NLP 7.0.0 ScalaDoc  - com.johnsnowlabs.reader.Reader2Image</title>
+          <meta name="description" content="Spark NLP 7.0.0 ScalaDoc - com.johnsnowlabs.reader.Reader2Image" />
+          <meta name="keywords" content="Spark NLP 7.0.0 ScalaDoc com.johnsnowlabs.reader.Reader2Image" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.4.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 7.0.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -1470,6 +1470,26 @@ root
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="com.johnsnowlabs.reader.HasReaderContent#listAllFilesRecursively" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="listAllFilesRecursively(spark:org.apache.spark.sql.SparkSession,dirPath:String):Seq[String]"></a><a id="listAllFilesRecursively(SparkSession,String):Seq[String]"></a>
+      <span class="permalink">
+      <a href="../../../com/johnsnowlabs/reader/Reader2Image.html#listAllFilesRecursively(spark:org.apache.spark.sql.SparkSession,dirPath:String):Seq[String]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">listAllFilesRecursively</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="dirPath">dirPath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[<span class="extype" name="scala.Predef.String">String</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Recursively lists all files under the given path as fully-qualified path strings.</p><div class="fullcomment"><div class="comment cmt"><p>Recursively lists all files under the given path as fully-qualified path strings.</p><p>Local paths are listed with <span class="extype" name="java.io.File">java.io.File</span> (preserving previous behavior), while
+distributed/remote schemes such as <code>dbfs:</code>, <code>s3:</code>, and <code>hdfs:</code> are listed through the Hadoop
+<span class="extype" name="org.apache.hadoop.fs.FileSystem">org.apache.hadoop.fs.FileSystem</span> so that mixed-content reading works on Databricks and
+other cluster filesystems.
+</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="HasReaderContent.html" class="extype" name="com.johnsnowlabs.reader.HasReaderContent">HasReaderContent</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.reader.HasReaderContent#listAllFilesRecursively" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="listAllFilesRecursively(dir:java.io.File):Seq[java.io.File]"></a><a id="listAllFilesRecursively(File):Seq[File]"></a>
       <span class="permalink">

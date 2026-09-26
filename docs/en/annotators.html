@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/tasks/landing_page">Tasks</a></li><li class="toc-h2 active"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/unstructured_data_extraction">Unstructured Data Extraction</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/spark4_migration">Migrating to Spark 4</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/tasks/landing_page">Tasks</a></li><li class="toc-h2 active"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/unstructured_data_extraction">Unstructured Data Extraction</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -615,6 +615,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="#bm25">BM25</a></td>
+        <td>Okapi BM25 lexical ranker that scores documents against a query using corpus-level statistics (IDF and average document length) learned during fit.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#chunk2doc">Chunk2Doc</a></td>
         <td>Converts a <code class="language-plaintext highlighter-rouge">CHUNK</code> type column back into <code class="language-plaintext highlighter-rouge">DOCUMENT</code>. Useful when trying to re-tokenize or do further analysis on a <code class="language-plaintext highlighter-rouge">CHUNK</code> result.</td>
         <td>Opensource</td>
@@ -800,6 +805,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="#pairwisevectorsimilarity">PairwiseVectorSimilarity</a></td>
+        <td>Computes pairwise cosine, dot-product, or euclidean similarity between two sets of sentence embeddings.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#postagger-part-of-speech-tagger">POSTagger (Part of speech tagger)</a></td>
         <td>Averaged Perceptron model to tag words part-of-speech.</td>
         <td>Opensource</td>
@@ -845,6 +855,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="#rulebasedmatcher">RuleBasedMatcher</a></td>
+        <td>Matches token spans with declarative rules over token text, POS tags, lemmas, NER, dependency metadata, and custom annotation metadata.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="#sentencedetector">SentenceDetector</a></td>
         <td>Annotator that detects sentence boundaries using regular expressions.</td>
         <td>Opensource</td>
@@ -877,6 +892,11 @@ in the DataFrames.</li>
       <tr>
         <td><a href="#stopwordscleaner">StopWordsCleaner</a></td>
         <td>This annotator takes a sequence of strings (e.g. the output of a Tokenizer, Normalizer, Lemmatizer, and Stemmer) and drops all the stop words from the input sequences.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
+        <td><a href="#summarization">Summarization</a></td>
+        <td>Task oriented, zero configuration document summarization with a choice of llm, encoder_decoder, or extractive methods and automatic long document handling.</td>
         <td>Opensource</td>
       </tr>
       <tr>
@@ -2222,6 +2242,287 @@ marathon. Check out the chart below to see how much protein you should be eating
     </div>
 
 </details>
+
+</div>
+
+<div class="tabs-box tabs-new">
+
+  <h2 id="bm25">BM25</h2>
+
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
+
+  <div class="h3-box tabs-python-scala-box">
+
+    <p>Trains an Okapi BM25 lexical ranker over a corpus of tokenized documents.</p>
+
+    <p>BM25 is a bag-of-words retrieval function that ranks documents against a query based on the query
+terms appearing in each document. Because a document’s score depends on corpus-level statistics
+(how many documents contain a term, and the average document length), BM25 is implemented as a
+two-phase Estimator/Model pair:</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">BM25Approach</code> (this annotator) scans the full corpus once during <code class="language-plaintext highlighter-rouge">fit()</code> and learns the total
+document count <code class="language-plaintext highlighter-rouge">N</code>, the document frequency <code class="language-plaintext highlighter-rouge">df(t)</code> of every term, the average document length
+<code class="language-plaintext highlighter-rouge">avgdl</code>, and the inverse document frequency <code class="language-plaintext highlighter-rouge">idf(t)</code> of every term.</li>
+      <li><code class="language-plaintext highlighter-rouge">BM25Model</code> reuses those statistics at query time to score every document against a query.</li>
+    </ul>
+
+    <p>The IDF uses the non-negative (Lucene / Elasticsearch) variant
+<code class="language-plaintext highlighter-rouge">idf(t) = ln(1 + (N - df(t) + 0.5) / (df(t) + 0.5))</code>, and each document <code class="language-plaintext highlighter-rouge">D</code> is scored against query
+<code class="language-plaintext highlighter-rouge">Q</code> as <code class="language-plaintext highlighter-rouge">score(D, Q) = sum over t in Q of idf(t) * (tf(t, D) * (k1 + 1)) / (tf(t, D) + k1 * (1 - b + b * |D| / avgdl))</code>.</p>
+
+    <p>The input is a column of <code class="language-plaintext highlighter-rouge">TOKEN</code> annotations, so BM25 is normally placed after a <code class="language-plaintext highlighter-rouge">Tokenizer</code>
+(optionally followed by a <code class="language-plaintext highlighter-rouge">Normalizer</code> and/or <code class="language-plaintext highlighter-rouge">StopWordsCleaner</code>). Whatever stages you use to
+analyze the corpus must also be used to analyze the query: BM25 can only score a query term when
+it matches a key in the learned IDF vocabulary, and those keys hold the pipeline’s transformed
+forms (stems, lemmas, normalized spellings, etc.). A raw-string <code class="language-plaintext highlighter-rouge">setQuery</code> is only split on
+non-word characters and lowercased, so if any stage <em>transforms</em> tokens, use <code class="language-plaintext highlighter-rouge">setQueryTokens(...)</code>
+with the query analyzed by the same pipeline instead (for example via a <code class="language-plaintext highlighter-rouge">LightPipeline</code>).</p>
+
+    <p>For extended examples of usage, see the jupyter notebook
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/bm25-retrieval/BM25_Retrieval.ipynb">BM25 Retrieval for Spark NLP</a>.</p>
+
+    <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
+
+    <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">BM25_RANKINGS</code></p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Approach">BM25Approach</a></td>
+          <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/similarity/BM25Approach">BM25Approach</a></td>
+          <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/similarity/BM25Approach.scala">BM25Approach</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">explode</span>
+
+<span class="n">corpus</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span>  <span class="s">"Apples are a great source of dietary fiber and vitamin C."</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span>  <span class="s">"Bananas are rich in potassium and natural sugars."</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">3</span><span class="p">,</span>  <span class="s">"Machine learning is a subset of artificial intelligence."</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">4</span><span class="p">,</span>  <span class="s">"Deep learning uses neural networks with many layers."</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">5</span><span class="p">,</span>  <span class="s">"Florence in Italy is one of the most beautiful cities in Europe."</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">6</span><span class="p">,</span>  <span class="s">"The French Riviera is a warm coastal region in southern France."</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">7</span><span class="p">,</span>  <span class="s">"Vitamin C deficiency can lead to scurvy and immune system problems."</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">8</span><span class="p">,</span>  <span class="s">"Neural networks are inspired by the human brain's structure."</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">9</span><span class="p">,</span>  <span class="s">"Potassium is an essential mineral for heart and muscle function."</span><span class="p">),</span>
+    <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s">"Italy is home to some of the world's greatest Renaissance art."</span><span class="p">),</span>
+<span class="p">],</span> <span class="p">[</span><span class="s">"id"</span><span class="p">,</span> <span class="s">"text"</span><span class="p">])</span>
+
+<span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="n">stop_words_cleaner</span> <span class="o">=</span> <span class="n">StopWordsCleaner</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"clean_token"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">bm25</span> <span class="o">=</span> <span class="n">BM25Approach</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"clean_token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"bm25_rankings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setK1</span><span class="p">(</span><span class="mf">1.2</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setB</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setMinDocFreq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">stop_words_cleaner</span><span class="p">,</span> <span class="n">bm25</span><span class="p">])</span>
+
+<span class="c1"># FIT: scan the corpus once to learn IDF + avgdl
+</span><span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+
+<span class="c1"># Query time: score all documents against a query
+</span><span class="n">model</span><span class="p">.</span><span class="n">stages</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">setQuery</span><span class="p">(</span><span class="s">"vitamin C health benefits fruits"</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>
+<span class="p">(</span>
+    <span class="n">result</span>
+    <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s">"id"</span><span class="p">),</span> <span class="n">explode</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s">"bm25_rankings"</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"ranking"</span><span class="p">))</span>
+    <span class="p">.</span><span class="n">select</span><span class="p">(</span>
+        <span class="n">col</span><span class="p">(</span><span class="s">"id"</span><span class="p">),</span>
+        <span class="n">col</span><span class="p">(</span><span class="s">"ranking.metadata"</span><span class="p">)[</span><span class="s">"bm25_score"</span><span class="p">].</span><span class="n">cast</span><span class="p">(</span><span class="s">"double"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"bm25_score"</span><span class="p">),</span>
+        <span class="n">col</span><span class="p">(</span><span class="s">"ranking.metadata"</span><span class="p">)[</span><span class="s">"num_query_terms_matched"</span><span class="p">].</span><span class="n">cast</span><span class="p">(</span><span class="s">"int"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"terms_matched"</span><span class="p">))</span>
+    <span class="p">.</span><span class="n">orderBy</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s">"bm25_score"</span><span class="p">).</span><span class="n">desc</span><span class="p">())</span>
+    <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="o">+---+------------------+-------------+</span>
+<span class="o">|</span><span class="nb">id</span> <span class="o">|</span><span class="n">bm25_score</span>        <span class="o">|</span><span class="n">terms_matched</span><span class="o">|</span>
+<span class="o">+---+------------------+-------------+</span>
+<span class="o">|</span><span class="mi">1</span>  <span class="o">|</span><span class="mf">2.8513563723478614</span><span class="o">|</span><span class="mi">2</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">7</span>  <span class="o">|</span><span class="mf">2.705465483484128</span> <span class="o">|</span><span class="mi">2</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">2</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">3</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">4</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">5</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">6</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">8</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">9</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">10</span> <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">+---+------------------+-------------+</span>
+</code></pre></div>        </div>
+
+        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.</span><span class="o">{</span><span class="nc">StopWordsCleaner</span><span class="o">,</span> <span class="nc">Tokenizer</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.similarity.</span><span class="o">{</span><span class="nc">BM25Approach</span><span class="o">,</span> <span class="nc">BM25Model</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.</span><span class="o">{</span><span class="n">col</span><span class="o">,</span> <span class="n">explode</span><span class="o">}</span>
+
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+
+<span class="k">val</span> <span class="nv">corpus</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"Apples are a great source of dietary fiber and vitamin C."</span><span class="o">),</span>
+  <span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"Bananas are rich in potassium and natural sugars."</span><span class="o">),</span>
+  <span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">"Machine learning is a subset of artificial intelligence."</span><span class="o">),</span>
+  <span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="s">"Deep learning uses neural networks with many layers."</span><span class="o">),</span>
+  <span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="s">"Florence in Italy is one of the most beautiful cities in Europe."</span><span class="o">),</span>
+  <span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="s">"The French Riviera is a warm coastal region in southern France."</span><span class="o">),</span>
+  <span class="o">(</span><span class="mi">7</span><span class="o">,</span> <span class="s">"Vitamin C deficiency can lead to scurvy and immune system problems."</span><span class="o">),</span>
+  <span class="o">(</span><span class="mi">8</span><span class="o">,</span> <span class="s">"Neural networks are inspired by the human brain's structure."</span><span class="o">),</span>
+  <span class="o">(</span><span class="mi">9</span><span class="o">,</span> <span class="s">"Potassium is an essential mineral for heart and muscle function."</span><span class="o">),</span>
+  <span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="s">"Italy is home to some of the world's greatest Renaissance art."</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">toDF</span><span class="o">(</span><span class="s">"id"</span><span class="o">,</span> <span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">tokenizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">stopWordsCleaner</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StopWordsCleaner</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"clean_token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">bm25</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BM25Approach</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"clean_token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"bm25_rankings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setK1</span><span class="o">(</span><span class="mf">1.2</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setB</span><span class="o">(</span><span class="mf">0.75</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMinDocFreq</span><span class="o">(</span><span class="mi">1</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">tokenizer</span><span class="o">,</span> <span class="n">stopWordsCleaner</span><span class="o">,</span> <span class="n">bm25</span><span class="o">))</span>
+
+<span class="c1">// FIT: scan the corpus once to learn IDF + avgdl</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">corpus</span><span class="o">)</span>
+
+<span class="c1">// Query time: score all documents against a query</span>
+<span class="nv">model</span><span class="o">.</span><span class="py">stages</span><span class="o">.</span><span class="py">last</span><span class="o">.</span><span class="py">asInstanceOf</span><span class="o">[</span><span class="kt">BM25Model</span><span class="o">].</span><span class="py">setQuery</span><span class="o">(</span><span class="s">"vitamin C health benefits fruits"</span><span class="o">)</span>
+
+<span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">corpus</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="nf">col</span><span class="o">(</span><span class="s">"id"</span><span class="o">),</span> <span class="nf">explode</span><span class="o">(</span><span class="nf">col</span><span class="o">(</span><span class="s">"bm25_rankings"</span><span class="o">)).</span><span class="py">alias</span><span class="o">(</span><span class="s">"ranking"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">select</span><span class="o">(</span>
+    <span class="nf">col</span><span class="o">(</span><span class="s">"id"</span><span class="o">),</span>
+    <span class="nf">col</span><span class="o">(</span><span class="s">"ranking.metadata"</span><span class="o">)(</span><span class="s">"bm25_score"</span><span class="o">).</span><span class="py">cast</span><span class="o">(</span><span class="s">"double"</span><span class="o">).</span><span class="py">alias</span><span class="o">(</span><span class="s">"bm25_score"</span><span class="o">),</span>
+    <span class="nf">col</span><span class="o">(</span><span class="s">"ranking.metadata"</span><span class="o">)(</span><span class="s">"num_query_terms_matched"</span><span class="o">).</span><span class="py">cast</span><span class="o">(</span><span class="s">"int"</span><span class="o">).</span><span class="py">alias</span><span class="o">(</span><span class="s">"terms_matched"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">orderBy</span><span class="o">(</span><span class="nf">col</span><span class="o">(</span><span class="s">"bm25_score"</span><span class="o">).</span><span class="py">desc</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">+---+------------------+-------------+</span>
+<span class="o">|</span><span class="n">id</span> <span class="o">|</span><span class="n">bm25_score</span>        <span class="o">|</span><span class="n">terms_matched</span><span class="o">|</span>
+<span class="o">+---+------------------+-------------+</span>
+<span class="o">|</span><span class="mi">1</span>  <span class="o">|</span><span class="mf">2.8513563723478614</span><span class="o">|</span><span class="mi">2</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">7</span>  <span class="o">|</span><span class="mf">2.705465483484128</span> <span class="o">|</span><span class="mi">2</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">2</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">3</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">4</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">5</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">6</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">8</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">9</span>  <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">|</span><span class="mi">10</span> <span class="o">|</span><span class="mf">0.0</span>               <span class="o">|</span><span class="mi">0</span>            <span class="o">|</span>
+<span class="o">+---+------------------+-------------+</span>
+</code></pre></div>        </div>
+
+      </div>
+
+</details>
+
+  </div>
+
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
+
+    <p>Fitted model produced by <code class="language-plaintext highlighter-rouge">BM25Approach</code>. It holds the corpus-level statistics (IDF map, average
+document length and document count) and scores every document in a dataset against a query using
+the Okapi BM25 ranking function.</p>
+
+    <p>The query is provided at query time, so the same fitted model can be reused for many different
+queries (“fit once, query many times”). Provide it either as a raw string with <code class="language-plaintext highlighter-rouge">setQuery(...)</code> or —
+recommended when the corpus was analyzed by a non-trivial pipeline — as already-analyzed tokens with
+<code class="language-plaintext highlighter-rouge">setQueryTokens(...)</code>. For every input document the model emits a single <code class="language-plaintext highlighter-rouge">BM25_RANKINGS</code> annotation
+whose <code class="language-plaintext highlighter-rouge">result</code> is the BM25 score and whose metadata contains <code class="language-plaintext highlighter-rouge">bm25_score</code>,
+<code class="language-plaintext highlighter-rouge">num_query_terms_matched</code>, <code class="language-plaintext highlighter-rouge">query</code> and <code class="language-plaintext highlighter-rouge">doc_len</code>.</p>
+
+    <p><strong>Analyzer symmetry.</strong> BM25 only scores a query term when it matches a key in the learned IDF
+vocabulary, and those keys were produced by the pipeline in front of <code class="language-plaintext highlighter-rouge">BM25Approach</code> (<code class="language-plaintext highlighter-rouge">Tokenizer</code>,
+<code class="language-plaintext highlighter-rouge">Normalizer</code>, a stemmer/lemmatizer, …). A raw-string <code class="language-plaintext highlighter-rouge">setQuery</code> is only split on non-word
+characters and lowercased, so if the corpus pipeline <em>transforms</em> tokens (stemming, lemmatization,
+punctuation stripping, …) a raw query can silently fail to match. In that case run the query
+through the <strong>same</strong> pipeline (e.g. with a <code class="language-plaintext highlighter-rouge">LightPipeline</code>) and pass the resulting tokens to
+<code class="language-plaintext highlighter-rouge">setQueryTokens</code>. <code class="language-plaintext highlighter-rouge">caseSensitive</code> is fixed at fit time and is read-only on the model.</p>
+
+    <p>For training and examples see <code class="language-plaintext highlighter-rouge">BM25Approach</code>.</p>
+
+    <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">TOKEN</code></p>
+
+    <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">BM25_RANKINGS</code></p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/similarity/bm25/index.html#sparknlp.annotator.similarity.bm25.BM25Model">BM25Model</a></td>
+          <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/similarity/BM25Model">BM25Model</a></td>
+          <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/similarity/BM25Model.scala">BM25Model</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">BM25Model</span>
+
+<span class="c1"># A BM25Model is produced by BM25Approach.fit(...). It can be saved once and reloaded to be
+# re-queried many times, without re-scanning the corpus.
+</span><span class="n">loaded_bm25</span> <span class="o">=</span> <span class="n">BM25Model</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"/tmp/bm25_corpus_model"</span><span class="p">)</span>
+<span class="n">loaded_bm25</span><span class="p">.</span><span class="n">setQuery</span><span class="p">(</span><span class="s">"neural networks deep learning"</span><span class="p">)</span>
+</code></pre></div>        </div>
+
+        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.similarity.BM25Model</span>
+
+<span class="c1">// A BM25Model is produced by BM25Approach.fit(...). It can be saved once and reloaded to be</span>
+<span class="c1">// re-queried many times, without re-scanning the corpus.</span>
+<span class="k">val</span> <span class="nv">loadedBm25</span> <span class="k">=</span> <span class="nv">BM25Model</span><span class="o">.</span><span class="py">load</span><span class="o">(</span><span class="s">"/tmp/bm25_corpus_model"</span><span class="o">)</span>
+<span class="nv">loadedBm25</span><span class="o">.</span><span class="py">setQuery</span><span class="o">(</span><span class="s">"neural networks deep learning"</span><span class="o">)</span>
+</code></pre></div>        </div>
+
+      </div>
+
+</details>
+
+  </div>
 
 </div>
 
@@ -8799,6 +9100,271 @@ For available pretrained models please see the <a href="https://sparknlp.org/mod
 
 </div>
 
+<div class="h3-box tabs-python-scala-box">
+
+  <h2 id="pairwisevectorsimilarity">PairwiseVectorSimilarity</h2>
+
+  <p>Computes pairwise vector similarity between two sets of sentence embeddings.</p>
+
+  <p>The annotator takes two <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS</code> input columns and, for every row, scores all N x M
+pairs between the embeddings in column A and the embeddings in column B. Each pair produces one
+<code class="language-plaintext highlighter-rouge">VECTOR_SIMILARITY</code> output annotation whose <code class="language-plaintext highlighter-rouge">result</code> holds the score as a string and whose
+<code class="language-plaintext highlighter-rouge">metadata</code> contains the following fields for easy downstream extraction:</p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th>metadata key</th>
+        <th>value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">sentence_a_idx</code></td>
+        <td>0-based index of the embedding in column A</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">sentence_b_idx</code></td>
+        <td>0-based index of the embedding in column B</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">sentence_a_text</code></td>
+        <td>the <code class="language-plaintext highlighter-rouge">.result</code> text of the source annotation in column A</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">sentence_b_text</code></td>
+        <td>the <code class="language-plaintext highlighter-rouge">.result</code> text of the source annotation in column B</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">similarity</code></td>
+        <td>the score (same as <code class="language-plaintext highlighter-rouge">result</code>, available by name)</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">similarityMethod</code></td>
+        <td>the method used to compute the score</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Parameters:</strong></p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th>Parameter</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">similarityMethod</code></td>
+        <td>Similarity function: <code class="language-plaintext highlighter-rouge">cosine</code>, <code class="language-plaintext highlighter-rouge">dotProduct</code>, or <code class="language-plaintext highlighter-rouge">euclidean</code></td>
+        <td><code class="language-plaintext highlighter-rouge">"cosine"</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Supported similarity methods and sign conventions:</strong></p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th>method</th>
+        <th>range</th>
+        <th>higher means</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">cosine</code> (default)</td>
+        <td>-1.0 to 1.0</td>
+        <td>more similar</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">dotProduct</code></td>
+        <td>no fixed bound</td>
+        <td>more similar</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">euclidean</code></td>
+        <td>negative infinity to 0.0</td>
+        <td>more similar (0.0 means identical vectors)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The <code class="language-plaintext highlighter-rouge">euclidean</code> method returns the negative L2 distance so that “higher is better” is consistent
+across all three methods.</p>
+
+  <p><strong>Input data shape.</strong> For standard document retrieval each input column should contain exactly one
+embedding per row. If a column contains N &gt; 1 embeddings (produced by a sentence-split pipeline),
+all N x M cross-pairs are scored and emitted as separate annotations.</p>
+
+  <p><strong>LightPipeline is not supported.</strong> Because <code class="language-plaintext highlighter-rouge">LightPipeline</code> merges all input columns into a single
+flat sequence, the two-column distinction required by this annotator cannot be preserved. Use
+<code class="language-plaintext highlighter-rouge">transform()</code> on a Spark DataFrame instead.</p>
+
+  <p><strong>Prerequisite: crossJoin.</strong> To score every query against every document, join a query DataFrame
+and a corpus DataFrame before applying the annotator:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">paired</span> <span class="o">=</span> <span class="n">query_df</span><span class="p">.</span><span class="n">crossJoin</span><span class="p">(</span><span class="n">corpus_df</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+  <p>For extended examples and a full RAG-style retrieval pattern see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/text-similarity/PairwiseVectorSimilarity.ipynb">PairwiseVectorSimilarity notebook</a>.</p>
+
+  <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">SENTENCE_EMBEDDINGS, SENTENCE_EMBEDDINGS</code></p>
+
+  <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">VECTOR_SIMILARITY</code></p>
+
+  <table>
+    <tbody>
+      <tr>
+        <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/similarity/pairwise_vector_similarity/index.html#sparknlp.annotator.similarity.pairwise_vector_similarity.PairwiseVectorSimilarity">PairwiseVectorSimilarity</a></td>
+        <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/similarity/PairwiseVectorSimilarity">PairwiseVectorSimilarity</a></td>
+        <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/similarity/PairwiseVectorSimilarity.scala">PairwiseVectorSimilarity</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+      <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">desc</span><span class="p">,</span> <span class="n">explode</span>
+
+<span class="c1"># Produce sentence embeddings with any Spark NLP embedding model.
+# Here we use a pretrained BGE model as an example.
+</span><span class="n">document_assembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">BGEEmbeddings</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"bge_small_en_v1.5"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span>
+
+<span class="n">embedding_pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document_assembler</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">])</span>
+
+<span class="n">queries</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+    <span class="p">(</span><span class="s">"What is the capital of France?"</span><span class="p">,),</span>
+    <span class="p">(</span><span class="s">"How does photosynthesis work?"</span><span class="p">,),</span>
+<span class="p">],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">])</span>
+
+<span class="n">corpus</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([</span>
+    <span class="p">(</span><span class="s">"Paris is the capital and largest city of France."</span><span class="p">,),</span>
+    <span class="p">(</span><span class="s">"Photosynthesis is the process by which plants convert sunlight into energy."</span><span class="p">,),</span>
+    <span class="p">(</span><span class="s">"The Eiffel Tower is located in Paris, France."</span><span class="p">,),</span>
+    <span class="p">(</span><span class="s">"Chlorophyll is the pigment that gives plants their green color."</span><span class="p">,),</span>
+<span class="p">],</span> <span class="p">[</span><span class="s">"text"</span><span class="p">])</span>
+
+<span class="n">query_df</span> <span class="o">=</span> <span class="n">embedding_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">queries</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"query_emb"</span><span class="p">))</span>
+<span class="n">corpus_df</span> <span class="o">=</span> <span class="n">embedding_pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">corpus</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"doc_emb"</span><span class="p">),</span> <span class="n">col</span><span class="p">(</span><span class="s">"text"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"doc_text"</span><span class="p">))</span>
+
+<span class="c1"># CrossJoin to produce one (query, document) pair per row, then score.
+</span><span class="n">paired</span> <span class="o">=</span> <span class="n">query_df</span><span class="p">.</span><span class="n">crossJoin</span><span class="p">(</span><span class="n">corpus_df</span><span class="p">)</span>
+
+<span class="n">pvs</span> <span class="o">=</span> <span class="n">PairwiseVectorSimilarity</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"query_emb"</span><span class="p">,</span> <span class="s">"doc_emb"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"similarity"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setSimilarityMethod</span><span class="p">(</span><span class="s">"cosine"</span><span class="p">)</span>
+
+<span class="n">pvs</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">paired</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">explode</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s">"similarity"</span><span class="p">)).</span><span class="n">alias</span><span class="p">(</span><span class="s">"s"</span><span class="p">))</span> \
+    <span class="p">.</span><span class="n">select</span><span class="p">(</span>
+        <span class="n">col</span><span class="p">(</span><span class="s">"s.metadata"</span><span class="p">)[</span><span class="s">"sentence_a_text"</span><span class="p">].</span><span class="n">alias</span><span class="p">(</span><span class="s">"query"</span><span class="p">),</span>
+        <span class="n">col</span><span class="p">(</span><span class="s">"s.metadata"</span><span class="p">)[</span><span class="s">"sentence_b_text"</span><span class="p">].</span><span class="n">alias</span><span class="p">(</span><span class="s">"document"</span><span class="p">),</span>
+        <span class="n">col</span><span class="p">(</span><span class="s">"s.result"</span><span class="p">).</span><span class="n">cast</span><span class="p">(</span><span class="s">"double"</span><span class="p">).</span><span class="n">alias</span><span class="p">(</span><span class="s">"score"</span><span class="p">))</span> \
+    <span class="p">.</span><span class="n">orderBy</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="s">"score"</span><span class="p">))</span> \
+    <span class="p">.</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">+-------------------------------+---------------------------------------------------------------------------+------------------+</span>
+<span class="o">|</span><span class="n">query</span>                          <span class="o">|</span><span class="n">document</span>                                                                   <span class="o">|</span><span class="n">score</span>             <span class="o">|</span>
+<span class="o">+-------------------------------+---------------------------------------------------------------------------+------------------+</span>
+<span class="o">|</span><span class="n">What</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">capital</span> <span class="n">of</span> <span class="n">France</span><span class="err">?</span> <span class="o">|</span><span class="n">Paris</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">capital</span> <span class="ow">and</span> <span class="n">largest</span> <span class="n">city</span> <span class="n">of</span> <span class="n">France</span><span class="p">.</span>                           <span class="o">|</span><span class="mf">0.9321</span><span class="p">...</span>         <span class="o">|</span>
+<span class="o">|</span><span class="n">What</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">capital</span> <span class="n">of</span> <span class="n">France</span><span class="err">?</span> <span class="o">|</span><span class="n">The</span> <span class="n">Eiffel</span> <span class="n">Tower</span> <span class="ow">is</span> <span class="n">located</span> <span class="ow">in</span> <span class="n">Paris</span><span class="p">,</span> <span class="n">France</span><span class="p">.</span>                              <span class="o">|</span><span class="mf">0.8764</span><span class="p">...</span>         <span class="o">|</span>
+<span class="o">|</span><span class="n">How</span> <span class="n">does</span> <span class="n">photosynthesis</span> <span class="n">work</span><span class="err">?</span>  <span class="o">|</span><span class="n">Photosynthesis</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">process</span> <span class="n">by</span> <span class="n">which</span> <span class="n">plants</span> <span class="n">convert</span> <span class="n">sunlight</span> <span class="n">into</span> <span class="n">energy</span><span class="p">.</span><span class="o">|</span><span class="mf">0.9105</span><span class="p">...</span>         <span class="o">|</span>
+<span class="o">|</span><span class="n">How</span> <span class="n">does</span> <span class="n">photosynthesis</span> <span class="n">work</span><span class="err">?</span>  <span class="o">|</span><span class="n">Chlorophyll</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">pigment</span> <span class="n">that</span> <span class="n">gives</span> <span class="n">plants</span> <span class="n">their</span> <span class="n">green</span> <span class="n">color</span><span class="p">.</span>             <span class="o">|</span><span class="mf">0.8231</span><span class="p">...</span>         <span class="o">|</span>
+<span class="o">+-------------------------------+---------------------------------------------------------------------------+------------------+</span>
+</code></pre></div>      </div>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotators.similarity.PairwiseVectorSimilarity</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.embeddings.BGEEmbeddings</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.functions.</span><span class="o">{</span><span class="n">col</span><span class="o">,</span> <span class="n">desc</span><span class="o">,</span> <span class="n">explode</span><span class="o">}</span>
+
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+
+<span class="c1">// Produce sentence embeddings with any Spark NLP embedding model.</span>
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">BGEEmbeddings</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"bge_small_en_v1.5"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddingPipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">queries</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">"What is the capital of France?"</span><span class="o">,</span>
+  <span class="s">"How does photosynthesis work?"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">corpus</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">"Paris is the capital and largest city of France."</span><span class="o">,</span>
+  <span class="s">"Photosynthesis is the process by which plants convert sunlight into energy."</span><span class="o">,</span>
+  <span class="s">"The Eiffel Tower is located in Paris, France."</span><span class="o">,</span>
+  <span class="s">"Chlorophyll is the pigment that gives plants their green color."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">queryDf</span> <span class="k">=</span> <span class="nv">embeddingPipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">queries</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">queries</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="nf">col</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"query_emb"</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">corpusDf</span> <span class="k">=</span> <span class="nv">embeddingPipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">corpus</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">corpus</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="nf">col</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"doc_emb"</span><span class="o">),</span> <span class="nf">col</span><span class="o">(</span><span class="s">"text"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"doc_text"</span><span class="o">))</span>
+
+<span class="c1">// CrossJoin to produce one (query, document) pair per row, then score.</span>
+<span class="k">val</span> <span class="nv">paired</span> <span class="k">=</span> <span class="nv">queryDf</span><span class="o">.</span><span class="py">crossJoin</span><span class="o">(</span><span class="n">corpusDf</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pvs</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PairwiseVectorSimilarity</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"query_emb"</span><span class="o">,</span> <span class="s">"doc_emb"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"similarity"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setSimilarityMethod</span><span class="o">(</span><span class="s">"cosine"</span><span class="o">)</span>
+
+<span class="nv">pvs</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">paired</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="nf">explode</span><span class="o">(</span><span class="nf">col</span><span class="o">(</span><span class="s">"similarity"</span><span class="o">)).</span><span class="py">as</span><span class="o">(</span><span class="s">"s"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">select</span><span class="o">(</span>
+    <span class="nf">col</span><span class="o">(</span><span class="s">"s.metadata"</span><span class="o">)(</span><span class="s">"sentence_a_text"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"query"</span><span class="o">),</span>
+    <span class="nf">col</span><span class="o">(</span><span class="s">"s.metadata"</span><span class="o">)(</span><span class="s">"sentence_b_text"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"document"</span><span class="o">),</span>
+    <span class="nf">col</span><span class="o">(</span><span class="s">"s.result"</span><span class="o">).</span><span class="py">cast</span><span class="o">(</span><span class="s">"double"</span><span class="o">).</span><span class="py">as</span><span class="o">(</span><span class="s">"score"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">orderBy</span><span class="o">(</span><span class="nf">desc</span><span class="o">(</span><span class="s">"score"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">show</span><span class="o">(</span><span class="n">truncate</span> <span class="k">=</span> <span class="kc">false</span><span class="o">)</span>
+<span class="o">+-------------------------------+---------------------------------------------------------------------------+------------------+</span>
+<span class="o">|</span><span class="n">query</span>                          <span class="o">|</span><span class="n">document</span>                                                                   <span class="o">|</span><span class="n">score</span>             <span class="o">|</span>
+<span class="o">+-------------------------------+---------------------------------------------------------------------------+------------------+</span>
+<span class="o">|</span><span class="nc">What</span> <span class="n">is</span> <span class="n">the</span> <span class="n">capital</span> <span class="n">of</span> <span class="nc">France</span><span class="o">?</span> <span class="o">|</span><span class="nc">Paris</span> <span class="n">is</span> <span class="n">the</span> <span class="n">capital</span> <span class="n">and</span> <span class="n">largest</span> <span class="n">city</span> <span class="n">of</span> <span class="nc">France</span><span class="o">.</span>                           <span class="o">|</span><span class="mf">0.9321</span><span class="o">...</span>         <span class="o">|</span>
+<span class="o">|</span><span class="nc">What</span> <span class="n">is</span> <span class="n">the</span> <span class="n">capital</span> <span class="n">of</span> <span class="nc">France</span><span class="o">?</span> <span class="o">|</span><span class="nc">The</span> <span class="nc">Eiffel</span> <span class="nc">Tower</span> <span class="n">is</span> <span class="n">located</span> <span class="n">in</span> <span class="nc">Paris</span><span class="o">,</span> <span class="nc">France</span><span class="o">.</span>                              <span class="o">|</span><span class="mf">0.8764</span><span class="o">...</span>         <span class="o">|</span>
+<span class="o">|</span><span class="nc">How</span> <span class="n">does</span> <span class="n">photosynthesis</span> <span class="n">work</span><span class="o">?</span>  <span class="o">|</span><span class="nc">Photosynthesis</span> <span class="n">is</span> <span class="n">the</span> <span class="n">process</span> <span class="n">by</span> <span class="n">which</span> <span class="n">plants</span> <span class="n">convert</span> <span class="n">sunlight</span> <span class="n">into</span> <span class="n">energy</span><span class="o">.|</span><span class="mf">0.9105</span><span class="o">...</span>         <span class="o">|</span>
+<span class="o">|</span><span class="nc">How</span> <span class="n">does</span> <span class="n">photosynthesis</span> <span class="n">work</span><span class="o">?</span>  <span class="o">|</span><span class="nc">Chlorophyll</span> <span class="n">is</span> <span class="n">the</span> <span class="n">pigment</span> <span class="n">that</span> <span class="n">gives</span> <span class="n">plants</span> <span class="n">their</span> <span class="n">green</span> <span class="n">color</span><span class="o">.</span>             <span class="o">|</span><span class="mf">0.8231</span><span class="o">...</span>         <span class="o">|</span>
+<span class="o">+-------------------------------+---------------------------------------------------------------------------+------------------+</span>
+</code></pre></div>      </div>
+
+    </div>
+
+</details>
+
+</div>
+
 <div class="tabs-box tabs-new">
 
   <h2 id="postagger-part-of-speech-tagger">POSTagger (Part of speech tagger)</h2>
@@ -9988,6 +10554,326 @@ By default this pattern is <code class="language-plaintext highlighter-rouge">\s
 
 </div>
 
+<div class="tabs-box tabs-new">
+
+  <h2 id="rulebasedmatcher">RuleBasedMatcher</h2>
+
+  <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
+
+  <div class="h3-box tabs-python-scala-box">
+
+    <p><code class="language-plaintext highlighter-rouge">RuleBasedMatcher</code> matches token spans with declarative rules over Spark NLP
+annotation columns. It is useful when a rule needs more than token text, for
+example a sequence that combines token text, POS tags, lemmas, NER tags,
+dependency metadata, or custom annotation metadata.</p>
+
+    <p>The minimum inputs are one <code class="language-plaintext highlighter-rouge">DOCUMENT</code> column and one base <code class="language-plaintext highlighter-rouge">TOKEN</code> column. Other
+annotation columns are optional and are used only when rules reference their
+attributes. Matches are emitted as <code class="language-plaintext highlighter-rouge">CHUNK</code> annotations.</p>
+
+    <p>For a complete advanced tutorial with postal address extraction, contact
+information, job requirements, business phrases, domain terminology, external
+rule files, persistence, and rule diagnostics, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/rule-based-matcher/RuleBasedMatcher.ipynb">RuleBasedMatcher notebook</a>.</p>
+
+    <p>Use <code class="language-plaintext highlighter-rouge">setAttributeColumns</code> to map rule attributes to annotation columns:</p>
+
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"TEXT"</span><span class="p">:</span><span class="w"> </span><span class="s2">"token"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"LOWER"</span><span class="p">:</span><span class="w"> </span><span class="s2">"token"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"POS"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pos"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"LEMMA"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lemma"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"NER"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ner"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"NER_TYPE"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ner"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <p>Built-in attributes:</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">TEXT</code>, <code class="language-plaintext highlighter-rouge">TOKEN</code>, <code class="language-plaintext highlighter-rouge">LOWER</code>, <code class="language-plaintext highlighter-rouge">LENGTH</code>: values from the base <code class="language-plaintext highlighter-rouge">TOKEN</code> column.</li>
+      <li><code class="language-plaintext highlighter-rouge">LEMMA</code>: values from a lemma or normalized-token column. Spark NLP lemmatizers
+output <code class="language-plaintext highlighter-rouge">TOKEN</code>, so map <code class="language-plaintext highlighter-rouge">LEMMA</code> explicitly when both token and lemma columns are
+present.</li>
+      <li><code class="language-plaintext highlighter-rouge">POS</code>: values from a <code class="language-plaintext highlighter-rouge">POS</code> column.</li>
+      <li><code class="language-plaintext highlighter-rouge">NER</code> and <code class="language-plaintext highlighter-rouge">NER_TAG</code>: raw <code class="language-plaintext highlighter-rouge">NAMED_ENTITY</code> tags such as <code class="language-plaintext highlighter-rouge">B-GPE</code>, <code class="language-plaintext highlighter-rouge">I-GPE</code>,
+<code class="language-plaintext highlighter-rouge">U-GPE</code>, or <code class="language-plaintext highlighter-rouge">O</code>. <code class="language-plaintext highlighter-rouge">NER</code> remains raw for backward-compatible, unsurprising
+behavior.</li>
+      <li><code class="language-plaintext highlighter-rouge">NER_TYPE</code> and <code class="language-plaintext highlighter-rouge">ENT_TYPE</code>: normalized named entity types with common BIO,
+IOB, BIOES, and BILOU prefixes removed, for example <code class="language-plaintext highlighter-rouge">B-GPE</code> -&gt; <code class="language-plaintext highlighter-rouge">GPE</code>.
+This does not validate complete entity boundaries; it matches token-level
+normalized types.</li>
+      <li><code class="language-plaintext highlighter-rouge">DEP</code>, <code class="language-plaintext highlighter-rouge">HEAD</code>, <code class="language-plaintext highlighter-rouge">HEAD_BEGIN</code>, <code class="language-plaintext highlighter-rouge">HEAD_END</code>: dependency values and metadata from a
+<code class="language-plaintext highlighter-rouge">DEPENDENCY</code> column.</li>
+      <li><code class="language-plaintext highlighter-rouge">DEP_LABEL</code>, <code class="language-plaintext highlighter-rouge">RELATION</code>: values from a <code class="language-plaintext highlighter-rouge">LABELED_DEPENDENCY</code> column.</li>
+      <li><code class="language-plaintext highlighter-rouge">META.key</code>: metadata value <code class="language-plaintext highlighter-rouge">key</code> from the mapped annotation.</li>
+    </ul>
+
+    <p>Rules are JSON or JSONL. A rule has an <code class="language-plaintext highlighter-rouge">id</code>, optional <code class="language-plaintext highlighter-rouge">label</code>, optional integer
+<code class="language-plaintext highlighter-rouge">priority</code>, and one or more token patterns:</p>
+
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"address_like_location"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ADDRESS"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"priority"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"patterns"</span><span class="p">:</span><span class="w"> </span><span class="p">[[</span><span class="w">
+      </span><span class="p">{</span><span class="nl">"POS"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nl">"IN"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"NUM"</span><span class="p">,</span><span class="w"> </span><span class="s2">"CD"</span><span class="p">]}},</span><span class="w">
+      </span><span class="p">{</span><span class="nl">"TEXT"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nl">"REGEX"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^[0-9]+(?:st|nd|rd|th)?$"</span><span class="p">},</span><span class="w"> </span><span class="nl">"OP"</span><span class="p">:</span><span class="w"> </span><span class="s2">"?"</span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="nl">"POS"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nl">"IN"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"NOUN"</span><span class="p">,</span><span class="w"> </span><span class="s2">"PROPN"</span><span class="p">,</span><span class="w"> </span><span class="s2">"NN"</span><span class="p">,</span><span class="w"> </span><span class="s2">"NNP"</span><span class="p">]}},</span><span class="w">
+      </span><span class="p">{</span><span class="nl">"NER_TYPE"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nl">"IN"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"GPE"</span><span class="p">,</span><span class="w"> </span><span class="s2">"LOC"</span><span class="p">]},</span><span class="w"> </span><span class="nl">"OP"</span><span class="p">:</span><span class="w"> </span><span class="s2">"+"</span><span class="p">}</span><span class="w">
+    </span><span class="p">]]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>    </div>
+
+    <p>Supported predicates are exact equality, <code class="language-plaintext highlighter-rouge">IN</code>, <code class="language-plaintext highlighter-rouge">NOT_IN</code>, <code class="language-plaintext highlighter-rouge">REGEX</code>,
+<code class="language-plaintext highlighter-rouge">NOT_REGEX</code>, and <code class="language-plaintext highlighter-rouge">EXISTS</code>. Multiple predicates on one token are combined with
+logical AND. Missing attributes behave explicitly: equality, <code class="language-plaintext highlighter-rouge">IN</code>, regex, and
+negated predicates do not match when the attribute is absent. Use
+<code class="language-plaintext highlighter-rouge">{"ATTRIBUTE": {"EXISTS": false}}</code> to intentionally match missing values.</p>
+
+    <p>Supported token quantifiers are:</p>
+
+    <ul>
+      <li>omitted or empty: exactly one token.</li>
+      <li><code class="language-plaintext highlighter-rouge">?</code>: zero or one token.</li>
+      <li><code class="language-plaintext highlighter-rouge">*</code>: zero or more tokens.</li>
+      <li><code class="language-plaintext highlighter-rouge">+</code>: one or more tokens.</li>
+      <li><code class="language-plaintext highlighter-rouge">{n}</code>: exactly <code class="language-plaintext highlighter-rouge">n</code> tokens.</li>
+      <li><code class="language-plaintext highlighter-rouge">{n,m}</code> and <code class="language-plaintext highlighter-rouge">{n,}</code>: bounded or open upper-bound repetitions.</li>
+    </ul>
+
+    <p>The canonical wildcard token is <code class="language-plaintext highlighter-rouge">{}</code>. It matches any one token. Add <code class="language-plaintext highlighter-rouge">OP</code> to
+repeat wildcards, for example <code class="language-plaintext highlighter-rouge">{"OP": "*"}</code> for any number of tokens. Adjacent
+unbounded wildcard repetitions are rejected because they can create pathological
+matching behavior.</p>
+
+    <p>Alignment and boundaries:</p>
+
+    <ul>
+      <li>The matcher builds a token grid from the configured base <code class="language-plaintext highlighter-rouge">TOKEN</code> column.</li>
+      <li>Default <code class="language-plaintext highlighter-rouge">alignmentMode</code> is <code class="language-plaintext highlighter-rouge">STRICT</code>, which aligns attributes by document,
+sentence, begin, and end offsets.</li>
+      <li><code class="language-plaintext highlighter-rouge">POSITIONAL</code> alignment may be used for legacy/custom pipelines where offsets
+are unreliable but sentence-local token counts match.</li>
+      <li>Matches never cross sentence or document boundaries.</li>
+      <li>If multiple <code class="language-plaintext highlighter-rouge">TOKEN</code> input columns are present, map <code class="language-plaintext highlighter-rouge">TEXT</code>, <code class="language-plaintext highlighter-rouge">TOKEN</code>, or
+<code class="language-plaintext highlighter-rouge">LOWER</code> to the base token column explicitly.</li>
+    </ul>
+
+    <p>Overlap resolution is controlled by <code class="language-plaintext highlighter-rouge">setOverlapStrategy</code>:</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">ALL</code>: return every candidate match from every starting position. Within each
+starting position, the last pattern element greedily matches its maximum span.
+To enumerate all possible span lengths from the same start, use multiple
+explicit patterns with exact quantifiers such as <code class="language-plaintext highlighter-rouge">{1}</code>, <code class="language-plaintext highlighter-rouge">{2}</code>, and <code class="language-plaintext highlighter-rouge">{3}</code>.</li>
+      <li><code class="language-plaintext highlighter-rouge">FIRST</code>: keep the earliest non-overlapping candidates in rule order.</li>
+      <li><code class="language-plaintext highlighter-rouge">LONGEST</code>: prefer longer spans.</li>
+      <li><code class="language-plaintext highlighter-rouge">PRIORITY_LONGEST</code>: prefer higher rule priority, then longer spans.</li>
+    </ul>
+
+    <p>Output annotations have type <code class="language-plaintext highlighter-rouge">CHUNK</code>. Metadata includes <code class="language-plaintext highlighter-rouge">entity</code>, <code class="language-plaintext highlighter-rouge">label</code>,
+<code class="language-plaintext highlighter-rouge">rule</code>, <code class="language-plaintext highlighter-rouge">priority</code>, <code class="language-plaintext highlighter-rouge">pattern</code>, <code class="language-plaintext highlighter-rouge">sentence</code>, <code class="language-plaintext highlighter-rouge">chunk</code>, <code class="language-plaintext highlighter-rouge">documentKey</code>,
+<code class="language-plaintext highlighter-rouge">tokenBegin</code>, <code class="language-plaintext highlighter-rouge">tokenEnd</code>, <code class="language-plaintext highlighter-rouge">sentenceTokenBegin</code>, <code class="language-plaintext highlighter-rouge">sentenceTokenEnd</code>,
+<code class="language-plaintext highlighter-rouge">documentTokenBegin</code>, and <code class="language-plaintext highlighter-rouge">documentTokenEnd</code>. <code class="language-plaintext highlighter-rouge">tokenBegin</code> and <code class="language-plaintext highlighter-rouge">tokenEnd</code> are
+kept for compatibility and are sentence-local; prefer the explicit
+<code class="language-plaintext highlighter-rouge">sentenceToken*</code> and <code class="language-plaintext highlighter-rouge">documentToken*</code> fields in new code.</p>
+
+    <p><code class="language-plaintext highlighter-rouge">RuleBasedMatcher</code> supports Spark DataFrame pipelines, saved/loaded models,
+saved/loaded <code class="language-plaintext highlighter-rouge">PipelineModel</code>s, and <code class="language-plaintext highlighter-rouge">LightPipeline</code>. DataFrame and LightPipeline
+execution preserve input-column provenance internally. Direct calls to
+<code class="language-plaintext highlighter-rouge">RuleBasedMatcherModel.annotate</code> with flattened annotations are supported only
+when source columns are unambiguous; if multiple input columns share the same
+annotation type, provide <code class="language-plaintext highlighter-rouge">source_column</code> metadata or run through a pipeline.</p>
+
+    <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
+
+    <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">CHUNK</code></p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/matcher/rule_based_matcher/index.html#sparknlp.annotator.matcher.rule_based_matcher.RuleBasedMatcher">RuleBasedMatcher</a></td>
+          <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/matcher/RuleBasedMatcher">RuleBasedMatcher</a></td>
+          <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/matcher/RuleBasedMatcher.scala">RuleBasedMatcher</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+        <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+        <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">DocumentAssembler</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">SentenceDetector</span><span class="p">,</span>
+    <span class="n">Tokenizer</span><span class="p">,</span>
+    <span class="n">PerceptronModel</span><span class="p">,</span>
+    <span class="n">WordEmbeddingsModel</span><span class="p">,</span>
+    <span class="n">NerCrfModel</span><span class="p">,</span>
+    <span class="n">RuleBasedMatcher</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"443 8th Street New York"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+
+<span class="n">document</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+
+<span class="n">sentence</span> <span class="o">=</span> <span class="n">SentenceDetector</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"sentence"</span><span class="p">)</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+
+<span class="n">pos</span> <span class="o">=</span> <span class="n">PerceptronModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"pos_anc"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"pos"</span><span class="p">)</span>
+
+<span class="n">embeddings</span> <span class="o">=</span> <span class="n">WordEmbeddingsModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"glove_100d"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"embeddings"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setCaseSensitive</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="n">ner</span> <span class="o">=</span> <span class="n">NerCrfModel</span><span class="p">.</span><span class="n">pretrained</span><span class="p">(</span><span class="s">"ner_crf"</span><span class="p">,</span> <span class="s">"en"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"pos"</span><span class="p">,</span> <span class="s">"embeddings"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"ner"</span><span class="p">)</span>
+
+<span class="n">rules</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s">"id"</span><span class="p">:</span> <span class="s">"address_like_location"</span><span class="p">,</span>
+        <span class="s">"label"</span><span class="p">:</span> <span class="s">"ADDRESS"</span><span class="p">,</span>
+        <span class="s">"priority"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s">"patterns"</span><span class="p">:</span> <span class="p">[[</span>
+            <span class="p">{</span><span class="s">"POS"</span><span class="p">:</span> <span class="p">{</span><span class="s">"IN"</span><span class="p">:</span> <span class="p">[</span><span class="s">"NUM"</span><span class="p">,</span> <span class="s">"CD"</span><span class="p">]}},</span>
+            <span class="p">{</span><span class="s">"POS"</span><span class="p">:</span> <span class="p">{</span><span class="s">"IN"</span><span class="p">:</span> <span class="p">[</span><span class="s">"NUM"</span><span class="p">,</span> <span class="s">"CD"</span><span class="p">]}},</span>
+            <span class="p">{</span><span class="s">"POS"</span><span class="p">:</span> <span class="p">{</span><span class="s">"IN"</span><span class="p">:</span> <span class="p">[</span><span class="s">"NOUN"</span><span class="p">,</span> <span class="s">"PROPN"</span><span class="p">,</span> <span class="s">"NN"</span><span class="p">,</span> <span class="s">"NNP"</span><span class="p">]}},</span>
+            <span class="p">{</span><span class="s">"NER_TYPE"</span><span class="p">:</span> <span class="p">{</span><span class="s">"IN"</span><span class="p">:</span> <span class="p">[</span><span class="s">"GPE"</span><span class="p">,</span> <span class="s">"LOC"</span><span class="p">]},</span> <span class="s">"OP"</span><span class="p">:</span> <span class="s">"+"</span><span class="p">}</span>
+        <span class="p">]]</span>
+    <span class="p">}</span>
+<span class="p">]</span>
+
+<span class="n">matcher</span> <span class="o">=</span> <span class="n">RuleBasedMatcher</span><span class="p">()</span> \
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">,</span> <span class="s">"sentence"</span><span class="p">,</span> <span class="s">"token"</span><span class="p">,</span> <span class="s">"pos"</span><span class="p">,</span> <span class="s">"ner"</span><span class="p">])</span> \
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"rule_matches"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setRules</span><span class="p">(</span><span class="n">rules</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">setAttributeColumns</span><span class="p">({</span>
+        <span class="s">"TEXT"</span><span class="p">:</span> <span class="s">"token"</span><span class="p">,</span>
+        <span class="s">"LOWER"</span><span class="p">:</span> <span class="s">"token"</span><span class="p">,</span>
+        <span class="s">"POS"</span><span class="p">:</span> <span class="s">"pos"</span><span class="p">,</span>
+        <span class="s">"NER"</span><span class="p">:</span> <span class="s">"ner"</span><span class="p">,</span>
+        <span class="s">"NER_TYPE"</span><span class="p">:</span> <span class="s">"ner"</span>
+    <span class="p">})</span> \
+    <span class="p">.</span><span class="n">setOverlapStrategy</span><span class="p">(</span><span class="s">"ALL"</span><span class="p">)</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document</span><span class="p">,</span> <span class="n">sentence</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">ner</span><span class="p">,</span> <span class="n">matcher</span><span class="p">])</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">result</span><span class="p">.</span><span class="n">selectExpr</span><span class="p">(</span><span class="s">"explode(rule_matches) as match"</span><span class="p">).</span><span class="n">select</span><span class="p">(</span><span class="s">"match.result"</span><span class="p">,</span> <span class="s">"match.metadata"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>        </div>
+
+        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.DocumentAssembler</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"443 8th Street New York"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">document</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">sentence</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SentenceDetector</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">token</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Tokenizer</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"token"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pos</span> <span class="k">=</span> <span class="nv">PerceptronModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"pos_anc"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"pos"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">embeddings</span> <span class="k">=</span> <span class="nv">WordEmbeddingsModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"glove_100d"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setCaseSensitive</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">ner</span> <span class="k">=</span> <span class="nv">NerCrfModel</span><span class="o">.</span><span class="py">pretrained</span><span class="o">(</span><span class="s">"ner_crf"</span><span class="o">,</span> <span class="s">"en"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"pos"</span><span class="o">,</span> <span class="s">"embeddings"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"ner"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">rules</span> <span class="k">=</span>
+  <span class="s">"""
+    |[
+    |  {
+    |    "id": "address_like_location",
+    |    "label": "ADDRESS",
+    |    "priority": 10,
+    |    "patterns": [[
+    |      {"POS": {"IN": ["NUM", "CD"]}},
+    |      {"POS": {"IN": ["NUM", "CD"]}},
+    |      {"POS": {"IN": ["NOUN", "PROPN", "NN", "NNP"]}},
+    |      {"NER_TYPE": {"IN": ["GPE", "LOC"]}, "OP": "+"}
+    |    ]]
+    |  }
+    |]
+    |"""</span><span class="o">.</span><span class="py">stripMargin</span>
+
+<span class="k">val</span> <span class="nv">matcher</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">RuleBasedMatcher</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">,</span> <span class="s">"sentence"</span><span class="o">,</span> <span class="s">"token"</span><span class="o">,</span> <span class="s">"pos"</span><span class="o">,</span> <span class="s">"ner"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"rule_matches"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setRules</span><span class="o">(</span><span class="n">rules</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setAttributeColumns</span><span class="o">(</span><span class="nc">Map</span><span class="o">(</span>
+    <span class="s">"TEXT"</span> <span class="o">-&gt;</span> <span class="s">"token"</span><span class="o">,</span>
+    <span class="s">"LOWER"</span> <span class="o">-&gt;</span> <span class="s">"token"</span><span class="o">,</span>
+    <span class="s">"POS"</span> <span class="o">-&gt;</span> <span class="s">"pos"</span><span class="o">,</span>
+    <span class="s">"NER"</span> <span class="o">-&gt;</span> <span class="s">"ner"</span><span class="o">,</span>
+    <span class="s">"NER_TYPE"</span> <span class="o">-&gt;</span> <span class="s">"ner"</span><span class="o">))</span>
+  <span class="o">.</span><span class="py">setOverlapStrategy</span><span class="o">(</span><span class="s">"ALL"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">document</span><span class="o">,</span> <span class="n">sentence</span><span class="o">,</span> <span class="n">token</span><span class="o">,</span> <span class="n">pos</span><span class="o">,</span> <span class="n">embeddings</span><span class="o">,</span> <span class="n">ner</span><span class="o">,</span> <span class="n">matcher</span><span class="o">))</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">selectExpr</span><span class="o">(</span><span class="s">"explode(rule_matches) as match"</span><span class="o">).</span><span class="py">select</span><span class="o">(</span><span class="s">"match.result"</span><span class="o">,</span> <span class="s">"match.metadata"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>        </div>
+
+      </div>
+
+</details>
+
+  </div>
+
+  <div class="h3-box tabs-python-scala-box" style="display: none;">
+
+    <p>Instantiated model of the RuleBasedMatcher.
+For usage and examples see the documentation of the main class.</p>
+
+    <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT, TOKEN</code></p>
+
+    <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">CHUNK</code></p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/matcher/rule_based_matcher/index.html#sparknlp.annotator.matcher.rule_based_matcher.RuleBasedMatcherModel">RuleBasedMatcherModel</a></td>
+          <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/matcher/RuleBasedMatcherModel">RuleBasedMatcherModel</a></td>
+          <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/matcher/RuleBasedMatcherModel.scala">RuleBasedMatcherModel</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
 <div class="h3-box tabs-python-scala-box">
 
   <h2 id="sentencedetector">SentenceDetector</h2>
@@ -11147,6 +12033,244 @@ If you need to <code class="language-plaintext highlighter-rouge">setStopWords</
       </div>
 
 </details>
+
+  </div>
+
+  <div class="tabs-box tabs-new">
+
+    <h2 id="summarization">Summarization</h2>
+
+    <div class="tabs-model-aproach-head tac"><button class="tab-li-model-aproach tabheader_active">Approach</button><button class="tab-li-model-aproach">Model</button></div>
+
+    <div class="h3-box tabs-python-scala-box">
+
+      <p>High level, task oriented document summarization. <code class="language-plaintext highlighter-rouge">Summarization</code> is a zero configuration
+estimator: state <em>what</em> you want (summary length, style, focus) and the annotator decides <em>how</em>
+to produce it (model selection, prompting, generation settings, and long document handling). No
+prompt writing or model choice is required, because <code class="language-plaintext highlighter-rouge">fit()</code> resolves and downloads a sensible default
+model for the chosen method.</p>
+
+      <p>Three summarization methods are supported, each with an automatically selected default model:</p>
+
+      <ul>
+        <li><code class="language-plaintext highlighter-rouge">llm</code> (default): an instruction tuned GGUF LLM run with llama.cpp (via <code class="language-plaintext highlighter-rouge">AutoGGUFModel</code>). The
+annotator owns the summarization prompt, the system prompt, safe generation defaults, and
+reasoning mode suppression. Default model: <code class="language-plaintext highlighter-rouge">qwen3_4b_q8_0_gguf</code>.</li>
+        <li><code class="language-plaintext highlighter-rouge">encoder_decoder</code>: a specialized abstractive summarization model (<code class="language-plaintext highlighter-rouge">BartTransformer</code>, DistilBART
+fine tuned on XSum). Default model: <code class="language-plaintext highlighter-rouge">distilbart_xsum_12_6</code>.</li>
+        <li><code class="language-plaintext highlighter-rouge">extractive</code>: selects the most central sentences from the original document using sentence
+embeddings, position augmented centrality, and MMR redundancy control (a PacSum style ranker).
+The output contains only text taken from the source. Default model: <code class="language-plaintext highlighter-rouge">all_mpnet_base_v2</code>.</li>
+      </ul>
+
+      <p>Documents longer than the model context are handled automatically
+(<code class="language-plaintext highlighter-rouge">setLongDocumentStrategy("auto" | "truncate" | "hierarchical")</code>): the document is split at
+sentence boundaries into overlapping chunks, each chunk is summarized, and the intermediate
+summaries are combined and summarized again. <code class="language-plaintext highlighter-rouge">auto</code> and <code class="language-plaintext highlighter-rouge">hierarchical</code> currently behave
+identically (a document that fits is summarized in a single pass either way); only <code class="language-plaintext highlighter-rouge">truncate</code>
+differs, cutting the document to the context budget.</p>
+
+      <p>The public API exposes summarization concepts rather than model concepts:</p>
+
+      <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">summarizer</span>
+  <span class="o">.</span><span class="py">setMethod</span><span class="o">(</span><span class="s">"llm"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMaxSummaryLength</span><span class="o">(</span><span class="mi">250</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMinSummaryLength</span><span class="o">(</span><span class="mi">50</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setSummaryStyle</span><span class="o">(</span><span class="s">"concise"</span><span class="o">)</span>        <span class="c1">// concise | detailed | bullets (llm)</span>
+  <span class="o">.</span><span class="py">setFocus</span><span class="o">(</span><span class="s">"main findings"</span><span class="o">)</span>          <span class="c1">// free text focus hint (llm)</span>
+  <span class="o">.</span><span class="py">setLongDocumentStrategy</span><span class="o">(</span><span class="s">"auto"</span><span class="o">)</span>
+</code></pre></div>      </div>
+
+      <p>Advanced parameters (<code class="language-plaintext highlighter-rouge">setModel</code>, <code class="language-plaintext highlighter-rouge">setNumBeams</code>, <code class="language-plaintext highlighter-rouge">setTemperature</code>, <code class="language-plaintext highlighter-rouge">setTopP</code>, <code class="language-plaintext highlighter-rouge">setChunkSize</code>,
+<code class="language-plaintext highlighter-rouge">setChunkOverlap</code>, <code class="language-plaintext highlighter-rouge">setMmrLambda</code>, <code class="language-plaintext highlighter-rouge">setPositionBias</code>, <code class="language-plaintext highlighter-rouge">setGpuLayers</code>) are optional; most users
+never need them. Parameters that do not apply to the selected method are ignored with a logged
+warning. On CPU only clusters, set <code class="language-plaintext highlighter-rouge">setGpuLayers(0)</code> for the <code class="language-plaintext highlighter-rouge">llm</code> method.</p>
+
+      <p>Regardless of method, the output is a single <code class="language-plaintext highlighter-rouge">DOCUMENT</code> annotation whose metadata reports the
+selected <code class="language-plaintext highlighter-rouge">method</code>, <code class="language-plaintext highlighter-rouge">model</code>, <code class="language-plaintext highlighter-rouge">engine</code>, estimated original/summary token counts, number of chunks,
+and the long document strategy used.</p>
+
+      <p>For extended examples of usage, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/annotation/text/english/text-summarization/Summarization_Annotator.ipynb">example notebook</a>.</p>
+
+      <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+      <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+      <table>
+        <tbody>
+          <tr>
+            <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/seq2seq/summarization/index.html#sparknlp.annotator.seq2seq.summarization.Summarization">Summarization</a></td>
+            <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/seq2seq/Summarization">Summarization</a></td>
+            <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/Summarization.scala">Summarization</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+          <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># zero configuration: the default method (llm) and its default model are resolved at fit()
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">summarizer</span> <span class="o">=</span> <span class="n">Summarization</span><span class="p">()</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"summary"</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setMethod</span><span class="p">(</span><span class="s">"encoder_decoder"</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setMaxSummaryLength</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">summarizer</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span>
+<span class="p">...</span>     <span class="s">"Spark NLP is an open source text processing library for Python, Java and Scala. "</span>
+<span class="p">...</span>     <span class="s">"It provides production grade, scalable, and trainable versions of the latest research "</span>
+<span class="p">...</span>     <span class="s">"in natural language processing."</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"summary.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"summary.metadata"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>          </div>
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">summarizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Summarization</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"summary"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMethod</span><span class="o">(</span><span class="s">"encoder_decoder"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMaxSummaryLength</span><span class="o">(</span><span class="mi">80</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">summarizer</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+  <span class="s">"Spark NLP is an open source text processing library for Python, Java and Scala. "</span> <span class="o">+</span>
+    <span class="s">"It provides production grade, scalable, and trainable versions of the latest research "</span> <span class="o">+</span>
+    <span class="s">"in natural language processing."</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">).</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"summary.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"summary.metadata"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>          </div>
+
+        </div>
+
+</details>
+
+    </div>
+
+    <div class="h3-box tabs-python-scala-box" style="display: none;">
+
+      <p>Fitted model produced by <code class="language-plaintext highlighter-rouge">Summarization</code>. It orchestrates the resolved summarization delegate at
+the DataFrame level: prompt building, long document chunking, delegate inference, output cleanup,
+and transparency metadata.</p>
+
+      <p>The summarization <code class="language-plaintext highlighter-rouge">method</code> is bound at fit time. A <code class="language-plaintext highlighter-rouge">SummarizationModel</code> only holds the delegate
+of the method it was fitted with (<code class="language-plaintext highlighter-rouge">llm</code>, <code class="language-plaintext highlighter-rouge">encoder_decoder</code>, or <code class="language-plaintext highlighter-rouge">extractive</code>). Task parameters
+that shape the output (summary length, style, focus, long document strategy, MMR/position
+weights, generation settings) can be changed freely on the fitted model. Saving the model
+persists the underlying delegate weights, so fitted pipelines reload without network access.</p>
+
+      <p>This is the instantiated model of the <code class="language-plaintext highlighter-rouge">Summarization</code> estimator. To build one, fit a
+<code class="language-plaintext highlighter-rouge">Summarization</code> stage (see the documentation of that class).</p>
+
+      <p><strong>Note:</strong> As a DataFrame level orchestrator, this annotator is not supported in <code class="language-plaintext highlighter-rouge">LightPipeline</code>.</p>
+
+      <p><strong>Note:</strong> The <code class="language-plaintext highlighter-rouge">encoder_decoder</code> method pins inference to a single Spark partition (the BART
+backend is not thread-safe); the <code class="language-plaintext highlighter-rouge">llm</code> and <code class="language-plaintext highlighter-rouge">extractive</code> methods keep the input partitioning. A
+single fitted model instance is not safe for concurrent <code class="language-plaintext highlighter-rouge">transform</code> calls, since <code class="language-plaintext highlighter-rouge">transform</code>
+configures the shared delegate in place — use one instance per concurrent caller.</p>
+
+      <p><strong>Note:</strong> With the <code class="language-plaintext highlighter-rouge">llm</code> method the document text is embedded into the prompt, so a document
+containing instructions can influence its own summary (prompt injection). The built-in system
+prompt reduces but does not eliminate this.</p>
+
+      <p><strong>Note:</strong> <code class="language-plaintext highlighter-rouge">transform</code> caches the input row ids and the computed summaries to keep the returned
+DataFrame consistent. These caches cannot be released through this API; they are freed when the
+SparkSession ends or via <code class="language-plaintext highlighter-rouge">spark.catalog.clearCache()</code> (which clears all cached data).</p>
+
+      <p><strong>Input Annotator Types:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+      <p><strong>Output Annotator Type:</strong> <code class="language-plaintext highlighter-rouge">DOCUMENT</code></p>
+
+      <table>
+        <tbody>
+          <tr>
+            <td><strong>Python API:</strong> <a href="/api/python/reference/autosummary/sparknlp/annotator/seq2seq/summarization/index.html#sparknlp.annotator.seq2seq.summarization.SummarizationModel">SummarizationModel</a></td>
+            <td><strong>Scala API:</strong> <a href="/api/com/johnsnowlabs/nlp/annotators/seq2seq/SummarizationModel">SummarizationModel</a></td>
+            <td><strong>Source:</strong> <a href="https://github.com/JohnSnowLabs/spark-nlp/tree/master/src/main/scala/com/johnsnowlabs/nlp/annotators/seq2seq/SummarizationModel.scala">SummarizationModel</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <details>
+
+<summary class="button"><b>Show Example</b></summary>
+
+<div class="tabs-box tabs-new">
+
+          <div class="tabs-python-scala-head"><button class="tab-python-scala-li tabheader_active">Python</button><button class="tab-python-scala-li">Scala</button></div>
+
+          <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">sparknlp</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">documentAssembler</span> <span class="o">=</span> <span class="n">DocumentAssembler</span><span class="p">()</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">summarizer</span> <span class="o">=</span> <span class="n">Summarization</span><span class="p">()</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"summary"</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setMethod</span><span class="p">(</span><span class="s">"extractive"</span><span class="p">)</span> \
+<span class="p">...</span>     <span class="p">.</span><span class="n">setMaxSummaryLength</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">().</span><span class="n">setStages</span><span class="p">([</span><span class="n">documentAssembler</span><span class="p">,</span> <span class="n">summarizer</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">([[</span><span class="s">"&lt;a long document ...&gt;"</span><span class="p">]]).</span><span class="n">toDF</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="c1"># the fitted stage is a SummarizationModel; its parameters can still be tuned
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">result</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"summary.result"</span><span class="p">).</span><span class="n">show</span><span class="p">(</span><span class="n">truncate</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div>          </div>
+
+          <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.base._</span>
+<span class="k">import</span> <span class="nn">com.johnsnowlabs.nlp.annotator._</span>
+<span class="k">import</span> <span class="nn">org.apache.spark.ml.Pipeline</span>
+<span class="k">import</span> <span class="nn">spark.implicits._</span>
+
+<span class="k">val</span> <span class="nv">documentAssembler</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DocumentAssembler</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCol</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">summarizer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Summarization</span><span class="o">()</span>
+  <span class="o">.</span><span class="py">setInputCols</span><span class="o">(</span><span class="s">"document"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setOutputCol</span><span class="o">(</span><span class="s">"summary"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMethod</span><span class="o">(</span><span class="s">"extractive"</span><span class="o">)</span>
+  <span class="o">.</span><span class="py">setMaxSummaryLength</span><span class="o">(</span><span class="mi">60</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="nv">pipeline</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Pipeline</span><span class="o">().</span><span class="py">setStages</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">documentAssembler</span><span class="o">,</span> <span class="n">summarizer</span><span class="o">))</span>
+
+<span class="k">val</span> <span class="nv">data</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span><span class="s">"&lt;a long document ...&gt;"</span><span class="o">).</span><span class="py">toDF</span><span class="o">(</span><span class="s">"text"</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">model</span> <span class="k">=</span> <span class="nv">pipeline</span><span class="o">.</span><span class="py">fit</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="k">val</span> <span class="nv">result</span> <span class="k">=</span> <span class="nv">model</span><span class="o">.</span><span class="py">transform</span><span class="o">(</span><span class="n">data</span><span class="o">)</span>
+<span class="nv">result</span><span class="o">.</span><span class="py">select</span><span class="o">(</span><span class="s">"summary.result"</span><span class="o">).</span><span class="py">show</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+</code></pre></div>          </div>
+
+        </div>
+
+</details>
+
+    </div>
 
   </div>
 

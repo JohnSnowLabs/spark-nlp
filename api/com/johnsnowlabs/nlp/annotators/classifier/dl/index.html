@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 6.4.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl</title>
-          <meta name="description" content="Spark NLP 6.4.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl" />
-          <meta name="keywords" content="Spark NLP 6.4.1 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl" />
+          <title>Spark NLP 7.0.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.classifier.dl</title>
+          <meta name="description" content="Spark NLP 7.0.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.classifier.dl" />
+          <meta name="keywords" content="Spark NLP 7.0.0 ScalaDoc com.johnsnowlabs.nlp.annotators.classifier.dl" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 6.4.1 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 7.0.0 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -242,6 +242,10 @@
                         <a class="trait" href="ClassifierMetrics.html" title=""></a>
                         <a href="ClassifierMetrics.html" title="">ClassifierMetrics</a>
                       </li><li class="current-entities indented6">
+                        <a class="object" href="CrossEncoder$.html" title="This is the companion object of CrossEncoder."></a>
+                        <a class="class" href="CrossEncoder.html" title="CrossEncoder brings cross-encoder relevance scoring (as in sentence-transformers CrossEncoder) into Spark NLP as a first-class annotator."></a>
+                        <a href="CrossEncoder.html" title="CrossEncoder brings cross-encoder relevance scoring (as in sentence-transformers CrossEncoder) into Spark NLP as a first-class annotator.">CrossEncoder</a>
+                      </li><li class="current-entities indented6">
                         <a class="object" href="DeBertaForQuestionAnswering$.html" title="This is the companion object of DeBertaForQuestionAnswering."></a>
                         <a class="class" href="DeBertaForQuestionAnswering.html" title="DeBertaForQuestionAnswering can load DeBERTa Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits)."></a>
                         <a href="DeBertaForQuestionAnswering.html" title="DeBertaForQuestionAnswering can load DeBERTa Models with a span classification head on top for extractive question-answering tasks like SQuAD (a linear layer on top of the hidden-states output to compute span start logits and span end logits).">DeBertaForQuestionAnswering</a>
@@ -373,6 +377,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadClassifierDLTensorflowModel.html" title=""></a>
                         <a href="ReadClassifierDLTensorflowModel.html" title="">ReadClassifierDLTensorflowModel</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadCrossEncoderDLModel.html" title=""></a>
+                        <a href="ReadCrossEncoderDLModel.html" title="">ReadCrossEncoderDLModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="ReadDeBertaForQuestionAnsweringDLModel.html" title=""></a>
@@ -557,6 +565,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedClassifierDL.html" title=""></a>
                         <a href="ReadablePretrainedClassifierDL.html" title="">ReadablePretrainedClassifierDL</a>
+                      </li><li class="current-entities indented6">
+                        <span class="separator"></span>
+                        <a class="trait" href="ReadablePretrainedCrossEncoderModel.html" title=""></a>
+                        <a href="ReadablePretrainedCrossEncoderModel.html" title="">ReadablePretrainedCrossEncoderModel</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="ReadablePretrainedDeBertaForQAModel.html" title=""></a>
@@ -1799,6 +1811,56 @@ result.selectExpr(<span class="lit">"explode(arrays_zip(sentence, sarcasm)) as o
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="CrossEncoderextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder]withWriteOnnxModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="CrossEncoder:CrossEncoder"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/CrossEncoder.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a title="CrossEncoder brings cross-encoder relevance scoring (as in sentence-transformers CrossEncoder) into Spark NLP as a first-class annotator." href="CrossEncoder.html"><span class="name">CrossEncoder</span></a><span class="result"> extends <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="CrossEncoder.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder">CrossEncoder</a>] with <a href="../../../HasBatchedAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasBatchedAnnotate">HasBatchedAnnotate</a>[<a href="CrossEncoder.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder">CrossEncoder</a>] with <a href="../../../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a> with <a href="../../../HasCaseSensitiveProperties.html" class="extype" name="com.johnsnowlabs.nlp.HasCaseSensitiveProperties">HasCaseSensitiveProperties</a> with <a href="../../../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a></span>
+      </span>
+      
+      <p class="shortcomment cmt">CrossEncoder brings cross-encoder relevance scoring (as in <code>sentence-transformers</code>
+<code>CrossEncoder</code>) into Spark NLP as a first-class annotator.</p><div class="fullcomment"><div class="comment cmt"><p>CrossEncoder brings cross-encoder relevance scoring (as in <code>sentence-transformers</code>
+<code>CrossEncoder</code>) into Spark NLP as a first-class annotator.</p><p>It takes two row-aligned document columns, jointly encodes each row's pair as a single
+sequence <code>[CLS] text_a [SEP] text_b [SEP]</code>, runs one forward pass through a BERT-family
+transformer with a single-logit regression head, and writes one score per row to a single
+output column. The logit is squashed with a sigmoid, so every score lands in <code>[0, 1]</code>. Row <code>i</code>
+of the first column and row <code>i</code> of the second column produce row <code>i</code> of the output</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre><span class="kw">val</span> crossEncoder = CrossEncoder.pretrained()
+  .setInputCols(<span class="lit">"document1"</span>, <span class="lit">"document2"</span>)
+  .setOutputCol(<span class="lit">"score"</span>)</pre><p>The default model is <code>&quot;cross_encoder_ms_marco_minilm_l6_v2&quot;</code>, if no name is provided.</p><p>For available pretrained models please see the
+<a href="https://sparknlp.org/models?task=Text+Classification" target="_blank">Models Hub</a>.</p><p>Models from the HuggingFace 🤗 Transformers library are also compatible with Spark NLP 🚀. To
+see which models are compatible and how to import them see
+<a href="https://github.com/JohnSnowLabs/spark-nlp/discussions/5669" target="_blank">https://github.com/JohnSnowLabs/spark-nlp/discussions/5669</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
+<span class="kw">import</span> com.johnsnowlabs.nlp.base._
+<span class="kw">import</span> com.johnsnowlabs.nlp.annotator._
+<span class="kw">import</span> org.apache.spark.ml.Pipeline
+
+<span class="kw">val</span> document = <span class="kw">new</span> MultiDocumentAssembler()
+  .setInputCols(<span class="lit">"query"</span>, <span class="lit">"passage"</span>)
+  .setOutputCols(<span class="lit">"document1"</span>, <span class="lit">"document2"</span>)
+
+<span class="kw">val</span> crossEncoder = CrossEncoder.pretrained()
+  .setInputCols(<span class="lit">"document1"</span>, <span class="lit">"document2"</span>)
+  .setOutputCol(<span class="lit">"score"</span>)
+
+<span class="kw">val</span> pipeline = <span class="kw">new</span> Pipeline().setStages(<span class="std">Array</span>(document, crossEncoder))
+
+<span class="kw">val</span> data = <span class="std">Seq</span>(
+  (<span class="lit">"How many people live in Berlin?"</span>, <span class="lit">"Berlin is well known for its museums."</span>))
+  .toDF(<span class="lit">"query"</span>, <span class="lit">"passage"</span>)
+<span class="kw">val</span> result = pipeline.fit(data).transform(data)
+
+result.select(<span class="lit">"score.result"</span>).show(<span class="kw">false</span>)</pre></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>
+  <a href="BertForSequenceClassification.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.BertForSequenceClassification">BertForSequenceClassification</a> for single-sequence classification</p></span><span class="cmt"><p>
+  <a href="https://sparknlp.org/docs/en/annotators" target="_blank">Annotators Main Page</a> for a list of transformer
+  based classifiers</p></span></dd></dl></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForQuestionAnswering" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="DeBertaForQuestionAnsweringextendsAnnotatorModel[com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForQuestionAnswering]withHasBatchedAnnotate[com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForQuestionAnswering]withWriteTensorflowModelwithWriteOnnxModelwithWriteOpenvinoModelwithWriteSentencePieceModelwithHasCaseSensitivePropertieswithHasEngine"></a><a id="DeBertaForQuestionAnswering:DeBertaForQuestionAnswering"></a>
       <span class="permalink">
@@ -3109,6 +3171,22 @@ result.select(<span class="lit">"text"</span>, <span class="lit">"classification
       </span>
       
       
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadCrossEncoderDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadCrossEncoderDLModelextendsReadOnnxModel"></a><a id="ReadCrossEncoderDLModel:ReadCrossEncoderDLModel"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadCrossEncoderDLModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadCrossEncoderDLModel.html"><span class="name">ReadCrossEncoderDLModel</span></a><span class="result"> extends <a href="../../../../ml/onnx/ReadOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.ReadOnnxModel">ReadOnnxModel</a></span>
+      </span>
+      
+      
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadDeBertaForQuestionAnsweringDLModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ReadDeBertaForQuestionAnsweringDLModelextendsReadTensorflowModelwithReadOnnxModelwithReadSentencePieceModelwithReadOpenvinoModel"></a><a id="ReadDeBertaForQuestionAnsweringDLModel:ReadDeBertaForQuestionAnsweringDLModel"></a>
       <span class="permalink">
@@ -3842,6 +3920,22 @@ result.select(<span class="lit">"text"</span>, <span class="lit">"classification
       </span>
       <span class="symbol">
         <a title="" href="ReadablePretrainedClassifierDL.html"><span class="name">ReadablePretrainedClassifierDL</span></a><span class="result"> extends <a href="../../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="ClassifierDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel">ClassifierDLModel</a>] with <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="ClassifierDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel">ClassifierDLModel</a>]</span>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedCrossEncoderModel" visbl="pub" class="indented0 " data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReadablePretrainedCrossEncoderModelextendsParamsAndFeaturesReadable[com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder]withHasPretrained[com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder]"></a><a id="ReadablePretrainedCrossEncoderModel:ReadablePretrainedCrossEncoderModel"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/ReadablePretrainedCrossEncoderModel.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="ReadablePretrainedCrossEncoderModel.html"><span class="name">ReadablePretrainedCrossEncoderModel</span></a><span class="result"> extends <a href="../../../ParamsAndFeaturesReadable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesReadable">ParamsAndFeaturesReadable</a>[<a href="CrossEncoder.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder">CrossEncoder</a>] with <a href="../../../HasPretrained.html" class="extype" name="com.johnsnowlabs.nlp.HasPretrained">HasPretrained</a>[<a href="CrossEncoder.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder">CrossEncoder</a>]</span>
       </span>
       
       
@@ -5558,6 +5652,24 @@ documentation.
       </span>
       
       <p class="shortcomment cmt">This is the companion object of <a href="ClassifierDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel">ClassifierDLModel</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="ClassifierDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ClassifierDLModel">ClassifierDLModel</a>. Please refer to that class for the
+documentation.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="CrossEncoder"></a><a id="CrossEncoder:CrossEncoder"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/classifier/dl/CrossEncoder$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="This is the companion object of CrossEncoder." href="CrossEncoder$.html"><span class="name">CrossEncoder</span></a><span class="result"> extends <a href="ReadablePretrainedCrossEncoderModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadablePretrainedCrossEncoderModel">ReadablePretrainedCrossEncoderModel</a> with <a href="ReadCrossEncoderDLModel.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.ReadCrossEncoderDLModel">ReadCrossEncoderDLModel</a> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">This is the companion object of <a href="CrossEncoder.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder">CrossEncoder</a>.</p><div class="fullcomment"><div class="comment cmt"><p>This is the companion object of <a href="CrossEncoder.html" class="extype" name="com.johnsnowlabs.nlp.annotators.classifier.dl.CrossEncoder">CrossEncoder</a>. Please refer to that class for the
 documentation.
 </p></div></div>
     </li><li name="com.johnsnowlabs.nlp.annotators.classifier.dl.DeBertaForQuestionAnswering" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">

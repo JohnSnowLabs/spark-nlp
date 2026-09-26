@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2 active"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/tasks/landing_page">Tasks</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/unstructured_data_extraction">Unstructured Data Extraction</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/spark4_migration">Migrating to Spark 4</a></li><li class="toc-h2 active"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/tasks/landing_page">Tasks</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/unstructured_data_extraction">Unstructured Data Extraction</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -606,11 +606,45 @@
         <td><code class="language-plaintext highlighter-rouge">SEQUENTIAL</code></td>
         <td>Sets the execution mode of this options object, overriding the old setting.</td>
       </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">spark.jsl.settings.onnx.cuda.preload.mode</code></td>
+        <td><code class="language-plaintext highlighter-rouge">search</code></td>
+        <td>Controls failure-first ONNX CUDA native-dependency recovery: <code class="language-plaintext highlighter-rouge">off</code>, <code class="language-plaintext highlighter-rouge">search</code>, or <code class="language-plaintext highlighter-rouge">explicit</code>. Recovery runs only after a recognized CUDA-provider dependency-loading failure.</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">spark.jsl.settings.onnx.cuda.preload.paths</code></td>
+        <td>Empty</td>
+        <td>In <code class="language-plaintext highlighter-rouge">search</code> mode, a platform path-separated list of trusted directories with highest precedence. In <code class="language-plaintext highlighter-rouge">explicit</code> mode, the complete ordered list of absolute CUDA library files required by the packaged ONNX Runtime provider.</td>
+      </tr>
     </tbody>
   </table>
 
 </div>
 <div class="h3-box">
+
+  <h3 id="onnx-cuda-native-dependency-recovery">ONNX CUDA native-dependency recovery</h3>
+
+  <p>Spark NLP first registers the ONNX Runtime CUDA provider normally. If registration succeeds, it does not inspect preload configuration, search the filesystem, call <code class="language-plaintext highlighter-rouge">System.load</code>, or retry. If registration fails because a required CUDA shared library cannot be loaded, Spark NLP can preload already-installed libraries inside the executor JVM and retry provider registration once with fresh provider and session-option objects.</p>
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">search</code> (default): resolve the packaged provider’s dependency manifest from trusted operator directories, runtime and linker paths, and a bounded search under generic installation roots. Resolution fails on missing or ambiguous candidates, and every group- or world-writable library is rejected.</li>
+    <li><code class="language-plaintext highlighter-rouge">explicit</code>: validate the configured complete ordered list of absolute regular files and load those exact canonical files without searching. A group-writable library is accepted only when its owner and group exactly match the authenticated executor identity; use this exception only on a platform with a documented guarantee that the executor group is exclusive to the authenticated executor identity.</li>
+    <li><code class="language-plaintext highlighter-rouge">off</code>: preserve the legacy failure path without reading the paths setting, discovery, preload, or retry.</li>
+  </ul>
+
+  <p>All enabled modes fail closed. Recovery never silently falls back to CPU, does not install or bundle CUDA, does not use Python discovery, and is independent from model warm-up. Native-library paths are runtime Spark configuration and are not persisted in models.</p>
+
+  <p>Before any native load, Spark NLP canonicalizes and validates the complete manifest. Each library must be a readable ELF64 shared object whose architecture and uniquely mapped <code class="language-plaintext highlighter-rouge">DT_SONAME</code> match the current runtime and required manifest entry. The library and every canonical ancestor must be owned by <code class="language-plaintext highlighter-rouge">root</code> or the authenticated POSIX executor identity. Library files must not be world-writable. Search mode rejects group-writable libraries; explicit mode permits group-write only for a file whose owner and group exactly match the authenticated executor identity. Every canonical ancestor remains non-group-writable and non-world-writable. Filesystems without POSIX ownership and permission attributes are rejected. Search symlinks must remain inside their approved canonical root, and directory symlinks are not traversed.</p>
+
+  <p>Filesystem work is capped across discovery tiers at 20,000 visited entries, including path-list entries and configured directory canonicalization attempts. The configured preload path-list value and the aggregate runtime-derived path-list text each have an independent 1 MiB cap before trimming or splitting. Generic installation-root and linker-configuration traversal has a maximum depth of 6. The aggregate linker-configuration input across the root file and all recursive includes is capped at 1 MiB. Fixed-path <code class="language-plaintext highlighter-rouge">ldconfig -p</code> output is separately capped at 1 MiB, and <code class="language-plaintext highlighter-rouge">ldconfig</code> must terminate within 2 seconds after normal completion or forced destruction. Exceeding any limit fails recovery instead of broadening the search.</p>
+
+  <p>Example explicit configuration on Linux:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--conf</span> spark.jsl.settings.onnx.cuda.preload.mode<span class="o">=</span>explicit <span class="se">\</span>
+<span class="nt">--conf</span> spark.jsl.settings.onnx.cuda.preload.paths<span class="o">=</span>/absolute/cuda/libcudart.so.12:/absolute/cuda/libcublasLt.so.12:/absolute/cuda/libcublas.so.12:/absolute/cuda/libcurand.so.10:/absolute/cuda/libcufft.so.11:/absolute/cuda/libcudnn.so.9
+</code></pre></div>  </div>
+
+  <p>The exact SONAME inventory is version-coupled to the ONNX Runtime GPU provider packaged by Spark NLP. Reconcile it against <code class="language-plaintext highlighter-rouge">libonnxruntime_providers_cuda.so</code> whenever the ONNX Runtime dependency changes.</p>
 
   <h3 id="how-to-set-spark-nlp-configuration">How to set Spark NLP Configuration</h3>
 
@@ -628,8 +662,10 @@
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.kryoserializer.buffer.max"</span><span class="p">,</span> <span class="s">"2000m"</span><span class="p">)</span>
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jsl.settings.pretrained.cache_folder"</span><span class="p">,</span> <span class="s">"sample_data/pretrained"</span><span class="p">)</span>
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jsl.settings.storage.cluster_tmp_dir"</span><span class="p">,</span> <span class="s">"sample_data/storage"</span><span class="p">)</span>
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars.packages"</span><span class="p">,</span> <span class="s">"com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.0"</span><span class="p">)</span>
-    <span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars.packages"</span><span class="p">,</span> <span class="s">"com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0"</span><span class="p">)</span>
+    <span class="c1"># Apache Spark 4.0.0 (Scala 2.13): com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0
+</span>    <span class="c1"># Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13): com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
+</span>    <span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 </code></pre></div>  </div>
 
   <p><strong>spark-shell:</strong></p>
@@ -641,8 +677,11 @@
   <span class="nt">--conf</span> spark.kryoserializer.buffer.max<span class="o">=</span>2000M <span class="se">\</span>
   <span class="nt">--conf</span> spark.jsl.settings.pretrained.cache_folder<span class="o">=</span><span class="s2">"sample_data/pretrained"</span> <span class="se">\</span>
   <span class="nt">--conf</span> spark.jsl.settings.storage.cluster_tmp_dir<span class="o">=</span><span class="s2">"sample_data/storage"</span> <span class="se">\</span>
-  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.0
+  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
 </code></pre></div>  </div>
+
+  <p>On Apache Spark 4.0.0, use <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0</code>; on Apache Spark 4.0.1,
+4.1.0, 4.1.1, or 4.1.2, use <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0</code>.</p>
 
   <p><strong>pyspark:</strong></p>
 
@@ -653,8 +692,11 @@
   <span class="nt">--conf</span> spark.kryoserializer.buffer.max<span class="o">=</span>2000M <span class="se">\</span>
   <span class="nt">--conf</span> spark.jsl.settings.pretrained.cache_folder<span class="o">=</span><span class="s2">"sample_data/pretrained"</span> <span class="se">\</span>
   <span class="nt">--conf</span> spark.jsl.settings.storage.cluster_tmp_dir<span class="o">=</span><span class="s2">"sample_data/storage"</span> <span class="se">\</span>
-  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.0
+  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
 </code></pre></div>  </div>
+
+  <p>On Apache Spark 4.0.0, use <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0</code>; on Apache Spark 4.0.1,
+4.1.0, 4.1.1, or 4.1.2, use <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0</code>.</p>
 
   <p><strong>Databricks:</strong></p>
 
@@ -745,7 +787,7 @@ This script requires three arguments:</p>
 
 </div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2024-07-04T00:00:00+00:00">Jul 04, 2024</time>
+      <time itemprop="dateModified" datetime="2026-08-27T00:00:00+00:00">Aug 27, 2026</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -904,7 +946,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/install">Install Spark NLP</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/features">Features</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/spark4_migration">Migrating to Spark 4</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/features">Features</a></div></div></div>
 
 </div>
 </div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Getting Started &#8212; Spark NLP 6.4.1 documentation</title>
+    <title>Getting Started &#8212; Spark NLP 7.0.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=88b3fc5d"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=cd9f6827"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -124,8 +124,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.1 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.1 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -365,58 +365,75 @@ document.write(`
 <h2>Spark NLP Cheat Sheet<a class="headerlink" href="#spark-nlp-cheat-sheet" title="Permalink to this heading">#</a></h2>
 <p>This cheat sheet can be used as a quick reference on how to set up your environment:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Spark NLP from PyPI</span>
-pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">6</span>.4.1
+pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">7</span>.0.0
 
 <span class="c1"># Install Spark NLP from Anaconda/Conda</span>
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">6</span>.4.1
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">7</span>.0.0
 
 <span class="c1"># Load Spark NLP with Spark Shell</span>
-spark-shell<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+<span class="c1"># Apache Spark 3.x (Scala 2.12)</span>
+spark-shell<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
+<span class="c1"># Apache Spark 4.0.0 (Scala 2.13)</span>
+spark-shell<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0
+<span class="c1"># Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13)</span>
+spark-shell<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
 
 <span class="c1"># Load Spark NLP with PySpark</span>
-pyspark<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+<span class="c1"># Apache Spark 3.x (Scala 2.12)</span>
+pyspark<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
+<span class="c1"># Apache Spark 4.0.0 (Scala 2.13)</span>
+pyspark<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0
+<span class="c1"># Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13)</span>
+pyspark<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
 
 <span class="c1"># Load Spark NLP with Spark Submit</span>
-spark-submit<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+<span class="c1"># Apache Spark 3.x (Scala 2.12)</span>
+spark-submit<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
+
+<span class="c1"># Spark 4.0.0 / Scala 2.13</span>
+spark-submit<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0
+
+<span class="c1"># Spark 4.0.1 and later validated Spark 4 versions / Scala 2.13</span>
+spark-submit<span class="w"> </span>--packages<span class="w"> </span>com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
 
 <span class="c1"># Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`</span>
-spark-shell<span class="w"> </span>--jar<span class="w"> </span>spark-nlp-assembly-6.4.1
+spark-shell<span class="w"> </span>--jar<span class="w"> </span>spark-nlp-assembly-7.0.0
 </pre></div>
 </div>
 </section>
 <section id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
-<p>Spark NLP is built on top of Apache Spark <cite>3.x</cite>. For using Spark NLP you need:</p>
-<ul>
-<li><p>Java 8</p></li>
-<li><p>Apache Spark (from <code class="docutils literal notranslate"><span class="pre">2.3.x</span></code> to <code class="docutils literal notranslate"><span class="pre">3.3.x</span></code>)</p></li>
-<li><p>Python <code class="docutils literal notranslate"><span class="pre">3.8.x</span></code> if you are using PySpark <code class="docutils literal notranslate"><span class="pre">3.x</span></code></p>
-<blockquote>
-<div><ul class="simple">
-<li><p><strong>NOTE</strong>: Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
-python version, consider sticking to lower versions of Spark.</p></li>
-<li><p>For Python <code class="docutils literal notranslate"><span class="pre">3.6.x</span></code> and <code class="docutils literal notranslate"><span class="pre">3.7.x</span></code> we recommend PySpark <code class="docutils literal notranslate"><span class="pre">2.3.x</span></code> or <code class="docutils literal notranslate"><span class="pre">2.4.x</span></code></p></li>
+<p>Spark NLP supports explicit Spark/Scala runtime lanes:</p>
+<ul class="simple">
+<li><p>Spark 3.x with Scala 2.12</p></li>
+<li><p>Spark 4.0.0 with Scala 2.13 through the dedicated <code class="docutils literal notranslate"><span class="pre">spark400</span></code> artifact</p></li>
+<li><p>Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2 with Scala 2.13 through the default <code class="docutils literal notranslate"><span class="pre">_2.13</span></code> artifact</p></li>
 </ul>
-</div></blockquote>
-</li>
-</ul>
+<p>Spark 3.x with Scala 2.13 and Spark 4.x with Scala 2.12 are not supported. Use a
+Java and Python version supported by the selected Apache Spark runtime; Spark 4
+validation uses Java 17.</p>
 <p>It is recommended to have basic knowledge of the framework and a working environment before using Spark NLP.
 Please refer to <a class="reference external" href="https://spark.apache.org/docs/latest/api/python/index.html">Spark documentation</a> to get started with Spark.</p>
 </section>
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
-<p>First, let’s make sure the installed java version is Java 8 (Oracle or OpenJDK):</p>
+<p>First, make sure the installed Java version matches the selected Spark runtime.
+Use the existing Java 8/11 support baseline for Spark 3.x and Java 17 for Spark 4.x:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>java<span class="w"> </span>-version
-<span class="c1"># openjdk version &quot;1.8.0_292&quot;</span>
+<span class="c1"># Spark 3.x: Java 8/11 baseline</span>
+<span class="c1"># Spark 4.x: Java 17</span>
 </pre></div>
 </div>
 <section id="using-conda">
 <h3>Using Conda<a class="headerlink" href="#using-conda" title="Permalink to this heading">#</a></h3>
 <p>Let’s create a new <a class="reference external" href="https://docs.conda.io/projects/conda/en/latest/index.html">conda</a> environment to manage all the dependencies there.</p>
 <p>Then we can create a new environment <code class="docutils literal notranslate"><span class="pre">sparknlp</span></code> and install the <code class="docutils literal notranslate"><span class="pre">spark-nlp</span></code> package with pip:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sparknlp<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8<span class="w"> </span>-y
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sparknlp<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.9<span class="w"> </span>-y
 conda<span class="w"> </span>activate<span class="w"> </span>sparknlp
-conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">6</span>.4.1<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.4.4<span class="w"> </span>jupyter
+<span class="c1"># Apache Spark 3.x (Scala 2.12)</span>
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">7</span>.0.0<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.5.1<span class="w"> </span>jupyter
+<span class="c1"># Apache Spark 4.x (Scala 2.13)</span>
+conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>johnsnowlabs<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">7</span>.0.0<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">4</span>.0.0<span class="w"> </span>jupyter
 </pre></div>
 </div>
 <p>Now you should be ready to create a jupyter notebook with Spark NLP running:</p>
@@ -427,9 +444,12 @@ conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> <
 <section id="using-virtualenv">
 <h3>Using Virtualenv<a class="headerlink" href="#using-virtualenv" title="Permalink to this heading">#</a></h3>
 <p>We can also create a Python <a class="reference external" href="https://virtualenv.pypa.io/en/latest/">Virtualenv</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>virtualenv<span class="w"> </span>sparknlp<span class="w"> </span>--python<span class="o">=</span>python3.8<span class="w"> </span><span class="c1"># depends on how your Python installation is set up</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>virtualenv<span class="w"> </span>sparknlp<span class="w"> </span>--python<span class="o">=</span>python3.9<span class="w"> </span><span class="c1"># depends on how your Python installation is set up</span>
 <span class="nb">source</span><span class="w"> </span>sparknlp/bin/activate
-pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">6</span>.4.1<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.4.4<span class="w"> </span>jupyter
+<span class="c1"># Apache Spark 3.x (Scala 2.12)</span>
+pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">7</span>.0.0<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">3</span>.5.1<span class="w"> </span>jupyter
+<span class="c1"># Apache Spark 4.x (Scala 2.13)</span>
+pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="o">==</span><span class="m">7</span>.0.0<span class="w"> </span><span class="nv">pyspark</span><span class="o">==</span><span class="m">4</span>.0.0<span class="w"> </span>jupyter
 </pre></div>
 </div>
 <p>Now you should be ready to create a jupyter notebook with Spark NLP running:</p>
@@ -445,6 +465,20 @@ pip<span class="w"> </span>install<span class="w"> </span>spark-nlp<span class="
 <span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>The same Python wheel supports the declared Spark 3 and Spark 4 lanes.
+<code class="docutils literal notranslate"><span class="pre">sparknlp.start()</span></code> detects the installed PySpark version and resolves:</p>
+<ul class="simple">
+<li><p>Spark 3.x to <code class="docutils literal notranslate"><span class="pre">spark-nlp_2.12</span></code></p></li>
+<li><p>Spark 4.0.0 to <code class="docutils literal notranslate"><span class="pre">spark-nlp-spark400_2.13</span></code></p></li>
+<li><p>Later Spark 4.x releases to <code class="docutils literal notranslate"><span class="pre">spark-nlp_2.13</span></code></p></li>
+</ul>
+<p>Automatic selection accepts release versions in <code class="docutils literal notranslate"><span class="pre">major.minor.patch</span></code> format
+and does not imply that every Spark 4.x release has been validated.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">gpu</span></code>, <code class="docutils literal notranslate"><span class="pre">apple_silicon</span></code>, and <code class="docutils literal notranslate"><span class="pre">aarch64</span></code> options select the corresponding
+hardware artifact in the same runtime lane. Only one hardware option may be enabled.</p>
+<p>The release line that introduces this mapping removes the experimental
+<code class="docutils literal notranslate"><span class="pre">scala213</span></code> argument. Install a supported PySpark version and allow
+<code class="docutils literal notranslate"><span class="pre">sparknlp.start()</span></code> to select Scala and the Maven lane automatically.</p>
 <p>If you need to manually start SparkSession because you have other configurations and <code class="docutils literal notranslate"><span class="pre">sparknlp.start()</span></code> is not including them,
 you can manually start the SparkSession with:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span> \
@@ -454,10 +488,13 @@ you can manually start the SparkSession with:</p>
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.serializer&quot;</span><span class="p">,</span> <span class="s2">&quot;org.apache.spark.serializer.KryoSerializer&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.kryoserializer.buffer.max&quot;</span><span class="p">,</span> <span class="s2">&quot;2000M&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.driver.maxResultSize&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>The manual example above is for Apache Spark 3.x (Scala 2.12). Use
+<code class="docutils literal notranslate"><span class="pre">com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:|release|</span></code> for Spark 4.0.0, or
+<code class="docutils literal notranslate"><span class="pre">com.johnsnowlabs.nlp:spark-nlp_2.13:|release|</span></code> for Spark 4.0.1, 4.1.0, 4.1.1, or 4.1.2.</p>
 </section>
 </section>
 

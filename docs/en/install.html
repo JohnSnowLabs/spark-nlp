@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2 active"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/tasks/landing_page">Tasks</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/unstructured_data_extraction">Unstructured Data Extraction</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2 active"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/spark4_migration">Migrating to Spark 4</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/tasks/landing_page">Tasks</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/unstructured_data_extraction">Unstructured Data Extraction</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -536,27 +536,42 @@
   <h2 id="spark-nlp-cheatsheet">Spark NLP Cheatsheet</h2>
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install Spark NLP from PyPI</span>
-pip <span class="nb">install </span>spark-nlp<span class="o">==</span>6.4.1
+pip <span class="nb">install </span>spark-nlp<span class="o">==</span>7.0.0
 
 <span class="c"># Install Spark NLP from Anaconda/Conda</span>
 conda <span class="nb">install</span> <span class="nt">-c</span> johnsnowlabs spark-nlp
 
 <span class="c"># Load Spark NLP with Spark Shell</span>
-spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+<span class="c">## Apache Spark 3.x (Scala 2.12)</span>
+spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
+<span class="c">## Apache Spark 4.0.0 (Scala 2.13)</span>
+spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0
+<span class="c">## Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13)</span>
+spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
 
 <span class="c"># Load Spark NLP with PySpark</span>
-pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+<span class="c">## Apache Spark 3.x (Scala 2.12)</span>
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
+<span class="c">## Apache Spark 4.0.0 (Scala 2.13)</span>
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0
+<span class="c">## Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13)</span>
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
 
 <span class="c"># Load Spark NLP with Spark Submit</span>
-spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+<span class="c">## Apache Spark 3.x (Scala 2.12)</span>
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
+<span class="c">## Apache Spark 4.0.0 (Scala 2.13)</span>
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0
+<span class="c">## Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13)</span>
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
 
 <span class="c"># Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`</span>
-spark-shell <span class="nt">--jars</span> spark-nlp-assembly-6.4.1.jar
+spark-shell <span class="nt">--jars</span> spark-nlp-assembly-7.0.0.jar
 </code></pre></div>  </div>
 
   <p><strong>GPU (optional):</strong></p>
 
-  <p>Spark NLP 6.4.1 is built with ONNX 1.17.0 and TensorFlow 2.7.1 deep learning engines. The minimum following NVIDIA® software are only required for GPU support:</p>
+  <p>Spark NLP 7.0.0 is built with ONNX 1.17.0 and TensorFlow 2.7.1 deep learning engines. The minimum following NVIDIA® software are only required for GPU support:</p>
 
   <ul>
     <li>NVIDIA® GPU drivers version 450.80.02 or higher</li>
@@ -567,22 +582,20 @@ spark-shell <span class="nt">--jars</span> spark-nlp-assembly-6.4.1.jar
 </div>
 <div class="h3-box">
 
-  <h3 id="scala-213">Scala 2.13</h3>
+  <h3 id="spark-4-and-scala-213">Spark 4 and Scala 2.13</h3>
 
-  <p><strong>NOTE</strong>: PySpark from PyPI is based on Scala 2.12 by default, and you can use our Scala 2.12 version. If you need to start a Scala 2.13 instance, you can set the <code class="language-plaintext highlighter-rouge">SPARK_HOME</code> environment variable to a Spark Scala 2.13 installation, or install PySpark from the official Spark archives.</p>
+  <p>Spark 4 uses Scala 2.13. Spark 4.0.0 has a dedicated artifact because its Spark ML <code class="language-plaintext highlighter-rouge">Param[T]</code> ABI is not binary-compatible with Spark 4.0.1 and later validated Spark 4 releases.</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Load Spark NLP with Spark Shell</span>
-spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:6.4.1
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Spark 4.0.0 only</span>
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0
 
-<span class="c"># Load Spark NLP with PySpark</span>
-pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:6.4.1
-
-<span class="c"># Load Spark NLP with Spark Submit</span>
-spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:6.4.1
-
-<span class="c"># Load Spark NLP as external JAR after compiling and building Spark NLP by `sbt assembly`</span>
-spark-shell <span class="nt">--jars</span> spark-nlp-assembly-6.4.1.jar
+<span class="c"># Spark 4.0.1 and later validated Spark 4 versions</span>
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
 </code></pre></div>  </div>
+
+  <p>The same naming rule applies to GPU, Apple Silicon, and Linux AArch64 artifacts, for example <code class="language-plaintext highlighter-rouge">spark-nlp-gpu-spark400_2.13</code> for Spark 4.0.0 and <code class="language-plaintext highlighter-rouge">spark-nlp-gpu_2.13</code> for the forward Spark 4 lane.</p>
+
+  <p>Spark 3.x with Scala 2.13 and Spark 4.x with Scala 2.12 are not supported.</p>
 
   <h2 id="python">Python</h2>
 
@@ -599,10 +612,18 @@ python version, consider sticking to lower versions of Spark.</p>
   <p>Let’s create a new Conda environment to manage all the dependencies there. You can use Python Virtual Environment if you prefer or not have any environment.</p>
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>java <span class="nt">-version</span>
-<span class="c"># should be Java 8 (Oracle or OpenJDK)</span>
-<span class="nv">$ </span>conda create <span class="nt">-n</span> sparknlp <span class="nv">python</span><span class="o">=</span>3.8 <span class="nt">-y</span>
+<span class="c"># Java 8 or 11 for Apache Spark 3.x, Java 17 for Apache Spark 4.x</span>
+<span class="nv">$ </span>conda create <span class="nt">-n</span> sparknlp <span class="nv">python</span><span class="o">=</span>3.9 <span class="nt">-y</span>
 <span class="nv">$ </span>conda activate sparknlp
-<span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>6.4.1 <span class="nv">pyspark</span><span class="o">==</span>3.3.1
+
+<span class="c"># Apache Spark 3.x (Scala 2.12) -&gt; spark-nlp_2.12</span>
+<span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>7.0.0 <span class="nv">pyspark</span><span class="o">==</span>3.5.1
+
+<span class="c"># Apache Spark 4.0.0 (Scala 2.13) -&gt; spark-nlp-spark400_2.13</span>
+<span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>7.0.0 <span class="nv">pyspark</span><span class="o">==</span>4.0.0
+
+<span class="c"># Apache Spark 4.0.1 and later validated Spark 4 versions (Scala 2.13) -&gt; spark-nlp_2.13</span>
+<span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>7.0.0 <span class="nv">pyspark</span><span class="o">==</span>4.0.1
 </code></pre></div>  </div>
 
   <p>Of course you will need to have jupyter installed in your system:</p>
@@ -626,6 +647,37 @@ python version, consider sticking to lower versions of Spark.</p>
 <span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
 </code></pre></div>  </div>
 
+  <p>The same Python wheel supports the declared Spark 3 and Spark 4 runtime lanes. <code class="language-plaintext highlighter-rouge">sparknlp.start()</code> detects the installed PySpark version and selects the Maven artifact automatically:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Installed PySpark</th>
+        <th>Selected artifact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Spark 3.x</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp_2.12</code></td>
+      </tr>
+      <tr>
+        <td>Spark 4.0.0</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp-spark400_2.13</code></td>
+      </tr>
+      <tr>
+        <td>Later Spark 4.x releases</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Automatic selection accepts release versions in <code class="language-plaintext highlighter-rouge">major.minor.patch</code> format and does not imply that every Spark 4.x release has been validated.</p>
+
+  <p>The selected hardware option is applied to the same lane. For example, <code class="language-plaintext highlighter-rouge">sparknlp.start(gpu=True)</code> selects the corresponding <code class="language-plaintext highlighter-rouge">spark-nlp-gpu</code> artifact. Only one of <code class="language-plaintext highlighter-rouge">gpu</code>, <code class="language-plaintext highlighter-rouge">apple_silicon</code>, or <code class="language-plaintext highlighter-rouge">aarch64</code> may be enabled.</p>
+
+  <p>Migration note: the release line that introduces this mapping removes the experimental <code class="language-plaintext highlighter-rouge">scala213</code> argument from <code class="language-plaintext highlighter-rouge">sparknlp.start()</code>. Do not pass a Scala selector; install the supported PySpark runtime and let Spark NLP resolve the matching artifact.</p>
+
   <p>If you need to manually start SparkSession because you have other configurations and <code class="language-plaintext highlighter-rouge">sparknlp.start()</code> is not including them,
 you can manually start the SparkSession with:</p>
 
@@ -636,9 +688,11 @@ you can manually start the SparkSession with:</p>
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.serializer"</span><span class="p">,</span> <span class="s">"org.apache.spark.serializer.KryoSerializer"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.kryoserializer.buffer.max"</span><span class="p">,</span> <span class="s">"2000M"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.driver.maxResultSize"</span><span class="p">,</span> <span class="s">"0"</span><span class="p">)</span> \
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars.packages"</span><span class="p">,</span> <span class="s">"com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1"</span><span class="p">)</span> \
+    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars.packages"</span><span class="p">,</span> <span class="s">"com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 </code></pre></div>  </div>
+
+  <p>The manual example above is for Spark 3.x. For Spark 4.0.0 use <code class="language-plaintext highlighter-rouge">spark-nlp-spark400_2.13</code>; for later Spark 4.x releases use <code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code>.</p>
 
   <p>If using local jars, you can use <code class="language-plaintext highlighter-rouge">spark.jars</code> instead for comma-delimited jar files. For cluster setups, of course,
 you’ll have to put the jars in a reachable location for all driver and executor nodes.</p>
@@ -654,7 +708,7 @@ you’ll have to put the jars in a reachable location for all driver and executo
 
   <p>Pip:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>6.4.1
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>7.0.0
 </code></pre></div>  </div>
 
   <p>Conda:</p>
@@ -695,55 +749,87 @@ Anaconda <a href="https://anaconda.org/JohnSnowLabs/spark-nlp">spark-nlp package
 
   <h2 id="scala-and-java">Scala and Java</h2>
 
-  <p>To use Spark NLP you need the following requirements:</p>
+  <p>Select the Java and Scala line that matches the Spark runtime:</p>
 
   <ul>
-    <li>Java 8 and 11</li>
-    <li>Apache Spark 3.5.x, 3.4.x, 3.3.x, 3.2.x, 3.1.x, 3.0.x</li>
+    <li>Java 8 and 11 for Apache Spark 3.x, or Java 17 for Apache Spark 4.x</li>
+    <li>Apache Spark 3.5.x, 3.4.x, 3.3.x, 3.2.x, 3.1.x, 3.0.x (Scala 2.12), or Apache Spark 4.x (Scala 2.13)</li>
   </ul>
 
   <h4 id="maven">Maven</h4>
 
-  <p><strong>spark-nlp</strong> on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x</p>
+  <p><strong>spark-nlp</strong> on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x (Scala 2.12), and on Apache Spark 4.x (Scala 2.13)</p>
 
   <p>The <code class="language-plaintext highlighter-rouge">spark-nlp</code> has been published to
 the <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp">Maven Repository</a>.</p>
 
   <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp --&gt;</span>
+<span class="c">&lt;!-- Apache Spark 3.x (Scala 2.12) --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.12<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>6.4.1<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="c">&lt;!-- Apache Spark 4.x (Scala 2.13) --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.13<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>  </div>
 
   <p><strong>spark-nlp-gpu:</strong></p>
 
   <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu --&gt;</span>
+<span class="c">&lt;!-- Apache Spark 3.x (Scala 2.12) --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu_2.12<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>6.4.1<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="c">&lt;!-- Apache Spark 4.x (Scala 2.13) --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu_2.13<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>  </div>
 
   <p><strong>spark-nlp-silicon:</strong></p>
 
   <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon --&gt;</span>
+<span class="c">&lt;!-- Apache Spark 3.x (Scala 2.12) --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>spark-nlp-silicon_2.12<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>6.4.1<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="c">&lt;!-- Apache Spark 4.x (Scala 2.13) --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-silicon_2.13<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>  </div>
 
   <p><strong>spark-nlp-aarch64:</strong></p>
 
   <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64 --&gt;</span>
+<span class="c">&lt;!-- Apache Spark 3.x (Scala 2.12) --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>spark-nlp-aarch64_2.12<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>6.4.1<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="c">&lt;!-- Apache Spark 4.x (Scala 2.13) --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-aarch64_2.13<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>  </div>
 
@@ -752,125 +838,112 @@ the <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp">
 
   <h4 id="sbt">SBT</h4>
 
-  <p><strong>spark-nlp</strong> on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, and 3.4.x</p>
+  <p><strong>spark-nlp</strong> on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x (Scala 2.12), and on Apache Spark 4.x (Scala 2.13)</p>
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp</span>
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp"</span> <span class="o">%</span> <span class="s">"6.4.1"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp"</span> <span class="o">%</span> <span class="s">"7.0.0"</span>
 </code></pre></div>  </div>
 
   <p><strong>spark-nlp-gpu:</strong></p>
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-gpu</span>
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-gpu"</span> <span class="o">%</span> <span class="s">"6.4.1"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-gpu"</span> <span class="o">%</span> <span class="s">"7.0.0"</span>
 </code></pre></div>  </div>
 
   <p><strong>spark-nlp-silicon:</strong></p>
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon</span>
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-silicon"</span> <span class="o">%</span> <span class="s">"6.4.1"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-silicon"</span> <span class="o">%</span> <span class="s">"7.0.0"</span>
 </code></pre></div>  </div>
 
   <p><strong>spark-nlp-aarch64:</strong></p>
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-aarch64</span>
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-aarch64"</span> <span class="o">%</span> <span class="s">"6.4.1"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-aarch64"</span> <span class="o">%</span> <span class="s">"7.0.0"</span>
 </code></pre></div>  </div>
 
   <p>Maven Central: <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp">https://mvnrepository.com/artifact/com.johnsnowlabs.nlp</a></p>
 
   <p>If you are interested, there is a simple SBT project for Spark NLP to guide you on how to use it in your projects <a href="https://github.com/maziyarpanahi/spark-nlp-starter">Spark NLP SBT Starter</a></p>
 
-  <h3 id="scala-213-support">Scala 2.13 Support</h3>
+  <h3 id="spark-4--scala-213-support">Spark 4 / Scala 2.13 Support</h3>
 
-  <p><strong>NOTE</strong>: PyPi installed Pyspark only runs on Scala 2.12, so the following section will not apply for it. If you need to start a Scala 2.13 instance, you can set the <code class="language-plaintext highlighter-rouge">SPARK_HOME</code> environment variable to a Spark Scala 2.13 installation, or install PySpark from the official Spark archives.</p>
+  <p>Spark 4 is supported with Scala 2.13 only. Spark 3.x remains on Scala 2.12 and is not supported with Scala 2.13 in this release line.</p>
 
-  <p>If you are using <code class="language-plaintext highlighter-rouge">DependencyParserModel</code> or <code class="language-plaintext highlighter-rouge">TextMatcherModel</code> in your pipelines and wish to import from the Scala 2.12 version to 2.13, then you will need to export them manually. For this, please see the example notebook <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/scala213/converting_models_from_212.ipynb">Converting Spark NLP Scala 2.12 models to Scala 2.13</a>.</p>
+  <p>Spark 4.0.0 requires a dedicated artifact because its Spark ML parameter ABI differs from Spark 4.0.1 and later validated Spark 4 releases.</p>
 
-  <p><code class="language-plaintext highlighter-rouge">spark-nlp</code> with Scala 2.13 support has been published to <a href="https://central.sonatype.com/artifact/com.johnsnowlabs.nlp/spark-nlp_2.13">Maven Central</a>. You can use these coordinates to set up your Spark instance with config <code class="language-plaintext highlighter-rouge">--packages</code> or download the jar directly. For example:</p>
+  <p>When migrating pipelines that contain <code class="language-plaintext highlighter-rouge">DependencyParserModel</code> or <code class="language-plaintext highlighter-rouge">TextMatcherModel</code> from Spark 3/Scala 2.12 to Spark 4/Scala 2.13, export those models manually. See <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/scala213/converting_models_from_212.ipynb">Converting Spark NLP Scala 2.12 models to Scala 2.13</a>.</p>
 
-  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Load Spark NLP with Spark Submit</span>
-spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+  <table>
+    <thead>
+      <tr>
+        <th>Spark runtime</th>
+        <th>CPU artifact</th>
+        <th>GPU artifact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Spark 4.0.0</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp-spark400_2.13</code></td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp-gpu-spark400_2.13</code></td>
+      </tr>
+      <tr>
+        <td>Spark 4.0.1, 4.1.0, 4.1.1, or 4.1.2</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code></td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp-gpu_2.13</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The same profile suffix applies to <code class="language-plaintext highlighter-rouge">spark-nlp-silicon</code> and <code class="language-plaintext highlighter-rouge">spark-nlp-aarch64</code>.</p>
+
+  <p><strong>Spark 4.0.0 Maven dependency:</strong></p>
+
+  <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-spark400_2.13<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>  </div>
 
-  <p>See our <a href="#spark-nlp-cheatsheet">cheat sheet</a> for more examples.</p>
-
-  <p>To use spark-nlp Scala 2.13 as a dependency, change the <code class="language-plaintext highlighter-rouge">2.12</code> string in our dependencies to <code class="language-plaintext highlighter-rouge">2.13</code>.</p>
-
-  <p><strong>spark-nlp:</strong></p>
+  <p><strong>Validated forward Spark 4 Maven dependency (4.0.1, 4.1.0, 4.1.1, and 4.1.2):</strong></p>
 
   <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.13<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>6.4.1<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>  </div>
 
-  <p><strong>spark-nlp-gpu:</strong></p>
-
-  <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-gpu_2.13<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>6.4.1<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-</code></pre></div>  </div>
-
-  <p><strong>spark-nlp-silicon:</strong></p>
-
-  <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-silicon_2.13<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>6.4.1<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-</code></pre></div>  </div>
-
-  <p><strong>spark-nlp-aarch64:</strong></p>
-
-  <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
-    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
-    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-aarch64_2.13<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>6.4.1<span class="nt">&lt;/version&gt;</span>
-<span class="nt">&lt;/dependency&gt;</span>
-</code></pre></div>  </div>
-
-  <p>If you are running an sbt project in Scala 2.13, then you you don’t require any changes, as the sbt syntax handles it automatically:</p>
-
-  <p><strong>spark-nlp:</strong></p>
-
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp"</span> <span class="o">%</span> <span class="s">"6.4.1"</span>
-</code></pre></div>  </div>
-
-  <p><strong>spark-nlp-gpu:</strong></p>
-
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-gpu"</span> <span class="o">%</span> <span class="s">"6.4.1"</span>
-</code></pre></div>  </div>
-
-  <p><strong>spark-nlp-silicon:</strong></p>
-
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-silicon"</span> <span class="o">%</span> <span class="s">"6.4.1"</span>
-</code></pre></div>  </div>
-
-  <p><strong>spark-nlp-aarch64:</strong></p>
-
-  <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-aarch64"</span> <span class="o">%</span> <span class="s">"6.4.1"</span>
-</code></pre></div>  </div>
+  <p>In Python, prefer <code class="language-plaintext highlighter-rouge">sparknlp.start()</code> so the installed PySpark version selects the correct lane automatically.</p>
 
 </div>
 <div class="h3-box">
 
   <h2 id="command-line">Command line</h2>
 
-  <p>Spark NLP supports all major releases of Apache Spark 3.0.x, Apache Spark 3.1.x, Apache Spark 3.2.x, Apache Spark 3.3.x, Apache Spark 3.4.x, and Apache Spark 3.5.x
+  <p>Spark NLP supports all major releases of Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x (Scala 2.12),
+as well as Apache Spark 4.x (Scala 2.13).
 This steps require internet connection.</p>
 
-  <h4 id="apache-spark-3x-30x-31x-32x-33x-34x-and-35x---scala-212">Apache Spark 3.x (3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x - Scala 2.12)</h4>
+  <h4 id="apache-spark-3x-scala-212-and-apache-spark-4x-scala-213">Apache Spark 3.x (Scala 2.12) and Apache Spark 4.x (Scala 2.13)</h4>
 
   <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># CPU</span>
 
-spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+<span class="c"># Apache Spark 3.x (Scala 2.12)</span>
+spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
 
-pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
 
-spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
+
+<span class="c"># Apache Spark 4.x (Scala 2.13)</span>
+spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
+
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
 </code></pre></div>  </div>
 
   <p>The <code class="language-plaintext highlighter-rouge">spark-nlp</code> has been published to
@@ -878,11 +951,19 @@ the <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp">
 
   <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># GPU</span>
 
-spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:6.4.1
+<span class="c"># Apache Spark 3.x (Scala 2.12)</span>
+spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:7.0.0
 
-pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:6.4.1
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:7.0.0
 
-spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:6.4.1
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:7.0.0
+
+<span class="c"># Apache Spark 4.x (Scala 2.13)</span>
+spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.13:7.0.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.13:7.0.0
+
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-gpu_2.13:7.0.0
 
 </code></pre></div>  </div>
 
@@ -891,11 +972,19 @@ the <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-g
 
   <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># AArch64</span>
 
-spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:6.4.1
+<span class="c"># Apache Spark 3.x (Scala 2.12)</span>
+spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:7.0.0
 
-pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:6.4.1
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:7.0.0
 
-spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:6.4.1
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:7.0.0
+
+<span class="c"># Apache Spark 4.x (Scala 2.13)</span>
+spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-aarch64_2.13:7.0.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-aarch64_2.13:7.0.0
+
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-aarch64_2.13:7.0.0
 
 </code></pre></div>  </div>
 
@@ -904,11 +993,19 @@ the <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-a
 
   <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Apple Silicon</span>
 
-spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:6.4.1
+<span class="c"># Apache Spark 3.x (Scala 2.12)</span>
+spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:7.0.0
 
-pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:6.4.1
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:7.0.0
 
-spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:6.4.1
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:7.0.0
+
+<span class="c"># Apache Spark 4.x (Scala 2.13)</span>
+spark-shell <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-silicon_2.13:7.0.0
+
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-silicon_2.13:7.0.0
+
+spark-submit <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-silicon_2.13:7.0.0
 
 </code></pre></div>  </div>
 
@@ -918,10 +1015,17 @@ the <a href="https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-s
   <p><strong>NOTE</strong>: In case you are using large pretrained models like UniversalSentenceEncoder, you need to have the following
 set in your SparkSession:</p>
 
-  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark-shell <span class="se">\</span>
+  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Apache Spark 3.x (Scala 2.12)</span>
+spark-shell <span class="se">\</span>
   <span class="nt">--driver-memory</span> 16g <span class="se">\</span>
   <span class="nt">--conf</span> spark.kryoserializer.buffer.max<span class="o">=</span>2000M <span class="se">\</span>
-  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
+
+<span class="c"># Apache Spark 4.x (Scala 2.13)</span>
+spark-shell <span class="se">\</span>
+  <span class="nt">--driver-memory</span> 16g <span class="se">\</span>
+  <span class="nt">--conf</span> spark.kryoserializer.buffer.max<span class="o">=</span>2000M <span class="se">\</span>
+  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
 </code></pre></div>  </div>
 
 </div>
@@ -934,12 +1038,12 @@ Make sure the following prerequisites are met:</p>
 
   <ol>
     <li>
-      <p>An Apple Silicon compatible Java version needs to be installed. We recommend <a href="https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html">Amazon Corretto</a> Java 11, which can be easily installed with <a href="https://sdkman.io/">SDKMAN!</a>.</p>
+      <p>An Apple Silicon compatible Java version needs to be installed. We recommend <a href="https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html">Amazon Corretto 11</a> for Apache Spark 3.x and <a href="https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/downloads-list.html">Amazon Corretto 17</a> for Apache Spark 4.x, both of which can be easily installed with <a href="https://sdkman.io/">SDKMAN!</a>.</p>
 
       <p>To check if the installed Java environment is running natively on arm64, you can run the following command:</p>
 
       <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> johnsnow@m1mac ~ % <span class="nb">realpath</span> <span class="si">$(</span>which java<span class="si">)</span> | file <span class="nt">-f</span> -
- /Users/johnsnow/.sdkman/candidates/java/11.0.27-amzn/bin/java: Mach-O 64-bit executable arm64
+ /Users/johnsnow/.sdkman/candidates/java/17.0.15-amzn/bin/java: Mach-O 64-bit executable arm64
 </code></pre></div>      </div>
 
       <p>Note the executable type <code class="language-plaintext highlighter-rouge">arm64</code>. If it says anything else (e.g. <code class="language-plaintext highlighter-rouge">universal binary</code>, <code class="language-plaintext highlighter-rouge">x86_64</code> or <code class="language-plaintext highlighter-rouge">arm64e</code>) it might not work.</p>
@@ -970,17 +1074,25 @@ project.</p>
 maven coordinates like these:</p>
 
   <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp-silicon --&gt;</span>
+<span class="c">&lt;!-- Apache Spark 3.x (Scala 2.12) --&gt;</span>
 <span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
     <span class="nt">&lt;artifactId&gt;</span>spark-nlp-silicon_2.12<span class="nt">&lt;/artifactId&gt;</span>
-    <span class="nt">&lt;version&gt;</span>6.4.1<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="c">&lt;!-- Apache Spark 4.x (Scala 2.13) --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spark-nlp-silicon_2.13<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>  </div>
 
   <p>or in case of sbt:</p>
 
   <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// https://mvnrepository.com/artifact/com.johnsnowlabs.nlp/spark-nlp</span>
-<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-silicon"</span> <span class="o">%</span> <span class="s">"6.4.1"</span>
+<span class="n">libraryDependencies</span> <span class="o">+=</span> <span class="s">"com.johnsnowlabs.nlp"</span> <span class="o">%%</span> <span class="s">"spark-nlp-silicon"</span> <span class="o">%</span> <span class="s">"7.0.0"</span>
 </code></pre></div>  </div>
 
   <p>If everything went well, you can now start Spark NLP with the <code class="language-plaintext highlighter-rouge">apple_silicon</code> flag set to <code class="language-plaintext highlighter-rouge">true</code>:</p>
@@ -1086,7 +1198,7 @@ to install Spark NLP for your system.</p>
   <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># -p is for pyspark</span>
 <span class="c"># -s is for spark-nlp</span>
 <span class="c"># by default they are set to the latest</span>
-<span class="o">!</span>wget http://setup.johnsnowlabs.com/colab.sh <span class="nt">-O</span> - | bash /dev/stdin <span class="nt">-p</span> 3.4.0 <span class="nt">-s</span> 6.4.1
+<span class="o">!</span>wget http://setup.johnsnowlabs.com/colab.sh <span class="nt">-O</span> - | bash /dev/stdin <span class="nt">-p</span> 3.4.0 <span class="nt">-s</span> 7.0.0
 </code></pre></div>  </div>
 
   <p><a href="https://colab.research.google.com/github/JohnSnowLabs/spark-nlp/blob/master/examples/python/quick_start_google_colab.ipynb">Spark NLP quick start on Google Colab</a> is a live demo on Google Colab that performs named entity recognitions and sentiment analysis by using Spark NLP pretrained pipelines.</p>
@@ -1115,7 +1227,10 @@ to install Spark NLP for your system.</p>
     <li>Add the following Maven Coordinates to the interpreter’s library list</li>
   </ul>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Apache Spark 3.x (Scala 2.12)</span>
+com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
+<span class="c"># Apache Spark 4.x (Scala 2.13)</span>
+com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
 </code></pre></div>  </div>
 
   <ul>
@@ -1130,7 +1245,7 @@ available to driver path</li>
 
   <p>Apart from the previous step, install the python module through pip</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>6.4.1
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>7.0.0
 </code></pre></div>  </div>
 
   <p>Or you can install <code class="language-plaintext highlighter-rouge">spark-nlp</code> from inside Zeppelin by using Conda:</p>
@@ -1156,10 +1271,15 @@ shown earlier since it includes both scala and python side installation.</p>
   <p>The easiest way to get this done on Linux and macOS is to simply install <code class="language-plaintext highlighter-rouge">spark-nlp</code> and <code class="language-plaintext highlighter-rouge">pyspark</code> PyPI packages and
 launch the Jupyter from the same Python environment:</p>
 
-  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>conda create <span class="nt">-n</span> sparknlp <span class="nv">python</span><span class="o">=</span>3.8 <span class="nt">-y</span>
+  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>conda create <span class="nt">-n</span> sparknlp <span class="nv">python</span><span class="o">=</span>3.9 <span class="nt">-y</span>
 <span class="nv">$ </span>conda activate sparknlp
-<span class="c"># spark-nlp by default is based on pyspark 3.x</span>
-<span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>6.4.1 <span class="nv">pyspark</span><span class="o">==</span>3.3.1 jupyter
+
+<span class="c"># Apache Spark 3.x (Scala 2.12)</span>
+<span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>7.0.0 <span class="nv">pyspark</span><span class="o">==</span>3.5.1 jupyter
+
+<span class="c"># Apache Spark 4.x (Scala 2.13)</span>
+<span class="nv">$ </span>pip <span class="nb">install </span>spark-nlp<span class="o">==</span>7.0.0 <span class="nv">pyspark</span><span class="o">==</span>4.0.0 jupyter
+
 <span class="nv">$ </span>jupyter notebook
 </code></pre></div>  </div>
 
@@ -1175,7 +1295,11 @@ these steps:</p>
 <span class="nb">export </span><span class="nv">PYSPARK_DRIVER_PYTHON</span><span class="o">=</span>jupyter
 <span class="nb">export </span><span class="nv">PYSPARK_DRIVER_PYTHON_OPTS</span><span class="o">=</span>notebook
 
-pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+<span class="c"># Apache Spark 3.x (Scala 2.12)</span>
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
+
+<span class="c"># Apache Spark 4.x (Scala 2.13)</span>
+pyspark <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
 </code></pre></div>  </div>
 
   <p>Alternatively, you can mix in using <code class="language-plaintext highlighter-rouge">--jars</code> option for pyspark + <code class="language-plaintext highlighter-rouge">pip install spark-nlp</code></p>
@@ -1204,9 +1328,9 @@ pointed <a href="#python-without-explicit-pyspark-installation">here</a></p>
     <li>
       <p>In <code class="language-plaintext highlighter-rouge">Libraries</code> tab inside your cluster you need to follow these steps:</p>
 
-      <p>3.1. Install New -&gt; PyPI -&gt; <code class="language-plaintext highlighter-rouge">spark-nlp==6.4.1</code> -&gt; Install</p>
+      <p>3.1. Install New -&gt; PyPI -&gt; <code class="language-plaintext highlighter-rouge">spark-nlp==7.0.0</code> -&gt; Install</p>
 
-      <p>3.2. Install New -&gt; Maven -&gt; Coordinates -&gt; <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1</code> -&gt; Install</p>
+      <p>3.2. Install New -&gt; Maven -&gt; Coordinates -&gt; <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0</code> (Apache Spark 3.x), <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0</code> (Apache Spark 4.0.0), or <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0</code> (Apache Spark 4.0.1 and later validated Spark 4 versions) -&gt; Install</p>
     </li>
     <li>
       <p>Now you can attach your notebook to the cluster and use Spark NLP!</p>
@@ -1255,7 +1379,7 @@ To do so, we have to add the following script as an <a href="https://docs.databr
     <li>Inside Fabric go to a workspace and click on <code class="language-plaintext highlighter-rouge">+New Item</code> button, type <code class="language-plaintext highlighter-rouge">env</code> on the search bar and chose <code class="language-plaintext highlighter-rouge">Environment</code> and type a name for it.
   <img class="image image--xl" src="/assets/images/installation/ms-fabric-spark-env.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></li>
     <li>Choose <strong>Fabric Runtime 1.2</strong> (Spark 3.4 + Delta 2.4) then go to <code class="language-plaintext highlighter-rouge">Spark properties</code> and set <code class="language-plaintext highlighter-rouge">spark.jars</code></li>
-    <li>Upload <code class="language-plaintext highlighter-rouge">spark-nlp-assembly-6.4.1.jar</code> to an ABFSS folder that both driver and executors can see, for example <code class="language-plaintext highlighter-rouge">abfss://workspace@storage.dfs.core.windows.net/jars/</code>.
+    <li>Upload <code class="language-plaintext highlighter-rouge">spark-nlp-assembly-7.0.0.jar</code> to an ABFSS folder that both driver and executors can see, for example <code class="language-plaintext highlighter-rouge">abfss://workspace@storage.dfs.core.windows.net/jars/</code>.
 <img class="image image--xl" src="/assets/images/installation/ms-fabric-spark-properties.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></li>
     <li>Create a Notebook and attach it to the environment you created before.</li>
   </ol>
@@ -1265,7 +1389,7 @@ To do so, we have to add the following script as an <a href="https://docs.databr
   <p>Follow the steps above to set up Spark NLP, then add the following additional steps to enable ONNX inference support:</p>
 
   <ol>
-    <li>On <code class="language-plaintext highlighter-rouge">Spark properties</code> point <code class="language-plaintext highlighter-rouge">spark.executor.extraClassPath</code> and <code class="language-plaintext highlighter-rouge">spark.driver.extraClassPath</code> to the ABFSS jar directory to ensure ONNX classes are visible <code class="language-plaintext highlighter-rouge">abfss://workspace@storage.dfs.core.windows.net/jars/spark-nlp-assembly-6.4.1.jar</code>.</li>
+    <li>On <code class="language-plaintext highlighter-rouge">Spark properties</code> point <code class="language-plaintext highlighter-rouge">spark.executor.extraClassPath</code> and <code class="language-plaintext highlighter-rouge">spark.driver.extraClassPath</code> to the ABFSS jar directory to ensure ONNX classes are visible <code class="language-plaintext highlighter-rouge">abfss://workspace@storage.dfs.core.windows.net/jars/spark-nlp-assembly-7.0.0.jar</code>.</li>
     <li>On <code class="language-plaintext highlighter-rouge">Spark properties</code> enable <code class="language-plaintext highlighter-rouge">spark.executor.userClassPathFirst=true</code> and <code class="language-plaintext highlighter-rouge">spark.driver.userClassPathFirst=true</code> so the Spark NLP/ONNX classes take precedence over the Fabric runtime defaults.</li>
   </ol>
 
@@ -1281,101 +1405,255 @@ configuration.</p>
 
   <p>A sample of your bootstrap script</p>
 
-  <pre><code class="language-.sh">#!/bin/bash
-set -x -e
+  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nb">set</span> <span class="nt">-x</span> <span class="nt">-e</span>
 
-echo -e 'export PYSPARK_PYTHON=/usr/bin/python3
+<span class="nb">echo</span> <span class="nt">-e</span> <span class="s1">'export PYSPARK_PYTHON=/usr/bin/python3
 export HADOOP_CONF_DIR=/etc/hadoop/conf
 export SPARK_JARS_DIR=/usr/lib/spark/jars
-export SPARK_HOME=/usr/lib/spark' &gt;&gt; $HOME/.bashrc &amp;&amp; source $HOME/.bashrc
+export SPARK_HOME=/usr/lib/spark'</span> <span class="o">&gt;&gt;</span> <span class="nv">$HOME</span>/.bashrc <span class="o">&amp;&amp;</span> <span class="nb">source</span> <span class="nv">$HOME</span>/.bashrc
 
-sudo python3 -m pip install awscli boto spark-nlp
+<span class="nb">sudo </span>python3 <span class="nt">-m</span> pip <span class="nb">install </span>awscli boto spark-nlp
 
-set +x
-exit 0
+<span class="nb">set</span> +x
+<span class="nb">exit </span>0
 
-</code></pre>
+</code></pre></div>  </div>
 
-  <p>A sample of your software configuration in JSON on S3 (must be public access):</p>
+  <p>A sample of your software configuration in JSON on S3 (must be public access). These EMR 6.x clusters run Apache Spark 3.x, so the coordinate below uses <code class="language-plaintext highlighter-rouge">spark-nlp_2.12</code>. On an Apache Spark 4.0.0 cluster use <code class="language-plaintext highlighter-rouge">spark-nlp-spark400_2.13</code>; on Apache Spark 4.0.1 and later validated Spark 4 versions use <code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code>:</p>
 
-  <pre><code class="language-.json">[{
-  "Classification": "spark-env",
-  "Configurations": [{
-    "Classification": "export",
-    "Properties": {
-      "PYSPARK_PYTHON": "/usr/bin/python3"
-    }
-  }]
-},
-{
-  "Classification": "spark-defaults",
-    "Properties": {
-      "spark.yarn.stagingDir": "hdfs:///tmp",
-      "spark.yarn.preserve.staging.files": "true",
-      "spark.kryoserializer.buffer.max": "2000M",
-      "spark.serializer": "org.apache.spark.serializer.KryoSerializer",
-      "spark.driver.maxResultSize": "0",
-      "spark.jars.packages": "com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1"
-    }
-}]
-</code></pre>
+  <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[{</span><span class="w">
+  </span><span class="nl">"Classification"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spark-env"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Configurations"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
+    </span><span class="nl">"Classification"</span><span class="p">:</span><span class="w"> </span><span class="s2">"export"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"PYSPARK_PYTHON"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/usr/bin/python3"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}]</span><span class="w">
+</span><span class="p">},</span><span class="w">
+</span><span class="p">{</span><span class="w">
+  </span><span class="nl">"Classification"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spark-defaults"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"spark.yarn.stagingDir"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hdfs:///tmp"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"spark.yarn.preserve.staging.files"</span><span class="p">:</span><span class="w"> </span><span class="s2">"true"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"spark.kryoserializer.buffer.max"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2000M"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"spark.serializer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org.apache.spark.serializer.KryoSerializer"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"spark.driver.maxResultSize"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"spark.jars.packages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}]</span><span class="w">
+</span></code></pre></div>  </div>
 
   <p>A sample of AWS CLI to launch EMR cluster:</p>
 
-  <pre><code class="language-.sh">aws emr create-cluster \
---name "Spark NLP 6.4.1" \
---release-label emr-6.2.0 \
---applications Name=Hadoop Name=Spark Name=Hive \
---instance-type m4.4xlarge \
---instance-count 3 \
---use-default-roles \
---log-uri "s3://&lt;S3_BUCKET&gt;/" \
---bootstrap-actions Path=s3://&lt;S3_BUCKET&gt;/emr-bootstrap.sh,Name=custome \
---configurations "https://&lt;public_access&gt;/sparknlp-config.json" \
---ec2-attributes KeyName=&lt;your_ssh_key&gt;,EmrManagedMasterSecurityGroup=&lt;security_group_with_ssh&gt;,EmrManagedSlaveSecurityGroup=&lt;security_group_with_ssh&gt; \
---profile &lt;aws_profile_credentials&gt;
-</code></pre>
+  <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws emr create-cluster <span class="se">\</span>
+<span class="nt">--name</span> <span class="s2">"Spark NLP 7.0.0"</span> <span class="se">\</span>
+<span class="nt">--release-label</span> emr-6.2.0 <span class="se">\</span>
+<span class="nt">--applications</span> <span class="nv">Name</span><span class="o">=</span>Hadoop <span class="nv">Name</span><span class="o">=</span>Spark <span class="nv">Name</span><span class="o">=</span>Hive <span class="se">\</span>
+<span class="nt">--instance-type</span> m4.4xlarge <span class="se">\</span>
+<span class="nt">--instance-count</span> 3 <span class="se">\</span>
+<span class="nt">--use-default-roles</span> <span class="se">\</span>
+<span class="nt">--log-uri</span> <span class="s2">"s3://&lt;S3_BUCKET&gt;/"</span> <span class="se">\</span>
+<span class="nt">--bootstrap-actions</span> <span class="nv">Path</span><span class="o">=</span>s3://&lt;S3_BUCKET&gt;/emr-bootstrap.sh,Name<span class="o">=</span>custome <span class="se">\</span>
+<span class="nt">--configurations</span> <span class="s2">"https://&lt;public_access&gt;/sparknlp-config.json"</span> <span class="se">\</span>
+<span class="nt">--ec2-attributes</span> <span class="nv">KeyName</span><span class="o">=</span>&lt;your_ssh_key&gt;,EmrManagedMasterSecurityGroup<span class="o">=</span>&lt;security_group_with_ssh&gt;,EmrManagedSlaveSecurityGroup<span class="o">=</span>&lt;security_group_with_ssh&gt; <span class="se">\</span>
+<span class="nt">--profile</span> &lt;aws_profile_credentials&gt;
+</code></pre></div>  </div>
 
 </div>
 <div class="h3-box">
 
   <h2 id="emr-serverless">EMR Serverless</h2>
 
-  <p>This setup is for Spark NLP Open Source jobs on Amazon EMR Serverless. EMR Serverless does not run bootstrap actions like an EMR cluster, so the job should load its Python runtime, Spark NLP assembly JAR, and any offline model artifacts from S3.</p>
+  <p>This section explains how to run Spark NLP Open Source on Amazon EMR Serverless with either Apache Spark 3.x or Apache Spark 4.x. EMR Serverless does not run bootstrap actions, so the Python environment and Spark NLP JVM artifacts must be available when the job starts.</p>
 
-  <p>The example below uses:</p>
+  <h3 id="select-the-emr-spark-and-scala-lane">1. Select the EMR, Spark, and Scala lane</h3>
+
+  <p>Choose the Spark NLP JVM artifact that matches the Spark and Scala versions supplied by the EMR Serverless release.</p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th>EMR Serverless release</th>
+        <th>Spark</th>
+        <th>Scala</th>
+        <th>Default Java</th>
+        <th>Spark NLP JVM artifact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">emr-7.12.0</code></td>
+        <td>Spark 3.x</td>
+        <td>2.12</td>
+        <td>EMR-managed</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp_2.12</code></td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">emr-spark-8.0.0</code></td>
+        <td><code class="language-plaintext highlighter-rouge">4.0.2-amzn-0</code></td>
+        <td>2.13</td>
+        <td>17</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>The Java runtime is supplied by EMR, not selected by Spark NLP. Verify the exact Java version for the chosen EMR release when using a different release label.</p>
+
+  <p><code class="language-plaintext highlighter-rouge">emr-spark-8.0.0</code> is the Spark-focused Amazon EMR 8 release label; it is not <code class="language-plaintext highlighter-rouge">emr-8.0.0</code>. Spark 4 requires Scala 2.13, so do not use a <code class="language-plaintext highlighter-rouge">_2.12</code> Spark NLP artifact or other Scala 2.12 dependencies with this release. The <code class="language-plaintext highlighter-rouge">spark-nlp-spark400_2.13</code> artifact is only for Spark 4.0.0; EMR Spark 8.0.0 supplies Spark 4.0.2 and uses <code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code>.</p>
+
+  <p>The same Spark NLP Python package is used with both Spark lines. The JVM artifact is what changes:</p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th>Spark line</th>
+        <th>Maven coordinate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Spark 3.x / Scala 2.12</td>
+        <td><code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0</code></td>
+      </tr>
+      <tr>
+        <td>Spark 4.0.2 / Scala 2.13</td>
+        <td><code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>AWS documents the Spark 4 runtime details in <a href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-spark800-release.html">Amazon EMR Spark 8.0.0</a>.</p>
+
+  <h3 id="create-the-emr-serverless-application">2. Create the EMR Serverless application</h3>
+
+  <p>Create an application with the release label for the Spark line you intend to run:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">AWS_REGION</span><span class="o">=</span><span class="s1">'&lt;aws-region&gt;'</span>
+<span class="nb">export </span><span class="nv">AWS_DEFAULT_REGION</span><span class="o">=</span><span class="s2">"</span><span class="nv">$AWS_REGION</span><span class="s2">"</span>
+
+<span class="c"># Spark 3.x example:</span>
+<span class="nb">export </span><span class="nv">EMR_RELEASE_LABEL</span><span class="o">=</span><span class="s1">'emr-7.12.0'</span>
+<span class="nb">export </span><span class="nv">APP_NAME</span><span class="o">=</span><span class="s1">'spark-nlp-spark3'</span>
+
+<span class="c"># Spark 4.x example; use these values instead of the Spark 3.x values above:</span>
+<span class="c"># export EMR_RELEASE_LABEL='emr-spark-8.0.0'</span>
+<span class="c"># export APP_NAME='spark-nlp-spark4'</span>
+
+<span class="nb">export </span><span class="nv">APP_ID</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span>aws emr-serverless create-application <span class="se">\</span>
+  <span class="nt">--region</span> <span class="s2">"</span><span class="nv">$AWS_REGION</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--name</span> <span class="s2">"</span><span class="nv">$APP_NAME</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--type</span> SPARK <span class="se">\</span>
+  <span class="nt">--release-label</span> <span class="s2">"</span><span class="nv">$EMR_RELEASE_LABEL</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--query</span> applicationId <span class="se">\</span>
+  <span class="nt">--output</span> text<span class="si">)</span><span class="s2">"</span>
+
+<span class="nb">printf</span> <span class="s1">'APP_ID=%s\n'</span> <span class="s2">"</span><span class="nv">$APP_ID</span><span class="s2">"</span>
+</code></pre></div>  </div>
+
+  <p>Verify the application before submitting a job:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws emr-serverless get-application <span class="se">\</span>
+  <span class="nt">--region</span> <span class="s2">"</span><span class="nv">$AWS_REGION</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--application-id</span> <span class="s2">"</span><span class="nv">$APP_ID</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--query</span> <span class="s1">'application.{Name:name,Id:applicationId,State:state,Release:releaseLabel}'</span> <span class="se">\</span>
+  <span class="nt">--output</span> table
+</code></pre></div>  </div>
+
+  <p>AWS allows an application’s <code class="language-plaintext highlighter-rouge">releaseLabel</code> to be updated while the application is in the <code class="language-plaintext highlighter-rouge">CREATED</code> or <code class="language-plaintext highlighter-rouge">STOPPED</code> state. A separate application is preferable when Spark 3 and Spark 4 workloads must remain independently available or validated.</p>
+
+  <p>The identity that submits the job and the IAM role used by the running job are different:</p>
 
   <ul>
-    <li>EMR Serverless release <code class="language-plaintext highlighter-rouge">emr-7.12.0</code></li>
-    <li>Python <code class="language-plaintext highlighter-rouge">3.11</code></li>
-    <li>Spark NLP <code class="language-plaintext highlighter-rouge">6.4.1</code></li>
-    <li>Scala <code class="language-plaintext highlighter-rouge">2.12</code></li>
+    <li>the submitter creates applications and calls <code class="language-plaintext highlighter-rouge">StartJobRun</code>;</li>
+    <li>the stable runtime role is passed through <code class="language-plaintext highlighter-rouge">--execution-role-arn</code> and accesses S3 for the job.</li>
   </ul>
 
-  <h3 id="prepare-the-s3-artifact-layout">1. Prepare the S3 artifact layout</h3>
+  <p>Do not pass a temporary <code class="language-plaintext highlighter-rouge">arn:aws:sts::...:assumed-role/...</code> submitter ARN as the execution role.</p>
 
-  <p>Create an S3 bucket or prefix that the EMR Serverless runtime role can read from and write logs/cache files to:</p>
+  <p>Before the first job on a new application, inspect the runtime role’s trust policy:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">EXECUTION_ROLE_ARN</span><span class="o">=</span><span class="s1">'&lt;emr-serverless-runtime-role-arn&gt;'</span>
+<span class="nb">export </span><span class="nv">RUNTIME_ROLE_NAME</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">EXECUTION_ROLE_ARN</span><span class="p">##*/</span><span class="k">}</span><span class="s2">"</span>
+
+aws iam get-role <span class="se">\</span>
+  <span class="nt">--role-name</span> <span class="s2">"</span><span class="nv">$RUNTIME_ROLE_NAME</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--query</span> <span class="s1">'Role.AssumeRolePolicyDocument'</span> <span class="se">\</span>
+  <span class="nt">--output</span> json
+</code></pre></div>  </div>
+
+  <p>The trust policy must allow <code class="language-plaintext highlighter-rouge">emr-serverless.amazonaws.com</code>. If an <code class="language-plaintext highlighter-rouge">aws:SourceArn</code> condition is restricted to application ARNs, preserve every application that must continue working and add the new application ARN exactly. Do not broaden an exact allowlist to <code class="language-plaintext highlighter-rouge">applications/*</code> unless that is an explicit IAM decision.</p>
+
+  <p>The runtime role needs least-privilege S3 access for the job script, Python environment, JARs, inputs, outputs, and logs. See <a href="https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/security-iam-runtime-role.html">Job runtime roles for Amazon EMR Serverless</a>.</p>
+
+  <h3 id="prepare-the-spark-nlp-artifacts">3. Prepare the Spark NLP artifacts</h3>
+
+  <p>Use separate S3 prefixes for the Spark 3 / Scala 2.12 and Spark 4 / Scala 2.13 JVM artifacts:</p>
 
   <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>s3://&lt;artifact-bucket&gt;/spark-nlp-emr/
   scripts/
   envs/
+    spark-nlp-7.0.0-py311.tar.gz
+  jars/
+    spark3-scala212/
+    spark4-scala213/
+  manifests/
   models/
-  cache_pretrained/
+  outputs/
   logs/
-s3://&lt;artifact-bucket&gt;/jars/
 </code></pre></div>  </div>
 
-  <p>Upload the Spark NLP assembly JAR to S3. You can use a JAR from the Spark NLP release notes or build one from source with <code class="language-plaintext highlighter-rouge">sbt assembly</code>.</p>
+  <p>There are two dependency-delivery modes:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 <span class="nb">cp </span>spark-nlp-assembly-6.4.1.jar <span class="se">\</span>
-  s3://&lt;artifact-bucket&gt;/jars/spark-nlp-assembly-6.4.1.jar
+  <ol>
+    <li>If the job has Maven Central access, pass the matching Maven coordinate with <code class="language-plaintext highlighter-rouge">--packages</code>.</li>
+    <li>If the job has no Maven/PyPI access, resolve the matching runtime dependency graph in a connected build environment, verify it, stage it in S3, and pass the complete comma-separated S3 JAR list through <code class="language-plaintext highlighter-rouge">spark.jars</code>.</li>
+  </ol>
+
+  <p>For offline resolution, select the artifact for the application lane in a standard Maven <code class="language-plaintext highlighter-rouge">pom.xml</code>. This example is for Spark 4.x; use <code class="language-plaintext highlighter-rouge">spark-nlp_2.12</code> for Spark 3.x:</p>
+
+  <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.13<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>7.0.0<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;exclusions&gt;</span>
+    <span class="nt">&lt;exclusion&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.scala-lang<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>scala-library<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;/exclusion&gt;</span>
+    <span class="nt">&lt;exclusion&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.scala-lang<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>scala-reflect<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;/exclusion&gt;</span>
+  <span class="nt">&lt;/exclusions&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>  </div>
 
-  <p>Use <code class="language-plaintext highlighter-rouge">spark.jars</code> with this S3 path for EMR Serverless jobs. If the runtime cannot reach Maven repositories, avoid <code class="language-plaintext highlighter-rouge">spark.jars.packages</code>.</p>
+  <p>Resolve into a new directory so stale dependencies from an earlier build cannot be included:</p>
 
-  <h3 id="build-the-python-runtime-archive">2. Build the Python runtime archive</h3>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">RUNTIME_JARS_DIR</span><span class="o">=</span><span class="s2">"</span><span class="nv">$PWD</span><span class="s2">/runtime-jars"</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="nt">-e</span> <span class="s2">"</span><span class="nv">$RUNTIME_JARS_DIR</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nb">echo</span> <span class="s2">"Refusing to reuse existing directory: </span><span class="nv">$RUNTIME_JARS_DIR</span><span class="s2">"</span> <span class="o">&gt;</span>&amp;2
+  <span class="nb">exit </span>1
+<span class="k">fi
 
-  <p>Build the Python environment on Amazon Linux 2023 so it matches the EMR Serverless runtime. The <code class="language-plaintext highlighter-rouge">--copies</code> option avoids Python binary symlinks that point back to the build machine.</p>
+</span>mvn <span class="nt">--batch-mode</span> <span class="se">\</span>
+  <span class="nt">-f</span> pom.xml <span class="se">\</span>
+  dependency:copy-dependencies <span class="se">\</span>
+  <span class="nt">-DincludeScope</span><span class="o">=</span>runtime <span class="se">\</span>
+  <span class="nt">-DoutputDirectory</span><span class="o">=</span><span class="s2">"</span><span class="nv">$RUNTIME_JARS_DIR</span><span class="s2">"</span>
+</code></pre></div>  </div>
+
+  <p>Do not stage Spark or Scala runtime JARs already supplied by EMR. Reject unexpected <code class="language-plaintext highlighter-rouge">spark-core</code>, <code class="language-plaintext highlighter-rouge">spark-sql</code>, <code class="language-plaintext highlighter-rouge">spark-mllib</code>, <code class="language-plaintext highlighter-rouge">spark-catalyst</code>, <code class="language-plaintext highlighter-rouge">spark-network-*</code>, <code class="language-plaintext highlighter-rouge">spark-launcher</code>, <code class="language-plaintext highlighter-rouge">scala-library</code>, and <code class="language-plaintext highlighter-rouge">scala-reflect</code> artifacts before uploading the dependency set.</p>
+
+  <p>Keep a SHA-256 manifest and use a new S3 prefix for each verified dependency set. Construct <code class="language-plaintext highlighter-rouge">SPARK_NLP_JARS</code> from the complete sorted list of uploaded JAR object URIs, excluding the manifest itself.</p>
+
+  <h3 id="build-the-python-environment">4. Build the Python environment</h3>
+
+  <p>Build the environment against the operating system and Python version supplied by the selected EMR release. The following Amazon Linux 2023 and Python 3.11 example is suitable for <code class="language-plaintext highlighter-rouge">emr-spark-8.0.0</code>.</p>
+
+  <p>EMR supplies PySpark. Do not install or package a second PySpark distribution.</p>
 
   <div class="language-dockerfile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">FROM</span><span class="s"> amazonlinux:2023</span>
 
@@ -1384,309 +1662,345 @@ s3://&lt;artifact-bucket&gt;/jars/
 </span>      python3.11 <span class="se">\
 </span>      python3.11-pip <span class="se">\
 </span>      python3.11-devel <span class="se">\
-</span>      <span class="nb">tar</span> <span class="se">\
-</span>      <span class="nb">gzip</span> <span class="se">\
-</span>      findutils <span class="se">\
-</span>      shadow-utils <span class="o">&amp;&amp;</span> <span class="se">\
+</span>      <span class="nb">tar gzip </span>findutils shadow-utils <span class="o">&amp;&amp;</span> <span class="se">\
 </span>    dnf clean all
 
 <span class="k">WORKDIR</span><span class="s"> /work</span>
 <span class="k">CMD</span><span class="s"> ["/bin/bash"]</span>
 </code></pre></div>  </div>
 
-  <p>Build and enter the container:</p>
+  <p>Build and enter the image:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> emr-venv-builder <span class="nt">-f</span> Dockerfile <span class="nb">.</span>
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> spark-nlp-emr-al2023 <span class="nt">-f</span> Dockerfile <span class="nb">.</span>
 docker run <span class="nt">--rm</span> <span class="nt">-it</span> <span class="se">\</span>
   <span class="nt">-u</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">id</span> <span class="nt">-u</span><span class="si">)</span><span class="s2">:</span><span class="si">$(</span><span class="nb">id</span> <span class="nt">-g</span><span class="si">)</span><span class="s2">"</span> <span class="se">\</span>
   <span class="nt">-v</span> <span class="s2">"</span><span class="nv">$PWD</span><span class="s2">"</span>:/work <span class="se">\</span>
-  emr-venv-builder
+  spark-nlp-emr-al2023
 </code></pre></div>  </div>
 
-  <p>Inside the container, create and pack the virtual environment:</p>
+  <p>Inside the container:</p>
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /work
-<span class="nb">rm</span> <span class="nt">-rf</span> spark-nlp-env spark-nlp-env.tar.gz
+<span class="nb">export </span><span class="nv">SPARK_NLP_VERSION</span><span class="o">=</span><span class="s1">'7.0.0'</span>
 
 python3.11 <span class="nt">-m</span> venv <span class="nt">--copies</span> spark-nlp-env
 <span class="nb">source </span>spark-nlp-env/bin/activate
-
 python <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">--upgrade</span> pip
-pip <span class="nb">install</span> <span class="s2">"spark-nlp==6.4.1"</span> <span class="s2">"numpy==1.26.4"</span> venv-pack
+python <span class="nt">-m</span> pip <span class="nb">install</span> <span class="s2">"spark-nlp==</span><span class="nv">$SPARK_NLP_VERSION</span><span class="s2">"</span> <span class="s2">"numpy==1.26.4"</span> venv-pack
 
-python <span class="nt">-c</span> <span class="s2">"import numpy; print('numpy ok')"</span>
-python <span class="nt">-c</span> <span class="s2">"import sparknlp; print('sparknlp ok')"</span>
+python <span class="nt">-c</span> <span class="s1">'from importlib.metadata import version; print(version("spark-nlp"))'</span>
+<span class="k">if </span>python <span class="nt">-c</span> <span class="s1">'import pyspark'</span> 2&gt;/dev/null<span class="p">;</span> <span class="k">then
+  </span><span class="nb">echo</span> <span class="s1">'The packaged environment must not contain PySpark'</span> <span class="o">&gt;</span>&amp;2
+  <span class="nb">exit </span>1
+<span class="k">fi
 
-venv-pack <span class="nt">-o</span> spark-nlp-env.tar.gz
+</span>venv-pack <span class="nt">-f</span> <span class="nt">-o</span> <span class="s2">"spark-nlp-</span><span class="k">${</span><span class="nv">SPARK_NLP_VERSION</span><span class="k">}</span><span class="s2">-py311.tar.gz"</span>
 </code></pre></div>  </div>
 
   <p>Upload the archive:</p>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 <span class="nb">cp </span>spark-nlp-env.tar.gz <span class="se">\</span>
-  s3://&lt;artifact-bucket&gt;/spark-nlp-emr/envs/spark-nlp-env.tar.gz
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">SPARK_NLP_VERSION</span><span class="o">=</span><span class="s1">'7.0.0'</span>
+aws s3 <span class="nb">cp</span> <span class="s2">"spark-nlp-</span><span class="k">${</span><span class="nv">SPARK_NLP_VERSION</span><span class="k">}</span><span class="s2">-py311.tar.gz"</span> <span class="se">\</span>
+  <span class="s2">"s3://&lt;artifact-bucket&gt;/spark-nlp-emr/envs/spark-nlp-</span><span class="k">${</span><span class="nv">SPARK_NLP_VERSION</span><span class="k">}</span><span class="s2">-py311.tar.gz"</span>
 </code></pre></div>  </div>
 
-  <h3 id="choose-how-pretrained-assets-are-loaded">3. Choose how pretrained assets are loaded</h3>
+  <h3 id="create-a-spark-nlp-job">5. Create a Spark NLP job</h3>
 
-  <p>There are two common patterns for pretrained resources on EMR Serverless.</p>
+  <p>The following model-free distributed smoke test works with both Spark 3.x and Spark 4.x when the correct application and JVM artifact lane are selected:</p>
 
-  <p>The first pattern uses <code class="language-plaintext highlighter-rouge">cache_pretrained</code> with an S3 path. With this setup, calls such as <code class="language-plaintext highlighter-rouge">PretrainedPipeline("recognize_entities_dl", lang="en")</code> or <code class="language-plaintext highlighter-rouge">.pretrained(...)</code> download the compatible resource on the first run and store it in the configured S3 cache. Later runs reuse the cached copy.</p>
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">importlib.metadata</span> <span class="kn">import</span> <span class="n">version</span>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--conf</span> spark.jsl.settings.pretrained.cache_folder<span class="o">=</span>s3a://&lt;artifact-bucket&gt;/spark-nlp-emr/cache_pretrained/
-</code></pre></div>  </div>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="kn">from</span> <span class="nn">sparknlp.annotator</span> <span class="kn">import</span> <span class="n">Tokenizer</span>
+<span class="kn">from</span> <span class="nn">sparknlp.base</span> <span class="kn">import</span> <span class="n">DocumentAssembler</span><span class="p">,</span> <span class="n">Finisher</span>
 
-  <p>Use this pattern when the EMR Serverless job can reach the Spark NLP public model repository and the cache bucket is writable by the runtime role or by the temporary credentials passed to Spark.</p>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span><span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"spark-nlp-emr-serverless"</span><span class="p">).</span><span class="n">getOrCreate</span><span class="p">()</span>
 
-  <p>Then use the standard pretrained APIs:</p>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
-<span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
-
-<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span><span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"Spark NLP EMR Serverless"</span><span class="p">).</span><span class="n">getOrCreate</span><span class="p">()</span>
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"recognize_entities_dl"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="p">)</span>
-</code></pre></div>  </div>
-
-  <p>The second pattern loads a model or pipeline that was already downloaded and saved to S3. This does not populate <code class="language-plaintext highlighter-rouge">cache_pretrained</code>; it reads the exact saved path you provide. Use this when the resource is prepared ahead of time or when the job should not download from the public model repository at runtime.</p>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
-<span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
-
-<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span><span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"Spark NLP EMR Serverless"</span><span class="p">).</span><span class="n">getOrCreate</span><span class="p">()</span>
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">.</span><span class="n">from_disk</span><span class="p">(</span>
-    <span class="s">"s3a://&lt;artifact-bucket&gt;/spark-nlp-emr/models/recognize_entities_dl"</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Spark NLP Python version:"</span><span class="p">,</span> <span class="n">version</span><span class="p">(</span><span class="s">"spark-nlp"</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Spark version:"</span><span class="p">,</span> <span class="n">spark</span><span class="p">.</span><span class="n">version</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span>
+    <span class="s">"Scala version:"</span><span class="p">,</span>
+    <span class="n">spark</span><span class="p">.</span><span class="n">sparkContext</span><span class="p">.</span><span class="n">_jvm</span><span class="p">.</span><span class="n">scala</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">versionString</span><span class="p">(),</span>
 <span class="p">)</span>
-</code></pre></div>  </div>
+<span class="k">print</span><span class="p">(</span>
+    <span class="s">"Java version:"</span><span class="p">,</span>
+    <span class="n">spark</span><span class="p">.</span><span class="n">sparkContext</span><span class="p">.</span><span class="n">_jvm</span><span class="p">.</span><span class="n">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">System</span><span class="p">.</span><span class="n">getProperty</span><span class="p">(</span><span class="s">"java.version"</span><span class="p">),</span>
+<span class="p">)</span>
 
-  <p>To prepare a pipeline in an environment with internet access and upload it to S3:</p>
+<span class="n">data</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+    <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s">"Spark NLP runs on Amazon EMR Serverless."</span><span class="p">)],</span>
+    <span class="p">[</span><span class="s">"id"</span><span class="p">,</span> <span class="s">"text"</span><span class="p">],</span>
+<span class="p">).</span><span class="n">repartition</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sparknlp</span>
-<span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
+<span class="n">document</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">DocumentAssembler</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">setInputCol</span><span class="p">(</span><span class="s">"text"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"document"</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">token</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Tokenizer</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"document"</span><span class="p">])</span>
+    <span class="p">.</span><span class="n">setOutputCol</span><span class="p">(</span><span class="s">"token"</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">finisher</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Finisher</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">setInputCols</span><span class="p">([</span><span class="s">"token"</span><span class="p">])</span>
+    <span class="p">.</span><span class="n">setOutputCols</span><span class="p">([</span><span class="s">"finished_token"</span><span class="p">])</span>
+<span class="p">)</span>
 
-<span class="n">spark</span> <span class="o">=</span> <span class="n">sparknlp</span><span class="p">.</span><span class="n">start</span><span class="p">()</span>
-<span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"recognize_entities_dl"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="p">)</span>
-<span class="n">pipeline</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">write</span><span class="p">().</span><span class="n">overwrite</span><span class="p">().</span><span class="n">save</span><span class="p">(</span><span class="s">"recognize_entities_dl"</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">document</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">finisher</span><span class="p">]).</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">select</span><span class="p">(</span><span class="s">"finished_token"</span><span class="p">).</span><span class="n">collect</span><span class="p">()</span>
+<span class="k">assert</span> <span class="s">"Spark"</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">finished_token</span>
+<span class="k">print</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+
 <span class="n">spark</span><span class="p">.</span><span class="n">stop</span><span class="p">()</span>
 </code></pre></div>  </div>
 
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 <span class="nb">cp</span> <span class="nt">--recursive</span> recognize_entities_dl <span class="se">\</span>
-  s3://&lt;artifact-bucket&gt;/spark-nlp-emr/models/recognize_entities_dl
+  <p>Save the script as <code class="language-plaintext highlighter-rouge">spark_nlp_emr_serverless.py</code>, validate its syntax, and upload it:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-m</span> py_compile spark_nlp_emr_serverless.py
+aws s3 <span class="nb">cp </span>spark_nlp_emr_serverless.py <span class="se">\</span>
+  s3://&lt;artifact-bucket&gt;/spark-nlp-emr/scripts/spark_nlp_emr_serverless.py
 </code></pre></div>  </div>
 
-  <p>The saved path should contain <code class="language-plaintext highlighter-rouge">metadata/</code> and <code class="language-plaintext highlighter-rouge">stages/</code> at the top level.</p>
+  <h3 id="configure-the-required-spark-properties">6. Configure the required Spark properties</h3>
 
-  <p>If you prefer a fully offline local load, archive the folder, pass the archive in <code class="language-plaintext highlighter-rouge">spark.archives</code>, and load it with <code class="language-plaintext highlighter-rouge">PretrainedPipeline.from_disk("./recognize_entities_dl")</code>. AWS documents <a href="https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/jobs-spark.html"><code class="language-plaintext highlighter-rouge">spark.archives</code></a> as a comma-separated list of <code class="language-plaintext highlighter-rouge">.jar</code>, <code class="language-plaintext highlighter-rouge">.tar.gz</code>, <code class="language-plaintext highlighter-rouge">.tgz</code>, and <code class="language-plaintext highlighter-rouge">.zip</code> files extracted into each executor working directory, but it does not publish a model-archive-specific size quota. In Spark NLP EMR Serverless experiments, model archives larger than approximately 1 GB failed during archive distribution or extraction. Treat <code class="language-plaintext highlighter-rouge">spark.archives</code> as a small-model convenience path; for larger models, prefer direct S3 loading with <code class="language-plaintext highlighter-rouge">PretrainedPipeline.from_disk("s3a://...")</code> or the S3 <code class="language-plaintext highlighter-rouge">cache_pretrained</code> configuration.</p>
-
-  <h3 id="create-the-job-script">4. Create the job script</h3>
-
-  <p>Save the following as <code class="language-plaintext highlighter-rouge">ner_test.py</code>:</p>
-
-  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
-<span class="kn">from</span> <span class="nn">sparknlp.pretrained</span> <span class="kn">import</span> <span class="n">PretrainedPipeline</span>
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span><span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"Spark NLP EMR Serverless"</span><span class="p">).</span><span class="n">getOrCreate</span><span class="p">()</span>
-
-    <span class="n">text</span> <span class="o">=</span> <span class="s">"Barack Obama was born in Hawaii and was elected president of the United States."</span>
-
-    <span class="c1"># Use this when spark.jsl.settings.pretrained.cache_folder points to S3.
-</span>    <span class="n">pipeline</span> <span class="o">=</span> <span class="n">PretrainedPipeline</span><span class="p">(</span><span class="s">"recognize_entities_dl"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">"en"</span><span class="p">)</span>
-
-    <span class="c1"># To load a pipeline already saved in S3, use:
-</span>    <span class="c1"># pipeline = PretrainedPipeline.from_disk(
-</span>    <span class="c1">#     "s3a://&lt;artifact-bucket&gt;/spark-nlp-emr/models/recognize_entities_dl"
-</span>    <span class="c1"># )
-</span>    <span class="c1">#
-</span>    <span class="c1"># For a fully offline local load, archive the pipeline in spark.archives and use:
-</span>    <span class="c1"># pipeline = PretrainedPipeline.from_disk("./recognize_entities_dl")
-</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="p">.</span><span class="n">fullAnnotate</span><span class="p">(</span><span class="n">text</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-
-    <span class="k">print</span><span class="p">(</span><span class="s">"=== INPUT ==="</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-
-    <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">=== NER OUTPUT ==="</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="n">result</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"entities"</span><span class="p">,</span> <span class="p">[]):</span>
-        <span class="k">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s">"text=</span><span class="si">{</span><span class="n">entity</span><span class="p">.</span><span class="n">result</span><span class="err">!</span><span class="n">r</span><span class="si">}</span><span class="s">, "</span>
-            <span class="sa">f</span><span class="s">"label=</span><span class="si">{</span><span class="n">entity</span><span class="p">.</span><span class="n">metadata</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'entity'</span><span class="p">)</span><span class="err">!</span><span class="n">r</span><span class="si">}</span><span class="s">, "</span>
-            <span class="sa">f</span><span class="s">"begin=</span><span class="si">{</span><span class="n">entity</span><span class="p">.</span><span class="n">begin</span><span class="si">}</span><span class="s">, end=</span><span class="si">{</span><span class="n">entity</span><span class="p">.</span><span class="n">end</span><span class="si">}</span><span class="s">"</span>
-        <span class="p">)</span>
-
-    <span class="n">spark</span><span class="p">.</span><span class="n">stop</span><span class="p">()</span>
-
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-</code></pre></div>  </div>
-
-  <p>Upload the script:</p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws s3 <span class="nb">cp </span>ner_test.py <span class="se">\</span>
-  s3://&lt;artifact-bucket&gt;/spark-nlp-emr/scripts/ner_test.py
-</code></pre></div>  </div>
-
-  <h3 id="create-the-emr-serverless-application">5. Create the EMR Serverless application</h3>
-
-  <p>Create an EMR Serverless Spark application with a release label compatible with your Spark NLP build, for example <code class="language-plaintext highlighter-rouge">emr-7.12.0</code>. Keep the returned application id and use an execution role that can access the S3 paths above.</p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws emr-serverless create-application <span class="se">\</span>
-  <span class="nt">--name</span> spark-nlp-os <span class="se">\</span>
-  <span class="nt">--type</span> SPARK <span class="se">\</span>
-  <span class="nt">--release-label</span> emr-7.12.0
-</code></pre></div>  </div>
-
-  <h3 id="submit-the-job">6. Submit the job</h3>
-
-  <p>Submit with the Python environment archive, the Spark NLP assembly JAR, and the S3 pretrained cache.</p>
-
-  <p>The following Open Source example uses temporary AWS credentials. Replace every placeholder before running it. If the EMR Serverless runtime role already has read/write permissions for the artifact bucket and cache path, omit the temporary credential lines, including <code class="language-plaintext highlighter-rouge">spark.hadoop.fs.s3a.aws.credentials.provider</code>, <code class="language-plaintext highlighter-rouge">spark.hadoop.fs.s3a.access.key</code>, <code class="language-plaintext highlighter-rouge">spark.hadoop.fs.s3a.secret.key</code>, <code class="language-plaintext highlighter-rouge">spark.hadoop.fs.s3a.session.token</code>, and <code class="language-plaintext highlighter-rouge">spark.jsl.settings.aws.credentials.*</code>, and let S3A use the runtime role.</p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--conf</span> spark.archives<span class="o">=</span>s3://&lt;artifact-bucket&gt;/spark-nlp-emr/envs/spark-nlp-env.tar.gz#environment <span class="se">\</span>
-<span class="nt">--conf</span> spark.emr-serverless.driverEnv.PYSPARK_DRIVER_PYTHON<span class="o">=</span>./environment/bin/python <span class="se">\</span>
-<span class="nt">--conf</span> spark.emr-serverless.driverEnv.PYSPARK_PYTHON<span class="o">=</span>./environment/bin/python <span class="se">\</span>
-<span class="nt">--conf</span> spark.executorEnv.PYSPARK_PYTHON<span class="o">=</span>./environment/bin/python <span class="se">\</span>
-<span class="nt">--conf</span> spark.jars<span class="o">=</span>s3://&lt;artifact-bucket&gt;/jars/spark-nlp-assembly-6.4.1.jar <span class="se">\</span>
-<span class="nt">--conf</span> spark.jsl.settings.pretrained.cache_folder<span class="o">=</span>s3a://&lt;artifact-bucket&gt;/spark-nlp-emr/cache_pretrained/ <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.fs.s3a.impl<span class="o">=</span>org.apache.hadoop.fs.s3a.S3AFileSystem <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.fs.s3a.endpoint<span class="o">=</span>s3.&lt;aws-region&gt;.amazonaws.com <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.fs.s3a.aws.credentials.provider<span class="o">=</span>org.apache.hadoop.fs.s3a.TemporaryAWSCredentialsProvider <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.fs.s3a.access.key<span class="o">=</span>&lt;aws-access-key-id&gt; <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.fs.s3a.secret.key<span class="o">=</span>&lt;aws-secret-access-key&gt; <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.fs.s3a.session.token<span class="o">=</span>&lt;aws-session-token&gt; <span class="se">\</span>
-<span class="nt">--conf</span> spark.jsl.settings.aws.region<span class="o">=</span>&lt;aws-region&gt; <span class="se">\</span>
-<span class="nt">--conf</span> spark.jsl.settings.aws.credentials.access_key_id<span class="o">=</span>&lt;aws-access-key-id&gt; <span class="se">\</span>
-<span class="nt">--conf</span> spark.jsl.settings.aws.credentials.secret_access_key<span class="o">=</span>&lt;aws-secret-access-key&gt; <span class="se">\</span>
-<span class="nt">--conf</span> spark.jsl.settings.aws.credentials.session_token<span class="o">=</span>&lt;aws-session-token&gt; <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.hive.metastore.client.factory.class<span class="o">=</span>com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
-</code></pre></div>  </div>
-
-  <p>For direct S3 loading of a previously downloaded Open Source pipeline, keep the Python, JAR, and S3A properties, remove <code class="language-plaintext highlighter-rouge">spark.jsl.settings.pretrained.cache_folder</code> unless the same job also downloads other pretrained resources, and load the saved pipeline path with <code class="language-plaintext highlighter-rouge">PretrainedPipeline.from_disk("s3a://&lt;artifact-bucket&gt;/spark-nlp-emr/models/&lt;pipeline-name&gt;")</code>.</p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--conf</span> spark.archives<span class="o">=</span>s3://&lt;artifact-bucket&gt;/spark-nlp-emr/envs/spark-nlp-env.tar.gz#environment <span class="se">\</span>
-<span class="nt">--conf</span> spark.emr-serverless.driverEnv.PYSPARK_DRIVER_PYTHON<span class="o">=</span>./environment/bin/python <span class="se">\</span>
-<span class="nt">--conf</span> spark.emr-serverless.driverEnv.PYSPARK_PYTHON<span class="o">=</span>./environment/bin/python <span class="se">\</span>
-<span class="nt">--conf</span> spark.executorEnv.PYSPARK_PYTHON<span class="o">=</span>./environment/bin/python <span class="se">\</span>
-<span class="nt">--conf</span> spark.jars<span class="o">=</span>s3://&lt;artifact-bucket&gt;/jars/spark-nlp-assembly-6.4.1.jar <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.fs.s3a.impl<span class="o">=</span>org.apache.hadoop.fs.s3a.S3AFileSystem <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.fs.s3a.endpoint<span class="o">=</span>s3.&lt;aws-region&gt;.amazonaws.com <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.fs.s3a.aws.credentials.provider<span class="o">=</span>org.apache.hadoop.fs.s3a.TemporaryAWSCredentialsProvider <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.fs.s3a.access.key<span class="o">=</span>&lt;aws-access-key-id&gt; <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.fs.s3a.secret.key<span class="o">=</span>&lt;aws-secret-access-key&gt; <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.fs.s3a.session.token<span class="o">=</span>&lt;aws-session-token&gt; <span class="se">\</span>
-<span class="nt">--conf</span> spark.hadoop.hive.metastore.client.factory.class<span class="o">=</span>com.amazonaws.glue.catalog.metastore.AWSGlueDataCatalogHiveClientFactory
-</code></pre></div>  </div>
-
-  <p>Pass the selected properties as the <code class="language-plaintext highlighter-rouge">sparkSubmitParameters</code> string:</p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws emr-serverless start-job-run <span class="se">\</span>
-  <span class="nt">--application-id</span> &lt;application-id&gt; <span class="se">\</span>
-  <span class="nt">--execution-role-arn</span> &lt;emr-serverless-runtime-role-arn&gt; <span class="se">\</span>
-  <span class="nt">--job-driver</span> <span class="s1">'{
-    "sparkSubmit": {
-      "entryPoint": "s3://&lt;artifact-bucket&gt;/spark-nlp-emr/scripts/ner_test.py",
-      "sparkSubmitParameters": "&lt;spark-submit-parameters&gt;"
-    }
-  }'</span> <span class="se">\</span>
-  <span class="nt">--configuration-overrides</span> <span class="s1">'{
-    "monitoringConfiguration": {
-      "s3MonitoringConfiguration": {
-        "logUri": "s3://&lt;artifact-bucket&gt;/spark-nlp-emr/logs/"
-      }
-    }
-  }'</span>
-</code></pre></div>  </div>
-
-  <p>For a fully offline local load, add the model archive to <code class="language-plaintext highlighter-rouge">spark.archives</code> and load it with <code class="language-plaintext highlighter-rouge">PretrainedPipeline.from_disk("./recognize_entities_dl")</code> in the script. Use this only for small model archives. AWS documents <a href="https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/jobs-spark.html"><code class="language-plaintext highlighter-rouge">spark.archives</code></a> extraction support, while EMR Serverless <a href="https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/app-behavior.html">worker disk</a> defaults start at 20 GB and can be configured up to 200 GB per worker, but this is not the same as an AWS-supported archive size guarantee. Based on Spark NLP EMR Serverless testing, use direct S3 loading or <code class="language-plaintext highlighter-rouge">cache_pretrained</code> for model archives near or above 1 GB.</p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--conf</span> spark.archives<span class="o">=</span>s3://&lt;artifact-bucket&gt;/spark-nlp-emr/envs/spark-nlp-env.tar.gz#environment,s3://&lt;artifact-bucket&gt;/spark-nlp-emr/models/recognize_entities_dl.tar.gz#recognize_entities_dl
-</code></pre></div>  </div>
-
-  <p>The required Spark properties are:</p>
+  <p>The required Spark properties for the packaged Python environment and S3-staged JAR mode are:</p>
 
   <table class="table-model-big">
     <thead>
       <tr>
         <th>Property</th>
+        <th>Requirement</th>
         <th>Purpose</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.archives</code></td>
-        <td>Extracts the Python environment as <code class="language-plaintext highlighter-rouge">./environment</code> and, for small fully offline model archives, the pipeline as <code class="language-plaintext highlighter-rouge">./recognize_entities_dl</code>. Prefer direct S3 loading or <code class="language-plaintext highlighter-rouge">cache_pretrained</code> for larger models.</td>
+        <td>Required</td>
+        <td>Extracts the Python environment as <code class="language-plaintext highlighter-rouge">./environment</code>. Additional archives can be listed when a job needs localized resources.</td>
       </tr>
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.emr-serverless.driverEnv.PYSPARK_DRIVER_PYTHON</code></td>
-        <td>Forces the driver to use the packed Python interpreter.</td>
+        <td>Required</td>
+        <td>Forces the driver to use the packaged Python interpreter.</td>
       </tr>
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.emr-serverless.driverEnv.PYSPARK_PYTHON</code></td>
+        <td>Required</td>
         <td>Sets the driver-side PySpark Python interpreter.</td>
       </tr>
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.executorEnv.PYSPARK_PYTHON</code></td>
+        <td>Required</td>
         <td>Sets the executor-side PySpark Python interpreter.</td>
       </tr>
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.jars</code></td>
-        <td>Loads the Spark NLP assembly JAR from S3 without resolving Maven packages at job startup.</td>
+        <td>Required for offline mode</td>
+        <td>Loads the complete Spark NLP JVM dependency set from S3 without resolving Maven packages when the job starts. Use the Spark/Scala lane that matches the application.</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">--packages</code></td>
+        <td>Alternative to <code class="language-plaintext highlighter-rouge">spark.jars</code></td>
+        <td>Resolves the matching Spark NLP Maven coordinate when the job has Maven Central access. Do not configure both delivery modes for the same artifact.</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">spark.serializer</code></td>
+        <td>Recommended</td>
+        <td>Uses <code class="language-plaintext highlighter-rouge">org.apache.spark.serializer.KryoSerializer</code>.</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">spark.kryoserializer.buffer.max</code></td>
+        <td>Recommended</td>
+        <td>Increases the maximum Kryo buffer for larger Spark NLP annotations and models.</td>
       </tr>
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.jsl.settings.pretrained.cache_folder</code></td>
-        <td>Stores pretrained models and pipelines in an S3 cache when using <code class="language-plaintext highlighter-rouge">PretrainedPipeline(...)</code> or <code class="language-plaintext highlighter-rouge">.pretrained(...)</code>.</td>
+        <td>Conditional</td>
+        <td>Configures a shared S3 location for pretrained resources when the job uses <code class="language-plaintext highlighter-rouge">.pretrained(...)</code> or <code class="language-plaintext highlighter-rouge">PretrainedPipeline(...)</code>.</td>
       </tr>
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.hadoop.fs.s3a.impl</code></td>
-        <td>Enables Hadoop S3A paths such as <code class="language-plaintext highlighter-rouge">s3a://...</code> for loading models, pipelines, and cache contents.</td>
+        <td>Conditional</td>
+        <td>Explicitly selects Hadoop S3A when the job reads or writes <code class="language-plaintext highlighter-rouge">s3a://</code> paths and the runtime does not already configure it.</td>
       </tr>
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.hadoop.fs.s3a.endpoint</code></td>
-        <td>Points S3A to the AWS regional endpoint used by the bucket.</td>
+        <td>Conditional</td>
+        <td>Selects the regional S3 endpoint when required by the bucket or network configuration.</td>
       </tr>
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.hadoop.fs.s3a.aws.credentials.provider</code></td>
-        <td>Selects the S3A credential provider. Use <code class="language-plaintext highlighter-rouge">TemporaryAWSCredentialsProvider</code> when passing access key, secret key, and session token.</td>
-      </tr>
-      <tr>
-        <td><code class="language-plaintext highlighter-rouge">spark.hadoop.fs.s3a.access.key</code></td>
-        <td>Temporary AWS access key for Hadoop S3A access. Omit when using the EMR Serverless runtime role.</td>
-      </tr>
-      <tr>
-        <td><code class="language-plaintext highlighter-rouge">spark.hadoop.fs.s3a.secret.key</code></td>
-        <td>Temporary AWS secret key for Hadoop S3A access. Omit when using the EMR Serverless runtime role.</td>
-      </tr>
-      <tr>
-        <td><code class="language-plaintext highlighter-rouge">spark.hadoop.fs.s3a.session.token</code></td>
-        <td>Temporary AWS session token for Hadoop S3A access. Omit when using the EMR Serverless runtime role.</td>
+        <td>Conditional</td>
+        <td>Selects an S3A credentials provider. Normally omit this and use the EMR Serverless runtime role.</td>
       </tr>
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.jsl.settings.aws.region</code></td>
-        <td>AWS region used by Spark NLP cloud cache operations.</td>
-      </tr>
-      <tr>
-        <td><code class="language-plaintext highlighter-rouge">spark.jsl.settings.aws.credentials.access_key_id</code></td>
-        <td>Temporary AWS access key used by Spark NLP cloud cache operations. Omit when using the EMR Serverless runtime role.</td>
-      </tr>
-      <tr>
-        <td><code class="language-plaintext highlighter-rouge">spark.jsl.settings.aws.credentials.secret_access_key</code></td>
-        <td>Temporary AWS secret key used by Spark NLP cloud cache operations. Omit when using the EMR Serverless runtime role.</td>
-      </tr>
-      <tr>
-        <td><code class="language-plaintext highlighter-rouge">spark.jsl.settings.aws.credentials.session_token</code></td>
-        <td>Temporary AWS session token used by Spark NLP cloud cache operations. Omit when using the EMR Serverless runtime role.</td>
+        <td>Conditional</td>
+        <td>Sets the AWS region used by Spark NLP cloud-cache operations.</td>
       </tr>
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.hadoop.hive.metastore.client.factory.class</code></td>
-        <td>Optional AWS Glue Data Catalog integration when the job also needs Glue-backed Hive metadata.</td>
+        <td>Optional</td>
+        <td>Enables AWS Glue Data Catalog integration when the job needs Glue-backed Hive metadata.</td>
       </tr>
     </tbody>
   </table>
+
+  <p>Do not place AWS access keys, secret keys, or session tokens in reusable Spark submit strings or public documentation. Grant the EMR Serverless runtime role access to the required S3 prefixes instead.</p>
+
+  <h3 id="submit-the-spark-job">7. Submit the Spark job</h3>
+
+  <p>The submission structure is the same for Spark 3.x and Spark 4.x. Select the application ID and runtime-JAR list for the intended lane:</p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th>Spark line</th>
+        <th>Application release</th>
+        <th>Spark NLP JAR lane</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Spark 3.x</td>
+        <td><code class="language-plaintext highlighter-rouge">emr-7.12.0</code></td>
+        <td><code class="language-plaintext highlighter-rouge">_2.12</code> dependency set</td>
+      </tr>
+      <tr>
+        <td>Spark 4.x</td>
+        <td><code class="language-plaintext highlighter-rouge">emr-spark-8.0.0</code></td>
+        <td><code class="language-plaintext highlighter-rouge">_2.13</code> dependency set</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Prepare the submission values. The <code class="language-plaintext highlighter-rouge">py311</code> archive name assumes that the selected EMR release uses a compatible Python 3.11 runtime; otherwise build and reference an archive for that release’s Python version:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">AWS_REGION</span><span class="o">=</span><span class="s1">'&lt;aws-region&gt;'</span>
+<span class="nb">export </span><span class="nv">AWS_DEFAULT_REGION</span><span class="o">=</span><span class="s2">"</span><span class="nv">$AWS_REGION</span><span class="s2">"</span>
+<span class="nb">export </span><span class="nv">APP_ID</span><span class="o">=</span><span class="s1">'&lt;application-id-for-the-selected-spark-line&gt;'</span>
+<span class="nb">export </span><span class="nv">EXECUTION_ROLE_ARN</span><span class="o">=</span><span class="s1">'&lt;emr-serverless-runtime-role-arn&gt;'</span>
+<span class="nb">export </span><span class="nv">ENTRY_POINT</span><span class="o">=</span><span class="s1">'s3://&lt;artifact-bucket&gt;/spark-nlp-emr/scripts/spark_nlp_emr_serverless.py'</span>
+<span class="nb">export </span><span class="nv">LOG_URI</span><span class="o">=</span><span class="s1">'s3://&lt;artifact-bucket&gt;/spark-nlp-emr/logs/'</span>
+<span class="nb">export </span><span class="nv">PYTHON_ARCHIVE</span><span class="o">=</span><span class="s1">'s3://&lt;artifact-bucket&gt;/spark-nlp-emr/envs/spark-nlp-7.0.0-py311.tar.gz'</span>
+<span class="nb">export </span><span class="nv">SPARK_NLP_JARS</span><span class="o">=</span><span class="s1">'&lt;comma-separated-s3-runtime-jar-uris-for-the-selected-lane&gt;'</span>
+
+: <span class="s2">"</span><span class="k">${</span><span class="nv">AWS_REGION</span>:?AWS_REGION<span class="p"> is required</span><span class="k">}</span><span class="s2">"</span>
+: <span class="s2">"</span><span class="k">${</span><span class="nv">APP_ID</span>:?APP_ID<span class="p"> is required</span><span class="k">}</span><span class="s2">"</span>
+: <span class="s2">"</span><span class="k">${</span><span class="nv">EXECUTION_ROLE_ARN</span>:?EXECUTION_ROLE_ARN<span class="p"> is required</span><span class="k">}</span><span class="s2">"</span>
+: <span class="s2">"</span><span class="k">${</span><span class="nv">ENTRY_POINT</span>:?ENTRY_POINT<span class="p"> is required</span><span class="k">}</span><span class="s2">"</span>
+: <span class="s2">"</span><span class="k">${</span><span class="nv">LOG_URI</span>:?LOG_URI<span class="p"> is required</span><span class="k">}</span><span class="s2">"</span>
+: <span class="s2">"</span><span class="k">${</span><span class="nv">PYTHON_ARCHIVE</span>:?PYTHON_ARCHIVE<span class="p"> is required</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div>  </div>
+
+  <p>Build the properties shared by both dependency-delivery modes, then add the offline S3-staged JAR list:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>: <span class="s2">"</span><span class="k">${</span><span class="nv">SPARK_NLP_JARS</span>:?SPARK_NLP_JARS<span class="p"> is required for offline mode</span><span class="k">}</span><span class="s2">"</span>
+
+<span class="nv">COMMON_SPARK_SUBMIT_PARAMETERS</span><span class="o">=</span><span class="s2">"--conf spark.archives=</span><span class="k">${</span><span class="nv">PYTHON_ARCHIVE</span><span class="k">}</span><span class="s2">#environment </span><span class="se">\</span><span class="s2">
+--conf spark.emr-serverless.driverEnv.PYSPARK_DRIVER_PYTHON=./environment/bin/python </span><span class="se">\</span><span class="s2">
+--conf spark.emr-serverless.driverEnv.PYSPARK_PYTHON=./environment/bin/python </span><span class="se">\</span><span class="s2">
+--conf spark.executorEnv.PYSPARK_PYTHON=./environment/bin/python </span><span class="se">\</span><span class="s2">
+--conf spark.serializer=org.apache.spark.serializer.KryoSerializer </span><span class="se">\</span><span class="s2">
+--conf spark.kryoserializer.buffer.max=2000M"</span>
+
+<span class="nv">SPARK_SUBMIT_PARAMETERS</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">COMMON_SPARK_SUBMIT_PARAMETERS</span><span class="k">}</span><span class="s2"> </span><span class="se">\</span><span class="s2">
+--conf spark.jars=</span><span class="k">${</span><span class="nv">SPARK_NLP_JARS</span><span class="k">}</span><span class="s2">"</span>
+</code></pre></div>  </div>
+
+  <p>When Maven Central is reachable, build the submit parameters from the same common properties and add the coordinate for the selected lane instead:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">SPARK_NLP_ARTIFACT</span><span class="o">=</span><span class="s1">'spark-nlp_2.12'</span>  <span class="c"># Spark 3.x</span>
+<span class="c"># export SPARK_NLP_ARTIFACT='spark-nlp-spark400_2.13'  # Spark 4.0.0</span>
+<span class="c"># export SPARK_NLP_ARTIFACT='spark-nlp_2.13'  # Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2</span>
+
+<span class="nv">SPARK_SUBMIT_PARAMETERS</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">COMMON_SPARK_SUBMIT_PARAMETERS</span><span class="k">}</span><span class="s2"> </span><span class="se">\</span><span class="s2">
+--packages com.johnsnowlabs.nlp:</span><span class="k">${</span><span class="nv">SPARK_NLP_ARTIFACT</span><span class="k">}</span><span class="s2">:7.0.0"</span>
+</code></pre></div>  </div>
+
+  <p>Do not combine that <code class="language-plaintext highlighter-rouge">--packages</code> example with an existing <code class="language-plaintext highlighter-rouge">spark.jars</code> value for Spark NLP. Start from the common Python and serializer properties, then choose exactly one JVM artifact-delivery mode.</p>
+
+  <p>Submit the job with JSON generated by <code class="language-plaintext highlighter-rouge">jq</code>:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">JOB_DRIVER_JSON</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span>jq <span class="nt">-n</span> <span class="se">\</span>
+  <span class="nt">--arg</span> entryPoint <span class="s2">"</span><span class="nv">$ENTRY_POINT</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--arg</span> params <span class="s2">"</span><span class="nv">$SPARK_SUBMIT_PARAMETERS</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="s1">'{sparkSubmit:{entryPoint:$entryPoint,sparkSubmitParameters:$params}}'</span><span class="si">)</span><span class="s2">"</span>
+
+<span class="nv">CONFIG_OVERRIDES_JSON</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span>jq <span class="nt">-n</span> <span class="se">\</span>
+  <span class="nt">--arg</span> logUri <span class="s2">"</span><span class="nv">$LOG_URI</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="s1">'{monitoringConfiguration:{s3MonitoringConfiguration:{logUri:$logUri}}}'</span><span class="si">)</span><span class="s2">"</span>
+
+<span class="nv">JOB_RUN_ID</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span>aws emr-serverless start-job-run <span class="se">\</span>
+  <span class="nt">--region</span> <span class="s2">"</span><span class="nv">$AWS_REGION</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--application-id</span> <span class="s2">"</span><span class="nv">$APP_ID</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--execution-role-arn</span> <span class="s2">"</span><span class="nv">$EXECUTION_ROLE_ARN</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--name</span> spark-nlp-serverless <span class="se">\</span>
+  <span class="nt">--job-driver</span> <span class="s2">"</span><span class="nv">$JOB_DRIVER_JSON</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--configuration-overrides</span> <span class="s2">"</span><span class="nv">$CONFIG_OVERRIDES_JSON</span><span class="s2">"</span> <span class="se">\</span>
+  <span class="nt">--query</span> jobRunId <span class="se">\</span>
+  <span class="nt">--output</span> text<span class="si">)</span><span class="s2">"</span>
+
+<span class="nb">printf</span> <span class="s1">'JOB_RUN_ID=%s\n'</span> <span class="s2">"</span><span class="nv">$JOB_RUN_ID</span><span class="s2">"</span>
+</code></pre></div>  </div>
+
+  <p>AWS documents these job-driver and configuration fields in <a href="https://docs.aws.amazon.com/emr/latest/EMR-Serverless-UserGuide/jobs-spark.html">Using Spark configurations when you run EMR Serverless jobs</a>.</p>
 
 </div>
 <div class="h3-box">
 
   <h2 id="gcp-dataproc">GCP Dataproc</h2>
+
+  <p>Spark NLP <code class="language-plaintext highlighter-rouge">7.0.0</code> on Dataproc Spark 4.x uses the Spark 4 / Scala 2.13 artifact lane.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Dataproc target</th>
+        <th>Spark line</th>
+        <th>Scala</th>
+        <th>Spark NLP artifact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Dataproc cluster <code class="language-plaintext highlighter-rouge">--image-version=3.0</code></td>
+        <td>Spark 4.0.1 and later validated Spark 4 versions</td>
+        <td>2.13</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code> for Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2 (use <code class="language-plaintext highlighter-rouge">spark-nlp-spark400_2.13</code> if the cluster reports Spark 4.0.0)</td>
+      </tr>
+      <tr>
+        <td>Legacy Dataproc cluster <code class="language-plaintext highlighter-rouge">--image-version=2.0</code></td>
+        <td>Spark 3.x (image 2.0 provides Spark 3.1.3)</td>
+        <td>2.12</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp_2.12</code></td>
+      </tr>
+      <tr>
+        <td>Dataproc Serverless <code class="language-plaintext highlighter-rouge">--version=3.0</code></td>
+        <td>Google-managed Spark 4 patch</td>
+        <td>2.13</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code> when the runtime reports Spark 4.0.1 or a later validated Spark 4 version</td>
+      </tr>
+      <tr>
+        <td>Dataproc environment that reports Spark <code class="language-plaintext highlighter-rouge">4.0.0</code></td>
+        <td>Spark 4.0.0 only</td>
+        <td>2.13</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp-spark400_2.13</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Notes:</p>
+
+  <ul>
+    <li>Dataproc Serverless runtime <code class="language-plaintext highlighter-rouge">3.0</code> is the Spark 4 line. Current runtime releases use Spark 4.0.1, Scala 2.13, Java 21, and Python 3.12.</li>
+    <li>Google documents that Dataproc Serverless runtime subminor pinning is not supported. Check <code class="language-plaintext highlighter-rouge">spark.version</code> in the driver output instead of assuming that <code class="language-plaintext highlighter-rouge">--version=3.0</code> selects a specific Apache Spark patch.</li>
+    <li>For the legacy Spark 3.x / Scala 2.12 cluster lane, use <code class="language-plaintext highlighter-rouge">--image-version=2.0</code> with <code class="language-plaintext highlighter-rouge">spark-nlp_2.12</code>. Google currently lists image 2.0 as unsupported, so verify that it remains available in your region before creating a new cluster.</li>
+  </ul>
 
   <ol>
     <li>Create a cluster if you don’t have one already as follows.</li>
@@ -1712,18 +2026,21 @@ gsutil mb <span class="nt">-c</span> standard <span class="nt">-l</span> <span c
 <span class="nv">ZONE</span><span class="o">=</span>&lt;zone&gt;
 <span class="nv">CLUSTER_NAME</span><span class="o">=</span>&lt;cluster_name&gt;
 <span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket_name&gt;
+<span class="nv">DATAPROC_IMAGE_VERSION</span><span class="o">=</span>3.0
+<span class="nv">SPARK_NLP_ARTIFACT</span><span class="o">=</span>spark-nlp_2.13
+<span class="c"># For Spark 4.0.0 only, use:</span>
+<span class="c"># SPARK_NLP_ARTIFACT=spark-nlp-spark400_2.13</span>
+<span class="c"># For the legacy Spark 3.x / Scala 2.12 lane, use:</span>
+<span class="c"># DATAPROC_IMAGE_VERSION=2.0</span>
+<span class="c"># SPARK_NLP_ARTIFACT=spark-nlp_2.12</span>
 </code></pre></div>  </div>
 
-  <p>You can set image-version, master-machine-type, worker-machine-type,
-master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
-If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
-And, you should enable gateway.
-Don’t forget to set the maven coordinates for the jar in properties.</p>
+  <p>For Spark 4.x, use Dataproc cluster image <code class="language-plaintext highlighter-rouge">3.0</code>. You can still tune image version subrelease, master-machine-type, worker-machine-type, master-boot-disk-size, worker-boot-disk-size, and num-workers for your workload. Enable the component gateway and set the Spark NLP Maven coordinate explicitly in the cluster properties.</p>
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud dataproc clusters create <span class="k">${</span><span class="nv">CLUSTER_NAME</span><span class="k">}</span> <span class="se">\</span>
   <span class="nt">--region</span><span class="o">=</span><span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> <span class="se">\</span>
   <span class="nt">--zone</span><span class="o">=</span><span class="k">${</span><span class="nv">ZONE</span><span class="k">}</span> <span class="se">\</span>
-  <span class="nt">--image-version</span><span class="o">=</span>2.0 <span class="se">\</span>
+  <span class="nt">--image-version</span><span class="o">=</span><span class="k">${</span><span class="nv">DATAPROC_IMAGE_VERSION</span><span class="k">}</span> <span class="se">\</span>
   <span class="nt">--master-machine-type</span><span class="o">=</span>n1-standard-4 <span class="se">\</span>
   <span class="nt">--worker-machine-type</span><span class="o">=</span>n1-standard-2 <span class="se">\</span>
   <span class="nt">--master-boot-disk-size</span><span class="o">=</span>128GB <span class="se">\</span>
@@ -1732,23 +2049,98 @@ Don’t forget to set the maven coordinates for the jar in properties.</p>
   <span class="nt">--bucket</span><span class="o">=</span><span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span> <span class="se">\</span>
   <span class="nt">--optional-components</span><span class="o">=</span>JUPYTER <span class="se">\</span>
   <span class="nt">--enable-component-gateway</span> <span class="se">\</span>
-  <span class="nt">--metadata</span> <span class="s1">'PIP_PACKAGES=spark-nlp spark-nlp-display google-cloud-bigquery google-cloud-storage'</span> <span class="se">\</span>
+  <span class="nt">--metadata</span> <span class="s1">'PIP_PACKAGES=spark-nlp==7.0.0,spark-nlp-display,google-cloud-bigquery,google-cloud-storage'</span> <span class="se">\</span>
   <span class="nt">--initialization-actions</span> gs://goog-dataproc-initialization-actions-<span class="k">${</span><span class="nv">REGION</span><span class="k">}</span>/python/pip-install.sh <span class="se">\</span>
-  <span class="nt">--properties</span> spark:spark.serializer<span class="o">=</span>org.apache.spark.serializer.KryoSerializer,spark:spark.driver.maxResultSize<span class="o">=</span>0,spark:spark.kryoserializer.buffer.max<span class="o">=</span>2000M,spark:spark.jars.packages<span class="o">=</span>com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1
+  <span class="nt">--properties</span> spark:spark.serializer<span class="o">=</span>org.apache.spark.serializer.KryoSerializer,spark:spark.driver.maxResultSize<span class="o">=</span>0,spark:spark.kryoserializer.buffer.max<span class="o">=</span>2000M,spark:spark.jars.packages<span class="o">=</span>com.johnsnowlabs.nlp:<span class="k">${</span><span class="nv">SPARK_NLP_ARTIFACT</span><span class="k">}</span>:7.0.0
 </code></pre></div>  </div>
 
   <ol>
     <li>
-      <p>On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.</p>
+      <p>On an existing cluster, install the <code class="language-plaintext highlighter-rouge">spark-nlp</code> and <code class="language-plaintext highlighter-rouge">spark-nlp-display</code> packages from PyPI.</p>
     </li>
     <li>
-      <p>Now, you can attach your notebook to the cluster and use the Spark NLP!</p>
+      <p>Attach your notebook to the cluster and use Spark NLP.</p>
     </li>
   </ol>
 
+  <p>For Dataproc Serverless, use <code class="language-plaintext highlighter-rouge">gcloud dataproc batches submit pyspark --version=3.0</code> for the Spark 4 line and distribute both the Spark NLP Python package and the matching Spark NLP jar lane (<code class="language-plaintext highlighter-rouge">spark-nlp-spark400_2.13</code> for Spark 4.0.0, <code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code> for Spark 4.0.1 and later validated Spark 4 versions).</p>
+
+  <h3 id="dataproc-serverless-spark-4-batch">Dataproc Serverless Spark 4 batch</h3>
+
+  <p>Upload the Spark NLP <code class="language-plaintext highlighter-rouge">7.0.0</code> wheel and the assembly JAR built for the Spark runtime reported by Dataproc. The assembly filename does not encode the Maven lane, so verify that the uploaded JAR comes from the <code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code> build for current runtime <code class="language-plaintext highlighter-rouge">3.0</code> releases.</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">PROJECT_ID</span><span class="o">=</span>&lt;project-id&gt;
+<span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
+<span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket-name&gt;
+<span class="nv">BATCH_ID</span><span class="o">=</span>spark-nlp-700-spark4
+<span class="nv">JOB_URI</span><span class="o">=</span>gs://<span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span>/python/job.py
+<span class="nv">JAR_URI</span><span class="o">=</span>gs://<span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span>/jars/spark-nlp-assembly-7.0.0.jar
+<span class="nv">WHEEL_URI</span><span class="o">=</span>gs://<span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span>/wheels/spark_nlp-7.0.0-py2.py3-none-any.whl
+
+gcloud dataproc batches submit pyspark <span class="k">${</span><span class="nv">JOB_URI</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--project</span><span class="o">=</span><span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--region</span><span class="o">=</span><span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--batch</span><span class="o">=</span><span class="k">${</span><span class="nv">BATCH_ID</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--version</span><span class="o">=</span>3.0 <span class="se">\</span>
+  <span class="nt">--jars</span><span class="o">=</span><span class="k">${</span><span class="nv">JAR_URI</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--py-files</span><span class="o">=</span><span class="k">${</span><span class="nv">WHEEL_URI</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--deps-bucket</span><span class="o">=</span>gs://<span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--properties</span><span class="o">=</span>spark.serializer<span class="o">=</span>org.apache.spark.serializer.KryoSerializer,spark.kryoserializer.buffer.max<span class="o">=</span>2000M,spark.jsl.settings.gcp.project_id<span class="o">=</span><span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span>,spark.jsl.settings.pretrained.cache_folder<span class="o">=</span>gs://<span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span>/models
+</code></pre></div>  </div>
+
+  <p>When the launcher already supplies Spark NLP with <code class="language-plaintext highlighter-rouge">--jars</code>, let Dataproc own the Spark session instead of resolving a second Maven artifact from the Python entrypoint:</p>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="p">.</span><span class="n">builder</span><span class="p">.</span><span class="n">appName</span><span class="p">(</span><span class="s">"Spark NLP Dataproc Serverless"</span><span class="p">).</span><span class="n">getOrCreate</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Spark version:"</span><span class="p">,</span> <span class="n">spark</span><span class="p">.</span><span class="n">version</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Scala version:"</span><span class="p">,</span> <span class="n">spark</span><span class="p">.</span><span class="n">sparkContext</span><span class="p">.</span><span class="n">_jvm</span><span class="p">.</span><span class="n">scala</span><span class="p">.</span><span class="n">util</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">versionString</span><span class="p">())</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Java version:"</span><span class="p">,</span> <span class="n">spark</span><span class="p">.</span><span class="n">sparkContext</span><span class="p">.</span><span class="n">_jvm</span><span class="p">.</span><span class="n">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">System</span><span class="p">.</span><span class="n">getProperty</span><span class="p">(</span><span class="s">"java.version"</span><span class="p">))</span>
+</code></pre></div>  </div>
+
+  <p>Python <code class="language-plaintext highlighter-rouge">print()</code> and DataFrame <code class="language-plaintext highlighter-rouge">show()</code> output is written to the Dataproc batch driver output in Cloud Logging (<code class="language-plaintext highlighter-rouge">dataproc.googleapis.com/output</code>); it is not streamed into the submitting terminal.</p>
+
+  <p>The example uses the standard resource tier. If you explicitly select premium resources on runtime <code class="language-plaintext highlighter-rouge">3.0</code>, set <code class="language-plaintext highlighter-rouge">dataproc.tier=premium</code>. Do not combine it with the legacy <code class="language-plaintext highlighter-rouge">spark.dataproc.executor.compute.tier=premium</code> property.</p>
+
+  <p>References:</p>
+
+  <ul>
+    <li><a href="https://docs.cloud.google.com/managed-spark/docs/concepts/versioning/image-version-lists">Managed Service for Apache Spark cluster image versions</a></li>
+    <li><a href="https://docs.cloud.google.com/managed-spark/docs/concepts/versions/spark-runtime-3.0">Managed Service for Apache Spark runtime 3.0</a></li>
+    <li><a href="https://docs.cloud.google.com/managed-spark/docs/concepts/versions/serverless-versions">Managed Service for Apache Spark serverless runtime versions</a></li>
+    <li><a href="https://docs.cloud.google.com/managed-spark/docs/guides/monitor-troubleshoot-batches">Monitor and troubleshoot batch workloads</a></li>
+  </ul>
+
   <h2 id="apache-spark-support">Apache Spark Support</h2>
 
-  <p>Spark NLP <em>6.4.1</em> has been built on top of Apache Spark 3.4 while fully supports Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x</p>
+  <p>Spark NLP supports Spark 3.x with Scala 2.12 and the following Spark 4/Scala 2.13 lanes:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Spark runtime</th>
+        <th style="text-align: right">Scala</th>
+        <th style="text-align: right">Java</th>
+        <th>Maven artifact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Spark 4.0.0</td>
+        <td style="text-align: right">2.13</td>
+        <td style="text-align: right">17</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp-spark400_2.13</code></td>
+      </tr>
+      <tr>
+        <td>Spark 4.0.1, 4.1.0, 4.1.1, or 4.1.2</td>
+        <td style="text-align: right">2.13</td>
+        <td style="text-align: right">17</td>
+        <td><code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Spark 3.x with Scala 2.13 and Spark 4.x with Scala 2.12 are not supported. The table below records historical Spark NLP 4.x and 5.x compatibility.</p>
 
   <table class="table-model-big">
     <thead>
@@ -1765,6 +2157,28 @@ Don’t forget to set the maven coordinates for the jar in properties.</p>
       </tr>
     </thead>
     <tbody>
+      <tr>
+        <td>7.0.x</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>NO</td>
+        <td>NO</td>
+      </tr>
+      <tr>
+        <td>6.x.x</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>NO</td>
+        <td>NO</td>
+      </tr>
       <tr>
         <td>5.4.x</td>
         <td>YES</td>
@@ -1878,9 +2292,30 @@ Don’t forget to set the maven coordinates for the jar in properties.</p>
     </tbody>
   </table>
 
+  <p><strong>Apache Spark 4.x (Scala 2.13)</strong></p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th>Spark NLP</th>
+        <th>Apache Spark 4.0.x</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>7.0.x</td>
+        <td>YES</td>
+      </tr>
+    </tbody>
+  </table>
+
   <p>Find out more about <code class="language-plaintext highlighter-rouge">Spark NLP</code> versions from our <a href="https://github.com/JohnSnowLabs/spark-nlp/releases">release notes</a>.</p>
 
-  <h2 id="scala-and-python-support">Scala and Python Support</h2>
+  <h2 id="historical-scala-and-python-support">Historical Scala and Python Support</h2>
+
+  <p>The current Spark 3 line uses Scala 2.12 and the Spark 4 line uses Scala 2.13. Supported Python versions follow the selected Apache Spark runtime. The table below records historical Spark NLP 4.x and 5.x compatibility.</p>
+
+  <p><strong>Apache Spark 3.x (Scala 2.12)</strong></p>
 
   <table class="table-model-big">
     <thead>
@@ -1896,6 +2331,16 @@ Don’t forget to set the maven coordinates for the jar in properties.</p>
       </tr>
     </thead>
     <tbody>
+      <tr>
+        <td>7.0.x</td>
+        <td>NO</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>NO</td>
+        <td>YES</td>
+      </tr>
       <tr>
         <td>5.3.x</td>
         <td>NO</td>
@@ -1989,9 +2434,34 @@ Don’t forget to set the maven coordinates for the jar in properties.</p>
     </tbody>
   </table>
 
+  <p><strong>Apache Spark 4.x (Scala 2.13)</strong></p>
+
+  <table class="table-model-big">
+    <thead>
+      <tr>
+        <th>Spark NLP</th>
+        <th>Python 3.9</th>
+        <th>Python 3.10</th>
+        <th>Python 3.11</th>
+        <th>Python 3.12</th>
+        <th>Scala 2.13</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>7.0.x</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+      </tr>
+    </tbody>
+  </table>
+
   <h2 id="databricks-support">Databricks Support</h2>
 
-  <p>Spark NLP 6.4.1 has been tested and is compatible with the following runtimes:</p>
+  <p>Spark NLP 7.0.0 has been tested and is compatible with the following runtimes:</p>
 
   <table class="table-model-big">
     <thead>
@@ -2093,7 +2563,7 @@ Don’t forget to set the maven coordinates for the jar in properties.</p>
 
   <h2 id="emr-support">EMR Support</h2>
 
-  <p>Spark NLP 6.4.1 has been tested and is compatible with the following EMR releases:</p>
+  <p>Spark NLP 7.0.0 has been tested and is compatible with the following EMR releases:</p>
 
   <ul>
     <li>emr-6.2.0</li>
@@ -2138,7 +2608,7 @@ export SPARK_HOME=/usr/lib/spark'</span> <span class="o">&gt;&gt;</span> <span c
 <span class="nb">exit </span>0
 </code></pre></div>  </div>
 
-  <p>A sample of your software configuration in JSON on S3 (must be public access):</p>
+  <p>A sample of your software configuration in JSON on S3 (must be public access). These EMR 6.x clusters run Apache Spark 3.x, so the coordinate below uses <code class="language-plaintext highlighter-rouge">spark-nlp_2.12</code>. On an Apache Spark 4.0.0 cluster use <code class="language-plaintext highlighter-rouge">spark-nlp-spark400_2.13</code>; on Apache Spark 4.0.1 and later validated Spark 4 versions use <code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code>:</p>
 
   <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[{</span><span class="w">
   </span><span class="nl">"Classification"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spark-env"</span><span class="p">,</span><span class="w">
@@ -2157,7 +2627,7 @@ export SPARK_HOME=/usr/lib/spark'</span> <span class="o">&gt;&gt;</span> <span c
       </span><span class="nl">"spark.kryoserializer.buffer.max"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2000M"</span><span class="p">,</span><span class="w">
       </span><span class="nl">"spark.serializer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"org.apache.spark.serializer.KryoSerializer"</span><span class="p">,</span><span class="w">
       </span><span class="nl">"spark.driver.maxResultSize"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"spark.jars.packages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1"</span><span class="w">
+      </span><span class="nl">"spark.jars.packages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0"</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
@@ -2166,7 +2636,7 @@ export SPARK_HOME=/usr/lib/spark'</span> <span class="o">&gt;&gt;</span> <span c
   <p>A sample of AWS CLI to launch EMR cluster:</p>
 
   <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>aws emr create-cluster <span class="se">\</span>
-<span class="nt">--name</span> <span class="s2">"Spark NLP 6.4.1"</span> <span class="se">\</span>
+<span class="nt">--name</span> <span class="s2">"Spark NLP 7.0.0"</span> <span class="se">\</span>
 <span class="nt">--release-label</span> emr-6.2.0 <span class="se">\</span>
 <span class="nt">--applications</span> <span class="nv">Name</span><span class="o">=</span>Hadoop <span class="nv">Name</span><span class="o">=</span>Spark <span class="nv">Name</span><span class="o">=</span>Hive <span class="se">\</span>
 <span class="nt">--instance-type</span> m4.4xlarge <span class="se">\</span>
@@ -2178,67 +2648,6 @@ export SPARK_HOME=/usr/lib/spark'</span> <span class="o">&gt;&gt;</span> <span c
 <span class="nt">--ec2-attributes</span> <span class="nv">KeyName</span><span class="o">=</span>&lt;your_ssh_key&gt;,EmrManagedMasterSecurityGroup<span class="o">=</span>&lt;security_group_with_ssh&gt;,EmrManagedSlaveSecurityGroup<span class="o">=</span>&lt;security_group_with_ssh&gt; <span class="se">\</span>
 <span class="nt">--profile</span> &lt;aws_profile_credentials&gt;
 </code></pre></div>  </div>
-
-</div>
-<div class="h3-box">
-
-  <h2 id="gcp-dataproc-support">GCP Dataproc Support</h2>
-
-  <ol>
-    <li>Create a cluster if you don’t have one already as follows.</li>
-  </ol>
-
-  <p>At gcloud shell:</p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud services <span class="nb">enable </span>dataproc.googleapis.com <span class="se">\</span>
-  compute.googleapis.com <span class="se">\</span>
-  storage-component.googleapis.com <span class="se">\</span>
-  bigquery.googleapis.com <span class="se">\</span>
-  bigquerystorage.googleapis.com
-</code></pre></div>  </div>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
-</code></pre></div>  </div>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket_name&gt;
-gsutil mb <span class="nt">-c</span> standard <span class="nt">-l</span> <span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> gs://<span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span>
-</code></pre></div>  </div>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">REGION</span><span class="o">=</span>&lt;region&gt;
-<span class="nv">ZONE</span><span class="o">=</span>&lt;zone&gt;
-<span class="nv">CLUSTER_NAME</span><span class="o">=</span>&lt;cluster_name&gt;
-<span class="nv">BUCKET_NAME</span><span class="o">=</span>&lt;bucket_name&gt;
-</code></pre></div>  </div>
-
-  <p>You can set image-version, master-machine-type, worker-machine-type,
-master-boot-disk-size, worker-boot-disk-size, num-workers as your needs.
-If you use the previous image-version from 2.0, you should also add ANACONDA to optional-components.
-And, you should enable gateway.</p>
-
-  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud dataproc clusters create <span class="k">${</span><span class="nv">CLUSTER_NAME</span><span class="k">}</span> <span class="se">\</span>
-  <span class="nt">--region</span><span class="o">=</span><span class="k">${</span><span class="nv">REGION</span><span class="k">}</span> <span class="se">\</span>
-  <span class="nt">--zone</span><span class="o">=</span><span class="k">${</span><span class="nv">ZONE</span><span class="k">}</span> <span class="se">\</span>
-  <span class="nt">--image-version</span><span class="o">=</span>2.0 <span class="se">\</span>
-  <span class="nt">--master-machine-type</span><span class="o">=</span>n1-standard-4 <span class="se">\</span>
-  <span class="nt">--worker-machine-type</span><span class="o">=</span>n1-standard-2 <span class="se">\</span>
-  <span class="nt">--master-boot-disk-size</span><span class="o">=</span>128GB <span class="se">\</span>
-  <span class="nt">--worker-boot-disk-size</span><span class="o">=</span>128GB <span class="se">\</span>
-  <span class="nt">--num-workers</span><span class="o">=</span>2 <span class="se">\</span>
-  <span class="nt">--bucket</span><span class="o">=</span><span class="k">${</span><span class="nv">BUCKET_NAME</span><span class="k">}</span> <span class="se">\</span>
-  <span class="nt">--optional-components</span><span class="o">=</span>JUPYTER <span class="se">\</span>
-  <span class="nt">--enable-component-gateway</span> <span class="se">\</span>
-  <span class="nt">--metadata</span> <span class="s1">'PIP_PACKAGES=spark-nlp spark-nlp-display google-cloud-bigquery google-cloud-storage'</span> <span class="se">\</span>
-  <span class="nt">--initialization-actions</span> gs://goog-dataproc-initialization-actions-<span class="k">${</span><span class="nv">REGION</span><span class="k">}</span>/python/pip-install.sh
-</code></pre></div>  </div>
-
-  <ol>
-    <li>
-      <p>On an existing one, you need to install spark-nlp and spark-nlp-display packages from PyPI.</p>
-    </li>
-    <li>
-      <p>Now, you can attach your notebook to the cluster and use the Spark NLP!</p>
-    </li>
-  </ol>
 
 </div>
 <div class="h3-box">
@@ -2385,10 +2794,10 @@ CMD <span class="o">[</span><span class="s2">"jupyter"</span>, <span class="s2">
 
   <h3 id="how-to-correctly-install-spark-nlp-on-windows">How to correctly install Spark NLP on Windows</h3>
 
-  <p>Follow the below steps to set up Spark NLP with Spark 3.2.3:</p>
+  <p>Follow the below steps to set up Spark NLP with Spark 3.2.3 (Scala 2.12) or Spark 4.0.0 (Scala 2.13):</p>
 
   <ol>
-    <li>Download <a href="https://adoptopenjdk.net/?variant=openjdk8&amp;jvmVariant=hotspot">Adopt OpenJDK 1.8</a>
+    <li>Download a JDK matching your Spark version: <a href="https://adoptopenjdk.net/?variant=openjdk8&amp;jvmVariant=hotspot">Adopt OpenJDK 1.8</a> for Apache Spark 3.x, or <a href="https://adoptium.net/temurin/releases/?version=17">Eclipse Temurin JDK 17</a> for Apache Spark 4.x
       <ul>
         <li>Make sure it is 64-bit</li>
         <li>Make sure you install it in the root of your main drive <code class="language-plaintext highlighter-rouge">C:\java</code>.</li>
@@ -2397,11 +2806,11 @@ CMD <span class="o">[</span><span class="s2">"jupyter"</span>, <span class="s2">
     </li>
     <li>Download the pre-compiled Hadoop binaries <code class="language-plaintext highlighter-rouge">winutils.exe</code>, <code class="language-plaintext highlighter-rouge">hadoop.dll</code> and put it in a folder called <code class="language-plaintext highlighter-rouge">C:\hadoop\bin</code> from <a href="https://github.com/cdarlint/winutils/tree/master/hadoop-3.2.0/bin">https://github.com/cdarlint/winutils/tree/master/hadoop-3.2.0/bin</a>
       <ul>
-        <li><strong>Note:</strong> The version above is for Spark 3.2.3, which was built for Hadoop 3.2.0. You might have to change the hadoop version in the link, depending on which Spark version you are using.</li>
+        <li><strong>Note:</strong> The version above is for Spark 3.2.3, which was built for Hadoop 3.2.0. You might have to change the hadoop version in the link, depending on which Spark version you are using. For Apache Spark 4.x, use Hadoop binaries that match its bundled Hadoop version.</li>
       </ul>
     </li>
     <li>
-      <p>Download <a href="https://www.apache.org/dyn/closer.lua/spark/spark-3.2.3/spark-3.2.3-bin-hadoop3.2.tgz">Apache Spark 3.2.3</a> and extract it to <code class="language-plaintext highlighter-rouge">C:\spark</code>.</p>
+      <p>Download <a href="https://www.apache.org/dyn/closer.lua/spark/spark-3.2.3/spark-3.2.3-bin-hadoop3.2.tgz">Apache Spark 3.2.3</a> (Scala 2.12) or <a href="https://www.apache.org/dyn/closer.lua/spark/spark-4.0.0/spark-4.0.0-bin-hadoop3.tgz">Apache Spark 4.0.0</a> (Scala 2.13) and extract it to <code class="language-plaintext highlighter-rouge">C:\spark</code>.</p>
     </li>
     <li>
       <p>Set/add environment variables for <code class="language-plaintext highlighter-rouge">HADOOP_HOME</code> to <code class="language-plaintext highlighter-rouge">C:\hadoop</code> and <code class="language-plaintext highlighter-rouge">SPARK_HOME</code> to <code class="language-plaintext highlighter-rouge">C:\spark</code>.</p>
@@ -2457,7 +2866,7 @@ the environment.</li>
   <p>Now you can use the downloaded binary by navigating to <code class="language-plaintext highlighter-rouge">%SPARK_HOME%\bin</code> and
 running</p>
 
-  <p>Either create a conda env for python 3.6, install <em>pyspark==3.3.1 spark-nlp numpy</em> and use Jupyter/python console, or in the same conda env you can go to spark bin for <em>pyspark –packages com.johnsnowlabs.nlp:spark-nlp_2.12:6.4.1</em>.</p>
+  <p>Create a conda environment with Python 3.9 or later and install <em>spark-nlp numpy</em> together with the PySpark release that matches your Spark distribution - <em>pyspark==3.5.1</em> for Apache Spark 3.x, <em>pyspark==4.0.0</em> for Apache Spark 4.0.0, or <em>pyspark==4.0.1</em> for Apache Spark 4.0.1 and later validated Spark 4 versions - then use Jupyter or a Python console. Alternatively, from the Spark <code class="language-plaintext highlighter-rouge">bin</code> directory run <em>pyspark –packages com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0</em> (Apache Spark 3.x), <em>pyspark –packages com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0</em> (Apache Spark 4.0.0), or <em>pyspark –packages com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0</em> (Apache Spark 4.0.1 and later validated Spark 4 versions).</p>
 
   <p><img class="image image--xl" src="/assets/images/installation/90126972-c03e5500-dd64-11ea-8285-e4f76aa9e543.jpg" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);" /></p>
 
@@ -2487,13 +2896,13 @@ running</p>
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.driver.memory"</span><span class="p">,</span><span class="s">"16G"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.driver.maxResultSize"</span><span class="p">,</span> <span class="s">"0"</span><span class="p">)</span> \
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.kryoserializer.buffer.max"</span><span class="p">,</span> <span class="s">"2000M"</span><span class="p">)</span>\
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars"</span><span class="p">,</span> <span class="s">"/tmp/spark-nlp-assembly-6.4.1.jar"</span><span class="p">)</span>\
+    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars"</span><span class="p">,</span> <span class="s">"/tmp/spark-nlp-assembly-7.0.0.jar"</span><span class="p">)</span>\
     <span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 </code></pre></div>  </div>
 
   <ul>
-    <li>You can download provided Fat JARs from each <a href="https://github.com/JohnSnowLabs/spark-nlp/releases">release notes</a>, please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (3.x)</li>
-    <li>If you are local, you can load the Fat JAR from your local FileSystem, however, if you are in a cluster setup you need to put the Fat JAR on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., <code class="language-plaintext highlighter-rouge">hdfs:///tmp/spark-nlp-assembly-6.4.1.jar</code>)</li>
+    <li>You can download provided Fat JARs from each <a href="https://github.com/JohnSnowLabs/spark-nlp/releases">release notes</a>, please pay attention to pick the one that suits your environment depending on the device (CPU/GPU) and Apache Spark version (3.x or 4.x)</li>
+    <li>If you are local, you can load the Fat JAR from your local FileSystem, however, if you are in a cluster setup you need to put the Fat JAR on a distributed FileSystem such as HDFS, DBFS, S3, etc. (i.e., <code class="language-plaintext highlighter-rouge">hdfs:///tmp/spark-nlp-assembly-7.0.0.jar</code>)</li>
   </ul>
 
   <p>Example of using pretrained Models and Pipelines in offline:</p>
@@ -2527,21 +2936,21 @@ running</p>
   <h4 id="spark-nlp">spark-nlp</h4>
 
   <ul>
-    <li>FAT-JAR for CPU on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x</li>
+    <li>FAT-JAR for CPU on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x (Scala 2.12), and Apache Spark 4.x (Scala 2.13)</li>
   </ul>
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbt assembly
 </code></pre></div>  </div>
 
   <ul>
-    <li>FAT-JAR for GPU on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x</li>
+    <li>FAT-JAR for GPU on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x (Scala 2.12), and Apache Spark 4.x (Scala 2.13)</li>
   </ul>
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbt <span class="nt">-Dis_gpu</span><span class="o">=</span><span class="nb">true </span>assembly
 </code></pre></div>  </div>
 
   <ul>
-    <li>FAT-JAR for M! on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x</li>
+    <li>FAT-JAR for Apple Silicon on Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x (Scala 2.12), and Apache Spark 4.x (Scala 2.13)</li>
   </ul>
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbt <span class="nt">-Dis_silicon</span><span class="o">=</span><span class="nb">true </span>assembly
@@ -2585,7 +2994,7 @@ the <code class="language-plaintext highlighter-rouge">spark-packages</code> sec
 
 </div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated
-      <time itemprop="dateModified" datetime="2024-07-04T00:00:00+00:00">Jul 04, 2024</time>
+      <time itemprop="dateModified" datetime="2026-07-16T00:00:00+00:00">Jul 16, 2026</time>
     </span><!-- start custom article footer snippet -->
 
 <!-- end custom article footer snippet --></footer>
@@ -2744,7 +3153,7 @@ hr.code-selector-underlie {
 
 }
 
-</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/quickstart">Spark NLP Getting Started</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/advanced_settings">Advanced Settings</a></div></div></div>
+</style><div class="article__section-navigator clearfix"><div class="previous nav_link"><span>PREVIOUS</span><a href="/docs/en/quickstart">Spark NLP Getting Started</a></div><div class="next nav_link"><span>NEXT</span><a href="/docs/en/spark4_migration">Migrating to Spark 4</a></div></div></div>
 
 </div>
 </div>

@@ -392,7 +392,7 @@
 <path d="M20.2658 26.412H8.38867V26.5781H20.2658V26.412Z" fill="#9EDEFA"/>
 </svg>
 -->
-</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/tasks/landing_page">Tasks</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2 active"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
+</a><div class="sidebar-toc"><ul class="toc toc--navigator"><li class="toc-h1">Spark NLP</li><li class="toc-h2"><a href="/docs/en/quickstart">Spark NLP Getting Started</a></li><li class="toc-h2"><a href="/docs/en/install">Install Spark NLP</a></li><li class="toc-h2"><a href="/docs/en/spark4_migration">Migrating to Spark 4</a></li><li class="toc-h2"><a href="/docs/en/advanced_settings">Advanced Settings</a></li><li class="toc-h2"><a href="/docs/en/features">Features</a></li><li class="toc-h2"><a href="/docs/en/pipelines">Pipelines and Models</a></li><li class="toc-h2"><a href="/docs/en/concepts">General Concepts</a></li><li class="toc-h2"><a href="/docs/en/tasks/landing_page">Tasks</a></li><li class="toc-h2"><a href="/docs/en/annotators">Annotators</a></li><li class="toc-h2"><a href="/docs/en/transformers">Transformers</a></li><li class="toc-h2"><a href="/docs/en/training">Training</a></li><li class="toc-h2"><a href="/docs/en/unstructured_data_extraction">Unstructured Data Extraction</a></li><li class="toc-h2"><a href="/docs/en/display">Spark NLP Display</a></li><li class="toc-h2"><a href="/docs/en/mlflow">Experiment Tracking</a></li><li class="toc-h2"><a href="/docs/en/serving_spark_nlp_via_api_databricks_mlflow">Serving Spark NLP&#58 MLFlow on Databricks</a></li><li class="toc-h2"><a href="/docs/en/hardware_acceleration">Hardware Acceleration</a></li><li class="toc-h2"><a href="/docs/en/CPUvsGPUbenchmark">GPU vs CPU Training</a></li><li class="toc-h2"><a href="/docs/en/auxiliary">Helpers</a></li><li class="toc-h2"><a href="/api/">Scala API (Scaladoc)</a></li><li class="toc-h2"><a href="/api/python/">Python API (Sphinx)</a></li><li class="toc-h2"><a href="/docs/en/developers">Developers</a></li><li class="toc-h2"><a href="/docs/en/third-party-projects">Third Party Projects</a></li><li class="toc-h2"><a href="/docs/en/release_notes">Release Notes</a></li><li class="toc-h2 active"><a href="/docs/en/faq">Spark NLP FAQ</a></li></ul></div></div><div class="page__main js-page-main has-aside cell cell--auto">
 
       <div class="page__main-inner"><div class="page__header d-print-none"><header class="header"><div class="main">
       <div class="header__title">
@@ -864,20 +864,42 @@ You can install Spark NLP using <code class="language-plaintext highlighter-roug
       <p><strong>Maven Central (for Java/Scala Users)</strong>:
 If you are using Maven, you can add the following dependency to your <code class="language-plaintext highlighter-rouge">pom.xml</code>:</p>
 
-      <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+      <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- Apache Spark 3.x (Scala 2.12) --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
    <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
    <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.12<span class="nt">&lt;/artifactId&gt;</span>
    <span class="nt">&lt;version&gt;</span>LATEST_VERSION<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
+
+<span class="c">&lt;!-- Apache Spark 4.0.0 (Scala 2.13) --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+   <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+   <span class="nt">&lt;artifactId&gt;</span>spark-nlp-spark400_2.13<span class="nt">&lt;/artifactId&gt;</span>
+   <span class="nt">&lt;version&gt;</span>LATEST_VERSION<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="c">&lt;!-- Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13) --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+   <span class="nt">&lt;groupId&gt;</span>com.johnsnowlabs.nlp<span class="nt">&lt;/groupId&gt;</span>
+   <span class="nt">&lt;artifactId&gt;</span>spark-nlp_2.13<span class="nt">&lt;/artifactId&gt;</span>
+   <span class="nt">&lt;version&gt;</span>LATEST_VERSION<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
 </code></pre></div>      </div>
 
-      <p>Make sure to replace <code class="language-plaintext highlighter-rouge">LATEST_VERSION</code> with the desired version of Spark NLP.</p>
+      <p>Make sure to replace <code class="language-plaintext highlighter-rouge">LATEST_VERSION</code> with the desired version of Spark NLP, and pick the artifact matching
+your Spark distribution: <code class="language-plaintext highlighter-rouge">spark-nlp_2.12</code> for Apache Spark 3.x, <code class="language-plaintext highlighter-rouge">spark-nlp-spark400_2.13</code> for Apache Spark
+4.0.0, and <code class="language-plaintext highlighter-rouge">spark-nlp_2.13</code> for Apache Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2.</p>
     </li>
     <li>
       <p><strong>Spark Packages</strong>:
 For those using the <code class="language-plaintext highlighter-rouge">spark-shell</code>, <code class="language-plaintext highlighter-rouge">pyspark</code>, or <code class="language-plaintext highlighter-rouge">spark-submit</code>, you can include Spark NLP directly via Spark Packages:</p>
 
-      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:LATEST_VERSION
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Apache Spark 3.x (Scala 2.12)</span>
+<span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:LATEST_VERSION
+<span class="c"># Apache Spark 4.0.0 (Scala 2.13)</span>
+<span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:LATEST_VERSION
+<span class="c"># Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13)</span>
+<span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.13:LATEST_VERSION
 </code></pre></div>      </div>
     </li>
     <li>

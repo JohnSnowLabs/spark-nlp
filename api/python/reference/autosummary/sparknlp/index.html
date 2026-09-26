@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp &#8212; Spark NLP 6.4.1 documentation</title>
+    <title>sparknlp &#8212; Spark NLP 7.0.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=88b3fc5d"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=cd9f6827"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.1 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.1 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -554,7 +554,7 @@ document.write(`
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.serializer&quot;</span><span class="p">,</span> <span class="s2">&quot;org.apache.spark.serializer.KryoSerializer&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.kryoserializer.buffer.max&quot;</span><span class="p">,</span> <span class="s2">&quot;2000M&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.driver.maxResultSize&quot;</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span> \
-    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.12:|release|&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jars.packages&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;resolved Spark NLP Maven coordinate&gt;&quot;</span><span class="p">)</span> \
     <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -601,8 +601,11 @@ when providing a custom Spark NLP jar with <code class="docutils literal notrans
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Since Spark version 3.2, Python 3.6 is deprecated. If you are using this
-python version, consider sticking to lower versions of Spark.</p>
+<p>The Maven artifact is selected from the installed PySpark version. Spark 3.x
+uses Scala 2.12. Spark 4.0.0 uses the dedicated <code class="docutils literal notranslate"><span class="pre">spark400</span></code> Scala 2.13
+artifact. Later Spark 4.x releases use the default Scala 2.13 artifact.
+Automatic artifact selection does not imply that every release has been
+validated. Only release versions in major.minor.patch format are accepted.</p>
 </dd></dl>
 
 <dl class="py function">
