@@ -307,7 +307,6 @@ end
 
 
 Jekyll::Hooks.register :posts, :pre_render do |post|
-  BatchLimiter.note_rendered(post.path)
   extractor = Extractor.new(post.content)
   doc_type = extractor.doc_type
   if doc_type.nil?
@@ -343,6 +342,7 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
   if references
     models_references_json[post.url] = references
   end
+  BatchLimiter.note_rendered(post.path)
 end
 
 Jekyll::Hooks.register :posts, :post_render do |post|
