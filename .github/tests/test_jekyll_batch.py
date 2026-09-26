@@ -48,6 +48,33 @@ puts BatchLimiter.deferred?
             self.assertEqual(deferred, "true")
             self.assertIn("jekyll_wave_complete=false", output.read_text())
 
+    def test_flush_backups_merges_recorded_models_without_constant_lookup(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            source = Path(tmp)
+            backup = source / "backup-models.json"
+            backup.write_text('{"old":{"title":"kept"}}')
+            env = {
+                **os.environ,
+                "JEKYLL_WAVE_NO_EXIT": "1",
+            }
+            code = f"""
+class Jekyll
+  def self.sites
+    [OpenStruct.new(config: {{"source" => {str(source)!r}}})]
+  end
+end
+require "ostruct"
+BatchLimiter.record_model("/new", {{"title" => "added"}})
+BatchLimiter.flush_backups
+puts File.read({str(backup)!r})
+"""
+            result = self.run_ruby(code, env)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertNotIn("wrong constant name", result.stderr)
+            payload = result.stdout.strip()
+            self.assertIn('"old"', payload)
+            self.assertIn('"/new"', payload)
+
     def test_wave_cap_exits_the_build_instead_of_continuing(self):
         source = LIMITER.read_text()
         self.assertIn("exit 0", source)
@@ -114,7 +141,10 @@ class SearchIndexBatchTests(unittest.TestCase):
         self.assertIn("flush_metadata", limiter)
         self.assertLess(limiter.index("flush_checkpoint"), limiter.index("exit 0 unless"))
         self.assertIn("flush_backups", limiter)
-        self.assertIn("next if value.nil?", limiter)
-        self.assertNotIn("catalog(\"models_json\")", limiter)
+        self.assertIn("record_model", limiter)
+        self.assertIn("read_json(path).merge(data)", limiter)
+        self.assertNotIn("Object.const_get", limiter)
+        self.assertNotIn("next if value.nil?", limiter)
+        self.assertIn("BatchLimiter.record_model(post.url, models_json[post.url])", plugin)
         incremental = (ROOT / "docs/_plugins/jekyll-incremental/lib/jekyll-incremental.rb").read_text()
         self.assertIn("BatchLimiter.allow?(path) { |allowed_path|", incremental)
