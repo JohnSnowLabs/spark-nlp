@@ -26,6 +26,23 @@ module BatchLimiter
     !deferred?
   end
 
+  def rendered
+    @rendered ||= 0
+  end
+
+  def note_rendered(path)
+    return unless enabled?
+    return if deferred?
+
+    @rendered = rendered + 1
+    return if rendered < limit
+
+    @deferred = true
+    warn "Jekyll wave cap reached at #{rendered} rendered posts; remaining posts deferred"
+    write_status
+    finish_wave
+  end
+
   def allow?(path)
     return true unless enabled?
     return false if deferred?
