@@ -188,17 +188,6 @@ private[nlp] abstract class BpeTokenizer(
     }
   }
 
-  /** Opt-in fix for a special token that begins the text.
-    *
-    * `StringUtils.splitByWholeSeparator` discards a leading empty segment, so for text like
-    * `"<s>rest"` it returns `["rest"]` — length 1, which sends the loop below down the `i ==
-    * splitText.length - 1` branch and never appends the token. The guard written for this case
-    * (`i == 0 && subTextProcessed.isEmpty`) is unreachable, because the empty segment it looks
-    * for does not exist.
-    *
-    * Left `false` so existing models keep their current tokenization exactly; models whose
-    * prompts begin with a special token (Dolphin) override it to `true`.
-    */
   protected val preserveLeadingSpecialToken: Boolean = false
 
   /** Split the the individual sub texts on special tokens, e.g. masking etc. */

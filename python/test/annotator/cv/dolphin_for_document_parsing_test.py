@@ -24,8 +24,7 @@ from test.util import SparkSessionForTest
 
 
 class DolphinForDocumentParsingTestSetup(unittest.TestCase):
-    """Runs against a Dolphin 1.5 export at ``DOLPHIN_ONNX_PATH`` (``scripts/dolphin/export.sh``);
-    skips when it is absent. Expected text comes from ``reference_1.5.json``.
+    """``.
     """
 
     def setUp(self):
@@ -118,7 +117,6 @@ class DolphinPageLevelTest(DolphinForDocumentParsingTestSetup):
 
 @pytest.mark.fast
 class DolphinParamTest(unittest.TestCase):
-    """Params and validation need no model, so these run in CI."""
 
     def test_defaults_match_the_scala_side(self):
         dolphin = DolphinForDocumentParsing()

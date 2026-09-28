@@ -37,7 +37,7 @@ class DolphinForDocumentParsing(AnnotatorModel,
     ...     .setInputCols(["image_assembler"]) \\
     ...     .setOutputCol("elements")
 
-    The default model is ``"dolphin_1_5"``, if no name is provided.
+    The default model is ``"dolphin_1_5"``.
 
     ====================== ======================
     Input Annotation types Output Annotation type

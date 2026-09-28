@@ -27,8 +27,7 @@ already parses tables, formulas and text:
 | `layout` | a whole page | stage 1 only — detect regions without transcribing them |
 | `table` / `text` / `formula` / `code` | an already-cropped region | stage 2 only; `formula` and `code` are Dolphin 1.5 prompts |
 
-Generation stops at the decoder's 4096-position window, prompt included, which is also the
-reference implementation's limit.
+Generation stops at the decoder's 4096-position window.
 
 Pretrained models can be loaded with `pretrained` of the companion object:
 
@@ -38,7 +37,7 @@ val dolphin = DolphinForDocumentParsing.pretrained()
   .setOutputCol("elements")
 ```
 
-The default model is `"dolphin_1_5"`, if no name is provided.
+The default model is `"dolphin_1_5"`.
 
 With `outputFormat` set to `elements` (the default) each annotation carries `dolphinLabel`,
 `elementType`, `readingOrder`, `readingGroup` and `bbox` in its metadata, and tables additionally
