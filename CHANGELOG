@@ -9,6 +9,7 @@ New Features & Enhancements
 * [SPARKNLP-1145] Add BM25 lexical retrieval annotator (Approach + Model) #14776
 * [SPARKNLP-1395] Updating git notifications and bumping jsl-llama version #14777
 * Sparknlp 1396 introduce new sentence detection annotator #14782
+* [SPARKNLP-1224] Add DolphinForDocumentParsing annotator for document image parsing
 
 =======
 6.4.1
