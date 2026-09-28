@@ -17,6 +17,7 @@
 package com.johnsnowlabs.client.aws
 
 import com.amazonaws.auth.{AWSCredentials, AWSStaticCredentialsProvider}
+import com.amazonaws.event.{ProgressEvent, ProgressEventType, ProgressListener}
 import com.amazonaws.services.s3.model.{
   GetObjectRequest,
   ObjectMetadata,
@@ -24,7 +25,7 @@ import com.amazonaws.services.s3.model.{
   S3Object,
   S3ObjectSummary
 }
-import com.amazonaws.services.s3.transfer.{Transfer, TransferManagerBuilder}
+import com.amazonaws.services.s3.transfer.{Transfer, TransferManager, TransferManagerBuilder}
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 import com.amazonaws.{AmazonClientException, AmazonServiceException, ClientConfiguration}
 import com.johnsnowlabs.client.CloudStorage
@@ -37,6 +38,8 @@ import org.slf4j.{Logger, LoggerFactory}
 import scala.jdk.CollectionConverters._
 import java.io.{File, FileInputStream, InputStream}
 import java.nio.file.Files
+import java.util.concurrent.Executors
+import java.util.concurrent.atomic.AtomicLong
 import scala.util.control.NonFatal
 
 class AWSGateway(
@@ -67,6 +70,17 @@ class AWSGateway(
 
     getAmazonS3Client(credentials)
   }
+
+  private def downloadThreads: Int =
+    math.max(1, ConfigLoader.getConfigIntValue(ConfigHelper.pretrainedDownloadThreads))
+
+  // ponytail: fixed-size pool sized by config, no work-stealing tuning; bump download_threads if this saturates
+  private lazy val transferManager: TransferManager =
+    TransferManagerBuilder
+      .standard()
+      .withS3Client(client)
+      .withExecutorFactory(() => Executors.newFixedThreadPool(downloadThreads))
+      .build()
 
   private def getAmazonS3Client(credentials: Option[AWSCredentials]): AmazonS3 = {
     val config = new ClientConfiguration()
@@ -143,13 +157,12 @@ class AWSGateway(
       .mkString("/")
   }
 
-  def doesS3ObjectExist(bucket: String, s3FilePath: String): Boolean = {
+  def getS3ObjectMetadata(bucket: String, s3FilePath: String): Option[ObjectMetadata] = {
     try {
-      client.getObjectMetadata(bucket, s3FilePath)
-      true
+      Some(client.getObjectMetadata(bucket, s3FilePath))
     } catch {
       case exception: AmazonServiceException =>
-        if (exception.getStatusCode == 404) false else throw exception
+        if (exception.getStatusCode == 404) None else throw exception
       case NonFatal(unexpectedException) =>
         val methodName = Thread.currentThread.getStackTrace()(1).getMethodName
         throw new Exception(
@@ -157,9 +170,59 @@ class AWSGateway(
     }
   }
 
-  def getS3Object(bucket: String, s3FilePath: String, tmpFile: File): ObjectMetadata = {
+  // ETag has a "-partCount" suffix only for multipart uploads
+  private def isMultipartUploaded(metadata: ObjectMetadata): Boolean = {
+    val etag = metadata.getETag
+    etag != null && etag.contains("-")
+  }
+
+  // byte-accurate progress bar; shared listener works for both plain GET and TransferManager
+  private def downloadProgressListener(totalBytes: Long, label: String): ProgressListener = {
+    val transferred = new AtomicLong(0L)
+    val lastPercentPrinted = new AtomicLong(-1L)
+    new ProgressListener {
+      override def progressChanged(event: ProgressEvent): Unit = {
+        if (event.getEventType == ProgressEventType.RESPONSE_BYTE_TRANSFER_EVENT) {
+          val done = transferred.addAndGet(event.getBytesTransferred)
+          val percent = math.min(100L, (done * 100) / totalBytes)
+          // only re-render on a whole-percent change, not on every one of the (many) byte events
+          if (percent != lastPercentPrinted.getAndSet(percent)) {
+            val width = 30
+            val filled = ((percent * width) / 100).toInt
+            val bar = ("=" * filled) + (if (filled < width) ">"
+                                        else "") + (" " * (width - filled - 1).max(0))
+            print(
+              f"\r  [$bar] $percent%3d%%  (${done / 1e6}%.1f / ${totalBytes / 1e6}%.1f MB) $label")
+            System.out.flush()
+            if (percent >= 100) println()
+          }
+        }
+      }
+    }
+  }
+
+  // TransferManager only when multipart-uploaded and threads > 1; otherwise a plain GET
+  def getS3Object(
+      bucket: String,
+      s3FilePath: String,
+      tmpFile: File,
+      objectMetadata: Option[ObjectMetadata] = None): Unit = {
+    val metadata = objectMetadata.orElse(getS3ObjectMetadata(bucket, s3FilePath))
+    val useTransferManager = downloadThreads > 1 && metadata.exists(isMultipartUploaded)
+    val totalBytes = metadata.map(_.getContentLength).getOrElse(-1L)
+    val label = s3FilePath.split("/").last
+
     val req = new GetObjectRequest(bucket, s3FilePath)
-    client.getObject(req, tmpFile)
+    if (useTransferManager) {
+      val download = transferManager.download(req, tmpFile)
+      if (totalBytes > 0)
+        download.addProgressListener(downloadProgressListener(totalBytes, label))
+      waitForCompletion(download)
+    } else {
+      if (totalBytes > 0)
+        req.setGeneralProgressListener(downloadProgressListener(totalBytes, label))
+      client.getObject(req, tmpFile)
+    }
   }
 
   def getS3Object(bucket: String, s3FilePath: String): S3Object = {
@@ -275,6 +338,9 @@ class AWSGateway(
   }
 
   override def close(): Unit = {
+    transferManager.shutdownNow(
+      false
+    ) // false: client.shutdown() below already tears down the S3 client
     client.shutdown()
   }
 
