@@ -44,7 +44,12 @@ object ConfigHelper {
   val sessionToken: String = awsCredentials + ".session_token"
   val awsProfileName: String = awsCredentials + ".aws_profile_name"
   val awsRegion: String = awsCredentials + ".aws.region"
+  // ms; 0 = wait forever on a stalled connection
   val s3SocketTimeout = "spark.jsl.settings.pretrained.s3_socket_timeout"
+
+  val pretrainedDownloadThreads = "spark.jsl.settings.pretrained.download_threads"
+
+  val pretrainedDownloadProgress = "spark.jsl.settings.pretrained.download_progress"
 
   // Stores info for AWS S3 logging output when training models
   val awsExternalCredentials = "spark.jsl.settings.aws.credentials"

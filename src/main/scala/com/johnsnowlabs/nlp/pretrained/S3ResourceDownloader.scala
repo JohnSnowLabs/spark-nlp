@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
+import com.amazonaws.services.s3.model.ObjectMetadata
 import com.johnsnowlabs.client.CloudResources
 import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.client.util.CloudHelper
@@ -23,7 +24,7 @@ import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.Path
 import org.slf4j.{Logger, LoggerFactory}
 
-import java.io.File
+import java.io.{File, FileInputStream}
 import java.nio.file.Files
 import java.util.zip.ZipInputStream
 import scala.collection.mutable
@@ -37,6 +38,9 @@ class S3ResourceDownloader(
     extends ResourceDownloader {
 
   private val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
+
+  // was 1024; unzip of a large model otherwise costs ~650k read/write pairs
+  private val UnzipBufferSize = 65536
 
   private val repoFolder2Metadata: mutable.Map[String, RepositoryMetadata] =
     mutable.Map[String, RepositoryMetadata]()
@@ -63,16 +67,35 @@ class S3ResourceDownloader(
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastMetadataState = repoFolder2Metadata.get(folder)
     val metadataFilePath = awsGateway.getS3File(s3Path, folder, "metadata.json")
-    val metadataObject = awsGateway.client.getObject(bucket, metadataFilePath)
-    val lastModifiedTimeInS3 = metadataObject.getObjectMetadata.getLastModified
-    val needToRefresh =
-      lastMetadataState.isEmpty || lastMetadataState.get.lastModified.before(lastModifiedTimeInS3)
+
+    // A HEAD is enough to decide freshness. Opening the object here would begin streaming the
+    // whole index (tens of MB) only to abort it whenever the cached copy is still current.
+    val indexMetadata = awsGateway
+      .getS3ObjectMetadata(bucket, metadataFilePath)
+      .getOrElse(throw new Exception(s"Metadata file not found in S3: $metadataFilePath"))
+    val lastModifiedTimeInS3 = indexMetadata.getLastModified
+    val needToRefresh = S3ResourceDownloader.needToRefresh(
+      lastMetadataState.map(_.lastModified),
+      lastModifiedTimeInS3)
+
     if (!needToRefresh) {
-      metadataObject.close()
       lastMetadataState.get.metadata
     } else {
-      val metadata = ResourceMetadata.readResources(metadataObject.getObjectContent)
-      metadataObject.close()
+      val tmpFile = Files.createTempFile("sparknlp_metadata", ".json").toFile
+      val metadata =
+        try {
+          awsGateway.getS3Object(
+            bucket,
+            metadataFilePath,
+            tmpFile,
+            Some(indexMetadata),
+            showProgress = false)
+          val stream = new FileInputStream(tmpFile)
+          try ResourceMetadata.readResources(stream)
+          finally stream.close()
+        } finally {
+          tmpFile.delete()
+        }
       repoFolder2Metadata(folder) = RepositoryMetadata(
         folder,
         lastModifiedTimeInS3,
@@ -98,7 +121,8 @@ class S3ResourceDownloader(
     val link = resolveLink(request)
     link.flatMap { resource =>
       val s3FilePath = awsGateway.getS3File(s3Path, request.folder, resource.fileName)
-      if (!awsGateway.doesS3ObjectExist(bucket, s3FilePath)) {
+      val objectMetadata = awsGateway.getS3ObjectMetadata(bucket, s3FilePath)
+      if (objectMetadata.isEmpty) {
         logger.info("Resource not found in S3")
         None
       } else {
@@ -118,7 +142,7 @@ class S3ResourceDownloader(
           }
           case _ => {
             val destinationFile = new Path(cachePath.toString, resource.fileName)
-            downloadAndUnzipFile(destinationFile, resource, s3FilePath)
+            downloadAndUnzipFile(destinationFile, resource, s3FilePath, objectMetadata)
           }
         }
       }
@@ -128,7 +152,8 @@ class S3ResourceDownloader(
   def downloadAndUnzipFile(
       destinationFile: Path,
       resource: ResourceMetadata,
-      s3FilePath: String): Option[String] = {
+      s3FilePath: String,
+      objectMetadata: Option[ObjectMetadata]): Option[String] = {
 
     val splitPath = destinationFile.toString.substring(0, destinationFile.toString.length - 4)
     if (!(fileSystem.exists(destinationFile) || fileSystem.exists(new Path(splitPath)))) {
@@ -137,7 +162,7 @@ class S3ResourceDownloader(
       val tmpFile = new File(tmpFileName)
 
       // 2. Download content to tmp file
-      awsGateway.getS3Object(bucket, s3FilePath, tmpFile)
+      awsGateway.getS3Object(bucket, s3FilePath, tmpFile, objectMetadata)
       // 3. validate checksum
       if (!resource.checksum.equals(""))
         require(
@@ -154,7 +179,7 @@ class S3ResourceDownloader(
       // if not already unzipped
       if (!fileSystem.exists(new Path(splitPath))) {
         val zis = new ZipInputStream(fileSystem.open(destinationFile))
-        val buf = Array.ofDim[Byte](1024)
+        val buf = Array.ofDim[Byte](UnzipBufferSize)
         var entry = zis.getNextEntry
         require(
           destinationFile.toString.substring(destinationFile.toString.length - 4) == ".zip",
@@ -164,10 +189,10 @@ class S3ResourceDownloader(
           if (!entry.isDirectory) {
             val entryName = new Path(splitPath, entry.getName)
             val outputStream = fileSystem.create(entryName)
-            var bytesRead = zis.read(buf, 0, 1024)
+            var bytesRead = zis.read(buf, 0, UnzipBufferSize)
             while (bytesRead > -1) {
               outputStream.write(buf, 0, bytesRead)
-              bytesRead = zis.read(buf, 0, 1024)
+              bytesRead = zis.read(buf, 0, UnzipBufferSize)
             }
             outputStream.close()
           }
@@ -214,7 +239,7 @@ class S3ResourceDownloader(
     if (unzip) {
       if (!fileSystem.exists(new Path(splitPath))) {
         val zis = new ZipInputStream(fileSystem.open(destinationFile))
-        val buf = Array.ofDim[Byte](1024)
+        val buf = Array.ofDim[Byte](UnzipBufferSize)
         var entry = zis.getNextEntry
         require(
           destinationFile.toString.substring(destinationFile.toString.length - 4) == ".zip",
@@ -224,10 +249,10 @@ class S3ResourceDownloader(
           if (!entry.isDirectory) {
             val entryName = new Path(splitPath, entry.getName)
             val outputStream = fileSystem.create(entryName)
-            var bytesRead = zis.read(buf, 0, 1024)
+            var bytesRead = zis.read(buf, 0, UnzipBufferSize)
             while (bytesRead > -1) {
               outputStream.write(buf, 0, bytesRead)
-              bytesRead = zis.read(buf, 0, 1024)
+              bytesRead = zis.read(buf, 0, UnzipBufferSize)
             }
             outputStream.close()
           }
@@ -269,4 +294,13 @@ class S3ResourceDownloader(
     }
   }
 
+}
+
+object S3ResourceDownloader {
+
+  /** Whether a repository's cached index must be fetched from S3 again. */
+  private[pretrained] def needToRefresh(
+      cachedLastModified: Option[java.util.Date],
+      lastModifiedInS3: java.util.Date): Boolean =
+    cachedLastModified.forall(_.before(lastModifiedInS3))
 }
