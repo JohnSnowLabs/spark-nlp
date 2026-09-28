@@ -1,11 +1,12 @@
 require 'set'
 require 'uri'
-require 'net/http'
 require 'json'
 require 'date'
 require 'elasticsearch'
 require 'nokogiri'
 require 'aws-sdk-s3'
+require_relative '../_scripts/remote_editions'
+require_relative '../_scripts/batch_limiter'
 
 BUCKET_NAME="pypi.johnsnowlabs.com"
 SEARCH_URL = (ENV["SEARCH_ORIGIN"] || 'https://search.modelshub.johnsnowlabs.com') + '/'
@@ -100,13 +101,9 @@ end
 def editions_changed?(edition)
   if $remote_editions.empty?
     puts "Retrieving remote editions...."
-    uri = URI(SEARCH_URL)
-    res = Net::HTTP.get_response(uri)
-    if res.is_a?(Net::HTTPSuccess)
-      data = JSON.parse(res.body)
-      editions = data['meta']['aggregations']['editions']
-      $remote_editions = editions.to_set
-    end
+    started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    $remote_editions = RemoteEditions.fetch(SEARCH_URL)
+    puts "Retrieved #{$remote_editions.size} editions in #{(Process.clock_gettime(Process::CLOCK_MONOTONIC) - started_at).round(1)} seconds"
   end
   local_editions = Set.new
   local_editions << edition
@@ -291,6 +288,18 @@ all_posts_id = []
 
 all_deleted_posts = []
 
+$search_index_started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+$search_index_posts_seen = 0
+
+def log_search_index_progress(force: false)
+  return unless force || ($search_index_posts_seen % 1000).zero?
+
+  elapsed = Process.clock_gettime(Process::CLOCK_MONOTONIC) - $search_index_started_at
+  rate = elapsed.positive? ? ($search_index_posts_seen / elapsed) : 0
+  puts "Search index progress: #{$search_index_posts_seen} posts in #{elapsed.round(1)}s (#{rate.round(1)} posts/s)"
+  $stdout.flush
+end
+
 def is_latest?(group, model)
   models = group[model[:uniq_key]]
   Date.parse(model[:date]) == models.map { |m| Date.parse(m[:date])}.max
@@ -323,15 +332,18 @@ Jekyll::Hooks.register :posts, :pre_render do |post|
     type: doc_type,
     annotator: post.data['annotator'] || ""
   }
+  BatchLimiter.record_model(post.url, models_json[post.url])
 
   benchmarking_info = extractor.benchmarking_results(post.url)
   if benchmarking_info
     models_benchmarking_json[post.url] = benchmarking_info
+    BatchLimiter.record_benchmarking(post.url, benchmarking_info)
   end
 
   references = extractor.references_results(post.url)
   if references
     models_references_json[post.url] = references
+    BatchLimiter.record_references(post.url, references)
   end
 end
 
@@ -400,6 +412,10 @@ Jekyll::Hooks.register :posts, :post_render do |post|
   name_language_editions_sparkversion_to_models_mapping[key] = [] unless name_language_editions_sparkversion_to_models_mapping.has_key? key
   name_language_editions_sparkversion_to_models_mapping[key] << model
   all_posts_id << model[:id]
+  $search_index_posts_seen += 1
+  log_search_index_progress
+  post.write(post.site.dest)
+  BatchLimiter.note_rendered(post.path)
 end
 
 client = nil
@@ -506,6 +522,9 @@ unless ENV['ELASTICSEARCH_URL'].to_s.empty?
 end
 
 Jekyll::Hooks.register :site, :post_render do |site|
+  log_search_index_progress(force: true)
+  puts "Search index post_render: indexing #{uniq_to_models_mapping.size} unique models"
+  $stdout.flush
   is_incremental = site.config['incremental']
   bulk_indexer = BulkIndexer.new(client)
 
@@ -548,14 +567,10 @@ Jekyll::Hooks.register :site, :post_render do |site|
     end
   end
   bulk_indexer.execute
-
-  if client and (not is_incremental or ENV["FULL_BUILD"])
-    # For full build, remove all documents not in site.posts and belonging to the origin
-    client.delete_by_query index: ELASTICSEARCH_INDEX_NAME, body: {query: {bool: { must: { match: {origin: ORIGIN }}, must_not: {ids: {values: all_posts_id}}}}}
-  end
 end
 
 Jekyll::Hooks.register :site, :post_write do |site|
+  BatchLimiter.write_status
   is_incremental = site.config['incremental']
   backup_filename = File.join(site.config['source'], 'backup-models.json')
   backup_benchmarking_filename = File.join(site.config['source'], 'backup-benchmarking.json')
@@ -592,12 +607,17 @@ Jekyll::Hooks.register :site, :post_write do |site|
     models_references_json = backup_references_data.merge(models_references_json)
   end
 
+  if client && BatchLimiter.complete? && (not is_incremental or ENV["FULL_BUILD"])
+    # Only after the last wave, using the merged catalog so earlier waves are not deleted.
+    client.delete_by_query index: ELASTICSEARCH_INDEX_NAME, body: {query: {bool: { must: { match: {origin: ORIGIN }}, must_not: {ids: {values: models_json.keys}}}}}
+  end
+
   filename = File.join(site.config['destination'], 'backup-modelss3.json')
 
   File.write(filename, models_json.values.to_json)
   File.write(backup_filename, models_json.to_json)
-  # models.json moved to pypi s3 bucket
-  upload_file_to_s3_bucket(filename)
+  # Publish the public catalog only after every post has been processed.
+  upload_file_to_s3_bucket(filename) if BatchLimiter.complete?
 
   File.delete(filename)
 
