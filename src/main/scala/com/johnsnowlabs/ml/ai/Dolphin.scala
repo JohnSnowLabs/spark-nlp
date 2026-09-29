@@ -32,14 +32,12 @@ import scala.collection.mutable
 /** Inference for ByteDance Dolphin: a Swin (donut-swin) vision encoder feeding an mBart decoder,
   * driven by a task prompt supplied as the decoder prefix.
   *
-  *
   * The reference implementation is strictly greedy (`num_beams=1`, `do_sample=False`,
   * `repetition_penalty=1.1`, `bad_words_ids=[[unk]]`), and the shared `Generate` trait has no
   * hook for a KV cache. Extending it would also drag in machinery unnescary machineary:
-  * `RepetitionPenaltyLogitProcessor` computes `inputIds.head.distinct` once and applies
-  * row 0's history to every row of the batch, and `NoRepeatNgramsLogitProcessor` allocates a
-  * vocab-sized structure per row per step. So this is a purpose-built loop.
-  *
+  * `RepetitionPenaltyLogitProcessor` computes `inputIds.head.distinct` once and applies row 0's
+  * history to every row of the batch, and `NoRepeatNgramsLogitProcessor` allocates a vocab-sized
+  * structure per row per step. So this is a purpose-built loop.
   */
 private[johnsnowlabs] class Dolphin(
     val onnxWrappers: EncoderDecoderWrappers,
@@ -100,9 +98,7 @@ private[johnsnowlabs] class Dolphin(
     best
   }
 
-  /** Read only the final position's logits out of a `[batch, seqLen, vocab]` tensor.
-    *
-    */
+  /** Read only the final position's logits out of a `[batch, seqLen, vocab]` tensor. */
   private def readLastPositionLogits(
       tensor: OnnxTensor,
       batchSize: Int,
@@ -235,8 +231,7 @@ private[johnsnowlabs] class Dolphin(
           row += 1
         }
         step += 1
-        if (finished.forall(identity) || step >= budget) {
-        } else {
+        if (finished.forall(identity) || step >= budget) {} else {
           val inputIds = OnnxTensor.createTensor(pastEnv, next.map(Array(_)))
           decoderInputs.put(Sig.decoderInputIds, inputIds)
           decoderPast.foreach { case (k, v) => decoderInputs.put(k, v) }

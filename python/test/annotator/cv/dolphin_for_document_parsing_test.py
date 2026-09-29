@@ -24,14 +24,9 @@ from test.util import SparkSessionForTest
 
 
 class DolphinForDocumentParsingTestSetup(unittest.TestCase):
-    """``.
-    """
+    """Runs against the default pretrained model (Dolphin 1.5)."""
 
     def setUp(self):
-        self.model_path = os.environ.get("DOLPHIN_ONNX_PATH", "models/dolphin_onnx")
-        if not os.path.exists(self.model_path):
-            self.skipTest(
-                f"Dolphin ONNX model not found at {self.model_path}; set DOLPHIN_ONNX_PATH")
         self.fixtures = os.path.join(os.getcwd(), "../src/test/resources/dolphin")
         self.spark = SparkSessionForTest.spark
 
@@ -50,7 +45,7 @@ class DolphinForDocumentParsingTestSetup(unittest.TestCase):
             .setInputCol("image") \
             .setOutputCol("image_assembler")
         dolphin = DolphinForDocumentParsing \
-            .loadSavedModel(self.model_path, self.spark) \
+            .pretrained() \
             .setInputCols(["image_assembler"]) \
             .setOutputCol("elements")
         for key, value in kwargs.items():
@@ -165,7 +160,7 @@ class DolphinSerializationTest(DolphinForDocumentParsingTestSetup):
                 .setInputCol("image") \
                 .setOutputCol("image_assembler")
             dolphin = DolphinForDocumentParsing \
-                .loadSavedModel(self.model_path, self.spark) \
+                .pretrained() \
                 .setInputCols(["image_assembler"]) \
                 .setOutputCol("elements") \
                 .setParsingMode("text")

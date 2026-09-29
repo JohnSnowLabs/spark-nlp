@@ -28,20 +28,14 @@ import org.scalatest.flatspec.AnyFlatSpec
 
 import java.io.File
 
-/** End-to-end tests against a Dolphin 1.5 export at `DOLPHIN_ONNX_PATH`
-  * (`scripts/dolphin/export.sh`); they skip when it is absent. Expected text comes from
+/** End-to-end tests against the default pretrained model (Dolphin 1.5). Expected text comes from
   * `reference_1.5.json`.
   */
 class DolphinForDocumentParsingTestSpec extends AnyFlatSpec {
 
-  private val modelPath = sys.env.getOrElse("DOLPHIN_ONNX_PATH", "models/dolphin_onnx")
   private val fixtures = DolphinReference.Fixtures
   private lazy val reference = DolphinReference.load("1.5")
-
-  private def requireModel(): Unit =
-    assume(
-      new File(modelPath).exists(),
-      s"Dolphin ONNX model not found at $modelPath; set DOLPHIN_ONNX_PATH")
+  private val spark = ResourceHelper.spark
 
   private def imageDf(fileName: String): DataFrame =
     ResourceHelper.spark.read
@@ -53,15 +47,16 @@ class DolphinForDocumentParsingTestSpec extends AnyFlatSpec {
     val assembler = new ImageAssembler().setInputCol("image").setOutputCol("image_assembler")
     val pipeline = new Pipeline().setStages(Array(assembler, model))
     val result = pipeline.fit(imageDf(fileName)).transform(imageDf(fileName))
+    result.select("elements").show(truncate = false)
     Annotation.collect(result, "elements").head.toSeq
   }
 
-  /** Loaded once: each `loadSavedModel` holds ~2.6 GB of native ONNX Runtime memory that `-Xmx`
-    * does not bound. Tests run sequentially, so resetting params per test is safe.
+  /** Loaded once: the model holds ~2.6 GB of native ONNX Runtime memory that `-Xmx` does not
+    * bound. Tests run sequentially, so resetting params per test is safe.
     */
   private lazy val model: DolphinForDocumentParsing =
     DolphinForDocumentParsing
-      .loadSavedModel(modelPath, ResourceHelper.spark)
+      .pretrained()
       .setInputCols("image_assembler")
       .setOutputCol("elements")
 
@@ -77,7 +72,6 @@ class DolphinForDocumentParsingTestSpec extends AnyFlatSpec {
   // ---------------------------------------------------------------- element level
 
   "DolphinForDocumentParsing" should "parse a cropped table to HTML with Reader2Table json" taggedAs SlowTest in {
-    requireModel()
     val annotations = run(configured("table"), "table_1.jpeg")
     assert(annotations.length == 1)
     val table = annotations.head
@@ -88,7 +82,6 @@ class DolphinForDocumentParsingTestSpec extends AnyFlatSpec {
   }
 
   it should "read formula and code crops with their own prompts" taggedAs SlowTest in {
-    requireModel()
     val formula = run(configured("formula"), "line_formula.jpeg").head
     assert(formula.result == reference.find("line_formula.jpeg", "formula").output)
     assert(formula.metadata("dolphinLabel") == "equ")
@@ -100,7 +93,6 @@ class DolphinForDocumentParsingTestSpec extends AnyFlatSpec {
   // ---------------------------------------------------------------- layout
 
   it should "detect layout elements without transcribing them" taggedAs SlowTest in {
-    requireModel()
     val annotations = run(configured("layout"), "page_1.jpeg")
     val expected = reference.find("page_1.jpeg", "layout").boxes
     assert(annotations.map(_.metadata("dolphinLabel")) == expected.map(_.label))
@@ -111,7 +103,6 @@ class DolphinForDocumentParsingTestSpec extends AnyFlatSpec {
   // ---------------------------------------------------------------- page level
 
   it should "parse a full page into elements in reading order" taggedAs SlowTest in {
-    requireModel()
     val annotations = run(configured("page"), "page_1.jpeg")
     val expected = reference.find("page_1.jpeg", "page").elements
     assert(
@@ -125,7 +116,6 @@ class DolphinForDocumentParsingTestSpec extends AnyFlatSpec {
   }
 
   it should "assemble a page into markdown" taggedAs SlowTest in {
-    requireModel()
     val annotations = run(configured("page", outputFormat = "markdown"), "page_1.jpeg")
     assert(annotations.length == 1, "markdown mode emits one annotation per page")
     val elements = reference.find("page_1.jpeg", "page").elements
@@ -137,7 +127,6 @@ class DolphinForDocumentParsingTestSpec extends AnyFlatSpec {
   // ---------------------------------------------------------------- contract
 
   it should "survive a save/load round trip" taggedAs SlowTest in {
-    requireModel()
     val before = run(configured("table"), "table_1.jpeg")
 
     // This is the one test that must hold a second copy of the model: saving writes ~2.6 GB and
@@ -160,7 +149,6 @@ class DolphinForDocumentParsingTestSpec extends AnyFlatSpec {
   }
 
   it should "return one row of output per input row" taggedAs SlowTest in {
-    requireModel()
     val textModel = configured("text")
     val assembler = new ImageAssembler().setInputCol("image").setOutputCol("image_assembler")
     // Two small crops: the contract under test is row in/row out, and the page fixture would add a
@@ -178,7 +166,6 @@ class DolphinForDocumentParsingTestSpec extends AnyFlatSpec {
   // every batch to maxOutputLength, because `ids.last == eos` stops holding once a finished row is
   // padded.
   it should "terminate on the shortest element, not the longest" taggedAs SlowTest in {
-    requireModel()
     val fast = configured("text").setMaxOutputLength(512)
     val started = System.currentTimeMillis()
     val annotations = run(fast, "para_1.jpg")
