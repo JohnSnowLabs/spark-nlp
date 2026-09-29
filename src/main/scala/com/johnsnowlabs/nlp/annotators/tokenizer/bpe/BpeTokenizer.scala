@@ -188,10 +188,22 @@ private[nlp] abstract class BpeTokenizer(
     }
   }
 
+  protected val preserveLeadingSpecialToken: Boolean = false
+
   /** Split the the individual sub texts on special tokens, e.g. masking etc. */
   protected def splitOnSpecialToken(
       specialToken: SpecialToken,
-      text: String): ListBuffer[String] = {
+      text: String): ListBuffer[String] =
+    splitOnSpecialToken(specialToken, text, preserveLeadingSpecialToken)
+
+  /** @param preserveLeading
+    *   when true, re-adds a special token that sits at position 0. See
+    *   [[preserveLeadingSpecialToken]].
+    */
+  protected def splitOnSpecialToken(
+      specialToken: SpecialToken,
+      text: String,
+      preserveLeading: Boolean): ListBuffer[String] = {
     val isControl = (c: Char) => {
       if (c == '\t' || c == '\n' || c == '\r') false // count as whitespace
       else c.isControl
@@ -209,6 +221,12 @@ private[nlp] abstract class BpeTokenizer(
 
     val splitText = StringUtils.splitByWholeSeparator(text, tok)
     var fullWord = ""
+
+    // `text == tok` already works: splitByWholeSeparator yields [""] and the `i == 0 && isEmpty`
+    // branch fires. Only "token followed by more text" loses the token, so guard on a non-empty
+    // first segment to avoid emitting it twice.
+    if (preserveLeading && text.startsWith(tok) && splitText.headOption.exists(_.nonEmpty))
+      result += tok
 
     for ((subText, i) <- splitText.zipWithIndex) {
       var done = false
@@ -480,6 +498,14 @@ object BpeTokenizer {
           modelSpecialTokens(),
           padWithSequenceTokens,
           addPrefixSpaceToSentence = addPrefixSpaceToSentence)
+      case "dolphin" =>
+        new DolphinTokenizer(
+          merges,
+          vocab,
+          modelSpecialTokens(),
+          padWithSequenceTokens,
+          addPrefixSpaceToSentence = addPrefixSpaceToSentence,
+          alwaysAddPrefix = alwaysAddPrefix)
       case _ =>
         throw new IllegalArgumentException("Model type \"" + modelType + "\" not supported yet.")
     }
