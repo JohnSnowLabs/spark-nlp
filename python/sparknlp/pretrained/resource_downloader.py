@@ -94,9 +94,9 @@ class ResourceDownloader(object):
             print("Can not find the model to download please check the name!")
         else:
             print("Approximate size to download " + file_size)
-            # The JVM owns the byte counts and draws the bar on a terminal; in a notebook its
-            # stdout never reaches the cell, so DownloadProgress polls those counts and renders
-            # here instead. Exactly one of the two is active, so they cannot interleave.
+            # DownloadProgress draws from Python and keeps the JVM quiet meanwhile: pyspark
+            # starts the JVM with a piped stdin, so only Python can tell a terminal from a
+            # notebook.
             try:
                 with DownloadProgress(SparkContext._active_spark_context):
                     j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, engine, skip_preferred_engine, j_dwn).apply()
@@ -120,7 +120,9 @@ class ResourceDownloader(object):
         unzip : Bool, optional
             Used to unzip model, by default 'True'
         """
-        _internal._DownloadModelDirectly(name, remote_loc, unzip).apply()
+        # see downloadModel(): Python draws the progress while the JVM downloads
+        with DownloadProgress(SparkContext._active_spark_context):
+            _internal._DownloadModelDirectly(name, remote_loc, unzip).apply()
 
 
     @staticmethod
