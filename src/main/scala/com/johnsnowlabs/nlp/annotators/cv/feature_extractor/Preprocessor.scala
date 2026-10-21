@@ -125,20 +125,20 @@ private[johnsnowlabs] object Preprocessor {
 
     def parseSize(config: PreprocessorConfig) = {
       config.size match {
-        case sizeMap: Map[String, BigInt] if sizeMap.contains("width") =>
+        case sizeMap: Map[String, BigInt] @unchecked if sizeMap.contains("width") =>
           val width = sizeMap("width")
           require(
             width == sizeMap("height"),
             "Different sizes for width and height are currently not supported.")
           width.toInt
-        case sizeMap: Map[String, BigInt] if sizeMap.contains("shortest_edge") =>
+        case sizeMap: Map[String, BigInt] @unchecked if sizeMap.contains("shortest_edge") =>
           // ConvNext case: Size of the output image after `resize` has been applied
           sizeMap("shortest_edge").toInt
-        case sizeMap: Map[String, BigInt] if sizeMap.contains("longest_edge") =>
+        case sizeMap: Map[String, BigInt] @unchecked if sizeMap.contains("longest_edge") =>
           // ConvNext case: Size of the output image after `resize` has been applied
           sizeMap("longest_edge").toInt
         case sizeInt: BigInt => sizeInt.toInt
-        case sizeMap: Map[String, BigInt] if sizeMap.contains("max_pixels") =>
+        case sizeMap: Map[String, BigInt] @unchecked if sizeMap.contains("max_pixels") =>
           val max_pixels = sizeMap("max_pixels")
           max_pixels.toInt
         case _ =>

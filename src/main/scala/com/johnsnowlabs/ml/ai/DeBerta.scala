@@ -128,11 +128,9 @@ class DeBerta(
         inferRequest.infer()
 
         try {
-          try {
-            inferRequest
-              .get_tensor("last_hidden_state")
-              .data()
-          }
+          inferRequest
+            .get_tensor("last_hidden_state")
+            .data()
         } catch {
           case e: Exception =>
             e.printStackTrace()

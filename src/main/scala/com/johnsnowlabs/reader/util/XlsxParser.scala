@@ -13,7 +13,7 @@ object XlsxParser {
     def isTitle(titleFontSizeThreshold: Int): Boolean = {
       row.cellIterator().asScala.exists { cell =>
         val cellStyle = cell.getCellStyle
-        val font = row.getSheet.getWorkbook.getFontAt(cellStyle.getFontIndexAsInt)
+        val font = row.getSheet.getWorkbook.getFontAt(cellStyle.getFontIndex)
 
         val isBold = font.getBold
         val isCentered = cellStyle.getAlignment == HorizontalAlignment.CENTER

@@ -32,6 +32,7 @@ import org.apache.spark.sql.types._
 import org.apache.spark.sql.{DataFrame, Dataset}
 
 import java.io.{ByteArrayOutputStream, PrintWriter, StringWriter}
+import scala.annotation.nowarn
 import scala.util.{Failure, Success, Try}
 
 /** Extract text from PDF document to a single string or to several strings per each page. Input
@@ -129,6 +130,7 @@ class PdfToText(override val uid: String)
 
   setDefault(inputCol -> "content", outputCol -> "text")
 
+  @nowarn("cat=deprecation")
   private def transformUDF: UserDefinedFunction = udf(
     (path: String, content: Array[Byte], exception: String) => {
       doProcess(content, exception)

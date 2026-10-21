@@ -183,7 +183,6 @@ private[johnsnowlabs] class E5(
         "attention_mask" -> maskTensors,
         "token_type_ids" -> segmentTensors).asJava
 
-    // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
     try {
       val results = runner.run(inputs)
       val lastHiddenState = results.get("last_hidden_state").get()

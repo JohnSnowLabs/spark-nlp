@@ -237,18 +237,15 @@ private[johnsnowlabs] class SnowFlake(
 
     inferRequest.infer()
 
-    val embeddings =
-      try {
-        val lastHiddenState = inferRequest
-          .get_tensor("last_hidden_state")
-        val shape = lastHiddenState.get_shape()
-        val Array(_, sequenceLength, embeddingDim) = shape
-        try {
-          val flattenEmbeddings = lastHiddenState.data()
+    val embeddings = {
+      val lastHiddenState = inferRequest
+        .get_tensor("last_hidden_state")
+      val shape = lastHiddenState.get_shape()
+      val Array(_, sequenceLength, embeddingDim) = shape
+      val flattenEmbeddings = lastHiddenState.data()
 
-          flattenEmbeddings.grouped(embeddingDim).toArray.grouped(sequenceLength).toArray
-        }
-      }
+      flattenEmbeddings.grouped(embeddingDim).toArray.grouped(sequenceLength).toArray
+    }
 
     pool(embeddings, attentionMask, poolingStrategy)
 
@@ -274,25 +271,24 @@ private[johnsnowlabs] class SnowFlake(
         "attention_mask" -> maskTensors,
         "token_type_ids" -> segmentTensors).asJava
 
-    val embeddings =
+    val embeddings = {
+      val results = runner.run(inputs)
+      val lastHiddenState = results.get("last_hidden_state").get()
+      val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
+      val shape = info.getShape.map(_.toInt)
+      val Array(_, sequenceLength, embeddingDim) = shape
       try {
-        val results = runner.run(inputs)
-        val lastHiddenState = results.get("last_hidden_state").get()
-        val info = lastHiddenState.getInfo.asInstanceOf[TensorInfo]
-        val shape = info.getShape.map(_.toInt)
-        val Array(_, sequenceLength, embeddingDim) = shape
-        try {
-          val flattenEmbeddings = lastHiddenState
-            .asInstanceOf[OnnxTensor]
-            .getFloatBuffer
-            .array()
-          tokenTensors.close()
-          maskTensors.close()
-          segmentTensors.close()
+        val flattenEmbeddings = lastHiddenState
+          .asInstanceOf[OnnxTensor]
+          .getFloatBuffer
+          .array()
+        tokenTensors.close()
+        maskTensors.close()
+        segmentTensors.close()
 
-          flattenEmbeddings.grouped(embeddingDim).toArray.grouped(sequenceLength).toArray
-        } finally if (results != null) results.close()
-      }
+        flattenEmbeddings.grouped(embeddingDim).toArray.grouped(sequenceLength).toArray
+      } finally if (results != null) results.close()
+    }
 
     pool(embeddings, attentionMask, poolingStrategy)
   }

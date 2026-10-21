@@ -259,11 +259,9 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     inferRequest.infer()
 
     try {
-      try {
-        inferRequest
-          .get_tensor("logits")
-          .data()
-      }
+      inferRequest
+        .get_tensor("logits")
+        .data()
     } catch {
       case e: Exception =>
         // Log the exception as a warning
@@ -322,21 +320,19 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     val inputs =
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
+    val results = runner.run(inputs)
     try {
-      val results = runner.run(inputs)
-      try {
-        val embeddings = results
-          .get("logits")
-          .get()
-          .asInstanceOf[OnnxTensor]
-          .getFloatBuffer
-          .array()
-        tokenTensors.close()
-        maskTensors.close()
+      val embeddings = results
+        .get("logits")
+        .get()
+        .asInstanceOf[OnnxTensor]
+        .getFloatBuffer
+        .array()
+      tokenTensors.close()
+      maskTensors.close()
 
-        embeddings
-      } finally if (results != null) results.close()
-    }
+      embeddings
+    } finally if (results != null) results.close()
 
   }
 
@@ -359,11 +355,9 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     inferRequest.infer()
 
     try {
-      try {
-        inferRequest
-          .get_tensor("logits")
-          .data()
-      }
+      inferRequest
+        .get_tensor("logits")
+        .data()
     } catch {
       case e: Exception =>
         // Log the exception as a warning
@@ -537,13 +531,11 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     inferRequest.infer()
 
     try {
-      try {
-        val logits = inferRequest
-          .get_output_tensor()
-          .data()
+      val logits = inferRequest
+        .get_output_tensor()
+        .data()
 
-        logits
-      }
+      logits
     } catch {
       case e: Exception =>
         // Log the exception as a warning
@@ -626,16 +618,14 @@ private[johnsnowlabs] class XlmRoBertaClassification(
     inferRequest.infer()
 
     try {
-      try {
-        val startLogits = inferRequest
-          .get_tensor("start_logits")
-          .data()
-        val endLogits = inferRequest
-          .get_tensor("end_logits")
-          .data()
+      val startLogits = inferRequest
+        .get_tensor("start_logits")
+        .data()
+      val endLogits = inferRequest
+        .get_tensor("end_logits")
+        .data()
 
-        (startLogits.slice(1, startLogits.length), endLogits.slice(1, endLogits.length))
-      }
+      (startLogits.slice(1, startLogits.length), endLogits.slice(1, endLogits.length))
     } catch {
       case e: Exception =>
         // Log the exception as a warning

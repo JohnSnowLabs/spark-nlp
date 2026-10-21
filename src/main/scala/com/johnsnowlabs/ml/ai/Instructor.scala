@@ -86,17 +86,14 @@ private[johnsnowlabs] class Instructor(
 
     inferRequest.infer()
     try {
-      try {
-        val lastHiddenState = inferRequest
-          .get_tensor("token_embeddings")
-        val shape = lastHiddenState.get_shape().map(_.toLong)
-        val flattenEmbeddings = lastHiddenState
-          .data()
-        val embeddings = LinAlg.avgPooling(flattenEmbeddings, contextMask, shape)
-        val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
-        LinAlg.denseMatrixToArray(normalizedEmbeddings)
-
-      }
+      val lastHiddenState = inferRequest
+        .get_tensor("token_embeddings")
+      val shape = lastHiddenState.get_shape().map(_.toLong)
+      val flattenEmbeddings = lastHiddenState
+        .data()
+      val embeddings = LinAlg.avgPooling(flattenEmbeddings, contextMask, shape)
+      val normalizedEmbeddings = LinAlg.l2Normalize(embeddings)
+      LinAlg.denseMatrixToArray(normalizedEmbeddings)
     } catch {
       case e: Exception =>
         e.printStackTrace()
@@ -130,7 +127,6 @@ private[johnsnowlabs] class Instructor(
     val inputs =
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 
-    // TODO:  A try without a catch or finally is equivalent to putting its body in a block; no exceptions are handled.
     try {
       val results = runner.run(inputs)
       val lastHiddenState = results.get("token_embeddings").get()
