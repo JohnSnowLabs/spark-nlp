@@ -51,8 +51,9 @@ import org.slf4j.{Logger, LoggerFactory}
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.{Failure, Success}
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
+import scala.util.control.NonFatal
 
 trait ResourceDownloader {
 
@@ -447,8 +448,6 @@ object ResourceDownloader {
       getResourceDownloader(request.folder).download(updatedRequest)
     }
 
-    var downloadFinished = false
-    var path: Option[String] = None
     val fileSize = getDownloadSize(request)
     require(
       !fileSize.equals("-1"),
@@ -456,20 +455,14 @@ object ResourceDownloader {
     println(request.name + " download started this may take some time.")
     println("Approximate size to download " + fileSize)
 
-    while (!downloadFinished) {
-      future.onComplete {
-        case Success(value) =>
-          downloadFinished = true
-          path = value
-        case Failure(exception) =>
+    val path: Option[String] =
+      try Await.result(future, Duration.Inf)
+      catch {
+        case NonFatal(exception) =>
           println(s"Error: ${exception.getMessage}")
           logger.error(exception.getMessage)
-          downloadFinished = true
-          path = None
+          None
       }
-      Thread.sleep(1000)
-
-    }
 
     require(
       path.isDefined,
