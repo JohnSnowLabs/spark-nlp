@@ -2,7 +2,7 @@
 
 #default values for pyspark, spark-nlp, and SPARK_HOME
 SPARKNLP="7.0.0"
-PYSPARK="3.4.4"
+PYSPARK="3.5.0"
 
 while getopts s:p:g option; do
   case "${option}" in
