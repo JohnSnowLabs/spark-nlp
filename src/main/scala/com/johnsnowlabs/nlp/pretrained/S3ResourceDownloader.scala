@@ -16,6 +16,7 @@
 
 package com.johnsnowlabs.nlp.pretrained
 
+import com.amazonaws.services.s3.model.ObjectMetadata
 import com.johnsnowlabs.client.CloudResources
 import com.johnsnowlabs.client.aws.AWSGateway
 import com.johnsnowlabs.client.util.CloudHelper
@@ -23,10 +24,14 @@ import com.johnsnowlabs.util.FileHelper
 import org.apache.hadoop.fs.Path
 import org.slf4j.{Logger, LoggerFactory}
 
-import java.io.File
+import java.io.{EOFException, File, FileInputStream, IOException}
 import java.nio.file.Files
-import java.util.zip.ZipInputStream
+import java.util.UUID
+import java.util.concurrent.TimeUnit
+import java.util.zip.{ZipException, ZipInputStream}
 import scala.collection.mutable
+import scala.util.Try
+import scala.util.control.NonFatal
 
 class S3ResourceDownloader(
     bucket: => String,
@@ -37,6 +42,9 @@ class S3ResourceDownloader(
     extends ResourceDownloader {
 
   private val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
+
+  // was 1024; unzip of a large model otherwise costs ~650k read/write pairs
+  private val UnzipBufferSize = 65536
 
   private val repoFolder2Metadata: mutable.Map[String, RepositoryMetadata] =
     mutable.Map[String, RepositoryMetadata]()
@@ -63,16 +71,35 @@ class S3ResourceDownloader(
   def downloadMetadataIfNeed(folder: String): List[ResourceMetadata] = {
     val lastMetadataState = repoFolder2Metadata.get(folder)
     val metadataFilePath = awsGateway.getS3File(s3Path, folder, "metadata.json")
-    val metadataObject = awsGateway.client.getObject(bucket, metadataFilePath)
-    val lastModifiedTimeInS3 = metadataObject.getObjectMetadata.getLastModified
-    val needToRefresh =
-      lastMetadataState.isEmpty || lastMetadataState.get.lastModified.before(lastModifiedTimeInS3)
+
+    // A HEAD is enough to decide freshness. Opening the object here would begin streaming the
+    // whole index (tens of MB) only to abort it whenever the cached copy is still current.
+    val indexMetadata = awsGateway
+      .getS3ObjectMetadata(bucket, metadataFilePath)
+      .getOrElse(throw new Exception(s"Metadata file not found in S3: $metadataFilePath"))
+    val lastModifiedTimeInS3 = indexMetadata.getLastModified
+    val needToRefresh = S3ResourceDownloader.needToRefresh(
+      lastMetadataState.map(_.lastModified),
+      lastModifiedTimeInS3)
+
     if (!needToRefresh) {
-      metadataObject.close()
       lastMetadataState.get.metadata
     } else {
-      val metadata = ResourceMetadata.readResources(metadataObject.getObjectContent)
-      metadataObject.close()
+      val tmpFile = Files.createTempFile("sparknlp_metadata", ".json").toFile
+      val metadata =
+        try {
+          awsGateway.getS3Object(
+            bucket,
+            metadataFilePath,
+            tmpFile,
+            Some(indexMetadata),
+            showProgress = false)
+          val stream = new FileInputStream(tmpFile)
+          try ResourceMetadata.readResources(stream)
+          finally stream.close()
+        } finally {
+          tmpFile.delete()
+        }
       repoFolder2Metadata(folder) = RepositoryMetadata(
         folder,
         lastModifiedTimeInS3,
@@ -98,7 +125,8 @@ class S3ResourceDownloader(
     val link = resolveLink(request)
     link.flatMap { resource =>
       val s3FilePath = awsGateway.getS3File(s3Path, request.folder, resource.fileName)
-      if (!awsGateway.doesS3ObjectExist(bucket, s3FilePath)) {
+      val objectMetadata = awsGateway.getS3ObjectMetadata(bucket, s3FilePath)
+      if (objectMetadata.isEmpty) {
         logger.info("Resource not found in S3")
         None
       } else {
@@ -118,7 +146,7 @@ class S3ResourceDownloader(
           }
           case _ => {
             val destinationFile = new Path(cachePath.toString, resource.fileName)
-            downloadAndUnzipFile(destinationFile, resource, s3FilePath)
+            downloadAndUnzipFile(destinationFile, resource, s3FilePath, objectMetadata)
           }
         }
       }
@@ -128,61 +156,46 @@ class S3ResourceDownloader(
   def downloadAndUnzipFile(
       destinationFile: Path,
       resource: ResourceMetadata,
-      s3FilePath: String): Option[String] = {
+      s3FilePath: String,
+      objectMetadata: Option[ObjectMetadata]): Option[String] = {
 
     val splitPath = destinationFile.toString.substring(0, destinationFile.toString.length - 4)
     if (!(fileSystem.exists(destinationFile) || fileSystem.exists(new Path(splitPath)))) {
       // 1. Create tmp file
       val tmpFileName = Files.createTempFile(resource.fileName, "").toString
       val tmpFile = new File(tmpFileName)
-
-      // 2. Download content to tmp file
-      awsGateway.getS3Object(bucket, s3FilePath, tmpFile)
-      // 3. validate checksum
-      if (!resource.checksum.equals(""))
-        require(
-          FileHelper.generateChecksum(tmpFileName).equals(resource.checksum),
-          "Checksum validation failed!")
-
-      // 4. Move tmp file to destination
-      fileSystem.moveFromLocalFile(new Path(tmpFile.toString), destinationFile)
-
+      try {
+        // 2. Download content to tmp file
+        awsGateway.getS3Object(bucket, s3FilePath, tmpFile, objectMetadata)
+        // 3. validate checksum
+        if (!resource.checksum.equals("")) {
+          require(
+            FileHelper.generateChecksum(tmpFileName).equals(resource.checksum),
+            "Checksum validation failed!")
+          logger.info(s"Checksum verified for ${resource.fileName}")
+        }
+        // 4. Move tmp file to destination
+        moveIntoCache(tmpFile, destinationFile)
+      } finally {
+        tmpFile.delete()
+      }
     }
 
     // 5. Unzip if needs
     if (resource.isZipped) {
-      // if not already unzipped
-      if (!fileSystem.exists(new Path(splitPath))) {
-        val zis = new ZipInputStream(fileSystem.open(destinationFile))
-        val buf = Array.ofDim[Byte](1024)
-        var entry = zis.getNextEntry
-        require(
-          destinationFile.toString.substring(destinationFile.toString.length - 4) == ".zip",
-          "Not a zip file.")
-
-        while (entry != null) {
-          if (!entry.isDirectory) {
-            val entryName = new Path(splitPath, entry.getName)
-            val outputStream = fileSystem.create(entryName)
-            var bytesRead = zis.read(buf, 0, 1024)
-            while (bytesRead > -1) {
-              outputStream.write(buf, 0, bytesRead)
-              bytesRead = zis.read(buf, 0, 1024)
-            }
-            outputStream.close()
-          }
-          zis.closeEntry()
-          entry = zis.getNextEntry
-        }
-        zis.close()
-        // delete the zip file
-        fileSystem.delete(destinationFile, true)
-      }
+      ensureUnzipped(destinationFile, splitPath)
       Some(splitPath)
     } else {
       Some(destinationFile.getName)
     }
   }
+
+  /** Kept with its 7.0 signature for callers built against it. */
+  def downloadAndUnzipFile(
+      destinationFile: Path,
+      resource: ResourceMetadata,
+      s3FilePath: String): Option[String] =
+    downloadAndUnzipFile(destinationFile, resource, s3FilePath, None)
 
   def downloadAndUnzipFile(s3FilePath: String, unzip: Boolean): Option[String] = {
     // handle s3FilePath options:
@@ -202,45 +215,104 @@ class S3ResourceDownloader(
       // 1. Create tmp file
       val tmpFileName = Files.createTempFile(s3File, "").toString
       val tmpFile = new File(tmpFileName)
-
-      val newStrfilePath: String = newS3FilePath
-      val mybucket: String = bucket
-      // 2. Download content to tmp file
-      awsGateway.getS3Object(mybucket, newStrfilePath, tmpFile)
-
-      // 4. Move tmp file to destination
-      fileSystem.moveFromLocalFile(new Path(tmpFile.toString), destinationFile)
+      try {
+        // 2. Download content to tmp file
+        // Shown: this serves Python's downloadModelDirectly, which draws the progress.
+        awsGateway.getS3Object(bucket, newS3FilePath, tmpFile, None, showProgress = true)
+        // 4. Move tmp file to destination
+        moveIntoCache(tmpFile, destinationFile)
+      } finally {
+        tmpFile.delete()
+      }
     }
-    if (unzip) {
-      if (!fileSystem.exists(new Path(splitPath))) {
-        val zis = new ZipInputStream(fileSystem.open(destinationFile))
-        val buf = Array.ofDim[Byte](1024)
-        var entry = zis.getNextEntry
-        require(
-          destinationFile.toString.substring(destinationFile.toString.length - 4) == ".zip",
-          "Not a zip file.")
+    if (unzip) ensureUnzipped(destinationFile, splitPath)
+    Some(splitPath)
 
+  }
+
+  /** Puts a downloaded file into the cache under its final name with one rename, so the cache
+    * never holds a half-copied zip. Each install copies into a part file of its own, so two
+    * installers of one model never write the same file.
+    */
+  private def moveIntoCache(localFile: File, destination: Path): Unit = {
+    reclaimStaleParts(destination)
+    val part = new Path(s"$destination.part-${UUID.randomUUID()}")
+    try {
+      fileSystem.moveFromLocalFile(new Path(localFile.toString), part)
+      // Losing the rename to another installer of the same model is a success: only a rename
+      // ever puts a file at `destination`, so whatever is there is a complete copy.
+      if (!fileSystem.rename(part, destination) && !fileSystem.exists(destination))
+        throw new IOException(s"Could not move $part to $destination")
+    } finally {
+      if (fileSystem.exists(part)) fileSystem.delete(part, false)
+    }
+  }
+
+  /** Deletes part files of `destination` left by runs that died mid-copy. A live copy keeps
+    * writing to its own part, so only parts untouched for `StalePartAgeMillis` are taken.
+    */
+  private def reclaimStaleParts(destination: Path): Unit = {
+    val prefix = destination.getName + ".part-"
+    val cutoff = System.currentTimeMillis() - S3ResourceDownloader.StalePartAgeMillis
+    Try(fileSystem.listStatus(destination.getParent)).toOption.toSeq.flatten
+      .filter(status =>
+        status.getPath.getName.startsWith(prefix) && status.getModificationTime < cutoff)
+      .foreach(status => Try(fileSystem.delete(status.getPath, false)))
+  }
+
+  /** Unzips the model unless another installer already put it in place, in which case a zip this
+    * install just moved into the cache is redundant and goes.
+    */
+  private def ensureUnzipped(zipFile: Path, splitPath: String): Unit =
+    if (!fileSystem.exists(new Path(splitPath))) unzipIntoCache(zipFile, splitPath)
+    else if (fileSystem.exists(zipFile)) fileSystem.delete(zipFile, false)
+
+  /** Unzips into a sibling staging directory and renames it into place, so a directory at
+    * `splitPath` is always a whole model. An archive that ZipInputStream rejects (a bad entry
+    * CRC, data that ends mid-entry) takes the zip with it, so the next request downloads again
+    * instead of loading half a model.
+    */
+  private def unzipIntoCache(zipFile: Path, splitPath: String): Unit = {
+    require(zipFile.getName.endsWith(".zip"), "Not a zip file.")
+    val staging = new Path(s"$splitPath.tmp-${UUID.randomUUID()}")
+    try {
+      fileSystem.mkdirs(staging)
+      val zis = new ZipInputStream(fileSystem.open(zipFile))
+      try {
+        val buf = Array.ofDim[Byte](UnzipBufferSize)
+        var entry = zis.getNextEntry
         while (entry != null) {
           if (!entry.isDirectory) {
-            val entryName = new Path(splitPath, entry.getName)
-            val outputStream = fileSystem.create(entryName)
-            var bytesRead = zis.read(buf, 0, 1024)
-            while (bytesRead > -1) {
-              outputStream.write(buf, 0, bytesRead)
-              bytesRead = zis.read(buf, 0, 1024)
-            }
-            outputStream.close()
+            val outputStream = fileSystem.create(new Path(staging, entry.getName))
+            try {
+              var bytesRead = zis.read(buf, 0, UnzipBufferSize)
+              while (bytesRead > -1) {
+                outputStream.write(buf, 0, bytesRead)
+                bytesRead = zis.read(buf, 0, UnzipBufferSize)
+              }
+            } finally outputStream.close()
           }
           zis.closeEntry()
           entry = zis.getNextEntry
         }
-        zis.close()
-        // delete the zip file
-        fileSystem.delete(destinationFile, true)
-      }
+      } finally zis.close()
+      // Another process may have finished the same model meanwhile; theirs is as good as ours.
+      val target = new Path(splitPath)
+      if (!fileSystem.exists(target) && !fileSystem.rename(staging, target))
+        throw new IOException(s"Could not move $staging to $splitPath")
+    } catch {
+      // Another installer finished the same model first; theirs is complete, ours not needed.
+      case NonFatal(_) if fileSystem.exists(new Path(splitPath)) =>
+      // The archive itself is bad: drop it so the next request downloads a fresh copy. Any
+      // other failure leaves the zip in place for the next attempt to unpack.
+      case e @ (_: ZipException | _: EOFException) =>
+        fileSystem.delete(zipFile, false)
+        throw e
+    } finally {
+      if (fileSystem.exists(staging)) fileSystem.delete(staging, true)
     }
-    Some(splitPath)
-
+    // delete the zip file
+    fileSystem.delete(zipFile, true)
   }
 
   override def getDownloadSize(request: ResourceRequest): Option[Long] = {
@@ -269,4 +341,16 @@ class S3ResourceDownloader(
     }
   }
 
+}
+
+object S3ResourceDownloader {
+
+  /** A part file untouched this long belongs to a run that died mid-copy. */
+  private[pretrained] val StalePartAgeMillis: Long = TimeUnit.HOURS.toMillis(1)
+
+  /** Whether a repository's cached index must be fetched from S3 again. */
+  private[pretrained] def needToRefresh(
+      cachedLastModified: Option[java.util.Date],
+      lastModifiedInS3: java.util.Date): Boolean =
+    cachedLastModified.forall(_.before(lastModifiedInS3))
 }
