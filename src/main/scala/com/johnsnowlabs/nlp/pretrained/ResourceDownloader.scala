@@ -741,6 +741,7 @@ object PythonResourceDownloader {
     "ModernBertEmbeddings" -> ModernBertEmbeddings,
     "LLMEntityExtractor" -> LLMEntityExtractor,
     "BiEncoderMultimodalEmbeddings" -> BiEncoderMultimodalEmbeddings,
+    "BGEM3Embeddings" -> BGEM3Embeddings,
     "SentenceDetectorSaTModel" -> SentenceDetectorSaTModel,
     "CrossEncoder" -> CrossEncoder)
 
