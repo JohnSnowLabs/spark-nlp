@@ -154,6 +154,18 @@ class RuleFactory(
       case _ => throw new IllegalArgumentException("Invalid strategy for rule factory")
     }
 
+  /** Scala 2.12 data loads with the function fields above as null (see LegacySerializedLambda):
+    * rebuild them from the strategies and rules.
+    */
+  private def readResolve(): AnyRef =
+    if (findMatchFunc != null) this
+    else {
+      val rebuilt = new RuleFactory(matchStrategy, transformStrategy)
+      rebuilt.rules = rules
+      rebuilt.symbolRules = symbolRules
+      rebuilt
+    }
+
   /** Adds a rule and its associated symbol to apply some transformation using such symbol
     * @param symbol
     *   symbol is a character to be used in a transformation application, where many rules can
