@@ -820,28 +820,108 @@ Note: You can import these notebooks by using their URLs.
 
 ## Microsoft Fabric
 
-Microsoft Fabric notebooks run on managed Spark 3.4 clusters, so you need to provide the Spark NLP fat JARs through OneLake/ABFSS and wire them into the runtime via Spark properties.
+Microsoft Fabric notebooks run on managed Spark clusters. You give them Spark NLP by uploading the Spark NLP fat JAR to a Lakehouse and pointing a Fabric **Environment** at it through Spark properties. Pick the JAR that matches the Fabric runtime you will use:
 
-### Spark NLP on Microsoft Fabric
+| Fabric runtime | Spark | JARs to download |
+|---|---|---|
+| 1.2 / 1.3 | 3.4 / 3.5 (Scala 2.12) | `spark-nlp-assembly-<version>.jar`, Scala 2.12 CPU build |
+| 2.0 | 4.1 (Scala 2.13) | `spark-nlp-assembly-<version>.jar`, Scala 2.13 CPU build (the regular Spark 4 one, not `spark400`), and `onnxruntime-1.23.0.jar` |
 
-1. Inside Fabric go to a workspace and click on `+New Item` button, type `lake` on the search bar and chose `Lakehouse` and type a name for it.
+- The Spark NLP JARs are listed in the **FAT JARs** section of the [Spark NLP release notes](https://github.com/JohnSnowLabs/spark-nlp/releases/latest).
+- ONNX Runtime is on [Maven Central](https://central.sonatype.com/artifact/com.microsoft.onnxruntime/onnxruntime/versions). Use the version Spark NLP is built with (1.23.0 for Spark NLP {{ site.sparknlp_version }}), the plain `onnxruntime` artifact (not `onnxruntime_gpu`).
+
+Both builds have the same file name, so keep them in separate folders on your computer.
+
+**Step 1: Create a Lakehouse**
+
+1. Sign in to [Microsoft Fabric](https://app.fabric.microsoft.com/), select **Workspaces** in the left bar and open the workspace you want to use.
+2. Select **+ New item**, type `lake` in the search box and select **Lakehouse**.
    <img class="image image--xl" src="/assets/images/installation/ms-fabric-lake-house-item.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+3. Enter a name for the Lakehouse (for example `spark_nlp_lakehouse`) and select **Create**. The Lakehouse opens, with **Tables** and **Files** in the **Explorer** on the left.
+
+**Step 2: Upload the JARs to the Lakehouse**
+
+1. Download the JAR(s) for your runtime from the table above.
+2. In the Lakehouse **Explorer**, hover over **Files**, select **...** and then **Upload > Upload files**.
+   <img class="image image--xl" src="/assets/images/installation/ms-fabric-upload-files.webp" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+3. In the **Upload files** panel, select the folder icon, pick the JAR(s) and select **Upload**. The Spark NLP JAR is several hundred MB, so keep the browser tab open until the upload finishes.
+4. When the JARs show up in **Files**, right-click each one (or select its **...**) and choose **Properties**. The panel that opens shows the **ABFS path** of the file; copy it. Paste the paths somewhere, you need them in Step 5. A path looks like `abfss://<workspace>@onelake.dfs.fabric.microsoft.com/<lakehouse>.Lakehouse/Files/spark-nlp-assembly-{{ site.sparknlp_version }}.jar`.
    <img class="image image--xl" src="/assets/images/installation/ms-fabric-lake-house.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-2. Inside Fabric go to a workspace and click on `+New Item` button, type `env` on the search bar and chose `Environment` and type a name for it.
-  <img class="image image--xl" src="/assets/images/installation/ms-fabric-spark-env.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-3. Choose **Fabric Runtime 1.2** (Spark 3.4 + Delta 2.4) then go to `Spark properties` and set `spark.jars`
-4. Upload `spark-nlp-assembly-{{ site.sparknlp_version }}.jar` to an ABFSS folder that both driver and executors can see, for example `abfss://workspace@storage.dfs.core.windows.net/jars/`.
+
+**Step 3: Create an Environment and choose the runtime**
+
+1. Go back to your workspace, select **+ New item**, type `env` in the search box and select **Environment**.
+   <img class="image image--xl" src="/assets/images/installation/ms-fabric-spark-env.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
+2. Enter a name for the Environment (for example `spark_nlp_env`) and select **Create**.
+3. In the Environment, on the **Home** tab, open the **Runtime** dropdown and select the runtime you downloaded the JAR for, for example **1.3 (Spark 3.5, Delta 3.2)** or **2.0 (Spark 4.1, Delta 4.2)**.
+
+**Step 4: Add the Spark NLP Python package**
+
+1. In the left menu of the Environment, under **Libraries**, select **External repositories**.
+2. Add the `spark-nlp` package from PyPI with version `{{ site.sparknlp_version }}`.
+
+**Step 5: Set the Spark properties**
+
+1. In the left menu of the Environment, under **Spark compute**, select **Spark properties**.
+2. Add one row per property below: select the **Property** box, type the property name, then type the value in the **Value** box. Replace `<workspace>` and `<lakehouse>` with the names from your ABFS paths.
    <img class="image image--xl" src="/assets/images/installation/ms-fabric-spark-properties.png" style="width:100%; align:center; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);"/>
-5. Create a Notebook and attach it to the environment you created before.
 
-### Spark NLP ONNX compatibility on Microsoft Fabric
+**Fabric Runtime 1.2 / 1.3 (Spark 3)**
 
-Follow the steps above to set up Spark NLP, then add the following additional steps to enable ONNX inference support:
+```
+spark.jars   abfss://<workspace>@onelake.dfs.fabric.microsoft.com/<lakehouse>.Lakehouse/Files/spark-nlp-assembly-{{ site.sparknlp_version }}.jar
+```
 
-1. On `Spark properties` point `spark.executor.extraClassPath` and `spark.driver.extraClassPath` to the ABFSS jar directory to ensure ONNX classes are visible `abfss://workspace@storage.dfs.core.windows.net/jars/spark-nlp-assembly-{{ site.sparknlp_version }}.jar`.
-2. On `Spark properties` enable `spark.executor.userClassPathFirst=true` and `spark.driver.userClassPathFirst=true` so the Spark NLP/ONNX classes take precedence over the Fabric runtime defaults.
+To use ONNX models (for example ONNX embeddings) on Runtime 1.2 / 1.3, also add:
 
-These settings let Fabric distribute the Spark NLP binaries without manual copy steps and ensure ONNX inference components remain compatible with the managed runtime.
+```
+spark.driver.extraClassPath       abfss://<workspace>@onelake.dfs.fabric.microsoft.com/<lakehouse>.Lakehouse/Files/spark-nlp-assembly-{{ site.sparknlp_version }}.jar
+spark.executor.extraClassPath     abfss://<workspace>@onelake.dfs.fabric.microsoft.com/<lakehouse>.Lakehouse/Files/spark-nlp-assembly-{{ site.sparknlp_version }}.jar
+spark.driver.userClassPathFirst   true
+spark.executor.userClassPathFirst true
+```
+
+These make the Spark NLP and ONNX classes take precedence over the ones the Fabric runtime ships.
+
+**Fabric Runtime 2.0 (Spark 4)**
+
+```
+spark.jars                      abfss://<workspace>@onelake.dfs.fabric.microsoft.com/<lakehouse>.Lakehouse/Files/spark-nlp-assembly-{{ site.sparknlp_version }}.jar,abfss://<workspace>@onelake.dfs.fabric.microsoft.com/<lakehouse>.Lakehouse/Files/onnxruntime-1.23.0.jar
+spark.driver.extraClassPath     onnxruntime-1.23.0.jar:spark-nlp-assembly-{{ site.sparknlp_version }}.jar
+spark.executor.extraClassPath   onnxruntime-1.23.0.jar:spark-nlp-assembly-{{ site.sparknlp_version }}.jar
+spark.driver.extraJavaOptions   -Xss64m -Xbootclasspath/a:onnxruntime-1.23.0.jar
+spark.executor.extraJavaOptions -Xbootclasspath/a:onnxruntime-1.23.0.jar
+```
+
+Why these are needed on Runtime 2.0:
+
+- Runtime 2.0 ships `onnxruntime_gpu-1.8.1.jar`, which reports a CUDA provider. Spark NLP then takes the CUDA path and ONNX annotators fail with `java.lang.NoSuchMethodError: ... extractCUDA()`. `-Xbootclasspath/a:onnxruntime-1.23.0.jar` loads the ONNX Runtime that Spark NLP is built with ahead of it.
+- Do not set `userClassPathFirst` on Runtime 2.0: it breaks logging with a `ClassCastException` (slf4j).
+- The JAR names in the class paths have no folder because Fabric copies every `spark.jars` file into the working directory of the driver and the executors.
+- `-Xss64m` gives the driver a larger stack; without it large pretrained pipelines can fail with `StackOverflowError`.
+
+**Step 6: Save and publish the Environment**
+
+1. Select **Save**, then **Publish** in the **Home** tab and confirm with **Publish all**.
+2. Wait for the notification that publishing finished. This takes a few minutes. Every time you change the Environment, publish it again and start a new notebook session.
+
+**Step 7: Use Spark NLP in a notebook**
+
+1. In your workspace, select **+ New item** > **Notebook**.
+2. In the notebook **Home** tab, open the **Environment** dropdown (it shows **Workspace default**) and select the Environment you published.
+3. Run a cell to start the session and check Spark NLP. Do not call `sparknlp.start()`: Fabric already created the `spark` session with your Environment settings.
+
+```python
+import sparknlp
+print("Spark NLP:", sparknlp.version())
+print("Spark NLP JAR:", spark._jvm.com.johnsnowlabs.nlp.SparkNLP.version())
+```
+
+On Runtime 2.0, also check that ONNX Runtime only reports the CPU provider:
+
+```python
+print(spark._jvm.ai.onnxruntime.OrtEnvironment.getAvailableProviders())  # must be [CPU]
+```
 
 </div><div class="h3-box" markdown="1">
 
