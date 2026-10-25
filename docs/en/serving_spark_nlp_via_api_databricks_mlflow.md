@@ -99,13 +99,16 @@ That cluster can be then replicated (cloned) for production purposes later on.
 
 ### Configuring Databricks for serving Spark NLP on MLFlow
 
-In Databricks Runtime Version, select any Standard runtime, not ML ones... These add their version of MLFlow, and some incompatibilities may arise. For this example, we have used 8.3 (includes Apache Spark 3.1.1, Scala 2.12)
+In Databricks Runtime Version, select any Standard runtime, not ML ones... These add their version of MLFlow, and some incompatibilities may arise. For this example, we have used 8.3 (includes Apache Spark 3.1.1, Scala 2.12). A Spark 4 runtime with Scala 2.13 works the same way - just swap `spark-nlp_2.12` for `spark-nlp_2.13` in the coordinates below.
 
 The cluster instantiated is prepared to use Spark NLP, but to make it production-ready using MLFlow, we need to add the MLFlow jar, in addition to the Spark NLP jar, as shown in the “Experiment Tracking” section.
 
 In that case, we did it adding both jars...
 
 ```("spark.jars.packages":" com.johnsnowlabs.nlp:spark-nlp_2.12:[YOUR_SPARKNLP_VERSION],org.mlflow:mlflow-spark:1.21.0")```
+
+On an Apache Spark 4.0.0 runtime, use `spark-nlp-spark400_2.13` instead of `spark-nlp_2.12`; on Apache Spark
+4.0.1, 4.1.0, 4.1.1, or 4.1.2, use `spark-nlp_2.13`.
 
 ...into the SparkSession. However, in Databricks, you don’t instantiate programmatically a session, but you configure it in the `Compute` screen, selecting your Spark NLP cluster, and then going to ```Configuration -> Advanced Options -> Spark -> Spark Config```, as shown in the following image:
 
@@ -244,16 +247,18 @@ On the right panel, you will see two snippets, about how to call to the model fo
     `loaded_model = mlflow.pyfunc.spark_udf(spark, model_uri=logged_model)`
 
     ### Predict on a Spark DataFrame.
-    ```columns = list(df.columns)
+    ```python
+    columns = list(df.columns)
     df.withColumn('predictions', loaded_model(*columns)).collect()
     ```
 
 2. Snippet for calling with a Spark Dataframe. We won’t include it in this documentation because that snippet does not include SPark NLP specificities. To make it work, the correct snippet should be:
 
-    ```import mlflow
+    ```python
+    import mlflow
     logged_model = 'runs:/a8cf070528564792bbf66d82211db0a0/lemmatizer'
     loaded_model = mlflow.pyfunc.load_model(model_uri=logged_model)
-   ```
+    ```
 
     ### Predict on a Spark DataFrame.
     `res_spark = loaded_model.predict(df_1_spark.rdd)`

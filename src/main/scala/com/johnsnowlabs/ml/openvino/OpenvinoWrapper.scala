@@ -87,15 +87,9 @@ object OpenvinoWrapper {
     "INFERENCE_NUM_THREADS" -> availableCores.toString * 2 // 2 threads per core
   )
 
-  val javaProps = new JHashMap[String, Object]()
+  val javaProps = new JHashMap[String, String]()
   properties.foreach { case (key, value) =>
-    val boxedValue: Object = value match {
-      case i: Int => i.asInstanceOf[AnyRef]
-      case b: Boolean => b.asInstanceOf[AnyRef]
-      case s: String => s.asInstanceOf[AnyRef]
-      case other => other.asInstanceOf[AnyRef]
-    }
-    javaProps.put(key, boxedValue)
+    javaProps.put(key, value.toString)
   }
   private val logger: Logger = LoggerFactory.getLogger(this.getClass.toString)
   private[OpenvinoWrapper] val core: Core =
@@ -111,7 +105,7 @@ object OpenvinoWrapper {
 
   try {
     // Set the OpenVINO properties
-    core.set_property_typed("CPU", javaProps)
+    core.set_property("CPU", javaProps)
   } catch {
     case e: Exception =>
       logger.warn("Failed to set CPU NUM_THREADS property, using default value.", e)

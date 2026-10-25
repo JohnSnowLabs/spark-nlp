@@ -9,6 +9,7 @@ Submodules
 
    sparknlp.annotator.similarity.bm25
    sparknlp.annotator.similarity.document_similarity_ranker
+   sparknlp.annotator.similarity.pairwise_vector_similarity
 
 Module contents
 ---------------

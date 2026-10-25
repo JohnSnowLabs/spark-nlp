@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.sentence_detector_dl
 
 import com.johnsnowlabs.nlp.SparkAccessor.spark
 import com.johnsnowlabs.nlp.{Annotation, DocumentAssembler, LightPipeline}
-import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.tags.{FastTest, SlowTest}
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.sql.{Row, SparkSession}
 import org.scalatest.flatspec.AnyFlatSpec
@@ -36,7 +36,7 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
 
   import spark.implicits._
 
-  "Sentence Detector DL" should "apply impossible penultimates" taggedAs FastTest in {
+  "Sentence Detector DL" should "apply impossible penultimates" taggedAs SlowTest in {
     val sampleText =
       """A dog loves going out on a walk, eating and sleeping in front of the fireplace  . This is how a dog lives.
         |It's great!""".stripMargin
@@ -73,7 +73,7 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
     sentenceDetectorDL.setImpossiblePenultimates(impossiblePenultimates)
   }
 
-  "Sentence Detector DL" should "test custom eos patterns" taggedAs FastTest in {
+  "Sentence Detector DL" should "test custom eos patterns" taggedAs SlowTest in {
     val sampleText =
       """A dog loves going out on a walk, eating and sleeping in front of the fireplace. This how a dog lives. It's great!"""
 
@@ -102,7 +102,7 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
     })
   }
 
-  "Sentence Detector DL" should "test new params" taggedAs FastTest in {
+  "Sentence Detector DL" should "test new params" taggedAs SlowTest in {
 
     val df = spark.read.text(testSampleFreeText).toDF("text")
 
@@ -191,7 +191,7 @@ class SentenceDetectorDLSpec extends AnyFlatSpec {
       })
   }
 
-  "Sentence Detector DL" should "download and run pretrained model" taggedAs FastTest in {
+  "Sentence Detector DL" should "download and run pretrained model" taggedAs SlowTest in {
 
     val text = Source.fromFile(testSampleFreeText).getLines().mkString("\n")
 

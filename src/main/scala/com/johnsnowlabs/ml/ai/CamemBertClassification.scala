@@ -404,7 +404,11 @@ private[johnsnowlabs] class CamemBertClassification(
     val batchLength = batch.length
     val shape = Array(batchLength, maxSentenceLength)
     val (tokenTensors, maskTensors) =
-      PrepareEmbeddings.prepareOvLongBatchTensors(batch, maxSentenceLength, batchLength)
+      PrepareEmbeddings.prepareOvLongBatchTensors(
+        batch,
+        maxSentenceLength,
+        batchLength,
+        sentencePadTokenId = sentencePadTokenId)
 
     val inferRequest = openvinoWrapper.get.getCompiledModel().create_infer_request()
     inferRequest.set_tensor("input_ids", tokenTensors)
@@ -534,7 +538,16 @@ private[johnsnowlabs] class CamemBertClassification(
 
   private def computeLogitsWithOnnx(batch: Seq[Array[Int]]): (Array[Float], Array[Float]) = {
     val (runner, env) = onnxWrapper.get.getSession(onnxSessionOptions)
-    val (tokenTensors, maskTensors) = initializeOnnxTensorResources(batch, env)
+    // Not initializeOnnxTensorResources: that helper masks against a hardcoded 0, but CamemBert's
+    // pad id is derived from its sentencepiece model. That only became load-bearing once
+    // predictSpanGrouped started padding batches to a common width - a batch of 1 is never
+    // padded, so any mask was previously as good as any other here.
+    val tokenTensors =
+      OnnxTensor.createTensor(env, batch.map(x => x.map(_.toLong)).toArray)
+    val maskTensors =
+      OnnxTensor.createTensor(
+        env,
+        batch.map(sentence => sentence.map(x => if (x == sentencePadTokenId) 0L else 1L)).toArray)
     val inputs =
       Map("input_ids" -> tokenTensors, "attention_mask" -> maskTensors).asJava
 

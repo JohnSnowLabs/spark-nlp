@@ -51,8 +51,9 @@ import org.slf4j.{Logger, LoggerFactory}
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.{Failure, Success}
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
+import scala.util.control.NonFatal
 
 trait ResourceDownloader {
 
@@ -447,8 +448,6 @@ object ResourceDownloader {
       getResourceDownloader(request.folder).download(updatedRequest)
     }
 
-    var downloadFinished = false
-    var path: Option[String] = None
     val fileSize = getDownloadSize(request)
     require(
       !fileSize.equals("-1"),
@@ -456,20 +455,14 @@ object ResourceDownloader {
     println(request.name + " download started this may take some time.")
     println("Approximate size to download " + fileSize)
 
-    while (!downloadFinished) {
-      future.onComplete {
-        case Success(value) =>
-          downloadFinished = true
-          path = value
-        case Failure(exception) =>
+    val path: Option[String] =
+      try Await.result(future, Duration.Inf)
+      catch {
+        case NonFatal(exception) =>
           println(s"Error: ${exception.getMessage}")
           logger.error(exception.getMessage)
-          downloadFinished = true
-          path = None
+          None
       }
-      Thread.sleep(1000)
-
-    }
 
     require(
       path.isDefined,
@@ -673,6 +666,7 @@ object PythonResourceDownloader {
     "LongformerForQuestionAnswering" -> LongformerForQuestionAnswering,
     "RoBertaForQuestionAnswering" -> RoBertaForQuestionAnswering,
     "XlmRoBertaForQuestionAnswering" -> XlmRoBertaForQuestionAnswering,
+    "BLIPForQuestionAnswering" -> BLIPForQuestionAnswering,
     "SpanBertCorefModel" -> SpanBertCorefModel,
     "ViTForImageClassification" -> ViTForImageClassification,
     "VisionEncoderDecoderForImageCaptioning" -> VisionEncoderDecoderForImageCaptioning,
@@ -701,9 +695,13 @@ object PythonResourceDownloader {
     "BGEEmbeddings" -> BGEEmbeddings,
     "MPNetForSequenceClassification" -> MPNetForSequenceClassification,
     "MPNetForQuestionAnswering" -> MPNetForQuestionAnswering,
+    "MPNetForTokenClassification" -> MPNetForTokenClassification,
     "LLAMA2Transformer" -> LLAMA2Transformer,
     "LLAMA3Transformer" -> LLAMA3Transformer,
     "M2M100Transformer" -> M2M100Transformer,
+    "MistralTransformer" -> MistralTransformer,
+    "Phi2Transformer" -> Phi2Transformer,
+    "StarCoderTransformer" -> StarCoderTransformer,
     "UAEEmbeddings" -> UAEEmbeddings,
     "AutoGGUFModel" -> AutoGGUFModel,
     "AlbertForZeroShotClassification" -> AlbertForZeroShotClassification,
@@ -711,6 +709,11 @@ object PythonResourceDownloader {
     "SnowFlakeEmbeddings" -> SnowFlakeEmbeddings,
     "CamemBertForZeroShotClassification" -> CamemBertForZeroShotClassification,
     "BertForMultipleChoice" -> BertForMultipleChoice,
+    "AlbertForMultipleChoice" -> AlbertForMultipleChoice,
+    "DistilBertForMultipleChoice" -> DistilBertForMultipleChoice,
+    "RobertaForMultipleChoice" -> RoBertaForMultipleChoice,
+    "RoBertaForMultipleChoice" -> RoBertaForMultipleChoice,
+    "XlmRoBertaForMultipleChoice" -> XlmRoBertaForMultipleChoice,
     "PromptAssembler" -> PromptAssembler,
     "CPMTransformer" -> CPMTransformer,
     "NomicEmbeddings" -> NomicEmbeddings,
@@ -732,6 +735,7 @@ object PythonResourceDownloader {
     "InternVLForMultiModal" -> InternVLForMultiModal,
     "Florence2Transformer" -> Florence2Transformer,
     "E5VEmbeddings" -> E5VEmbeddings,
+    "MiniLMEmbeddings" -> MiniLMEmbeddings,
     "Phi4Transformer" -> Phi4Transformer,
     "AutoGGUFReranker" -> AutoGGUFReranker,
     "ModernBertEmbeddings" -> ModernBertEmbeddings,
@@ -739,6 +743,7 @@ object PythonResourceDownloader {
     "BiEncoderMultimodalEmbeddings" -> BiEncoderMultimodalEmbeddings,
     "SentenceDetectorSaTModel" -> SentenceDetectorSaTModel,
     "BGEM3Embeddings" -> BGEM3Embeddings)
+    "CrossEncoder" -> CrossEncoder)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
   val typeMapper: Map[String, String] = Map("ZeroShotNerModel" -> "RoBertaForQuestionAnswering")

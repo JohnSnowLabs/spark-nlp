@@ -118,8 +118,8 @@ trait Generate {
         noRepeatNgramSize = noRepeatNgramSize,
         vocabSize = vocabSize))
 
-//    logitProcessorList.addProcess(
-//      new MinLengthLogitProcessor(eosTokenId, minOutputLength, vocabSize))
+    logitProcessorList.addProcess(
+      new MinLengthLogitProcessor(eosTokenId, minOutputLength, vocabSize))
 
     logitProcessorList.addProcess(new TemperatureLogitWarper(temperature))
 
@@ -233,6 +233,7 @@ trait Generate {
         // Process the logits by defined logit processors
         val nextTokenScoresProcessed =
           logitProcessor.process(expandedInputs, nextTokenScores, currentLength)
+        nextTokenScores = nextTokenScoresProcessed
 
         // Process the logits by defined logit warpers
         if (doSample) {

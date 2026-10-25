@@ -25,7 +25,7 @@ In this section we provide a guide on how to setup your environment using Intell
 
 Setup Spark NLP development environment. This section will cover library set up for IntelliJ IDEA.
 
-Before you begin, make sure what you have Java and Spark installed in your system. We suggest that you have installed **jdk 8** and **Apache Spark 2.4.x**. To check installation run:
+Before you begin, make sure that Java and Spark are installed on your system. We suggest **JDK 8 or 11** with **Apache Spark 3.x**, or **JDK 17** with **Apache Spark 4.x**. To check the installation, run:
 
 ```shel
 java -version
@@ -59,7 +59,7 @@ When the repo cloned IDE will detect SBT file with dependencies. Click **Yes** t
 
 ![Pop up build](/assets/images/pop_up_build.png)
 
-In the **Import from sbt** pop up make sure you have JDK 8 detected. Click **Ok** to proceed and download required resources.
+In the **Import from sbt** pop up make sure you have the matching JDK detected - JDK 8 or 11 for Apache Spark 3.x, JDK 17 for Apache Spark 4.x. Click **Ok** to proceed and download required resources.
 
 ![Pop up settings build](/assets/images/settings_build.png)
 

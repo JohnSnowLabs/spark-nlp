@@ -31,7 +31,7 @@ import scala.collection.mutable
 
 class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
 
-  "BertSentenceEmbeddings" should "produce consistent embeddings" taggedAs FastTest in {
+  "BertSentenceEmbeddings" should "produce consistent embeddings" taggedAs SlowTest in {
 
     val testData = ResourceHelper.spark
       .createDataFrame(
@@ -85,7 +85,7 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
       .save("./tmp_bert_sentence_embed")
   }
 
-  "BertSentenceEmbeddings" should "correctly work with empty tokens" taggedAs FastTest in {
+  "BertSentenceEmbeddings" should "correctly work with empty tokens" taggedAs SlowTest in {
 
     val testData = ResourceHelper.spark
       .createDataFrame(
@@ -189,7 +189,7 @@ class BertSentenceEmbeddingsTestSpec extends AnyFlatSpec {
     pipelineModel.transform(ddd)
   }
 
-  "BertSentenceEmbeddings" should "correctly propagate metadata" taggedAs FastTest in {
+  "BertSentenceEmbeddings" should "correctly propagate metadata" taggedAs SlowTest in {
 
     val testData = ResourceHelper.spark
       .createDataFrame(Seq((

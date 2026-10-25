@@ -268,21 +268,16 @@ class RoBertaForQuestionAnswering(override val uid: String)
     *   relationship
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    batchedAnnotations.map(annotations => {
-      val documents = annotations
-        .filter(_.annotatorType == AnnotatorType.DOCUMENT)
-        .toSeq
+    val rowsOfDocuments: Seq[Seq[Annotation]] =
+      batchedAnnotations.map(annotations =>
+        annotations.filter(_.annotatorType == AnnotatorType.DOCUMENT).toSeq)
 
-      if (documents.nonEmpty) {
-        getModelIfNotSet.predictSpan(
-          documents,
-          $(maxSentenceLength),
-          $(caseSensitive),
-          MergeTokenStrategy.vocab)
-      } else {
-        Seq.empty[Annotation]
-      }
-    })
+    getModelIfNotSet.predictSpanGrouped(
+      rowsOfDocuments,
+      $(batchSize),
+      $(maxSentenceLength),
+      $(caseSensitive),
+      MergeTokenStrategy.vocab)
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {

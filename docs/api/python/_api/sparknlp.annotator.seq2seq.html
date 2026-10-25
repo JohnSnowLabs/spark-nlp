@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.seq2seq package &#8212; Spark NLP 6.4.2 documentation</title>
+    <title>sparknlp.annotator.seq2seq package &#8212; Spark NLP 7.0.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=bf4b7637"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=cd9f6827"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.2 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.2 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -338,6 +338,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_token_classification.html">sparknlp.annotator.classifier_dl.camembert_for_token_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.classifier_dl.html">sparknlp.annotator.classifier_dl.classifier_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.cross_encoder.html">sparknlp.annotator.classifier_dl.cross_encoder module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_question_answering.html">sparknlp.annotator.classifier_dl.deberta_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_sequence_classification.html">sparknlp.annotator.classifier_dl.deberta_for_sequence_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_token_classification.html">sparknlp.annotator.classifier_dl.deberta_for_token_classification module</a></li>
@@ -456,6 +457,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.date_matcher.html">sparknlp.annotator.matcher.date_matcher module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.multi_date_matcher.html">sparknlp.annotator.matcher.multi_date_matcher module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.regex_matcher.html">sparknlp.annotator.matcher.regex_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.rule_based_matcher.html">sparknlp.annotator.matcher.rule_based_matcher module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.text_matcher.html">sparknlp.annotator.matcher.text_matcher module</a></li>
 </ul>
 </li>
@@ -502,6 +504,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.bart_transformer.html">sparknlp.annotator.seq2seq.bart_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cohere_transformer.html">sparknlp.annotator.seq2seq.cohere_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cpm_transformer.html">sparknlp.annotator.seq2seq.cpm_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html">sparknlp.annotator.seq2seq.document_translator module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.gpt2_transformer.html">sparknlp.annotator.seq2seq.gpt2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.llama2_transformer.html">sparknlp.annotator.seq2seq.llama2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.llama3_transformer.html">sparknlp.annotator.seq2seq.llama3_transformer module</a></li>
@@ -515,12 +518,14 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.phi4_transformer.html">sparknlp.annotator.seq2seq.phi4_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.qwen_transformer.html">sparknlp.annotator.seq2seq.qwen_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.starcoder_transformer.html">sparknlp.annotator.seq2seq.starcoder_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html">sparknlp.annotator.seq2seq.summarization module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.t5_transformer.html">sparknlp.annotator.seq2seq.t5_transformer module</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.similarity.html">sparknlp.annotator.similarity package</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-20"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.similarity.bm25.html">sparknlp.annotator.similarity.bm25 module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.similarity.document_similarity_ranker.html">sparknlp.annotator.similarity.document_similarity_ranker module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.similarity.pairwise_vector_similarity.html">sparknlp.annotator.similarity.pairwise_vector_similarity module</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.spell_check.html">sparknlp.annotator.spell_check package</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-21"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -849,6 +854,42 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cpm_transformer.html#sparknlp.annotator.seq2seq.cpm_transformer.CPMTransformer.temperature"><code class="docutils literal notranslate"><span class="pre">CPMTransformer.temperature</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cpm_transformer.html#sparknlp.annotator.seq2seq.cpm_transformer.CPMTransformer.topK"><code class="docutils literal notranslate"><span class="pre">CPMTransformer.topK</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cpm_transformer.html#sparknlp.annotator.seq2seq.cpm_transformer.CPMTransformer.topP"><code class="docutils literal notranslate"><span class="pre">CPMTransformer.topP</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html">sparknlp.annotator.seq2seq.document_translator module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.batchSize"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.batchSize</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.close"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.contentPath"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.contentPath</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.contentType"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.contentType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.inputCol"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.inputCol</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.joinString"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.joinString</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.loadSavedModel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.maxSentenceLength"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.maxSentenceLength</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.minSentenceLength"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.minSentenceLength</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.name"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.outputAnnotatorType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.outputAsDocument"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.outputAsDocument</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.pretrained"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.pretrained()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.promptTemplate"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.promptTemplate</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.sentenceThreshold"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.sentenceThreshold</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setBatchSize"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setBatchSize()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setContentPath"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setContentPath()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setContentType"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setContentType()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setInputCol"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setInputCol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setJoinString"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setJoinString()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setMaxSentenceLength"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setMaxSentenceLength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setMinSentenceLength"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setMinSentenceLength()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setNParallel"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setNParallel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setOutputAsDocument"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setOutputAsDocument()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setPromptTemplate"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setPromptTemplate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setSentenceThreshold"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setSentenceThreshold()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setSrcLang"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setSrcLang()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.setTgtLang"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.setTgtLang()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.srcLang"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.srcLang</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator.tgtLang"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator.tgtLang</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1277,6 +1318,24 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.starcoder_transformer.html#sparknlp.annotator.seq2seq.starcoder_transformer.StarCoderTransformer.temperature"><code class="docutils literal notranslate"><span class="pre">StarCoderTransformer.temperature</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.starcoder_transformer.html#sparknlp.annotator.seq2seq.starcoder_transformer.StarCoderTransformer.topK"><code class="docutils literal notranslate"><span class="pre">StarCoderTransformer.topK</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.starcoder_transformer.html#sparknlp.annotator.seq2seq.starcoder_transformer.StarCoderTransformer.topP"><code class="docutils literal notranslate"><span class="pre">StarCoderTransformer.topP</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html">sparknlp.annotator.seq2seq.summarization module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.Summarization"><code class="docutils literal notranslate"><span class="pre">Summarization</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.Summarization.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">Summarization.inputAnnotatorTypes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.Summarization.name"><code class="docutils literal notranslate"><span class="pre">Summarization.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.Summarization.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">Summarization.outputAnnotatorType</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.SummarizationModel"><code class="docutils literal notranslate"><span class="pre">SummarizationModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.SummarizationModel.close"><code class="docutils literal notranslate"><span class="pre">SummarizationModel.close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.SummarizationModel.getResolvedModel"><code class="docutils literal notranslate"><span class="pre">SummarizationModel.getResolvedModel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.SummarizationModel.inputAnnotatorTypes"><code class="docutils literal notranslate"><span class="pre">SummarizationModel.inputAnnotatorTypes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.SummarizationModel.name"><code class="docutils literal notranslate"><span class="pre">SummarizationModel.name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.SummarizationModel.outputAnnotatorType"><code class="docutils literal notranslate"><span class="pre">SummarizationModel.outputAnnotatorType</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.SummarizationModel.resolvedModel"><code class="docutils literal notranslate"><span class="pre">SummarizationModel.resolvedModel</span></code></a></li>
 </ul>
 </li>
 </ul>

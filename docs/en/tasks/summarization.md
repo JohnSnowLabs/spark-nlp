@@ -29,7 +29,68 @@ The choice of model for summarization depends on whether the goal is extractive 
 
 Explore the available summarization models at [Spark NLP Models](https://sparknlp.org/models) to find the one that best suits your summarization needs.
 
+## Zero configuration with the `Summarization` annotator
+
+If you would rather not choose a model or write prompts, the high level
+[`Summarization`](/docs/en/annotator_entries/Summarization) annotator picks and loads a sensible
+default model for you and owns prompting, generation settings, and long document handling. Select
+one of three methods (`llm`, `encoder_decoder`, or `extractive`) and control the result with
+task level parameters such as `setMaxSummaryLength`, `setSummaryStyle`, and `setFocus`.
+
+<div class="tabs-box" markdown="1">
+{% include programmingLanguageSelectScalaPython.html %}
+```python
+from sparknlp.base import DocumentAssembler
+from sparknlp.annotator import Summarization
+from pyspark.ml import Pipeline
+
+documentAssembler = DocumentAssembler() \
+    .setInputCol("text") \
+    .setOutputCol("document")
+
+# encoder_decoder resolves DistilBART automatically; use "extractive" for a CPU only,
+# source faithful summary, or "llm" (default) for an instruction tuned generative summary.
+summarizer = Summarization() \
+    .setInputCols(["document"]) \
+    .setOutputCol("summary") \
+    .setMethod("encoder_decoder") \
+    .setMaxSummaryLength(80)
+
+pipeline = Pipeline(stages=[documentAssembler, summarizer])
+data = spark.createDataFrame([[passage]]).toDF("text")
+result = pipeline.fit(data).transform(data)
+result.select("summary.result", "summary.metadata").show(truncate=False)
+```
+```scala
+import com.johnsnowlabs.nlp.base._
+import com.johnsnowlabs.nlp.annotator._
+import org.apache.spark.ml.Pipeline
+
+val documentAssembler = new DocumentAssembler()
+  .setInputCol("text")
+  .setOutputCol("document")
+
+val summarizer = new Summarization()
+  .setInputCols("document")
+  .setOutputCol("summary")
+  .setMethod("encoder_decoder")
+  .setMaxSummaryLength(80)
+
+val pipeline = new Pipeline().setStages(Array(documentAssembler, summarizer))
+val data = Seq(passage).toDF("text")
+val result = pipeline.fit(data).transform(data)
+result.select("summary.result", "summary.metadata").show(false)
+```
+</div>
+
+See the [`Summarization` annotator reference](/docs/en/annotator_entries/Summarization) and the
+[end to end notebook](https://github.com/JohnSnowLabs/spark-nlp/tree/master/examples/python/annotation/text/english/text-summarization/Summarization_Annotator.ipynb)
+for the full parameter set, long document strategies, and per method examples.
+
 ## How to use
+
+The example below uses [`BartTransformer`](/docs/en/transformers#barttransformer) directly, which
+gives you full control over a specific model when you do not want the automatic defaults.
 
 <div class="tabs-box" markdown="1">
 {% include programmingLanguageSelectScalaPython.html %}

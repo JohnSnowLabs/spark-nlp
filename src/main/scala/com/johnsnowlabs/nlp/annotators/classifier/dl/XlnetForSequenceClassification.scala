@@ -283,24 +283,20 @@ class XlnetForSequenceClassification(override val uid: String)
     *   relationship
     */
   override def batchAnnotate(batchedAnnotations: Seq[Array[Annotation]]): Seq[Seq[Annotation]] = {
-    batchedAnnotations.map(annotations => {
-      val sentences = SentenceSplit.unpack(annotations).toArray
-      val tokenizedSentences = TokenizedWithSentence.unpack(annotations).toArray
+    val rowsOfSentences: Seq[Seq[Sentence]] =
+      batchedAnnotations.map(annotations => SentenceSplit.unpack(annotations))
+    val rowsOfTokenizedSentences: Seq[Seq[TokenizedSentence]] =
+      batchedAnnotations.map(annotations => TokenizedWithSentence.unpack(annotations))
 
-      if (tokenizedSentences.nonEmpty) {
-        getModelIfNotSet.predictSequence(
-          tokenizedSentences,
-          sentences,
-          $(batchSize),
-          $(maxSentenceLength),
-          $(caseSensitive),
-          $(coalesceSentences),
-          $$(labels),
-          $(activation))
-      } else {
-        Seq.empty[Annotation]
-      }
-    })
+    getModelIfNotSet.predictSequenceGrouped(
+      rowsOfTokenizedSentences,
+      rowsOfSentences,
+      $(batchSize),
+      $(maxSentenceLength),
+      $(caseSensitive),
+      $(coalesceSentences),
+      $$(labels),
+      $(activation))
   }
 
   override def onWrite(path: String, spark: SparkSession): Unit = {

@@ -634,6 +634,7 @@ trait ReadablePretrainedLLMEntityExtractor
     with HasPretrained[LLMEntityExtractor] {
   override val defaultModelName: Some[String] = Some("qwen3_4b_bf16_gguf")
   override val defaultLang: String = "en"
+  override val skipPreferredEngine: Boolean = true
 
   /** Java compliant-overrides */
   override def pretrained(): LLMEntityExtractor = super.pretrained()

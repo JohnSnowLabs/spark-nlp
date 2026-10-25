@@ -4,18 +4,21 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
+  repository_dispatch:
+    types: [jekyll-wave]
 
 concurrency:
-  # Make sure only workflow run at a time for create_search_index.yml
   group: ${{ github.workflow }}
+  cancel-in-progress: false
 
 jobs:
   jekyll:
     runs-on: RAM32GB
-    timeout-minutes: 600
+    timeout-minutes: 90
     environment: jekyll
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 20
       - uses: ruby/setup-ruby@v1
@@ -33,17 +36,11 @@ jobs:
           path: docs
           if_no_artifact_found: ignore
       - name: Extract artifacts
+        id: restore-build-cache
         working-directory: docs
-        run: >
-          (7z x -o_site/ jekyll-content.zip
-          && rm jekyll-content.zip
-          && mv _site/.jekyll-metadata ./
-          && mv _site/backup-models.json ./
-          && mv _site/backup-benchmarking.json ./
-          && mv _site/backup-references.json ./)
-          || true
-      - name: Incremental build
-        id: incremental-build
+        run: bash _scripts/restore_jekyll_cache.sh
+      - name: Build one wave
+        id: jekyll-waves
         env:
           ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
           ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
@@ -52,31 +49,38 @@ jobs:
           ORIGIN: ${{ secrets.ORIGIN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.MODELS_PUBLIC_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.MODELS_SECRET_KEY }}
+          JEKYLL_POST_BATCH: "10000"
+          FULL_BUILD: "1"
         working-directory: docs
         run: |
+          set -euo pipefail
+          echo "jekyll_wave_complete=false" >> "$GITHUB_OUTPUT"
+          echo "Starting Jekyll wave"
           bundle exec jekyll build --incremental
-        continue-on-error: ${{ steps.incremental-build.outputs.require_full_build == 'true' }}
-      - name: Full build
-        id: full-build
-        if: ${{ steps.incremental-build.outputs.require_full_build == 'true' }}
+      - name: Zip wave checkpoint
+        if: always()
+        run: bash docs/_scripts/zip_jekyll_checkpoint.sh
+      - name: Upload wave checkpoint
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jekyll-build
+          path: ./jekyll-content.zip
+          overwrite: true
+          if-no-files-found: error
+      - name: Dispatch next wave
+        if: steps.jekyll-waves.outputs.jekyll_wave_complete != 'true'
         env:
-          ELASTICSEARCH_URL: ${{ secrets.ELASTICSEARCH_URL }}
-          ELASTICSEARCH_ACCESS_TOKEN: ${{ secrets.ELASTICSEARCH_ACCESS_TOKEN }}
-          ELASTICSEARCH_INDEX_NAME: ${{ secrets.ELASTICSEARCH_INDEX_NAME }}
-          SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
-          ORIGIN: ${{ secrets.ORIGIN }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.MODELS_PUBLIC_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.MODELS_SECRET_KEY }}
-        working-directory: docs
-        run: |
-          rm -f .jekyll-metadata
-          FULL_BUILD=1 bundle exec jekyll build --incremental
-      - uses: actions/setup-node@v3
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api --method POST repos/${{ github.repository }}/dispatches -f event_type=jekyll-wave
+      - uses: actions/setup-node@v4
+        if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}
         with:
           node-version: 16
           cache: yarn
           cache-dependency-path: docs/_frontend/yarn.lock
       - name: Build frontend
+        if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}
         working-directory: docs/_frontend
         env:
           SEARCH_ORIGIN: ${{ secrets.SEARCH_ORIGIN }}
@@ -86,21 +90,8 @@ jobs:
           yarn run build
           mv static ../_site/
       - name: Deploy to GitHub Pages
+        if: ${{ steps.jekyll-waves.outputs.jekyll_wave_complete == 'true' }}
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/_site
-      - name: Zip contents for artifacts
-        run: |
-          7z a -tzip jekyll-content.zip \
-            ./docs/_site/* \
-            ./docs/.jekyll-metadata \
-            ./docs/backup-models.json \
-            ./docs/backup-benchmarking.json \
-            ./docs/backup-references.json
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: jekyll-build
-          path: |
-            ./jekyll-content.zip

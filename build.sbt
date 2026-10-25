@@ -6,7 +6,7 @@ name := getPackageName(is_silicon, is_gpu, is_aarch64)
 
 organization := "com.johnsnowlabs.nlp"
 
-version := "6.4.2"
+version := "7.0.0"
 
 (ThisBuild / scalaVersion) := scalaVer
 
@@ -111,7 +111,13 @@ val llamaCppDependencies =
   else
     Seq(llamaCppCPU)
 
-val openVinoDependencies: Seq[sbt.ModuleID] = Seq(openVinoCPU)
+val openVinoDependencies: Seq[sbt.ModuleID] =
+  if (is_gpu.equals("true"))
+    Seq(openVinoGPU)
+  else if (is_silicon.equals("true"))
+    Seq(openVinoSilicon)
+  else
+    Seq(openVinoCPU)
 
 lazy val mavenProps = settingKey[Unit]("workaround for Maven properties")
 

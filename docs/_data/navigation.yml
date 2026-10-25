@@ -36,6 +36,8 @@ sparknlp:
         url: /docs/en/quickstart
       - title: Install Spark NLP
         url: /docs/en/install
+      - title: Migrating to Spark 4
+        url: /docs/en/spark4_migration
       - title: Advanced Settings
         url: /docs/en/advanced_settings
       - title: Features

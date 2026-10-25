@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator package &#8212; Spark NLP 6.4.2 documentation</title>
+    <title>sparknlp.annotator package &#8212; Spark NLP 7.0.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=bf4b7637"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=cd9f6827"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.2 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.2 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -338,6 +338,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_token_classification.html">sparknlp.annotator.classifier_dl.camembert_for_token_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification.html">sparknlp.annotator.classifier_dl.camembert_for_zero_shot_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.classifier_dl.html">sparknlp.annotator.classifier_dl.classifier_dl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.cross_encoder.html">sparknlp.annotator.classifier_dl.cross_encoder module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_question_answering.html">sparknlp.annotator.classifier_dl.deberta_for_question_answering module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_sequence_classification.html">sparknlp.annotator.classifier_dl.deberta_for_sequence_classification module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_token_classification.html">sparknlp.annotator.classifier_dl.deberta_for_token_classification module</a></li>
@@ -456,6 +457,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.date_matcher.html">sparknlp.annotator.matcher.date_matcher module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.multi_date_matcher.html">sparknlp.annotator.matcher.multi_date_matcher module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.regex_matcher.html">sparknlp.annotator.matcher.regex_matcher module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.rule_based_matcher.html">sparknlp.annotator.matcher.rule_based_matcher module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.text_matcher.html">sparknlp.annotator.matcher.text_matcher module</a></li>
 </ul>
 </li>
@@ -502,6 +504,7 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.bart_transformer.html">sparknlp.annotator.seq2seq.bart_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cohere_transformer.html">sparknlp.annotator.seq2seq.cohere_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.cpm_transformer.html">sparknlp.annotator.seq2seq.cpm_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html">sparknlp.annotator.seq2seq.document_translator module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.gpt2_transformer.html">sparknlp.annotator.seq2seq.gpt2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.llama2_transformer.html">sparknlp.annotator.seq2seq.llama2_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.llama3_transformer.html">sparknlp.annotator.seq2seq.llama3_transformer module</a></li>
@@ -515,12 +518,14 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.phi4_transformer.html">sparknlp.annotator.seq2seq.phi4_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.qwen_transformer.html">sparknlp.annotator.seq2seq.qwen_transformer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.starcoder_transformer.html">sparknlp.annotator.seq2seq.starcoder_transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html">sparknlp.annotator.seq2seq.summarization module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.t5_transformer.html">sparknlp.annotator.seq2seq.t5_transformer module</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.similarity.html">sparknlp.annotator.similarity package</a><input class="toctree-checkbox" id="toctree-checkbox-20" name="toctree-checkbox-20" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-20"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.similarity.bm25.html">sparknlp.annotator.similarity.bm25 module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.similarity.document_similarity_ranker.html">sparknlp.annotator.similarity.document_similarity_ranker module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.similarity.pairwise_vector_similarity.html">sparknlp.annotator.similarity.pairwise_vector_similarity module</a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="sparknlp.annotator.spell_check.html">sparknlp.annotator.spell_check package</a><input class="toctree-checkbox" id="toctree-checkbox-21" name="toctree-checkbox-21" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-21"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -795,6 +800,10 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.classifier_dl.html">sparknlp.annotator.classifier_dl.classifier_dl module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.classifier_dl.classifier_dl.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLApproach"><code class="docutils literal notranslate"><span class="pre">ClassifierDLApproach</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.classifier_dl.classifier_dl.html#sparknlp.annotator.classifier_dl.classifier_dl.ClassifierDLModel"><code class="docutils literal notranslate"><span class="pre">ClassifierDLModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.cross_encoder.html">sparknlp.annotator.classifier_dl.cross_encoder module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.classifier_dl.cross_encoder.html#sparknlp.annotator.classifier_dl.cross_encoder.CrossEncoder"><code class="docutils literal notranslate"><span class="pre">CrossEncoder</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.classifier_dl.deberta_for_question_answering.html">sparknlp.annotator.classifier_dl.deberta_for_question_answering module</a><ul>
@@ -1235,6 +1244,11 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.matcher.regex_matcher.html#sparknlp.annotator.matcher.regex_matcher.RegexMatcherModel"><code class="docutils literal notranslate"><span class="pre">RegexMatcherModel</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.rule_based_matcher.html">sparknlp.annotator.matcher.rule_based_matcher module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.matcher.rule_based_matcher.html#sparknlp.annotator.matcher.rule_based_matcher.RuleBasedMatcher"><code class="docutils literal notranslate"><span class="pre">RuleBasedMatcher</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.matcher.rule_based_matcher.html#sparknlp.annotator.matcher.rule_based_matcher.RuleBasedMatcherModel"><code class="docutils literal notranslate"><span class="pre">RuleBasedMatcherModel</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.matcher.text_matcher.html">sparknlp.annotator.matcher.text_matcher module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.matcher.text_matcher.html#sparknlp.annotator.matcher.text_matcher.TextMatcher"><code class="docutils literal notranslate"><span class="pre">TextMatcher</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.matcher.text_matcher.html#sparknlp.annotator.matcher.text_matcher.TextMatcherModel"><code class="docutils literal notranslate"><span class="pre">TextMatcherModel</span></code></a></li>
@@ -1393,6 +1407,10 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.seq2seq.cpm_transformer.html#sparknlp.annotator.seq2seq.cpm_transformer.CPMTransformer"><code class="docutils literal notranslate"><span class="pre">CPMTransformer</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html">sparknlp.annotator.seq2seq.document_translator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.seq2seq.document_translator.html#sparknlp.annotator.seq2seq.document_translator.DocumentTranslator"><code class="docutils literal notranslate"><span class="pre">DocumentTranslator</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.gpt2_transformer.html">sparknlp.annotator.seq2seq.gpt2_transformer module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.seq2seq.gpt2_transformer.html#sparknlp.annotator.seq2seq.gpt2_transformer.GPT2Transformer"><code class="docutils literal notranslate"><span class="pre">GPT2Transformer</span></code></a></li>
 </ul>
@@ -1445,6 +1463,11 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.seq2seq.starcoder_transformer.html#sparknlp.annotator.seq2seq.starcoder_transformer.StarCoderTransformer"><code class="docutils literal notranslate"><span class="pre">StarCoderTransformer</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html">sparknlp.annotator.seq2seq.summarization module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.Summarization"><code class="docutils literal notranslate"><span class="pre">Summarization</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.seq2seq.summarization.html#sparknlp.annotator.seq2seq.summarization.SummarizationModel"><code class="docutils literal notranslate"><span class="pre">SummarizationModel</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.seq2seq.t5_transformer.html">sparknlp.annotator.seq2seq.t5_transformer module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.seq2seq.t5_transformer.html#sparknlp.annotator.seq2seq.t5_transformer.T5Transformer"><code class="docutils literal notranslate"><span class="pre">T5Transformer</span></code></a></li>
 </ul>
@@ -1465,6 +1488,10 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerApproach"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerApproach</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerFinisher"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerFinisher</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.similarity.document_similarity_ranker.html#sparknlp.annotator.similarity.document_similarity_ranker.DocumentSimilarityRankerModel"><code class="docutils literal notranslate"><span class="pre">DocumentSimilarityRankerModel</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sparknlp.annotator.similarity.pairwise_vector_similarity.html">sparknlp.annotator.similarity.pairwise_vector_similarity module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="sparknlp.annotator.similarity.pairwise_vector_similarity.html#sparknlp.annotator.similarity.pairwise_vector_similarity.PairwiseVectorSimilarity"><code class="docutils literal notranslate"><span class="pre">PairwiseVectorSimilarity</span></code></a></li>
 </ul>
 </li>
 </ul>

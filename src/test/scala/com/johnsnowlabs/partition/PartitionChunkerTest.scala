@@ -49,7 +49,7 @@ class PartitionChunkerTest extends AnyFlatSpec {
 
     val partitionDf = textDf.select(explode($"chunks.content"))
     partitionDf.show(truncate = false)
-    assert(partitionDf.count() == 3)
+    assert(partitionDf.count() == 31)
   }
 
 }

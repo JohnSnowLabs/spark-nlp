@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp &#8212; Spark NLP 6.4.2 documentation</title>
+    <title>sparknlp &#8212; Spark NLP 7.0.0 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=bf4b7637"></script>
+    <script data-url_root="../" id="documentation_options" src="../static/documentation_options.js?v=cd9f6827"></script>
     <script src="../static/doctools.js?v=888ff710"></script>
     <script src="../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 6.4.2 documentation - Home"/>
-    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 6.4.2 documentation - Home"/>`);</script>
+    <img src="../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -374,12 +374,14 @@ document.write(`
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">pyspark_version</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkConf</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.context</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkContext</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.java_gateway</span><span class="w"> </span><span class="kn">import</span> <span class="n">launch_gateway</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.sql</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkSession</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp._maven</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_spark_nlp_coordinate</span>
 <span class="c1"># Must be declared here one by one or else PretrainedPipeline will fail with AttributeError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">DocumentAssembler</span><span class="p">,</span> <span class="n">MultiDocumentAssembler</span><span class="p">,</span> <span class="n">Finisher</span><span class="p">,</span> <span class="n">EmbeddingsFinisher</span><span class="p">,</span> <span class="n">TokenAssembler</span><span class="p">,</span> \
     <span class="n">Doc2Chunk</span><span class="p">,</span> <span class="n">AudioAssembler</span><span class="p">,</span> <span class="n">GraphFinisher</span><span class="p">,</span> <span class="n">ImageAssembler</span><span class="p">,</span> <span class="n">TableAssembler</span><span class="p">,</span> <span class="n">MultiColumnAssembler</span>
@@ -417,6 +419,7 @@ document.write(`
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.seq2seq&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.ws&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.er&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.matcher&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.coref&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.cv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="s1">&#39;com.johnsnowlabs.nlp.annotators.audio&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annotator</span>
@@ -426,7 +429,7 @@ document.write(`
 <div class="viewcode-block" id="annotators"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.annotators">[docs]</a><span class="n">annotators</span> <span class="o">=</span> <span class="n">annotator</span></div>
 <div class="viewcode-block" id="embeddings"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.embeddings">[docs]</a><span class="n">embeddings</span> <span class="o">=</span> <span class="n">annotator</span></div>
 
-<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;6.4.2&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;7.0.0&quot;</span>
 
 
 <div class="viewcode-block" id="start"><a class="viewcode-back" href="../reference/autosummary/sparknlp/index.html#sparknlp.start">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">gpu</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -453,7 +456,7 @@ document.write(`
 <span class="sd">            .config(&quot;spark.serializer&quot;, &quot;org.apache.spark.serializer.KryoSerializer&quot;) \\</span>
 <span class="sd">            .config(&quot;spark.kryoserializer.buffer.max&quot;, &quot;2000M&quot;) \\</span>
 <span class="sd">            .config(&quot;spark.driver.maxResultSize&quot;, &quot;0&quot;) \\</span>
-<span class="sd">            .config(&quot;spark.jars.packages&quot;, &quot;com.johnsnowlabs.nlp:spark-nlp_2.12:|release|&quot;) \\</span>
+<span class="sd">            .config(&quot;spark.jars.packages&quot;, &quot;&lt;resolved Spark NLP Maven coordinate&gt;&quot;) \\</span>
 <span class="sd">            .getOrCreate()</span>
 
 <span class="sd">    Parameters</span>
@@ -491,8 +494,11 @@ document.write(`
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    Since Spark version 3.2, Python 3.6 is deprecated. If you are using this</span>
-<span class="sd">    python version, consider sticking to lower versions of Spark.</span>
+<span class="sd">    The Maven artifact is selected from the installed PySpark version. Spark 3.x</span>
+<span class="sd">    uses Scala 2.12. Spark 4.0.0 uses the dedicated ``spark400`` Scala 2.13</span>
+<span class="sd">    artifact. Later Spark 4.x releases use the default Scala 2.13 artifact.</span>
+<span class="sd">    Automatic artifact selection does not imply that every release has been</span>
+<span class="sd">    validated. Only release versions in major.minor.patch format are accepted.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -524,6 +530,16 @@ document.write(`
 
     <span class="n">skip_sparknlp_maven</span> <span class="o">=</span> <span class="n">is_skip_sparknlp_maven_enabled</span><span class="p">()</span>
 
+    <span class="n">spark_jars_packages</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_sparknlp_maven</span><span class="p">:</span>
+        <span class="n">spark_jars_packages</span> <span class="o">=</span> <span class="n">resolve_spark_nlp_coordinate</span><span class="p">(</span>
+            <span class="n">pyspark_version</span><span class="p">,</span>
+            <span class="n">maven_version</span><span class="p">,</span>
+            <span class="n">gpu</span><span class="o">=</span><span class="n">gpu</span><span class="p">,</span>
+            <span class="n">apple_silicon</span><span class="o">=</span><span class="n">apple_silicon</span><span class="p">,</span>
+            <span class="n">aarch64</span><span class="o">=</span><span class="n">aarch64</span><span class="p">,</span>
+        <span class="p">)</span>
+
     <span class="n">driver_cores</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;spark.driver.cores&quot;</span><span class="p">:</span>
@@ -537,13 +553,6 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">app_name</span> <span class="o">=</span> <span class="s2">&quot;local[</span><span class="si">{}</span><span class="s2">]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">driver_cores</span><span class="p">),</span> <span class="s2">&quot;Spark NLP&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">serializer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">serializer_max_buffer</span> <span class="o">=</span> <span class="s2">&quot;org.apache.spark.serializer.KryoSerializer&quot;</span><span class="p">,</span> <span class="s2">&quot;2000M&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">driver_max_result_size</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
-            <span class="c1"># Spark NLP on CPU or GPU</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">maven_spark3</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">maven_version</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">maven_gpu_spark3</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp-gpu_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">maven_version</span><span class="p">)</span>
-            <span class="c1"># Spark NLP on Apple Silicon</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">maven_silicon</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp-silicon_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">maven_version</span><span class="p">)</span>
-            <span class="c1"># Spark NLP on Linux Aarch64</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">maven_aarch64</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.nlp:spark-nlp-aarch64_2.12:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">maven_version</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">start_without_realtime_output</span><span class="p">():</span>
         <span class="n">builder</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span> \
@@ -553,15 +562,6 @@ document.write(`
             <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.serializer&quot;</span><span class="p">,</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">serializer</span><span class="p">)</span> \
             <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.kryoserializer.buffer.max&quot;</span><span class="p">,</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">serializer_max_buffer</span><span class="p">)</span> \
             <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.driver.maxResultSize&quot;</span><span class="p">,</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">driver_max_result_size</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">apple_silicon</span><span class="p">:</span>
-            <span class="n">spark_jars_packages</span> <span class="o">=</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_silicon</span>
-        <span class="k">elif</span> <span class="n">aarch64</span><span class="p">:</span>
-            <span class="n">spark_jars_packages</span> <span class="o">=</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_aarch64</span>
-        <span class="k">elif</span> <span class="n">gpu</span><span class="p">:</span>
-            <span class="n">spark_jars_packages</span> <span class="o">=</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_gpu_spark3</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">spark_jars_packages</span> <span class="o">=</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_spark3</span>
 
         <span class="k">if</span> <span class="n">cache_folder</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
             <span class="n">builder</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.jsl.settings.pretrained.cache_folder&quot;</span><span class="p">,</span> <span class="n">cache_folder</span><span class="p">)</span>
@@ -598,15 +598,6 @@ document.write(`
                 <span class="n">spark_conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.serializer&quot;</span><span class="p">,</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">serializer</span><span class="p">)</span>
                 <span class="n">spark_conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.kryoserializer.buffer.max&quot;</span><span class="p">,</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">serializer_max_buffer</span><span class="p">)</span>
                 <span class="n">spark_conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.driver.maxResultSize&quot;</span><span class="p">,</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">driver_max_result_size</span><span class="p">)</span>
-
-                <span class="k">if</span> <span class="n">apple_silicon</span><span class="p">:</span>
-                    <span class="n">spark_jars_packages</span> <span class="o">=</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_silicon</span>
-                <span class="k">elif</span> <span class="n">aarch64</span><span class="p">:</span>
-                    <span class="n">spark_jars_packages</span> <span class="o">=</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_aarch64</span>
-                <span class="k">elif</span> <span class="n">gpu</span><span class="p">:</span>
-                    <span class="n">spark_jars_packages</span> <span class="o">=</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_gpu_spark3</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">spark_jars_packages</span> <span class="o">=</span> <span class="n">spark_nlp_config</span><span class="o">.</span><span class="n">maven_spark3</span>
 
                 <span class="k">if</span> <span class="n">cache_folder</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
                     <span class="n">spark_conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.jsl.settings.pretrained.cache_folder&quot;</span><span class="p">,</span> <span class="n">cache_folder</span><span class="p">)</span>
