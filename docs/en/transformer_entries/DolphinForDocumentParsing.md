@@ -40,9 +40,14 @@ val dolphin = DolphinForDocumentParsing.pretrained()
 The default model is `"dolphin_1_5"`.
 
 With `outputFormat` set to `elements` (the default) each annotation carries `dolphinLabel`,
-`elementType`, `readingOrder`, `readingGroup` and `bbox` in its metadata, and tables additionally
-carry `tableJson` in the same shape `Reader2Table` produces. Setting it to `markdown` emits a single
-assembled document per page instead.
+`elementType`, `readingOrder`, `readingGroup` and `bboxNormalized` in its metadata. In `page` and
+`layout` modes it also carries `bbox`, the element's box in the input image's pixels
+(`x1,y1,x2,y2`); `bboxNormalized` is that box as fractions of the image's width and height, and
+`0,0,1,1` in the crop modes. Tables additionally carry `tableJson` in the same shape `Reader2Table`
+produces, and `layout` mode adds Dolphin's raw layout output as `layoutRaw`. Setting `outputFormat`
+to `markdown` emits a single assembled document per page instead, with `elementCount` and
+`layoutRaw`. An image that fails to parse yields one empty annotation whose `exception` key holds
+the error.
 
 Note that the task comes from `parsingMode`, not from the image annotation's `text` field —
 `Reader2Image` defaults its `promptTemplate` to `qwen2vl-chat`, and that markup would otherwise be

@@ -54,8 +54,12 @@ class DolphinForDocumentParsing(AnnotatorModel,
         prompts.
     outputFormat
         ``elements`` (default) emits one annotation per document element carrying
-        ``dolphinLabel``, ``bbox``, ``readingOrder`` and ``elementType`` metadata;
-        ``markdown`` emits a single assembled document per page.
+        ``dolphinLabel``, ``elementType``, ``readingOrder``, ``readingGroup`` and
+        ``bboxNormalized`` metadata, plus ``bbox`` in pixels in ``page`` and ``layout`` modes.
+        ``bboxNormalized`` is that box as fractions of the image's width and height.
+        ``markdown`` emits a single assembled document per page, with ``elementCount`` and
+        ``layoutRaw``. An image that fails to parse yields one empty annotation with an
+        ``exception`` key.
     elementBatchSize
         Element crops decoded per forward pass, default 4.
     maxOutputLength
@@ -177,10 +181,14 @@ class DolphinForDocumentParsing(AnnotatorModel,
 
     def setLayoutMaxOutputLength(self, value):
         """Sets the maximum tokens generated for the layout pass."""
+        if value <= 0:
+            raise ValueError("layoutMaxOutputLength must be positive.")
         return self._set(layoutMaxOutputLength=value)
 
     def setRepetitionPenalty(self, value):
         """Sets the repetition penalty."""
+        if value <= 0:
+            raise ValueError("repetitionPenalty must be positive.")
         return self._set(repetitionPenalty=value)
 
     def setCustomPrompt(self, value):
@@ -193,6 +201,8 @@ class DolphinForDocumentParsing(AnnotatorModel,
 
     def setMinElementSize(self, value):
         """Sets the crop size at or below which page mode drops an element."""
+        if value < 0:
+            raise ValueError("minElementSize must not be negative.")
         return self._set(minElementSize=value)
 
     def getParsingMode(self):

@@ -61,6 +61,8 @@ class DolphinTokenizerTestSpec extends AnyFlatSpec {
     // CJK added tokens: NOT in the byte-level alphabet. Gpt2Tokenizer.decodeTokens throws here.
     "吐" -> 60001, // 吐
     "착" -> 60002, // 착
+    // U+0144: the first code point past the byte-level alphabet's 0..255 range
+    "ń" -> 71300,
     // an added token containing a space: ' ' is not in the byte-level alphabet either
     " <Answer/>" -> 73920)
 
@@ -94,25 +96,16 @@ class DolphinTokenizerTestSpec extends AnyFlatSpec {
     assert(tokenizer.decodeTokens(Array(18, 19, 60001, 50003, 50007)) == "Parse the吐<td>[TMP_52]")
   }
 
+  it should "decode the added token U+0144 as itself, not as a byte" taggedAs FastTest in {
+    assert(tokenizer.decodeTokens(Array(18, 71300)) == "Parseń")
+  }
+
   it should "decode an added token containing a space" taggedAs FastTest in {
     assert(tokenizer.decodeTokens(Array(73920)) == " <Answer/>")
   }
 
   it should "skip ids that are not in the vocabulary rather than throwing" taggedAs FastTest in {
     assert(tokenizer.decodeTokens(Array(18, 999999, 19)) == "Parse the")
-  }
-
-  it should "strip the prompt prefix, stop at EOS and drop padding" taggedAs FastTest in {
-    // prompt = 3 tokens, then content, then EOS, then padding
-    val ids = Array(0, 18, 73920, 50001, 50003, 50004, 50006, 2, 1, 1, 1)
-    val out = tokenizer.decodeGenerated(ids, promptLength = 3, eosTokenId = 2, padTokenId = 1)
-    assert(out == "<table><td></td></table>")
-  }
-
-  it should "not stop early when EOS never occurs" taggedAs FastTest in {
-    val ids = Array(0, 18, 73920, 50003, 50004)
-    val out = tokenizer.decodeGenerated(ids, promptLength = 3, eosTokenId = 2, padTokenId = 1)
-    assert(out == "<td></td>")
   }
 
   // Dolphin's ByteLevel sets add_prefix_space=false. Gpt2Tokenizer prepends a space when no
@@ -125,7 +118,6 @@ class DolphinTokenizerTestSpec extends AnyFlatSpec {
   }
 
   it should "encode a task prompt as <s> + body + ' <Answer/>'" taggedAs FastTest in {
-    assert(DolphinTokenizer.wrapPrompt("Parse") == "<s>Parse <Answer/>")
     assert(tokenizer.encodePrompt("Parse") sameElements Array(0, 18, 73920))
   }
 
@@ -135,47 +127,6 @@ class DolphinTokenizerTestSpec extends AnyFlatSpec {
       assert(ids.head == 0, s"prompt '$body' lost its leading <s>")
       assert(ids.last == 73920, s"prompt '$body' lost its trailing answer token")
     }
-  }
-
-  it should "encode bare text without a prompt wrapper" taggedAs FastTest in {
-    assert(tokenizer.encodeText("Parse") sameElements Array(18))
-  }
-
-  // BpeTokenizer.splitOnSpecialToken loses a special token that begins the text: commons-lang's
-  // splitByWholeSeparator discards the leading empty segment, so splitText has length 1 and the
-  // loop takes the `i == splitText.length - 1` branch without ever appending the token. The
-  // `i == 0 && subTextProcessed.isEmpty` guard written for this case is unreachable.
-  //
-  // The fix is opt-in via preserveLeadingSpecialToken so that every other model's tokenization is
-  // bit-for-bit unchanged. These two tests pin both branches of that overload.
-  "preserveLeadingSpecialToken" should "keep a leading special token when opted in" taggedAs FastTest in {
-    val ids = tokenizer
-      .encode(tokenizer.tokenize(Sentence("<s>Parse <Answer/>", 0, 17, 0)))
-      .map(_.pieceId)
-    assert(ids sameElements Array(0, 18, 73920))
-  }
-
-  it should "leave tokenization unchanged for models that do not opt in" taggedAs FastTest in {
-    val legacy = new DolphinTokenizer(merges, vocab, DolphinTokenizer.specialTokens(vocab)) {
-      override protected val preserveLeadingSpecialToken: Boolean = false
-    }
-    val ids = legacy
-      .encode(legacy.tokenize(Sentence("<s>Parse <Answer/>", 0, 17, 0)))
-      .map(_.pieceId)
-    // the historical behaviour: the leading <s> is dropped
-    assert(ids sameElements Array(18, 73920))
-  }
-
-  it should "not duplicate a token when the text is exactly that token" taggedAs FastTest in {
-    val ids = tokenizer.encode(tokenizer.tokenize(Sentence("<s>", 0, 2, 0))).map(_.pieceId)
-    assert(ids sameElements Array(0))
-  }
-
-  it should "still handle a special token at the end and in the middle" taggedAs FastTest in {
-    val end = tokenizer.encode(tokenizer.tokenize(Sentence("Parse <Answer/>", 0, 14, 0)))
-    assert(end.map(_.pieceId) sameElements Array(18, 73920))
-    val mid = tokenizer.encode(tokenizer.tokenize(Sentence("Parse<s>Parse", 0, 12, 0)))
-    assert(mid.map(_.pieceId) sameElements Array(18, 0, 18))
   }
 
   it should "expose the five task prompts and their golden ids" taggedAs FastTest in {

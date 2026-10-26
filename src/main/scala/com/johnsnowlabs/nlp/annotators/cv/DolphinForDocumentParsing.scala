@@ -18,7 +18,7 @@ package com.johnsnowlabs.nlp.annotators.cv
 
 import com.johnsnowlabs.ml.ai.Dolphin
 import com.johnsnowlabs.ml.ai.util.DolphinUtils
-import com.johnsnowlabs.ml.ai.util.DolphinUtils.{LayoutElement, MappedBox, Release}
+import com.johnsnowlabs.ml.ai.util.DolphinUtils.{Box, LayoutElement, MappedBox, Release}
 import com.johnsnowlabs.ml.ai.util.Generation.GenerationConfig
 import com.johnsnowlabs.ml.onnx.OnnxWrapper.EncoderDecoderWrappers
 import com.johnsnowlabs.ml.onnx.{OnnxWrapper, ReadOnnxModel, WriteOnnxModel}
@@ -100,11 +100,8 @@ class DolphinForDocumentParsing(override val uid: String)
   val outputFormat: Param[String] =
     new Param[String](this, "outputFormat", "One of: elements, markdown")
 
-  /** Stage-2 crops decoded per forward pass.
-    *
-    * Measured optimum is 4: aggregate throughput at batch 4 matched or beat batch 16 on every
-    * task, while the KV cache at batch 16 with a 4096 window needs over 10 GB. The reference's
-    * `max_batch_size=16` is counterproductive on CPU, not merely memory-hungry.
+  /** Stage-2 crops decoded per forward pass. Each row's KV cache grows with `maxOutputLength`, so
+    * memory scales with this value.
     *
     * @group param
     */
@@ -186,10 +183,16 @@ class DolphinForDocumentParsing(override val uid: String)
   }
 
   /** @group setParam */
-  def setLayoutMaxOutputLength(value: Int): this.type = set(layoutMaxOutputLength, value)
+  def setLayoutMaxOutputLength(value: Int): this.type = {
+    require(value > 0, "layoutMaxOutputLength must be positive")
+    set(layoutMaxOutputLength, value)
+  }
 
   /** @group setParam */
-  def setRepetitionPenalty(value: Double): this.type = set(repetitionPenalty, value)
+  def setRepetitionPenalty(value: Double): this.type = {
+    require(value > 0, "repetitionPenalty must be positive")
+    set(repetitionPenalty, value)
+  }
 
   /** @group setParam */
   def setCustomPrompt(value: String): this.type = set(customPrompt, value)
@@ -198,7 +201,10 @@ class DolphinForDocumentParsing(override val uid: String)
   def setAdjustBoxEdges(value: Boolean): this.type = set(adjustBoxEdges, value)
 
   /** @group setParam */
-  def setMinElementSize(value: Int): this.type = set(minElementSize, value)
+  def setMinElementSize(value: Int): this.type = {
+    require(value >= 0, "minElementSize must not be negative")
+    set(minElementSize, value)
+  }
 
   /** @group getParam */
   def getParsingMode: String = $(parsingMode)
@@ -361,8 +367,9 @@ class DolphinForDocumentParsing(override val uid: String)
       text: String,
       readingOrder: Int,
       readingGroup: Int,
-      normalized: Array[Double],
       box: Option[MappedBox],
+      imageWidth: Int,
+      imageHeight: Int,
       offset: Int,
       base: Map[String, String]): Annotation = {
     val tableJson =
@@ -370,12 +377,13 @@ class DolphinForDocumentParsing(override val uid: String)
         Try(HTMLParser.tableElementToJson(HTMLParser.parseFirstTableElement(text))).toOption
       else None
 
+    val original = box.map(_.original).getOrElse(Box(0, 0, imageWidth, imageHeight))
     val metadata = base ++ Map(
       "elementType" -> DolphinUtils.elementTypeFor(label),
       "dolphinLabel" -> label,
       "readingOrder" -> readingOrder.toString,
       "readingGroup" -> readingGroup.toString,
-      "bboxNormalized" -> normalized.map(v => f"$v%.4f").mkString(",")) ++
+      "bboxNormalized" -> DolphinUtils.normalizeBox(original, imageWidth, imageHeight)) ++
       box.map(b =>
         "bbox" -> s"${b.original.x1},${b.original.y1},${b.original.x2},${b.original.y2}") ++
       tableJson.map("tableJson" -> _)
@@ -396,6 +404,8 @@ class DolphinForDocumentParsing(override val uid: String)
   private[cv] def assemble(
       ordered: Seq[(LayoutElement, MappedBox, String)],
       raw: String,
+      imageWidth: Int,
+      imageHeight: Int,
       base: Map[String, String]): Seq[Annotation] =
     if ($(outputFormat) == "markdown") {
       val markdown = DolphinUtils.toMarkdown(ordered.map { case (e, _, text) => (e.label, text) })
@@ -414,8 +424,9 @@ class DolphinForDocumentParsing(override val uid: String)
           text,
           element.readingOrder,
           element.readingGroup,
-          element.bbox,
           Some(box),
+          imageWidth,
+          imageHeight,
           offset,
           base)
         offset += text.length + 1
@@ -437,7 +448,7 @@ class DolphinForDocumentParsing(override val uid: String)
           .parse(Array(image), cropPrompt(mode), $(maxOutputLength), $(repetitionPenalty))
           .head
         val label = DolphinForDocumentParsing.CropLabels(mode)
-        Seq(elementAnnotation(label, text, 0, 0, Array(0.0, 0.0, 1.0, 1.0), None, 0, base))
+        Seq(elementAnnotation(label, text, 0, 0, None, image.getWidth, image.getHeight, 0, base))
     }
   }
 
@@ -476,8 +487,9 @@ class DolphinForDocumentParsing(override val uid: String)
         "",
         element.readingOrder,
         element.readingGroup,
-        element.bbox,
         Some(box),
+        image.getWidth,
+        image.getHeight,
         0,
         base + ("layoutRaw" -> raw))
     }
@@ -489,7 +501,8 @@ class DolphinForDocumentParsing(override val uid: String)
       base: Map[String, String]): Seq[Annotation] = {
     val (raw, layout) = stageOne(model, image)
     // markdown mode emits one annotation per page, even for an empty page
-    if (layout.elements.isEmpty) return assemble(Seq.empty, raw, base)
+    if (layout.elements.isEmpty)
+      return assemble(Seq.empty, raw, image.getWidth, image.getHeight, base)
 
     val (padded, dims) = DonutImageUtils.padToSquare(image)
     val binary =
@@ -514,7 +527,7 @@ class DolphinForDocumentParsing(override val uid: String)
     val ordered = located.zipWithIndex.map { case ((element, box, _), index) =>
       (element, box, parsed.getOrElse(index, ""))
     }
-    assemble(ordered, raw, base)
+    assemble(ordered, raw, image.getWidth, image.getHeight, base)
   }
 
   /** `batchProcess` zips rows with results, so this must return exactly one `Seq` per input row
@@ -535,7 +548,8 @@ class DolphinForDocumentParsing(override val uid: String)
               begin = 0,
               end = 0,
               result = "",
-              metadata = baseMetadata(annot) + ("exception" -> e.getMessage)))
+              metadata = baseMetadata(annot) +
+                ("exception" -> Option(e.getMessage).getOrElse(e.getClass.getName))))
         }.get
       }
     }

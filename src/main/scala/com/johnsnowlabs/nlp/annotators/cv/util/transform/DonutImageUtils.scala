@@ -21,29 +21,13 @@ import com.johnsnowlabs.nlp.annotators.cv.util.io.ImageIOUtils
 import java.awt.image.BufferedImage
 import java.awt.{Color, Graphics2D}
 
-/** Preprocessing for Donut-family vision encoders (Donut, Nougat, Dolphin).
+/** HuggingFace's `DonutImageProcessor` (Donut, Nougat, Dolphin), bit-exact with transformers
+  * 4.47.1: `resize` (short edge to `size`, bilinear), `thumbnail` (bicubic, `reducing_gap=2.0`),
+  * centre `pad`, `rescale` and `normalize`, with PIL's fixed-point resampling. `align_long_axis`
+  * is a no-op for a square target.
   *
-  * Named `Donut*` rather than `Dolphin*` because it implements HuggingFace's
-  * `DonutImageProcessor`; a future Donut or Nougat annotator should reuse it.
-  *
-  * `DonutImageProcessor` applies, in order: `align_long_axis`, `resize`, `thumbnail`, `pad`,
-  * `rescale`, `normalize`. For Dolphin's square 896x896 target this reduces considerably:
-  *
-  *   - `align_long_axis` is a '''no-op''': it only rotates when the target's orientation differs
-  *     from the input's, and a square target is neither portrait nor landscape.
-  *   - `resize` (short edge -> 896) followed by `thumbnail` (cap both edges at 896) composes to
-  *     "fit inside 896x896, aspect preserved". We reproduce the two-step '''size computation'''
-  *     exactly, including its `int()` truncations, but perform a '''single''' resize.
-  *
-  * That last point is deliberate. Done literally, the two steps blow an 816x51 text-line crop up
-  * to '''14336x896''' before reducing it to 896x56 — a ~50MB transient allocation, on exactly the
-  * shape that stage-2 element parsing produces most of. Going direct measured 439ms -> 2ms.
-  *
-  * Resampling kernel: measured against `DonutImageProcessor` ground truth, a plain
-  * [[ImageResizeUtils.resizeBufferedImage]] (Java2D bilinear) has noticeably larger pixel error
-  * than PIL's scaled-support triangle filter, but the '''model output is unaffected''' —
-  * generated text was byte-identical on table, paragraph and formula fixtures, and differed by 1
-  * character in 578 on a layout fixture. A bespoke resampler is not worth its weight here.
+  * Like PIL, `resize` materialises the full intermediate: a text-line crop (816x51) passes
+  * through 14336x896 before the thumbnail.
   */
 private[johnsnowlabs] object DonutImageUtils {
 
@@ -87,27 +71,28 @@ private[johnsnowlabs] object DonutImageUtils {
   }
 
   /** Decode Spark's raw image bytes to an opaque RGB image, dropping any alpha channel. */
-  def toRgbBuffered(
-      bytes: Array[Byte],
-      width: Int,
-      height: Int,
-      nChannels: Int): BufferedImage = {
-    if (nChannels != 4) ImageIOUtils.byteToBufferedImage(bytes, width, height, nChannels)
-    else {
+  def toRgbBuffered(bytes: Array[Byte], width: Int, height: Int, nChannels: Int): BufferedImage =
+    nChannels match {
       // Spark stores BGRA, which ImageIOUtils would copy into an ABGR raster one byte off.
       // Alpha is dropped, as PIL's convert("RGB") does in the reference pipeline.
-      val pixels = new Array[Int](width * height)
-      var i = 0
-      while (i < pixels.length) {
-        val o = i * 4
-        pixels(i) =
+      case 4 =>
+        packedRgb(width, height) { i =>
+          val o = i * 4
           ((bytes(o + 2) & 0xff) << 16) | ((bytes(o + 1) & 0xff) << 8) | (bytes(o) & 0xff)
-        i += 1
-      }
-      val rgb = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
-      rgb.setRGB(0, 0, width, height, pixels, 0, width)
-      rgb
+        }
+      // ImageIOUtils would build a linear-gray image, which getRGB brightens to sRGB.
+      case 1 =>
+        packedRgb(width, height) { i =>
+          val v = bytes(i) & 0xff
+          (v << 16) | (v << 8) | v
+        }
+      case _ => ImageIOUtils.byteToBufferedImage(bytes, width, height, nChannels)
     }
+
+  private def packedRgb(width: Int, height: Int)(pixel: Int => Int): BufferedImage = {
+    val rgb = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
+    rgb.setRGB(0, 0, width, height, Array.tabulate(width * height)(pixel), 0, width)
+    rgb
   }
 
   // ------------------------------------------------------------------ PIL-exact resampling
@@ -148,7 +133,9 @@ private[johnsnowlabs] object DonutImageUtils {
       in1: Double,
       outSize: Int,
       cubic: Boolean): (Array[Int], Array[Int], Array[Array[Int]]) = {
-    val scale = (in1 - in0) / outSize
+    // PIL parses the resample box as C floats
+    val start = in0.toFloat.toDouble
+    val scale = (in1.toFloat - in0.toFloat).toDouble / outSize
     val filterScale = math.max(scale, 1.0)
     val support = (if (cubic) 2.0 else 1.0) * filterScale
     val kSize = math.ceil(support).toInt * 2 + 1
@@ -160,7 +147,7 @@ private[johnsnowlabs] object DonutImageUtils {
 
     var out = 0
     while (out < outSize) {
-      val center = in0 + (out + 0.5) * scale
+      val center = start + (out + 0.5) * scale
       var min = (center - support + 0.5).toInt
       if (min < 0) min = 0
       var max = (center + support + 0.5).toInt
@@ -192,9 +179,9 @@ private[johnsnowlabs] object DonutImageUtils {
     (mins, lengths, kernels)
   }
 
-  /** PIL's `ImagingReduce`: integer box-average by `(factorX, factorY)`, rounding by half the
-    * block size, with partial blocks at the right and bottom edges averaged over their actual
-    * count.
+  /** PIL's `ImagingReduce`: box-average by `(factorX, factorY)`, rounding by half the block size,
+    * with partial blocks at the right and bottom edges averaged over their actual count. The
+    * division is PIL's truncated float reciprocal (`division_UINT32`), not an exact one.
     *
     * `Image.resize(..., reducing_gap=2.0)` runs this first whenever the downscale factor is >= 2,
     * and `DonutImageProcessor.thumbnail` always passes `reducing_gap=2.0`. For a typical page the
@@ -223,6 +210,7 @@ private[johnsnowlabs] object DonutImageUtils {
         val blockW = math.min(factorX, width - x0)
         val count = blockW * blockH
         val amend = count / 2
+        val multiplier = (4294967296f / (256 * count).toFloat).toLong
         var c = 0
         while (c < 3) {
           var sum = amend
@@ -235,7 +223,7 @@ private[johnsnowlabs] object DonutImageUtils {
             }
             j += 1
           }
-          out((oy * outWidth + ox) * 3 + c) = (sum / count).toByte
+          out((oy * outWidth + ox) * 3 + c) = ((sum * multiplier) >>> 24).toByte
           c += 1
         }
         ox += 1
@@ -388,10 +376,13 @@ private[johnsnowlabs] object DonutImageUtils {
     val padLeft = (size - fitW) / 2
     val padTop = (size - fitH) / 2
 
+    // HF rescales in float64 and casts to float32, then normalizes in float32
+    val meanF = mean.map(_.toFloat)
+    val stdF = std.map(_.toFloat)
     val out = Array.ofDim[Float](3, size, size)
     var c = 0
     while (c < 3) {
-      val padValue = (if (doNormalize) (0.0 - mean(c)) / std(c) else 0.0).toFloat
+      val padValue = if (doNormalize) (0f - meanF(c)) / stdF(c) else 0f
       var y = 0
       while (y < size) {
         java.util.Arrays.fill(out(c)(y), padValue)
@@ -411,9 +402,9 @@ private[johnsnowlabs] object DonutImageUtils {
             var ch = 0
             while (ch < 3) {
               val raw = fitted((y * fitW + x) * 3 + ch) & 0xff
-              val rescaled = if (doRescale) raw * rescaleFactor else raw.toDouble
+              val rescaled = (if (doRescale) raw * rescaleFactor else raw.toDouble).toFloat
               out(ch)(outY)(outX) =
-                (if (doNormalize) (rescaled - mean(ch)) / std(ch) else rescaled).toFloat
+                if (doNormalize) (rescaled - meanF(ch)) / stdF(ch) else rescaled
               ch += 1
             }
           }

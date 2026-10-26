@@ -81,9 +81,8 @@ class DonutImageUtilsTestSpec extends AnyFlatSpec {
     assert(math.abs(px(0)(Size / 2)(Size / 2) - ((1.0 - Mean(0)) / Std(0)).toFloat) < 1e-3)
   }
 
-  // Phase 1 asserted only loose distributional agreement, because Java2D bilinear could not do
-  // better. With PIL's exact path (bilinear resize, bicubic thumbnail, fixed-point coefficients,
-  // uint8 between passes) the tensors are bit-identical, so this asserts every sampled element.
+  // line_formula.jpeg (reduce 5x5) and para_3.jpeg (12x13) sample every value the reduce or the
+  // float32 box can move, so they pin PIL's rounding.
   "pixelValues" should "match DonutImageProcessor exactly, element for element" taggedAs FastTest in {
     val fixture = new File("src/test/resources/image_preprocessor/dolphin_pixel_values.json")
     assume(fixture.exists(), s"missing ${fixture.getPath}")
@@ -114,7 +113,7 @@ class DonutImageUtilsTestSpec extends AnyFlatSpec {
         val mismatches = samples.flatMap { s =>
           val (c, y, x, expected) = (s.head.toInt, s(1).toInt, s(2).toInt, s(3))
           val actual = px(c)(y)(x)
-          if (math.abs(actual - expected) <= 1e-6) None
+          if (actual == expected.toFloat) None
           else Some(s"$name[$c][$y][$x] expected $expected but was $actual")
         }
         assert(
@@ -160,6 +159,15 @@ class DonutImageUtilsTestSpec extends AnyFlatSpec {
     assert(rgb.getType == BufferedImage.TYPE_INT_RGB)
     assert(new Color(rgb.getRGB(0, 0)) == new Color(30, 20, 10))
     assert(new Color(rgb.getRGB(1, 0)) == new Color(60, 50, 40))
+  }
+
+  it should "copy a 1-channel image into R, G and B without a gamma change, as PIL's convert(\"RGB\") does" taggedAs FastTest in {
+    val levels = Seq(0, 64, 128, 200, 255)
+    val rgb = DonutImageUtils.toRgbBuffered(levels.map(_.toByte).toArray, levels.length, 1, 1)
+    assert(rgb.getType == BufferedImage.TYPE_INT_RGB)
+    levels.zipWithIndex.foreach { case (v, x) =>
+      assert(new Color(rgb.getRGB(x, 0)) == new Color(v, v, v), s"level $v")
+    }
   }
 
   it should "pass through an opaque 3-channel image unchanged" taggedAs FastTest in {

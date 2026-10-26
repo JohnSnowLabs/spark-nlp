@@ -20,6 +20,7 @@ import com.johnsnowlabs.nlp.annotators.cv.util.transform.DonutImageUtils.ImageDi
 import com.johnsnowlabs.reader.ElementType
 
 import java.awt.image.BufferedImage
+import java.util.Locale
 import java.util.regex.Pattern
 import scala.collection.mutable
 import scala.util.matching.Regex
@@ -27,7 +28,7 @@ import scala.util.matching.Regex
 /** Stage-1 layout parsing, box geometry and markdown assembly for Dolphin.
   *
   * Geometry ports the upstream demo code of each release (bytedance/Dolphin, branches `v1.0` and
-  * `v1.5`); `scripts/dolphin/gen_parity.py` runs that code to produce the test references.
+  * `v1.5`).
   */
 private[johnsnowlabs] object DolphinUtils {
 
@@ -96,7 +97,7 @@ private[johnsnowlabs] object DolphinUtils {
           readingOrder = order,
           readingGroup = separators.count(_ < m.start))
       }
-      .toSeq
+      .toList
   }
 
   /** `parse_layout_string` from `v1.5`: split on both separators, then take the first coordinates
@@ -119,7 +120,7 @@ private[johnsnowlabs] object DolphinUtils {
             readingGroup = group)
       }
     }
-    elements
+    elements.toList
   }
 
   // ------------------------------------------------------------------ labels
@@ -217,6 +218,16 @@ private[johnsnowlabs] object DolphinUtils {
 
     MappedBox(settled, Box(x1, y1, x2, y2))
   }
+
+  /** `box` as fractions of the image, as upstream `map_to_relevant_coordinates` computes them. */
+  def normalizeBox(box: Box, width: Int, height: Int): String =
+    Seq(
+      box.x1.toDouble / width,
+      box.y1.toDouble / height,
+      box.x2.toDouble / width,
+      box.y2.toDouble / height)
+      .map(v => "%.4f".formatLocal(Locale.ROOT, v))
+      .mkString(",")
 
   /** Crop, or `None` when either edge is `minSize` pixels or fewer. */
   def crop(page: BufferedImage, box: Box, minSize: Int): Option[BufferedImage] = {

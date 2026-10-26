@@ -21,8 +21,8 @@ import org.json4s.jackson.JsonMethods.parse
 
 import scala.io.Source
 
-/** `src/test/resources/dolphin/reference_<release>.json`, written by
-  * `scripts/dolphin/gen_parity.py` from ByteDance's demo code running under PyTorch.
+/** `src/test/resources/dolphin/reference_<release>.json`, produced by ByteDance's demo code
+  * running under PyTorch.
   */
 case class DolphinReference(
     model: String,

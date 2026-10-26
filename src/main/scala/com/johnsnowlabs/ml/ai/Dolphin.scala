@@ -26,18 +26,15 @@ import com.johnsnowlabs.nlp.annotators.cv.util.transform.DonutImageUtils
 import com.johnsnowlabs.nlp.annotators.tokenizer.bpe.DolphinTokenizer
 
 import java.awt.image.BufferedImage
-import scala.collection.JavaConverters._
 import scala.collection.mutable
+import scala.jdk.CollectionConverters._
 
 /** Inference for ByteDance Dolphin: a Swin (donut-swin) vision encoder feeding an mBart decoder,
   * driven by a task prompt supplied as the decoder prefix.
   *
-  * The reference implementation is strictly greedy (`num_beams=1`, `do_sample=False`,
-  * `repetition_penalty=1.1`, `bad_words_ids=[[unk]]`), and the shared `Generate` trait has no
-  * hook for a KV cache. Extending it would also drag in machinery unnescary machineary:
-  * `RepetitionPenaltyLogitProcessor` computes `inputIds.head.distinct` once and applies row 0's
-  * history to every row of the batch, and `NoRepeatNgramsLogitProcessor` allocates a vocab-sized
-  * structure per row per step. So this is a purpose-built loop.
+  * Greedy decoding with a KV cache, a per-row repetition penalty and `<unk>` suppressed, as the
+  * reference does. The shared `Generate` trait is not used: it has no KV-cache hook and applies
+  * row 0's repetition history to every row of a batch.
   */
 private[johnsnowlabs] class Dolphin(
     val onnxWrappers: EncoderDecoderWrappers,
@@ -184,7 +181,7 @@ private[johnsnowlabs] class Dolphin(
 
       // The encoder half never changes; only the decoder half rolls forward.
       val encoderPast: Map[String, OnnxTensor] =
-        prefillStates.filterKeys(Sig.isEncoderState).map { case (k, v) => Sig.toPast(k) -> v }
+        prefillStates.collect { case (k, v) if Sig.isEncoderState(k) => Sig.toPast(k) -> v }
       var decoderPast: Map[String, OnnxTensor] =
         prefillStates.filterNot(kv => Sig.isEncoderState(kv._1)).map { case (k, v) =>
           Sig.toPast(k) -> v

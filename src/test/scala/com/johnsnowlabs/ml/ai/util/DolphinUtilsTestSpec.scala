@@ -323,4 +323,21 @@ class DolphinUtilsTestSpec extends AnyFlatSpec {
     val page = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB)
     assert(DolphinUtils.crop(page, DolphinUtils.Box(40, 0, 60, 20), 3).isEmpty)
   }
+
+  // ---------------------------------------------------------------- normalizeBox
+
+  "normalizeBox" should "divide original pixels by the image size, not the padded square" taggedAs FastTest in {
+    assert(
+      DolphinUtils.normalizeBox(Box(277, 178, 1054, 405), 1466, 2096) ==
+        "0.1889,0.0849,0.7190,0.1932")
+  }
+
+  it should "format with a dot whatever the default locale" taggedAs FastTest in {
+    val default = java.util.Locale.getDefault
+    try {
+      java.util.Locale.setDefault(java.util.Locale.GERMANY)
+      assert(
+        DolphinUtils.normalizeBox(Box(0, 0, 50, 100), 100, 100) == "0.0000,0.0000,0.5000,1.0000")
+    } finally java.util.Locale.setDefault(default)
+  }
 }

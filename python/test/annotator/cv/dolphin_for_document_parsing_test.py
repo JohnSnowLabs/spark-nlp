@@ -24,7 +24,22 @@ from test.util import SparkSessionForTest
 
 
 class DolphinForDocumentParsingTestSetup(unittest.TestCase):
-    """Runs against the default pretrained model (Dolphin 1.5)."""
+    """Runs against the default pretrained model (Dolphin 1.5).
+
+    Loaded once: the model holds ~2.6 GB of native ONNX Runtime memory that the JVM heap does not
+    bound. Tests run sequentially, so resetting params per pipeline is safe.
+    """
+
+    _dolphin = None
+
+    @staticmethod
+    def dolphin():
+        if DolphinForDocumentParsingTestSetup._dolphin is None:
+            DolphinForDocumentParsingTestSetup._dolphin = DolphinForDocumentParsing \
+                .pretrained() \
+                .setInputCols(["image_assembler"]) \
+                .setOutputCol("elements")
+        return DolphinForDocumentParsingTestSetup._dolphin
 
     def setUp(self):
         self.fixtures = os.path.join(os.getcwd(), "../src/test/resources/dolphin")
@@ -44,11 +59,10 @@ class DolphinForDocumentParsingTestSetup(unittest.TestCase):
         image_assembler = ImageAssembler() \
             .setInputCol("image") \
             .setOutputCol("image_assembler")
-        dolphin = DolphinForDocumentParsing \
-            .pretrained() \
-            .setInputCols(["image_assembler"]) \
-            .setOutputCol("elements")
-        for key, value in kwargs.items():
+        dolphin = self.dolphin()
+        settings = {"parsingMode": "page", "outputFormat": "elements"}
+        settings.update(kwargs)
+        for key, value in settings.items():
             getattr(dolphin, "set" + key[0].upper() + key[1:])(value)
         return Pipeline(stages=[image_assembler, dolphin])
 
@@ -146,6 +160,12 @@ class DolphinParamTest(unittest.TestCase):
             DolphinForDocumentParsing().setElementBatchSize(0)
         with self.assertRaises(ValueError):
             DolphinForDocumentParsing().setMaxOutputLength(-1)
+        with self.assertRaises(ValueError):
+            DolphinForDocumentParsing().setLayoutMaxOutputLength(0)
+        with self.assertRaises(ValueError):
+            DolphinForDocumentParsing().setRepetitionPenalty(0.0)
+        with self.assertRaises(ValueError):
+            DolphinForDocumentParsing().setMinElementSize(-1)
 
 
 @pytest.mark.slow
@@ -159,11 +179,9 @@ class DolphinSerializationTest(DolphinForDocumentParsingTestSetup):
             image_assembler = ImageAssembler() \
                 .setInputCol("image") \
                 .setOutputCol("image_assembler")
-            dolphin = DolphinForDocumentParsing \
-                .pretrained() \
-                .setInputCols(["image_assembler"]) \
-                .setOutputCol("elements") \
-                .setParsingMode("text")
+            dolphin = self.dolphin() \
+                .setParsingMode("text") \
+                .setOutputFormat("elements")
 
             df = self.image_df("para_1.jpg")
             before = Pipeline(stages=[image_assembler, dolphin]) \
