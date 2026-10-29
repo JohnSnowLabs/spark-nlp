@@ -1,0 +1,5 @@
+root = true
+
+# Match the repository's Git line-ending rules in .gitattributes.
+[*.{sbt,scala,java,py}]
+end_of_line = lf
