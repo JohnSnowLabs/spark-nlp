@@ -742,6 +742,7 @@ object PythonResourceDownloader {
     "LLMEntityExtractor" -> LLMEntityExtractor,
     "BiEncoderMultimodalEmbeddings" -> BiEncoderMultimodalEmbeddings,
     "SentenceDetectorSaTModel" -> SentenceDetectorSaTModel,
+    "BGEM3Embeddings" -> BGEM3Embeddings)
     "CrossEncoder" -> CrossEncoder)
 
   // List pairs of types such as the one with key type can load a pretrained model from the value type
