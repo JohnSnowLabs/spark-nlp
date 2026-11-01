@@ -15,7 +15,12 @@
  */
 package com.johnsnowlabs.nlp.serialization
 
-import java.io.{ByteArrayInputStream, IOException, ObjectInputStream, ObjectStreamClass}
+import com.johnsnowlabs.nlp.util.io.MatchStrategy
+import com.johnsnowlabs.nlp.util.regex.{RuleFactory, TransformStrategy}
+
+import java.io._
+import java.lang.invoke.SerializedLambda
+import scala.collection.immutable.ArraySeq
 import scala.reflect.ClassTag
 import scala.util.{Failure, Success, Try}
 
@@ -66,6 +71,14 @@ class LegacyObjectInputStream(
         ObjectStreamClass.lookup(classOf[LegacyListSerializationProxy])
       case "scala.collection.immutable.ListSerializeEnd$" =>
         ObjectStreamClass.lookup(LegacyListSerializeEnd.getClass)
+      case name if name.startsWith("scala.collection.mutable.WrappedArray$of") =>
+        ObjectStreamClass.lookup(classOf[LegacyWrappedArray])
+      case "java.lang.invoke.SerializedLambda" =>
+        ObjectStreamClass.lookup(classOf[LegacySerializedLambda])
+      case "com.johnsnowlabs.nlp.util.io.MatchStrategy$" =>
+        ObjectStreamClass.lookup(classOf[LegacyMatchStrategyModule])
+      case "com.johnsnowlabs.nlp.util.regex.TransformStrategy$" =>
+        ObjectStreamClass.lookup(classOf[LegacyTransformStrategyModule])
       case "scala.math.BigInt" if hasField(classDescriptor, "bigInteger") =>
         ObjectStreamClass.lookup(classOf[LegacyBigInt])
       case _ => // No replacement class found, delegate to subclass
@@ -183,4 +196,93 @@ object LegacyObjectInputStream {
     ois.readObject.asInstanceOf[Array[T]]
   }
 
+}
+
+/* Stand-ins for Scala 2.12 data that Scala 2.13 cannot read. Each declares the 2.12 field layout
+ * and resolves to its 2.13 equivalent.
+ */
+
+/** `java.lang.invoke.SerializedLambda`: resolved through `$deserializeLambda$` like the JDK does,
+  * so lambdas that still exist on 2.13 keep working (for example `SearchTrie.caseSearch`).
+  * RuleFactory lambdas cannot be restored; they resolve to null and `RuleFactory.readResolve`
+  * rebuilds them.
+  */
+@SerialVersionUID(8025925345765570181L)
+private[serialization] class LegacySerializedLambda(
+    private var capturingClass: Class[_],
+    private var functionalInterfaceClass: String,
+    private var functionalInterfaceMethodName: String,
+    private var functionalInterfaceMethodSignature: String,
+    private var implClass: String,
+    private var implMethodName: String,
+    private var implMethodSignature: String,
+    private var implMethodKind: Int,
+    private var instantiatedMethodType: String,
+    private var capturedArgs: Array[AnyRef])
+    extends Serializable {
+
+  private def readResolve(): AnyRef =
+    if (capturingClass == classOf[RuleFactory]) null
+    else
+      try {
+        val deserialize =
+          capturingClass.getDeclaredMethod("$deserializeLambda$", classOf[SerializedLambda])
+        deserialize.setAccessible(true)
+        deserialize.invoke(
+          null,
+          new SerializedLambda(
+            capturingClass,
+            functionalInterfaceClass,
+            functionalInterfaceMethodName,
+            functionalInterfaceMethodSignature,
+            implMethodKind,
+            implClass,
+            implMethodName,
+            implMethodSignature,
+            instantiatedMethodType,
+            capturedArgs))
+      } catch {
+        case e: ReflectiveOperationException =>
+          throw new InvalidObjectException(
+            s"Cannot restore legacy lambda: ${Option(e.getCause).getOrElse(e)}")
+      }
+}
+
+/** `MatchStrategy` module: 2.12 kept enumeration values in instance fields, 2.13 in static ones.
+  */
+@SerialVersionUID(-1812614578357849016L)
+private[serialization] class LegacyMatchStrategyModule(
+    private var MATCH_ALL: AnyRef,
+    private var MATCH_COMPLETE: AnyRef,
+    private var MATCH_FIRST: AnyRef)
+    extends Enumeration(0) {
+  override protected def readResolve(): AnyRef = MatchStrategy
+}
+
+/** `TransformStrategy` module, see [[LegacyMatchStrategyModule]]. */
+@SerialVersionUID(5556131749723325947L)
+private[serialization] class LegacyTransformStrategyModule(
+    private var APPEND_WITH_SYMBOL: AnyRef,
+    private var BREAK_AND_PROTECT_FROM_BREAK: AnyRef,
+    private var NO_TRANSFORM: AnyRef,
+    private var PREPEND_WITH_SYMBOL: AnyRef,
+    private var PROTECT_FROM_BREAK: AnyRef,
+    private var REPLACE_ALL_WITH_SYMBOL: AnyRef,
+    private var REPLACE_EACH_WITH_SYMBOL: AnyRef,
+    private var REPLACE_EACH_WITH_SYMBOL_AND_BREAK: AnyRef,
+    private var REPLACE_WITH_SYMBOL_AND_BREAK: AnyRef)
+    extends Enumeration(0) {
+  override protected def readResolve(): AnyRef = TransformStrategy
+}
+
+/** `mutable.WrappedArray` (`ofRef`, `ofInt`, ...), removed in 2.13. Every variant has one field
+  * `array`. Used by 2.12 for arrays converted to a Seq, for example Regex group names.
+  */
+@SerialVersionUID(3456489343829468865L)
+private[serialization] class LegacyWrappedArray extends Serializable {
+  private var array: AnyRef = _
+  private def readResolve(): AnyRef = array match {
+    case values: Array[_] => ArraySeq.unsafeWrapArray(values)
+    case null => null
+  }
 }
