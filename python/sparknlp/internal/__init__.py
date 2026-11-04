@@ -1221,6 +1221,17 @@ class _Florence2TransformerLoader(ExtendedJavaWrapper):
             jspark,
             use_openvino,
         )
+
+
+class _DolphinForDocumentParsingLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_DolphinForDocumentParsingLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.cv.DolphinForDocumentParsing.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
 class _E5VEmbeddingsLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark, use_openvino=False):
         super(_E5VEmbeddingsLoader, self).__init__(

@@ -95,6 +95,17 @@ private[johnsnowlabs] object SpecialTokens {
 
   def getSpecialTokensForModel(modelType: String, vocab: Map[String, Int]): SpecialTokens =
     modelType match {
+      case "dolphin" =>
+        // Dolphin has no mask token; <unk> stands in. " <Answer/>" separates the task prompt
+        // from the generated answer and is a single token (id 73920).
+        SpecialTokens(
+          vocab,
+          startTokenString = "<s>",
+          endTokenString = "</s>",
+          unkTokenString = "<unk>",
+          maskTokenString = "<unk>",
+          padTokenString = "<pad>",
+          additionalStrings = Array(" <Answer/>"))
       case "roberta" =>
         SpecialTokens(
           vocab,
