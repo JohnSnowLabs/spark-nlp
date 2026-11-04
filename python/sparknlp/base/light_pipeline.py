@@ -139,8 +139,7 @@ class LightPipeline:
                                     annotation.nChannels(),
                                     annotation.mode(),
                                     result,
-                                    annotation.metadata(),
-                                    annotation.text())
+                                    annotation.metadata())
                 )
             elif annotation_type == "AnnotationAudio":
                 result = self.__get_result(annotation)
