@@ -37,13 +37,9 @@ class AnnotationImage:
         Image data in bytes
     metadata : dict
         Associated metadata for this annotation
-    text : str
-        Optional prompt carried alongside the image, populated by ImageAssembler from its
-        ``textCol``. Used by annotators that take a text instruction with the image.
     """
 
-    def __init__(self, annotatorType, origin, height, width, nChannels, mode, result, metadata,
-                 text=""):
+    def __init__(self, annotatorType, origin, height, width, nChannels, mode, result, metadata):
         self.annotatorType = annotatorType
         self.origin = origin
         self.height = height
@@ -52,7 +48,6 @@ class AnnotationImage:
         self.mode = mode
         self.result = result
         self.metadata = metadata
-        self.text = text
 
     def copy(self, result):
         """Creates new AnnotationImage with a different result, containing all
@@ -69,10 +64,10 @@ class AnnotationImage:
             Newly created AnnotationImage
         """
         return AnnotationImage(self.annotatorType, self.origin, self.height, self.width,
-                               self.nChannels, self.mode, result, self.metadata, self.text)
+                               self.nChannels, self.mode, result, self.metadata)
 
     def __str__(self):
-        return "AnnotationImage(%s, %s, %i, %i, %i, %i, %s, %s, %s)" % (
+        return "AnnotationImage(%s, %s, %i, %i, %i, %i, %s, %s)" % (
             self.annotatorType,
             self.origin,
             self.height,
@@ -80,8 +75,7 @@ class AnnotationImage:
             self.nChannels,
             self.mode,
             str(self.result),
-            str(self.metadata),
-            self.text
+            str(self.metadata)
         )
 
     def __repr__(self):
