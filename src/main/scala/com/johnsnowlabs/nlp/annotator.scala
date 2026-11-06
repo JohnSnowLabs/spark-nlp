@@ -642,6 +642,11 @@ package object annotator {
       extends ReadablePretrainedVisionEncoderDecoderModel
       with ReadVisionEncoderDecoderDLModel
 
+  type DolphinForDocumentParsing =
+    com.johnsnowlabs.nlp.annotators.cv.DolphinForDocumentParsing
+
+  object DolphinForDocumentParsing extends ReadablePretrainedDolphinModel with ReadDolphinDLModel
+
   type CamemBertForTokenClassification =
     com.johnsnowlabs.nlp.annotators.classifier.dl.CamemBertForTokenClassification
 

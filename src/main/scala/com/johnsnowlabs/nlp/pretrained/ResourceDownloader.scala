@@ -734,6 +734,7 @@ object PythonResourceDownloader {
     "Gemma3ForMultiModal" -> Gemma3ForMultiModal,
     "InternVLForMultiModal" -> InternVLForMultiModal,
     "Florence2Transformer" -> Florence2Transformer,
+    "DolphinForDocumentParsing" -> DolphinForDocumentParsing,
     "E5VEmbeddings" -> E5VEmbeddings,
     "MiniLMEmbeddings" -> MiniLMEmbeddings,
     "Phi4Transformer" -> Phi4Transformer,
