@@ -14,13 +14,13 @@
 """Contains classes for the ResourceDownloader."""
 
 import sys
-import threading
 
 from py4j.protocol import Py4JJavaError
+from pyspark import SparkContext
 from pyspark.ml import PipelineModel
 
 import sparknlp.internal as _internal
-from sparknlp.pretrained.utils import printProgress
+from sparknlp.pretrained.utils import DownloadProgress
 
 
 class ResourceDownloader(object):
@@ -94,17 +94,15 @@ class ResourceDownloader(object):
             print("Can not find the model to download please check the name!")
         else:
             print("Approximate size to download " + file_size)
-            stop_threads = False
-            t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
-            t1.start()
+            # DownloadProgress draws from Python and keeps the JVM quiet meanwhile: pyspark
+            # starts the JVM with a piped stdin, so only Python can tell a terminal from a
+            # notebook.
             try:
-                j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, engine, skip_preferred_engine, j_dwn).apply()
+                with DownloadProgress(SparkContext._active_spark_context):
+                    j_obj = _internal._DownloadModel(reader.name, name, language, remote_loc, engine, skip_preferred_engine, j_dwn).apply()
             except Py4JJavaError as e:
                 sys.stdout.write("\n" + str(e))
                 raise e
-            finally:
-                stop_threads = True
-                t1.join()
 
             return reader(classname=None, java_model=j_obj)
 
@@ -122,7 +120,9 @@ class ResourceDownloader(object):
         unzip : Bool, optional
             Used to unzip model, by default 'True'
         """
-        _internal._DownloadModelDirectly(name, remote_loc, unzip).apply()
+        # see downloadModel(): Python draws the progress while the JVM downloads
+        with DownloadProgress(SparkContext._active_spark_context):
+            _internal._DownloadModelDirectly(name, remote_loc, unzip).apply()
 
 
     @staticmethod
@@ -149,15 +149,10 @@ class ResourceDownloader(object):
             print("Can not find the model to download please check the name!")
         else:
             print("Approx size to download " + file_size)
-            stop_threads = False
-            t1 = threading.Thread(target=printProgress, args=(lambda: stop_threads,))
-            t1.start()
-            try:
+            # see downloadModel() above
+            with DownloadProgress(SparkContext._active_spark_context):
                 j_obj = _internal._DownloadPipeline(name, language, remote_loc).apply()
-                jmodel = PipelineModel._from_java(j_obj)
-            finally:
-                stop_threads = True
-                t1.join()
+            jmodel = PipelineModel._from_java(j_obj)
 
             return jmodel
 

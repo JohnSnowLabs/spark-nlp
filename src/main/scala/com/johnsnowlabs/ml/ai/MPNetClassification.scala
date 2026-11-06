@@ -629,21 +629,10 @@ private[johnsnowlabs] class MPNetClassification(
       wordPieceTokenizedQuestion.head.tokens ++ wordPieceTokenizedContext.flatMap(x => x.tokens)
     val decodedAnswer =
       allTokenPieces.slice(startIndex._2 - offsetStartIndex, endIndex._2 - offsetEndIndex)
-    val content =
-      mergeTokenStrategy match {
-        case MergeTokenStrategy.vocab =>
-          decodedAnswer.filter(_.isWordStart).map(x => x.token).mkString(" ")
-        case MergeTokenStrategy.sentencePiece =>
-          val token = ""
-          decodedAnswer
-            .map(x =>
-              if (x.isWordStart) " " + token + x.token
-              else token + x.token)
-            .mkString("")
-            .trim
-      }
+    val content = XXXForClassification.joinWordPieces(decodedAnswer, mergeTokenStrategy)
 
     val totalScore = startIndex._1 * endIndex._1
+    val (answerStart, answerEnd) = XXXForClassification.answerSpanBounds(decodedAnswer)
     Seq(
       Annotation(
         annotatorType = AnnotatorType.CHUNK,
@@ -653,9 +642,9 @@ private[johnsnowlabs] class MPNetClassification(
         metadata = Map(
           "sentence" -> "0",
           "chunk" -> "0",
-          "start" -> decodedAnswer.head.begin.toString,
+          "start" -> answerStart.toString,
           "start_score" -> startIndex._1.toString,
-          "end" -> decodedAnswer.last.end.toString,
+          "end" -> answerEnd.toString,
           "end_score" -> endIndex._1.toString,
           "score" -> totalScore.toString)))
 
