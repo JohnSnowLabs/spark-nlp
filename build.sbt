@@ -25,6 +25,8 @@ version := "7.0.0"
 
 (ThisBuild / scalaVersion) := scalaVer
 
+ThisBuild / javacOptions += "-proc:none"
+
 //(ThisBuild / scalacOptions) += "-target:11"
 (ThisBuild / javacOptions) ++= Seq("-source", "17", "-target", "17")
 
