@@ -104,6 +104,76 @@ class AutoGGUFVisionModelTestSpec extends AnyFlatSpec {
     }
   }
 
+  it should "batch image inference and be faster than serial on GPU" taggedAs SlowTest in {
+    // batchAnnotate decodes a batch in one multiCompleteImage call across the parallel slots
+    // (setParallel = batchSize); serial (batchSize=1) decodes one image at a time. On GPU the
+    // batch should be faster. cachePrompt=false keeps the serial-vs-batch A/B cache-symmetric.
+    val gpuLayers = 99
+
+    def buildModel(bs: Int): AutoGGUFVisionModel =
+      AutoGGUFVisionModel
+        .pretrained()
+        .setInputCols("caption_document", "image_assembler")
+        .setOutputCol("completions")
+        .setBatchSize(bs)
+        .setNGpuLayers(gpuLayers)
+        // nCtx is the TOTAL context split across the parallel slots (= batchSize), so scale it to
+        // keep ~2048 tokens/slot (enough for the image tokens + caption) regardless of batch size.
+        .setNCtx(2048 * bs)
+        .setNPredict(nPredict)
+        .setCachePrompt(false)
+        .setTemperature(0.05f)
+        .setTopK(40)
+        .setTopP(0.95f)
+
+    val nImages = expectedWords.size
+
+    def runTimed(bs: Int): (Long, Array[(String, Annotation)]) = {
+      val fitted = new Pipeline()
+        .setStages(Array(documentAssembler, imageAssembler, buildModel(bs)))
+        .fit(data)
+      // warm-up transform loads the model session; time the second transform
+      fitted.transform(data.repartition(1)).select("completions").collect()
+      val t0 = System.nanoTime()
+      val rows =
+        fitted.transform(data.repartition(1)).select("image_assembler", "completions").collect()
+      val elapsedMs = (System.nanoTime() - t0) / 1000000L
+      val captions = rows.map { row =>
+        val image = AnnotationImage(row.getAs[mutable.WrappedArray[Row]](0).head)
+        val annotation = Annotation(row.getAs[mutable.WrappedArray[Row]](1).head)
+        (image.origin.split("/").last, annotation)
+      }
+      (elapsedMs, captions)
+    }
+
+    val (serialMs, serialCaptions) = runTimed(1)
+    val (batchMs, batchCaptions) = runTimed(nImages)
+    val speedup = serialMs.toDouble / math.max(batchMs, 1L)
+    println(
+      s"[VISION BATCH PERF] images=$nImages | serial(bs=1)=${serialMs}ms " +
+        s"batch(bs=$nImages)=${batchMs}ms speedup=${"%.2f".format(speedup)}x")
+
+    // Correctness (always): both configurations caption every image correctly, one per input.
+    Seq(("serial", serialCaptions), ("batch", batchCaptions)).foreach { case (label, captions) =>
+      assert(
+        captions.length == nImages,
+        s"[$label] produced ${captions.length} captions, expected $nImages")
+      captions.foreach { case (fileName, completion) =>
+        val expected = expectedWords(fileName)
+        assert(
+          completion.result.toLowerCase().contains(expected.toLowerCase()),
+          s"[$label] expected '$expected' in caption for $fileName, got: ${completion.result}")
+      }
+    }
+
+    // Speed (GPU only): batching overlaps decode across the parallel slots.
+    if (gpuLayers > 0)
+      assert(
+        batchMs < serialMs,
+        s"expected batch (bs=$nImages) faster than serial (bs=1) on GPU: " +
+          s"serial=${serialMs}ms batch=${batchMs}ms")
+  }
+
   it should "be serializable" taggedAs SlowTest in {
     val pipelineModel = pipeline.fit(data)
     val savePath = "./tmp_autogguf_vision_model"
