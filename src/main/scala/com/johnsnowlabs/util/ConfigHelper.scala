@@ -69,6 +69,9 @@ object ConfigHelper {
 
   val openAIAPIKey = "spark.jsl.settings.openai.api.key"
 
+  // Base URL of the OpenAI-compatible API used by OpenAI-based annotators
+  val openAIApiUrl = "spark.jsl.settings.openai.api.url"
+
   val vectorDBAPIKey = "spark.jsl.settings.vectordb.api.key"
 
   // Configs for ONNX session
