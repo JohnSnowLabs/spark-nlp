@@ -49,10 +49,8 @@ trait HasBatchedAnnotate[M <: Model[M]] {
   def batchProcess(rows: Iterator[_]): Iterator[Row] = {
     val groupedRows = rows.grouped(getBatchSize)
 
-    groupedRows.flatMap {
-      case batchRow: Seq[Row] => processBatchRows(batchRow)
-      case singleRow: Row => processBatchRows(Seq(singleRow))
-      case _ => Seq(Row.empty)
+    groupedRows.flatMap { case batchRow: Seq[Row] @unchecked =>
+      processBatchRows(batchRow)
     }
   }
 

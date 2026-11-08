@@ -258,8 +258,8 @@ class TensorflowWrapper(var variables: Variables, var graph: Array[Byte]) extend
     val tfChkPointsVars = FileUtils
       .listFilesAndDirs(
         new File(folder),
-        new WildcardFileFilter("part*"),
-        new WildcardFileFilter("variables*"))
+        WildcardFileFilter.builder().setWildcards("part*").get(),
+        WildcardFileFilter.builder().setWildcards("variables*").get())
       .toArray()
 
     // TF2 Saved Model generate parts for variables on second save
@@ -662,8 +662,8 @@ object TensorflowWrapper {
     val tfChkPointsVars = FileUtils
       .listFilesAndDirs(
         new File(folder),
-        new WildcardFileFilter("part*"),
-        new WildcardFileFilter("variables*"))
+        WildcardFileFilter.builder().setWildcards("part*").get(),
+        WildcardFileFilter.builder().setWildcards("variables*").get())
       .toArray()
 
     val variablesDir = tfChkPointsVars(1).toString

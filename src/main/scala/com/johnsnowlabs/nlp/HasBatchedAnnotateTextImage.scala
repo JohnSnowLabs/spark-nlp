@@ -71,7 +71,7 @@ trait HasBatchedAnnotateTextImage[M <: Model[M]] {
   def batchProcess(rows: Iterator[_]): Iterator[Row] = {
     rows
       .grouped(getBatchSize)
-      .flatMap { case batchedRows: Seq[Row] =>
+      .flatMap { case batchedRows: Seq[Row] @unchecked =>
         val inputAnnotations: Seq[(Annotation, AnnotationImage)] =
           batchedRows.map(getCaptionImageAnnotations)
         val outputAnnotations = batchAnnotate(inputAnnotations)

@@ -79,9 +79,10 @@ public class DictionarySet implements Serializable {
         return dictionaries[tag.ordinal()];
     }
 
+
     public void setCounters() {
         isCounting = true;
-        counters = new HashMap[dictionaries.length];
+        counters = (HashMap<Integer, Integer>[]) new HashMap[dictionaries.length];
         for (int i = 0; i < dictionaries.length; ++i) {
             counters[i] = new HashMap<>();
         }

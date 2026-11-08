@@ -13,7 +13,11 @@ scmInfo := Some(
 licenses += "Apache-2.0" -> url("https://opensource.org/licenses/Apache-2.0")
 
 // Maven Central publishing settings
-ThisBuild / credentials += Credentials(Path.userHome / ".sbt" / "sonatype_central_credentials")
+// Only load the credentials file when it exists to avoid a warning on machines that do not publish.
+ThisBuild / credentials ++= {
+  val credentialsFile = Path.userHome / ".sbt" / "sonatype_central_credentials"
+  if (credentialsFile.exists) Seq(Credentials(credentialsFile)) else Seq.empty
+}
 // Remove all additional repository other than Maven Central from POM
 ThisBuild / pomIncludeRepository := { _ => false }
 ThisBuild / publishMavenStyle := true
@@ -26,6 +30,9 @@ ThisBuild / publishTo := {
 }
 
 sonaUploadRequestTimeout := 60.minutes
+
+// Used by the sonatype publishing plugin; exclude from sbt's `lintUnused` check.
+Global / excludeLintKeys += sonaUploadRequestTimeout
 
 // Developers
 (ThisBuild / developers) := List(
