@@ -26,6 +26,9 @@ case class StorageLocator(database: String, storageRef: String, sparkSession: Sp
 
   private val clusterTmpLocation: String = {
     val tmpLocation = getTmpLocation
+    StorageLocator
+      .s3TmpFolder(tmpLocation, fileSystem)
+      .foreach(StorageTmpDirCleanup.register(_, sparkSession.sparkContext))
     if (tmpLocation.matches("s3[a]?:/.*")) {
       tmpLocation
     } else {
@@ -74,7 +77,7 @@ case class StorageLocator(database: String, storageRef: String, sparkSession: Sp
 
   val destinationScheme: String = fileSystem.getScheme
 
-  private def getTmpLocation: String = {
+  protected def getTmpLocation: String = {
     ConfigLoader.getConfigStringValue(ConfigHelper.storageTmpDir)
   }
 
@@ -83,4 +86,15 @@ case class StorageLocator(database: String, storageRef: String, sparkSession: Sp
 object StorageLocator {
   def getStorageSerializedPath(path: String, folder: String, withinStorage: Boolean): Path =
     Path.mergePaths(new Path(path), new Path((if (withinStorage) "/storage/" else "/") + folder))
+
+  /** The tmp folder if it is on S3, through its own scheme or the default filesystem. */
+  private[storage] def s3TmpFolder(
+      tmpLocation: String,
+      defaultFileSystem: FileSystem): Option[Path] = {
+    val folder =
+      new Path(tmpLocation)
+        .makeQualified(defaultFileSystem.getUri, defaultFileSystem.getWorkingDirectory)
+    if (Option(folder.toUri.getScheme).map(_.toLowerCase).exists(Set("s3", "s3a"))) Some(folder)
+    else None
+  }
 }

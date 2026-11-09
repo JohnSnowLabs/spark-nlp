@@ -115,17 +115,18 @@ def start(gpu=False,
         The location to download and extract pretrained Models and Pipelines. If not
         set, it will be in the users home directory under `cache_pretrained`.
     log_folder : str, optional
-        The location to use on a cluster for temporarily files such as unpacking indexes
-        for WordEmbeddings. By default, this locations is the location of
-        `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. NOTE: `S3` is
-        not supported and it must be local, HDFS, or DBFS.
+        The location to save logs from annotators during training. If not set, it will
+        be in the users home directory under `annotator_logs`.
     params : dict, optional
         Custom parameters to set for the Spark configuration, by default None.
         Set ``skip_sparknlp_maven`` to ``True`` or ``"true"`` to avoid adding the
         default Spark NLP Maven package when a custom Spark NLP jar is provided.
     cluster_tmp_dir : str, optional
-        The location to save logs from annotators during training. If not set, it will
-        be in the users home directory under `annotator_logs`.
+        The location to use on a cluster for temporary files such as unpacking indexes
+        for WordEmbeddings. By default, this location is the location of
+        `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. It can be a
+        local, HDFS, DBFS, or S3 path. On S3, its temporary files are deleted when the
+        Spark application ends.
     real_time_output : bool, optional
         Whether to read and print JVM output in real time, by default False
     output_level : int, optional
