@@ -43,9 +43,9 @@ To use Spark NLP in Python, follow these steps:
    - **aarch64** (`bool`, default `False`) – Support for Linux Aarch64.  
    - **memory** (`str`, default `"16G"`) – Spark driver memory.  
    - **cache_folder** (`str`) – Folder for pretrained models (`~/cache_pretrained` by default).  
-   - **log_folder** (`str`) – Temp folder for embeddings/logs (local, HDFS, or DBFS only).  
+   - **log_folder** (`str`) – Where annotator logs are saved during training (`~/annotator_logs` by default).  
    - **params** (`dict`) – Custom Spark config options.  
-   - **cluster_tmp_dir** (`str`) – Where annotator logs are saved.  
+   - **cluster_tmp_dir** (`str`) – Temporary folder for storage indexes such as WordEmbeddings (local, HDFS, DBFS, or S3).  
    - **real_time_output** (`bool`, default `False`) – Show JVM output live.  
    - **output_level** (`int`, default `1`) – Logging verbosity.  
 

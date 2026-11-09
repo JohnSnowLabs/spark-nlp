@@ -21,10 +21,10 @@ You can change the following Spark NLP configurations via Spark Configuration:
 | Property Name                                           | Default              | Meaning                                                                                                                                                                                                                                                                            |
 |---------------------------------------------------------|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `spark.jsl.settings.pretrained.cache_folder`            | `~/cache_pretrained` | The location to download and extract pretrained `Models` and `Pipelines`. By default, it will be in User's Home directory under `cache_pretrained` directory                                                                                                                       |
+| `spark.jsl.settings.storage.cluster_tmp_dir`            | `hadoop.tmp.dir`     | The location to use on a cluster for temporary files such as unpacking indexes for WordEmbeddings. By default, this location is the location of `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. It can be a local, HDFS, DBFS, or S3 path. See [S3 Integration](#s3-integration) for how S3 folders are cleaned up |
 | `spark.jsl.settings.pretrained.download_threads`        | `10`                 | Number of concurrent HTTP range requests used to download a pretrained `Model` or `Pipeline`, and the models index. An upper bound, not a target: every connection gets at least 4MB, so a 40MB object uses about 10 regardless. `1` restores the single-connection path           |
 | `spark.jsl.settings.pretrained.download_progress`       | `auto`               | How download progress is reported. `bar` repaints one line with carriage returns, which only a terminal renders; `lines` prints one update per percent, which notebooks, CI logs and redirected output show; `off` disables it. `auto` uses `bar` on a terminal and `lines` everywhere else. In PySpark, Python makes that choice from its own output and draws the progress itself, since the JVM it starts never sees a terminal |
 | `spark.jsl.settings.pretrained.s3_socket_timeout`       | `900000` (15 min)    | How long, in milliseconds, a download may wait for the next bytes on an already-open connection before failing. An inactivity timeout, **not** a cap on total download time: a slow but steady download never reaches it, as each byte resets the clock. `0` waits forever         |
-| `spark.jsl.settings.storage.cluster_tmp_dir`            | `hadoop.tmp.dir`     | The location to use on a cluster for temporarily files such as unpacking indexes for WordEmbeddings. By default, this locations is the location of `hadoop.tmp.dir` set via Hadoop configuration for Apache Spark. NOTE: `S3` is not supported and it must be local, HDFS, or DBFS |
 | `spark.jsl.settings.annotator.log_folder`               | `~/annotator_logs`   | The location to save logs from annotators during training such as `NerDLApproach`, `ClassifierDLApproach`, `SentimentDLApproach`, `MultiClassifierDLApproach`, etc. By default, it will be in User's Home directory under `annotator_logs` directory                               |
 | `spark.jsl.settings.aws.credentials.access_key_id`      | `None`               | Your AWS access key to use your S3 bucket to store log files of training models or access tensorflow graphs used in `NerDLApproach`                                                                                                                                                |
 | `spark.jsl.settings.aws.credentials.secret_access_key`  | `None`               | Your AWS secret access key to use your S3 bucket to store log files of training models or access tensorflow graphs used in `NerDLApproach`                                                                                                                                         |
@@ -210,5 +210,37 @@ This script requires three arguments:
 ```bash
 ./aws_tmp_credentials.sh iam_user duration serial_number
 ```
+
+**Temporary storage:**
+
+Annotators that use a storage index, such as `WordEmbeddingsModel`, may copy it to `spark.jsl.settings.storage.cluster_tmp_dir` so executors can read it. On clusters where executors do not share a disk, such as AWS EMR Serverless, point it at S3:
+
+```bash
+spark.jsl.settings.storage.cluster_tmp_dir s3://my-bucket/sparknlp-tmp
+```
+
+Spark NLP writes into a `<random id>_cdx` subfolder and deletes it when the Spark application ends. Other jobs' subfolders and the base path are left alone, so jobs can share one base path. Call `spark.stop()` at the end of the job: without it, the cleanup runs during driver shutdown and may not finish.
+
+The IAM role needs `s3:ListBucket` on the bucket, and `s3:PutObject`, `s3:GetObject` and `s3:DeleteObject` on the prefix:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::my-bucket"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"],
+      "Resource": "arn:aws:s3:::my-bucket/sparknlp-tmp/*"
+    }
+  ]
+}
+```
+
+For buckets encrypted with SSE-KMS, also allow `kms:GenerateDataKey` and `kms:Decrypt` on the key. Without `s3:DeleteObject` the job still finishes, and the driver log names the folder that was left behind. A driver that crashes cannot clean up, so an S3 lifecycle rule on the prefix is a useful backstop.
 
 </div>
