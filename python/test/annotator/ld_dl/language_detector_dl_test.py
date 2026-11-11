@@ -73,7 +73,9 @@ class LanguageDetectorDLGlotLIDTestSpec(unittest.TestCase):
     def test_run(self):
         ld = LanguageDetectorDL.pretrained("ld_glotlid_v4", "xx") \
             .setInputCols(["document"]) \
-            .setOutputCol("language")
+            .setOutputCol("language") \
+            .setScriptPooling(True) \
+            .setMinLetters(20)
 
         result = Pipeline(stages=[self.document_assembler, ld]).fit(self.data).transform(self.data)
         result.select("text", "language.result").show(truncate=False)

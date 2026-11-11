@@ -37,7 +37,9 @@ class FastTextLDTestSpec extends AnyFlatSpec {
   "FastTextFeaturizer" should "give fastText's ids" taggedAs FastTest in {
     // expected ids from fastText's get_line and get_subwords with GlotLID v4
     val source =
-      Source.fromFile("src/test/resources/language-detector/glotlid/featurizer_cases.json", "UTF-8")
+      Source.fromFile(
+        "src/test/resources/language-detector/glotlid/featurizer_cases.json",
+        "UTF-8")
     val json =
       try parse(source.mkString)
       finally source.close()
@@ -99,7 +101,14 @@ class FastTextLDTestSpec extends AnyFlatSpec {
 
   it should "not apply minLetters to other top labels" taggedAs FastTest in {
     def decide(label: String, text: String) =
-      FastTextLD.decide(Array(0.90f, 0.10f), Array(label, "eng_Latn"), text, 0.7f, "unk", true, 20)
+      FastTextLD.decide(
+        Array(0.90f, 0.10f),
+        Array(label, "eng_Latn"),
+        text,
+        0.7f,
+        "unk",
+        true,
+        20)
 
     assert(decide("cmn_Hani", "已向家属") == ("cmn_Hani", 0.90f))
     assert(decide("cmn_Hani", "Pt 张伟") == ("cmn_Hani", 0.90f))

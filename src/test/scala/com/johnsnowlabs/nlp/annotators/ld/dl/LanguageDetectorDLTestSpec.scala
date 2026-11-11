@@ -91,7 +91,9 @@ class LanguageDetectorDLTestSpec extends AnyFlatSpec {
     .setInputCols("document")
     .setOutputCol("sentence")
 
-  private def detect(languageDetector: LanguageDetectorDL, texts: Seq[String]): Seq[Annotation] = {
+  private def detect(
+      languageDetector: LanguageDetectorDL,
+      texts: Seq[String]): Seq[Annotation] = {
     val data = texts.zipWithIndex.toDF("text", "id")
     val result = new Pipeline()
       .setStages(Array(documentAssembler, languageDetector))
@@ -171,12 +173,13 @@ class LanguageDetectorDLTestSpec extends AnyFlatSpec {
   }
 
   it should "average the sentence scores when coalesceSentences is set" taggedAs SlowTest in {
-    val data = Seq(
-      "The patient was admitted with chest pain. El paciente ingresó por dolor torácico.").toDF(
-      "text")
+    val data =
+      Seq("The patient was admitted with chest pain. El paciente ingresó por dolor torácico.")
+        .toDF("text")
     def run(coalesce: Boolean): Seq[Annotation] = {
       val languageDetector =
-        configured(threshold = 0f, topK = 0, coalesceSentences = coalesce).setInputCols("sentence")
+        configured(threshold = 0f, topK = 0, coalesceSentences = coalesce).setInputCols(
+          "sentence")
       val result = new Pipeline()
         .setStages(Array(documentAssembler, sentenceDetector, languageDetector))
         .fit(data)
@@ -197,7 +200,8 @@ class LanguageDetectorDLTestSpec extends AnyFlatSpec {
   it should "give the sentences of a long document the same scores as one by one" taggedAs SlowTest in {
     val data = Seq(reference.map(s => (s \ "text").extract[String]).mkString(" ")).toDF("text")
     val result = new Pipeline()
-      .setStages(Array(documentAssembler, sentenceDetector, configured().setInputCols("sentence")))
+      .setStages(
+        Array(documentAssembler, sentenceDetector, configured().setInputCols("sentence")))
       .fit(data)
       .transform(data)
     val inDocument = Annotation.collect(result, "language").head.toSeq
