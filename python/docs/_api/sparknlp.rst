@@ -26,6 +26,7 @@ Submodules
    sparknlp.annotation
    sparknlp.annotation_audio
    sparknlp.annotation_image
+   sparknlp.benchmark
    sparknlp.functions
    sparknlp.upload_to_hub
    sparknlp.util

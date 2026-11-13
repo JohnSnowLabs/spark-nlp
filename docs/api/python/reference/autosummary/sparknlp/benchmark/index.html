@@ -1,0 +1,707 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>sparknlp.benchmark &#8212; Spark NLP 7.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=69e7ec3e"></script>
+    <script src="../../../../static/doctools.js?v=888ff710"></script>
+    <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'reference/autosummary/sparknlp/benchmark/index';</script>
+    <link rel="icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><code...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="module-sparknlp.benchmark">
+<span id="sparknlp-benchmark"></span><h1><a class="reference internal" href="#module-sparknlp.benchmark" title="sparknlp.benchmark"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.benchmark</span></code></a><a class="headerlink" href="#module-sparknlp.benchmark" title="Permalink to this heading">#</a></h1>
+<p>Throughput and accuracy benchmarking for a fitted PipelineModel, against data supplied by
+the caller. See <code class="docutils literal notranslate"><span class="pre">examples/python/benchmarks/</span></code> for end-to-end recipes with recommended public
+datasets per task.</p>
+<p>Mirrors <code class="docutils literal notranslate"><span class="pre">com.johnsnowlabs.nlp.benchmark.Benchmark</span></code> on the Scala side.</p>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.benchmark.MetricRate" title="sparknlp.benchmark.MetricRate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MetricRate</span></code></a></p></td>
+<td><p>Throughput of a single output annotator type, averaged over the timed trials.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.benchmark.ThroughputReport" title="sparknlp.benchmark.ThroughputReport"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ThroughputReport</span></code></a></p></td>
+<td><p>Result of <a class="reference internal" href="#sparknlp.benchmark.Benchmark.throughput" title="sparknlp.benchmark.Benchmark.throughput"><code class="xref py py-func docutils literal notranslate"><span class="pre">Benchmark.throughput()</span></code></a>: one <a class="reference internal" href="#sparknlp.benchmark.MetricRate" title="sparknlp.benchmark.MetricRate"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetricRate</span></code></a> per annotation type the</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.benchmark.AccuracyReport" title="sparknlp.benchmark.AccuracyReport"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AccuracyReport</span></code></a></p></td>
+<td><p>Result of <a class="reference internal" href="#sparknlp.benchmark.Benchmark.evaluate" title="sparknlp.benchmark.Benchmark.evaluate"><code class="xref py py-func docutils literal notranslate"><span class="pre">Benchmark.evaluate()</span></code></a>. The metric names in <code class="docutils literal notranslate"><span class="pre">overall</span></code>/<code class="docutils literal notranslate"><span class="pre">per_class</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.benchmark.Benchmark" title="sparknlp.benchmark.Benchmark"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Benchmark</span></code></a></p></td>
+<td><p>Throughput and accuracy benchmarking for any fitted PipelineModel, against data</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.benchmark.SUPPORTED_TASKS" title="sparknlp.benchmark.SUPPORTED_TASKS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SUPPORTED_TASKS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sparknlp.benchmark.MAX_PRINTED_CLASSES" title="sparknlp.benchmark.MAX_PRINTED_CLASSES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MAX_PRINTED_CLASSES</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py data">
+<dt class="sig sig-object py" id="sparknlp.benchmark.SUPPORTED_TASKS">
+<span class="sig-name descname"><span class="pre">SUPPORTED_TASKS</span></span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#SUPPORTED_TASKS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.SUPPORTED_TASKS" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="sparknlp.benchmark.MAX_PRINTED_CLASSES">
+<span class="sig-name descname"><span class="pre">MAX_PRINTED_CLASSES</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">50</span></em><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#MAX_PRINTED_CLASSES"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.MAX_PRINTED_CLASSES" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.benchmark.MetricRate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MetricRate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annotator_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_items</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean_items_per_second</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">confidence_interval_95</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#MetricRate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.MetricRate" title="Permalink to this definition">#</a></dt>
+<dd><p>Throughput of a single output annotator type, averaged over the timed trials.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.benchmark.MetricRate.annotator_type">
+<span class="sig-name descname"><span class="pre">annotator_type</span></span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#MetricRate.annotator_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.MetricRate.annotator_type" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.benchmark.MetricRate.output_column">
+<span class="sig-name descname"><span class="pre">output_column</span></span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#MetricRate.output_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.MetricRate.output_column" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.benchmark.MetricRate.total_items">
+<span class="sig-name descname"><span class="pre">total_items</span></span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#MetricRate.total_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.MetricRate.total_items" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.benchmark.MetricRate.mean_items_per_second">
+<span class="sig-name descname"><span class="pre">mean_items_per_second</span></span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#MetricRate.mean_items_per_second"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.MetricRate.mean_items_per_second" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.benchmark.MetricRate.confidence_interval_95">
+<span class="sig-name descname"><span class="pre">confidence_interval_95</span></span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#MetricRate.confidence_interval_95"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.MetricRate.confidence_interval_95" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.benchmark.ThroughputReport">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ThroughputReport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rates</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_seconds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#ThroughputReport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.ThroughputReport" title="Permalink to this definition">#</a></dt>
+<dd><p>Result of <a class="reference internal" href="#sparknlp.benchmark.Benchmark.throughput" title="sparknlp.benchmark.Benchmark.throughput"><code class="xref py py-func docutils literal notranslate"><span class="pre">Benchmark.throughput()</span></code></a>: one <a class="reference internal" href="#sparknlp.benchmark.MetricRate" title="sparknlp.benchmark.MetricRate"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetricRate</span></code></a> per annotation type the
+pipeline produced, plus the raw per-trial elapsed times behind them.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.benchmark.ThroughputReport.rates">
+<span class="sig-name descname"><span class="pre">rates</span></span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#ThroughputReport.rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.ThroughputReport.rates" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.benchmark.ThroughputReport.trial_seconds">
+<span class="sig-name descname"><span class="pre">trial_seconds</span></span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#ThroughputReport.trial_seconds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.ThroughputReport.trial_seconds" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.benchmark.AccuracyReport">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AccuracyReport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overall</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_class</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">support</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scored_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#AccuracyReport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.AccuracyReport" title="Permalink to this definition">#</a></dt>
+<dd><p>Result of <a class="reference internal" href="#sparknlp.benchmark.Benchmark.evaluate" title="sparknlp.benchmark.Benchmark.evaluate"><code class="xref py py-func docutils literal notranslate"><span class="pre">Benchmark.evaluate()</span></code></a>. The metric names in <code class="docutils literal notranslate"><span class="pre">overall</span></code>/<code class="docutils literal notranslate"><span class="pre">per_class</span></code>
+depend on the task: label-accuracy tasks report accuracy/weightedPrecision/weightedRecall/
+weightedF1 (support-weighted across labels); NER and word segmentation report entity/
+segment-level precision/recall/f1 (micro-averaged: pooled counts across every type, matching
+conlleval/seqeval, via exact span-boundary matching); dependency parsing reports uas/las; the
+text-similarity tasks report their own metric (bleu, rouge1/rouge2/rougeL, wer, or
+exact_match/f1).</p>
+<p>These averaging conventions differ by task and are NOT interchangeable: <code class="docutils literal notranslate"><span class="pre">overall[&quot;f1&quot;]</span></code>
+from a classification report and from a NER report are computed differently and are not
+comparable to each other. They can also differ from a metric the same model already reported
+during its own training-time evaluation (which typically uses per-token tag accuracy for NER,
+or macro-averaged F1 for classification) – that is expected, not a discrepancy to reconcile.</p>
+<p><code class="docutils literal notranslate"><span class="pre">scored_columns</span></code> names which of the pipeline’s output columns the score was computed from.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.benchmark.AccuracyReport.task">
+<span class="sig-name descname"><span class="pre">task</span></span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#AccuracyReport.task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.AccuracyReport.task" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.benchmark.AccuracyReport.overall">
+<span class="sig-name descname"><span class="pre">overall</span></span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#AccuracyReport.overall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.AccuracyReport.overall" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.benchmark.AccuracyReport.per_class">
+<span class="sig-name descname"><span class="pre">per_class</span></span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#AccuracyReport.per_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.AccuracyReport.per_class" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.benchmark.AccuracyReport.support">
+<span class="sig-name descname"><span class="pre">support</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">0</span></em><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#AccuracyReport.support"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.AccuracyReport.support" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.benchmark.AccuracyReport.scored_columns">
+<span class="sig-name descname"><span class="pre">scored_columns</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">[]</span></em><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#AccuracyReport.scored_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.AccuracyReport.scored_columns" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.benchmark.Benchmark">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Benchmark</span></span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#Benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.Benchmark" title="Permalink to this definition">#</a></dt>
+<dd><p>Throughput and accuracy benchmarking for any fitted PipelineModel, against data
+supplied by the caller.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.benchmark</span><span class="w"> </span><span class="kn">import</span> <span class="n">Benchmark</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">report</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="o">.</span><span class="n">throughput</span><span class="p">(</span><span class="n">pipeline_model</span><span class="p">,</span> <span class="n">my_data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">accuracy</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">pipeline_model</span><span class="p">,</span> <span class="n">my_gold_data</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="s2">&quot;ner&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.benchmark.Benchmark.throughput">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">throughput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'text'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warmup_runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#Benchmark.throughput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.Benchmark.throughput" title="Permalink to this definition">#</a></dt>
+<dd><p>Measures how fast <code class="docutils literal notranslate"><span class="pre">pipeline_model</span></code> processes <code class="docutils literal notranslate"><span class="pre">data</span></code>, reporting one rate per
+type of annotation it produces. Runs <code class="docutils literal notranslate"><span class="pre">warmup_runs</span></code> untimed passes first, then
+<code class="docutils literal notranslate"><span class="pre">trials</span></code> timed passes, reporting the mean rate per metric with a 95% confidence
+interval.</p>
+<p><code class="docutils literal notranslate"><span class="pre">data</span></code> is read once per pass (1 + <code class="docutils literal notranslate"><span class="pre">warmup_runs</span></code> + <code class="docutils literal notranslate"><span class="pre">trials</span></code> times in total), so if
+it isn’t already cached this persists it for the duration of the call (and unpersists it
+again afterwards) – otherwise a <code class="docutils literal notranslate"><span class="pre">data</span></code> sourced from an expensive or non-deterministic
+upstream read (a file scan, a <code class="docutils literal notranslate"><span class="pre">.sample()</span></code>) would have that cost repeated on every pass,
+contaminating the measured rate and, for a non-deterministic source, varying the row
+count between trials.</p>
+<p><code class="docutils literal notranslate"><span class="pre">text_col</span></code> is not read here – the pipeline’s own first stage decides which column it
+consumes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.benchmark.Benchmark.evaluate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gold_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'text'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'label'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted_labeled_dependency_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/benchmark.html#Benchmark.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.benchmark.Benchmark.evaluate" title="Permalink to this definition">#</a></dt>
+<dd><p>Scores <code class="docutils literal notranslate"><span class="pre">pipeline_model</span></code>’s predictions on <code class="docutils literal notranslate"><span class="pre">gold_data</span></code> against <code class="docutils literal notranslate"><span class="pre">task</span></code>’s
+accuracy metric.</p>
+<p>The expected shape of <code class="docutils literal notranslate"><span class="pre">gold_data</span></code> depends on <code class="docutils literal notranslate"><span class="pre">task</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ner</span></code>, <code class="docutils literal notranslate"><span class="pre">pos</span></code>, <code class="docutils literal notranslate"><span class="pre">wordsegmentation</span></code>: <code class="docutils literal notranslate"><span class="pre">text_col</span></code> (raw text) + <code class="docutils literal notranslate"><span class="pre">label_col</span></code>
+(array&lt;string&gt; of gold tags/segment boundaries, aligned by position to the
+pipeline’s own tokenization – for <code class="docutils literal notranslate"><span class="pre">wordsegmentation</span></code> each entry is a
+<code class="docutils literal notranslate"><span class="pre">&quot;begin:end&quot;</span></code> character-offset string, inclusive on both ends)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">classification</span></code>, <code class="docutils literal notranslate"><span class="pre">spellcheck</span></code>, <code class="docutils literal notranslate"><span class="pre">languagedetection</span></code>: <code class="docutils literal notranslate"><span class="pre">text_col</span></code> +
+<code class="docutils literal notranslate"><span class="pre">label_col</span></code> (a single gold label string per row)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">imageclassification</span></code>: <code class="docutils literal notranslate"><span class="pre">text_col</span></code> (the pipeline’s image input column, see note
+below) + <code class="docutils literal notranslate"><span class="pre">label_col</span></code> (single gold class label per row). Reports <code class="docutils literal notranslate"><span class="pre">accuracy</span></code> for the
+model’s top-1 label like every other task, plus an extra <code class="docutils literal notranslate"><span class="pre">top{top_k}Accuracy</span></code> metric.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dependencyparsing</span></code>: <code class="docutils literal notranslate"><span class="pre">text_col</span></code> + <code class="docutils literal notranslate"><span class="pre">label_col</span></code> (array&lt;string&gt; of
+<code class="docutils literal notranslate"><span class="pre">&quot;headIndex:label&quot;</span></code> per token)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">questionanswering</span></code>: <code class="docutils literal notranslate"><span class="pre">text_col</span></code> + <code class="docutils literal notranslate"><span class="pre">label_col</span></code>, either a single reference answer
+per row or an <code class="docutils literal notranslate"><span class="pre">array&lt;string&gt;</span></code> of every acceptable answer for that question, scored
+against its best-matching reference like the official SQuAD eval script.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">speechrecognition</span></code>, <code class="docutils literal notranslate"><span class="pre">translation</span></code>, <code class="docutils literal notranslate"><span class="pre">summarization</span></code>: <code class="docutils literal notranslate"><span class="pre">text_col</span></code> +
+<code class="docutils literal notranslate"><span class="pre">label_col</span></code> (single reference text per row)</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">text_col</span></code> is not read by <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> – the pipeline’s own first stage decides which
+column it consumes, so a mismatched <code class="docutils literal notranslate"><span class="pre">text_col</span></code> goes undetected.</p>
+<p><code class="docutils literal notranslate"><span class="pre">speechrecognition</span></code>’s word error rate is case-sensitive, matching <a class="reference external" href="https://github.com/jitsi/jiwer">jiwer</a>’s default.</p>
+<p><code class="docutils literal notranslate"><span class="pre">summarization</span></code>’s ROUGE never stems (matches <a class="reference external" href="https://github.com/google-research/google-research/tree/master/rouge">rouge_score</a>’s
+<code class="docutils literal notranslate"><span class="pre">use_stemmer=False</span></code> default) – published ROUGE numbers for benchmarks like XSum/
+CNN-DailyMail typically use Porter stemming, so a real model’s score here will read lower
+than those published figures on stem-sensitive text for reasons that have nothing to do
+with the model.</p>
+<p><code class="docutils literal notranslate"><span class="pre">predicted_col</span></code> picks which of the pipeline’s output columns to score. Optional: by
+default <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> takes the last column of the type this task expects. Pass this when
+a pipeline has several stages sharing that type and the default picks the wrong one.
+Reported back on <code class="docutils literal notranslate"><span class="pre">AccuracyReport.scored_columns</span></code>. For <code class="docutils literal notranslate"><span class="pre">dependencyparsing</span></code> this
+overrides only the <code class="docutils literal notranslate"><span class="pre">dependency</span></code>-typed column; use <code class="docutils literal notranslate"><span class="pre">predicted_labeled_dependency_col</span></code>
+for the <code class="docutils literal notranslate"><span class="pre">labeled_dependency</span></code>-typed one.</p>
+<p><code class="docutils literal notranslate"><span class="pre">top_k</span></code> sizes the top-k window for <code class="docutils literal notranslate"><span class="pre">imageclassification</span></code>’s extra
+<code class="docutils literal notranslate"><span class="pre">top{top_k}Accuracy</span></code> metric; every other task ignores it.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attributes">Attributes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.SUPPORTED_TASKS"><code class="docutils literal notranslate"><span class="pre">SUPPORTED_TASKS</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.MAX_PRINTED_CLASSES"><code class="docutils literal notranslate"><span class="pre">MAX_PRINTED_CLASSES</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.MetricRate"><code class="docutils literal notranslate"><span class="pre">MetricRate</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.MetricRate.annotator_type"><code class="docutils literal notranslate"><span class="pre">MetricRate.annotator_type</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.MetricRate.output_column"><code class="docutils literal notranslate"><span class="pre">MetricRate.output_column</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.MetricRate.total_items"><code class="docutils literal notranslate"><span class="pre">MetricRate.total_items</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.MetricRate.mean_items_per_second"><code class="docutils literal notranslate"><span class="pre">MetricRate.mean_items_per_second</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.MetricRate.confidence_interval_95"><code class="docutils literal notranslate"><span class="pre">MetricRate.confidence_interval_95</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.ThroughputReport"><code class="docutils literal notranslate"><span class="pre">ThroughputReport</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.ThroughputReport.rates"><code class="docutils literal notranslate"><span class="pre">ThroughputReport.rates</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.ThroughputReport.trial_seconds"><code class="docutils literal notranslate"><span class="pre">ThroughputReport.trial_seconds</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.AccuracyReport"><code class="docutils literal notranslate"><span class="pre">AccuracyReport</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.AccuracyReport.task"><code class="docutils literal notranslate"><span class="pre">AccuracyReport.task</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.AccuracyReport.overall"><code class="docutils literal notranslate"><span class="pre">AccuracyReport.overall</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.AccuracyReport.per_class"><code class="docutils literal notranslate"><span class="pre">AccuracyReport.per_class</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.AccuracyReport.support"><code class="docutils literal notranslate"><span class="pre">AccuracyReport.support</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.AccuracyReport.scored_columns"><code class="docutils literal notranslate"><span class="pre">AccuracyReport.scored_columns</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.Benchmark"><code class="docutils literal notranslate"><span class="pre">Benchmark</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.Benchmark.throughput"><code class="docutils literal notranslate"><span class="pre">Benchmark.throughput()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.benchmark.Benchmark.evaluate"><code class="docutils literal notranslate"><span class="pre">Benchmark.evaluate()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../../../_sources/reference/autosummary/sparknlp/benchmark/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026 John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
