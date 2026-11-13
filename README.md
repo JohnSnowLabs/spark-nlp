@@ -66,13 +66,13 @@ $ conda create -n sparknlp python=3.9 -y
 $ conda activate sparknlp
 
 # Apache Spark 3.x (Scala 2.12) -> spark-nlp_2.12
-$ pip install spark-nlp==7.0.0 pyspark==3.5.1
+$ pip install spark-nlp==7.0.1 pyspark==3.5.1
 
 # Apache Spark 4.0.0 (Scala 2.13) -> spark-nlp-spark400_2.13
-$ pip install spark-nlp==7.0.0 pyspark==4.0.0
+$ pip install spark-nlp==7.0.1 pyspark==4.0.0
 
 # Apache Spark 4.0.1 and later validated Spark 4 versions (Scala 2.13) -> spark-nlp_2.13
-$ pip install spark-nlp==7.0.0 pyspark==4.0.1
+$ pip install spark-nlp==7.0.1 pyspark==4.0.1
 ```
 
 In Python console or Jupyter `Python3` kernel:
@@ -145,7 +145,7 @@ For a quick example of using pipelines and models take a look at our official [d
 
 ### Apache Spark Support
 
-Spark NLP *7.0.0* supports **both** Apache Spark 3.x (Scala 2.12) and the validated Apache Spark 4 versions
+Spark NLP *7.0.1* supports **both** Apache Spark 3.x (Scala 2.12) and the validated Apache Spark 4 versions
 (Scala 2.13). Apache Spark 4.0.0 ships a separate artifact because of a binary-incompatible `Param` change,
 so there are three artifact lanes:
 
@@ -228,7 +228,7 @@ Spark NLP is compatible with the following Amazon EMR 6.x and 7.x releases:
 | emr-6.13.0         |
 | emr-6.14.0         |
 | emr-6.15.0         |
-| emr-7.0.0          |
+| emr-7.0.1          |
 | emr-7.1.0          |
 | emr-7.2.0          |
 | emr-7.3.0          |
@@ -262,7 +262,7 @@ To install spark-nlp packages through command line follow [these instructions](h
 
 ### Scala
 
-Spark NLP 7.0.0 supports Scala 2.12 with Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x, and Scala 2.13
+Spark NLP 7.0.1 supports Scala 2.12 with Apache Spark 3.0.x, 3.1.x, 3.2.x, 3.3.x, 3.4.x, and 3.5.x, and Scala 2.13
 with Apache Spark 4.0.0 (`spark-nlp-spark400_2.13`) and Apache Spark 4.0.1, 4.1.0, 4.1.1, and 4.1.2
 (`spark-nlp_2.13`). Our packages are
 deployed to Maven central. To add any of our packages as a dependency in your application you can follow [these instructions](https://sparknlp.org/docs/en/install#scala-and-java)
