@@ -1458,7 +1458,7 @@ For Dataproc Serverless, use `gcloud dataproc batches submit pyspark --version=3
 
 ### Dataproc Serverless Spark 4 batch
 
-Upload the Spark NLP `7.0.0` wheel and the assembly JAR built for the Spark runtime reported by Dataproc. The assembly filename does not encode the Maven lane, so verify that the uploaded JAR comes from the `spark-nlp_2.13` build for current runtime `3.0` releases.
+Upload the Spark NLP `7.0.1` wheel and the assembly JAR built for the Spark runtime reported by Dataproc. The assembly filename does not encode the Maven lane, so verify that the uploaded JAR comes from the `spark-nlp_2.13` build for current runtime `3.0` releases.
 
 ```bash
 PROJECT_ID=<project-id>
@@ -1466,8 +1466,8 @@ REGION=<region>
 BUCKET_NAME=<bucket-name>
 BATCH_ID=spark-nlp-700-spark4
 JOB_URI=gs://${BUCKET_NAME}/python/job.py
-JAR_URI=gs://${BUCKET_NAME}/jars/spark-nlp-assembly-7.0.0.jar
-WHEEL_URI=gs://${BUCKET_NAME}/wheels/spark_nlp-7.0.0-py2.py3-none-any.whl
+JAR_URI=gs://${BUCKET_NAME}/jars/spark-nlp-assembly-7.0.1.jar
+WHEEL_URI=gs://${BUCKET_NAME}/wheels/spark_nlp-7.0.1-py2.py3-none-any.whl
 
 gcloud dataproc batches submit pyspark ${JOB_URI} \
   --project=${PROJECT_ID} \
