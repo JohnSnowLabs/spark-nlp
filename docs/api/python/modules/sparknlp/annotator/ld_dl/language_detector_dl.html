@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.annotator.ld_dl.language_detector_dl &#8212; Spark NLP 7.0.0 documentation</title>
+    <title>sparknlp.annotator.ld_dl.language_detector_dl &#8212; Spark NLP 7.0.1 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cd9f6827"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=69e7ec3e"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -384,14 +384,26 @@ document.write(`
 
 <div class="viewcode-block" id="LanguageDetectorDL"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LanguageDetectorDL</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span> <span class="n">HasStorageRef</span><span class="p">,</span> <span class="n">HasEngine</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Language Identification and Detection by using CNN and RNN architectures</span>
-<span class="sd">    in TensorFlow.</span>
+<span class="sd">    in TensorFlow, or supervised fastText models such as GlotLID on ONNX.</span>
 
 <span class="sd">    ``LanguageDetectorDL`` is an annotator that detects the language of</span>
-<span class="sd">    documents or sentences depending on the inputCols. The models are trained on</span>
-<span class="sd">    large datasets such as Wikipedia and Tatoeba. Depending on the language</span>
-<span class="sd">    (how similar the characters are), the LanguageDetectorDL works best with</span>
-<span class="sd">    text longer than 140 characters. The output is a language code in</span>
+<span class="sd">    documents or sentences depending on the inputCols. The CNN models are</span>
+<span class="sd">    trained on large datasets such as Wikipedia and Tatoeba. Depending on the</span>
+<span class="sd">    language (how similar the characters are), they work best with text longer</span>
+<span class="sd">    than 140 characters. Their output is a language code in</span>
 <span class="sd">    `Wiki Code style &lt;https://en.wikipedia.org/wiki/List_of_Wikipedias&gt;`__.</span>
+
+<span class="sd">    The fastText models run on ONNX and turn text into features exactly as</span>
+<span class="sd">    fastText does. GlotLID v4 (``&quot;ld_glotlid_v4&quot;``, or ``&quot;ld_glotlid_v4_int8&quot;`` at a</span>
+<span class="sd">    quarter of the size) labels 2,060 languages and scripts as an ISO 639-3</span>
+<span class="sd">    code plus an ISO 15924 script, such as ``eng_Latn`` or ``cmn_Hani``, and</span>
+<span class="sd">    has ``zxx_Code``, ``zxx_Zmth`` and ``zxx_Zsym`` for code, mathematics and</span>
+<span class="sd">    symbols. For these models the metadata also holds ``confidence``, the</span>
+<span class="sd">    score the label was judged on, and ``scriptPooling``, ``minLetters`` and</span>
+<span class="sd">    ``topK`` shape the result. Each sentence goes to the model whole, so split</span>
+<span class="sd">    long documents into sentences first. To import other fastText models, see</span>
+<span class="sd">    the</span>
+<span class="sd">    `import notebook &lt;https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_LanguageDetectorDL.ipynb&gt;`__.</span>
 
 <span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion</span>
 <span class="sd">    object:</span>
@@ -428,6 +440,16 @@ document.write(`
 <span class="sd">        output instead of one output per sentence, by default True.</span>
 <span class="sd">    languages</span>
 <span class="sd">       The languages used to trained the model</span>
+<span class="sd">    topK</span>
+<span class="sd">        Number of language scores kept in the metadata, the highest ones; 0</span>
+<span class="sd">        keeps all of them, by default 0. ONNX (fastText) models only.</span>
+<span class="sd">    scriptPooling</span>
+<span class="sd">        Whether the score of a non-Latin top label is the sum of all labels in</span>
+<span class="sd">        its script, by default False. ONNX (fastText) models only.</span>
+<span class="sd">    minLetters</span>
+<span class="sd">        When the top label is in Latin script (``_Latn``), text with fewer</span>
+<span class="sd">        letters than this gets ``thresholdLabel``; 0 turns it off, by default</span>
+<span class="sd">        0. ONNX (fastText) models only.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -475,7 +497,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
             <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
             <span class="n">thresholdLabel</span><span class="o">=</span><span class="s2">&quot;Unknown&quot;</span><span class="p">,</span>
-            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">True</span>
+            <span class="n">coalesceSentences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">topK</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">scriptPooling</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">minLetters</span><span class="o">=</span><span class="mi">0</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="LanguageDetectorDL.configProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.configProtoBytes">[docs]</a>    <span class="n">configProtoBytes</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;configProtoBytes&quot;</span><span class="p">,</span>
@@ -497,6 +522,18 @@ document.write(`
 <div class="viewcode-block" id="LanguageDetectorDL.languages"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.languages">[docs]</a>    <span class="n">languages</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;languages&quot;</span><span class="p">,</span>
                       <span class="s2">&quot;get the languages used to trained the model&quot;</span><span class="p">,</span>
                       <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toListString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LanguageDetectorDL.topK"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.topK">[docs]</a>    <span class="n">topK</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;topK&quot;</span><span class="p">,</span>
+                 <span class="s2">&quot;Number of language scores kept in the metadata, the highest ones; 0 keeps all of them&quot;</span><span class="p">,</span>
+                 <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LanguageDetectorDL.scriptPooling"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.scriptPooling">[docs]</a>    <span class="n">scriptPooling</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;scriptPooling&quot;</span><span class="p">,</span>
+                          <span class="s2">&quot;Whether the score of a non-Latin top label is the sum of all labels in its script&quot;</span><span class="p">,</span>
+                          <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LanguageDetectorDL.minLetters"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.minLetters">[docs]</a>    <span class="n">minLetters</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minLetters&quot;</span><span class="p">,</span>
+                       <span class="s2">&quot;When the top label is in Latin script, text with fewer letters than this gets thresholdLabel; 0 turns it off&quot;</span><span class="p">,</span>
+                       <span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LanguageDetectorDL.setConfigProtoBytes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setConfigProtoBytes">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setConfigProtoBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets configProto from tensorflow, serialized into byte array.</span>
@@ -541,6 +578,67 @@ document.write(`
 <span class="sd">            If the output of all sentences will be averaged to one output</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">coalesceSentences</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LanguageDetectorDL.setTopK"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setTopK">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setTopK</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the number of language scores kept in the metadata, the highest</span>
+<span class="sd">        ones; 0 keeps all of them, by default 0. ONNX (fastText) models only.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Number of scores to keep</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">topK</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LanguageDetectorDL.setScriptPooling"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setScriptPooling">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setScriptPooling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether the score of a non-Latin top label is the sum of all</span>
+<span class="sd">        labels in its script, so that close varieties such as Mandarin</span>
+<span class="sd">        (``cmn_Hani``) and Cantonese (``yue_Hani``) do not split it, by default</span>
+<span class="sd">        False. The label is still the top one, so the pooled score says how</span>
+<span class="sd">        sure the script is rather than the language. ONNX (fastText) models</span>
+<span class="sd">        only.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : bool</span>
+<span class="sd">            Whether to pool same-script scores</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">scriptPooling</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LanguageDetectorDL.setMinLetters"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setMinLetters">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinLetters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the minimum number of letters for a Latin-script top label</span>
+<span class="sd">        (``_Latn``); shorter text gets ``thresholdLabel``. 0 turns it off, by</span>
+<span class="sd">        default 0. ONNX (fastText) models only.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value : int</span>
+<span class="sd">            Minimum number of letters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minLetters</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="LanguageDetectorDL.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.loadSavedModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally exported model: a TensorFlow CNN export, or a</span>
+<span class="sd">        supervised fastText model such as GlotLID exported to ONNX</span>
+<span class="sd">        (``model.onnx`` with ``assets/language.txt``, ``assets/vocab.json`` and</span>
+<span class="sd">        ``assets/config.json``).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the exported model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        LanguageDetectorDL</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">_LanguageDetectorDLLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_LanguageDetectorDLLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">LanguageDetectorDL</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="LanguageDetectorDL.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/ld_dl/language_detector_dl/index.html#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ld_wiki_tatoeba_cnn_21&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;xx&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>

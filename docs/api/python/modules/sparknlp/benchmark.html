@@ -1,0 +1,1357 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.benchmark &#8212; Spark NLP 7.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../static/documentation_options.js?v=69e7ec3e"></script>
+    <script src="../../static/doctools.js?v=888ff710"></script>
+    <script src="../../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/benchmark';</script>
+    <link rel="icon" href="../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../sparknlp.html" class="nav-link">sparknlp</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.benchmark</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for sparknlp.benchmark</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2022 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Throughput and accuracy benchmarking for a fitted PipelineModel, against data supplied by</span>
+<span class="sd">the caller. See ``examples/python/benchmarks/`` for end-to-end recipes with recommended public</span>
+<span class="sd">datasets per task.</span>
+
+<span class="sd">Mirrors ``com.johnsnowlabs.nlp.benchmark.Benchmark`` on the Scala side.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyspark.sql.functions</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+
+<div class="viewcode-block" id="SUPPORTED_TASKS"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.SUPPORTED_TASKS">[docs]</a><span class="n">SUPPORTED_TASKS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;ner&quot;</span><span class="p">,</span> <span class="s2">&quot;wordsegmentation&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;classification&quot;</span><span class="p">,</span> <span class="s2">&quot;spellcheck&quot;</span><span class="p">,</span> <span class="s2">&quot;languagedetection&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;imageclassification&quot;</span><span class="p">,</span> <span class="s2">&quot;dependencyparsing&quot;</span><span class="p">,</span> <span class="s2">&quot;questionanswering&quot;</span><span class="p">,</span> <span class="s2">&quot;speechrecognition&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;translation&quot;</span><span class="p">,</span> <span class="s2">&quot;summarization&quot;</span><span class="p">,</span>
+<span class="p">}</span></div>
+
+<span class="c1"># Tasks whose engine issues more than one action against the transformed DataFrame; only these</span>
+<span class="c1"># benefit from caching it.</span>
+<span class="n">_TASKS_NEEDING_CACHE</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;classification&quot;</span><span class="p">,</span> <span class="s2">&quot;spellcheck&quot;</span><span class="p">,</span> <span class="s2">&quot;languagedetection&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;imageclassification&quot;</span><span class="p">}</span>
+
+<span class="n">_TEXT_SIMILARITY_METRIC</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;questionanswering&quot;</span><span class="p">:</span> <span class="s2">&quot;squad&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;speechrecognition&quot;</span><span class="p">:</span> <span class="s2">&quot;wer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;translation&quot;</span><span class="p">:</span> <span class="s2">&quot;bleu&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;summarization&quot;</span><span class="p">:</span> <span class="s2">&quot;rouge&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">_ANNOTATOR_TYPE</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;ner&quot;</span><span class="p">:</span> <span class="s2">&quot;named_entity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wordsegmentation&quot;</span><span class="p">:</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pos&quot;</span><span class="p">:</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;classification&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;spellcheck&quot;</span><span class="p">:</span> <span class="s2">&quot;token&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;languagedetection&quot;</span><span class="p">:</span> <span class="s2">&quot;language&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;imageclassification&quot;</span><span class="p">:</span> <span class="s2">&quot;category&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># Sentinel for a row with no usable prediction, so it never accidentally matches a real gold</span>
+<span class="c1"># label.</span>
+<span class="n">_NO_PREDICTION</span> <span class="o">=</span> <span class="s2">&quot;&lt;&lt;no_prediction&gt;&gt;&quot;</span>
+
+<span class="c1">#: Cap on how many per-class lines ``AccuracyReport.__repr__`` prints before eliding.</span>
+<div class="viewcode-block" id="MAX_PRINTED_CLASSES"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.MAX_PRINTED_CLASSES">[docs]</a><span class="n">MAX_PRINTED_CLASSES</span> <span class="o">=</span> <span class="mi">50</span></div>
+
+
+<div class="viewcode-block" id="MetricRate"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.MetricRate">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">MetricRate</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Throughput of a single output annotator type, averaged over the timed trials.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotator_type</span><span class="p">,</span> <span class="n">output_column</span><span class="p">,</span> <span class="n">total_items</span><span class="p">,</span> <span class="n">mean_items_per_second</span><span class="p">,</span>
+                 <span class="n">confidence_interval_95</span><span class="p">):</span>
+<div class="viewcode-block" id="MetricRate.annotator_type"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.MetricRate.annotator_type">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">annotator_type</span> <span class="o">=</span> <span class="n">annotator_type</span></div>
+<div class="viewcode-block" id="MetricRate.output_column"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.MetricRate.output_column">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">output_column</span> <span class="o">=</span> <span class="n">output_column</span></div>
+<div class="viewcode-block" id="MetricRate.total_items"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.MetricRate.total_items">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">total_items</span> <span class="o">=</span> <span class="n">total_items</span></div>
+<div class="viewcode-block" id="MetricRate.mean_items_per_second"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.MetricRate.mean_items_per_second">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">mean_items_per_second</span> <span class="o">=</span> <span class="n">mean_items_per_second</span></div>
+<div class="viewcode-block" id="MetricRate.confidence_interval_95"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.MetricRate.confidence_interval_95">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">confidence_interval_95</span> <span class="o">=</span> <span class="n">confidence_interval_95</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">output_column</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">mean_items_per_second</span><span class="si">:</span><span class="s2">,.1f</span><span class="si">}</span><span class="s2"> ± &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">confidence_interval_95</span><span class="si">:</span><span class="s2">,.1f</span><span class="si">}</span><span class="s2"> items/sec &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;(type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">annotator_type</span><span class="si">}</span><span class="s2">, n=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">total_items</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ThroughputReport"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.ThroughputReport">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ThroughputReport</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of :func:`Benchmark.throughput`: one :class:`MetricRate` per annotation type the</span>
+<span class="sd">    pipeline produced, plus the raw per-trial elapsed times behind them.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rates</span><span class="p">,</span> <span class="n">trial_seconds</span><span class="p">):</span>
+<div class="viewcode-block" id="ThroughputReport.rates"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.ThroughputReport.rates">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="n">rates</span></div>
+<div class="viewcode-block" id="ThroughputReport.trial_seconds"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.ThroughputReport.trial_seconds">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">trial_seconds</span> <span class="o">=</span> <span class="n">trial_seconds</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">mean_elapsed</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trial_seconds</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trial_seconds</span><span class="p">)</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Throughput over </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trial_seconds</span><span class="p">)</span><span class="si">}</span><span class="s2"> trial(s), &quot;</span>
+                  <span class="sa">f</span><span class="s2">&quot;mean elapsed </span><span class="si">{</span><span class="n">mean_elapsed</span><span class="si">:</span><span class="s2">,.3f</span><span class="si">}</span><span class="s2"> sec/trial&quot;</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rates</span><span class="p">]</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AccuracyReport"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.AccuracyReport">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AccuracyReport</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of :func:`Benchmark.evaluate`. The metric names in ``overall``/``per_class``</span>
+<span class="sd">    depend on the task: label-accuracy tasks report accuracy/weightedPrecision/weightedRecall/</span>
+<span class="sd">    weightedF1 (support-weighted across labels); NER and word segmentation report entity/</span>
+<span class="sd">    segment-level precision/recall/f1 (micro-averaged: pooled counts across every type, matching</span>
+<span class="sd">    conlleval/seqeval, via exact span-boundary matching); dependency parsing reports uas/las; the</span>
+<span class="sd">    text-similarity tasks report their own metric (bleu, rouge1/rouge2/rougeL, wer, or</span>
+<span class="sd">    exact_match/f1).</span>
+
+<span class="sd">    These averaging conventions differ by task and are NOT interchangeable: ``overall[&quot;f1&quot;]``</span>
+<span class="sd">    from a classification report and from a NER report are computed differently and are not</span>
+<span class="sd">    comparable to each other. They can also differ from a metric the same model already reported</span>
+<span class="sd">    during its own training-time evaluation (which typically uses per-token tag accuracy for NER,</span>
+<span class="sd">    or macro-averaged F1 for classification) -- that is expected, not a discrepancy to reconcile.</span>
+
+<span class="sd">    ``scored_columns`` names which of the pipeline&#39;s output columns the score was computed from.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">task</span><span class="p">,</span> <span class="n">overall</span><span class="p">,</span> <span class="n">per_class</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">support</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scored_columns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="AccuracyReport.task"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.AccuracyReport.task">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="n">task</span></div>
+<div class="viewcode-block" id="AccuracyReport.overall"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.AccuracyReport.overall">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">overall</span> <span class="o">=</span> <span class="n">overall</span></div>
+<div class="viewcode-block" id="AccuracyReport.per_class"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.AccuracyReport.per_class">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">per_class</span> <span class="o">=</span> <span class="n">per_class</span> <span class="ow">or</span> <span class="p">{}</span></div>
+<div class="viewcode-block" id="AccuracyReport.support"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.AccuracyReport.support">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">support</span> <span class="o">=</span> <span class="n">support</span></div>
+<div class="viewcode-block" id="AccuracyReport.scored_columns"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.AccuracyReport.scored_columns">[docs]</a>        <span class="bp">self</span><span class="o">.</span><span class="n">scored_columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">scored_columns</span> <span class="ow">or</span> <span class="p">[])</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">overall_line</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">overall</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+        <span class="n">scored</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;, scored: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scored_columns</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scored_columns</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">header</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="si">}</span><span class="s2"> accuracy (n=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">support</span><span class="si">}{</span><span class="n">scored</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">overall_line</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">per_class</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">header</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">header</span><span class="p">]</span>
+        <span class="n">ordered</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">per_class</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">metrics</span> <span class="ow">in</span> <span class="n">ordered</span><span class="p">[:</span><span class="n">MAX_PRINTED_CLASSES</span><span class="p">]:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ordered</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">MAX_PRINTED_CLASSES</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  ... and </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">ordered</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">MAX_PRINTED_CLASSES</span><span class="si">}</span><span class="s2"> more labels &quot;</span>
+                <span class="s2">&quot;(see the per_class attribute for the full breakdown)&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_confidence_interval_95</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">v</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_newly_produced_fields</span><span class="p">(</span><span class="n">input_fields</span><span class="p">,</span> <span class="n">transformed_fields</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Fields in `transformed_fields` that don&#39;t already exist, unchanged, in `input_fields`.</span>
+
+<span class="sd">    Matches on the whole field (name, type, and metadata), not just the name: a caller can pass</span>
+<span class="sd">    gold data that was itself produced by an earlier Spark NLP run and already carries a</span>
+<span class="sd">    same-named column (e.g. &quot;category&quot; or &quot;document&quot;). If the new pipeline&#39;s real prediction also</span>
+<span class="sd">    lands under that name, transform() overwrites it with a differently-typed/annotated field --</span>
+<span class="sd">    matching by name alone would wrongly treat that fresh prediction as pre-existing input and</span>
+<span class="sd">    exclude it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">transformed_fields</span> <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">input_fields</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_columns_by_type</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">exclude_fields</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">_newly_produced_fields</span><span class="p">(</span><span class="n">exclude_fields</span><span class="p">,</span> <span class="n">fields</span><span class="p">):</span>
+        <span class="n">annotator_type</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;annotatorType&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">metadata</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">annotator_type</span><span class="p">:</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">f</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">annotator_type</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_find_output_column</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">annotator_type</span><span class="p">,</span> <span class="n">gold_input_fields</span><span class="p">,</span> <span class="n">transformed</span><span class="p">,</span> <span class="n">predicted_col</span><span class="p">,</span>
+                       <span class="n">override_param_name</span><span class="o">=</span><span class="s2">&quot;predicted_col&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve which output column to score, taking the last match rather than the first --</span>
+<span class="sd">    schema order is stage order, and the prediction is the last stage to write that type.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">predicted_col</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">predicted_col</span>
+    <span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">_columns_by_type</span><span class="p">(</span><span class="n">transformed</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">fields</span><span class="p">,</span> <span class="n">gold_input_fields</span><span class="p">)</span>
+                  <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="n">annotator_type</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">candidates</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Could not find an output column of type &#39;</span><span class="si">{</span><span class="n">annotator_type</span><span class="si">}</span><span class="s2">&#39; produced by this &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;pipeline for task &#39;</span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s2">&#39;. Check that the pipeline actually produces this &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;annotation, or pass an explicit </span><span class="si">{</span><span class="n">override_param_name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">candidates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_single_result_expr</span><span class="p">(</span><span class="n">annotation_col</span><span class="p">,</span> <span class="n">on_missing</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;SQL expression for the first annotation&#39;s `result` field, guarded against ANSI mode</span>
+<span class="sd">    throwing on an empty array.&quot;&quot;&quot;</span>
+    <span class="n">escaped</span> <span class="o">=</span> <span class="n">on_missing</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s2">&quot;&#39;&#39;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;COALESCE(IF(size(`</span><span class="si">{</span><span class="n">annotation_col</span><span class="si">}</span><span class="s2">`) &gt; 0, &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;element_at(`</span><span class="si">{</span><span class="n">annotation_col</span><span class="si">}</span><span class="s2">`, 1).result, NULL), &#39;</span><span class="si">{</span><span class="n">escaped</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_zip_equal_length</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">gold</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">gold</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Benchmark.evaluate(task=&#39;</span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s2">&#39;): predicted and gold sequences have different &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;lengths (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">gold</span><span class="p">)</span><span class="si">}</span><span class="s2">) for one row. label_col must align one-to-one &quot;</span>
+            <span class="s2">&quot;with the pipeline&#39;s own tokenization for this task.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">gold</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="Benchmark"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.Benchmark">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Benchmark</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Throughput and accuracy benchmarking for any fitted PipelineModel, against data</span>
+<span class="sd">    supplied by the caller.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.benchmark import Benchmark</span>
+<span class="sd">    &gt;&gt;&gt; report = Benchmark.throughput(pipeline_model, my_data)</span>
+<span class="sd">    &gt;&gt;&gt; print(report)</span>
+<span class="sd">    &gt;&gt;&gt; accuracy = Benchmark.evaluate(pipeline_model, my_gold_data, task=&quot;ner&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(accuracy)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Benchmark.throughput"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.Benchmark.throughput">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">throughput</span><span class="p">(</span><span class="n">pipeline_model</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">text_col</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="n">warmup_runs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">trials</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Measures how fast ``pipeline_model`` processes ``data``, reporting one rate per</span>
+<span class="sd">        type of annotation it produces. Runs ``warmup_runs`` untimed passes first, then</span>
+<span class="sd">        ``trials`` timed passes, reporting the mean rate per metric with a 95% confidence</span>
+<span class="sd">        interval.</span>
+
+<span class="sd">        ``data`` is read once per pass (1 + ``warmup_runs`` + ``trials`` times in total), so if</span>
+<span class="sd">        it isn&#39;t already cached this persists it for the duration of the call (and unpersists it</span>
+<span class="sd">        again afterwards) -- otherwise a ``data`` sourced from an expensive or non-deterministic</span>
+<span class="sd">        upstream read (a file scan, a ``.sample()``) would have that cost repeated on every pass,</span>
+<span class="sd">        contaminating the measured rate and, for a non-deterministic source, varying the row</span>
+<span class="sd">        count between trials.</span>
+
+<span class="sd">        ``text_col`` is not read here -- the pipeline&#39;s own first stage decides which column it</span>
+<span class="sd">        consumes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">warmup_runs</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;warmup_runs must be &gt;= 0&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">trials</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;trials must be &gt;= 1&quot;</span><span class="p">)</span>
+
+        <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark</span><span class="w"> </span><span class="kn">import</span> <span class="n">StorageLevel</span>
+
+        <span class="c1"># Only persist here if the caller hasn&#39;t already -- leaves caller-managed caching</span>
+        <span class="c1"># untouched instead of unpersisting a DataFrame we didn&#39;t cache ourselves.</span>
+        <span class="n">already_cached</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">storageLevel</span> <span class="o">!=</span> <span class="n">StorageLevel</span><span class="o">.</span><span class="n">NONE</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">already_cached</span><span class="p">:</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">produced_types</span> <span class="o">=</span> <span class="n">_columns_by_type</span><span class="p">(</span><span class="n">pipeline_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">fields</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">produced_types</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The pipeline did not add any annotator-typed output columns to the input data.&quot;</span><span class="p">)</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">count_cols</span><span class="p">():</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">F</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">name</span><span class="p">)))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">produced_types</span><span class="p">]</span>
+
+            <span class="c1"># Must run the same aggregation as the timed trials -- `.count()` alone gets</span>
+            <span class="c1"># column-pruned and never executes the annotators.</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">warmup_runs</span><span class="p">):</span>
+                <span class="n">pipeline_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">*</span><span class="n">count_cols</span><span class="p">())</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+
+            <span class="n">trial_results</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">trials</span><span class="p">):</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">pipeline_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">*</span><span class="n">count_cols</span><span class="p">())</span><span class="o">.</span><span class="n">collect</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+                <span class="n">counts</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">or</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">produced_types</span><span class="p">))]</span>
+                <span class="n">trial_results</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">elapsed</span><span class="p">,</span> <span class="n">counts</span><span class="p">))</span>
+
+            <span class="n">rates</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">annotator_type</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">produced_types</span><span class="p">):</span>
+                <span class="n">per_trial_rates</span> <span class="o">=</span> <span class="p">[</span><span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">elapsed</span> <span class="k">for</span> <span class="n">elapsed</span><span class="p">,</span> <span class="n">counts</span> <span class="ow">in</span> <span class="n">trial_results</span><span class="p">]</span>
+                <span class="n">mean</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">per_trial_rates</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">per_trial_rates</span><span class="p">)</span>
+                <span class="n">total_items</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">counts</span> <span class="ow">in</span> <span class="n">trial_results</span><span class="p">)</span>
+                <span class="n">rates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MetricRate</span><span class="p">(</span><span class="n">annotator_type</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">total_items</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span>
+                                         <span class="n">_confidence_interval_95</span><span class="p">(</span><span class="n">per_trial_rates</span><span class="p">)))</span>
+
+            <span class="k">return</span> <span class="n">ThroughputReport</span><span class="p">(</span><span class="n">rates</span><span class="p">,</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">trial_results</span><span class="p">])</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">already_cached</span><span class="p">:</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">unpersist</span><span class="p">()</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Benchmark.evaluate"><a class="viewcode-back" href="../../reference/autosummary/sparknlp/benchmark/index.html#sparknlp.benchmark.Benchmark.evaluate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="n">pipeline_model</span><span class="p">,</span> <span class="n">gold_data</span><span class="p">,</span> <span class="n">task</span><span class="o">=</span><span class="s2">&quot;ner&quot;</span><span class="p">,</span> <span class="n">text_col</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="o">=</span><span class="s2">&quot;label&quot;</span><span class="p">,</span>
+                 <span class="n">predicted_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">predicted_labeled_dependency_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Scores ``pipeline_model``&#39;s predictions on ``gold_data`` against ``task``&#39;s</span>
+<span class="sd">        accuracy metric.</span>
+
+<span class="sd">        The expected shape of ``gold_data`` depends on ``task``:</span>
+
+<span class="sd">        - ``ner``, ``pos``, ``wordsegmentation``: ``text_col`` (raw text) + ``label_col``</span>
+<span class="sd">          (array&lt;string&gt; of gold tags/segment boundaries, aligned by position to the</span>
+<span class="sd">          pipeline&#39;s own tokenization -- for ``wordsegmentation`` each entry is a</span>
+<span class="sd">          ``&quot;begin:end&quot;`` character-offset string, inclusive on both ends)</span>
+<span class="sd">        - ``classification``, ``spellcheck``, ``languagedetection``: ``text_col`` +</span>
+<span class="sd">          ``label_col`` (a single gold label string per row)</span>
+<span class="sd">        - ``imageclassification``: ``text_col`` (the pipeline&#39;s image input column, see note</span>
+<span class="sd">          below) + ``label_col`` (single gold class label per row). Reports ``accuracy`` for the</span>
+<span class="sd">          model&#39;s top-1 label like every other task, plus an extra ``top{top_k}Accuracy`` metric.</span>
+<span class="sd">        - ``dependencyparsing``: ``text_col`` + ``label_col`` (array&lt;string&gt; of</span>
+<span class="sd">          ``&quot;headIndex:label&quot;`` per token)</span>
+<span class="sd">        - ``questionanswering``: ``text_col`` + ``label_col``, either a single reference answer</span>
+<span class="sd">          per row or an ``array&lt;string&gt;`` of every acceptable answer for that question, scored</span>
+<span class="sd">          against its best-matching reference like the official SQuAD eval script.</span>
+<span class="sd">        - ``speechrecognition``, ``translation``, ``summarization``: ``text_col`` +</span>
+<span class="sd">          ``label_col`` (single reference text per row)</span>
+
+<span class="sd">        ``text_col`` is not read by ``evaluate`` -- the pipeline&#39;s own first stage decides which</span>
+<span class="sd">        column it consumes, so a mismatched ``text_col`` goes undetected.</span>
+
+<span class="sd">        ``speechrecognition``&#39;s word error rate is case-sensitive, matching `jiwer</span>
+<span class="sd">        &lt;https://github.com/jitsi/jiwer&gt;`_&#39;s default.</span>
+
+<span class="sd">        ``summarization``&#39;s ROUGE never stems (matches `rouge_score</span>
+<span class="sd">        &lt;https://github.com/google-research/google-research/tree/master/rouge&gt;`_&#39;s</span>
+<span class="sd">        ``use_stemmer=False`` default) -- published ROUGE numbers for benchmarks like XSum/</span>
+<span class="sd">        CNN-DailyMail typically use Porter stemming, so a real model&#39;s score here will read lower</span>
+<span class="sd">        than those published figures on stem-sensitive text for reasons that have nothing to do</span>
+<span class="sd">        with the model.</span>
+
+<span class="sd">        ``predicted_col`` picks which of the pipeline&#39;s output columns to score. Optional: by</span>
+<span class="sd">        default ``evaluate`` takes the last column of the type this task expects. Pass this when</span>
+<span class="sd">        a pipeline has several stages sharing that type and the default picks the wrong one.</span>
+<span class="sd">        Reported back on ``AccuracyReport.scored_columns``. For ``dependencyparsing`` this</span>
+<span class="sd">        overrides only the ``dependency``-typed column; use ``predicted_labeled_dependency_col``</span>
+<span class="sd">        for the ``labeled_dependency``-typed one.</span>
+
+<span class="sd">        ``top_k`` sizes the top-k window for ``imageclassification``&#39;s extra</span>
+<span class="sd">        ``top{top_k}Accuracy`` metric; every other task ignores it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">task</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">SUPPORTED_TASKS</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown benchmark task &#39;</span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s2">&#39;. Supported: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">SUPPORTED_TASKS</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">top_k</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;top_k must be &gt;= 1&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">label_col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gold_data</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;gold_data must contain a &#39;</span><span class="si">{</span><span class="n">label_col</span><span class="si">}</span><span class="s2">&#39; column&quot;</span><span class="p">)</span>
+
+        <span class="n">gold_input_fields</span> <span class="o">=</span> <span class="n">gold_data</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">fields</span>
+        <span class="c1"># Only cached for tasks that actually reuse it (see _TASKS_NEEDING_CACHE) -- caching the</span>
+        <span class="c1"># whole annotated DataFrame for a single-pass task costs real memory for no benefit.</span>
+        <span class="n">predicted</span> <span class="o">=</span> <span class="n">pipeline_model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">gold_data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">_TASKS_NEEDING_CACHE</span><span class="p">:</span>
+            <span class="n">predicted</span> <span class="o">=</span> <span class="n">predicted</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
+
+        <span class="n">resolved</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span><span class="n">annotator_type</span><span class="p">,</span> <span class="n">override</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">_find_output_column</span><span class="p">(</span>
+                <span class="n">task</span><span class="p">,</span> <span class="n">annotator_type</span><span class="p">,</span> <span class="n">gold_input_fields</span><span class="p">,</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">override</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">resolved</span><span class="p">:</span>
+                <span class="n">resolved</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">name</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">find_col</span><span class="p">(</span><span class="n">annotator_type</span><span class="p">,</span> <span class="n">override</span><span class="o">=</span><span class="n">predicted_col</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="s2">&quot;predicted_col&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">resolve</span><span class="p">(</span><span class="n">annotator_type</span><span class="p">,</span> <span class="n">override</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">find_labeled_dependency_col</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">resolve</span><span class="p">(</span><span class="s2">&quot;labeled_dependency&quot;</span><span class="p">,</span> <span class="n">predicted_labeled_dependency_col</span><span class="p">,</span>
+                           <span class="s2">&quot;predicted_labeled_dependency_col&quot;</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">report</span> <span class="o">=</span> <span class="n">Benchmark</span><span class="o">.</span><span class="n">_evaluate_against</span><span class="p">(</span>
+                <span class="n">task</span><span class="p">,</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">gold_data</span><span class="p">,</span> <span class="n">label_col</span><span class="p">,</span> <span class="n">find_col</span><span class="p">,</span>
+                <span class="n">find_labeled_dependency_col</span><span class="p">,</span> <span class="n">top_k</span><span class="p">)</span>
+            <span class="n">report</span><span class="o">.</span><span class="n">scored_columns</span> <span class="o">=</span> <span class="n">resolved</span>
+            <span class="k">return</span> <span class="n">report</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">predicted</span><span class="o">.</span><span class="n">unpersist</span><span class="p">()</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_evaluate_against</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">predicted</span><span class="p">,</span> <span class="n">gold_data</span><span class="p">,</span> <span class="n">label_col</span><span class="p">,</span> <span class="n">find_col</span><span class="p">,</span>
+                          <span class="n">find_labeled_dependency_col</span><span class="p">,</span> <span class="n">top_k</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">task</span> <span class="o">==</span> <span class="s2">&quot;ner&quot;</span><span class="p">:</span>
+            <span class="n">pred_col</span> <span class="o">=</span> <span class="n">find_col</span><span class="p">(</span><span class="n">_ANNOTATOR_TYPE</span><span class="p">[</span><span class="s2">&quot;ner&quot;</span><span class="p">])</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">predicted</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;__pred&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;transform(`</span><span class="si">{</span><span class="n">pred_col</span><span class="si">}</span><span class="s2">`, x -&gt; x.result)&quot;</span><span class="p">))</span>
+            <span class="n">rdd</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;__pred&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="n">_span_f1</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">rdd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">task</span> <span class="o">==</span> <span class="s2">&quot;wordsegmentation&quot;</span><span class="p">:</span>
+            <span class="n">pred_col</span> <span class="o">=</span> <span class="n">find_col</span><span class="p">(</span><span class="n">_ANNOTATOR_TYPE</span><span class="p">[</span><span class="s2">&quot;wordsegmentation&quot;</span><span class="p">])</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">predicted</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span>
+                <span class="s2">&quot;__predBoundaries&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;transform(`</span><span class="si">{</span><span class="n">pred_col</span><span class="si">}</span><span class="s2">`, x -&gt; array(x.begin, x.end))&quot;</span><span class="p">))</span>
+            <span class="n">rdd</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;__predBoundaries&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">(</span>
+                    <span class="p">{(</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
+                    <span class="p">{</span><span class="n">_parse_int_pair</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]},</span>
+                <span class="p">))</span>
+            <span class="k">return</span> <span class="n">_span_f1_boundaries</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">rdd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">task</span> <span class="o">==</span> <span class="s2">&quot;pos&quot;</span><span class="p">:</span>
+            <span class="n">pred_col</span> <span class="o">=</span> <span class="n">find_col</span><span class="p">(</span><span class="n">_ANNOTATOR_TYPE</span><span class="p">[</span><span class="s2">&quot;pos&quot;</span><span class="p">])</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">predicted</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;__pred&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;transform(`</span><span class="si">{</span><span class="n">pred_col</span><span class="si">}</span><span class="s2">`, x -&gt; x.result)&quot;</span><span class="p">))</span>
+            <span class="n">rdd</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;__pred&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">flatMap</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">_zip_equal_length</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="n">_label_accuracy</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">rdd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">task</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;classification&quot;</span><span class="p">,</span> <span class="s2">&quot;spellcheck&quot;</span><span class="p">,</span> <span class="s2">&quot;languagedetection&quot;</span><span class="p">):</span>
+            <span class="n">pred_col</span> <span class="o">=</span> <span class="n">find_col</span><span class="p">(</span><span class="n">_ANNOTATOR_TYPE</span><span class="p">[</span><span class="n">task</span><span class="p">])</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">predicted</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;__pred&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="n">_single_result_expr</span><span class="p">(</span><span class="n">pred_col</span><span class="p">,</span> <span class="n">_NO_PREDICTION</span><span class="p">)))</span>
+            <span class="n">rdd</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;__pred&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="n">_label_accuracy</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">rdd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">task</span> <span class="o">==</span> <span class="s2">&quot;imageclassification&quot;</span><span class="p">:</span>
+            <span class="n">pred_col</span> <span class="o">=</span> <span class="n">find_col</span><span class="p">(</span><span class="n">_ANNOTATOR_TYPE</span><span class="p">[</span><span class="s2">&quot;imageclassification&quot;</span><span class="p">])</span>
+            <span class="n">rdd</span> <span class="o">=</span> <span class="n">predicted</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">pred_col</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">(</span><span class="n">_ranked_labels</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;metadata&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">else</span> <span class="p">[],</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="k">return</span> <span class="n">_label_accuracy_top_k</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">rdd</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">top_k</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">task</span> <span class="o">==</span> <span class="s2">&quot;dependencyparsing&quot;</span><span class="p">:</span>
+            <span class="n">dep_col</span> <span class="o">=</span> <span class="n">find_col</span><span class="p">(</span><span class="s2">&quot;dependency&quot;</span><span class="p">)</span>
+            <span class="n">labeled_dep_col</span> <span class="o">=</span> <span class="n">find_labeled_dependency_col</span><span class="p">()</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">predicted</span> \
+                <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;__head&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;transform(`</span><span class="si">{</span><span class="n">dep_col</span><span class="si">}</span><span class="s2">`, x -&gt; CAST(element_at(x.metadata, &#39;head&#39;) AS INT))&quot;</span><span class="p">))</span> \
+                <span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;__label&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;transform(`</span><span class="si">{</span><span class="n">labeled_dep_col</span><span class="si">}</span><span class="s2">`, x -&gt; x.result)&quot;</span><span class="p">))</span>
+            <span class="n">rdd</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;__head&quot;</span><span class="p">,</span> <span class="s2">&quot;__label&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="p">[</span><span class="n">_parse_head_label</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">r</span><span class="p">[</span><span class="mi">2</span><span class="p">]]))</span>
+            <span class="k">return</span> <span class="n">_dependency_accuracy</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">rdd</span><span class="p">)</span>
+
+        <span class="n">metric</span> <span class="o">=</span> <span class="n">_TEXT_SIMILARITY_METRIC</span><span class="p">[</span><span class="n">task</span><span class="p">]</span>
+        <span class="n">annotator_type</span> <span class="o">=</span> <span class="s2">&quot;chunk&quot;</span> <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;squad&quot;</span> <span class="k">else</span> <span class="s2">&quot;document&quot;</span>
+        <span class="n">pred_col</span> <span class="o">=</span> <span class="n">find_col</span><span class="p">(</span><span class="n">annotator_type</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">predicted</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s2">&quot;__pred&quot;</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">expr</span><span class="p">(</span><span class="n">_single_result_expr</span><span class="p">(</span><span class="n">pred_col</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;squad&quot;</span><span class="p">:</span>
+            <span class="n">multi_ref</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">gold_data</span><span class="o">.</span><span class="n">dtypes</span><span class="p">)[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;array&quot;</span><span class="p">)</span>
+            <span class="n">rdd</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;__pred&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">multi_ref</span> <span class="k">else</span> <span class="p">([]</span> <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]])))</span>
+            <span class="n">overall</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">_squad_em_f1</span><span class="p">(</span><span class="n">rdd</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">AccuracyReport</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">overall</span><span class="p">,</span> <span class="p">{},</span> <span class="n">support</span><span class="p">)</span>
+
+        <span class="n">rdd</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;__pred&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span><span class="o">.</span><span class="n">rdd</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">_text_similarity</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">rdd</span><span class="p">,</span> <span class="n">metric</span><span class="p">)</span></div>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_int_pair</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_parse_head_label</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="n">idx</span><span class="p">]),</span> <span class="n">s</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+
+
+<span class="n">_RESERVED_METADATA_KEYS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;image&quot;</span><span class="p">,</span> <span class="s2">&quot;chunk&quot;</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="s2">&quot;nChannels&quot;</span><span class="p">,</span> <span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="s2">&quot;origin&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_unwrap_label_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+    <span class="c1"># Some classifiers (e.g. ViTForImageClassification, see ViTClassifier.scala:184) build</span>
+    <span class="c1"># metadata keys via `Option(...).toString` without ever unwrapping the Option first, so</span>
+    <span class="c1"># EVERY class name key arrives as the literal string &quot;Some(damselfly)&quot; rather than</span>
+    <span class="c1"># &quot;damselfly&quot;, and a lookup miss arrives as bare &quot;None&quot;. This is a bug in that annotator,</span>
+    <span class="c1"># not a rare edge case -- confirmed against a real `image_classifier_vit_base_patch16_224`</span>
+    <span class="c1"># prediction, where all 15 candidate keys were &quot;Some(...)&quot;-wrapped and only the miss case</span>
+    <span class="c1"># was bare &quot;None&quot;. Filtering &quot;Some(...)&quot; out entirely (rather than unwrapping it) discards</span>
+    <span class="c1"># every real class on every row and silently reports 0% accuracy regardless of how good</span>
+    <span class="c1"># the model is. Unwrap &quot;Some(x)&quot; to its inner label `x` instead -- still rejecting bare</span>
+    <span class="c1"># &quot;None&quot; (a genuine no-match) and empty &quot;Some()&quot; -- while passing through any key that was</span>
+    <span class="c1"># never wrapped, so classifiers whose metadata keys are already clean labels keep working</span>
+    <span class="c1"># unchanged.</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;None&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Some(&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">):</span>
+        <span class="n">inner</span> <span class="o">=</span> <span class="n">key</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">inner</span> <span class="k">if</span> <span class="n">inner</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">key</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ranked_labels</span><span class="p">(</span><span class="n">metadata</span><span class="p">):</span>
+    <span class="n">scored</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">_RESERVED_METADATA_KEYS</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">_unwrap_label_key</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">scored</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">label</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">continue</span>
+    <span class="n">scored</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">kv</span><span class="p">:</span> <span class="o">-</span><span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">scored</span><span class="p">]</span>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_label_accuracy</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">pairs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;`pairs` is an RDD of (predictedLabel, goldLabel); only the small set of distinct labels</span>
+<span class="sd">    is ever collected to the driver, not the whole RDD.&quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.mllib.evaluation</span><span class="w"> </span><span class="kn">import</span> <span class="n">MulticlassMetrics</span>
+
+    <span class="n">labels</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">pairs</span><span class="o">.</span><span class="n">flatMap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">pg</span><span class="p">:</span> <span class="n">pg</span><span class="p">)</span><span class="o">.</span><span class="n">distinct</span><span class="p">()</span><span class="o">.</span><span class="n">collect</span><span class="p">())</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">labels</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">AccuracyReport</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{},</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">label_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">label</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">)}</span>
+    <span class="n">indexed_rdd</span> <span class="o">=</span> <span class="n">pairs</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">pg</span><span class="p">:</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">label_index</span><span class="p">[</span><span class="n">pg</span><span class="p">[</span><span class="mi">0</span><span class="p">]]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">label_index</span><span class="p">[</span><span class="n">pg</span><span class="p">[</span><span class="mi">1</span><span class="p">]])))</span>
+    <span class="n">indexed_rdd</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
+    <span class="n">support</span> <span class="o">=</span> <span class="n">indexed_rdd</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">MulticlassMetrics</span><span class="p">(</span><span class="n">indexed_rdd</span><span class="p">)</span>
+
+    <span class="n">overall</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;accuracy&quot;</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">accuracy</span><span class="p">,</span>
+        <span class="s2">&quot;weightedPrecision&quot;</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">weightedPrecision</span><span class="p">,</span>
+        <span class="s2">&quot;weightedRecall&quot;</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">weightedRecall</span><span class="p">,</span>
+        <span class="s2">&quot;weightedF1&quot;</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">weightedFMeasure</span><span class="p">(),</span>
+    <span class="p">}</span>
+    <span class="c1"># MulticlassMetrics raises for a label with no predictions or no gold occurrences.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">safe_metric</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;NoSuchElementException&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+                <span class="k">return</span> <span class="mf">0.0</span>
+            <span class="k">raise</span>
+
+    <span class="n">per_class</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">label_index</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">per_class</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;precision&quot;</span><span class="p">:</span> <span class="n">safe_metric</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">precision</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">idx</span><span class="p">)),</span>
+            <span class="s2">&quot;recall&quot;</span><span class="p">:</span> <span class="n">safe_metric</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">recall</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">idx</span><span class="p">)),</span>
+            <span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="n">safe_metric</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">fMeasure</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">idx</span><span class="p">)),</span>
+        <span class="p">}</span>
+    <span class="n">indexed_rdd</span><span class="o">.</span><span class="n">unpersist</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">AccuracyReport</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">overall</span><span class="p">,</span> <span class="n">per_class</span><span class="p">,</span> <span class="n">support</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_label_accuracy_top_k</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">pairs</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;`pairs` is an RDD of (topKPredictedLabels, goldLabel), best-first.</span>
+
+<span class="sd">    Scores the pipeline&#39;s own top-1 label the same way :func:`_label_accuracy` does, and reports</span>
+<span class="sd">    top-k as an additional ``top{k}Accuracy`` metric alongside it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">score</span><span class="p">(</span><span class="n">top_k_gold</span><span class="p">):</span>
+        <span class="n">top_k</span><span class="p">,</span> <span class="n">gold</span> <span class="o">=</span> <span class="n">top_k_gold</span>
+        <span class="n">top_1</span> <span class="o">=</span> <span class="n">top_k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">top_k</span> <span class="k">else</span> <span class="n">_NO_PREDICTION</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">top_1</span><span class="p">,</span> <span class="n">gold</span><span class="p">,</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">gold</span> <span class="ow">in</span> <span class="n">top_k</span><span class="p">[:</span><span class="n">k</span><span class="p">]</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">scored</span> <span class="o">=</span> <span class="n">pairs</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+    <span class="n">scored</span><span class="o">.</span><span class="n">persist</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">hits</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">scored</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span>
+            <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="n">report</span> <span class="o">=</span> <span class="n">_label_accuracy</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">scored</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+        <span class="n">report</span><span class="o">.</span><span class="n">overall</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;top</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">Accuracy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">hits</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="k">if</span> <span class="n">n</span> <span class="k">else</span> <span class="mf">0.0</span>
+        <span class="k">return</span> <span class="n">report</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">scored</span><span class="o">.</span><span class="n">unpersist</span><span class="p">()</span>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_split_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;&quot;E&quot;/&quot;L&quot; (IOBES &quot;end&quot;/BILOU &quot;last&quot;) and &quot;S&quot;/&quot;U&quot; (IOBES &quot;single&quot;/BILOU &quot;unit&quot;) are aliased</span>
+<span class="sd">    onto a shared &quot;E&quot;/&quot;S&quot; bucket, so _extract_spans handles BIO/IOB2, IOBES, and BILOU uniformly.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">tag</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">tag</span> <span class="o">==</span> <span class="s2">&quot;O&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;O&quot;</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="n">dash</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dash</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">tag</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;L&quot;</span><span class="p">:</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;U&quot;</span><span class="p">:</span> <span class="s2">&quot;S&quot;</span><span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tag</span><span class="p">[:</span><span class="n">dash</span><span class="p">],</span> <span class="n">tag</span><span class="p">[:</span><span class="n">dash</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">tag</span><span class="p">[</span><span class="n">dash</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_extract_spans</span><span class="p">(</span><span class="n">tags</span><span class="p">):</span>
+    <span class="n">spans</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">current_type</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">close_span</span><span class="p">(</span><span class="n">end_exclusive</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">start</span><span class="p">,</span> <span class="n">current_type</span>
+        <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">spans</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">end_exclusive</span><span class="p">,</span> <span class="n">current_type</span><span class="p">))</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">current_type</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tags</span><span class="p">):</span>
+        <span class="n">prefix</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">_split_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s2">&quot;O&quot;</span><span class="p">:</span>
+            <span class="n">close_span</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span>
+            <span class="n">close_span</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">current_type</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="k">elif</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s2">&quot;I&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">current_type</span> <span class="o">!=</span> <span class="n">t</span><span class="p">:</span>
+                <span class="n">close_span</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="n">current_type</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="k">elif</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s2">&quot;E&quot;</span><span class="p">:</span>
+            <span class="c1"># Closes a chunk inclusive of this token -- extends an already-open same-type span</span>
+            <span class="c1"># if there is one, otherwise (malformed input, a type change mid-span, or a genuine</span>
+            <span class="c1"># IOBES/BILOU-style single-token close with no preceding B-/I-) closes whatever was</span>
+            <span class="c1"># open first (so it isn&#39;t silently dropped) before opening a one-token span here.</span>
+            <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">current_type</span> <span class="o">!=</span> <span class="n">t</span><span class="p">:</span>
+                <span class="n">close_span</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="n">current_type</span> <span class="o">=</span> <span class="n">t</span>
+            <span class="n">close_span</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s2">&quot;S&quot;</span><span class="p">:</span>
+            <span class="c1"># Always a standalone single-token entity, regardless of any span already open</span>
+            <span class="c1"># (which gets closed first, unaffected by this one).</span>
+            <span class="n">close_span</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">spans</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">close_span</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">close_span</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tags</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">spans</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_prf</span><span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">/</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="n">recall</span> <span class="o">=</span> <span class="n">tp</span> <span class="o">/</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">tp</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">precision</span> <span class="o">*</span> <span class="n">recall</span> <span class="o">/</span> <span class="p">(</span><span class="n">precision</span> <span class="o">+</span> <span class="n">recall</span><span class="p">)</span> <span class="k">if</span> <span class="p">(</span><span class="n">precision</span> <span class="o">+</span> <span class="n">recall</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;precision&quot;</span><span class="p">:</span> <span class="n">precision</span><span class="p">,</span> <span class="s2">&quot;recall&quot;</span><span class="p">:</span> <span class="n">recall</span><span class="p">,</span> <span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="n">f1</span><span class="p">}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_score_span_rdd</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">span_pairs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;`span_pairs` is an RDD of (predictedSpans, goldSpans) sets, each span a (start, end,</span>
+<span class="sd">    type) tuple; reduced via a distributed map (per-row TP/FP/FN counts) then fold, never</span>
+<span class="sd">    collecting the raw spans themselves to the driver.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">row_counts</span><span class="p">(</span><span class="n">pg</span><span class="p">):</span>
+        <span class="n">pred_spans</span><span class="p">,</span> <span class="n">gold_spans</span> <span class="o">=</span> <span class="n">pg</span>
+        <span class="n">types</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">pred_spans</span><span class="p">}</span> <span class="o">|</span> <span class="p">{</span><span class="n">t</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">gold_spans</span><span class="p">}</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+            <span class="n">pred_t</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">pred_spans</span> <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">t</span><span class="p">}</span>
+            <span class="n">gold_t</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">gold_spans</span> <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">t</span><span class="p">}</span>
+            <span class="n">tp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_t</span> <span class="o">&amp;</span> <span class="n">gold_t</span><span class="p">)</span>
+            <span class="n">counts</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pred_t</span><span class="p">)</span> <span class="o">-</span> <span class="n">tp</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">gold_t</span><span class="p">)</span> <span class="o">-</span> <span class="n">tp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">counts</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">merged</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="p">(</span><span class="n">tp</span><span class="p">,</span> <span class="n">fp</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span> <span class="ow">in</span> <span class="n">b</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">ptp</span><span class="p">,</span> <span class="n">pfp</span><span class="p">,</span> <span class="n">pfn</span> <span class="o">=</span> <span class="n">merged</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">merged</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ptp</span> <span class="o">+</span> <span class="n">tp</span><span class="p">,</span> <span class="n">pfp</span> <span class="o">+</span> <span class="n">fp</span><span class="p">,</span> <span class="n">pfn</span> <span class="o">+</span> <span class="n">fn</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">merged</span>
+
+    <span class="n">totals</span> <span class="o">=</span> <span class="n">span_pairs</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">row_counts</span><span class="p">)</span><span class="o">.</span><span class="n">fold</span><span class="p">({},</span> <span class="n">merge</span><span class="p">)</span>
+
+    <span class="n">overall_tp</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">totals</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">overall_fp</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">totals</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">overall_fn</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">totals</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">support</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">totals</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="n">per_class</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="p">:</span> <span class="n">_prf</span><span class="p">(</span><span class="o">*</span><span class="n">counts</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">counts</span> <span class="ow">in</span> <span class="n">totals</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">return</span> <span class="n">AccuracyReport</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">_prf</span><span class="p">(</span><span class="n">overall_tp</span><span class="p">,</span> <span class="n">overall_fp</span><span class="p">,</span> <span class="n">overall_fn</span><span class="p">),</span> <span class="n">per_class</span><span class="p">,</span> <span class="n">support</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_span_f1</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
+    <span class="n">span_pairs</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">pg</span><span class="p">:</span> <span class="p">(</span><span class="n">_extract_spans</span><span class="p">(</span><span class="n">pg</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">_extract_spans</span><span class="p">(</span><span class="n">pg</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+    <span class="k">return</span> <span class="n">_score_span_rdd</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">span_pairs</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_span_f1_boundaries</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">boundary_pairs</span><span class="p">):</span>
+    <span class="n">span_pairs</span> <span class="o">=</span> <span class="n">boundary_pairs</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">pg</span><span class="p">:</span> <span class="p">(</span>
+            <span class="p">{(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="s2">&quot;segment&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">pg</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
+            <span class="p">{(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="s2">&quot;segment&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">pg</span><span class="p">[</span><span class="mi">1</span><span class="p">]},</span>
+        <span class="p">))</span>
+    <span class="k">return</span> <span class="n">_score_span_rdd</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">span_pairs</span><span class="p">)</span>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_dependency_accuracy</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">rows</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;`rows` is an RDD of (predicted, gold) per sentence, each a sequence of (headIndex,</span>
+<span class="sd">    dependencyLabel) per token, reduced via a distributed map then fold.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">row_stats</span><span class="p">(</span><span class="n">pg</span><span class="p">):</span>
+        <span class="n">predicted</span><span class="p">,</span> <span class="n">gold</span> <span class="o">=</span> <span class="n">pg</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">predicted</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">gold</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Benchmark.evaluate(task=&#39;</span><span class="si">{</span><span class="n">task</span><span class="si">}</span><span class="s2">&#39;): predicted and gold sequences have &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;different lengths (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">predicted</span><span class="p">)</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">gold</span><span class="p">)</span><span class="si">}</span><span class="s2">) for one row. label_col &quot;</span>
+                <span class="s2">&quot;must align one-to-one with the pipeline&#39;s own tokenization for this task.&quot;</span><span class="p">)</span>
+        <span class="n">correct_head</span> <span class="o">=</span> <span class="n">correct_head_and_label</span> <span class="o">=</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">p_head</span><span class="p">,</span> <span class="n">p_label</span><span class="p">),</span> <span class="p">(</span><span class="n">g_head</span><span class="p">,</span> <span class="n">g_label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">predicted</span><span class="p">,</span> <span class="n">gold</span><span class="p">):</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">p_head</span> <span class="o">==</span> <span class="n">g_head</span><span class="p">:</span>
+                <span class="n">correct_head</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">if</span> <span class="n">p_label</span> <span class="o">==</span> <span class="n">g_label</span><span class="p">:</span>
+                    <span class="n">correct_head_and_label</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">correct_head</span><span class="p">,</span> <span class="n">correct_head_and_label</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
+
+    <span class="n">correct_head</span><span class="p">,</span> <span class="n">correct_head_and_label</span><span class="p">,</span> <span class="n">total</span> <span class="o">=</span> <span class="n">rows</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">row_stats</span><span class="p">)</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="n">uas</span> <span class="o">=</span> <span class="n">correct_head</span> <span class="o">/</span> <span class="n">total</span> <span class="k">if</span> <span class="n">total</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="n">las</span> <span class="o">=</span> <span class="n">correct_head_and_label</span> <span class="o">/</span> <span class="n">total</span> <span class="k">if</span> <span class="n">total</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="n">AccuracyReport</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;uas&quot;</span><span class="p">:</span> <span class="n">uas</span><span class="p">,</span> <span class="s2">&quot;las&quot;</span><span class="p">:</span> <span class="n">las</span><span class="p">},</span> <span class="p">{},</span> <span class="n">total</span><span class="p">)</span>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_squad_normalize</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">ch</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">text</span> <span class="k">if</span> <span class="n">ch</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">))</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\b(a|an|the)\b&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_squad_em_f1</span><span class="p">(</span><span class="n">pairs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;`pairs` is an RDD of (predictedAnswer, [goldAnswer, ...]). Scores each prediction</span>
+<span class="sd">    against every reference and keeps the best, matching the official SQuAD eval script&#39;s</span>
+<span class="sd">    ``metric_max_over_ground_truths``.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">row_scores</span><span class="p">(</span><span class="n">pg</span><span class="p">):</span>
+        <span class="n">pred</span><span class="p">,</span> <span class="n">golds</span> <span class="o">=</span> <span class="n">pg</span>
+        <span class="n">hyp</span> <span class="o">=</span> <span class="n">_squad_normalize</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+        <span class="n">hyp_tokens</span> <span class="o">=</span> <span class="n">hyp</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">hyp_counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">hyp_tokens</span><span class="p">)</span>
+
+        <span class="n">best_em</span> <span class="o">=</span> <span class="n">best_f1</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">gold</span> <span class="ow">in</span> <span class="n">golds</span><span class="p">:</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">_squad_normalize</span><span class="p">(</span><span class="n">gold</span><span class="p">)</span>
+            <span class="n">em</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">hyp</span> <span class="o">==</span> <span class="n">ref</span> <span class="k">else</span> <span class="mf">0.0</span>
+            <span class="n">ref_tokens</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">overlap</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">((</span><span class="n">hyp_counts</span> <span class="o">&amp;</span> <span class="n">Counter</span><span class="p">(</span><span class="n">ref_tokens</span><span class="p">))</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+            <span class="n">precision</span> <span class="o">=</span> <span class="n">overlap</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">hyp_tokens</span><span class="p">)</span> <span class="k">if</span> <span class="n">hyp_tokens</span> <span class="k">else</span> <span class="mf">0.0</span>
+            <span class="n">recall</span> <span class="o">=</span> <span class="n">overlap</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">ref_tokens</span><span class="p">)</span> <span class="k">if</span> <span class="n">ref_tokens</span> <span class="k">else</span> <span class="mf">0.0</span>
+            <span class="n">f1</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">precision</span> <span class="o">*</span> <span class="n">recall</span> <span class="o">/</span> <span class="p">(</span><span class="n">precision</span> <span class="o">+</span> <span class="n">recall</span><span class="p">))</span> <span class="k">if</span> <span class="p">(</span><span class="n">precision</span> <span class="o">+</span> <span class="n">recall</span><span class="p">)</span> <span class="k">else</span> <span class="mf">0.0</span>
+            <span class="n">best_em</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">best_em</span><span class="p">,</span> <span class="n">em</span><span class="p">)</span>
+            <span class="n">best_f1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">best_f1</span><span class="p">,</span> <span class="n">f1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">best_em</span><span class="p">,</span> <span class="n">best_f1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">em_sum</span><span class="p">,</span> <span class="n">f1_sum</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">pairs</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">row_scores</span><span class="p">)</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span>
+        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{},</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;exactMatch&quot;</span><span class="p">:</span> <span class="n">em_sum</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="n">f1_sum</span> <span class="o">/</span> <span class="n">n</span><span class="p">},</span> <span class="n">n</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_levenshtein</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">prev</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">curr</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">curr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">prev</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                       <span class="k">else</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">min</span><span class="p">(</span><span class="n">prev</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">prev</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">curr</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span>
+        <span class="n">prev</span> <span class="o">=</span> <span class="n">curr</span>
+    <span class="k">return</span> <span class="n">prev</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_wer</span><span class="p">(</span><span class="n">pairs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ports Scala `TextSimilarityEngine.wer` (Levenshtein distance on whitespace-split tokens)</span>
+<span class="sd">    instead of calling `jiwer`, so both languages tokenize identically.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">row_stats</span><span class="p">(</span><span class="n">pg</span><span class="p">):</span>
+        <span class="n">pred</span><span class="p">,</span> <span class="n">gold</span> <span class="o">=</span> <span class="n">pg</span>
+        <span class="n">hyp</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">gold</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">_levenshtein</span><span class="p">(</span><span class="n">hyp</span><span class="p">,</span> <span class="n">ref</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ref</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">total_edits</span><span class="p">,</span> <span class="n">total_words</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">pairs</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">row_stats</span><span class="p">)</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">total_edits</span> <span class="o">/</span> <span class="n">total_words</span> <span class="k">if</span> <span class="n">total_words</span> <span class="k">else</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;wer&quot;</span><span class="p">:</span> <span class="n">score</span><span class="p">},</span> <span class="n">n</span>
+
+
+<span class="n">_BLEU_PUNCT_13A</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([\x7B-\x7E\x5B-\x60\x20-\x26\x28-\x2B\x3A-\x40\x2F])&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_bleu_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ports sacrebleu&#39;s default `13a` tokenizer, mirroring Scala `TextSimilarityEngine.</span>
+<span class="sd">    bleuTokenize`.&quot;&quot;&quot;</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;skipped&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;&amp;&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&amp;quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&amp;amp;&quot;</span><span class="p">,</span> <span class="s2">&quot;&amp;&quot;</span><span class="p">)</span>
+                    <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&amp;lt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&amp;gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">))</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">line</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">_BLEU_PUNCT_13A</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot; \1 &quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([^0-9])([.,])&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1 \2 &quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([.,])([^0-9])&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot; \1 \2&quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([0-9])(-)&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1 \2 &quot;</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ngrams</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Counter</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">))))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_clipped_overlap</span><span class="p">(</span><span class="n">hyp_ngrams</span><span class="p">,</span> <span class="n">ref_ngrams</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">ref_ngrams</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hyp_ngrams</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_bleu</span><span class="p">(</span><span class="n">pairs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ports Scala `TextSimilarityEngine.bleu` (corpus-level n-gram precision + NIST smoothing +</span>
+<span class="sd">    brevity penalty) instead of calling `sacrebleu`, so this stays fully distributed.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">row_stats</span><span class="p">(</span><span class="n">pg</span><span class="p">):</span>
+        <span class="n">pred</span><span class="p">,</span> <span class="n">gold</span> <span class="o">=</span> <span class="n">pg</span>
+        <span class="n">hyp</span> <span class="o">=</span> <span class="n">_bleu_tokenize</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">_bleu_tokenize</span><span class="p">(</span><span class="n">gold</span><span class="p">)</span>
+        <span class="n">matched</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
+            <span class="n">hyp_ngrams</span> <span class="o">=</span> <span class="n">_ngrams</span><span class="p">(</span><span class="n">hyp</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">matched</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">_clipped_overlap</span><span class="p">(</span><span class="n">hyp_ngrams</span><span class="p">,</span> <span class="n">_ngrams</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+            <span class="n">total</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hyp</span><span class="p">)</span> <span class="o">-</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">matched</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hyp</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ref</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">m1</span><span class="p">,</span> <span class="n">t1</span><span class="p">,</span> <span class="n">h1</span><span class="p">,</span> <span class="n">r1</span><span class="p">,</span> <span class="n">n1</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="n">m2</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">h2</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">n2</span> <span class="o">=</span> <span class="n">b</span>
+        <span class="k">return</span> <span class="p">([</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">)],</span> <span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">)],</span>
+                <span class="n">h1</span> <span class="o">+</span> <span class="n">h2</span><span class="p">,</span> <span class="n">r1</span> <span class="o">+</span> <span class="n">r2</span><span class="p">,</span> <span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span><span class="p">)</span>
+
+    <span class="n">matched</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">hyp_len</span><span class="p">,</span> <span class="n">ref_len</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">pairs</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">row_stats</span><span class="p">)</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span>
+        <span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">merge</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{},</span> <span class="mi">0</span>
+
+    <span class="c1"># Matches sacrebleu&#39;s own zero-overlap early-return (mjpost/sacrebleu#141): no smoothing,</span>
+    <span class="c1"># every precision stays exactly 0.</span>
+    <span class="n">precisions</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">matched</span><span class="p">):</span>
+        <span class="n">smooth</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">total</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">matched</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">smooth</span> <span class="o">*=</span> <span class="mi">2</span>
+                <span class="n">precisions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">smooth</span> <span class="o">*</span> <span class="n">total</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">precisions</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">matched</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">total</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">hyp_len</span> <span class="o">&gt;=</span> <span class="n">ref_len</span><span class="p">:</span>
+        <span class="n">brevity_penalty</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">elif</span> <span class="n">hyp_len</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">brevity_penalty</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">brevity_penalty</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">ref_len</span> <span class="o">/</span> <span class="n">hyp_len</span><span class="p">)</span>
+
+    <span class="c1"># A 0.0 precision here is the same &quot;no smoothing happened&quot; case Scala&#39;s log(0)==-Infinity</span>
+    <span class="c1"># zeroes the score for.</span>
+    <span class="n">bleu_score</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span> <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">p</span> <span class="o">==</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">precisions</span><span class="p">)</span>
+                  <span class="k">else</span> <span class="n">brevity_penalty</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">precisions</span><span class="p">)</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;bleu&quot;</span><span class="p">:</span> <span class="n">bleu_score</span><span class="p">,</span>
+        <span class="s2">&quot;precision1&quot;</span><span class="p">:</span> <span class="n">precisions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;precision2&quot;</span><span class="p">:</span> <span class="n">precisions</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="s2">&quot;precision3&quot;</span><span class="p">:</span> <span class="n">precisions</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+        <span class="s2">&quot;precision4&quot;</span><span class="p">:</span> <span class="n">precisions</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+        <span class="s2">&quot;brevityPenalty&quot;</span><span class="p">:</span> <span class="n">brevity_penalty</span><span class="p">,</span>
+    <span class="p">},</span> <span class="n">n</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_rouge_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Approximates rouge-score&#39;s default tokenizer, mirroring Scala</span>
+<span class="sd">    `TextSimilarityEngine.rougeTokenize`.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^a-z0-9\s]&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_prf_tuple</span><span class="p">(</span><span class="n">overlap</span><span class="p">,</span> <span class="n">pred_len</span><span class="p">,</span> <span class="n">gold_len</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Like `_prf`, but as a `(precision, recall, f1)` tuple -- ROUGE reports one per n-gram</span>
+<span class="sd">    order.&quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">_prf</span><span class="p">(</span><span class="n">overlap</span><span class="p">,</span> <span class="n">pred_len</span> <span class="o">-</span> <span class="n">overlap</span><span class="p">,</span> <span class="n">gold_len</span> <span class="o">-</span> <span class="n">overlap</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s2">&quot;precision&quot;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;recall&quot;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;f1&quot;</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_lcs_length</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="n">prev</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">curr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">curr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">prev</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                       <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="n">prev</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">curr</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span>
+        <span class="n">prev</span> <span class="o">=</span> <span class="n">curr</span>
+    <span class="k">return</span> <span class="n">prev</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_rouge</span><span class="p">(</span><span class="n">pairs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ports Scala `TextSimilarityEngine.rouge` (n-gram overlap + LCS) instead of calling</span>
+<span class="sd">    `rouge_score`, so no package needs to exist on the executors.&quot;&quot;&quot;</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;rouge1&quot;</span><span class="p">,</span> <span class="s2">&quot;rouge2&quot;</span><span class="p">,</span> <span class="s2">&quot;rougeL&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">row_scores</span><span class="p">(</span><span class="n">pg</span><span class="p">):</span>
+        <span class="n">pred</span><span class="p">,</span> <span class="n">gold</span> <span class="o">=</span> <span class="n">pg</span>
+        <span class="n">hyp</span> <span class="o">=</span> <span class="n">_rouge_tokenize</span><span class="p">(</span><span class="n">pred</span><span class="p">)</span>
+        <span class="n">ref</span> <span class="o">=</span> <span class="n">_rouge_tokenize</span><span class="p">(</span><span class="n">gold</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">ngram_overlap</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">overlap</span> <span class="o">=</span> <span class="n">_clipped_overlap</span><span class="p">(</span><span class="n">_ngrams</span><span class="p">(</span><span class="n">hyp</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="n">_ngrams</span><span class="p">(</span><span class="n">ref</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">_prf_tuple</span><span class="p">(</span><span class="n">overlap</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hyp</span><span class="p">)</span> <span class="o">-</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span> <span class="o">-</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">lcs</span> <span class="o">=</span> <span class="n">_lcs_length</span><span class="p">(</span><span class="n">hyp</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">ngram_overlap</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">ngram_overlap</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">_prf_tuple</span><span class="p">(</span><span class="n">lcs</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hyp</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">ref</span><span class="p">)),</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">add3</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">add3</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">add3</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">add3</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span> <span class="n">a</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+    <span class="n">zero</span> <span class="o">=</span> <span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">r1_sum</span><span class="p">,</span> <span class="n">r2_sum</span><span class="p">,</span> <span class="n">rL_sum</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">pairs</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">row_scores</span><span class="p">)</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span><span class="n">zero</span><span class="p">,</span> <span class="n">merge</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{},</span> <span class="mi">0</span>
+
+    <span class="n">overall</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="p">(</span><span class="n">r1_sum</span><span class="p">,</span> <span class="n">r2_sum</span><span class="p">,</span> <span class="n">rL_sum</span><span class="p">)):</span>
+        <span class="n">overall</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_precision&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span> <span class="o">/</span> <span class="n">n</span>
+        <span class="n">overall</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_recall&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span> <span class="o">/</span> <span class="n">n</span>
+        <span class="n">overall</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_f1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">f</span> <span class="o">/</span> <span class="n">n</span>
+    <span class="k">return</span> <span class="n">overall</span><span class="p">,</span> <span class="n">n</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_text_similarity</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">pairs</span><span class="p">,</span> <span class="n">metric</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;squad&quot;</span><span class="p">:</span>
+        <span class="c1"># Single-reference convenience path: wrap each gold answer in a one-element list.</span>
+        <span class="n">overall</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">_squad_em_f1</span><span class="p">(</span><span class="n">pairs</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">pg</span><span class="p">:</span> <span class="p">(</span><span class="n">pg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="n">pg</span><span class="p">[</span><span class="mi">1</span><span class="p">]])))</span>
+    <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;wer&quot;</span><span class="p">:</span>
+        <span class="n">overall</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">_wer</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;bleu&quot;</span><span class="p">:</span>
+        <span class="n">overall</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">_bleu</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">metric</span> <span class="o">==</span> <span class="s2">&quot;rouge&quot;</span><span class="p">:</span>
+        <span class="n">overall</span><span class="p">,</span> <span class="n">support</span> <span class="o">=</span> <span class="n">_rouge</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown text-similarity metric &#39;</span><span class="si">{</span><span class="n">metric</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">AccuracyReport</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">overall</span><span class="p">,</span> <span class="p">{},</span> <span class="n">support</span><span class="p">)</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026 John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

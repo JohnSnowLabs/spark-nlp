@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotator.ld_dl.language_detector_dl &#8212; Spark NLP 7.0.0 documentation</title>
+    <title>sparknlp.annotator.ld_dl.language_detector_dl &#8212; Spark NLP 7.0.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js?v=cd9f6827"></script>
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../static/documentation_options.js?v=69e7ec3e"></script>
     <script src="../../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -383,6 +383,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../cv/blip_for_question_answering/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.cv.blip_for_question_answering</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cv/clip_for_zero_shot_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.cv.clip_for_zero_shot_classification</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cv/convnext_for_image_classification/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.cv.convnext_for_image_classification</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cv/dolphin_for_document_parsing/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.cv.dolphin_for_document_parsing</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cv/florence2_transformer/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.cv.florence2_transformer</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cv/gemma3_for_multimodal/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.cv.gemma3_for_multimodal</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cv/internvl_for_multimodal/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.cv.internvl_for_multimodal</span></code></a></li>
@@ -409,6 +410,7 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/bert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bert_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/bert_sentence_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bert_sentence_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/bge_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bge_embeddings</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../embeddings/bge_m3_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bge_m3_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/bi_encoder_multimodal_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.bi_encoder_multimodal_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/camembert_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.camembert_embeddings</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../embeddings/chunk_embeddings/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">sparknlp.annotator.embeddings.chunk_embeddings</span></code></a></li>
@@ -639,13 +641,24 @@ document.write(`
 <dt class="sig sig-object py" id="sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">LanguageDetectorDL</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">classname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">java_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ld_dl/language_detector_dl.html#LanguageDetectorDL"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL" title="Permalink to this definition">#</a></dt>
 <dd><p>Language Identification and Detection by using CNN and RNN architectures
-in TensorFlow.</p>
+in TensorFlow, or supervised fastText models such as GlotLID on ONNX.</p>
 <p><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL</span></code> is an annotator that detects the language of
-documents or sentences depending on the inputCols. The models are trained on
-large datasets such as Wikipedia and Tatoeba. Depending on the language
-(how similar the characters are), the LanguageDetectorDL works best with
-text longer than 140 characters. The output is a language code in
+documents or sentences depending on the inputCols. The CNN models are
+trained on large datasets such as Wikipedia and Tatoeba. Depending on the
+language (how similar the characters are), they work best with text longer
+than 140 characters. Their output is a language code in
 <a class="reference external" href="https://en.wikipedia.org/wiki/List_of_Wikipedias">Wiki Code style</a>.</p>
+<p>The fastText models run on ONNX and turn text into features exactly as
+fastText does. GlotLID v4 (<code class="docutils literal notranslate"><span class="pre">&quot;ld_glotlid_v4&quot;</span></code>, or <code class="docutils literal notranslate"><span class="pre">&quot;ld_glotlid_v4_int8&quot;</span></code> at a
+quarter of the size) labels 2,060 languages and scripts as an ISO 639-3
+code plus an ISO 15924 script, such as <code class="docutils literal notranslate"><span class="pre">eng_Latn</span></code> or <code class="docutils literal notranslate"><span class="pre">cmn_Hani</span></code>, and
+has <code class="docutils literal notranslate"><span class="pre">zxx_Code</span></code>, <code class="docutils literal notranslate"><span class="pre">zxx_Zmth</span></code> and <code class="docutils literal notranslate"><span class="pre">zxx_Zsym</span></code> for code, mathematics and
+symbols. For these models the metadata also holds <code class="docutils literal notranslate"><span class="pre">confidence</span></code>, the
+score the label was judged on, and <code class="docutils literal notranslate"><span class="pre">scriptPooling</span></code>, <code class="docutils literal notranslate"><span class="pre">minLetters</span></code> and
+<code class="docutils literal notranslate"><span class="pre">topK</span></code> shape the result. Each sentence goes to the model whole, so split
+long documents into sentences first. To import other fastText models, see
+the
+<a class="reference external" href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_LanguageDetectorDL.ipynb">import notebook</a>.</p>
 <p>Pretrained models can be loaded with <a class="reference internal" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.pretrained" title="sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.pretrained"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pretrained()</span></code></a> of the companion
 object:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">languageDetector</span> <span class="o">=</span> <span class="n">LanguageDetectorDL</span><span class="o">.</span><span class="n">pretrained</span><span class="p">()</span> \
@@ -684,6 +697,16 @@ default Unknown</p>
 output instead of one output per sentence, by default True.</p>
 </dd>
 <dt><strong>languages</strong></dt><dd><p>The languages used to trained the model</p>
+</dd>
+<dt><strong>topK</strong></dt><dd><p>Number of language scores kept in the metadata, the highest ones; 0
+keeps all of them, by default 0. ONNX (fastText) models only.</p>
+</dd>
+<dt><strong>scriptPooling</strong></dt><dd><p>Whether the score of a non-Latin top label is the sum of all labels in
+its script, by default False. ONNX (fastText) models only.</p>
+</dd>
+<dt><strong>minLetters</strong></dt><dd><p>When the top label is in Latin script (<code class="docutils literal notranslate"><span class="pre">_Latn</span></code>), text with fewer
+letters than this gets <code class="docutils literal notranslate"><span class="pre">thresholdLabel</span></code>; 0 turns it off, by default
+0. ONNX (fastText) models only.</p>
 </dd>
 </dl>
 </dd>
@@ -760,6 +783,21 @@ output instead of one output per sentence, by default True.</p>
 <span class="sig-name descname"><span class="pre">languages</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ld_dl/language_detector_dl.html#LanguageDetectorDL.languages"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.languages" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.topK">
+<span class="sig-name descname"><span class="pre">topK</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ld_dl/language_detector_dl.html#LanguageDetectorDL.topK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.topK" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.scriptPooling">
+<span class="sig-name descname"><span class="pre">scriptPooling</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ld_dl/language_detector_dl.html#LanguageDetectorDL.scriptPooling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.scriptPooling" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.minLetters">
+<span class="sig-name descname"><span class="pre">minLetters</span></span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ld_dl/language_detector_dl.html#LanguageDetectorDL.minLetters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.minLetters" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setConfigProtoBytes">
 <span class="sig-name descname"><span class="pre">setConfigProtoBytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ld_dl/language_detector_dl.html#LanguageDetectorDL.setConfigProtoBytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setConfigProtoBytes" title="Permalink to this definition">#</a></dt>
@@ -813,6 +851,81 @@ instead of one output per sentence, by default True.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
 <dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>If the output of all sentences will be averaged to one output</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setTopK">
+<span class="sig-name descname"><span class="pre">setTopK</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ld_dl/language_detector_dl.html#LanguageDetectorDL.setTopK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setTopK" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the number of language scores kept in the metadata, the highest
+ones; 0 keeps all of them, by default 0. ONNX (fastText) models only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Number of scores to keep</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setScriptPooling">
+<span class="sig-name descname"><span class="pre">setScriptPooling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ld_dl/language_detector_dl.html#LanguageDetectorDL.setScriptPooling"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setScriptPooling" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets whether the score of a non-Latin top label is the sum of all
+labels in its script, so that close varieties such as Mandarin
+(<code class="docutils literal notranslate"><span class="pre">cmn_Hani</span></code>) and Cantonese (<code class="docutils literal notranslate"><span class="pre">yue_Hani</span></code>) do not split it, by default
+False. The label is still the top one, so the pooled score says how
+sure the script is rather than the language. ONNX (fastText) models
+only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">bool</span></dt><dd><p>Whether to pool same-script scores</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setMinLetters">
+<span class="sig-name descname"><span class="pre">setMinLetters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ld_dl/language_detector_dl.html#LanguageDetectorDL.setMinLetters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setMinLetters" title="Permalink to this definition">#</a></dt>
+<dd><p>Sets the minimum number of letters for a Latin-script top label
+(<code class="docutils literal notranslate"><span class="pre">_Latn</span></code>); shorter text gets <code class="docutils literal notranslate"><span class="pre">thresholdLabel</span></code>. 0 turns it off, by
+default 0. ONNX (fastText) models only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">int</span></dt><dd><p>Minimum number of letters</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.loadSavedModel">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">loadSavedModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_session</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../modules/sparknlp/annotator/ld_dl/language_detector_dl.html#LanguageDetectorDL.loadSavedModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.loadSavedModel" title="Permalink to this definition">#</a></dt>
+<dd><p>Loads a locally exported model: a TensorFlow CNN export, or a
+supervised fastText model such as GlotLID exported to ONNX
+(<code class="docutils literal notranslate"><span class="pre">model.onnx</span></code> with <code class="docutils literal notranslate"><span class="pre">assets/language.txt</span></code>, <code class="docutils literal notranslate"><span class="pre">assets/vocab.json</span></code> and
+<code class="docutils literal notranslate"><span class="pre">assets/config.json</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>folder</strong><span class="classifier">str</span></dt><dd><p>Folder of the exported model</p>
+</dd>
+<dt><strong>spark_session</strong><span class="classifier">pyspark.sql.SparkSession</span></dt><dd><p>The current SparkSession</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>LanguageDetectorDL</dt><dd><p>The restored model</p>
 </dd>
 </dl>
 </dd>
@@ -887,10 +1000,17 @@ Spark NLPs repositories otherwise.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.thresholdLabel"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.thresholdLabel</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.coalesceSentences"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.coalesceSentences</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.languages"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.languages</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.topK"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.topK</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.scriptPooling"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.scriptPooling</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.minLetters"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.minLetters</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setConfigProtoBytes"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.setConfigProtoBytes()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setThreshold"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.setThreshold()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setThresholdLabel"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.setThresholdLabel()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setCoalesceSentences"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.setCoalesceSentences()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setTopK"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.setTopK()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setScriptPooling"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.setScriptPooling()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.setMinLetters"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.setMinLetters()</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.loadSavedModel"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.loadSavedModel()</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotator.ld_dl.language_detector_dl.LanguageDetectorDL.pretrained"><code class="docutils literal notranslate"><span class="pre">LanguageDetectorDL.pretrained()</span></code></a></li>
 </ul>
 </li>

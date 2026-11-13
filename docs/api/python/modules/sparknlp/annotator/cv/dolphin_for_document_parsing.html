@@ -1,0 +1,752 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sparknlp.annotator.cv.dolphin_for_document_parsing &#8212; Spark NLP 7.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../../static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../../static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../../../../static/css/custom.css?v=e1fb877f" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=69e7ec3e"></script>
+    <script src="../../../../static/doctools.js?v=888ff710"></script>
+    <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modules/sparknlp/annotator/cv/dolphin_for_document_parsing';</script>
+    <link rel="icon" href="../../../../static/fav.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../getting_started/index.html">
+                        Getting Started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../user_guide/index.html">
+                        User Guide
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../third_party/index.html">
+                        Third Party Projects
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../reference/index.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../annotator.html" class="nav-link">sparknlp.annotator</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">sparknlp.ann...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for sparknlp.annotator.cv.dolphin_for_document_parsing</h1><div class="highlight"><pre>
+<span></span><span class="c1">#  Copyright 2017-2026 John Snow Labs</span>
+<span class="c1">#</span>
+<span class="c1">#  Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">#  you may not use this file except in compliance with the License.</span>
+<span class="c1">#  You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1">#  Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">#  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">#  See the License for the specific language governing permissions and</span>
+<span class="c1">#  limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;Contains classes concerning DolphinForDocumentParsing.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.common</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="DolphinForDocumentParsing"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DolphinForDocumentParsing</span><span class="p">(</span><span class="n">AnnotatorModel</span><span class="p">,</span>
+                                <span class="n">HasBatchedAnnotateImage</span><span class="p">,</span>
+                                <span class="n">HasImageFeatureProperties</span><span class="p">,</span>
+                                <span class="n">HasRescaleFactor</span><span class="p">,</span>
+                                <span class="n">HasEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Document image parsing with ByteDance Dolphin.</span>
+
+<span class="sd">    Dolphin follows an analyze-then-parse design: stage 1 generates the page&#39;s layout</span>
+<span class="sd">    elements in reading order, then each element is cropped and parsed independently in</span>
+<span class="sd">    stage 2, batched by type. Tables come back as HTML, formulas as LaTeX, text as markdown.</span>
+
+<span class="sd">    Dolphin 1.5 and 1.0 load the same way. The release is recognised from its stage-1 output,</span>
+<span class="sd">    which decides the box geometry and whether formulas and code get their own prompts</span>
+<span class="sd">    (1.5 only).</span>
+
+<span class="sd">    Pretrained models can be loaded with :meth:`.pretrained` of the companion object:</span>
+
+<span class="sd">    &gt;&gt;&gt; dolphin = DolphinForDocumentParsing.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols([&quot;image_assembler&quot;]) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;elements&quot;)</span>
+
+<span class="sd">    The default model is ``&quot;dolphin_1_5&quot;``.</span>
+
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    Input Annotation types Output Annotation type</span>
+<span class="sd">    ====================== ======================</span>
+<span class="sd">    ``IMAGE``              ``DOCUMENT``</span>
+<span class="sd">    ====================== ======================</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    parsingMode</span>
+<span class="sd">        What the input image is. ``page`` (default) runs both stages on a whole page,</span>
+<span class="sd">        ``layout`` runs stage 1 only, and ``table``, ``text``, ``formula`` or ``code`` run</span>
+<span class="sd">        stage 2 on an already cropped region. ``formula`` and ``code`` are Dolphin 1.5</span>
+<span class="sd">        prompts.</span>
+<span class="sd">    outputFormat</span>
+<span class="sd">        ``elements`` (default) emits one annotation per document element carrying</span>
+<span class="sd">        ``dolphinLabel``, ``elementType``, ``readingOrder``, ``readingGroup`` and</span>
+<span class="sd">        ``bboxNormalized`` metadata, plus ``bbox`` in pixels in ``page`` and ``layout`` modes.</span>
+<span class="sd">        ``bboxNormalized`` is that box as fractions of the image&#39;s width and height.</span>
+<span class="sd">        ``markdown`` emits a single assembled document per page, with ``elementCount`` and</span>
+<span class="sd">        ``layoutRaw``. An image that fails to parse yields one empty annotation with an</span>
+<span class="sd">        ``exception`` key.</span>
+<span class="sd">    elementBatchSize</span>
+<span class="sd">        Element crops decoded per forward pass, default 4.</span>
+<span class="sd">    maxOutputLength</span>
+<span class="sd">        Maximum tokens generated per element, default 4096. Generation always stops at the</span>
+<span class="sd">        decoder&#39;s 4096-position window, prompt included.</span>
+<span class="sd">    layoutMaxOutputLength</span>
+<span class="sd">        Maximum tokens generated for the layout pass, default 4096.</span>
+<span class="sd">    repetitionPenalty</span>
+<span class="sd">        Repetition penalty, default 1.0 (off) as in Dolphin 1.5&#39;s reference pipeline;</span>
+<span class="sd">        Dolphin 1.0&#39;s used 1.1.</span>
+<span class="sd">    customPrompt</span>
+<span class="sd">        Overrides the prompt in the ``table``, ``text``, ``formula`` and ``code`` modes.</span>
+<span class="sd">    adjustBoxEdges</span>
+<span class="sd">        Dolphin 1.0 only: widen its boxes so their edges do not cut through ink, default</span>
+<span class="sd">        True. 1.5 boxes are used as generated.</span>
+<span class="sd">    minElementSize</span>
+<span class="sd">        Page mode drops elements whose crop width or height is this many pixels or fewer,</span>
+<span class="sd">        default 3, as the reference does.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The task comes from ``parsingMode``, not from the image annotation&#39;s ``text`` field.</span>
+<span class="sd">    ``Reader2Image`` defaults its ``promptTemplate`` to ``qwen2vl-chat``, and that markup</span>
+<span class="sd">    would otherwise be fed to Dolphin as a task prompt.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import sparknlp</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.base import *</span>
+<span class="sd">    &gt;&gt;&gt; from sparknlp.annotator import *</span>
+<span class="sd">    &gt;&gt;&gt; from pyspark.ml import Pipeline</span>
+<span class="sd">    &gt;&gt;&gt; imageDF = spark.read.format(&quot;image&quot;).load(path=&quot;pages/&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; imageAssembler = ImageAssembler() \\</span>
+<span class="sd">    ...     .setInputCol(&quot;image&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;image_assembler&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; dolphin = DolphinForDocumentParsing.pretrained() \\</span>
+<span class="sd">    ...     .setInputCols(&quot;image_assembler&quot;) \\</span>
+<span class="sd">    ...     .setOutputCol(&quot;elements&quot;) \\</span>
+<span class="sd">    ...     .setParsingMode(&quot;page&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; pipeline = Pipeline().setStages([imageAssembler, dolphin])</span>
+<span class="sd">    &gt;&gt;&gt; result = pipeline.fit(imageDF).transform(imageDF)</span>
+<span class="sd">    &gt;&gt;&gt; result.selectExpr(&quot;explode(elements) as e&quot;) \\</span>
+<span class="sd">    ...     .selectExpr(&quot;e.metadata[&#39;dolphinLabel&#39;] as label&quot;, &quot;e.result&quot;) \\</span>
+<span class="sd">    ...     .show(truncate=60)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.name"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.name">[docs]</a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;DolphinForDocumentParsing&quot;</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.inputAnnotatorTypes"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.inputAnnotatorTypes">[docs]</a>    <span class="n">inputAnnotatorTypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">AnnotatorType</span><span class="o">.</span><span class="n">IMAGE</span><span class="p">]</span></div>
+<div class="viewcode-block" id="DolphinForDocumentParsing.outputAnnotatorType"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.outputAnnotatorType">[docs]</a>    <span class="n">outputAnnotatorType</span> <span class="o">=</span> <span class="n">AnnotatorType</span><span class="o">.</span><span class="n">DOCUMENT</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.parsingMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.parsingMode">[docs]</a>    <span class="n">parsingMode</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;parsingMode&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;One of: page, layout, table, text, formula, code&quot;</span><span class="p">,</span>
+                        <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.outputFormat"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.outputFormat">[docs]</a>    <span class="n">outputFormat</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;outputFormat&quot;</span><span class="p">,</span>
+                         <span class="s2">&quot;One of: elements, markdown&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.elementBatchSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.elementBatchSize">[docs]</a>    <span class="n">elementBatchSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;elementBatchSize&quot;</span><span class="p">,</span>
+                             <span class="s2">&quot;Element crops decoded per forward pass&quot;</span><span class="p">,</span>
+                             <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.maxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.maxOutputLength">[docs]</a>    <span class="n">maxOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;maxOutputLength&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;Maximum tokens generated per element&quot;</span><span class="p">,</span>
+                            <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.layoutMaxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.layoutMaxOutputLength">[docs]</a>    <span class="n">layoutMaxOutputLength</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;layoutMaxOutputLength&quot;</span><span class="p">,</span>
+                                  <span class="s2">&quot;Maximum tokens generated for the layout pass&quot;</span><span class="p">,</span>
+                                  <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.repetitionPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.repetitionPenalty">[docs]</a>    <span class="n">repetitionPenalty</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;repetitionPenalty&quot;</span><span class="p">,</span>
+                              <span class="s2">&quot;Repetition penalty; 1.0 disables it&quot;</span><span class="p">,</span>
+                              <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toFloat</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.customPrompt"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.customPrompt">[docs]</a>    <span class="n">customPrompt</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;customPrompt&quot;</span><span class="p">,</span>
+                         <span class="s2">&quot;Overrides the prompt in the table, text, formula and code modes&quot;</span><span class="p">,</span>
+                         <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toString</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.adjustBoxEdges"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.adjustBoxEdges">[docs]</a>    <span class="n">adjustBoxEdges</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;adjustBoxEdges&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;Widen Dolphin 1.0 boxes so edges do not cut through ink&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toBoolean</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.minElementSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.minElementSize">[docs]</a>    <span class="n">minElementSize</span> <span class="o">=</span> <span class="n">Param</span><span class="p">(</span><span class="n">Params</span><span class="o">.</span><span class="n">_dummy</span><span class="p">(),</span> <span class="s2">&quot;minElementSize&quot;</span><span class="p">,</span>
+                           <span class="s2">&quot;Drop elements whose crop width or height is this many pixels or fewer&quot;</span><span class="p">,</span>
+                           <span class="n">typeConverter</span><span class="o">=</span><span class="n">TypeConverters</span><span class="o">.</span><span class="n">toInt</span><span class="p">)</span></div>
+
+    <span class="c1">#: Modes accepted by ``setParsingMode``; mirrors DolphinForDocumentParsing.ParsingModes.</span>
+<div class="viewcode-block" id="DolphinForDocumentParsing.PARSING_MODES"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.PARSING_MODES">[docs]</a>    <span class="n">PARSING_MODES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;page&quot;</span><span class="p">,</span> <span class="s2">&quot;layout&quot;</span><span class="p">,</span> <span class="s2">&quot;table&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;formula&quot;</span><span class="p">,</span> <span class="s2">&quot;code&quot;</span><span class="p">]</span></div>
+
+    <span class="c1">#: Formats accepted by ``setOutputFormat``; mirrors DolphinForDocumentParsing.OutputFormats.</span>
+<div class="viewcode-block" id="DolphinForDocumentParsing.OUTPUT_FORMATS"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.OUTPUT_FORMATS">[docs]</a>    <span class="n">OUTPUT_FORMATS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;elements&quot;</span><span class="p">,</span> <span class="s2">&quot;markdown&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.setParsingMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.setParsingMode">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setParsingMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the parsing mode: page, layout, table, text, formula or code.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARSING_MODES</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;parsingMode must be one of </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PARSING_MODES</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">parsingMode</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.setOutputFormat"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.setOutputFormat">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setOutputFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the output format: elements or markdown.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">OUTPUT_FORMATS</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;outputFormat must be one of </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">OUTPUT_FORMATS</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">outputFormat</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.setElementBatchSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.setElementBatchSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setElementBatchSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets how many element crops are decoded per forward pass.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;elementBatchSize must be positive.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">elementBatchSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.setMaxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.setMaxOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximum tokens generated per element.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;maxOutputLength must be positive.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">maxOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.setLayoutMaxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.setLayoutMaxOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setLayoutMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the maximum tokens generated for the layout pass.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;layoutMaxOutputLength must be positive.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">layoutMaxOutputLength</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.setRepetitionPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.setRepetitionPenalty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the repetition penalty.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;repetitionPenalty must be positive.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">repetitionPenalty</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.setCustomPrompt"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.setCustomPrompt">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setCustomPrompt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets a prompt that overrides the default in the single-crop modes.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">customPrompt</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.setAdjustBoxEdges"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.setAdjustBoxEdges">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setAdjustBoxEdges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets whether Dolphin 1.0 boxes are widened away from ink.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">adjustBoxEdges</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.setMinElementSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.setMinElementSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">setMinElementSize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the crop size at or below which page mode drops an element.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;minElementSize must not be negative.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">minElementSize</span><span class="o">=</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.getParsingMode"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.getParsingMode">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getParsingMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the parsing mode.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parsingMode</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.getOutputFormat"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.getOutputFormat">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getOutputFormat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the output format: elements or markdown.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outputFormat</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.getElementBatchSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.getElementBatchSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getElementBatchSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets how many element crops are decoded per forward pass.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">elementBatchSize</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.getMaxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.getMaxOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the maximum tokens generated per element.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxOutputLength</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.getLayoutMaxOutputLength"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.getLayoutMaxOutputLength">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getLayoutMaxOutputLength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the maximum tokens generated for the layout pass.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layoutMaxOutputLength</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.getRepetitionPenalty"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.getRepetitionPenalty">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getRepetitionPenalty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the repetition penalty.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repetitionPenalty</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.getCustomPrompt"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.getCustomPrompt">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getCustomPrompt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the prompt overriding the default in the single-crop modes.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">customPrompt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.getAdjustBoxEdges"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.getAdjustBoxEdges">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getAdjustBoxEdges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets whether Dolphin 1.0 boxes are widened away from ink.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adjustBoxEdges</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DolphinForDocumentParsing.getMinElementSize"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.getMinElementSize">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">getMinElementSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gets the crop size at or below which page mode drops an element.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getOrDefault</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">minElementSize</span><span class="p">)</span></div>
+
+    <span class="nd">@keyword_only</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">classname</span><span class="o">=</span><span class="s2">&quot;com.johnsnowlabs.nlp.annotators.cv.DolphinForDocumentParsing&quot;</span><span class="p">,</span>
+                 <span class="n">java_model</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DolphinForDocumentParsing</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">classname</span><span class="o">=</span><span class="n">classname</span><span class="p">,</span>
+            <span class="n">java_model</span><span class="o">=</span><span class="n">java_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setDefault</span><span class="p">(</span>
+            <span class="n">batchSize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">parsingMode</span><span class="o">=</span><span class="s2">&quot;page&quot;</span><span class="p">,</span>
+            <span class="n">outputFormat</span><span class="o">=</span><span class="s2">&quot;elements&quot;</span><span class="p">,</span>
+            <span class="n">elementBatchSize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="n">maxOutputLength</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
+            <span class="n">layoutMaxOutputLength</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
+            <span class="n">repetitionPenalty</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+            <span class="n">customPrompt</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">adjustBoxEdges</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">minElementSize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="mi">896</span><span class="p">,</span>
+            <span class="n">doNormalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">doResize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">doRescale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">rescaleFactor</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="mf">255.0</span><span class="p">,</span>
+            <span class="n">resample</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">imageMean</span><span class="o">=</span><span class="p">[</span><span class="mf">0.485</span><span class="p">,</span> <span class="mf">0.456</span><span class="p">,</span> <span class="mf">0.406</span><span class="p">],</span>
+            <span class="n">imageStd</span><span class="o">=</span><span class="p">[</span><span class="mf">0.229</span><span class="p">,</span> <span class="mf">0.224</span><span class="p">,</span> <span class="mf">0.225</span><span class="p">],</span>
+            <span class="n">featureExtractorType</span><span class="o">=</span><span class="s2">&quot;DonutFeatureExtractor&quot;</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DolphinForDocumentParsing.loadSavedModel"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.loadSavedModel">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">loadSavedModel</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Loads a locally saved model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        folder : str</span>
+<span class="sd">            Folder of the saved model</span>
+<span class="sd">        spark_session : pyspark.sql.SparkSession</span>
+<span class="sd">            The current SparkSession</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DolphinForDocumentParsing</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">_DolphinForDocumentParsingLoader</span>
+        <span class="n">jModel</span> <span class="o">=</span> <span class="n">_DolphinForDocumentParsingLoader</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">_jsparkSession</span><span class="p">)</span><span class="o">.</span><span class="n">_java_obj</span>
+        <span class="k">return</span> <span class="n">DolphinForDocumentParsing</span><span class="p">(</span><span class="n">java_model</span><span class="o">=</span><span class="n">jModel</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DolphinForDocumentParsing.pretrained"><a class="viewcode-back" href="../../../../reference/autosummary/sparknlp/annotator/cv/dolphin_for_document_parsing/index.html#sparknlp.annotator.cv.dolphin_for_document_parsing.DolphinForDocumentParsing.pretrained">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">pretrained</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;dolphin_1_5&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">,</span> <span class="n">remote_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downloads and loads a pretrained model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str, optional</span>
+<span class="sd">            Name of the pretrained model, by default &quot;dolphin_1_5&quot;</span>
+<span class="sd">        lang : str, optional</span>
+<span class="sd">            Language of the pretrained model, by default &quot;en&quot;</span>
+<span class="sd">        remote_loc : str, optional</span>
+<span class="sd">            Optional remote address of the resource, by default None. Will use</span>
+<span class="sd">            Spark NLPs repositories otherwise.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DolphinForDocumentParsing</span>
+<span class="sd">            The restored model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.pretrained</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceDownloader</span>
+        <span class="k">return</span> <span class="n">ResourceDownloader</span><span class="o">.</span><span class="n">downloadModel</span><span class="p">(</span><span class="n">DolphinForDocumentParsing</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">lang</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span></div></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2026 John Snow Labs.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
