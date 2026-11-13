@@ -344,6 +344,16 @@ class _LLAMA3Loader(ExtendedJavaWrapper):
             use_openvino,
         )
 
+
+class _LanguageDetectorDLLoader(ExtendedJavaWrapper):
+    def __init__(self, path, jspark):
+        super(_LanguageDetectorDLLoader, self).__init__(
+            "com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL.loadSavedModel",
+            path,
+            jspark,
+        )
+
+
 class _LongformerLoader(ExtendedJavaWrapper):
     def __init__(self, path, jspark):
         super(_LongformerLoader, self).__init__(
