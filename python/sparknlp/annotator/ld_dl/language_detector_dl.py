@@ -18,14 +18,26 @@ from sparknlp.common import *
 
 class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
     """Language Identification and Detection by using CNN and RNN architectures
-    in TensorFlow.
+    in TensorFlow, or supervised fastText models such as GlotLID on ONNX.
 
     ``LanguageDetectorDL`` is an annotator that detects the language of
-    documents or sentences depending on the inputCols. The models are trained on
-    large datasets such as Wikipedia and Tatoeba. Depending on the language
-    (how similar the characters are), the LanguageDetectorDL works best with
-    text longer than 140 characters. The output is a language code in
+    documents or sentences depending on the inputCols. The CNN models are
+    trained on large datasets such as Wikipedia and Tatoeba. Depending on the
+    language (how similar the characters are), they work best with text longer
+    than 140 characters. Their output is a language code in
     `Wiki Code style <https://en.wikipedia.org/wiki/List_of_Wikipedias>`__.
+
+    The fastText models run on ONNX and turn text into features exactly as
+    fastText does. GlotLID v4 (``"ld_glotlid_v4"``, or ``"ld_glotlid_v4_int8"`` at a
+    quarter of the size) labels 2,060 languages and scripts as an ISO 639-3
+    code plus an ISO 15924 script, such as ``eng_Latn`` or ``cmn_Hani``, and
+    has ``zxx_Code``, ``zxx_Zmth`` and ``zxx_Zsym`` for code, mathematics and
+    symbols. For these models the metadata also holds ``confidence``, the
+    score the label was judged on, and ``scriptPooling``, ``minLetters`` and
+    ``topK`` shape the result. Each sentence goes to the model whole, so split
+    long documents into sentences first. To import other fastText models, see
+    the
+    `import notebook <https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_LanguageDetectorDL.ipynb>`__.
 
     Pretrained models can be loaded with :meth:`.pretrained` of the companion
     object:
@@ -62,6 +74,16 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
         output instead of one output per sentence, by default True.
     languages
        The languages used to trained the model
+    topK
+        Number of language scores kept in the metadata, the highest ones; 0
+        keeps all of them, by default 0. ONNX (fastText) models only.
+    scriptPooling
+        Whether the score of a non-Latin top label is the sum of all labels in
+        its script, by default False. ONNX (fastText) models only.
+    minLetters
+        When the top label is in Latin script (``_Latn``), text with fewer
+        letters than this gets ``thresholdLabel``; 0 turns it off, by default
+        0. ONNX (fastText) models only.
 
     Examples
     --------
@@ -109,7 +131,10 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
         self._setDefault(
             threshold=0.5,
             thresholdLabel="Unknown",
-            coalesceSentences=True
+            coalesceSentences=True,
+            topK=0,
+            scriptPooling=False,
+            minLetters=0
         )
 
     configProtoBytes = Param(Params._dummy(), "configProtoBytes",
@@ -131,6 +156,18 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
     languages = Param(Params._dummy(), "languages",
                       "get the languages used to trained the model",
                       TypeConverters.toListString)
+
+    topK = Param(Params._dummy(), "topK",
+                 "Number of language scores kept in the metadata, the highest ones; 0 keeps all of them",
+                 TypeConverters.toInt)
+
+    scriptPooling = Param(Params._dummy(), "scriptPooling",
+                          "Whether the score of a non-Latin top label is the sum of all labels in its script",
+                          TypeConverters.toBoolean)
+
+    minLetters = Param(Params._dummy(), "minLetters",
+                       "When the top label is in Latin script, text with fewer letters than this gets thresholdLabel; 0 turns it off",
+                       TypeConverters.toInt)
 
     def setConfigProtoBytes(self, b):
         """Sets configProto from tensorflow, serialized into byte array.
@@ -175,6 +212,67 @@ class LanguageDetectorDL(AnnotatorModel, HasStorageRef, HasEngine):
             If the output of all sentences will be averaged to one output
         """
         return self._set(coalesceSentences=value)
+
+    def setTopK(self, value):
+        """Sets the number of language scores kept in the metadata, the highest
+        ones; 0 keeps all of them, by default 0. ONNX (fastText) models only.
+
+        Parameters
+        ----------
+        value : int
+            Number of scores to keep
+        """
+        return self._set(topK=value)
+
+    def setScriptPooling(self, value):
+        """Sets whether the score of a non-Latin top label is the sum of all
+        labels in its script, so that close varieties such as Mandarin
+        (``cmn_Hani``) and Cantonese (``yue_Hani``) do not split it, by default
+        False. The label is still the top one, so the pooled score says how
+        sure the script is rather than the language. ONNX (fastText) models
+        only.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to pool same-script scores
+        """
+        return self._set(scriptPooling=value)
+
+    def setMinLetters(self, value):
+        """Sets the minimum number of letters for a Latin-script top label
+        (``_Latn``); shorter text gets ``thresholdLabel``. 0 turns it off, by
+        default 0. ONNX (fastText) models only.
+
+        Parameters
+        ----------
+        value : int
+            Minimum number of letters
+        """
+        return self._set(minLetters=value)
+
+    @staticmethod
+    def loadSavedModel(folder, spark_session):
+        """Loads a locally exported model: a TensorFlow CNN export, or a
+        supervised fastText model such as GlotLID exported to ONNX
+        (``model.onnx`` with ``assets/language.txt``, ``assets/vocab.json`` and
+        ``assets/config.json``).
+
+        Parameters
+        ----------
+        folder : str
+            Folder of the exported model
+        spark_session : pyspark.sql.SparkSession
+            The current SparkSession
+
+        Returns
+        -------
+        LanguageDetectorDL
+            The restored model
+        """
+        from sparknlp.internal import _LanguageDetectorDLLoader
+        jModel = _LanguageDetectorDLLoader(folder, spark_session._jsparkSession)._java_obj
+        return LanguageDetectorDL(java_model=jModel)
 
     @staticmethod
     def pretrained(name="ld_wiki_tatoeba_cnn_21", lang="xx", remote_loc=None):

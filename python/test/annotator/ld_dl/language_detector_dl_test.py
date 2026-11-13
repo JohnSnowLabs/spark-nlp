@@ -53,3 +53,49 @@ class LanguageDetectorDLTestSpec(unittest.TestCase):
         model = pipeline.fit(self.data)
         model.transform(self.data).show()
 
+
+@pytest.mark.slow
+class LanguageDetectorDLGlotLIDTestSpec(unittest.TestCase):
+
+    def setUp(self):
+        self.data = SparkContextForTest.spark.createDataFrame([
+            ["The patient was admitted with chest pain and shortness of breath."],
+            ["患者因胸痛和呼吸困难三天入院。"],
+            ["El paciente ingresó por dolor torácico y dificultad para respirar."],
+            ["No oral lesions."],
+            ["血液檢查顯示肌鈣蛋白升高,胸部X光片符合肺水腫表現。"],
+        ]).toDF("text")
+
+        self.document_assembler = DocumentAssembler() \
+            .setInputCol("text") \
+            .setOutputCol("document")
+
+    def test_run(self):
+        ld = LanguageDetectorDL.pretrained("ld_glotlid_v4", "xx") \
+            .setInputCols(["document"]) \
+            .setOutputCol("language") \
+            .setScriptPooling(True) \
+            .setMinLetters(20)
+
+        result = Pipeline(stages=[self.document_assembler, ld]).fit(self.data).transform(self.data)
+        result.select("text", "language.result").show(truncate=False)
+
+        labels = [row.result[0] for row in result.select("language.result").collect()]
+        self.assertEqual(labels, ["eng_Latn", "cmn_Hani", "spa_Latn", "unk", "yue_Hani"])
+
+    def test_params(self):
+        ld = LanguageDetectorDL.pretrained("ld_glotlid_v4", "xx") \
+            .setInputCols(["document"]) \
+            .setOutputCol("language") \
+            .setTopK(2) \
+            .setMinLetters(0) \
+            .setScriptPooling(False)
+
+        result = Pipeline(stages=[self.document_assembler, ld]).fit(self.data).transform(self.data)
+        annotations = [row.language[0] for row in result.select("language").collect()]
+
+        self.assertEqual(annotations[3].result, "cat_Latn")
+        self.assertEqual(annotations[4].result, "unk")
+        for annotation in annotations:
+            self.assertEqual(len(annotation.metadata), 4)
+
