@@ -1,4 +1,29 @@
 =======
+7.0.1
+=======
+---------------------------
+New Features & Enhancements
+---------------------------
+Spark 3.x Lane
+
+* [SPARKNLP-1433] Parallelize S3 downloads for pretrained models #14879
+* Update colab_setup.sh #14902
+* Fix recurring CRLF changes in vector DB Python initializer #14901
+* [SPARKNLP-936] Add built-in benchmarking API (throughput + accuracy) #14849
+* [Spark 4.x] [SPARKNLP-936] Add built-in benchmarking API (throughput + accuracy) #14852
+* Fix stray spacing in QA span detokenization #14850
+* Fix ViTClassifier stringifying Option instead of unwrapping class labels #14851
+* Sparknlp 1224 implement dolphin document image parsing #14915
+* [SPARKNLP-1454] Automatically clean up Spark NLP temporary storage paths on S3 #14910
+* Add Fabric Runtime 2.0 setup to the install docs #14909
+* Sparknlp glot lid v4 language detector dl #14919
+
+Spark 4.x Lane
+Same than Spark 3.x and:
+* Fix loading of Scala 2.12 tokenizer models on Scala 2.13
+
+
+=======
 7.0.0
 =======
 ---------------------------

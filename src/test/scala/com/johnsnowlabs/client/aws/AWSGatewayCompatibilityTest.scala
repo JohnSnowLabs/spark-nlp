@@ -27,7 +27,7 @@ import java.nio.file.Files
 class AWSGatewayCompatibilityTest extends AnyFlatSpec {
 
   private val MiB = 1024 * 1024
-  private val Key = "public/models/fake_model_en_7.0.0_3.0_1.zip"
+  private val Key = "public/models/fake_model_en_7.0.1_3.0_1.zip"
 
   private def target(): File =
     File.createTempFile("model", ".zip", Files.createTempDirectory("compat").toFile)

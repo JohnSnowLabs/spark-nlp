@@ -27,7 +27,7 @@ import scala.jdk.CollectionConverters._
 class ParallelDownloadTest extends AnyFlatSpec {
 
   private val MiB = 1024 * 1024
-  private val Key = "public/models/fake_model_en_7.0.0_3.0_1.zip"
+  private val Key = "public/models/fake_model_en_7.0.1_3.0_1.zip"
 
   private def waitUntil(condition: => Boolean, millis: Long): Boolean = {
     val deadline = System.nanoTime() + millis * 1000000L
