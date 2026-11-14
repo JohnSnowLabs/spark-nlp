@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 7.0.0 documentation</title>
+    <title>sparknlp.pretrained.resource_downloader &#8212; Spark NLP 7.0.1 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=cd9f6827"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=69e7ec3e"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.0 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -375,13 +375,13 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;Contains classes for the ResourceDownloader.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">py4j.protocol</span><span class="w"> </span><span class="kn">import</span> <span class="n">Py4JJavaError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyspark</span><span class="w"> </span><span class="kn">import</span> <span class="n">SparkContext</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyspark.ml</span><span class="w"> </span><span class="kn">import</span> <span class="n">PipelineModel</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">sparknlp.internal</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_internal</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.pretrained.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">printProgress</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sparknlp.pretrained.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">DownloadProgress</span>
 
 
 <div class="viewcode-block" id="ResourceDownloader"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/resource_downloader/index.html#sparknlp.pretrained.resource_downloader.ResourceDownloader">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ResourceDownloader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -455,17 +455,15 @@ document.write(`
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Can not find the model to download please check the name!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Approximate size to download &quot;</span> <span class="o">+</span> <span class="n">file_size</span><span class="p">)</span>
-            <span class="n">stop_threads</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="n">t1</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">printProgress</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">stop_threads</span><span class="p">,))</span>
-            <span class="n">t1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+            <span class="c1"># DownloadProgress draws from Python and keeps the JVM quiet meanwhile: pyspark</span>
+            <span class="c1"># starts the JVM with a piped stdin, so only Python can tell a terminal from a</span>
+            <span class="c1"># notebook.</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">j_obj</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_DownloadModel</span><span class="p">(</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">skip_preferred_engine</span><span class="p">,</span> <span class="n">j_dwn</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
+                <span class="k">with</span> <span class="n">DownloadProgress</span><span class="p">(</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">_active_spark_context</span><span class="p">):</span>
+                    <span class="n">j_obj</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_DownloadModel</span><span class="p">(</span><span class="n">reader</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">skip_preferred_engine</span><span class="p">,</span> <span class="n">j_dwn</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
             <span class="k">except</span> <span class="n">Py4JJavaError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
                 <span class="k">raise</span> <span class="n">e</span>
-            <span class="k">finally</span><span class="p">:</span>
-                <span class="n">stop_threads</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="n">t1</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 
             <span class="k">return</span> <span class="n">reader</span><span class="p">(</span><span class="n">classname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">java_model</span><span class="o">=</span><span class="n">j_obj</span><span class="p">)</span></div>
 
@@ -483,7 +481,9 @@ document.write(`
 <span class="sd">        unzip : Bool, optional</span>
 <span class="sd">            Used to unzip model, by default &#39;True&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">_internal</span><span class="o">.</span><span class="n">_DownloadModelDirectly</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span> <span class="n">unzip</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
+        <span class="c1"># see downloadModel(): Python draws the progress while the JVM downloads</span>
+        <span class="k">with</span> <span class="n">DownloadProgress</span><span class="p">(</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">_active_spark_context</span><span class="p">):</span>
+            <span class="n">_internal</span><span class="o">.</span><span class="n">_DownloadModelDirectly</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">,</span> <span class="n">unzip</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span></div>
 
 
     <span class="nd">@staticmethod</span>
@@ -510,15 +510,10 @@ document.write(`
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Can not find the model to download please check the name!&quot;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Approx size to download &quot;</span> <span class="o">+</span> <span class="n">file_size</span><span class="p">)</span>
-            <span class="n">stop_threads</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="n">t1</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">printProgress</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">stop_threads</span><span class="p">,))</span>
-            <span class="n">t1</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-            <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># see downloadModel() above</span>
+            <span class="k">with</span> <span class="n">DownloadProgress</span><span class="p">(</span><span class="n">SparkContext</span><span class="o">.</span><span class="n">_active_spark_context</span><span class="p">):</span>
                 <span class="n">j_obj</span> <span class="o">=</span> <span class="n">_internal</span><span class="o">.</span><span class="n">_DownloadPipeline</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">remote_loc</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
-                <span class="n">jmodel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="o">.</span><span class="n">_from_java</span><span class="p">(</span><span class="n">j_obj</span><span class="p">)</span>
-            <span class="k">finally</span><span class="p">:</span>
-                <span class="n">stop_threads</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="n">t1</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+            <span class="n">jmodel</span> <span class="o">=</span> <span class="n">PipelineModel</span><span class="o">.</span><span class="n">_from_java</span><span class="p">(</span><span class="n">j_obj</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">jmodel</span></div>
 

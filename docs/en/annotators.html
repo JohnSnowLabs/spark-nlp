@@ -1131,6 +1131,11 @@ in the DataFrames.</li>
         <td>Opensource</td>
       </tr>
       <tr>
+        <td><a href="./transformers#dolphinfordocumentparsing">DolphinForDocumentParsing</a></td>
+        <td>ByteDance Dolphin: parses a document image into layout elements in reading order, with tables as HTML and formulas as LaTeX.</td>
+        <td>Opensource</td>
+      </tr>
+      <tr>
         <td><a href="./transformers#e5embeddings">E5Embeddings</a></td>
         <td>Sentence embeddings using E5, an instruction-finetuned text embedding model that can generate text embeddings tailored to any task.</td>
         <td>Opensource</td>
@@ -6634,13 +6639,36 @@ according to your hardware to avoid out-of-memory errors.</p>
 
   <h2 id="languagedetectordl">LanguageDetectorDL</h2>
 
-  <p>Language Identification and Detection by using CNN and RNN architectures in TensorFlow.</p>
+  <p>Language Identification and Detection by using CNN and RNN architectures in TensorFlow, or supervised
+fastText models such as GlotLID on ONNX.</p>
 
   <p><code class="language-plaintext highlighter-rouge">LanguageDetectorDL</code> is an annotator that detects the language of documents or sentences depending on the inputCols.
-The models are trained on large datasets such as Wikipedia and Tatoeba.
-Depending on the language (how similar the characters are), the LanguageDetectorDL works
+The CNN models are trained on large datasets such as Wikipedia and Tatoeba.
+Depending on the language (how similar the characters are), they work
 best with text longer than 140 characters.
-The output is a language code in <a href="https://en.wikipedia.org/wiki/List_of_Wikipedias">Wiki Code style</a>.</p>
+Their output is a language code in <a href="https://en.wikipedia.org/wiki/List_of_Wikipedias">Wiki Code style</a>.</p>
+
+  <p>The fastText models run on ONNX and turn text into features exactly as fastText does. GlotLID v4
+(<code class="language-plaintext highlighter-rouge">"ld_glotlid_v4"</code>, or <code class="language-plaintext highlighter-rouge">"ld_glotlid_v4_int8"</code> at a quarter of the size) labels 2,060 languages and scripts as an
+ISO 639-3 code plus an ISO 15924 script, such as <code class="language-plaintext highlighter-rouge">eng_Latn</code> or <code class="language-plaintext highlighter-rouge">cmn_Hani</code>, and has <code class="language-plaintext highlighter-rouge">zxx_Code</code>, <code class="language-plaintext highlighter-rouge">zxx_Zmth</code> and
+<code class="language-plaintext highlighter-rouge">zxx_Zsym</code> for code, mathematics and symbols. For these models the metadata also holds <code class="language-plaintext highlighter-rouge">confidence</code>, the score the
+label was judged on, and three parameters shape the result:</p>
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">scriptPooling</code>: for a non-Latin top label, the score is the sum of all labels in its script, so that close
+varieties such as Mandarin (<code class="language-plaintext highlighter-rouge">cmn_Hani</code>) and Cantonese (<code class="language-plaintext highlighter-rouge">yue_Hani</code>) do not split it; the label is still the top
+one, so the pooled score says how sure the script is rather than the language</li>
+    <li><code class="language-plaintext highlighter-rouge">minLetters</code>: when the top label is in Latin script (<code class="language-plaintext highlighter-rouge">_Latn</code>), text with fewer letters than this gets
+<code class="language-plaintext highlighter-rouge">thresholdLabel</code></li>
+    <li><code class="language-plaintext highlighter-rouge">topK</code>: number of scores kept in the metadata, the highest ones</li>
+  </ul>
+
+  <p>The pretrained GlotLID models are saved with <code class="language-plaintext highlighter-rouge">threshold</code> 0.7, <code class="language-plaintext highlighter-rouge">thresholdLabel</code> <code class="language-plaintext highlighter-rouge">"unk"</code>, <code class="language-plaintext highlighter-rouge">scriptPooling</code>,
+<code class="language-plaintext highlighter-rouge">minLetters</code> 20, <code class="language-plaintext highlighter-rouge">topK</code> 5 and one result per sentence (<code class="language-plaintext highlighter-rouge">coalesceSentences</code> false). Each sentence goes to the model
+whole, so split long documents into sentences first. To import other fastText models,
+see the <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_LanguageDetectorDL.ipynb">import notebook</a>;
+for finding the non-English sentences of a collection, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/language-detection/Language_Detection_with_GlotLID.ipynb">GlotLID example</a>.</p>
 
   <p>Pretrained models can be loaded with <code class="language-plaintext highlighter-rouge">pretrained</code> of the companion object:</p>
   <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Val languageDetector = LanguageDetectorDL.pretrained()

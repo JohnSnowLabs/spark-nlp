@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.pretrained.utils &#8212; Spark NLP 7.0.0 documentation</title>
+    <title>sparknlp.pretrained.utils &#8212; Spark NLP 7.0.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=cd9f6827"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../static/documentation_options.js?v=69e7ec3e"></script>
     <script src="../../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -376,19 +376,43 @@ document.write(`
 <p>Contains utilities for pretrained annotators and pipelines.</p>
 <section id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this heading">#</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h3>
+<table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.pretrained.utils.DownloadProgress" title="sparknlp.pretrained.utils.DownloadProgress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DownloadProgress</span></code></a></p></td>
+<td><p>Draws progress for one pretrained download by polling the JVM's byte counters.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sparknlp.pretrained.utils.printProgress" title="sparknlp.pretrained.utils.printProgress"><code class="xref py py-obj docutils literal notranslate"><span class="pre">printProgress</span></code></a>(stop)</p></td>
-<td><p></p></td>
+<td><p>Prints a spinner until <code class="docutils literal notranslate"><span class="pre">stop()</span></code> returns True.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="sparknlp.pretrained.utils.printProgress">
 <span class="sig-name descname"><span class="pre">printProgress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stop</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/utils.html#printProgress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.utils.printProgress" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<dd><p>Prints a spinner until <code class="docutils literal notranslate"><span class="pre">stop()</span></code> returns True.</p>
+<p>Deprecated: downloads report byte-accurate progress through <a class="reference internal" href="#sparknlp.pretrained.utils.DownloadProgress" title="sparknlp.pretrained.utils.DownloadProgress"><code class="xref py py-class docutils literal notranslate"><span class="pre">DownloadProgress</span></code></a>.
+Kept so code that imports it from earlier releases keeps working.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sparknlp.pretrained.utils.DownloadProgress">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DownloadProgress</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark_context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../modules/sparknlp/pretrained/utils.html#DownloadProgress"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.pretrained.utils.DownloadProgress" title="Permalink to this definition">#</a></dt>
+<dd><p>Draws progress for one pretrained download by polling the JVM’s byte counters.</p>
+<p>pyspark starts the JVM with a piped stdin, so the JVM never detects a terminal and cannot pick
+a style for the user’s screen. Python can, so in a Python session Python draws and asks the JVM
+to stay quiet until the download ends.</p>
+<p>Degrades to silence rather than failing: an older jar without these methods, or any py4j
+error, just means no progress. It is decoration and must never break a download.</p>
+</dd></dl>
 
 </section>
 </section>
@@ -421,8 +445,10 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.pretrained.utils.printProgress"><code class="docutils literal notranslate"><span class="pre">printProgress()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.pretrained.utils.DownloadProgress"><code class="docutils literal notranslate"><span class="pre">DownloadProgress</span></code></a></li>
 </ul>
 </li>
 </ul>

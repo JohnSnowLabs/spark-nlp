@@ -554,7 +554,22 @@
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.jsl.settings.storage.cluster_tmp_dir</code></td>
         <td><code class="language-plaintext highlighter-rouge">hadoop.tmp.dir</code></td>
-        <td>The location to use on a cluster for temporarily files such as unpacking indexes for WordEmbeddings. By default, this locations is the location of <code class="language-plaintext highlighter-rouge">hadoop.tmp.dir</code> set via Hadoop configuration for Apache Spark. NOTE: <code class="language-plaintext highlighter-rouge">S3</code> is not supported and it must be local, HDFS, or DBFS</td>
+        <td>The location to use on a cluster for temporary files such as unpacking indexes for WordEmbeddings. By default, this location is the location of <code class="language-plaintext highlighter-rouge">hadoop.tmp.dir</code> set via Hadoop configuration for Apache Spark. It can be a local, HDFS, DBFS, or S3 path. See <a href="#s3-integration">S3 Integration</a> for how S3 folders are cleaned up</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">spark.jsl.settings.pretrained.download_threads</code></td>
+        <td><code class="language-plaintext highlighter-rouge">10</code></td>
+        <td>Number of concurrent HTTP range requests used to download a pretrained <code class="language-plaintext highlighter-rouge">Model</code> or <code class="language-plaintext highlighter-rouge">Pipeline</code>, and the models index. An upper bound, not a target: every connection gets at least 4MB, so a 40MB object uses about 10 regardless. <code class="language-plaintext highlighter-rouge">1</code> restores the single-connection path</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">spark.jsl.settings.pretrained.download_progress</code></td>
+        <td><code class="language-plaintext highlighter-rouge">auto</code></td>
+        <td>How download progress is reported. <code class="language-plaintext highlighter-rouge">bar</code> repaints one line with carriage returns, which only a terminal renders; <code class="language-plaintext highlighter-rouge">lines</code> prints one update per percent, which notebooks, CI logs and redirected output show; <code class="language-plaintext highlighter-rouge">off</code> disables it. <code class="language-plaintext highlighter-rouge">auto</code> uses <code class="language-plaintext highlighter-rouge">bar</code> on a terminal and <code class="language-plaintext highlighter-rouge">lines</code> everywhere else. In PySpark, Python makes that choice from its own output and draws the progress itself, since the JVM it starts never sees a terminal</td>
+      </tr>
+      <tr>
+        <td><code class="language-plaintext highlighter-rouge">spark.jsl.settings.pretrained.s3_socket_timeout</code></td>
+        <td><code class="language-plaintext highlighter-rouge">900000</code> (15 min)</td>
+        <td>How long, in milliseconds, a download may wait for the next bytes on an already-open connection before failing. An inactivity timeout, <strong>not</strong> a cap on total download time: a slow but steady download never reaches it, as each byte resets the clock. <code class="language-plaintext highlighter-rouge">0</code> waits forever</td>
       </tr>
       <tr>
         <td><code class="language-plaintext highlighter-rouge">spark.jsl.settings.annotator.log_folder</code></td>
@@ -662,9 +677,9 @@
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.kryoserializer.buffer.max"</span><span class="p">,</span> <span class="s">"2000m"</span><span class="p">)</span>
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jsl.settings.pretrained.cache_folder"</span><span class="p">,</span> <span class="s">"sample_data/pretrained"</span><span class="p">)</span>
     <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jsl.settings.storage.cluster_tmp_dir"</span><span class="p">,</span> <span class="s">"sample_data/storage"</span><span class="p">)</span>
-    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars.packages"</span><span class="p">,</span> <span class="s">"com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0"</span><span class="p">)</span>
-    <span class="c1"># Apache Spark 4.0.0 (Scala 2.13): com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0
-</span>    <span class="c1"># Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13): com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0
+    <span class="p">.</span><span class="n">config</span><span class="p">(</span><span class="s">"spark.jars.packages"</span><span class="p">,</span> <span class="s">"com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.1"</span><span class="p">)</span>
+    <span class="c1"># Apache Spark 4.0.0 (Scala 2.13): com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.1
+</span>    <span class="c1"># Apache Spark 4.0.1, 4.1.0, 4.1.1, 4.1.2 (Scala 2.13): com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.1
 </span>    <span class="p">.</span><span class="n">getOrCreate</span><span class="p">()</span>
 </code></pre></div>  </div>
 
@@ -677,11 +692,11 @@
   <span class="nt">--conf</span> spark.kryoserializer.buffer.max<span class="o">=</span>2000M <span class="se">\</span>
   <span class="nt">--conf</span> spark.jsl.settings.pretrained.cache_folder<span class="o">=</span><span class="s2">"sample_data/pretrained"</span> <span class="se">\</span>
   <span class="nt">--conf</span> spark.jsl.settings.storage.cluster_tmp_dir<span class="o">=</span><span class="s2">"sample_data/storage"</span> <span class="se">\</span>
-  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
+  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.1
 </code></pre></div>  </div>
 
-  <p>On Apache Spark 4.0.0, use <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0</code>; on Apache Spark 4.0.1,
-4.1.0, 4.1.1, or 4.1.2, use <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0</code>.</p>
+  <p>On Apache Spark 4.0.0, use <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.1</code>; on Apache Spark 4.0.1,
+4.1.0, 4.1.1, or 4.1.2, use <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.1</code>.</p>
 
   <p><strong>pyspark:</strong></p>
 
@@ -692,11 +707,11 @@
   <span class="nt">--conf</span> spark.kryoserializer.buffer.max<span class="o">=</span>2000M <span class="se">\</span>
   <span class="nt">--conf</span> spark.jsl.settings.pretrained.cache_folder<span class="o">=</span><span class="s2">"sample_data/pretrained"</span> <span class="se">\</span>
   <span class="nt">--conf</span> spark.jsl.settings.storage.cluster_tmp_dir<span class="o">=</span><span class="s2">"sample_data/storage"</span> <span class="se">\</span>
-  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.0
+  <span class="nt">--packages</span> com.johnsnowlabs.nlp:spark-nlp_2.12:7.0.1
 </code></pre></div>  </div>
 
-  <p>On Apache Spark 4.0.0, use <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.0</code>; on Apache Spark 4.0.1,
-4.1.0, 4.1.1, or 4.1.2, use <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.0</code>.</p>
+  <p>On Apache Spark 4.0.0, use <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp-spark400_2.13:7.0.1</code>; on Apache Spark 4.0.1,
+4.1.0, 4.1.1, or 4.1.2, use <code class="language-plaintext highlighter-rouge">com.johnsnowlabs.nlp:spark-nlp_2.13:7.0.1</code>.</p>
 
   <p><strong>Databricks:</strong></p>
 
@@ -784,6 +799,36 @@ This script requires three arguments:</p>
 
   <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./aws_tmp_credentials.sh iam_user duration serial_number
 </code></pre></div>  </div>
+
+  <p><strong>Temporary storage:</strong></p>
+
+  <p>Annotators that use a storage index, such as <code class="language-plaintext highlighter-rouge">WordEmbeddingsModel</code>, may copy it to <code class="language-plaintext highlighter-rouge">spark.jsl.settings.storage.cluster_tmp_dir</code> so executors can read it. On clusters where executors do not share a disk, such as AWS EMR Serverless, point it at S3:</p>
+
+  <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>spark.jsl.settings.storage.cluster_tmp_dir s3://my-bucket/sparknlp-tmp
+</code></pre></div>  </div>
+
+  <p>Spark NLP writes into a <code class="language-plaintext highlighter-rouge">&lt;random id&gt;_cdx</code> subfolder and deletes it when the Spark application ends. Other jobs’ subfolders and the base path are left alone, so jobs can share one base path. Call <code class="language-plaintext highlighter-rouge">spark.stop()</code> at the end of the job: without it, the cleanup runs during driver shutdown and may not finish.</p>
+
+  <p>The IAM role needs <code class="language-plaintext highlighter-rouge">s3:ListBucket</code> on the bucket, and <code class="language-plaintext highlighter-rouge">s3:PutObject</code>, <code class="language-plaintext highlighter-rouge">s3:GetObject</code> and <code class="language-plaintext highlighter-rouge">s3:DeleteObject</code> on the prefix:</p>
+
+  <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"Version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2012-10-17"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Statement"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"s3:ListBucket"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:s3:::my-bucket"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"Effect"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Action"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"s3:PutObject"</span><span class="p">,</span><span class="w"> </span><span class="s2">"s3:GetObject"</span><span class="p">,</span><span class="w"> </span><span class="s2">"s3:DeleteObject"</span><span class="p">],</span><span class="w">
+      </span><span class="nl">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:s3:::my-bucket/sparknlp-tmp/*"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>  </div>
+
+  <p>For buckets encrypted with SSE-KMS, also allow <code class="language-plaintext highlighter-rouge">kms:GenerateDataKey</code> and <code class="language-plaintext highlighter-rouge">kms:Decrypt</code> on the key. Without <code class="language-plaintext highlighter-rouge">s3:DeleteObject</code> the job still finishes, and the driver log names the folder that was left behind. A driver that crashes cannot clean up, so an S3 lifecycle rule on the prefix is a useful backstop.</p>
 
 </div>
 </div><div class="d-print-none"><footer class="article__footer"><span class="footer_date">Last updated

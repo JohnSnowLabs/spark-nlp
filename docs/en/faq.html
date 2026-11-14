@@ -564,9 +564,9 @@
         <li><strong>aarch64</strong> (<code class="language-plaintext highlighter-rouge">bool</code>, default <code class="language-plaintext highlighter-rouge">False</code>) – Support for Linux Aarch64.</li>
         <li><strong>memory</strong> (<code class="language-plaintext highlighter-rouge">str</code>, default <code class="language-plaintext highlighter-rouge">"16G"</code>) – Spark driver memory.</li>
         <li><strong>cache_folder</strong> (<code class="language-plaintext highlighter-rouge">str</code>) – Folder for pretrained models (<code class="language-plaintext highlighter-rouge">~/cache_pretrained</code> by default).</li>
-        <li><strong>log_folder</strong> (<code class="language-plaintext highlighter-rouge">str</code>) – Temp folder for embeddings/logs (local, HDFS, or DBFS only).</li>
+        <li><strong>log_folder</strong> (<code class="language-plaintext highlighter-rouge">str</code>) – Where annotator logs are saved during training (<code class="language-plaintext highlighter-rouge">~/annotator_logs</code> by default).</li>
         <li><strong>params</strong> (<code class="language-plaintext highlighter-rouge">dict</code>) – Custom Spark config options.</li>
-        <li><strong>cluster_tmp_dir</strong> (<code class="language-plaintext highlighter-rouge">str</code>) – Where annotator logs are saved.</li>
+        <li><strong>cluster_tmp_dir</strong> (<code class="language-plaintext highlighter-rouge">str</code>) – Temporary folder for storage indexes such as WordEmbeddings (local, HDFS, DBFS, or S3).</li>
         <li><strong>real_time_output</strong> (<code class="language-plaintext highlighter-rouge">bool</code>, default <code class="language-plaintext highlighter-rouge">False</code>) – Show JVM output live.</li>
         <li><strong>output_level</strong> (<code class="language-plaintext highlighter-rouge">int</code>, default <code class="language-plaintext highlighter-rouge">1</code>) – Logging verbosity.</li>
       </ul>

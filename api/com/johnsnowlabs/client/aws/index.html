@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 7.0.0 ScalaDoc  - com.johnsnowlabs.client.aws</title>
-          <meta name="description" content="Spark NLP 7.0.0 ScalaDoc - com.johnsnowlabs.client.aws" />
-          <meta name="keywords" content="Spark NLP 7.0.0 ScalaDoc com.johnsnowlabs.client.aws" />
+          <title>Spark NLP 7.0.1 ScalaDoc  - com.johnsnowlabs.client.aws</title>
+          <meta name="description" content="Spark NLP 7.0.1 ScalaDoc - com.johnsnowlabs.client.aws" />
+          <meta name="keywords" content="Spark NLP 7.0.1 ScalaDoc com.johnsnowlabs.client.aws" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 7.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 7.0.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -150,7 +150,7 @@
                         <a class="class" href="AWSCredentialsProvider.html" title=""></a>
                         <a href="AWSCredentialsProvider.html" title="">AWSCredentialsProvider</a>
                       </li><li class="current-entities indented4">
-                        <span class="separator"></span>
+                        <a class="object" href="AWSGateway$.html" title=""></a>
                         <a class="class" href="AWSGateway.html" title=""></a>
                         <a href="AWSGateway.html" title="">AWSGateway</a>
                       </li><li class="current-entities indented4">
@@ -169,6 +169,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="Credentials.html" title=""></a>
                         <a href="Credentials.html" title="">Credentials</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="DownloadProgressTracker$.html" title="Byte counts for the download currently in flight, readable from outside the JVM."></a>
+                        <a href="DownloadProgressTracker$.html" title="Byte counts for the download currently in flight, readable from outside the JVM.">DownloadProgressTracker</a>
                       </li><li name="com.johnsnowlabs.client.azure" visbl="pub" class="indented4 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="azure"></a><a id="azure:azure"></a>
       <span class="permalink">
@@ -248,7 +252,31 @@
           <div id="comment" class="fullcommenttop"></div>
         
 
-      
+      <div id="mbrsel">
+        <div class="toggle"></div>
+        <div id="memberfilter">
+          <i class="material-icons arrow"></i>
+          <span class="input">
+            <input id="mbrsel-input" placeholder="Filter all members" type="text" accesskey="/" />
+          </span>
+          <i class="clear material-icons"></i>
+        </div>
+        <div id="filterby">
+          <div id="order">
+            <span class="filtertype">Ordering</span>
+            <ol>
+              
+              <li class="alpha in"><span>Alphabetic</span></li>
+              
+            </ol>
+          </div>
+          
+          <div id="visbl">
+              <span class="filtertype">Visibility</span>
+              <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+            </div>
+        </div>
+      </div>
 
       <div id="template">
         <div id="allMembers">
@@ -405,7 +433,52 @@
 
         
 
-        
+        <div class="values members">
+              <h3>Value Members</h3>
+              <ol>
+                <li name="com.johnsnowlabs.client.aws.AWSGateway" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AWSGateway"></a><a id="AWSGateway:AWSGateway"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="" href="AWSGateway$.html"><span class="name">AWSGateway</span></a>
+      </span>
+      
+      
+    </li><li name="com.johnsnowlabs.client.aws.DownloadProgressTracker" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="DownloadProgressTracker"></a><a id="DownloadProgressTracker:DownloadProgressTracker"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/client/aws/DownloadProgressTracker$.html" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="Byte counts for the download currently in flight, readable from outside the JVM." href="DownloadProgressTracker$.html"><span class="name">DownloadProgressTracker</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Byte counts for the download currently in flight, readable from outside the JVM.</p><div class="fullcomment"><div class="comment cmt"><p>Byte counts for the download currently in flight, readable from outside the JVM.</p><p>A Spark driver launched through py4j writes to a stdout that a notebook front end does not
+surface, so <span class="extype" name="DownloadProgress">DownloadProgress</span>'s own output is invisible there however it is formatted.
+Python can print to the notebook, but has no view of the transfer -- it is blocked in a py4j
+call for its whole duration. This is the bridge: the JVM keeps the counters, and the Python
+side polls them and renders.</p><p>Every download on the driver shares this one set of counters. Two downloads at once (a job
+that builds several pipelines on threads) therefore mix their numbers in the display, which is
+cosmetic: each download's own data is unaffected. Accessors are plain public methods returning
+primitives, which is what py4j can reach.
+</p></div></div>
+    </li>
+              </ol>
+            </div>
 
         
 

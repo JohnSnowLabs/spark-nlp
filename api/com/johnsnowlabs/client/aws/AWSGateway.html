@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 7.0.0 ScalaDoc  - com.johnsnowlabs.client.aws.AWSGateway</title>
-          <meta name="description" content="Spark NLP 7.0.0 ScalaDoc - com.johnsnowlabs.client.aws.AWSGateway" />
-          <meta name="keywords" content="Spark NLP 7.0.0 ScalaDoc com.johnsnowlabs.client.aws.AWSGateway" />
+          <title>Spark NLP 7.0.1 ScalaDoc  - com.johnsnowlabs.client.aws.AWSGateway</title>
+          <meta name="description" content="Spark NLP 7.0.1 ScalaDoc - com.johnsnowlabs.client.aws.AWSGateway" />
+          <meta name="keywords" content="Spark NLP 7.0.1 ScalaDoc com.johnsnowlabs.client.aws.AWSGateway" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 7.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 7.0.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -150,7 +150,7 @@
                         <a class="class" href="AWSCredentialsProvider.html" title=""></a>
                         <a href="AWSCredentialsProvider.html" title="">AWSCredentialsProvider</a>
                       </li><li class="current-entities indented4">
-                        <span class="separator"></span>
+                        <a class="object" href="AWSGateway$.html" title=""></a>
                         <a class="class" href="" title=""></a>
                         <a href="" title="">AWSGateway</a>
                       </li><li class="current-entities indented4">
@@ -169,6 +169,10 @@
                         <span class="separator"></span>
                         <a class="trait" href="Credentials.html" title=""></a>
                         <a href="Credentials.html" title="">Credentials</a>
+                      </li><li class="current-entities indented4">
+                        <span class="separator"></span>
+                        <a class="object" href="DownloadProgressTracker$.html" title="Byte counts for the download currently in flight, readable from outside the JVM."></a>
+                        <a href="DownloadProgressTracker$.html" title="Byte counts for the download currently in flight, readable from outside the JVM.">DownloadProgressTracker</a>
                       </li>
               </ul>
             </div>
@@ -176,14 +180,16 @@
           <div id="content">
             <body class="class type">
       <div id="definition">
-        <div class="big-circle class">c</div>
+        <a href="AWSGateway$.html" title="See companion object"><div class="big-circle class-companion-object">c</div></a>
         <p id="owner"><a href="../../../index.html" class="extype" name="com">com</a>.<a href="../../index.html" class="extype" name="com.johnsnowlabs">johnsnowlabs</a>.<a href="../index.html" class="extype" name="com.johnsnowlabs.client">client</a>.<a href="index.html" class="extype" name="com.johnsnowlabs.client.aws">aws</a></p>
-        <h1>AWSGateway<span class="permalink">
+        <h1><a href="AWSGateway$.html" title="See companion object">AWSGateway</a><span class="permalink">
       <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html" title="Permalink">
         <i class="material-icons"></i>
       </a>
     </span></h1>
-        <h3><span class="morelinks"></span></h3>
+        <h3><span class="morelinks"><div>
+            Companion <a href="AWSGateway$.html" title="See companion object">object AWSGateway</a>
+          </div></span></h3>
       </div>
 
       <h4 id="signature" class="signature">
@@ -456,7 +462,7 @@
         <span class="name">doesS3ObjectExist</span><span class="params">(<span name="bucket">bucket: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="s3FilePath">s3FilePath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       
-      
+      <p class="shortcomment cmt">Kept with its 7.0 signature for callers built against it.</p>
     </li><li name="com.johnsnowlabs.client.aws.AWSGateway#downloadFilesFromBucketToDirectory" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="downloadFilesFromBucketToDirectory(bucketName:String,filePath:String,directoryPath:String,isIndex:Boolean):Unit"></a><a id="downloadFilesFromBucketToDirectory(String,String,String,Boolean):Unit"></a>
       <span class="permalink">
@@ -473,6 +479,25 @@
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="com.johnsnowlabs.client.aws.AWSGateway">AWSGateway</a> → <a href="../CloudStorage.html" class="extype" name="com.johnsnowlabs.client.CloudStorage">CloudStorage</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#downloadThreads" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="downloadThreads:Int"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#downloadThreads:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">lazy val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">downloadThreads</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">How many concurrent HTTP range requests a single object download may use.</p><div class="fullcomment"><div class="comment cmt"><p>How many concurrent HTTP range requests a single object download may use.</p><p>A <code>lazy val</code> rather than a <code>def</code>: ConfigLoader memoises its values, so this cannot change
+during the life of the JVM, and computing it once means an out-of-range setting is reported
+once rather than on every download.
+</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#eq" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a><a id="eq(AnyRef):Boolean"></a>
       <span class="permalink">
@@ -610,7 +635,38 @@
       </span>
       
       
-    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#getS3Object" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#getS3Object" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getS3Object(bucket:String,s3FilePath:String,tmpFile:java.io.File,objectMetadata:Option[com.amazonaws.services.s3.model.ObjectMetadata],showProgress:Boolean):Unit"></a><a id="getS3Object(String,String,File,Option[ObjectMetadata],Boolean):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#getS3Object(bucket:String,s3FilePath:String,tmpFile:java.io.File,objectMetadata:Option[com.amazonaws.services.s3.model.ObjectMetadata],showProgress:Boolean):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getS3Object</span><span class="params">(<span name="bucket">bucket: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="s3FilePath">s3FilePath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="tmpFile">tmpFile: <span class="extype" name="java.io.File">File</span></span>, <span name="objectMetadata">objectMetadata: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.amazonaws.services.s3.model.ObjectMetadata">ObjectMetadata</span>] = <span class="symbol"><span class="name"><a href="../../../../scala/index.html">None</a></span></span></span>, <span name="showProgress">showProgress: <span class="extype" name="scala.Boolean">Boolean</span> = <span class="symbol">true</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Downloads an S3 object, splitting it across several parallel HTTP range requests.</p><div class="fullcomment"><div class="comment cmt"><p>Downloads an S3 object, splitting it across several parallel HTTP range requests.</p><p>A single connection is throughput-limited on a high-latency link, where each TCP flow needs
+a long time to open its congestion window; splitting the object into contiguous ranges
+recovers most of that loss. Unlike a multipart-aware transfer, this works on any object
+whatever way it was uploaded, and honours the configured connection count exactly rather
+than being capped by the object's part count.</p><p>Small objects keep to one connection, since the extra round trips cost more than they save.
+Any failure falls back to the single-connection path rather than propagating, so this can
+only be faster or equal, never a new source of download errors. Integrity does not rest on a
+checksum, since almost no public model publishes one: every range must deliver exactly its
+own bytes from the object version the HEAD measured (an If-Match pin), so a short, overlong
+or mixed-version download fails here and falls back instead of passing silently.
+</p></div><dl class="paramcmts block"><dt class="param">objectMetadata</dt><dd class="cmt"><p>
+  already-fetched metadata for this object, when the caller has it; supplying it avoids a
+  second HEAD request for the content length.</p></dd><dt class="param">showProgress</dt><dd class="cmt"><p>
+  whether to draw a progress bar. The bar is for downloads the user asked for by name; an
+  internal fetch such as the models index should pass <code>false</code>, so the console does not
+  report progress against a file nobody requested.</p></dd></dl></div>
+    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#getS3Object" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="getS3Object(bucket:String,s3FilePath:String,tmpFile:java.io.File):com.amazonaws.services.s3.model.ObjectMetadata"></a><a id="getS3Object(String,String,File):ObjectMetadata"></a>
       <span class="permalink">
       <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#getS3Object(bucket:String,s3FilePath:String,tmpFile:java.io.File):com.amazonaws.services.s3.model.ObjectMetadata" title="Permalink">
@@ -625,7 +681,28 @@
         <span class="name">getS3Object</span><span class="params">(<span name="bucket">bucket: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="s3FilePath">s3FilePath: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="tmpFile">tmpFile: <span class="extype" name="java.io.File">File</span></span>)</span><span class="result">: <span class="extype" name="com.amazonaws.services.s3.model.ObjectMetadata">ObjectMetadata</span></span>
       </span>
       
+      <p class="shortcomment cmt">Kept with its 7.0 signature for callers built against it.</p><div class="fullcomment"><div class="comment cmt"><p>Kept with its 7.0 signature for callers built against it. Downloads through the ranged path
+and returns the object's metadata, as it always did, and like 7.0 shows no progress.
+</p></div></div>
+    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#getS3ObjectMetadata" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getS3ObjectMetadata(bucket:String,s3FilePath:String):Option[com.amazonaws.services.s3.model.ObjectMetadata]"></a><a id="getS3ObjectMetadata(String,String):Option[ObjectMetadata]"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#getS3ObjectMetadata(bucket:String,s3FilePath:String):Option[com.amazonaws.services.s3.model.ObjectMetadata]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getS3ObjectMetadata</span><span class="params">(<span name="bucket">bucket: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="s3FilePath">s3FilePath: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="com.amazonaws.services.s3.model.ObjectMetadata">ObjectMetadata</span>]</span>
+      </span>
       
+      <p class="shortcomment cmt">A HEAD request.</p><div class="fullcomment"><div class="comment cmt"><p>A HEAD request. Returns <code>None</code> for a missing object, so callers can use it both as an
+existence check and as the source of the content length a ranged download needs -- one round
+trip instead of two.
+</p></div></div>
     </li><li name="scala.AnyRef#hashCode" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="hashCode():Int"></a>
       <span class="permalink">
@@ -747,6 +824,22 @@
                 <span class="name">@native</span><span class="args">()</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.client.aws.AWSGateway#parallelDownloadTimeoutMillis" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="parallelDownloadTimeoutMillis:Long"></a>
+      <span class="permalink">
+      <a href="../../../../com/johnsnowlabs/client/aws/AWSGateway.html#parallelDownloadTimeoutMillis:Long" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">parallelDownloadTimeoutMillis</span><span class="result">: <span class="extype" name="scala.Long">Long</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">How long one ranged download may take before it is abandoned for a single connection.</p><div class="fullcomment"><div class="comment cmt"><p>How long one ranged download may take before it is abandoned for a single connection.</p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="scala.AnyRef#synchronized" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a><a id="synchronized[T0](⇒T0):T0"></a>
       <span class="permalink">

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>sparknlp.annotation_image &#8212; Spark NLP 7.0.0 documentation</title>
+    <title>sparknlp.annotation_image &#8212; Spark NLP 7.0.1 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=cd9f6827"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../static/documentation_options.js?v=69e7ec3e"></script>
     <script src="../../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../static/toggleprompt.js?v=670350bf"></script>
@@ -122,8 +122,8 @@
       
     
     
-    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.0 documentation - Home"/>`);</script>
+    <img src="../../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -373,7 +373,7 @@ document.write(`
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="sparknlp.annotation_image.AnnotationImage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AnnotationImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annotatorType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nChannels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/annotation_image.html#AnnotationImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotation_image.AnnotationImage" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AnnotationImage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annotatorType</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nChannels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../modules/sparknlp/annotation_image.html#AnnotationImage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotation_image.AnnotationImage" title="Permalink to this definition">#</a></dt>
 <dd><p>Represents the output of Spark NLP Annotators for image output and their details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -395,6 +395,9 @@ document.write(`
 <dt><strong>result</strong><span class="classifier">list(bytes)</span></dt><dd><p>Image data in bytes</p>
 </dd>
 <dt><strong>metadata</strong><span class="classifier">dict</span></dt><dd><p>Associated metadata for this annotation</p>
+</dd>
+<dt><strong>text</strong><span class="classifier">str</span></dt><dd><p>Optional prompt carried alongside the image, populated by ImageAssembler from its
+<code class="docutils literal notranslate"><span class="pre">textCol</span></code>. Used by annotators that take a text instruction with the image.</p>
 </dd>
 </dl>
 </dd>
@@ -437,6 +440,11 @@ document.write(`
 <dl class="py attribute">
 <dt class="sig sig-object py" id="sparknlp.annotation_image.AnnotationImage.metadata">
 <span class="sig-name descname"><span class="pre">metadata</span></span><a class="reference internal" href="../../../../modules/sparknlp/annotation_image.html#AnnotationImage.metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotation_image.AnnotationImage.metadata" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sparknlp.annotation_image.AnnotationImage.text">
+<span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">''</span></em><a class="reference internal" href="../../../../modules/sparknlp/annotation_image.html#AnnotationImage.text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sparknlp.annotation_image.AnnotationImage.text" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -503,6 +511,7 @@ settings of this Annotation.</p>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotation_image.AnnotationImage.mode"><code class="docutils literal notranslate"><span class="pre">AnnotationImage.mode</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotation_image.AnnotationImage.result"><code class="docutils literal notranslate"><span class="pre">AnnotationImage.result</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotation_image.AnnotationImage.metadata"><code class="docutils literal notranslate"><span class="pre">AnnotationImage.metadata</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotation_image.AnnotationImage.text"><code class="docutils literal notranslate"><span class="pre">AnnotationImage.text</span></code></a></li>
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#sparknlp.annotation_image.AnnotationImage.copy"><code class="docutils literal notranslate"><span class="pre">AnnotationImage.copy()</span></code></a></li>
 </ul>
 </li>

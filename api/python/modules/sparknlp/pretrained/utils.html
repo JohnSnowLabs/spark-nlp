@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sparknlp.pretrained.utils &#8212; Spark NLP 7.0.0 documentation</title>
+    <title>sparknlp.pretrained.utils &#8212; Spark NLP 7.0.1 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="../../../static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
   <script src="../../../static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=cd9f6827"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../static/documentation_options.js?v=69e7ec3e"></script>
     <script src="../../../static/doctools.js?v=888ff710"></script>
     <script src="../../../static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../static/toggleprompt.js?v=670350bf"></script>
@@ -121,8 +121,8 @@
       
     
     
-    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.0 documentation - Home"/>`);</script>
+    <img src="../../../static/logo.png" class="logo__image only-light" alt="Spark NLP 7.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../../../static/logo.png" class="logo__image only-dark" alt="Spark NLP 7.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -375,10 +375,21 @@ document.write(`
 <span class="sd">&quot;&quot;&quot;Contains utilities for pretrained annotators and pipelines.&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="n">_TRACKER</span> <span class="o">=</span> <span class="s2">&quot;com.johnsnowlabs.client.aws.DownloadProgressTracker&quot;</span>
+<span class="n">_STYLES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;bar&quot;</span><span class="p">,</span> <span class="s2">&quot;lines&quot;</span><span class="p">,</span> <span class="s2">&quot;off&quot;</span><span class="p">)</span>
+<span class="n">_BAR_WIDTH</span> <span class="o">=</span> <span class="mi">30</span>
+<span class="n">_POLL_SECONDS</span> <span class="o">=</span> <span class="mf">0.3</span>
 
 
 <div class="viewcode-block" id="printProgress"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/utils/index.html#sparknlp.pretrained.utils.printProgress">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">printProgress</span><span class="p">(</span><span class="n">stop</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Prints a spinner until ``stop()`` returns True.</span>
+
+<span class="sd">    Deprecated: downloads report byte-accurate progress through :class:`DownloadProgress`.</span>
+<span class="sd">    Kept so code that imports it from earlier releases keeps working.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39; | &#39;</span><span class="p">,</span> <span class="s1">&#39; / &#39;</span><span class="p">,</span> <span class="s1">&#39; — &#39;</span><span class="p">,</span> <span class="s1">&#39; </span><span class="se">\\</span><span class="s1"> &#39;</span><span class="p">]</span>
     <span class="n">nextc</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -394,6 +405,186 @@ document.write(`
     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">return</span></div>
 
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_style</span><span class="p">(</span><span class="n">configured</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The style to draw in: ``bar``, ``lines`` or ``off``.</span>
+
+<span class="sd">    ``bar``, ``lines`` and ``off`` are honoured as configured. ``auto``, and any value this version</span>
+<span class="sd">    does not know, decide by where the text goes: a terminal gets the one-line bar; a notebook</span>
+<span class="sd">    cell, a CI log or a redirected file gets one line per percent, which needs no carriage-return</span>
+<span class="sd">    support.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">setting</span> <span class="o">=</span> <span class="p">(</span><span class="n">configured</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">setting</span> <span class="ow">in</span> <span class="n">_STYLES</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">setting</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;bar&quot;</span> <span class="k">if</span> <span class="n">stream</span><span class="o">.</span><span class="n">isatty</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;lines&quot;</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;lines&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_percent</span><span class="p">(</span><span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">done</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">//</span> <span class="n">total</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_bar_text</span><span class="p">(</span><span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+    <span class="n">percent</span> <span class="o">=</span> <span class="n">_percent</span><span class="p">(</span><span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
+    <span class="n">filled</span> <span class="o">=</span> <span class="n">percent</span> <span class="o">*</span> <span class="n">_BAR_WIDTH</span> <span class="o">//</span> <span class="mi">100</span>
+    <span class="n">bar</span> <span class="o">=</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="n">filled</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;&gt;&quot;</span> <span class="k">if</span> <span class="n">filled</span> <span class="o">&lt;</span> <span class="n">_BAR_WIDTH</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="n">_BAR_WIDTH</span> <span class="o">-</span> <span class="n">filled</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\r</span><span class="s2">  [</span><span class="si">%s</span><span class="s2">] </span><span class="si">%3d%%</span><span class="s2">  (</span><span class="si">%.1f</span><span class="s2"> / </span><span class="si">%.1f</span><span class="s2"> MB) </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">bar</span><span class="p">,</span> <span class="n">percent</span><span class="p">,</span> <span class="n">done</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">total</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_line_text</span><span class="p">(</span><span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;  downloading </span><span class="si">%s</span><span class="s2"> ... </span><span class="si">%3d%%</span><span class="s2">  (</span><span class="si">%.1f</span><span class="s2"> / </span><span class="si">%.1f</span><span class="s2"> MB)</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">label</span><span class="p">,</span> <span class="n">_percent</span><span class="p">(</span><span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">),</span> <span class="n">done</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">total</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DownloadProgress"><a class="viewcode-back" href="../../../reference/autosummary/sparknlp/pretrained/utils/index.html#sparknlp.pretrained.utils.DownloadProgress">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DownloadProgress</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draws progress for one pretrained download by polling the JVM&#39;s byte counters.</span>
+
+<span class="sd">    pyspark starts the JVM with a piped stdin, so the JVM never detects a terminal and cannot pick</span>
+<span class="sd">    a style for the user&#39;s screen. Python can, so in a Python session Python draws and asks the JVM</span>
+<span class="sd">    to stay quiet until the download ends.</span>
+
+<span class="sd">    Degrades to silence rather than failing: an older jar without these methods, or any py4j</span>
+<span class="sd">    error, just means no progress. It is decoration and must never break a download.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark_context</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sc</span> <span class="o">=</span> <span class="n">spark_context</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stream</span> <span class="o">=</span> <span class="n">stream</span> <span class="k">if</span> <span class="n">stream</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracker</span> <span class="o">=</span> <span class="n">tracker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_style</span> <span class="o">=</span> <span class="s2">&quot;off&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">RLock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_drawn</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_saw_active</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bar_open</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># Jars that number their downloads let this context tell its own download from counters</span>
+        <span class="c1"># an earlier one left behind, and follow more than one download.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_with_generation</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_entry_generation</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_generation</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_finished</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_find_tracker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracker</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sc</span><span class="o">.</span><span class="n">_jvm</span><span class="p">,</span> <span class="n">_TRACKER</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">tracker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_tracker</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">tracker</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span>
+            <span class="n">style</span> <span class="o">=</span> <span class="n">_resolve_style</span><span class="p">(</span><span class="n">tracker</span><span class="o">.</span><span class="n">configuredStyle</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stream</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">style</span> <span class="o">==</span> <span class="s2">&quot;off&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span>
+            <span class="n">tracker</span><span class="o">.</span><span class="n">setRenderedByCaller</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tracker</span> <span class="o">=</span> <span class="n">tracker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_style</span> <span class="o">=</span> <span class="n">style</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_entry_generation</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tracker</span><span class="o">.</span><span class="n">snapshotWithGeneration</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_with_generation</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_with_generation</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># an older jar: snapshot() only</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_poll</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;(generation, active, done, total, label), or None if the JVM cannot be reached.</span>
+
+<span class="sd">        generation is None on a jar that does not number its downloads.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_generation</span><span class="p">:</span>
+                <span class="n">generation</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracker</span><span class="o">.</span><span class="n">snapshotWithGeneration</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">generation</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">generation</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">generation</span><span class="p">,</span> <span class="n">rest</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracker</span><span class="o">.</span><span class="n">snapshot</span><span class="p">()</span>
+            <span class="n">active</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">rest</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;|&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">generation</span><span class="p">,</span> <span class="n">active</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">done</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">total</span><span class="p">),</span> <span class="n">label</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_poll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">_POLL_SECONDS</span><span class="p">):</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_follow</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_follow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draws what one snapshot says about this context&#39;s downloads.&quot;&quot;&quot;</span>
+        <span class="n">generation</span><span class="p">,</span> <span class="n">active</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="k">if</span> <span class="n">total</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_generation</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">generation</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entry_generation</span><span class="p">:</span>
+                    <span class="k">return</span>  <span class="c1"># counters an earlier download left behind</span>
+                <span class="k">if</span> <span class="n">generation</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generation</span><span class="p">:</span>
+                    <span class="c1"># A new download, possibly one that began and ended between two polls:</span>
+                    <span class="c1"># close the previous one&#39;s line and count afresh.</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_close_line</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_generation</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_drawn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finished</span> <span class="o">=</span> <span class="n">generation</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="n">active</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_saw_active</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_saw_active</span><span class="p">:</span>
+                <span class="k">return</span>  <span class="c1"># an older jar&#39;s counters cannot be told from an earlier download&#39;s</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_finished</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_draw</span><span class="p">(</span><span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">active</span><span class="p">:</span>
+                <span class="c1"># The transfer is over while the JVM still unpacks and loads the model: finish</span>
+                <span class="c1"># the display now, so nothing printed next lands on the bar&#39;s line.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_close_line</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_finished</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_close_line</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bar_open</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_stream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_stream</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_bar_open</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="n">percent</span> <span class="o">=</span> <span class="n">_percent</span><span class="p">(</span><span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">percent</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_drawn</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_drawn</span> <span class="o">=</span> <span class="n">percent</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_style</span> <span class="o">==</span> <span class="s2">&quot;bar&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_stream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_bar_text</span><span class="p">(</span><span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_bar_open</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_stream</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_line_text</span><span class="p">(</span><span class="n">done</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">label</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stream</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">exc</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stop</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_thread</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># A transfer can end between two polls; one last look lands the display on 100%. Stale</span>
+        <span class="c1"># counters from an earlier download are ignored by _follow, as they are while polling.</span>
+        <span class="k">if</span> <span class="n">exc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_follow</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_close_line</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_tracker</span><span class="o">.</span><span class="n">setRenderedByCaller</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
 </pre></div>
 
                 </article>

@@ -3,9 +3,9 @@
         <head>
           <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <title>Spark NLP 7.0.0 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL</title>
-          <meta name="description" content="Spark NLP 7.0.0 ScalaDoc - com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL" />
-          <meta name="keywords" content="Spark NLP 7.0.0 ScalaDoc com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL" />
+          <title>Spark NLP 7.0.1 ScalaDoc  - com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL</title>
+          <meta name="description" content="Spark NLP 7.0.1 ScalaDoc - com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL" />
+          <meta name="keywords" content="Spark NLP 7.0.1 ScalaDoc com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       
@@ -28,7 +28,7 @@
         </head>
         <body>
       <div id="search">
-        <span id="doc-title">Spark NLP 7.0.0 ScalaDoc<span id="doc-version"></span></span>
+        <span id="doc-title">Spark NLP 7.0.1 ScalaDoc<span id="doc-version"></span></span>
         <span class="close-results"><span class="left">&lt;</span> Back</span>
         <div id="textfilter">
           <span class="input">
@@ -167,8 +167,8 @@
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../index.html" class="extype" name="com.johnsnowlabs.nlp.annotators.ld">ld</a></dd></dl></div>
     </li><li class="current-entities indented6">
                         <a class="object" href="LanguageDetectorDL$.html" title="This is the companion object of LanguageDetectorDL."></a>
-                        <a class="class" href="" title="Language Identification and Detection by using CNN and RNN architectures in TensorFlow."></a>
-                        <a href="" title="Language Identification and Detection by using CNN and RNN architectures in TensorFlow.">LanguageDetectorDL</a>
+                        <a class="class" href="" title="Language Identification and Detection by using CNN and RNN architectures in TensorFlow, or supervised fastText models such as GlotLID on ONNX."></a>
+                        <a href="" title="Language Identification and Detection by using CNN and RNN architectures in TensorFlow, or supervised fastText models such as GlotLID on ONNX.">LanguageDetectorDL</a>
                       </li><li class="current-entities indented6">
                         <span class="separator"></span>
                         <a class="trait" href="ReadLanguageDetectorDLTensorflowModel.html" title=""></a>
@@ -202,21 +202,32 @@
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">LanguageDetectorDL</span><span class="result"> extends <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>] with <a href="../../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>] with <a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a> with <a href="../../../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a></span>
+        <span class="name">LanguageDetectorDL</span><span class="result"> extends <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>] with <a href="../../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>] with <a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a> with <a href="../../../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a> with <a href="../../../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a></span>
       </span>
       </h4>
 
       
-          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Language Identification and Detection by using CNN and RNN architectures in TensorFlow.</p><p><code>LanguageDetectorDL</code> is an annotator that detects the language of documents or sentences
-depending on the inputCols. The models are trained on large datasets such as Wikipedia and
-Tatoeba. Depending on the language (how similar the characters are), the LanguageDetectorDL
-works best with text longer than 140 characters. The output is a language code in
-<a href="https://en.wikipedia.org/wiki/List_of_Wikipedias" target="_blank">Wiki Code style</a>.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre>Val languageDetector = LanguageDetectorDL.pretrained()
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Language Identification and Detection by using CNN and RNN architectures in TensorFlow, or
+supervised fastText models such as GlotLID on ONNX.</p><p><code>LanguageDetectorDL</code> is an annotator that detects the language of documents or sentences
+depending on the inputCols. The CNN models are trained on large datasets such as Wikipedia and
+Tatoeba. Depending on the language (how similar the characters are), they work best with text
+longer than 140 characters. Their output is a language code in
+<a href="https://en.wikipedia.org/wiki/List_of_Wikipedias" target="_blank">Wiki Code style</a>.</p><p>The fastText models run on ONNX and turn text into features exactly as fastText does. GlotLID
+v4 (<code>&quot;ld_glotlid_v4&quot;</code>, or <code>&quot;ld_glotlid_v4_int8&quot;</code> at a quarter of the size) labels 2,060
+languages and scripts as an ISO 639-3 code plus an ISO 15924 script, such as <code>eng_Latn</code> or
+<code>cmn_Hani</code>, and has <code>zxx_Code</code>, <code>zxx_Zmth</code> and <code>zxx_Zsym</code> for code, mathematics and symbols.
+For these models the metadata also holds <code>confidence</code>, the score the label was judged on, and
+three parameters shape the result: <code>scriptPooling</code>, <code>minLetters</code> and <code>topK</code>. Each sentence
+goes to the model whole, so split long documents into sentences first. To import other
+fastText models, see the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/transformers/onnx/HuggingFace_ONNX_in_Spark_NLP_LanguageDetectorDL.ipynb" target="_blank">import notebook</a>.</p><p>Pretrained models can be loaded with <code>pretrained</code> of the companion object:</p><pre>Val languageDetector = LanguageDetectorDL.pretrained()
   .setInputCols(<span class="lit">"sentence"</span>)
   .setOutputCol(<span class="lit">"language"</span>)</pre><p>The default model is <code>&quot;ld_wiki_tatoeba_cnn_21&quot;</code>, default language is <code>&quot;xx&quot;</code> (meaning
 multi-lingual), if no values are provided. For available pretrained models please see the
 <a href="https://sparknlp.org/models?task=Language+Detection" target="_blank">Models Hub</a>.</p><p>For extended examples of usage, see the
-<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/language-detection/Language_Detection_and_Indentification.ipynb" target="_blank">Examples</a>
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/language-detection/Language_Detection_and_Indentification.ipynb" target="_blank">Examples</a>,
+the
+<a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/examples/python/annotation/text/english/language-detection/Language_Detection_with_GlotLID.ipynb" target="_blank">GlotLID example</a>
 And the
 <a href="https://github.com/JohnSnowLabs/spark-nlp/blob/master/src/test/scala/com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDLTestSpec.scala" target="_blank">LanguageDetectorDLTestSpec</a>.</p><h4>Example</h4><pre><span class="kw">import</span> spark.implicits._
 <span class="kw">import</span> com.johnsnowlabs.nlp.base.DocumentAssembler
@@ -255,7 +266,7 @@ result.select(<span class="lit">"language.result"</span>).show(<span class="kw">
           <span class="toggle">
             Linear Supertypes
           </span>
-          <div class="superTypes hiddenContent"><a href="../../../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a>, <a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a>, <a href="../../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>], <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>], <a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <a href="../../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>], <a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../../../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <a href="../../../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a>, <span class="extype" name="scala.Any">Any</span></div>
+          <div class="superTypes hiddenContent"><a href="../../../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a>, <a href="../../../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a>, <a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a>, <a href="../../../HasSimpleAnnotate.html" class="extype" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">HasSimpleAnnotate</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>], <a href="../../../AnnotatorModel.html" class="extype" name="com.johnsnowlabs.nlp.AnnotatorModel">AnnotatorModel</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>], <a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a>, <a href="../../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>], <a href="../../../HasOutputAnnotationCol.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol">HasOutputAnnotationCol</a>, <a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a>, <a href="../../../HasOutputAnnotatorType.html" class="extype" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType">HasOutputAnnotatorType</a>, <a href="../../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a>, <a href="../../../HasFeatures.html" class="extype" name="com.johnsnowlabs.nlp.HasFeatures">HasFeatures</a>, <span class="extype" name="org.apache.spark.ml.util.DefaultParamsWritable">DefaultParamsWritable</span>, <span class="extype" name="org.apache.spark.ml.util.MLWritable">MLWritable</span>, <span class="extype" name="org.apache.spark.ml.Model">Model</span>[<a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>], <span class="extype" name="org.apache.spark.ml.Transformer">Transformer</span>, <span class="extype" name="org.apache.spark.ml.PipelineStage">PipelineStage</span>, <span class="extype" name="org.apache.spark.internal.Logging">Logging</span>, <span class="extype" name="org.apache.spark.ml.param.Params">Params</span>, <span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="org.apache.spark.ml.util.Identifiable">Identifiable</span>, <a href="../../../../../../scala/index.html#AnyRef=Object" class="extmbr" name="scala.AnyRef">AnyRef</a>, <span class="extype" name="scala.Any">Any</span></div>
         </div></div>
         
 
@@ -281,7 +292,7 @@ result.select(<span class="lit">"language.result"</span>).show(<span class="kw">
                   <span class="filtertype">Inherited<br />
                   </span>
                   <ol id="linearization">
-                    <li class="in" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL"><span>LanguageDetectorDL</span></li><li class="in" name="com.johnsnowlabs.nlp.HasEngine"><span>HasEngine</span></li><li class="in" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel"><span>WriteTensorflowModel</span></li><li class="in" name="com.johnsnowlabs.nlp.HasSimpleAnnotate"><span>HasSimpleAnnotate</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorModel"><span>AnnotatorModel</span></li><li class="in" name="com.johnsnowlabs.nlp.CanBeLazy"><span>CanBeLazy</span></li><li class="in" name="com.johnsnowlabs.nlp.RawAnnotator"><span>RawAnnotator</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable"><span>ParamsAndFeaturesWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="org.apache.spark.ml.Model"><span>Model</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                    <li class="in" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL"><span>LanguageDetectorDL</span></li><li class="in" name="com.johnsnowlabs.nlp.HasEngine"><span>HasEngine</span></li><li class="in" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel"><span>WriteOnnxModel</span></li><li class="in" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel"><span>WriteTensorflowModel</span></li><li class="in" name="com.johnsnowlabs.nlp.HasSimpleAnnotate"><span>HasSimpleAnnotate</span></li><li class="in" name="com.johnsnowlabs.nlp.AnnotatorModel"><span>AnnotatorModel</span></li><li class="in" name="com.johnsnowlabs.nlp.CanBeLazy"><span>CanBeLazy</span></li><li class="in" name="com.johnsnowlabs.nlp.RawAnnotator"><span>RawAnnotator</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotationCol"><span>HasOutputAnnotationCol</span></li><li class="in" name="com.johnsnowlabs.nlp.HasInputAnnotationCols"><span>HasInputAnnotationCols</span></li><li class="in" name="com.johnsnowlabs.nlp.HasOutputAnnotatorType"><span>HasOutputAnnotatorType</span></li><li class="in" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable"><span>ParamsAndFeaturesWritable</span></li><li class="in" name="com.johnsnowlabs.nlp.HasFeatures"><span>HasFeatures</span></li><li class="in" name="org.apache.spark.ml.util.DefaultParamsWritable"><span>DefaultParamsWritable</span></li><li class="in" name="org.apache.spark.ml.util.MLWritable"><span>MLWritable</span></li><li class="in" name="org.apache.spark.ml.Model"><span>Model</span></li><li class="in" name="org.apache.spark.ml.Transformer"><span>Transformer</span></li><li class="in" name="org.apache.spark.ml.PipelineStage"><span>PipelineStage</span></li><li class="in" name="org.apache.spark.internal.Logging"><span>Logging</span></li><li class="in" name="org.apache.spark.ml.param.Params"><span>Params</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="org.apache.spark.ml.util.Identifiable"><span>Identifiable</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                   </ol>
                 </div><div class="ancestors">
               <span class="filtertype"></span>
@@ -935,6 +946,23 @@ config_proto.SerializeToString()
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#fastTextConfig" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="fastTextConfig:com.johnsnowlabs.nlp.serialization.MapFeature[String,Int]"></a><a id="fastTextConfig:MapFeature[String,Int]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#fastTextConfig:com.johnsnowlabs.nlp.serialization.MapFeature[String,Int]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fastTextConfig</span><span class="result">: <a href="../../../serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Featurizer settings of a fastText (ONNX) model: <code>minn</code>, <code>maxn</code>, <code>bucket</code> and <code>nwords</code>
+</p>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#features" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="features:scala.collection.mutable.ArrayBuffer[com.johnsnowlabs.nlp.serialization.Feature[_,_,_]]"></a><a id="features:ArrayBuffer[Feature[_,_,_]]"></a>
       <span class="permalink">
@@ -1184,6 +1212,22 @@ config_proto.SerializeToString()
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#getMinLetters" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getMinLetters:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#getMinLetters:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getMinLetters</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#getModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getModelIfNotSet:com.johnsnowlabs.ml.tensorflow.TensorflowLD"></a><a id="getModelIfNotSet:TensorflowLD"></a>
       <span class="permalink">
@@ -1197,6 +1241,22 @@ config_proto.SerializeToString()
       </span>
       <span class="symbol">
         <span class="name">getModelIfNotSet</span><span class="result">: <span class="extype" name="com.johnsnowlabs.ml.tensorflow.TensorflowLD">TensorflowLD</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#getOnnxModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getOnnxModelIfNotSet:com.johnsnowlabs.ml.ai.FastTextLD"></a><a id="getOnnxModelIfNotSet:FastTextLD"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#getOnnxModelIfNotSet:com.johnsnowlabs.ml.ai.FastTextLD" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getOnnxModelIfNotSet</span><span class="result">: <span class="extype" name="com.johnsnowlabs.ml.ai.FastTextLD">FastTextLD</span></span>
       </span>
       
       <p class="shortcomment cmt"></p>
@@ -1248,6 +1308,22 @@ config_proto.SerializeToString()
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Params</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#getScriptPooling" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getScriptPooling:Boolean"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#getScriptPooling:Boolean" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getScriptPooling</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#getThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
       <a id="getThreshold:Float"></a>
       <span class="permalink">
@@ -1277,6 +1353,22 @@ config_proto.SerializeToString()
       </span>
       <span class="symbol">
         <span class="name">getThresholdLabel</span><span class="result">: <span class="extype" name="scala.Predef.String">String</span></span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#getTopK" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="getParam">
+      <a id="getTopK:Int"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#getTopK:Int" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getTopK</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       
       <p class="shortcomment cmt"></p>
@@ -1496,7 +1588,7 @@ as input and output columns if not specified
         <span class="name">language</span><span class="result">: <a href="../../../serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>
       </span>
       
-      <p class="shortcomment cmt">Language used to map prediction to ISO 639-1 language codes
+      <p class="shortcomment cmt">Labels the model predicts, with their output index
 </p>
     </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#languages" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
       <a id="languages:org.apache.spark.ml.param.StringArrayParam"></a><a id="languages:StringArrayParam"></a>
@@ -1722,6 +1814,26 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd>Logging</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#minLetters" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="minLetters:org.apache.spark.ml.param.IntParam"></a><a id="minLetters:IntParam"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#minLetters:org.apache.spark.ml.param.IntParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">minLetters</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">When the top label is in Latin script (<code>_Latn</code>), text with fewer letters than this gets
+<code>thresholdLabel</code>; 0 turns it off (Default: <code>0</code>).</p><div class="fullcomment"><div class="comment cmt"><p>When the top label is in Latin script (<code>_Latn</code>), text with fewer letters than this gets
+<code>thresholdLabel</code>; 0 turns it off (Default: <code>0</code>). Very short text such as &quot;No oral lesions.&quot;
+is often given a close language with a high score. ONNX (fastText) models only.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#msgHelper" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="msgHelper(schema:org.apache.spark.sql.types.StructType):String"></a><a id="msgHelper(StructType):String"></a>
       <span class="permalink">
@@ -1915,6 +2027,29 @@ as input and output columns if not specified
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#scriptPooling" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="scriptPooling:org.apache.spark.ml.param.BooleanParam"></a><a id="scriptPooling:BooleanParam"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#scriptPooling:org.apache.spark.ml.param.BooleanParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scriptPooling</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.BooleanParam">BooleanParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Whether the score of a non-Latin top label is the sum of all labels in its script, so that
+close varieties such as Mandarin (<code>cmn_Hani</code>) and Cantonese (<code>yue_Hani</code>) do not split it
+(Default: <code>false</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Whether the score of a non-Latin top label is the sum of all labels in its script, so that
+close varieties such as Mandarin (<code>cmn_Hani</code>) and Cantonese (<code>yue_Hani</code>) do not split it
+(Default: <code>false</code>). The label is still the top one, so the pooled score says how sure the
+script is rather than the language. Labels must end with their ISO 15924 script, as in
+<code>cmn_Hani</code>. ONNX (fastText) models only.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.HasFeatures#set" visbl="prt" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="set[T](feature:com.johnsnowlabs.nlp.serialization.StructFeature[T],value:T):HasFeatures.this.type"></a><a id="set[T](StructFeature[T],T):LanguageDetectorDL.this.type"></a>
       <span class="permalink">
@@ -2187,6 +2322,22 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../HasInputAnnotationCols.html" class="extype" name="com.johnsnowlabs.nlp.HasInputAnnotationCols">HasInputAnnotationCols</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#setFastTextConfig" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setFastTextConfig(value:Map[String,Int]):LanguageDetectorDL.this.type"></a><a id="setFastTextConfig(Map[String,Int]):LanguageDetectorDL.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#setFastTextConfig(value:Map[String,Int]):LanguageDetectorDL.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setFastTextConfig</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.HasInputAnnotationCols#setInputCols" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="setInputCols(value:String*):HasInputAnnotationCols.this.type"></a><a id="setInputCols(String*):LanguageDetectorDL.this.type"></a>
       <span class="permalink">
@@ -2251,6 +2402,38 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../CanBeLazy.html" class="extype" name="com.johnsnowlabs.nlp.CanBeLazy">CanBeLazy</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#setMinLetters" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setMinLetters(value:Int):LanguageDetectorDL.this.type"></a><a id="setMinLetters(Int):LanguageDetectorDL.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#setMinLetters(value:Int):LanguageDetectorDL.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setMinLetters</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#setModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setModelIfNotSet(spark:org.apache.spark.sql.SparkSession,onnxWrapper:com.johnsnowlabs.ml.onnx.OnnxWrapper):LanguageDetectorDL.this.type"></a><a id="setModelIfNotSet(SparkSession,OnnxWrapper):LanguageDetectorDL.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#setModelIfNotSet(spark:org.apache.spark.sql.SparkSession,onnxWrapper:com.johnsnowlabs.ml.onnx.OnnxWrapper):LanguageDetectorDL.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setModelIfNotSet</span><span class="params">(<span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="onnxWrapper">onnxWrapper: <a href="../../../../ml/onnx/OnnxWrapper.html" class="extype" name="com.johnsnowlabs.ml.onnx.OnnxWrapper">OnnxWrapper</a></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#setModelIfNotSet" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setModelIfNotSet(spark:org.apache.spark.sql.SparkSession,tensorflow:com.johnsnowlabs.ml.tensorflow.TensorflowWrapper):LanguageDetectorDL.this.type"></a><a id="setModelIfNotSet(SparkSession,TensorflowWrapper):LanguageDetectorDL.this.type"></a>
       <span class="permalink">
@@ -2299,6 +2482,22 @@ as input and output columns if not specified
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Model</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#setScriptPooling" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setScriptPooling(value:Boolean):LanguageDetectorDL.this.type"></a><a id="setScriptPooling(Boolean):LanguageDetectorDL.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#setScriptPooling(value:Boolean):LanguageDetectorDL.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setScriptPooling</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
     </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#setThreshold" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
       <a id="setThreshold(threshold:Float):LanguageDetectorDL.this.type"></a><a id="setThreshold(Float):LanguageDetectorDL.this.type"></a>
       <span class="permalink">
@@ -2328,6 +2527,38 @@ as input and output columns if not specified
       </span>
       <span class="symbol">
         <span class="name">setThresholdLabel</span><span class="params">(<span name="label">label: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#setTopK" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setTopK(value:Int):LanguageDetectorDL.this.type"></a><a id="setTopK(Int):LanguageDetectorDL.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#setTopK(value:Int):LanguageDetectorDL.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setTopK</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>.this.type</span>
+      </span>
+      
+      <p class="shortcomment cmt"></p>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#setVocabulary" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="setParam">
+      <a id="setVocabulary(value:Map[String,Int]):LanguageDetectorDL.this.type"></a><a id="setVocabulary(Map[String,Int]):LanguageDetectorDL.this.type"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#setVocabulary(value:Map[String,Int]):LanguageDetectorDL.this.type" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">setVocabulary</span><span class="params">(<span name="value">value: <span class="extype" name="scala.Predef.Map">Map</span>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>)</span><span class="result">: <a href="" class="extype" name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL">LanguageDetectorDL</a>.this.type</span>
       </span>
       
       <p class="shortcomment cmt"></p>
@@ -2399,6 +2630,25 @@ lower if your text is hard to predict
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Identifiable → AnyRef → Any</dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#topK" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="param">
+      <a id="topK:org.apache.spark.ml.param.IntParam"></a><a id="topK:IntParam"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#topK:org.apache.spark.ml.param.IntParam" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">topK</span><span class="result">: <span class="extype" name="org.apache.spark.ml.param.IntParam">IntParam</span></span>
+      </span>
+      
+      <p class="shortcomment cmt">Number of language scores kept in the metadata, the highest ones; 0 keeps all of them
+(Default: <code>0</code>).</p><div class="fullcomment"><div class="comment cmt"><p>Number of language scores kept in the metadata, the highest ones; 0 keeps all of them
+(Default: <code>0</code>). ONNX (fastText) models only.
+</p></div></div>
     </li><li name="com.johnsnowlabs.nlp.AnnotatorModel#transform" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="transform(dataset:org.apache.spark.sql.Dataset[_]):org.apache.spark.sql.DataFrame"></a><a id="transform(Dataset[_]):DataFrame"></a>
       <span class="permalink">
@@ -2540,6 +2790,23 @@ information outside its content
 </p></div><dl class="paramcmts block"><dt class="param">schema</dt><dd class="cmt"><p>
   to be validated</p></dd><dt>returns</dt><dd class="cmt"><p>
   True if all the required types are present, else false</p></dd></dl><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="../../../RawAnnotator.html" class="extype" name="com.johnsnowlabs.nlp.RawAnnotator">RawAnnotator</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.nlp.annotators.ld.dl.LanguageDetectorDL#vocabulary" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="param">
+      <a id="vocabulary:com.johnsnowlabs.nlp.serialization.MapFeature[String,Int]"></a><a id="vocabulary:MapFeature[String,Int]"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#vocabulary:com.johnsnowlabs.nlp.serialization.MapFeature[String,Int]" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">vocabulary</span><span class="result">: <a href="../../../serialization/MapFeature.html" class="extype" name="com.johnsnowlabs.nlp.serialization.MapFeature">MapFeature</a>[<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="scala.Int">Int</span>]</span>
+      </span>
+      
+      <p class="shortcomment cmt">Dictionary of a fastText (ONNX) model: word to input-matrix row
+</p>
     </li><li name="scala.AnyRef#wait" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <span class="permalink">
@@ -2640,6 +2907,38 @@ information outside its content
       </span>
       
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../ParamsAndFeaturesWritable.html" class="extype" name="com.johnsnowlabs.nlp.ParamsAndFeaturesWritable">ParamsAndFeaturesWritable</a> → DefaultParamsWritable → MLWritable</dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.onnx.WriteOnnxModel#writeOnnxModel" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="writeOnnxModel(path:String,spark:org.apache.spark.sql.SparkSession,onnxWrapper:com.johnsnowlabs.ml.onnx.OnnxWrapper,suffix:String,fileName:String):Unit"></a><a id="writeOnnxModel(String,SparkSession,OnnxWrapper,String,String):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#writeOnnxModel(path:String,spark:org.apache.spark.sql.SparkSession,onnxWrapper:com.johnsnowlabs.ml.onnx.OnnxWrapper,suffix:String,fileName:String):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">writeOnnxModel</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="onnxWrapper">onnxWrapper: <a href="../../../../ml/onnx/OnnxWrapper.html" class="extype" name="com.johnsnowlabs.ml.onnx.OnnxWrapper">OnnxWrapper</a></span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="fileName">fileName: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a></dd></dl></div>
+    </li><li name="com.johnsnowlabs.ml.onnx.WriteOnnxModel#writeOnnxModels" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="writeOnnxModels(path:String,spark:org.apache.spark.sql.SparkSession,onnxWrappersWithNames:Seq[(com.johnsnowlabs.ml.onnx.OnnxWrapper,String)],suffix:String):Unit"></a><a id="writeOnnxModels(String,SparkSession,Seq[(OnnxWrapper,String)],String):Unit"></a>
+      <span class="permalink">
+      <a href="../../../../../../com/johnsnowlabs/nlp/annotators/ld/dl/LanguageDetectorDL.html#writeOnnxModels(path:String,spark:org.apache.spark.sql.SparkSession,onnxWrappersWithNames:Seq[(com.johnsnowlabs.ml.onnx.OnnxWrapper,String)],suffix:String):Unit" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">writeOnnxModels</span><span class="params">(<span name="path">path: <span class="extype" name="scala.Predef.String">String</span></span>, <span name="spark">spark: <span class="extype" name="org.apache.spark.sql.SparkSession">SparkSession</span></span>, <span name="onnxWrappersWithNames">onnxWrappersWithNames: <a href="../../../../../../scala/index.html#Seq[+A]=Seq[A]" class="extmbr" name="scala.Seq">Seq</a>[(<a href="../../../../ml/onnx/OnnxWrapper.html" class="extype" name="com.johnsnowlabs.ml.onnx.OnnxWrapper">OnnxWrapper</a>, <span class="extype" name="scala.Predef.String">String</span>)]</span>, <span name="suffix">suffix: <span class="extype" name="scala.Predef.String">String</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="../../../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a></dd></dl></div>
     </li><li name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel#writeTensorflowHub" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="writeTensorflowHub(path:String,tfPath:String,spark:org.apache.spark.sql.SparkSession,suffix:String):Unit"></a><a id="writeTensorflowHub(String,String,SparkSession,String):Unit"></a>
       <span class="permalink">
@@ -2700,6 +2999,8 @@ information outside its content
         <div id="inheritedMembers">
         <div class="parent" name="com.johnsnowlabs.nlp.HasEngine">
               <h3>Inherited from <a href="../../../HasEngine.html" class="extype" name="com.johnsnowlabs.nlp.HasEngine">HasEngine</a></h3>
+            </div><div class="parent" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">
+              <h3>Inherited from <a href="../../../../ml/onnx/WriteOnnxModel.html" class="extype" name="com.johnsnowlabs.ml.onnx.WriteOnnxModel">WriteOnnxModel</a></h3>
             </div><div class="parent" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">
               <h3>Inherited from <a href="../../../../ml/tensorflow/WriteTensorflowModel.html" class="extype" name="com.johnsnowlabs.ml.tensorflow.WriteTensorflowModel">WriteTensorflowModel</a></h3>
             </div><div class="parent" name="com.johnsnowlabs.nlp.HasSimpleAnnotate">
