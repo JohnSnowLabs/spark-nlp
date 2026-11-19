@@ -239,23 +239,22 @@ class AutoGGUFVisionModel(override val uid: String)
               .toArray)
       }
 
-      val textAndMeta: Array[(String, Map[String, String])] = prompts
-        .zip(base64EncodedImages)
-        .map { case (prompt, base64Image) =>
-          try {
-            val results = LlamaExtensions.completeImage(
-              model,
-              getInferenceParameters,
-              getSystemPrompt,
-              prompt,
-              base64Image)
-            val resultsCleaned = processCompletions(Array(results)).head
-            (resultsCleaned, Map.empty[String, String])
-          } catch {
-            case e: LlamaException =>
-              logger.error("Error in llama.cpp image batch completion", e)
-              ("", Map("llamacpp_exception" -> e.getMessage))
-          }
+      val textAndMeta: Array[(String, Map[String, String])] =
+        try {
+          // Decode the whole batch in ONE request so images run across the parallel slots configured
+          // above (setParallel(getBatchSize)), instead of one completeImage() call per image (which
+          // decodes single-stream and leaves the parallel slots idle).
+          val results = LlamaExtensions.multiCompleteImage(
+            model,
+            getInferenceParameters,
+            getSystemPrompt,
+            prompts,
+            base64EncodedImages)
+          processCompletions(results).map(cleaned => (cleaned, Map.empty[String, String]))
+        } catch {
+          case e: LlamaException =>
+            logger.error("Error in llama.cpp image batch completion", e)
+            Array.fill(prompts.length)(("", Map("llamacpp_exception" -> e.getMessage)))
         }
 
       val result: Seq[Seq[Annotation]] =
