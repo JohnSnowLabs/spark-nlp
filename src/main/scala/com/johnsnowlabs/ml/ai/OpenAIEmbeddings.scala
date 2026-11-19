@@ -108,7 +108,17 @@ class OpenAIEmbeddings(override val uid: String)
       |    %s
       |}""".stripMargin
 
-  private val openAIUrlEmbeddings = "https://api.openai.com/v1/embeddings"
+  val apiUrl = new Param[String](
+    this,
+    "apiUrl",
+    "Base URL of the OpenAI-compatible API. Defaults to the value of spark.jsl.settings.openai.api.url or https://api.openai.com/v1.")
+
+  def setApiUrl(value: String): this.type = set(apiUrl, value)
+
+  def getApiUrlOrDefault: String = {
+    if (isSet(apiUrl)) $(apiUrl)
+    else ConfigLoader.getConfigStringValue(ConfigHelper.openAIApiUrl)
+  }
 
   override def beforeAnnotate(dataset: Dataset[_]): Dataset[_] = {
     this.setBearerTokenIfNotSet(
@@ -138,7 +148,7 @@ class OpenAIEmbeddings(override val uid: String)
   }
 
   private def post(jsonBody: String): Array[Float] = {
-    val httpPost = new HttpPost(openAIUrlEmbeddings)
+    val httpPost = new HttpPost(getApiUrlOrDefault + "/embeddings")
     httpPost.setEntity(new StringEntity(jsonBody, ContentType.APPLICATION_JSON))
     val bearerToken = getBearerToken
     require(bearerToken.nonEmpty, "OpenAI API Key required")

@@ -55,6 +55,9 @@ class OpenAICompletion(AnnotatorModel):
       Modify the likelihood of specified tokens appearing in the completion.
    user
       A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.
+   apiUrl
+      Base URL of the OpenAI-compatible API. Defaults to the value of spark.jsl.settings.openai.api.url
+      or https://api.openai.com/v1.
 
    Examples
    --------
@@ -163,6 +166,26 @@ class OpenAICompletion(AnnotatorModel):
                  "user",
                  "A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse.",
                  typeConverter=TypeConverters.toString)
+
+    apiUrl = Param(Params._dummy(),
+                   "apiUrl",
+                   "Base URL of the OpenAI-compatible API. Defaults to the value of spark.jsl.settings.openai.api.url or https://api.openai.com/v1.",
+                   typeConverter=TypeConverters.toString)
+
+    def setApiUrl(self, value):
+        """Sets the base URL of the OpenAI-compatible API.
+
+        By default this is the value of the ``spark.jsl.settings.openai.api.url`` Spark property,
+        or ``https://api.openai.com/v1`` when the property is not set. Pointing it at an
+        OpenAI-compatible gateway (for example OrcaRouter) lets this annotator call any provider
+        that exposes the same API without changing application code.
+
+        Parameters
+        ----------
+        value : str
+           Base URL of the OpenAI-compatible API.
+        """
+        return self._set(apiUrl=value)
 
     def setModel(self, value):
         """Sets model ID of the OpenAI model to use
