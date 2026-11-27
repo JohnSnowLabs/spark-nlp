@@ -19,10 +19,12 @@ package com.johnsnowlabs.nlp
 import com.johnsnowlabs.nlp.util.{AnnotationRowUtils, SparkNlpConfig}
 import com.johnsnowlabs.util.Version
 import org.apache.spark.ml.{Model, PipelineModel}
+import org.apache.spark.sql.api.java.UDF1
 import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.functions._
-import org.apache.spark.sql.types.{StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Dataset, Row}
+
+import scala.collection.{Seq => CollectionSeq}
 
 /** This trait implements logic that applies nlp using Spark ML Pipeline transformers Should
   * strongly change once UsedDefinedTypes are allowed
@@ -42,57 +44,31 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
   private def isSpark4OrNewer(dataset: Dataset[_]): Boolean =
     Version.parse(dataset.sparkSession.version).toFloat >= 4.0f
 
-  private def outputSchemaWithReplacement(inputSchema: StructType): StructType = {
-    val outputField = StructField(getOutputCol, Annotation.arrayType, nullable = true)
-    val outputIndex = inputSchema.fieldNames.indexOf(getOutputCol)
-
-    if (outputIndex >= 0) StructType(inputSchema.fields.updated(outputIndex, outputField))
-    else StructType(inputSchema.fields :+ outputField)
-  }
-
-  private def transformSimpleAnnotateWithRows(
+  private def transformSimpleAnnotateWithColumns(
       inputDataset: Dataset[_],
-      outputSchema: StructType,
       withAnnotate: HasSimpleAnnotate[M],
       recursivePipeline: Option[PipelineModel]): DataFrame = {
-    val inputDataFrame = inputDataset.toDF()
-    val inputIndexes = getInputCols.map(inputDataFrame.schema.fieldIndex)
-    val outputIndex = inputDataFrame.schema.fieldNames.indexOf(getOutputCol)
-
-    implicit val encoder: ExpressionEncoder[Row] =
-      SparkNlpConfig.getEncoder(inputDataFrame, outputSchema)
-
-    val mappedDataFrame = inputDataFrame.mapPartitions { rows =>
-      rows.map { row =>
-        val annotationProperties = inputIndexes.map { inputIndex =>
-          AnnotationRowUtils.extractAnnotationRows(row, inputIndex).toVector
-        }.toVector
-
-        val outputAnnotations = this match {
-          case recursiveAnnotator: HasRecursiveTransform[M] =>
-            recursiveAnnotator.recAnnotateColumnGroups(
-              annotationProperties,
-              recursivePipeline.get)
-          case _ =>
-            withAnnotate.annotateColumnGroups(annotationProperties)
+    // Spark 4 cannot infer an encoder for Seq[Annotation] in the Scala UDF path.
+    // An explicit return type avoids converting unrelated columns into Rows.
+    val annotateUdf = udf(
+      new UDF1[CollectionSeq[CollectionSeq[Row]], CollectionSeq[Row]] {
+        override def call(columnGroups: CollectionSeq[CollectionSeq[Row]]): CollectionSeq[Row] = {
+          val annotations = columnGroups.map { group =>
+            Option(group).map(_.toVector).getOrElse(Vector.empty[Row])
+          }.toVector
+          val output = AnnotatorModel.this match {
+            case recursiveAnnotator: HasRecursiveTransform[M] =>
+              recursiveAnnotator.recAnnotateColumnGroups(annotations, recursivePipeline.get)
+            case _ =>
+              withAnnotate.annotateColumnGroups(annotations)
+          }
+          AnnotationRowUtils.annotationsToRows(output).toVector
         }
-
-        val outputRows = AnnotationRowUtils.annotationsToRows(outputAnnotations).toVector
-        val outputValues =
-          if (outputIndex >= 0) row.toSeq.updated(outputIndex, outputRows)
-          else row.toSeq :+ outputRows
-
-        Row.fromSeq(outputValues)
-      }
-    }
-
-    val withInputMetadata = inputDataFrame.schema.fields
-      .filter(field => mappedDataFrame.columns.contains(field.name))
-      .foldLeft(mappedDataFrame)((dataFrame, field) => {
-        dataFrame.withColumn(field.name, dataFrame.col(field.name).as(field.name, field.metadata))
-      })
-
-    withInputMetadata.withColumn(getOutputCol, wrapColumnMetadata(col(getOutputCol)))
+      },
+      Annotation.arrayType)
+    inputDataset.withColumn(
+      getOutputCol,
+      wrapColumnMetadata(annotateUdf(array(getInputCols.toIndexedSeq.map(inputDataset.col): _*))))
   }
 
   protected def _transform(
@@ -112,11 +88,7 @@ abstract class AnnotatorModel[M <: Model[M]] extends RawAnnotator[M] with CanBeL
       this match {
         case withAnnotate: HasSimpleAnnotate[M] =>
           if (isSpark4OrNewer(inputDataset)) {
-            transformSimpleAnnotateWithRows(
-              inputDataset,
-              outputSchemaWithReplacement(inputDataset.schema),
-              withAnnotate,
-              recursivePipeline)
+            transformSimpleAnnotateWithColumns(inputDataset, withAnnotate, recursivePipeline)
           } else {
             inputDataset.withColumn(
               getOutputCol,
