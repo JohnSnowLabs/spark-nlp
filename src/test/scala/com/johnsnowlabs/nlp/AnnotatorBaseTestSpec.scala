@@ -17,7 +17,10 @@
 package com.johnsnowlabs.nlp
 
 import com.johnsnowlabs.tags.FastTest
+import com.johnsnowlabs.util.Version
 import org.apache.spark.ml.util.{DefaultParamsReadable, Identifiable}
+import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.types.MetadataBuilder
 import org.scalatest.flatspec.AnyFlatSpec
 
 class DummyAnnotatorModel(override val uid: String)
@@ -91,6 +94,33 @@ class AnnotatorBaseTestSpec extends AnyFlatSpec {
       schemaMetadata.contains("annotatorType") &&
         schemaMetadata.getString("annotatorType") == replacingDummy.outputAnnotatorType)
     assert(result.select("dummy").count() == dummyData.count())
+  }
+
+  "simple annotators" should "preserve long rows and unrelated column metadata without full-row encoding" taggedAs FastTest in {
+    val longText = "Synthetic document. " * 6000
+    val metadata = new MetadataBuilder().putString("source", "synthetic").build()
+    val input = DataBuilder
+      .basicDataBuild(longText)
+      .withColumn("text", col("text").as("text", metadata))
+    val result = new DummyAnnotatorModel().setOutputCol("dummy").transform(input)
+
+    if (Version.parse(input.sparkSession.version).toFloat >= 4.0f) {
+      val inputPlan = input.queryExecution.optimizedPlan.toString
+      val outputPlan = result.queryExecution.optimizedPlan.toString
+      // The RDD-backed fixture already has an upstream SerializeFromObject.
+      // Spark 4's simple annotator must not add another full-row conversion boundary.
+      for (operator <- Seq("SerializeFromObject", "DeserializeToObject")) {
+        val count = operator.r.findAllIn(_: String).length
+        assert(count(outputPlan) == count(inputPlan), s"Unexpected $operator in $outputPlan")
+      }
+    }
+
+    val row = result.select("text", "document", "dummy").head()
+    assert(row.getString(0) == longText)
+    assert(row.getSeq[org.apache.spark.sql.Row](1).head.getString(3) == longText)
+    assert(row.getSeq[org.apache.spark.sql.Row](2).head.getString(3) == "dummy result")
+    assert(result.schema("text").metadata.getString("source") == "synthetic")
+    assert(result.schema("dummy").metadata.getString("annotatorType") == AnnotatorType.DUMMY)
   }
 
   "dummy annotators" should "transform data with changed params" taggedAs FastTest in {
